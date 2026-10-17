@@ -78,10 +78,10 @@ export class Debris {
     }
   }
   // an unsupported brick tumbles out of the wall as one piece and shatters on impact
-  drop(art, x, y, w, h, meta) {
+  drop(art, x, y, w, h, meta, vx = 0, vy = 0, spin = (Math.random() - 0.5) * 1.5) {
     const body = this.world.createBody({ type: 'dynamic', position: v(x + w / 2, y + h / 2), angularDamping: 0.1 });
     body.createFixture(Box(w / 2 / S * 0.96, h / 2 / S * 0.96), { density: 1.4, friction: 0.5, restitution: 0.1 });
-    body.setAngularVelocity((Math.random() - 0.5) * 1.5);
+    body.setAngularVelocity(spin); body.setLinearVelocity(v(vx, vy));
     const local = [[-w / 2, -h / 2], [w / 2, -h / 2], [w / 2, h / 2], [-w / 2, h / 2]];
     this.add({ kind: 'brick', body, local, art, bx: -w / 2, by: -h / 2, w, h, life: 6, meta });
   }

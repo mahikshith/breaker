@@ -2,8 +2,10 @@
 // Clear it before it lands, then take down the mothership.
 import { Arena } from './arena.js';
 import { makeGrid } from './physics.js';
-import { brick, cached, text, vignette, drawGrain, rrect, shade, SHADOW } from './gfx.js';
+import { brick, cached, text, vignette, drawGrain, rrect, shade, SHADOW, SPR, ready, loadImg } from './gfx.js';
 import { drawInvader, drawMothership } from './characters.js';
+import { Debris } from './debris.js';
+import { ART } from './vault-art.js';
 import { sfx } from './audio.js';
 
 const COLS = 11, ROWS = 9, CW = 28, CH = 18;
@@ -25,6 +27,17 @@ const LAYOUT = [
 ];
 const BOSS_HP = 30;
 
+// ---------- art: Blender renders when packed (inv_*), code-drawn fallbacks otherwise ----------
+const PLATE = ART?.invPlate ? loadImg(ART.invPlate) : null;
+const spr = n => { const s = SPR['inv_' + n]; return ready(s) ? s : null; };
+const BOT_KEY = { '#ff5d8f': 'pink', '#ffd23f': 'yellow', '#3fa8f5': 'blue' };
+function cellArt(v, row, color, dmg) {   // { img, ox, oy, iw, ih } with the image's offset from the cell's top-left
+  const s = v === ARMOR ? spr(`brick_a_${dmg}`) : v === POWERB ? spr('brick_p_0') : spr(`brick_c_${row}_${dmg}`) || spr(`brick_c_${row}_0`);
+  if (s) return { img: s.img, ox: s.margin, oy: s.margin, iw: s.uw, ih: s.uh };
+  return { img: brick(color, CW - 2, CH - 4, { depth: 4, metal: v === ARMOR, glyph: v === ARMOR ? 'rivet' : v === POWERB ? 'gem' : '', crack: dmg }), ox: -1, oy: -1, iw: CW - 2, ih: CH };
+}
+const botSprite = (color, expr) => spr(`bot_${BOT_KEY[color] || 'white'}_${expr}`);
+
 export class Invasion extends Arena {
   constructor(W, H) {
     super(W, H, { accent: '#ff5d8f', top: 64, left: 10, right: 10 });
@@ -42,6 +55,20 @@ export class Invasion extends Arena {
     this.dangerY = this.paddle.y - 64;
     this.bolts = []; this.boltT = 2.5; this.hurt = new Float32Array(COLS * ROWS);
     this.phase = 'formation'; this.boss = null;
+    this.mood = new Array(COLS * ROWS).fill(null); this.moodT = new Float32Array(COLS * ROWS); this.windup = null;
+    this.debris = new Debris({ left: this.left, right: this.right, floor: H - 6, onPaddleHit: p => this.wreckOnPaddle(p) });
+  }
+  setMood(k, name, secs) { this.mood[k] = name; this.moodT[k] = secs; }
+  // a robot's face: reactions first, otherwise the two-step march (and a dented look once it's been hit)
+  botExpr(k) {
+    if (this.moodT[k] > 0 && this.mood[k]) return this.mood[k];
+    if (this.grid.hp[k] === 1) return 'hurt';
+    return this.march.frame ? 'march1' : 'march0';
+  }
+  wreckOnPaddle(p) { // catching a falling robot wreck on the paddle is worth points, not a stun
+    const pos = p.body.getPosition();
+    if (p.meta?.robot) { this.addScore(120, pos.x * 16, pos.y * 16 - 16); this.fx.pop(pos.x * 16, pos.y * 16 - 26, 'CATCH!', '#7bf2ff', 14); sfx.power(); }
+    else if (p.meta?.boss) { this.bump(0.6, 0.08); }
   }
   previewRect() { return { x: this.homeX - 6, y: this.grid.oy - 14, w: COLS * CW + 12, h: ROWS * CH + 70 }; }
   alive() { let n = 0; for (const v of this.grid.cells) if (v) n++; return n; }
@@ -57,9 +84,17 @@ export class Invasion extends Arena {
     if (!v) return;
     const x = G.ox + c * CW, y = G.oy + r * CH;
     G.hp[k] = b.fire ? 0 : G.hp[k] - 1;
-    if (G.hp[k] > 0) { sfx.tough(); this.hurt[k] = 0.12; this.fx.shatter(x, y, CW, CH, this.color[k], 2, 0.5); this.bump(0.04); return; }
+    if (G.hp[k] > 0) { sfx.tough(); this.hurt[k] = 0.12; this.fx.shatter(x, y, CW, CH, this.color[k], 2, 0.5); this.bump(0.04); if (v === BOT) this.setMood(k, 'dizzy', 0.45); return; }
     G.cells[k] = EMPTY;
-    this.fx.shatter(x, y, CW, CH, this.color[k], v === BOT ? 9 : 7, v === ARMOR ? 1.3 : 1);
+    if (v === BOT) { // the robot pops off the formation, dazed, and tumbles down as a rigid body
+      const s = botSprite(this.color[k], 'dizzy');
+      const art = s ? { img: s.img, ox: s.margin, oy: s.margin, iw: s.uw, ih: s.uh } : cellArt(CANDY, r, this.color[k], 0);
+      this.debris.drop(art, x, y, CW, CH, { robot: true, n: 2 }, (b?.vx || 0) * 0.25, -90, (Math.random() - 0.5) * 9);
+      this.fx.shatter(x, y, CW, CH, this.color[k], 4, 0.8);
+    } else {
+      this.debris.shatter(cellArt(v, r, this.color[k], v === ARMOR ? 2 : 0), x, y, CW, CH, b?.vx || 0, b?.vy || -200, v === ARMOR ? 5 : 4);
+      this.fx.shatter(x, y, CW, CH, this.color[k], 3, v === ARMOR ? 1.3 : 1);
+    }
     this.brokeBrick();
     this.addScore(v === BOT ? 60 : v === ARMOR ? 40 : 15, x + CW / 2, y);
     if (v === POWERB || (v === BOT && Math.random() < 0.2)) this.dropPower(x + CW / 2, y + CH, DROPS[(c * 7 + r) % DROPS.length]);
@@ -76,8 +111,30 @@ export class Invasion extends Arena {
     sfx.breach(); this.bump(0.4);
   }
 
+  gloat(s) { // the robots laugh at a zapped paddle; the mothership looks smug
+    if (s.from !== undefined) this.setMood(s.from, 'laugh', 1.2);
+    for (let k = 0; k < COLS * ROWS; k++) if (this.grid.cells[k] === BOT && Math.random() < 0.35) this.setMood(k, 'laugh', 0.8 + Math.random() * 0.5);
+    if (this.boss) this.boss.mood = ['smug', 1.2];
+  }
   updateLevel(dt) {
-    for (let i = 0; i < this.hurt.length; i++) if (this.hurt[i] > 0) this.hurt[i] -= dt;
+    for (let i = 0; i < this.hurt.length; i++) { if (this.hurt[i] > 0) this.hurt[i] -= dt; if (this.moodT[i] > 0) this.moodT[i] -= dt; }
+    const p0 = this.paddle;
+    this.debris.setPaddle(p0.x, p0.y, p0.w, p0.h, p0.vx);
+    for (const b of this.balls) if (!b.caught) this.debris.poke(b);
+    this.debris.step(dt, (piece, x, y, vx, vy) => {
+      this.debris.shatter(piece.art, x - piece.w / 2, y - piece.h / 2, piece.w, piece.h, vx * 0.3, vy * -0.2, piece.meta?.boss ? 9 : 4);
+      sfx.tough(); this.bump(piece.meta?.boss ? 0.6 : 0.1);
+    });
+    // robots flinch wide-eyed when a ball is about to hit them
+    if (this.phase === 'formation') {
+      const G = this.grid;
+      for (const b of this.balls) {
+        if (b.caught) continue;
+        const nx = b.x + b.vx * 0.12, ny = b.y + b.vy * 0.12, c = Math.floor((nx - G.ox) / CW), r = Math.floor((ny - G.oy) / CH);
+        if (c < 0 || r < 0 || c >= COLS || r >= ROWS) continue;
+        const k = r * COLS + c; if (G.cells[k] === BOT && !(this.moodT[k] > 0)) this.setMood(k, 'shock', 0.2);
+      }
+    }
     if (this.phase === 'formation') this.updateMarch(dt);
     if (this.phase === 'boss') this.updateBoss(dt);
     // bolts and bombs
@@ -86,7 +143,7 @@ export class Invasion extends Arena {
       s.y += s.vy * dt; s.t += dt;
       if (!s.dead && s.y + s.r > p.y && s.y - s.r < p.y + p.h && Math.abs(s.x - p.x) < p.w / 2 + s.r) {
         s.dead = true;
-        if (!this.aim) { p.stun = s.bomb ? 1.1 : 0.7; sfx.hurt(); this.bump(s.bomb ? 0.55 : 0.3, 0.04); this.fx.shatter(s.x - 6, p.y - 4, 12, 8, s.bomb ? '#ff8a3d' : '#ff4d5e', 6, 0.8); this.fx.pop(p.x, p.y - 22, 'ZAPPED', '#ff7a8a', 13); }
+        if (!this.aim) { this.gloat(s); p.stun = s.bomb ? 1.1 : 0.7; sfx.hurt(); this.bump(s.bomb ? 0.55 : 0.3, 0.04); this.fx.shatter(s.x - 6, p.y - 4, 12, 8, s.bomb ? '#ff8a3d' : '#ff4d5e', 6, 0.8); this.fx.pop(p.x, p.y - 22, 'ZAPPED', '#ff7a8a', 13); }
       }
       // balls knock bolts out of the sky
       for (const b of this.balls) if (!s.dead && !b.caught && Math.hypot(b.x - s.x, b.y - s.y) < b.r + s.r + 1) { s.dead = true; this.addScore(20, s.x, s.y); this.fx.shatter(s.x - 4, s.y - 4, 8, 8, '#ff4d5e', 4, 0.6); sfx.tough(); }
@@ -127,22 +184,25 @@ export class Invasion extends Arena {
         // prefer the robot nearest above the paddle so bolts feel aimed
         shooters.sort((a, b) => Math.abs(G.ox + a[0] * CW - this.paddle.x) - Math.abs(G.ox + b[0] * CW - this.paddle.x));
         const [c, r] = shooters[Math.random() < 0.6 ? 0 : (Math.random() * shooters.length) | 0];
-        this.bolts.push({ x: G.ox + c * CW + CW / 2, y: G.oy + (r + 1) * CH, vy: 170, r: 3.5, t: 0 });
-        sfx.zap();
+        this.windup = { k: r * COLS + c, t: 0.45 }; this.setMood(r * COLS + c, 'angry', 0.7);   // it scowls first: a fair warning
       }
+    }
+    if (this.windup && (this.windup.t -= dt) <= 0) {
+      const k = this.windup.k, c = k % COLS, r = (k - c) / COLS; this.windup = null;
+      if (G.cells[k] === BOT) { this.bolts.push({ x: G.ox + c * CW + CW / 2, y: G.oy + (r + 1) * CH, vy: 170, r: 3.5, t: 0, from: k }); sfx.zap(); }
     }
   }
 
   updateBoss(dt) {
     const B = this.boss;
-    B.t += dt; B.hurt = Math.max(0, B.hurt - dt);
+    B.t += dt; B.hurt = Math.max(0, B.hurt - dt); if (B.mood) B.mood[1] -= dt;
     B.y += (B.ty - B.y) * Math.min(1, dt * 2);
     const rage = 1 - B.hp / BOSS_HP;
     B.x = this.W / 2 + Math.sin(B.t * (0.7 + rage * 0.8)) * (this.W / 2 - 80);
     B.bombT -= dt;
     if (B.bombT <= 0 && B.y > B.ty - 10) {
       B.bombT = 1.9 - rage * 0.9;
-      this.bolts.push({ x: B.x, y: B.y + 18, vy: 150 + rage * 70, r: 6, t: 0, bomb: true });
+      this.bolts.push({ x: B.x, y: B.y + 18, vy: 150 + rage * 70, r: 6, t: 0, bomb: true }); B.mood = ['angry', 0.5];
       sfx.zap();
     }
     for (const b of this.balls) {
@@ -154,7 +214,7 @@ export class Invasion extends Arena {
       const vn = b.vx * nx + b.vy * ny;
       if (vn < 0) { b.vx -= 2 * vn * nx; b.vy -= 2 * vn * ny; }
       b.x = B.x + dx / d * ex * 1.01; b.y = B.y - 2 + dy / d * ey * 1.01; b.hitBoss = B.t;
-      B.hp -= b.fire ? 3 : 1; B.hurt = 0.1;
+      B.hp -= b.fire ? 3 : 1; B.hurt = 0.1; B.mood = ['hurt', 0.35];
       this.combo++; this.bestCombo = Math.max(this.bestCombo, this.combo); sfx.hit(this.combo);
       this.addScore(80, b.x, b.y - 10); this.bump(0.18, 0.04);
       this.fx.shatter(b.x - 6, b.y - 6, 12, 12, '#c9d1e2', 4, 0.9);
@@ -163,7 +223,8 @@ export class Invasion extends Arena {
     }
   }
   killBoss() {
-    const B = this.boss;
+    const B = this.boss, s = spr('mothership_dizzy');
+    if (s) this.debris.drop({ img: s.img, ox: (s.uw - 90) / 2, oy: (s.uh - 40) / 2, iw: s.uw, ih: s.uh }, B.x - 45, B.y - 20, 90, 40, { boss: true, n: 2 }, 0, -60, 2.5);
     for (let i = 0; i < 6; i++) this.fx.shatter(B.x - 60 + i * 20, B.y - 14, 20, 28, ['#c9d1e2', '#ff5d8f', '#ffd23f'][i % 3], 8, 1.8);
     this.fx.ring(B.x, B.y, '#ffffff', 90);
     this.fx.pop(this.W / 2, 220, 'INVASION OVER', '#ffe08a', 30);
@@ -191,6 +252,13 @@ export class Invasion extends Arena {
     for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
       const k = r * COLS + c, v = G.cells[k]; if (!v) continue;
       const x = G.ox + c * CW, y = G.oy + r * CH;
+      const bs = v === BOT ? botSprite(this.color[k], this.botExpr(k)) : null;
+      if (bs) { // rendered robot: a little bob with the march, a shake when hurt
+        const bob = this.march.frame ? -0.8 : 0, sh = this.hurt[k] > 0 ? Math.sin(this.t * 90) * 1.2 : 0;
+        g.fillStyle = 'rgba(0,0,0,0.3)'; g.beginPath(); g.ellipse(x + CW / 2 + SHADOW.dx, y + CH + 1, CW * 0.35, 2.5, 0, 0, 7); g.fill();
+        g.drawImage(bs.img, x - bs.margin + sh, y - bs.margin + bob, bs.uw, bs.uh);
+        continue;
+      }
       if (v === BOT) {
         const look = Math.max(-1, Math.min(1, (this.paddle.x - (x + CW / 2)) / 120));
         g.fillStyle = 'rgba(0,0,0,0.3)'; g.beginPath(); g.ellipse(x + CW / 2 + SHADOW.dx, y + CH + 1, CW * 0.35, 2.5, 0, 0, 7); g.fill();
@@ -198,13 +266,13 @@ export class Invasion extends Arena {
         if (G.hp[k] === 1) { g.strokeStyle = 'rgba(20,10,30,0.6)'; g.lineWidth = 1; g.beginPath(); g.moveTo(x + 8, y + 3); g.lineTo(x + 11, y + 7); g.lineTo(x + 9, y + 10); g.stroke(); }
         continue;
       }
-      const crack = v === ARMOR ? 3 - G.hp[k] : 0;
-      const spr = brick(this.color[k], CW - 2, CH - 4, { depth: 4, metal: v === ARMOR, glyph: v === ARMOR ? 'rivet' : v === POWERB ? 'gem' : '', crack });
+      const a = cellArt(v, r, this.color[k], v === ARMOR ? 3 - G.hp[k] : 0);
       if (this.hurt[k] > 0) g.globalAlpha = 0.6;
-      g.drawImage(spr, x + 1, y + 1, CW - 2, CH);
+      g.drawImage(a.img, x - a.ox, y - a.oy, a.iw, a.ih);
       g.globalAlpha = 1;
     }
-    if (this.boss) drawMothership(g, this.boss.x, this.boss.y, this.boss.t, this.boss.hurt, this.boss.hp / BOSS_HP);
+    if (this.boss) this.drawBoss(g);
+    this.debris.draw(g);
     for (const s of this.bolts) this.drawBolt(g, s);
     this.drawDrops(g); this.drawPaddle(g); this.drawBalls(g); this.fx.draw(g); this.drawAim(g);
     g.restore();
@@ -215,7 +283,25 @@ export class Invasion extends Arena {
     }
     this.drawHUD(g);
   }
+  drawBoss(g) {
+    const B = this.boss, ex = B.mood && B.mood[1] > 0 ? B.mood[0] : B.hp / BOSS_HP < 0.3 ? 'panic' : 'smug', s = spr(`mothership_${ex}`) || spr('mothership_smug');
+    if (!s) { drawMothership(g, B.x, B.y, B.t, B.hurt, B.hp / BOSS_HP); return; }
+    const bob = Math.sin(B.t * 2.2) * 2, tilt = Math.cos(B.t * (0.7 + (1 - B.hp / BOSS_HP) * 0.8)) * 0.08, sh = B.hurt > 0 ? Math.sin(B.t * 80) * 2 : 0;
+    g.fillStyle = 'rgba(0,0,0,0.25)'; g.beginPath(); g.ellipse(B.x + 6, B.y + 34, 40, 6, 0, 0, 7); g.fill();
+    g.save(); g.translate(B.x + sh, B.y + bob); g.rotate(tilt);
+    g.drawImage(s.img, -s.uw / 2, -s.uh / 2, s.uw, s.uh);
+    const L = spr(`mothership_lights_${Math.floor(B.t * 4) % 2}`); if (L) g.drawImage(L.img, -L.uw / 2, -L.uh / 2, L.uw, L.uh);
+    if (B.hurt > 0) { g.globalCompositeOperation = 'lighter'; g.globalAlpha = B.hurt * 4; g.drawImage(s.img, -s.uw / 2, -s.uh / 2, s.uw, s.uh); }
+    g.restore();
+  }
+  drawTopInset(g, h) { // the hangar continues under the notch
+    if (!(PLATE?.complete && PLATE.naturalWidth)) { g.drawImage(this.background(), 0, 0, this.W, 1, 0, -h, this.W, h); return; }
+    if (h > 40) g.drawImage(PLATE, 0, 0, PLATE.width, 1, 0, -h, 360, h - 39);
+    g.drawImage(PLATE, 0, 0, PLATE.width, 80, 0, -40, 360, 40);
+  }
   drawBolt(g, s) {
+    const S = spr(s.bomb ? 'bomb' : 'bolt');
+    if (S) { g.drawImage(S.img, s.x - S.uw / 2, s.y - S.uh / 2, S.uw, S.uh); return; }
     if (s.bomb) {
       g.fillStyle = 'rgba(0,0,0,0.3)'; g.beginPath(); g.arc(s.x + SHADOW.dx, s.y + SHADOW.dy, s.r, 0, 7); g.fill();
       const gr = g.createRadialGradient(s.x - 2, s.y - 2, 0.5, s.x, s.y, s.r);
@@ -267,8 +353,9 @@ export class Invasion extends Arena {
     this.drawHUDBase(g);
   }
   background() {
-    return cached('inv-bg' + this.W + 'x' + this.H, this.W, this.H, g => {
+    return cached('inv-bg' + this.W + 'x' + this.H + (PLATE?.complete ? 'p' : ''), this.W, this.H, g => {
       const { W, H } = this;
+      if (PLATE?.complete && PLATE.naturalWidth) { g.drawImage(PLATE, 0, -40, 360, 820); if (H > 780) g.drawImage(PLATE, 0, PLATE.height - 2, PLATE.width, 2, 0, 780, W, H - 780); return; }
       const bg = g.createLinearGradient(0, 0, 0, H);
       bg.addColorStop(0, '#1a1f36'); bg.addColorStop(0.6, '#12162a'); bg.addColorStop(1, '#0a0c18');
       g.fillStyle = bg; g.fillRect(0, 0, W, H);
