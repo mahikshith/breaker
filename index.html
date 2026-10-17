@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#07080f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>BREACH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Rubik:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #07080f; }
+  html { height: 100%; box-sizing: border-box; color-scheme: dark; }
+  html, body { margin: 0; background: var(--bg); overflow: hidden; }
+  body { height: 100%; display: flex; align-items: center; justify-content: center; touch-action: none; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; overscroll-behavior: none; }
+  canvas { display: block; touch-action: none; border-radius: 0; }
+  @media (min-aspect-ratio: 3/4) { canvas { border-radius: 22px; box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06); } }
+</style>
+</head>
+<body>
+<canvas id="game"></canvas>
+<div id="safe" style="position:fixed;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)"></div>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
