@@ -200,7 +200,7 @@ function drawResults() {
   const pg = g.createLinearGradient(0, y, 0, y + ph); pg.addColorStop(0, '#2c3360'); pg.addColorStop(1, '#171b36');
   g.fillStyle = pg; rrect(g, x, y, pw, ph, 22); g.fill();
   g.strokeStyle = 'rgba(255,255,255,0.18)'; g.lineWidth = 1.5; rrect(g, x + 1, y + 1, pw - 2, ph - 2, 21); g.stroke();
-  const title = won ? (levelIdx === 1 ? 'FOX RESCUED!' : 'INVASION OVER!') : 'SO CLOSE!';
+  const title = won ? (levelIdx === 1 ? 'PRINCESS SAVED!' : 'INVASION OVER!') : 'SO CLOSE!';
   text(g, title, W / 2, y + 36, 30, won ? '#ffd36b' : '#ff7a8a', 'center');
   if (!won) text(g, level.reason || '', W / 2, y + 66, 13, '#c9cfee', 'center');
   for (let s = 0; s < 3; s++) {

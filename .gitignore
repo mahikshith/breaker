@@ -1,2 +1,6 @@
 node_modules/
 dist/
+art/out/
+art/__pycache__/
+*.blend
+*.blend1

@@ -142,7 +142,18 @@ export class FX {
     for (const r of this.rings) r.t += dt;
     this.rings = this.rings.filter(r => r.t < r.life);
   }
-  draw(g) {
+  draw(g, P, overlay) { // overlay: only rings and score pops, projected by P (the 3D view renders debris itself)
+    if (overlay) {
+      for (const r of this.rings) { const k = r.t / r.life, [x, y] = P(r.x, r.y); g.globalAlpha = 0.6 * (1 - k); g.strokeStyle = r.color; g.lineWidth = 3 * (1 - k) + 0.5; g.beginPath(); g.arc(x, y, r.r * (0.3 + k), 0, 7); g.stroke(); }
+      g.globalAlpha = 1;
+      for (const p of this.pops) {
+        const k = p.t / p.life, sc = k < 0.15 ? 0.6 + k / 0.15 * 0.5 : 1.1 - Math.min(0.1, (k - 0.15)), [x, y] = p.screen ? [p.x, p.y] : P(p.x, p.y);
+        g.globalAlpha = k > 0.7 ? (1 - k) / 0.3 : 1;
+        text(g, p.text, x, y, p.size * sc, p.color, 'center');
+      }
+      g.globalAlpha = 1;
+      return;
+    }
     for (const d of this.dust) {
       g.globalAlpha = 0.18 * (1 - d.t / d.life); g.fillStyle = d.c;
       g.beginPath(); g.arc(d.x, d.y, d.r, 0, 7); g.fill();

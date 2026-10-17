@@ -183,7 +183,7 @@ export class Arena {
       g.drawImage(capsule(d.kind), d.x - 20, d.y - 9, 40, 18);
     }
   }
-  drawAim(g) {
+  drawAim(g, P = (x, y) => [x, y]) { // P maps world to screen (identity in 2D, projection in 3D)
     const a = this.aim; if (!a) return;
     // simulate the shot to show its first bounces
     const sim = makeBall(a.ball.x, a.ball.y, Math.sin(a.angle) * 300, -Math.cos(a.angle) * 300, a.ball.r);
@@ -196,13 +196,15 @@ export class Arena {
     for (let i = 0; i < pts.length; i += 2) {
       const k = 1 - i / pts.length;
       g.globalAlpha = k * pulse; g.fillStyle = '#fff';
-      g.beginPath(); g.arc(pts[i], pts[i + 1], 1.8 * k + 0.6, 0, 7); g.fill();
+      const [x, y] = P(pts[i], pts[i + 1]);
+      g.beginPath(); g.arc(x, y, 1.8 * k + 0.6, 0, 7); g.fill();
     }
     g.globalAlpha = 1;
-    if (stop) { g.strokeStyle = 'rgba(255,255,255,0.8)'; g.lineWidth = 1.5; g.beginPath(); g.arc(sim.x, sim.y, 7, 0, 7); g.stroke(); }
+    if (stop) { const [x, y] = P(sim.x, sim.y); g.strokeStyle = 'rgba(255,255,255,0.8)'; g.lineWidth = 1.5; g.beginPath(); g.arc(x, y, 7, 0, 7); g.stroke(); }
     if (!a.serve) { // remaining hold time
       g.strokeStyle = '#e3b6ff'; g.lineWidth = 2.5;
-      g.beginPath(); g.arc(a.ball.x, a.ball.y, 12, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (1 - a.t / 1.6)); g.stroke();
+      const [bx, by] = P(a.ball.x, a.ball.y);
+      g.beginPath(); g.arc(bx, by, 12, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (1 - a.t / 1.6)); g.stroke();
     }
   }
   drawHUDBase(g) {
@@ -219,7 +221,7 @@ export class Arena {
     }
     text(g, this.score.toLocaleString(), this.W - 14, 24, 22, '#fff', 'right', NUM);
     if (this.combo >= 5) text(g, `COMBO ×${this.combo}`, this.W - 14, 64, 12, '#ffd36b', 'right');
-    if (this.aim?.serve && this.t < 6) text(g, 'Drag to aim · release to launch', this.W / 2, this.paddle.y + 40, 13, 'rgba(255,255,255,0.8)', 'center');
+    if (this.aim?.serve && this.t < 6) text(g, 'Drag to aim · release to launch', this.W / 2, this.hintY ?? this.paddle.y + 40, 13, 'rgba(255,255,255,0.8)', 'center');
   }
 }
 export { cellAt };

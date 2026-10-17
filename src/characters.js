@@ -12,7 +12,10 @@ function blob(g, x, y, rx, ry, base, rot = 0) {
 // mood: 'scared' | 'happy' | 'run'
 export function drawFox(g, x, y, s = 1, mood = 'scared', t = 0) {
   g.save(); g.translate(x, y); g.scale(s, s);
-  if (mood === 'scared') g.translate(Math.sin(t * 40) * 0.5, 0);
+  // breathing squash anchored at the feet; faster and deeper when scared (no positional jitter)
+  const br = Math.sin(t * (mood === 'scared' ? 7 : 2.6)) * (mood === 'scared' ? 0.035 : 0.02);
+  g.translate(0, 15); g.scale(1 + br, 1 - br); g.translate(0, -15);
+  const blink = mood !== 'happy' && (t % 3.3) < 0.12;
   const hop = mood === 'run' ? -Math.abs(Math.sin(t * 14)) * 3 : 0;
   g.fillStyle = 'rgba(0,0,0,0.3)'; g.beginPath(); g.ellipse(2, 15, 12, 3.5, 0, 0, 7); g.fill();
   g.translate(0, hop);
@@ -43,6 +46,9 @@ export function drawFox(g, x, y, s = 1, mood = 'scared', t = 0) {
   if (mood === 'happy') {
     g.strokeStyle = DARK; g.lineWidth = 1.6; g.lineCap = 'round';
     for (const ex of [-4.8, 4.8]) { g.beginPath(); g.arc(ex, -5, 2.4, Math.PI * 1.1, Math.PI * 1.9); g.stroke(); }
+  } else if (blink) {
+    g.strokeStyle = DARK; g.lineWidth = 1.4; g.lineCap = 'round';
+    for (const ex of [-4.8, 4.8]) { g.beginPath(); g.moveTo(ex - 2.4, -5.2); g.lineTo(ex + 2.4, -5.2); g.stroke(); }
   } else {
     for (const ex of [-4.8, 4.8]) {
       g.fillStyle = '#1b1020'; g.beginPath(); g.ellipse(ex, -5.5, 2.6, 3.3, 0, 0, 7); g.fill();
