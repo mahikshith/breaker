@@ -2,7 +2,7 @@
 // chews its way down to her. Bricks that lose their hold on the tower fall out as rigid bodies.
 import { Arena } from './arena.js';
 import { makeGrid, makeBall } from './physics.js';
-import { brick, cached, text, vignette, drawGrain, rrect, shade, NUM, SPR, ready } from './gfx.js';
+import { brick, cached, text, vignette, drawGrain, rrect, shade, NUM, SPR, ready, loadImg } from './gfx.js';
 import { drawSerpent } from './characters.js';
 import { Debris } from './debris.js';
 import { ART } from './vault-art.js';
@@ -41,7 +41,7 @@ const LAYOUT = [
 ];
 
 // ---------- art: rendered sprites when packed, code-drawn fallbacks otherwise ----------
-const load = url => Object.assign(new Image(), { src: url });
+const load = loadImg;
 const IMG = SPR;
 const PLATE = ART?.plate ? load(ART.plate) : null;
 const BARS_IMG = ART?.bars ? load(ART.bars) : null;
@@ -638,3 +638,10 @@ export class Vault extends Arena {
   }
 }
 export { NUM };
+// the princess calling for help, for the level card on the menu
+export function drawPrincessIcon(g, x, y, size, t) {
+  if (!PRINCESS || !PRINCESS.img.complete) return false;
+  const P = PRINCESS, a = P.anims.Interact, f = Math.floor(t * 12) % a.n;
+  g.drawImage(P.img, f * P.cell, a.row * P.cell, P.cell, P.cell, x - size / 2, y - size / 2, size, size);
+  return true;
+}

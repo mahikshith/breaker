@@ -4,8 +4,11 @@ import { ART } from './vault-art.js';
 
 export const SHADOW = { dx: 3, dy: 5, a: 0.35 };
 // Blender-rendered sprites (ball, paddle, capsules, bricks...), shared by both levels; code-drawn fallbacks stay in place
+const pending = [];
+export const loadImg = url => { const i = new Image(); i.src = url; pending.push(i.decode().catch(() => {})); return i; };
+export const artLoaded = () => Promise.all(pending);   // resolves once every rendered image has decoded
 export const SPR = {};
-for (const [k, s] of Object.entries(ART?.sprites || {})) SPR[k] = { img: Object.assign(new Image(), { src: s.url }), ...s };
+for (const [k, s] of Object.entries(ART?.sprites || {})) SPR[k] = { img: loadImg(s.url), ...s };
 export const ready = s => !!(s && s.img.complete && s.img.naturalWidth);
 let DPR = 1;
 export const setDPR = d => { DPR = d; cache.clear(); };

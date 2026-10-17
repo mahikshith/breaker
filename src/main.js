@@ -1,13 +1,13 @@
 // Entry: canvas sizing, fixed-step loop, input mapping and the three scenes (menu, level, results).
-import { setDPR, text, rrect, shade, vignette, drawGrain, cached, brick, FONT } from './gfx.js';
+import { setDPR, text, rrect, shade, vignette, drawGrain, cached, brick, FONT, artLoaded } from './gfx.js';
 import { unlockAudio, setMuted, isMuted, sfx } from './audio.js';
 import { Invasion } from './invasion.js';
-import { Vault } from './vault.js';
+import { Vault, drawPrincessIcon } from './vault.js';
 import { drawFox, drawInvader } from './characters.js';
 
 const LEVELS = [
   { make: (W, H) => new Invasion(W, H), name: 'Invasion', sub: 'Clear the formation before it lands', color: '#ff5d8f' },
-  { make: (W, H) => new Vault(W, H), name: 'The Vault', sub: 'Free the fox before the serpent gets there', color: '#f4c542' },
+  { make: (W, H) => new Vault(W, H), name: 'The Vault', sub: 'Free the princess before the serpent gets there', color: '#f4c542' },
 ];
 const W = 360;
 let H = 740, scale = 1, FH = 740, inT = 0, inB = 0; // FH: full canvas height; H: playable height inside the safe area
@@ -119,7 +119,7 @@ function star(x, y, r, on) {
 
 function preview(i, w, h) { // the level's opening playfield, cropped to fill the card
   if (!previews[i]) {
-    const lv = LEVELS[i].make(W, H), r = lv.previewRect();
+    const lv = LEVELS[i].make(W, H), r = lv.previewRect(); lv.skipIntro?.();
     const k = Math.max(w / r.w, h / r.h);
     previews[i] = cached(`preview${i}|${w}|${h}|${H}`, w, h, pg => {
       pg.save(); pg.translate(w / 2, 0); pg.scale(k, k); pg.translate(-(r.x + r.w / 2), -r.y);
@@ -184,7 +184,7 @@ function drawMenu() {
     for (let s = 0; s < 3; s++) star(x + cw - 66 + s * 22, y + ch - 47, 8, s < best[i]);
     // a character peeks out on each card
     if (i === 0) drawInvader(g, x + cw - 52, y + 10, 36, 24, '#5ccf6a', Math.floor(menuT * 3) % 2, Math.sin(menuT));
-    else drawFox(g, x + cw - 34, y + 30, 0.9, 'scared', menuT);
+    else drawPrincessIcon(g, x + cw - 36, y + 34, 64, menuT);
   });
   text(g, 'Drag anywhere to move · hold still on a catch to aim', W / 2, H - 52, 12, 'rgba(220,226,255,0.65)', 'center');
   button(isMuted() ? 'Sound: off' : 'Sound: on', W / 2 - 60, H - 38, 120, 30, '#4b5370', () => setMuted(!isMuted()), true);
@@ -260,6 +260,7 @@ window.__breach = { start, get level() { return level; }, get scene() { return s
 resize();
 (document.fonts ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1500))]) : Promise.resolve()).then(() => {
   previews = []; setDPR(scale * Math.min(3, devicePixelRatio || 1));
+  artLoaded().then(() => { previews = []; });   // re-crop the level cards once the rendered art is in
   const q = new URLSearchParams(location.search).get('level');
   if (q) start(+q - 1);
   requestAnimationFrame(t => { last = t; frame(t); });
