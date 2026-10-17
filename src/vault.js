@@ -2,7 +2,7 @@
 // chews its way down to her. Bricks that lose their hold on the tower fall out as rigid bodies.
 import { Arena } from './arena.js';
 import { makeGrid, makeBall } from './physics.js';
-import { brick, cached, text, vignette, drawGrain, rrect, shade, NUM } from './gfx.js';
+import { brick, cached, text, vignette, drawGrain, rrect, shade, NUM, SPR, ready } from './gfx.js';
 import { drawSerpent } from './characters.js';
 import { Debris } from './debris.js';
 import { ART } from './vault-art.js';
@@ -42,13 +42,11 @@ const LAYOUT = [
 
 // ---------- art: rendered sprites when packed, code-drawn fallbacks otherwise ----------
 const load = url => Object.assign(new Image(), { src: url });
-const IMG = {};
-for (const [k, s] of Object.entries(ART?.sprites || {})) IMG[k] = { img: load(s.url), ...s };
+const IMG = SPR;
 const PLATE = ART?.plate ? load(ART.plate) : null;
 const BARS_IMG = ART?.bars ? load(ART.bars) : null;
 const PRINCESS = ART?.princess ? { ...ART.princess, img: load(ART.princess.url) } : null;
 const SNAKE = ART?.snake ? { ...ART.snake, img: load(ART.snake.url) } : null;
-const ready = s => s && s.img.complete && s.img.naturalWidth;
 function brickArt(kind, cells, dmg) {
   const s = IMG[`brick_${LETTER[kind]}_${cells}_${kind === GOLD || kind === GRANITE ? 0 : dmg}`];
   if (ready(s)) return { img: s.img, ox: s.margin, oy: s.margin, iw: s.uw, ih: s.uh };
@@ -532,19 +530,21 @@ export class Vault extends Arena {
     g.restore();
     outline(); g.strokeStyle = '#1e0a40'; g.lineWidth = 1.1; g.stroke();
   }
-  drawLights(g) { // flickering torchlight and the chamber lantern, added on top of the plate
-    const t = this.t, base = OY + ROWS * CELL;
+  drawLights(g) { // flickering torchlight and the chamber lantern on top of the plate (anchors from the Blender render)
+    const t = this.t, flame = IMG.torch_flame, lamp = IMG.lantern;
+    if (ready(lamp)) g.drawImage(lamp.img, 196 - 8, 158 - 12, 16, 24);
     g.save(); g.globalCompositeOperation = 'lighter';
-    for (const side of [-1, 1]) {
-      const x = this.W / 2 + side * 140, y = base + 120, f = 0.75 + 0.15 * Math.sin(t * 13 + side) + 0.1 * Math.sin(t * 29 + side * 2);
+    for (const [x, y, ph] of [[40, 527, 0], [320, 527, 2]]) {
+      const f = 0.75 + 0.15 * Math.sin(t * 13 + ph) + 0.1 * Math.sin(t * 29 + ph * 2);
       const lg = g.createRadialGradient(x, y, 2, x, y, 90 * f);
-      lg.addColorStop(0, `rgba(255,150,60,${0.32 * f})`); lg.addColorStop(1, 'rgba(255,120,40,0)');
+      lg.addColorStop(0, `rgba(255,150,60,${0.26 * f})`); lg.addColorStop(1, 'rgba(255,120,40,0)');
       g.fillStyle = lg; g.fillRect(x - 100, y - 100, 200, 200);
+      if (ready(flame)) { const k = 0.9 + 0.12 * f; g.globalAlpha = 0.55 + 0.35 * f; g.drawImage(flame.img, x - 12 * k, y - 20 * k + 4, 24 * k, 32 * k); g.globalAlpha = 1; }
     }
-    const cx = OX + 10 * CELL, cy = OY + 4.5 * CELL, f = 0.85 + 0.15 * Math.sin(t * 9);
-    const lg = g.createRadialGradient(cx, cy, 4, cx, cy, 70);
-    lg.addColorStop(0, `rgba(255,180,90,${0.3 * f})`); lg.addColorStop(1, 'rgba(255,170,80,0)');
-    g.fillStyle = lg; g.fillRect(cx - 80, cy - 80, 160, 160);
+    const f = 0.85 + 0.15 * Math.sin(t * 9);
+    const lg = g.createRadialGradient(196, 158, 4, 196, 158, 70);
+    lg.addColorStop(0, `rgba(255,180,90,${0.26 * f})`); lg.addColorStop(1, 'rgba(255,170,80,0)');
+    g.fillStyle = lg; g.fillRect(196 - 80, 158 - 80, 160, 160);
     g.restore();
   }
   drawBars(g) {
@@ -604,6 +604,12 @@ export class Vault extends Arena {
     text(g, this.phase === 'rescue' ? `${Math.round((1 - d) * 100)}% away` : 'SAFE!', x1 + 8, y, 12, this.phase === 'rescue' ? '#fff' : '#7bd88f');
     if (this.phase === 'frenzy') text(g, `FRENZY ${Math.ceil(this.frenzyT)}`, W / 2, OY + ROWS * CELL + 40, 22, '#ffb35c', 'center');
     this.drawHUDBase(g);
+  }
+  // the sky above the playfield, under the notch: the plate extends 40 units above y = 0, then its top row stretches
+  drawTopInset(g, h) {
+    if (!(PLATE?.complete && PLATE.naturalWidth)) { g.fillStyle = '#1b1530'; g.fillRect(0, -h, this.W, h); return; }
+    if (h > 40) g.drawImage(PLATE, 0, 0, PLATE.width, 1, 0, -h, 360, h - 39);
+    g.drawImage(PLATE, 0, 0, PLATE.width, 80, 0, -40, 360, 40);
   }
   background() {
     return cached('vault2-bg' + this.W + 'x' + this.H + (PLATE?.complete ? 'p' : ''), this.W, this.H, g => {

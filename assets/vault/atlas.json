@@ -1,0 +1,1040 @@
+{
+ "version": 1,
+ "units": "game units (1 unit = 0.1 m in Blender); screen is 360 units wide",
+ "board": {
+  "ox": 20,
+  "oy": 96,
+  "cols": 20,
+  "rows": 20,
+  "cell": 16
+ },
+ "plate": {
+  "file": "plate.png",
+  "jpg": "plate.jpg",
+  "px": [
+   720,
+   1640
+  ],
+  "ppu": 2,
+  "screenRect": [
+   0,
+   -40,
+   360,
+   820
+  ],
+  "convention": "pixel (px, py) <-> screen (x, y): px = 2*x, py = 2*(y + 40); draw plate at screen (0, -40) with size 360 x 820 units"
+ },
+ "bars": {
+  "file": "bars.png",
+  "px": [
+   720,
+   1640
+  ],
+  "ppu": 2,
+  "screenRect": [
+   0,
+   -40,
+   360,
+   820
+  ],
+  "note": "registered to the plate; draw over the fox with the same rect as the plate"
+ },
+ "spriteConvention": "sprites are 3 px/unit; draw each centred on its anchor at the footprint centre, at size drawSize (units) = px / 3. Bricks: drawSize = footprint + 2*margin, so a brick in cells (c..c+w-1, r) is drawn at x = ox + c*16 - 4, y = oy + r*16 - 4, w = w*16 + 8, h = 24.",
+ "tintJitter": 0.04,
+ "tintNote": "multiply glazed brick RGB by 1 + tintJitter*(2*hash(c,r)-1) for per-brick variation (composite.png does this)",
+ "anchors": {
+  "lantern": [
+   196,
+   158
+  ],
+  "torchFlames": [
+   [
+    40,
+    527
+   ],
+   [
+    320,
+    527
+   ]
+  ],
+  "chamber": [
+   132,
+   144,
+   96,
+   48
+  ]
+ },
+ "sprites": {
+  "brick_gold_1_0": {
+   "file": "brick_gold_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    36.0
+   ],
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "gold"
+  },
+  "brick_granite_1_0": {
+   "file": "brick_granite_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    36.0
+   ],
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "granite"
+  },
+  "brick_t_1_0": {
+   "file": "brick_t_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    36.0
+   ],
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_t_1_1": {
+   "file": "brick_t_1_1.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    36.0
+   ],
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_t_1_2": {
+   "file": "brick_t_1_2.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    36.0
+   ],
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_t_2_0": {
+   "file": "brick_t_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    60.0,
+    36.0
+   ],
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_t_2_1": {
+   "file": "brick_t_2_1.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    60.0,
+    36.0
+   ],
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_t_2_2": {
+   "file": "brick_t_2_2.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    60.0,
+    36.0
+   ],
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_v_1_0": {
+   "file": "brick_v_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    36.0
+   ],
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_v_1_1": {
+   "file": "brick_v_1_1.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    36.0
+   ],
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_v_1_2": {
+   "file": "brick_v_1_2.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    36.0
+   ],
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_v_2_0": {
+   "file": "brick_v_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    60.0,
+    36.0
+   ],
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_v_2_1": {
+   "file": "brick_v_2_1.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    60.0,
+    36.0
+   ],
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_v_2_2": {
+   "file": "brick_v_2_2.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    60.0,
+    36.0
+   ],
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_c_1_0": {
+   "file": "brick_c_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    36.0
+   ],
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_c_1_1": {
+   "file": "brick_c_1_1.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    36.0
+   ],
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_c_1_2": {
+   "file": "brick_c_1_2.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    36.0
+   ],
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_c_2_0": {
+   "file": "brick_c_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    60.0,
+    36.0
+   ],
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_c_2_1": {
+   "file": "brick_c_2_1.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    60.0,
+    36.0
+   ],
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_c_2_2": {
+   "file": "brick_c_2_2.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    60.0,
+    36.0
+   ],
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_y_1_0": {
+   "file": "brick_y_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    36.0
+   ],
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_y_1_1": {
+   "file": "brick_y_1_1.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    36.0
+   ],
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_y_1_2": {
+   "file": "brick_y_1_2.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    36.0
+   ],
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_y_2_0": {
+   "file": "brick_y_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    60.0,
+    36.0
+   ],
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_y_2_1": {
+   "file": "brick_y_2_1.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    60.0,
+    36.0
+   ],
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_y_2_2": {
+   "file": "brick_y_2_2.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    60.0,
+    36.0
+   ],
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_b_1_0": {
+   "file": "brick_b_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    36.0
+   ],
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_b_1_1": {
+   "file": "brick_b_1_1.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    36.0
+   ],
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_b_1_2": {
+   "file": "brick_b_1_2.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    36.0
+   ],
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_b_2_0": {
+   "file": "brick_b_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    60.0,
+    36.0
+   ],
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_b_2_1": {
+   "file": "brick_b_2_1.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    60.0,
+    36.0
+   ],
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_b_2_2": {
+   "file": "brick_b_2_2.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    60.0,
+    36.0
+   ],
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "ball": {
+   "file": "ball.png",
+   "px": [
+    60,
+    60
+   ],
+   "ppu": 3,
+   "anchor": [
+    30.0,
+    30.0
+   ],
+   "footprint": [
+    12,
+    12
+   ],
+   "drawSize": [
+    20,
+    20
+   ],
+   "margin": 4,
+   "kind": "ball"
+  },
+  "ball_fire": {
+   "file": "ball_fire.png",
+   "px": [
+    60,
+    60
+   ],
+   "ppu": 3,
+   "anchor": [
+    30.0,
+    30.0
+   ],
+   "footprint": [
+    12,
+    12
+   ],
+   "drawSize": [
+    20,
+    20
+   ],
+   "margin": 4,
+   "kind": "ball"
+  },
+  "paddle_l": {
+   "file": "paddle_l.png",
+   "px": [
+    48,
+    60
+   ],
+   "ppu": 3,
+   "anchor": [
+    24.0,
+    30.0
+   ],
+   "footprint": [
+    12,
+    12
+   ],
+   "drawSize": [
+    16.0,
+    20
+   ],
+   "margin": 4,
+   "kind": "paddle",
+   "note": "includes the 4-unit left margin; its right edge meets paddle_m"
+  },
+  "paddle_m": {
+   "file": "paddle_m.png",
+   "px": [
+    150,
+    60
+   ],
+   "ppu": 3,
+   "anchor": [
+    75.0,
+    30.0
+   ],
+   "footprint": [
+    50,
+    12
+   ],
+   "drawSize": [
+    50.0,
+    20
+   ],
+   "margin": 4,
+   "kind": "paddle",
+   "note": "no horizontal margin; stretch horizontally to (paddleWidth - 24) units"
+  },
+  "paddle_r": {
+   "file": "paddle_r.png",
+   "px": [
+    48,
+    60
+   ],
+   "ppu": 3,
+   "anchor": [
+    24.0,
+    30.0
+   ],
+   "footprint": [
+    12,
+    12
+   ],
+   "drawSize": [
+    16.0,
+    20
+   ],
+   "margin": 4,
+   "kind": "paddle",
+   "note": "includes the 4-unit right margin; its left edge meets paddle_m"
+  },
+  "cap_split": {
+   "file": "cap_split.png",
+   "px": [
+    144,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    72.0,
+    39.0
+   ],
+   "footprint": [
+    40,
+    18
+   ],
+   "drawSize": [
+    48,
+    26
+   ],
+   "margin": 4,
+   "kind": "capsule"
+  },
+  "cap_fire": {
+   "file": "cap_fire.png",
+   "px": [
+    144,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    72.0,
+    39.0
+   ],
+   "footprint": [
+    40,
+    18
+   ],
+   "drawSize": [
+    48,
+    26
+   ],
+   "margin": 4,
+   "kind": "capsule"
+  },
+  "cap_wide": {
+   "file": "cap_wide.png",
+   "px": [
+    144,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    72.0,
+    39.0
+   ],
+   "footprint": [
+    40,
+    18
+   ],
+   "drawSize": [
+    48,
+    26
+   ],
+   "margin": 4,
+   "kind": "capsule"
+  },
+  "cap_focus": {
+   "file": "cap_focus.png",
+   "px": [
+    144,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    72.0,
+    39.0
+   ],
+   "footprint": [
+    40,
+    18
+   ],
+   "drawSize": [
+    48,
+    26
+   ],
+   "margin": 4,
+   "kind": "capsule"
+  },
+  "cap_burst": {
+   "file": "cap_burst.png",
+   "px": [
+    144,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    72.0,
+    39.0
+   ],
+   "footprint": [
+    40,
+    18
+   ],
+   "drawSize": [
+    48,
+    26
+   ],
+   "margin": 4,
+   "kind": "capsule"
+  },
+  "lantern": {
+   "file": "lantern.png",
+   "px": [
+    48,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    24.0,
+    36.0
+   ],
+   "footprint": [
+    8,
+    13
+   ],
+   "drawSize": [
+    16,
+    24
+   ],
+   "margin": null,
+   "kind": "prop"
+  },
+  "torch_flame": {
+   "file": "torch_flame.png",
+   "px": [
+    72,
+    96
+   ],
+   "ppu": 3,
+   "anchor": [
+    36.0,
+    48.0
+   ],
+   "footprint": [
+    6,
+    10
+   ],
+   "drawSize": [
+    24,
+    32
+   ],
+   "margin": null,
+   "kind": "prop"
+  }
+ }
+}

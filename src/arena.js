@@ -1,6 +1,6 @@
 // Shared gameplay for every level: paddle, balls, serve and Focus aim, power-ups, lives, combo, juice.
 import { makeBall, stepBall, cellAt } from './physics.js';
-import { FX, drawBall, capsule, POWER, rrect, shade, text, NUM, SHADOW } from './gfx.js';
+import { FX, drawBall, capsule, POWER, rrect, shade, text, NUM, SHADOW, SPR, ready } from './gfx.js';
 import { sfx } from './audio.js';
 
 const BALL_SPEED = 330;
@@ -162,6 +162,12 @@ export class Arena {
     const p = this.paddle, x = p.x - p.w / 2, y = p.y, h = p.h;
     const stun = p.stun > 0 && Math.floor(this.t * 20) % 2;
     g.fillStyle = 'rgba(0,0,0,0.35)'; rrect(g, x + SHADOW.dx, y + SHADOW.dy + 2, p.w, h, h / 2); g.fill();
+    const L = SPR.paddle_l, M = SPR.paddle_m, R = SPR.paddle_r;
+    if (ready(L) && ready(M) && ready(R)) { // rendered chrome paddle: two end caps and a middle stretched to the width
+      g.drawImage(L.img, x - 4, y - 4, 16, 20); g.drawImage(M.img, x + 12, y - 4, p.w - 24, 20); g.drawImage(R.img, x + p.w - 12, y - 4, 16, 20);
+      if (stun) { g.globalAlpha = 0.45; g.fillStyle = '#ff4d5e'; rrect(g, x, y, p.w, h, h / 2); g.fill(); g.globalAlpha = 1; }
+      return;
+    }
     // body
     const gr = g.createLinearGradient(0, y, 0, y + h + 3);
     gr.addColorStop(0, '#eef2f8'); gr.addColorStop(0.35, '#a9b2c6'); gr.addColorStop(0.55, '#4b5370'); gr.addColorStop(1, '#232840');
@@ -180,7 +186,9 @@ export class Arena {
   drawDrops(g) {
     for (const d of this.drops) {
       g.fillStyle = 'rgba(0,0,0,0.3)'; rrect(g, d.x - 20 + SHADOW.dx, d.y - 8 + SHADOW.dy, 40, 16, 8); g.fill();
-      g.drawImage(capsule(d.kind), d.x - 20, d.y - 9, 40, 18);
+      const C = SPR['cap_' + d.kind];
+      if (ready(C)) { g.drawImage(C.img, d.x - 24, d.y - 13, 48, 26); text(g, POWER[d.kind].label, d.x, d.y + 0.5, 11, '#fff', 'center'); }
+      else g.drawImage(capsule(d.kind), d.x - 20, d.y - 9, 40, 18);
     }
   }
   drawAim(g, P = (x, y) => [x, y]) { // P maps world to screen (identity in 2D, projection in 3D)

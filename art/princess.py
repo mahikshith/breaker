@@ -18,7 +18,7 @@ addon_utils.enable("cycles", default_set=True)
 HERE = os.path.dirname(os.path.abspath(__file__))
 argv = sys.argv[1:]
 FACE = '--face' in argv
-SAMPLES = 64
+SAMPLES = 48
 if '--samples' in argv:
     i = argv.index('--samples'); SAMPLES = int(argv[i + 1]); del argv[i:i + 2]
 argv = [a for a in argv if a != '--face']
@@ -27,7 +27,7 @@ ANIMS = [a.split(':') for a in argv[1:]] or [['Idle', '12']]
 PX = 3            # pixels per game unit
 BOX = 56          # sprite cell in game units (square); character ~42 units tall
 HEIGHT = 42
-SOURCE = {'Scared': 'Hit_B'}   # new animations built on a KayKit action
+SOURCE = {'Scared': ('Block', 0.30, 0.90)}   # new animations: KayKit action and the part of it to loop
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 sc = bpy.context.scene
@@ -494,7 +494,7 @@ for i in range(NTC - 1):
         if any(((th - tc) * R_AX) ** 2 + (hh - hc) ** 2 < r * r for tc, hc, r in HOLES): continue
         cf.append(q)
 crest = mesh_obj('tiara_crest', cv, cf, GOLD)
-crest.data.validate(); 
+crest.data.validate()
 md = crest.modifiers.new('sol', 'SOLIDIFY'); md.thickness = 0.013; md.offset = 0
 # rounded wire rims: around each opening and along the scalloped top edge
 rims = []
@@ -589,7 +589,22 @@ for i in range(NA):
         tf.append((a, b, b + 1, a + 1))
 trim = mesh_obj('waist_trim', tv, tf, GOLD)
 md = trim.modifiers.new('sol', 'SOLIDIFY'); md.thickness = 0.01
-for o in (skirt, lace, trim): bone_parent(o, 'hips')
+# skirt and petticoat are skinned: rigid on the hips at the waist, following each thigh toward the hem so a
+# lifted knee pushes the skirt forward instead of poking through it
+def skin_skirt(o):
+    vg = {n: o.vertex_groups.new(name=n) for n in ('hips', 'upperleg.l', 'upperleg.r')}
+    for v in o.data.vertices:
+        t = max(0.0, min(1.0, (WAIST_Z - v.co.z) / (WAIST_Z - HEM_Z + 0.05)))
+        leg = 0.45 * t ** 2.0
+        wl = max(0.0, min(1.0, 0.5 + v.co.x / 0.36))
+        vg['hips'].add([v.index], 1 - leg, 'REPLACE')
+        vg['upperleg.l'].add([v.index], leg * wl, 'REPLACE')
+        vg['upperleg.r'].add([v.index], leg * (1 - wl), 'REPLACE')
+    o.parent = arm
+    md = o.modifiers.new('arm', 'ARMATURE'); md.object = arm
+    o.modifiers.move(o.modifiers.find('arm'), 0)
+for o in (skirt, lace): skin_skirt(o)
+bone_parent(trim, 'hips')
 
 # ---------------------------------------------------------------- back to pose; parent the face rig; scale
 for e in EYES:
@@ -694,10 +709,10 @@ EXPRESSIONS = {
              (0.74, F(lid=0.2, braise=0.35)),
              (0.86, F(gx=-0.35, gz=-0.1))],
     # waving "Help!": pleading, scared, calling out
-    'Interact': [(0.0, F(btilt=22, braise=0.7, lid=0.08, mouth='O', mw=0.75, mh=0.45, gx=0.35, gz=0.35, pupil=0.9, glint=1.25, blush=0.8)),
-                 (0.30, F(mh=0.75, mw=0.85)),
-                 (0.55, F(mh=0.35, mw=0.7, gx=0.25, gz=0.2)),
-                 (0.80, F(mh=0.8, mw=0.9, gx=0.4, gz=0.4))],
+    'Interact': [(0.0, F(btilt=22, braise=0.7, lid=0.08, mouth='O', mw=0.9, mh=0.55, gx=0.35, gz=0.35, pupil=0.9, glint=1.25, blush=0.8)),
+                 (0.30, F(mh=0.9, mw=1.0)),
+                 (0.55, F(mh=0.5, mw=0.85, gx=0.25, gz=0.2)),
+                 (0.80, F(mh=0.95, mw=1.0, gx=0.4, gz=0.4))],
     # ducking from the clang: eyes squeezed shut, grimace
     'Blocking': [(0.0, F(eyes='squeeze', btilt=-14, braise=-0.5, mouth='grimace', mw=1.25, mh=0.25, mc=0.6, blush=0.75)),
                  (0.5, F(mw=1.35, mh=0.3)),],
@@ -738,33 +753,36 @@ cam = bpy.context.object; sc.camera = cam; cam.data.type = 'ORTHO'; cam.data.ort
 sc.render.engine = 'CYCLES'; sc.cycles.samples = SAMPLES; sc.cycles.use_denoising = True; sc.cycles.device = 'CPU'
 sc.render.resolution_x = sc.render.resolution_y = BOX * PX; sc.render.film_transparent = True
 sc.view_settings.view_transform = 'AgX'; sc.view_settings.look = 'AgX - Medium High Contrast'
-FACE_SPAN = float(os.environ.get('PRINCESS_DEBUG_SPAN', 2.4))   # Blender units framed by the face close-up (4x the sprite's pixel density)
+FACE_SPAN = 2.4   # Blender units framed by the face close-up (4x the sprite's pixel density)
 if FACE:
-    sc.render.resolution_x = sc.render.resolution_y = int(os.environ.get('PRINCESS_DEBUG_RES', round(FACE_SPAN * 10 * PX * 4)))
+    sc.render.resolution_x = sc.render.resolution_y = int(round(FACE_SPAN * 10 * PX * 4))
     cam.data.ortho_scale = FACE_SPAN
 os.makedirs(OUT, exist_ok=True)
-if os.environ.get('PRINCESS_DEBUG_NOHEAD'):
-    head.hide_render = True
-    dg = bpy.context.evaluated_depsgraph_get()
-    for md in crest.modifiers: print('MOD', md.name, md.type, md.show_render)
-    print('CREST verts', len(crest.data.vertices), len(crest.evaluated_get(dg).data.vertices))
+if not FACE: bpy.ops.wm.save_as_mainfile(filepath=os.path.join(OUT, 'princess.blend'))
 
 for spec in ANIMS:
     name, n = spec[0], int(spec[1])
     only = [int(x) for x in spec[2].split(',')] if len(spec) > 2 else range(n)
-    act = bpy.data.actions[SOURCE.get(name, name)]
+    src, r0, r1 = SOURCE.get(name, (name, 0.0, 1.0))
+    act = bpy.data.actions[src]
     arm.animation_data_create(); arm.animation_data.action = act
     if hasattr(arm.animation_data, 'action_slot') and act.slots: arm.animation_data.action_slot = act.slots[0]
-    f0, f1 = act.frame_range
+    a0, a1 = act.frame_range; f0, f1 = a0 + (a1 - a0) * r0, a0 + (a1 - a0) * r1
+    x0 = arm.location.x
     for i in only:
-        sc.frame_set(round(f0 + (f1 - f0) * i / n))
+        if r0 > 0 or r1 < 1:   # a held section of an action: ping-pong so the loop has no pop
+            ph = 1 - abs(1 - 2 * i / n); sc.frame_set(round(f0 + (f1 - f0) * ph))
+        else:
+            sc.frame_set(round(f0 + (f1 - f0) * i / n))
+        arm.location.x = x0 + (0.035 * (1 if i % 2 else -1) if name == 'Scared' else 0.0)   # trembling
         apply_face(lerp_keys(EXPRESSIONS.get(name, [(0.0, {})]), i / n))
         bpy.context.view_layer.update()
         if FACE:
             hp = arm.matrix_world @ arm.pose.bones['head'].head
-            cam.location = (hp.x - 0.05, -40, hp.z + float(os.environ.get('PRINCESS_DEBUG_DZ', 0.62)))
+            cam.location = (hp.x - 0.05, -40, hp.z + 0.62)
             sc.render.filepath = os.path.join(OUT, f'{name}_face_{i:02d}.png')
         else:
             sc.render.filepath = os.path.join(OUT, f'{name}_{i:02d}.png')
         bpy.ops.render.render(write_still=True)
+    arm.location.x = x0
     print('rendered', name, len(only))

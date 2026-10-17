@@ -45,7 +45,7 @@ if os.path.exists(atlas):
         path = A('vault', s.get('file', name + '.png'))
         if not os.path.exists(path) or name.startswith('plate'): continue
         im = Image.open(path)
-        art['sprites'][name] = {'url': uri(im), 'uw': im.size[0] / PX, 'uh': im.size[1] / PX, 'margin': s.get('margin_units', 4)}
+        art['sprites'][name] = {'url': uri(im), 'uw': im.size[0] / PX, 'uh': im.size[1] / PX, 'margin': s.get('margin') if s.get('margin') is not None else 0}
     for p in ('plate.png', 'plate.jpg'):
         if os.path.exists(A('vault', p)):
             im = Image.open(A('vault', p)).convert('RGB'); b = io.BytesIO(); im.save(b, 'WEBP', quality=86)

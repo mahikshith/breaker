@@ -1,6 +1,12 @@
 // Rendering helpers. Light always comes from the top-left; every object casts a soft shadow down-right.
 
+import { ART } from './vault-art.js';
+
 export const SHADOW = { dx: 3, dy: 5, a: 0.35 };
+// Blender-rendered sprites (ball, paddle, capsules, bricks...), shared by both levels; code-drawn fallbacks stay in place
+export const SPR = {};
+for (const [k, s] of Object.entries(ART?.sprites || {})) SPR[k] = { img: Object.assign(new Image(), { src: s.url }), ...s };
+export const ready = s => !!(s && s.img.complete && s.img.naturalWidth);
 let DPR = 1;
 export const setDPR = d => { DPR = d; cache.clear(); };
 
@@ -99,14 +105,15 @@ export function drawBall(g, b, alpha = 1) {
   g.beginPath(); g.ellipse(b.x + SHADOW.dx, b.y + SHADOW.dy, b.r, b.r * 0.85, 0, 0, 7); g.fill();
   // short motion ghost: two faint copies behind, no glowing lines
   const sp = Math.hypot(b.vx, b.vy) || 1;
-  const spr = ballSprite(b.fire);
+  // the rendered chrome ball is 12 units across inside a 20-unit image; the code-drawn one fills 36 of 40
+  const R = SPR[b.fire ? 'ball_fire' : 'ball'], spr = ready(R) ? R.img : ballSprite(b.fire), half = ready(R) ? b.r * 20 / 12 : 20 * s;
   for (let i = 2; i >= 1; i--) {
     g.globalAlpha = alpha * (b.fire ? 0.22 : 0.12) / i;
     const k = i * 0.012;
-    g.drawImage(spr, b.x - b.vx * k - 20 * s, b.y - b.vy * k - 20 * s, 40 * s, 40 * s);
+    g.drawImage(spr, b.x - b.vx * k - half, b.y - b.vy * k - half, half * 2, half * 2);
   }
   g.globalAlpha = alpha;
-  g.drawImage(spr, b.x - 20 * s, b.y - 20 * s, 40 * s, 40 * s);
+  g.drawImage(spr, b.x - half, b.y - half, half * 2, half * 2);
   g.globalAlpha = 1;
   void sp;
 }

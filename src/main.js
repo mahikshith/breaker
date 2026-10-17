@@ -232,7 +232,8 @@ function draw() {
   g.save(); g.clearRect(0, 0, W, FH);
   // extend the scene's top and bottom pixel rows under the notch and home indicator
   const bg = scene === 'menu' ? menuBg() : level.background(), k = bg.height / H;
-  if (inT) g.drawImage(bg, 0, 0, bg.width, k, 0, 0, W, inT + 1);
+  if (inT && scene !== 'menu' && level.drawTopInset) { g.save(); g.translate(0, inT); level.drawTopInset(g, inT + 1); g.restore(); }
+  else if (inT) g.drawImage(bg, 0, 0, bg.width, k, 0, 0, W, inT + 1);
   if (inB) g.drawImage(bg, 0, bg.height - k, bg.width, k, 0, FH - inB - 1, W, inB + 1);
   g.translate(0, inT);
   if (scene === 'menu') drawMenu();
