@@ -12,7 +12,7 @@ It deliberately retains the earlier cast and princess-capture animations. Their 
 - [Native screenshots, lint and test reports](https://github.com/mahikshith/breaker/actions/runs/39108320738/artifacts/12129562329).
 - Web unit/phone/venom checks passed. Offline Android 15 instrumentation: one test, zero failures/errors; actual fonts, canvas, aim/serve/steer, both levels and storage after recreation passed. Downloaded APK payload/fonts/hash and absence of network permission were independently checked. Native screenshots were reviewed.
 
-Android lint has no errors and eight nonfatal warnings: the preview targets SDK 35, three pinned test-library versions have updates, portrait orientation raises two form-factor warnings, JavaScript is necessary for the local game, and a future release should define modern backup extraction rules. These were not silently suppressed. This test package is not a Store release.
+Android lint has no errors and nine nonfatal warnings: the preview targets SDK 35, three pinned test-library versions have updates, portrait orientation raises two form-factor warnings, JavaScript is necessary for the local game, a future release should define modern backup extraction rules, and the reused bitmap launcher icon should move from drawable to mipmap resources. These were not silently suppressed. This test package is not a Store release.
 
 ## Install
 
