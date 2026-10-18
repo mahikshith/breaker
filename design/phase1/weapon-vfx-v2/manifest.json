@@ -1,0 +1,645 @@
+{
+  "status": "prototype, unapproved, no gameplay integration; charge only is rendered",
+  "source": "art/space/weapons_v2.py",
+  "sourceSha256": "faf481a69e9c598ac7f7b7a421758ca1cb9f1f44e17667bd0d6bb693e14e7340",
+  "sourceScenes": "art/space/weapons-v2",
+  "renderer": "Blender5.2.2 Cycles CPU,16samples,4threads,AgX Medium High Contrast,transparent RGBA",
+  "palette": [
+    "dark chrome",
+    "violet-magenta plasma",
+    "cyan reflection edges"
+  ],
+  "families": {
+    "helix": {
+      "charge": {
+        "atlas": "helix-charge.png",
+        "available": true,
+        "approval": "prototype only; native assessment pending",
+        "cell": [
+          256,
+          256
+        ],
+        "grid": [
+          4,
+          3
+        ],
+        "frames": 12,
+        "frameRects": [
+          [
+            0,
+            0,
+            256,
+            256
+          ],
+          [
+            256,
+            0,
+            256,
+            256
+          ],
+          [
+            512,
+            0,
+            256,
+            256
+          ],
+          [
+            768,
+            0,
+            256,
+            256
+          ],
+          [
+            0,
+            256,
+            256,
+            256
+          ],
+          [
+            256,
+            256,
+            256,
+            256
+          ],
+          [
+            512,
+            256,
+            256,
+            256
+          ],
+          [
+            768,
+            256,
+            256,
+            256
+          ],
+          [
+            0,
+            512,
+            256,
+            256
+          ],
+          [
+            256,
+            512,
+            256,
+            256
+          ],
+          [
+            512,
+            512,
+            256,
+            256
+          ],
+          [
+            768,
+            512,
+            256,
+            256
+          ]
+        ],
+        "fps": 24,
+        "pivot": [
+          128,
+          128
+        ],
+        "displayUnits": 56,
+        "loop": false,
+        "blend": "source-over",
+        "direction": "down at rotation 0"
+      },
+      "flight": {
+        "atlas": "helix-flight.png",
+        "available": false,
+        "approval": "UNRENDERED \u2014 held for native assessment",
+        "cell": [
+          256,
+          256
+        ],
+        "grid": [
+          4,
+          3
+        ],
+        "frames": 12,
+        "frameRects": [
+          [
+            0,
+            0,
+            256,
+            256
+          ],
+          [
+            256,
+            0,
+            256,
+            256
+          ],
+          [
+            512,
+            0,
+            256,
+            256
+          ],
+          [
+            768,
+            0,
+            256,
+            256
+          ],
+          [
+            0,
+            256,
+            256,
+            256
+          ],
+          [
+            256,
+            256,
+            256,
+            256
+          ],
+          [
+            512,
+            256,
+            256,
+            256
+          ],
+          [
+            768,
+            256,
+            256,
+            256
+          ],
+          [
+            0,
+            512,
+            256,
+            256
+          ],
+          [
+            256,
+            512,
+            256,
+            256
+          ],
+          [
+            512,
+            512,
+            256,
+            256
+          ],
+          [
+            768,
+            512,
+            256,
+            256
+          ]
+        ],
+        "fps": 24,
+        "pivot": [
+          128,
+          128
+        ],
+        "displayUnits": 88,
+        "loop": true,
+        "blend": "source-over",
+        "direction": "down at rotation 0"
+      },
+      "impact": {
+        "atlas": "helix-impact.png",
+        "available": false,
+        "approval": "UNRENDERED \u2014 held for native assessment",
+        "cell": [
+          256,
+          256
+        ],
+        "grid": [
+          4,
+          3
+        ],
+        "frames": 12,
+        "frameRects": [
+          [
+            0,
+            0,
+            256,
+            256
+          ],
+          [
+            256,
+            0,
+            256,
+            256
+          ],
+          [
+            512,
+            0,
+            256,
+            256
+          ],
+          [
+            768,
+            0,
+            256,
+            256
+          ],
+          [
+            0,
+            256,
+            256,
+            256
+          ],
+          [
+            256,
+            256,
+            256,
+            256
+          ],
+          [
+            512,
+            256,
+            256,
+            256
+          ],
+          [
+            768,
+            256,
+            256,
+            256
+          ],
+          [
+            0,
+            512,
+            256,
+            256
+          ],
+          [
+            256,
+            512,
+            256,
+            256
+          ],
+          [
+            512,
+            512,
+            256,
+            256
+          ],
+          [
+            768,
+            512,
+            256,
+            256
+          ]
+        ],
+        "fps": 24,
+        "pivot": [
+          128,
+          128
+        ],
+        "displayUnits": 96,
+        "loop": false,
+        "blend": "source-over",
+        "direction": "down at rotation 0"
+      },
+      "discharge": {
+        "alias": "flight",
+        "available": false,
+        "indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "fps": 24
+      },
+      "cool": {
+        "alias": "charge",
+        "available": true,
+        "indices": [
+          3,
+          2,
+          1,
+          0
+        ],
+        "fps": 24
+      }
+    },
+    "reactor": {
+      "charge": {
+        "atlas": "reactor-charge.png",
+        "available": true,
+        "approval": "prototype only; native assessment pending",
+        "cell": [
+          256,
+          256
+        ],
+        "grid": [
+          4,
+          3
+        ],
+        "frames": 12,
+        "frameRects": [
+          [
+            0,
+            0,
+            256,
+            256
+          ],
+          [
+            256,
+            0,
+            256,
+            256
+          ],
+          [
+            512,
+            0,
+            256,
+            256
+          ],
+          [
+            768,
+            0,
+            256,
+            256
+          ],
+          [
+            0,
+            256,
+            256,
+            256
+          ],
+          [
+            256,
+            256,
+            256,
+            256
+          ],
+          [
+            512,
+            256,
+            256,
+            256
+          ],
+          [
+            768,
+            256,
+            256,
+            256
+          ],
+          [
+            0,
+            512,
+            256,
+            256
+          ],
+          [
+            256,
+            512,
+            256,
+            256
+          ],
+          [
+            512,
+            512,
+            256,
+            256
+          ],
+          [
+            768,
+            512,
+            256,
+            256
+          ]
+        ],
+        "fps": 24,
+        "pivot": [
+          128,
+          128
+        ],
+        "displayUnits": 56,
+        "loop": false,
+        "blend": "source-over",
+        "direction": "down at rotation 0"
+      },
+      "flight": {
+        "atlas": "reactor-flight.png",
+        "available": false,
+        "approval": "UNRENDERED \u2014 held for native assessment",
+        "cell": [
+          256,
+          256
+        ],
+        "grid": [
+          4,
+          3
+        ],
+        "frames": 12,
+        "frameRects": [
+          [
+            0,
+            0,
+            256,
+            256
+          ],
+          [
+            256,
+            0,
+            256,
+            256
+          ],
+          [
+            512,
+            0,
+            256,
+            256
+          ],
+          [
+            768,
+            0,
+            256,
+            256
+          ],
+          [
+            0,
+            256,
+            256,
+            256
+          ],
+          [
+            256,
+            256,
+            256,
+            256
+          ],
+          [
+            512,
+            256,
+            256,
+            256
+          ],
+          [
+            768,
+            256,
+            256,
+            256
+          ],
+          [
+            0,
+            512,
+            256,
+            256
+          ],
+          [
+            256,
+            512,
+            256,
+            256
+          ],
+          [
+            512,
+            512,
+            256,
+            256
+          ],
+          [
+            768,
+            512,
+            256,
+            256
+          ]
+        ],
+        "fps": 24,
+        "pivot": [
+          128,
+          128
+        ],
+        "displayUnits": 80,
+        "loop": true,
+        "blend": "source-over",
+        "direction": "down at rotation 0"
+      },
+      "impact": {
+        "atlas": "reactor-impact.png",
+        "available": false,
+        "approval": "UNRENDERED \u2014 held for native assessment",
+        "cell": [
+          256,
+          256
+        ],
+        "grid": [
+          4,
+          3
+        ],
+        "frames": 12,
+        "frameRects": [
+          [
+            0,
+            0,
+            256,
+            256
+          ],
+          [
+            256,
+            0,
+            256,
+            256
+          ],
+          [
+            512,
+            0,
+            256,
+            256
+          ],
+          [
+            768,
+            0,
+            256,
+            256
+          ],
+          [
+            0,
+            256,
+            256,
+            256
+          ],
+          [
+            256,
+            256,
+            256,
+            256
+          ],
+          [
+            512,
+            256,
+            256,
+            256
+          ],
+          [
+            768,
+            256,
+            256,
+            256
+          ],
+          [
+            0,
+            512,
+            256,
+            256
+          ],
+          [
+            256,
+            512,
+            256,
+            256
+          ],
+          [
+            512,
+            512,
+            256,
+            256
+          ],
+          [
+            768,
+            512,
+            256,
+            256
+          ]
+        ],
+        "fps": 24,
+        "pivot": [
+          128,
+          128
+        ],
+        "displayUnits": 96,
+        "loop": false,
+        "blend": "source-over",
+        "direction": "down at rotation 0"
+      },
+      "discharge": {
+        "alias": "flight",
+        "available": false,
+        "indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "fps": 24
+      },
+      "cool": {
+        "alias": "charge",
+        "available": true,
+        "indices": [
+          3,
+          2,
+          1,
+          0
+        ],
+        "fps": 24
+      }
+    }
+  },
+  "collision": "visual studies only; no radius, damage, timing or rules admitted"
+}

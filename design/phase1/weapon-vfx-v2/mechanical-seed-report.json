@@ -1,0 +1,46 @@
+{
+  "proof\\mechanical-v2\\helix-flight-08.png": {
+    "sha256": "bb3ea0783d917d3ee369f6561ef983378032e075cb93e215a8daab94f6b59f54",
+    "rgba": "RGBA",
+    "alphaBounds": [
+      84,
+      31,
+      190,
+      209
+    ],
+    "metadata": []
+  },
+  "proof\\mechanical-v2\\helix-impact-04.png": {
+    "sha256": "a997c188bcc8abe0e39f0db7d0c3c8332044970b2d598d7944f3de3de1cbbf24",
+    "rgba": "RGBA",
+    "alphaBounds": [
+      68,
+      79,
+      185,
+      183
+    ],
+    "metadata": []
+  },
+  "proof\\mechanical-v2\\reactor-flight-08.png": {
+    "sha256": "dc30280e37bb126a27875bbf66509b4322280f40cfcd69a85d0e2ad950967f18",
+    "rgba": "RGBA",
+    "alphaBounds": [
+      69,
+      47,
+      187,
+      191
+    ],
+    "metadata": []
+  },
+  "proof\\mechanical-v2\\reactor-impact-04.png": {
+    "sha256": "45e29578d8cb0dc2edc3ee5739ff3c75a02a671f6ab82f7f92ce139d1534806c",
+    "rgba": "RGBA",
+    "alphaBounds": [
+      65,
+      74,
+      187,
+      187
+    ],
+    "metadata": []
+  }
+}

@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {createHash} from 'node:crypto';
+import {createServer} from 'node:http';
+const {chromium}=await import(process.env.PW_MODULE||'playwright'),root='out/weapon-vfx-v2',sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex');mkdirSync(root+'/decoded',{recursive:true});
+const report={scope:'Chromium decodes final WebMs and seeks distinct actual video frames; this is delivery validation, not game/native-device performance.',renderer:sha('tools/weapon-vfx-review/review.js'),videos:{}};
+const server=createServer((req,res)=>{const u=new URL(req.url,'http://127.0.0.1'),names=['magnetic-breacher','reactor-rupture'];if(u.pathname==='/'){const n=u.searchParams.get('name');if(!names.includes(n)){res.writeHead(404).end();return;}res.setHeader('Content-Type','text/html');res.end(`<video controls muted preload="auto" src="/${n}.webm"></video>`);return;}const name=u.pathname.slice(1).replace(/\.webm$/,'');if(!names.includes(name)){res.writeHead(404).end();return;}const data=readFileSync(`${root}/${name}.webm`),range=/bytes=(\d+)-(\d*)/.exec(req.headers.range||'');res.setHeader('Content-Type','video/webm');res.setHeader('Accept-Ranges','bytes');if(range){const a=+range[1],b=range[2]?+range[2]:data.length-1;res.writeHead(206,{'Content-Range':`bytes ${a}-${b}/${data.length}`,'Content-Length':b-a+1});res.end(data.subarray(a,b+1));}else{res.setHeader('Content-Length',data.length);res.end(data);}});await new Promise(r=>server.listen(0,'127.0.0.1',r));
+const browser=await chromium.launch({executablePath:process.env.PW_CHROMIUM,args:['--mute-audio']});
+try{for(const name of ['magnetic-breacher','reactor-rupture']){
+ const file=resolve(root+'/'+name+'.webm'),hash=sha(file),p=await browser.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto(`http://127.0.0.1:${server.address().port}/?name=${name}`);await p.waitForFunction(()=>document.querySelector('video')?.readyState>=2,null,{polling:50});
+ const info=await p.evaluate(()=>{const v=document.querySelector('video');v.pause();return{width:v.videoWidth,height:v.videoHeight,duration:v.duration};});assert.equal(info.width,1240);assert.equal(info.height,1000);assert(Math.abs(info.duration-125/24)<.1);
+ const frames=[];for(const t of [1.5,2.25,2.65,3.21]){const frame=await p.evaluate(async t=>{const v=document.querySelector('video');await new Promise((resolve,reject)=>{v.onseeked=resolve;v.onerror=reject;v.currentTime=t;});const c=document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;c.getContext('2d').drawImage(v,0,0);return c.toDataURL('image/png').split(',')[1];},t);const path=`${root}/decoded/${name}-${t}.png`;writeFileSync(path,Buffer.from(frame,'base64'));frames.push({time:t,sha256:sha(path)});}
+ assert.equal(new Set(frames.map(f=>f.sha256)).size,4);assert.deepEqual(errors,[]);assert.equal(sha(file),hash);report.videos[name]={...info,sha256:hash,bytes:readFileSync(file).byteLength,frames,errors};await p.close();
+}report.completed=true;writeFileSync(root+'/video-report.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report.videos,null,2));}finally{await browser.close();server.close();}

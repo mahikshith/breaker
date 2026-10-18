@@ -1,0 +1,15 @@
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { resolve } from 'node:path';
+const out = process.argv[2] || 'out/space-selected-review';
+if(['out/space-power-review','out/space-polish-review'].some(p=>resolve(out)===resolve(p)))throw Error('The previous owner reviews are frozen');
+mkdirSync(out, { recursive: true });
+const font = readFileSync('out/brum-proof/LilitaOne-Regular.ttf').toString('base64');
+const fonts = `@font-face{font-family:'Lilita One';src:url(data:font/ttf;base64,${font})}`;
+const carrier = readFileSync('dist/breach.html', 'utf8').replace('<style>', `<style>${fonts}`);
+writeFileSync(`${out}/carrier.html`, carrier);
+const cards = [['Carrier Breakout', 'carrier', 1], ['Circuit Breakout', 'circuit', 1], ['Shutter Forge', 'forge', 1], ['The Vault', 'carrier', 2]].map(([title, id, level]) => `<section><h2>${title}</h2><nav>${['easy', 'medium', 'hard'].map(mode => `<a href='/${id}.html?level=${level}&difficulty=${mode}'>${mode[0].toUpperCase() + mode.slice(1)}</a>`).join('')}</nav></section>`).join('');
+writeFileSync(`${out}/index.html`, `<!doctype html><html lang='en'><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>BREACH — Space playtest</title><style>${fonts}*{box-sizing:border-box}body{margin:0;background:#0b0d19;color:#f1e7f6;font:17px 'Lilita One',sans-serif}main{max-width:600px;margin:auto;padding:28px 20px}h1{font-size:34px;margin:8px 0 14px}p{font:15px/1.5 system-ui;color:#c2bacf}section{padding:14px 0 22px;border-bottom:1px solid #393344}h2{font-size:23px}nav{display:flex;gap:10px}a{display:block;flex:1;text-align:center;padding:14px 8px;border-radius:12px;background:#52394f;color:#fff0fb;text-decoration:none;min-height:48px}a:first-child{background:#75516c}</style><main><h1>BREACH</h1><p>Selected update: magnetic extraction, plasma fire and slower earned Nix charge. The Vault includes Kit’s four-power Quick Volley menu. Stronger Hard-mode weapon proposals are being reviewed separately.</p>${cards}<p>Browser review build. Your earlier APK is unchanged.</p></main></html>`);
+const hash = p => createHash('sha256').update(readFileSync(p)).digest('hex');
+writeFileSync(`${out}/carrier-build.json`, JSON.stringify({html:hash(`${out}/carrier.html`),production:hash('dist/breach.html'),source:hash('src/carrier.js'),main:hash('src/main.js'),arena:hash('src/arena.js'),companions:hash('src/space-companions.js')}, null, 2));
+console.log('Carrier and review hub built.');

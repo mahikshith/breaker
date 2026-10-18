@@ -1,0 +1,214 @@
+{
+  "expectedHTMLSHA256": "b06cdd969bcf5c420a74b3cf37a3eac45fe3d46eabb2926f5e5d2b8a42e01770",
+  "LFHTMLSHA256": "b06cdd969bcf5c420a74b3cf37a3eac45fe3d46eabb2926f5e5d2b8a42e01770",
+  "exactMatch": true,
+  "sourceHTMLStillFrozen": true,
+  "buildReturnCode": 0,
+  "copiedFiles": 29,
+  "normalizedFiles": 16,
+  "files": [
+    {
+      "path": "src/arena.js",
+      "sourceSHA256": "9e70676cee22003cc6e0866fae9f1e624cd694e4361c375134ce3d72d3eef848",
+      "copySHA256": "8b80f3a17b4cac2d6eead8dea3e909ea1bd19dc2112d4ad10676a294523aec29",
+      "CRLFcount": 543,
+      "bytes": 31608
+    },
+    {
+      "path": "src/audio.js",
+      "sourceSHA256": "2c2e74aab2bd455a18cae5ea7608bda1708b603e3a6695a40dd357f9776bd191",
+      "copySHA256": "bba2768899be9b53269b3be75b90818cb83581507fa8696b65f7cadb1fe02bfb",
+      "CRLFcount": 46,
+      "bytes": 2972
+    },
+    {
+      "path": "src/carrier-physics.js",
+      "sourceSHA256": "33614f2b320f0e8fd5b42d15f2d07e5175b6ab38330a7aa34bf5082087ef2adb",
+      "copySHA256": "33614f2b320f0e8fd5b42d15f2d07e5175b6ab38330a7aa34bf5082087ef2adb",
+      "CRLFcount": 0,
+      "bytes": 7945
+    },
+    {
+      "path": "src/carrier.js",
+      "sourceSHA256": "685c4c8ed75891fc5918406eddc25ae4607e2f824f8565901bcf14e7bbc7f226",
+      "copySHA256": "685c4c8ed75891fc5918406eddc25ae4607e2f824f8565901bcf14e7bbc7f226",
+      "CRLFcount": 0,
+      "bytes": 54299
+    },
+    {
+      "path": "src/characters.js",
+      "sourceSHA256": "2e8affc2dd23b36991bb5e4eeccaebb935c8c1e40da0d4bc95befd2a7044628e",
+      "copySHA256": "6b8412b26220fc6a21042887b88264b0a4bc9edaf9efc0d468db550fe8a92979",
+      "CRLFcount": 194,
+      "bytes": 11926
+    },
+    {
+      "path": "src/debris.js",
+      "sourceSHA256": "459a5fe9af60dde26b6c1e4df5bb29733ddfc34eb96415886ab9dd849c272d51",
+      "copySHA256": "81d08925b2ddcfeb063eef347155cc32160f9819465a3266ba480131d704f30e",
+      "CRLFcount": 157,
+      "bytes": 9286
+    },
+    {
+      "path": "src/difficulty.js",
+      "sourceSHA256": "3596ef0e04692535c0808b0d6625db6014f564e4f39a31741e88af2468407fd7",
+      "copySHA256": "53d3d8d563c7187814f33f103a0be63f5620635977bb00916cf82d82075caac4",
+      "CRLFcount": 7,
+      "bytes": 1136
+    },
+    {
+      "path": "src/frost.js",
+      "sourceSHA256": "9200de93113d72a5c692d4f9270f4e3bec6a5170c7746cde2761305bd29efb8d",
+      "copySHA256": "9200de93113d72a5c692d4f9270f4e3bec6a5170c7746cde2761305bd29efb8d",
+      "CRLFcount": 0,
+      "bytes": 24233
+    },
+    {
+      "path": "src/gfx.js",
+      "sourceSHA256": "47785b9839d928ce364dd641e3e6271a97bd561e0cf38085918f8b063fc8e872",
+      "copySHA256": "47785b9839d928ce364dd641e3e6271a97bd561e0cf38085918f8b063fc8e872",
+      "CRLFcount": 0,
+      "bytes": 17349
+    },
+    {
+      "path": "src/invasion.js",
+      "sourceSHA256": "918fabc8923809014e0aad1ebf29b2e573124977171a03bf02d680ac9418013d",
+      "copySHA256": "f2683e59af06ad9e84aecec50be9bbd48fbeb94e63e32f4c4acb1c96e2f96bc2",
+      "CRLFcount": 459,
+      "bytes": 27050
+    },
+    {
+      "path": "src/kit.js",
+      "sourceSHA256": "047d5f482df2fc3453fe8f6da54309bc0119ee113b761c849faaf90957d268eb",
+      "copySHA256": "047d5f482df2fc3453fe8f6da54309bc0119ee113b761c849faaf90957d268eb",
+      "CRLFcount": 0,
+      "bytes": 1895
+    },
+    {
+      "path": "src/main.js",
+      "sourceSHA256": "c7a145a98f5e03c4c75fa9b767c4a0a1ca75840b79740623836a217e1c0fd1e7",
+      "copySHA256": "5cb3c1de6843c289fc1842d3014b1e889c1341bb5484882fa1f634308188330c",
+      "CRLFcount": 423,
+      "bytes": 26088
+    },
+    {
+      "path": "src/monetize.js",
+      "sourceSHA256": "7d46331492c5f8d6c9ea22456909d450b43372d253846a90933a2efff7c3b78a",
+      "copySHA256": "df508f1fd89d51734d25ba7e33feed78f5cafdbc4b2f3df15959213e638f6411",
+      "CRLFcount": 24,
+      "bytes": 1419
+    },
+    {
+      "path": "src/orbital.js",
+      "sourceSHA256": "640e72855a8440b04474d5bdb97e874c7f84208fbc48ce0b13c33f282a469651",
+      "copySHA256": "5df359139fe73cd279f37c9ab01f9b2da74786cfa5c646a5a749b11b8d1c3713",
+      "CRLFcount": 367,
+      "bytes": 28434
+    },
+    {
+      "path": "src/physics.js",
+      "sourceSHA256": "091d241a8b2c106707c101871c5619e3dc295d15ce1ff0efc95a27f8df9a9cf2",
+      "copySHA256": "131b1e17d4b881ecba4094a30702d0fd7bfebd6b00ba7f47ae8c38ea120a8c2d",
+      "CRLFcount": 121,
+      "bytes": 5563
+    },
+    {
+      "path": "src/prefs.js",
+      "sourceSHA256": "684d10c1a3b933cbe584c157058ad555d4c7c1dabbc527fc840a9707967d0f8b",
+      "copySHA256": "7bd7649900f36fc01b334601680e11e284cbd4db39c0545162fc5ece7492a4e3",
+      "CRLFcount": 6,
+      "bytes": 361
+    },
+    {
+      "path": "src/relay.js",
+      "sourceSHA256": "609fa023734cbdeafb78934232e48bde45f019fe41a17b7bb74359d2ee3487f9",
+      "copySHA256": "5fddabe8984292e16e53a978b06ea8d5332a75eb85cca11b1dd46b0786458825",
+      "CRLFcount": 271,
+      "bytes": 30574
+    },
+    {
+      "path": "src/serpent.js",
+      "sourceSHA256": "386a9e5a72ef1d72501e8457def236806ce20a052efada2bd6b2d3148874fa4f",
+      "copySHA256": "386a9e5a72ef1d72501e8457def236806ce20a052efada2bd6b2d3148874fa4f",
+      "CRLFcount": 0,
+      "bytes": 2905
+    },
+    {
+      "path": "src/skiff.js",
+      "sourceSHA256": "a3a9121e7431562a03b828ef41bc946f159fb4622a95777c471e364629abbbe2",
+      "copySHA256": "a3a9121e7431562a03b828ef41bc946f159fb4622a95777c471e364629abbbe2",
+      "CRLFcount": 0,
+      "bytes": 6614
+    },
+    {
+      "path": "src/space-companions.js",
+      "sourceSHA256": "b496d856bbbd3e1f5af59e63d79baa07454cddfca629614bf141992721772682",
+      "copySHA256": "b496d856bbbd3e1f5af59e63d79baa07454cddfca629614bf141992721772682",
+      "CRLFcount": 0,
+      "bytes": 14177
+    },
+    {
+      "path": "src/space-weapons.js",
+      "sourceSHA256": "74ae58b0340bd2a43e0d1c2803d88be208700ce63b621d2b70b715a045f18b07",
+      "copySHA256": "74ae58b0340bd2a43e0d1c2803d88be208700ce63b621d2b70b715a045f18b07",
+      "CRLFcount": 0,
+      "bytes": 4212
+    },
+    {
+      "path": "src/vault-art.js",
+      "sourceSHA256": "435e182569cd165469431904c9ed909fa3b7a27b57a46435b3f2c5d1e12f02fd",
+      "copySHA256": "4c7b41523b6f8fde4fcfc1b27f00b4944ce48ed50e0f090d29451fc301ec70f3",
+      "CRLFcount": 2,
+      "bytes": 12032887
+    },
+    {
+      "path": "src/vault.js",
+      "sourceSHA256": "f25d206307db4b9cb1366ab193d5a415ece6eed8393416ba333beee75c6095e6",
+      "copySHA256": "44653391362bf063a9f8d4398cb5bd848132a4343beee038a746e6f6537abe1a",
+      "CRLFcount": 994,
+      "bytes": 65541
+    },
+    {
+      "path": "index.html",
+      "sourceSHA256": "2025ee68959ea7d10faf9401d458dc1c1504ad1db18e7c5f0c7f215d66e7c275",
+      "copySHA256": "a2044d3b3d47b06300043f8fe4060a82eb1278ff8c88c1b06afe01307b11de38",
+      "CRLFcount": 28,
+      "bytes": 1569
+    },
+    {
+      "path": "tools/build.mjs",
+      "sourceSHA256": "f79a909f78a874cf478e67c8c066e9a60ecaafb7cb4edf73addac908e9568ec5",
+      "copySHA256": "ba22628f788250b08a1d33364e4b7a9e0a7cc8e333ea3c2ff38ce0656a05292d",
+      "CRLFcount": 22,
+      "bytes": 1675
+    },
+    {
+      "path": "assets/fonts/LilitaOne-OFL.txt",
+      "sourceSHA256": "b03c60af32c7bb99a7ae02e3af66a5a6e0632ec090007771de34c0c934f85137",
+      "copySHA256": "b03c60af32c7bb99a7ae02e3af66a5a6e0632ec090007771de34c0c934f85137",
+      "CRLFcount": 94,
+      "bytes": 4484
+    },
+    {
+      "path": "assets/fonts/LilitaOne-Regular.ttf",
+      "sourceSHA256": "f5b641c45c69d772ee4eda687bc9fda411d5cad6b0b45371491da4580cbc8d59",
+      "copySHA256": "f5b641c45c69d772ee4eda687bc9fda411d5cad6b0b45371491da4580cbc8d59",
+      "CRLFcount": 0,
+      "bytes": 28092
+    },
+    {
+      "path": "assets/fonts/Rubik-OFL.txt",
+      "sourceSHA256": "bb570b94e04c282dc257b4cc6b209e2cb27c6dbc5d2e2e66465fa9ce715734ea",
+      "copySHA256": "bb570b94e04c282dc257b4cc6b209e2cb27c6dbc5d2e2e66465fa9ce715734ea",
+      "CRLFcount": 93,
+      "bytes": 4476
+    },
+    {
+      "path": "assets/fonts/Rubik.ttf",
+      "sourceSHA256": "1b3a7437ba2af80e465e773ed60c5036d1ba6ace492d89046dbcf18fb31e4e88",
+      "copySHA256": "1b3a7437ba2af80e465e773ed60c5036d1ba6ace492d89046dbcf18fb31e4e88",
+      "CRLFcount": 268,
+      "bytes": 359804
+    }
+  ]
+}

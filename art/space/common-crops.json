@@ -1,0 +1,183 @@
+{
+  "source": "art/space/source/common-atlas-original.png",
+  "sourceSHA256": "7183a7727a7f24c44090908a7c6ac3f1dfd60955b2124d31ab13aa8639fd3505",
+  "pxPerWorldUnit": 3,
+  "gutterWorldUnits": 4,
+  "alphaMainThreshold": 16,
+  "alphaZeroThreshold": 3,
+  "softEdgeSourcePixels": 4,
+  "parts": {
+    "brick_cyan": {
+      "region": [
+        0,
+        100,
+        430,
+        440
+      ],
+      "visibleTarget": [
+        36,
+        20
+      ],
+      "cell": [
+        44,
+        28
+      ],
+      "role": "Breakable cyan enamel brick"
+    },
+    "brick_violet": {
+      "region": [
+        440,
+        100,
+        890,
+        440
+      ],
+      "visibleTarget": [
+        36,
+        20
+      ],
+      "cell": [
+        44,
+        28
+      ],
+      "role": "Breakable violet enamel brick"
+    },
+    "brick_armour": {
+      "region": [
+        900,
+        100,
+        1254,
+        440
+      ],
+      "visibleTarget": [
+        20,
+        20
+      ],
+      "cell": [
+        28,
+        28
+      ],
+      "role": "Dark silver X-armour clamp; HP cracks are a separate mechanical preview overlay"
+    },
+    "brick_crew_lock": {
+      "region": [
+        0,
+        510,
+        430,
+        810
+      ],
+      "visibleTarget": [
+        36,
+        20
+      ],
+      "cell": [
+        44,
+        28
+      ],
+      "role": "Empty lock mounting tile; central alpha aperture accepts a separate payload behind; no character baked in"
+    },
+    "paddle": {
+      "region": [
+        430,
+        530,
+        970,
+        810
+      ],
+      "visibleTarget": [
+        76,
+        16
+      ],
+      "cell": [
+        84,
+        24
+      ],
+      "role": "Cyan metal player paddle"
+    },
+    "ball": {
+      "region": [
+        990,
+        510,
+        1254,
+        830
+      ],
+      "visibleTarget": [
+        12,
+        12
+      ],
+      "cell": [
+        20,
+        20
+      ],
+      "role": "White luminous gameplay ball; no trail baked in"
+    },
+    "capsule_laser": {
+      "region": [
+        0,
+        890,
+        425,
+        1160
+      ],
+      "visibleTarget": [
+        24,
+        14
+      ],
+      "cell": [
+        32,
+        22
+      ],
+      "role": "Laser pickup; two bright parallel beam marks, no text"
+    },
+    "capsule_split": {
+      "region": [
+        430,
+        890,
+        845,
+        1160
+      ],
+      "visibleTarget": [
+        24,
+        14
+      ],
+      "cell": [
+        32,
+        22
+      ],
+      "role": "Split pickup; three branching balls, no text"
+    },
+    "capsule_shield": {
+      "region": [
+        850,
+        890,
+        1254,
+        1160
+      ],
+      "visibleTarget": [
+        24,
+        14
+      ],
+      "cell": [
+        32,
+        22
+      ],
+      "role": "Shield pickup; shield outline, no text"
+    },
+    "brick_pink": {
+      "source": "art/space/source/brick-pink-original.png",
+      "sourceSHA256": "3b3a2bd067b5a6b7074260209c72d9285540c80fb3cc96cbef2a1db3654856f9",
+      "region": [
+        0,
+        0,
+        1836,
+        857
+      ],
+      "visibleTarget": [
+        36,
+        20
+      ],
+      "cell": [
+        44,
+        28
+      ],
+      "role": "Historical common-chassis rose variant; Carrier A uses assets/space-a/brick_pink.png"
+    }
+  }
+}

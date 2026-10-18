@@ -1,0 +1,890 @@
+{
+  "scope": "Bounded read-only Easy alternatives. Public pointer/key/power APIs only; no HP/lives/charge/phase edits or Continue. Aim predicts a visible crew/boarder point; this is an assisted route proof, not human balance or actual-browser evidence.",
+  "before": {
+    "src/carrier.js": "685c4c8ed75891fc5918406eddc25ae4607e2f824f8565901bcf14e7bbc7f226",
+    "src/arena.js": "9e70676cee22003cc6e0866fae9f1e624cd694e4361c375134ce3d72d3eef848",
+    "src/difficulty.js": "3596ef0e04692535c0808b0d6625db6014f564e4f39a31741e88af2468407fd7",
+    "src/space-weapons.js": "74ae58b0340bd2a43e0d1c2803d88be208700ce63b621d2b70b715a045f18b07"
+  },
+  "cases": [
+    {
+      "policy": "intercept-boarder",
+      "device": "ios",
+      "state": "lost",
+      "reason": "Out of balls",
+      "seconds": 50.85833333333109,
+      "lives": 0,
+      "hull": 39,
+      "wave": 1,
+      "remaining": null,
+      "crew": [
+        {
+          "id": "aCrewCell0",
+          "hp": 5,
+          "secured": false,
+          "securedAt": null,
+          "releasedAt": null,
+          "captured": false,
+          "escaped": false
+        },
+        {
+          "id": "aCrewCell1",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 44.75833333333148,
+          "releasedAt": 43.95833333333148,
+          "captured": false,
+          "escaped": true
+        },
+        {
+          "id": "aCrewCell2",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 13.541666666666584,
+          "releasedAt": 12.741666666666584,
+          "captured": false,
+          "escaped": true
+        },
+        {
+          "id": "aCrewCell3",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 22.79166666666606,
+          "releasedAt": 21.99166666666606,
+          "captured": false,
+          "escaped": true
+        },
+        {
+          "id": "aCrewCell4",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 34.399999999998734,
+          "releasedAt": 33.59999999999874,
+          "captured": false,
+          "escaped": true
+        }
+      ],
+      "archived": [],
+      "returns": 29,
+      "powers": [],
+      "casts": 0,
+      "saves": 0,
+      "raids": [
+        {
+          "t": 25.299999999999205,
+          "fighterId": "fighter0-0",
+          "targetId": null,
+          "stage": "approach",
+          "extractAt": null,
+          "blockerId": null,
+          "remaining": 14
+        },
+        {
+          "t": 39.79166666666505,
+          "fighterId": "fighter1-0",
+          "targetId": null,
+          "stage": "approach",
+          "extractAt": null,
+          "blockerId": null,
+          "remaining": 14
+        },
+        {
+          "t": 44.316666666664794,
+          "fighterId": "fighter1-0",
+          "targetId": "aCrewCell0",
+          "stage": "extract",
+          "extractAt": 44.316666666664794,
+          "blockerId": null,
+          "arcBend": -8,
+          "remaining": 14
+        }
+      ],
+      "actions": [
+        {
+          "t": 0,
+          "type": "serve",
+          "angle": -0.3539944474201862,
+          "target": {
+            "x": 77.143,
+            "y": 328.1785,
+            "kind": "housing",
+            "id": "aCrewCell2"
+          }
+        },
+        {
+          "t": 18.183333333332943,
+          "type": "serve",
+          "angle": 0.18727241713230533,
+          "target": {
+            "x": 178.714,
+            "y": 328.1785,
+            "kind": "housing",
+            "id": "aCrewCell3"
+          }
+        },
+        {
+          "t": 27.858333333332393,
+          "type": "focus",
+          "angle": -0.9112716420195971,
+          "target": {
+            "x": 11.395796296296247,
+            "y": 394,
+            "kind": "raider",
+            "id": "fighter0-0"
+          }
+        },
+        {
+          "t": 29.224999999998982,
+          "type": "focus",
+          "angle": 0.3138399630159561,
+          "target": {
+            "x": 138,
+            "y": 394,
+            "kind": "raider",
+            "id": "fighter0-0"
+          }
+        },
+        {
+          "t": 32.67499999999879,
+          "type": "serve",
+          "angle": 0.6442615214471654,
+          "target": {
+            "x": 281.572,
+            "y": 328.1785,
+            "kind": "housing",
+            "id": "aCrewCell4"
+          }
+        },
+        {
+          "t": 41.816666666664936,
+          "type": "focus",
+          "angle": -0.6634063041852996,
+          "target": {
+            "x": 138,
+            "y": 394,
+            "kind": "raider",
+            "id": "fighter1-0"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "phase": "1:carrier",
+          "t": 0,
+          "remaining": null,
+          "hp": 45,
+          "safe": 0
+        }
+      ],
+      "ordinaryOnly": true,
+      "choices": [
+        {
+          "t": 38.18333333333181,
+          "kind": "five"
+        }
+      ]
+    },
+    {
+      "policy": "intercept-boarder",
+      "device": "android",
+      "state": "lost",
+      "reason": "Out of balls",
+      "seconds": 32.96666666666544,
+      "lives": 0,
+      "hull": 45,
+      "wave": 1,
+      "remaining": null,
+      "crew": [
+        {
+          "id": "aCrewCell0",
+          "hp": 5,
+          "secured": false,
+          "securedAt": null,
+          "releasedAt": null,
+          "captured": false,
+          "escaped": false
+        },
+        {
+          "id": "aCrewCell1",
+          "hp": 5,
+          "secured": false,
+          "securedAt": null,
+          "releasedAt": null,
+          "captured": false,
+          "escaped": false
+        },
+        {
+          "id": "aCrewCell2",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 18.583333333332966,
+          "releasedAt": 17.783333333332966,
+          "captured": false,
+          "escaped": true
+        },
+        {
+          "id": "aCrewCell3",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 32.0833333333322,
+          "releasedAt": 31.283333333332198,
+          "captured": false,
+          "escaped": false
+        },
+        {
+          "id": "aCrewCell4",
+          "hp": 4,
+          "secured": false,
+          "securedAt": null,
+          "releasedAt": null,
+          "captured": false,
+          "escaped": false
+        }
+      ],
+      "archived": [],
+      "returns": 17,
+      "powers": [],
+      "casts": 0,
+      "saves": 0,
+      "raids": [
+        {
+          "t": 23.966666666665947,
+          "fighterId": "fighter0-0",
+          "targetId": null,
+          "stage": "approach",
+          "extractAt": null,
+          "blockerId": null,
+          "remaining": 14
+        },
+        {
+          "t": 28.49166666666569,
+          "fighterId": "fighter0-0",
+          "targetId": "aCrewCell3",
+          "stage": "extract",
+          "extractAt": 28.49166666666569,
+          "blockerId": null,
+          "arcBend": -28,
+          "remaining": 14
+        }
+      ],
+      "actions": [
+        {
+          "t": 0,
+          "type": "serve",
+          "angle": -0.29432175506266023,
+          "target": {
+            "x": 77.143,
+            "y": 328.1785,
+            "kind": "housing",
+            "id": "aCrewCell2"
+          }
+        },
+        {
+          "t": 11.358333333333329,
+          "type": "serve",
+          "angle": -0.5549481906906982,
+          "target": {
+            "x": 77.143,
+            "y": 328.1785,
+            "kind": "housing",
+            "id": "aCrewCell2"
+          }
+        },
+        {
+          "t": 16.849999999999685,
+          "type": "serve",
+          "angle": -0.1981948919269525,
+          "target": {
+            "x": 77.143,
+            "y": 328.1785,
+            "kind": "housing",
+            "id": "aCrewCell2"
+          }
+        },
+        {
+          "t": 25.624999999999186,
+          "type": "focus",
+          "angle": -0.351328898047784,
+          "target": {
+            "x": 138,
+            "y": 455,
+            "kind": "raider",
+            "id": "fighter0-0"
+          }
+        },
+        {
+          "t": 28.074999999999047,
+          "type": "focus",
+          "angle": -0.6416573848536264,
+          "target": {
+            "x": 138,
+            "y": 455,
+            "kind": "raider",
+            "id": "fighter0-0"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "phase": "1:carrier",
+          "t": 0,
+          "remaining": null,
+          "hp": 45,
+          "safe": 0
+        }
+      ],
+      "ordinaryOnly": true,
+      "choices": []
+    },
+    {
+      "policy": "free-threatened-lock",
+      "device": "ios",
+      "state": "won",
+      "reason": null,
+      "seconds": 51.04166666666441,
+      "lives": 1,
+      "hull": 39,
+      "wave": 1,
+      "remaining": null,
+      "crew": [
+        {
+          "id": "aCrewCell0",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 49.88333333333119,
+          "releasedAt": 49.08333333333119,
+          "captured": false,
+          "escaped": true
+        },
+        {
+          "id": "aCrewCell1",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 48.40833333333127,
+          "releasedAt": 47.608333333331274,
+          "captured": false,
+          "escaped": true
+        },
+        {
+          "id": "aCrewCell2",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 28.141666666665756,
+          "releasedAt": 27.341666666665756,
+          "captured": false,
+          "escaped": true
+        },
+        {
+          "id": "aCrewCell3",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 17.991666666666333,
+          "releasedAt": 17.191666666666332,
+          "captured": false,
+          "escaped": true
+        },
+        {
+          "id": "aCrewCell4",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 12.466666666666645,
+          "releasedAt": 11.666666666666645,
+          "captured": false,
+          "escaped": true
+        }
+      ],
+      "archived": [],
+      "returns": 28,
+      "powers": [],
+      "casts": 0,
+      "saves": 0,
+      "raids": [
+        {
+          "t": 25.041666666665886,
+          "fighterId": "fighter1-0",
+          "targetId": null,
+          "stage": "approach",
+          "extractAt": null,
+          "blockerId": null,
+          "remaining": 14
+        },
+        {
+          "t": 29.56666666666563,
+          "fighterId": "fighter1-0",
+          "targetId": "aCrewCell0",
+          "stage": "extract",
+          "extractAt": 29.56666666666563,
+          "blockerId": null,
+          "arcBend": -8,
+          "remaining": 14
+        },
+        {
+          "t": 43.999999999998145,
+          "fighterId": "fighter1-2",
+          "targetId": null,
+          "stage": "approach",
+          "extractAt": null,
+          "blockerId": null,
+          "remaining": 14
+        },
+        {
+          "t": 48.52499999999789,
+          "fighterId": "fighter1-2",
+          "targetId": "aCrewCell0",
+          "stage": "extract",
+          "extractAt": 48.52499999999789,
+          "blockerId": null,
+          "arcBend": 28,
+          "remaining": 14
+        }
+      ],
+      "actions": [
+        {
+          "t": 0,
+          "type": "serve",
+          "angle": 0.34992619417040977,
+          "target": {
+            "x": 281.572,
+            "y": 328.1785,
+            "kind": "housing",
+            "id": "aCrewCell4"
+          }
+        },
+        {
+          "t": 11.74166666666664,
+          "type": "serve",
+          "angle": -0.3537959278667143,
+          "target": {
+            "x": 178.714,
+            "y": 328.1785,
+            "kind": "housing",
+            "id": "aCrewCell3"
+          }
+        },
+        {
+          "t": 17.924999999999624,
+          "type": "serve",
+          "angle": -0.5368473212655909,
+          "target": {
+            "x": 77.143,
+            "y": 328.1785,
+            "kind": "housing",
+            "id": "aCrewCell2"
+          }
+        },
+        {
+          "t": 29.68333333333229,
+          "type": "focus",
+          "angle": 0.05446479335143556,
+          "target": {
+            "x": 79.0715,
+            "y": 243.643,
+            "kind": "threatened",
+            "id": "aCrewCell0"
+          }
+        },
+        {
+          "t": 31.241666666665534,
+          "type": "focus",
+          "angle": -0.06929125566051328,
+          "target": {
+            "x": 79.0715,
+            "y": 243.643,
+            "kind": "threatened",
+            "id": "aCrewCell0"
+          }
+        },
+        {
+          "t": 37.76666666666517,
+          "type": "focus",
+          "angle": 0.034005200445219694,
+          "target": {
+            "x": 79.0715,
+            "y": 243.643,
+            "kind": "threatened",
+            "id": "aCrewCell0"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "phase": "1:carrier",
+          "t": 0,
+          "remaining": null,
+          "hp": 45,
+          "safe": 0
+        },
+        {
+          "phase": "1:escape",
+          "t": 49.08333333333119,
+          "remaining": null,
+          "hp": 39,
+          "safe": 4
+        },
+        {
+          "phase": "1:retreat",
+          "t": 51.04166666666441,
+          "remaining": null,
+          "hp": 39,
+          "safe": 5
+        }
+      ],
+      "ordinaryOnly": true,
+      "choices": [
+        {
+          "t": 36.508333333331905,
+          "kind": "five"
+        }
+      ]
+    },
+    {
+      "policy": "free-threatened-lock",
+      "device": "android",
+      "state": "lost",
+      "reason": "Out of balls",
+      "seconds": 40.80833333333166,
+      "lives": 0,
+      "hull": 45,
+      "wave": 1,
+      "remaining": null,
+      "crew": [
+        {
+          "id": "aCrewCell0",
+          "hp": 5,
+          "secured": false,
+          "securedAt": null,
+          "releasedAt": null,
+          "captured": false,
+          "escaped": false
+        },
+        {
+          "id": "aCrewCell1",
+          "hp": 5,
+          "secured": false,
+          "securedAt": null,
+          "releasedAt": null,
+          "captured": false,
+          "escaped": false
+        },
+        {
+          "id": "aCrewCell2",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 36.95833333333192,
+          "releasedAt": 36.158333333331925,
+          "captured": false,
+          "escaped": true
+        },
+        {
+          "id": "aCrewCell3",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 23.599999999999348,
+          "releasedAt": 22.799999999999347,
+          "captured": false,
+          "escaped": true
+        },
+        {
+          "id": "aCrewCell4",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 13.241666666666601,
+          "releasedAt": 12.4416666666666,
+          "captured": false,
+          "escaped": true
+        }
+      ],
+      "archived": [],
+      "returns": 22,
+      "powers": [],
+      "casts": 0,
+      "saves": 0,
+      "raids": [
+        {
+          "t": 21.11666666666611,
+          "fighterId": "fighter0-0",
+          "targetId": null,
+          "stage": "approach",
+          "extractAt": null,
+          "blockerId": null,
+          "remaining": 14
+        },
+        {
+          "t": 25.641666666665852,
+          "fighterId": "fighter0-0",
+          "targetId": "aCrewCell2",
+          "stage": "extract",
+          "extractAt": 25.641666666665852,
+          "blockerId": null,
+          "arcBend": -28,
+          "remaining": 14
+        }
+      ],
+      "actions": [
+        {
+          "t": 0,
+          "type": "serve",
+          "angle": 0.29084983352473565,
+          "target": {
+            "x": 281.572,
+            "y": 328.1785,
+            "kind": "housing",
+            "id": "aCrewCell4"
+          }
+        },
+        {
+          "t": 26.008333333332498,
+          "type": "focus",
+          "angle": -0.5691606792070674,
+          "target": {
+            "x": 77.143,
+            "y": 328.1785,
+            "kind": "threatened",
+            "id": "aCrewCell2"
+          }
+        },
+        {
+          "t": 29.766666666665618,
+          "type": "serve",
+          "angle": -0.4808143778027373,
+          "target": {
+            "x": 77.143,
+            "y": 328.1785,
+            "kind": "housing",
+            "id": "aCrewCell2"
+          }
+        },
+        {
+          "t": 35.24166666666531,
+          "type": "serve",
+          "angle": -0.016847595196099508,
+          "target": {
+            "x": 77.143,
+            "y": 328.1785,
+            "kind": "housing",
+            "id": "aCrewCell2"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "phase": "1:carrier",
+          "t": 0,
+          "remaining": null,
+          "hp": 45,
+          "safe": 0
+        }
+      ],
+      "ordinaryOnly": true,
+      "choices": []
+    },
+    {
+      "policy": "free-threatened-opposite-order",
+      "device": "android",
+      "state": "won",
+      "reason": null,
+      "seconds": 55.424999999997496,
+      "lives": 1,
+      "hull": 37,
+      "wave": 1,
+      "remaining": null,
+      "crew": [
+        {
+          "id": "aCrewCell0",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 54.26666666666427,
+          "releasedAt": 53.466666666664274,
+          "captured": false,
+          "escaped": true
+        },
+        {
+          "id": "aCrewCell1",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 50.841666666664466,
+          "releasedAt": 50.04166666666447,
+          "captured": false,
+          "escaped": true
+        },
+        {
+          "id": "aCrewCell2",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 18.583333333332966,
+          "releasedAt": 17.783333333332966,
+          "captured": false,
+          "escaped": true
+        },
+        {
+          "id": "aCrewCell3",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 27.291666666665805,
+          "releasedAt": 26.491666666665804,
+          "captured": false,
+          "escaped": true
+        },
+        {
+          "id": "aCrewCell4",
+          "hp": 0,
+          "secured": true,
+          "securedAt": 39.19999999999846,
+          "releasedAt": 38.399999999998464,
+          "captured": false,
+          "escaped": true
+        }
+      ],
+      "archived": [],
+      "returns": 25,
+      "powers": [],
+      "casts": 0,
+      "saves": 0,
+      "raids": [
+        {
+          "t": 23.966666666665947,
+          "fighterId": "fighter0-0",
+          "targetId": null,
+          "stage": "approach",
+          "extractAt": null,
+          "blockerId": null,
+          "remaining": 14
+        },
+        {
+          "t": 28.49166666666569,
+          "fighterId": "fighter0-0",
+          "targetId": "aCrewCell4",
+          "stage": "extract",
+          "extractAt": 28.49166666666569,
+          "blockerId": null,
+          "arcBend": -28,
+          "remaining": 14
+        },
+        {
+          "t": 44.408333333331456,
+          "fighterId": "fighter0-2",
+          "targetId": null,
+          "stage": "approach",
+          "extractAt": null,
+          "blockerId": null,
+          "remaining": 14
+        },
+        {
+          "t": 48.9333333333312,
+          "fighterId": "fighter0-2",
+          "targetId": "aCrewCell1",
+          "stage": "extract",
+          "extractAt": 48.9333333333312,
+          "blockerId": null,
+          "arcBend": 28,
+          "remaining": 14
+        }
+      ],
+      "actions": [
+        {
+          "t": 0,
+          "type": "serve",
+          "angle": -0.29432175506266023,
+          "target": {
+            "x": 77.143,
+            "y": 328.1785,
+            "kind": "housing",
+            "id": "aCrewCell2"
+          }
+        },
+        {
+          "t": 11.358333333333329,
+          "type": "serve",
+          "angle": -0.5549481906906982,
+          "target": {
+            "x": 77.143,
+            "y": 328.1785,
+            "kind": "housing",
+            "id": "aCrewCell2"
+          }
+        },
+        {
+          "t": 16.849999999999685,
+          "type": "serve",
+          "angle": -0.1981948919269525,
+          "target": {
+            "x": 77.143,
+            "y": 328.1785,
+            "kind": "housing",
+            "id": "aCrewCell2"
+          }
+        },
+        {
+          "t": 29.316666666665643,
+          "type": "focus",
+          "angle": -0.03146292102860525,
+          "target": {
+            "x": 281.572,
+            "y": 328.1785,
+            "kind": "threatened",
+            "id": "aCrewCell4"
+          }
+        },
+        {
+          "t": 31.074999999998877,
+          "type": "focus",
+          "angle": 0.041956847358539336,
+          "target": {
+            "x": 281.572,
+            "y": 328.1785,
+            "kind": "threatened",
+            "id": "aCrewCell4"
+          }
+        },
+        {
+          "t": 49.099999999997856,
+          "type": "focus",
+          "angle": 0.012487449282116618,
+          "target": {
+            "x": 283.821,
+            "y": 243.643,
+            "kind": "threatened",
+            "id": "aCrewCell1"
+          }
+        }
+      ],
+      "phases": [
+        {
+          "phase": "1:carrier",
+          "t": 0,
+          "remaining": null,
+          "hp": 45,
+          "safe": 0
+        },
+        {
+          "phase": "1:escape",
+          "t": 53.466666666664274,
+          "remaining": null,
+          "hp": 37,
+          "safe": 4
+        },
+        {
+          "phase": "1:retreat",
+          "t": 55.424999999997496,
+          "remaining": null,
+          "hp": 37,
+          "safe": 5
+        }
+      ],
+      "ordinaryOnly": true,
+      "choices": [
+        {
+          "t": 44.41666666666479,
+          "kind": "five"
+        }
+      ]
+    }
+  ],
+  "after": {
+    "src/carrier.js": "685c4c8ed75891fc5918406eddc25ae4607e2f824f8565901bcf14e7bbc7f226",
+    "src/arena.js": "9e70676cee22003cc6e0866fae9f1e624cd694e4361c375134ce3d72d3eef848",
+    "src/difficulty.js": "3596ef0e04692535c0808b0d6625db6014f564e4f39a31741e88af2468407fd7",
+    "src/space-weapons.js": "74ae58b0340bd2a43e0d1c2803d88be208700ce63b621d2b70b715a045f18b07"
+  },
+  "complete": true
+}

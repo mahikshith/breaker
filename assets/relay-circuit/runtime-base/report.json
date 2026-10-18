@@ -1,0 +1,829 @@
+{
+  "scope": "Isolated Relay texture optimization, not runtime admission or a physical-device performance result",
+  "method": "Carrier sizing:3 source pixels per displayed world unit, capped at source resolution; full-size background; WebP96/method6",
+  "frozenFiles": {
+    "src/relay.js": "b22f40d27ccfee1da0bbe562bd141949bdf9a61b0a593adea4302fa069765a83",
+    "dist/breach.html": "f4863dc5a87d6b46a8a1afdb702c264f432196b851b61b828946db8ab75a0423"
+  },
+  "parts": [
+    {
+      "id": "bHull",
+      "path": "assets/relay-circuit/runtime-base/bHull.webp",
+      "source": "assets/space-b/relay_hull.png",
+      "sourceSHA256": "9c8f6bcfedf08531e04f73377a843e09e627b44d92ca2d9df4065a47ee410e31",
+      "runtimeSHA256": "8bd08bfaf0d8f700f4a3481913bc0331e9a905ec22af9c9fde319ce9c8563e20",
+      "sourceSize": [
+        1868,
+        854
+      ],
+      "runtimeSize": [
+        941,
+        430
+      ],
+      "sourceEncodedBytes": 2059436,
+      "encodedBytes": 166762,
+      "sourceDecodedBytes": 6381088,
+      "decodedBytes": 1618520,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            342,
+            157
+          ],
+          "meanAbsoluteChannelError": 1.2417,
+          "p99ChannelError": 12.0
+        },
+        "android": {
+          "nativeSize": [
+            359,
+            164
+          ],
+          "meanAbsoluteChannelError": 1.2875,
+          "p99ChannelError": 12.0
+        }
+      }
+    },
+    {
+      "id": "bIris",
+      "path": "assets/relay-circuit/runtime-base/bIris.webp",
+      "source": "assets/space-b/iris_segment.png",
+      "sourceSHA256": "099278e1baa3786dd2efcb504635f3023a4621ec895086439836ccb923cfee06",
+      "runtimeSHA256": "2ed5c5a7ea17817b34e2efc6fa4f048367c94c17245664ad56f65933ed48b25f",
+      "sourceSize": [
+        1261,
+        908
+      ],
+      "runtimeSize": [
+        270,
+        194
+      ],
+      "sourceEncodedBytes": 1466131,
+      "encodedBytes": 19464,
+      "sourceDecodedBytes": 4579952,
+      "decodedBytes": 209520,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            98,
+            71
+          ],
+          "meanAbsoluteChannelError": 0.7962,
+          "p99ChannelError": 8.0
+        },
+        "android": {
+          "nativeSize": [
+            103,
+            74
+          ],
+          "meanAbsoluteChannelError": 0.8256,
+          "p99ChannelError": 9.0
+        }
+      }
+    },
+    {
+      "id": "bSkiff",
+      "path": "assets/relay-circuit/runtime-base/bSkiff.webp",
+      "source": "assets/space-b/skiff.png",
+      "sourceSHA256": "1a09634bc06bc6035fb45002d71adf1ae9e4319f48e50ba4b2b217ed1501e4be",
+      "runtimeSHA256": "babbc8c254e96feaa86a736a6c7e6235373b96e84acb4da07f518b723b7fadf6",
+      "sourceSize": [
+        1180,
+        743
+      ],
+      "runtimeSize": [
+        165,
+        104
+      ],
+      "sourceEncodedBytes": 1340771,
+      "encodedBytes": 11942,
+      "sourceDecodedBytes": 3506960,
+      "decodedBytes": 68640,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            60,
+            38
+          ],
+          "meanAbsoluteChannelError": 1.8288,
+          "p99ChannelError": 12.0
+        },
+        "android": {
+          "nativeSize": [
+            63,
+            40
+          ],
+          "meanAbsoluteChannelError": 1.8899,
+          "p99ChannelError": 13.0
+        }
+      }
+    },
+    {
+      "id": "bPod",
+      "path": "assets/relay-circuit/runtime-base/bPod.webp",
+      "source": "assets/space-b/pod_shell.png",
+      "sourceSHA256": "9a288792df913bde461f1b6445e1fb075c0d06be7052521461b2dce21fc61a96",
+      "runtimeSHA256": "dc5a6911a370089524af18fcc2973f295a3aa57cc6bb5e06a7c172fc2914cc73",
+      "sourceSize": [
+        1227,
+        1029
+      ],
+      "runtimeSize": [
+        189,
+        159
+      ],
+      "sourceEncodedBytes": 1536162,
+      "encodedBytes": 15454,
+      "sourceDecodedBytes": 5050332,
+      "decodedBytes": 120204,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            69,
+            58
+          ],
+          "meanAbsoluteChannelError": 1.3472,
+          "p99ChannelError": 11.0
+        },
+        "android": {
+          "nativeSize": [
+            72,
+            60
+          ],
+          "meanAbsoluteChannelError": 1.4059,
+          "p99ChannelError": 11.0
+        }
+      }
+    },
+    {
+      "id": "bWorker",
+      "path": "assets/relay-circuit/runtime-base/bWorker.webp",
+      "source": "assets/space-b/worker.png",
+      "sourceSHA256": "685d5d066e5cc18a89029ad231d366e1217ce316541f963a59c31daa55ba04a5",
+      "runtimeSHA256": "2c512689f2dc1ea005512e8c23b7950bf5a7514203416b0ed3a3cf511713d852",
+      "sourceSize": [
+        675,
+        768
+      ],
+      "runtimeSize": [
+        66,
+        75
+      ],
+      "sourceEncodedBytes": 620165,
+      "encodedBytes": 5284,
+      "sourceDecodedBytes": 2073600,
+      "decodedBytes": 19800,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            24,
+            27
+          ],
+          "meanAbsoluteChannelError": 1.8544,
+          "p99ChannelError": 14.0
+        },
+        "android": {
+          "nativeSize": [
+            25,
+            29
+          ],
+          "meanAbsoluteChannelError": 1.9954,
+          "p99ChannelError": 13.0
+        }
+      }
+    },
+    {
+      "id": "bThruster",
+      "path": "assets/relay-circuit/runtime-base/bThruster.webp",
+      "source": "assets/space-a/thruster.png",
+      "sourceSHA256": "c36266ea6681540b21bc2b209cf683ef44a7926c233fbc788a6c8669397c2035",
+      "runtimeSHA256": "40aa7deb0c7bbcc491fe1c175ebe793b4bef57dbc97ed4ab6f548a81157ee03d",
+      "sourceSize": [
+        627,
+        1580
+      ],
+      "runtimeSize": [
+        30,
+        76
+      ],
+      "sourceEncodedBytes": 845812,
+      "encodedBytes": 2550,
+      "sourceDecodedBytes": 3962640,
+      "decodedBytes": 9120,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            11,
+            28
+          ],
+          "meanAbsoluteChannelError": 1.3831,
+          "p99ChannelError": 11.0
+        },
+        "android": {
+          "nativeSize": [
+            11,
+            29
+          ],
+          "meanAbsoluteChannelError": 1.3898,
+          "p99ChannelError": 10.4399995803833
+        }
+      }
+    },
+    {
+      "id": "bCannonBarrel",
+      "path": "assets/relay-circuit/runtime-base/bCannonBarrel.webp",
+      "source": "assets/space-b/cannon_barrel.png",
+      "sourceSHA256": "9e53a947eeea5e15097dc68433657bab415101684e653ecd0ac04c4a73f30afe",
+      "runtimeSHA256": "ca30913e16b58a04857318bd6b08283e4f47c9da36fa1428b4e50d9ea54aa83b",
+      "sourceSize": [
+        862,
+        938
+      ],
+      "runtimeSize": [
+        153,
+        166
+      ],
+      "sourceEncodedBytes": 1372013,
+      "encodedBytes": 16798,
+      "sourceDecodedBytes": 3234224,
+      "decodedBytes": 101592,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            56,
+            61
+          ],
+          "meanAbsoluteChannelError": 2.0523,
+          "p99ChannelError": 15.0
+        },
+        "android": {
+          "nativeSize": [
+            58,
+            64
+          ],
+          "meanAbsoluteChannelError": 2.0973,
+          "p99ChannelError": 15.0
+        }
+      }
+    },
+    {
+      "id": "bBackground",
+      "path": "assets/relay-circuit/runtime-base/bBackground.webp",
+      "source": "assets/space-b/background.png",
+      "sourceSHA256": "f41cbd9891bf42e2b6336f41bd4dc24edab5870f916de9448a7bd0ff71503bac",
+      "runtimeSHA256": "8aeb044a3119022c893b6720f47eae0c46b92be1c567233977263107ad779446",
+      "sourceSize": [
+        1024,
+        1536
+      ],
+      "runtimeSize": [
+        1024,
+        1536
+      ],
+      "sourceEncodedBytes": 1718238,
+      "encodedBytes": 236214,
+      "sourceDecodedBytes": 6291456,
+      "decodedBytes": 6291456,
+      "quality": 96,
+      "alpha": null,
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            393,
+            852
+          ],
+          "meanAbsoluteChannelError": 0.7945,
+          "p99ChannelError": 4.0
+        },
+        "android": {
+          "nativeSize": [
+            412,
+            915
+          ],
+          "meanAbsoluteChannelError": 0.8179,
+          "p99ChannelError": 4.0
+        }
+      }
+    },
+    {
+      "id": "bPortal",
+      "path": "assets/relay-circuit/runtime-base/bPortal.webp",
+      "source": "assets/space-b/portal.png",
+      "sourceSHA256": "65e4354713e397f7efdd96db16b79528a2aba750b8b58fc95f7f3633f01ae111",
+      "runtimeSHA256": "5269e9fc45a6280581e66608764b60b2edd29865e883870470d1759489d2df7d",
+      "sourceSize": [
+        1155,
+        1135
+      ],
+      "runtimeSize": [
+        228,
+        224
+      ],
+      "sourceEncodedBytes": 2097807,
+      "encodedBytes": 33876,
+      "sourceDecodedBytes": 5243700,
+      "decodedBytes": 204288,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            83,
+            82
+          ],
+          "meanAbsoluteChannelError": 1.625,
+          "p99ChannelError": 9.0
+        },
+        "android": {
+          "nativeSize": [
+            87,
+            85
+          ],
+          "meanAbsoluteChannelError": 1.6669,
+          "p99ChannelError": 9.0
+        }
+      }
+    },
+    {
+      "id": "brick_cyan",
+      "path": "assets/relay-circuit/runtime-base/brick_cyan.webp",
+      "source": "assets/space-common/brick_cyan.png",
+      "sourceSHA256": "6433636655ec29ba4b10bb03ac80bc762190ec02e535ee6234b72ba621e5fd98",
+      "runtimeSHA256": "2fd03e717599d0588b513396be720a4c00d50f7c0befdbc5bbfa15970ae45d81",
+      "sourceSize": [
+        132,
+        84
+      ],
+      "runtimeSize": [
+        132,
+        84
+      ],
+      "sourceEncodedBytes": 9012,
+      "encodedBytes": 3084,
+      "sourceDecodedBytes": 44352,
+      "decodedBytes": 44352,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            48,
+            31
+          ],
+          "meanAbsoluteChannelError": 1.3593,
+          "p99ChannelError": 14.0
+        },
+        "android": {
+          "nativeSize": [
+            50,
+            32
+          ],
+          "meanAbsoluteChannelError": 1.3429,
+          "p99ChannelError": 15.0
+        }
+      }
+    },
+    {
+      "id": "brick_violet",
+      "path": "assets/relay-circuit/runtime-base/brick_violet.webp",
+      "source": "assets/space-common/brick_violet.png",
+      "sourceSHA256": "4a6563431caca5e83378822dc35f54ebeb8c74e35e541e0ee353eff0c4402b03",
+      "runtimeSHA256": "6ceb0d8289ac17bb0fffb510fef6a66dbaa80011b4369678a5f1e0523ed330b0",
+      "sourceSize": [
+        132,
+        84
+      ],
+      "runtimeSize": [
+        132,
+        84
+      ],
+      "sourceEncodedBytes": 9338,
+      "encodedBytes": 2970,
+      "sourceDecodedBytes": 44352,
+      "decodedBytes": 44352,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            48,
+            31
+          ],
+          "meanAbsoluteChannelError": 1.0399,
+          "p99ChannelError": 11.0
+        },
+        "android": {
+          "nativeSize": [
+            50,
+            32
+          ],
+          "meanAbsoluteChannelError": 1.0319,
+          "p99ChannelError": 10.010000228881836
+        }
+      }
+    },
+    {
+      "id": "brick_armour",
+      "path": "assets/relay-circuit/runtime-base/brick_armour.webp",
+      "source": "assets/space-common/brick_armour.png",
+      "sourceSHA256": "cf43a70b894dbc4ff4646eff7eff505831d4b79c452a022363730e3849f9d629",
+      "runtimeSHA256": "10ba2a7efa1168a6b978f19523747215b3538bb8b2854fa0ca054d271b980926",
+      "sourceSize": [
+        84,
+        84
+      ],
+      "runtimeSize": [
+        84,
+        84
+      ],
+      "sourceEncodedBytes": 9972,
+      "encodedBytes": 3350,
+      "sourceDecodedBytes": 28224,
+      "decodedBytes": 28224,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            31,
+            31
+          ],
+          "meanAbsoluteChannelError": 0.6368,
+          "p99ChannelError": 5.0
+        },
+        "android": {
+          "nativeSize": [
+            32,
+            32
+          ],
+          "meanAbsoluteChannelError": 0.666,
+          "p99ChannelError": 6.0
+        }
+      }
+    },
+    {
+      "id": "brick_crew_lock",
+      "path": "assets/relay-circuit/runtime-base/brick_crew_lock.webp",
+      "source": "assets/space-common/brick_crew_lock.png",
+      "sourceSHA256": "9541824d873f3d86d44e05cdb4cc1cb048ecc8b26c943bf91a610475d9b5847c",
+      "runtimeSHA256": "c2b2451f812fbabf99be0051772849cb80f025b00c40ee0d8d48372f0fe5227c",
+      "sourceSize": [
+        132,
+        84
+      ],
+      "runtimeSize": [
+        132,
+        84
+      ],
+      "sourceEncodedBytes": 11489,
+      "encodedBytes": 4270,
+      "sourceDecodedBytes": 44352,
+      "decodedBytes": 44352,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            48,
+            31
+          ],
+          "meanAbsoluteChannelError": 0.5466,
+          "p99ChannelError": 6.0
+        },
+        "android": {
+          "nativeSize": [
+            50,
+            32
+          ],
+          "meanAbsoluteChannelError": 0.5604,
+          "p99ChannelError": 6.0
+        }
+      }
+    },
+    {
+      "id": "paddle",
+      "path": "assets/relay-circuit/runtime-base/paddle.webp",
+      "source": "assets/space-common/paddle.png",
+      "sourceSHA256": "f90d9d8ab378d1e7485e5af6ca6f42094ed039e450068cf48fbeffe192270690",
+      "runtimeSHA256": "5016283d49074f05de1edaf6872325ff44ff253457d68b8d09847d90efb172ef",
+      "sourceSize": [
+        252,
+        72
+      ],
+      "runtimeSize": [
+        252,
+        72
+      ],
+      "sourceEncodedBytes": 15854,
+      "encodedBytes": 5800,
+      "sourceDecodedBytes": 72576,
+      "decodedBytes": 72576,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            92,
+            26
+          ],
+          "meanAbsoluteChannelError": 0.9734,
+          "p99ChannelError": 10.0
+        },
+        "android": {
+          "nativeSize": [
+            96,
+            27
+          ],
+          "meanAbsoluteChannelError": 1.13,
+          "p99ChannelError": 11.0
+        }
+      }
+    },
+    {
+      "id": "ball",
+      "path": "assets/relay-circuit/runtime-base/ball.webp",
+      "source": "assets/space-common/ball.png",
+      "sourceSHA256": "249c2451d683ca1ac68c39596c97c12607988681545c7db19dbf03a32e0abf00",
+      "runtimeSHA256": "448106ce1610c3da10a27590df2d6f14153154d84de11a09dbaaaf297406df21",
+      "sourceSize": [
+        60,
+        60
+      ],
+      "runtimeSize": [
+        60,
+        60
+      ],
+      "sourceEncodedBytes": 3076,
+      "encodedBytes": 1612,
+      "sourceDecodedBytes": 14400,
+      "decodedBytes": 14400,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            22,
+            22
+          ],
+          "meanAbsoluteChannelError": 0.5372,
+          "p99ChannelError": 8.0
+        },
+        "android": {
+          "nativeSize": [
+            23,
+            23
+          ],
+          "meanAbsoluteChannelError": 0.5425,
+          "p99ChannelError": 9.0
+        }
+      }
+    },
+    {
+      "id": "capsule_laser",
+      "path": "assets/relay-circuit/runtime-base/capsule_laser.webp",
+      "source": "assets/space-common/capsule_laser.png",
+      "sourceSHA256": "1a6fb424897bd98333413cd847c993411d43cb6f76741e36524fb63f3541cf20",
+      "runtimeSHA256": "d80e41b7df442d1b2e0d4ce80c9b918c5ebe793d94922d1e7362ed503a851b5d",
+      "sourceSize": [
+        96,
+        66
+      ],
+      "runtimeSize": [
+        96,
+        66
+      ],
+      "sourceEncodedBytes": 6090,
+      "encodedBytes": 2840,
+      "sourceDecodedBytes": 25344,
+      "decodedBytes": 25344,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            35,
+            24
+          ],
+          "meanAbsoluteChannelError": 1.4067,
+          "p99ChannelError": 14.8100004196167
+        },
+        "android": {
+          "nativeSize": [
+            37,
+            25
+          ],
+          "meanAbsoluteChannelError": 1.4613,
+          "p99ChannelError": 16.0
+        }
+      }
+    },
+    {
+      "id": "capsule_split",
+      "path": "assets/relay-circuit/runtime-base/capsule_split.webp",
+      "source": "assets/space-common/capsule_split.png",
+      "sourceSHA256": "229cd3f1bde33c1c550918dae79ff06557a6ea15ba4a7998f9e17492aa0d6114",
+      "runtimeSHA256": "09c4b6fc565d5f837fe688eec2d7a15aa23e9e21671df6b796804995752fc5ab",
+      "sourceSize": [
+        96,
+        66
+      ],
+      "runtimeSize": [
+        96,
+        66
+      ],
+      "sourceEncodedBytes": 6665,
+      "encodedBytes": 2880,
+      "sourceDecodedBytes": 25344,
+      "decodedBytes": 25344,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            35,
+            24
+          ],
+          "meanAbsoluteChannelError": 1.4071,
+          "p99ChannelError": 15.0
+        },
+        "android": {
+          "nativeSize": [
+            37,
+            25
+          ],
+          "meanAbsoluteChannelError": 1.4227,
+          "p99ChannelError": 16.0
+        }
+      }
+    },
+    {
+      "id": "capsule_shield",
+      "path": "assets/relay-circuit/runtime-base/capsule_shield.webp",
+      "source": "assets/space-common/capsule_shield.png",
+      "sourceSHA256": "f8d4eb1d711f767d9ca6f64c1c763d532fb0b8381047d50dcd0d4907838c5741",
+      "runtimeSHA256": "118f0550fb2fab5d0c8c6fa725419fbaf8a94eba018fca46cc618a4621da5933",
+      "sourceSize": [
+        96,
+        66
+      ],
+      "runtimeSize": [
+        96,
+        66
+      ],
+      "sourceEncodedBytes": 6504,
+      "encodedBytes": 2936,
+      "sourceDecodedBytes": 25344,
+      "decodedBytes": 25344,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            35,
+            24
+          ],
+          "meanAbsoluteChannelError": 1.45,
+          "p99ChannelError": 15.0
+        },
+        "android": {
+          "nativeSize": [
+            37,
+            25
+          ],
+          "meanAbsoluteChannelError": 1.4793,
+          "p99ChannelError": 16.0
+        }
+      }
+    },
+    {
+      "id": "brick_pink",
+      "path": "assets/relay-circuit/runtime-base/brick_pink.webp",
+      "source": "assets/space-common/brick_pink.png",
+      "sourceSHA256": "fd6a94b4d17e830e2036ea15916e8feb37f06ea66b32c738859003f9742a4c31",
+      "runtimeSHA256": "c3b52c9762aafa182aa63558f3b84fa0d5392de2e2dcb4ef7ed6afc07746297c",
+      "sourceSize": [
+        132,
+        84
+      ],
+      "runtimeSize": [
+        132,
+        84
+      ],
+      "sourceEncodedBytes": 9880,
+      "encodedBytes": 3286,
+      "sourceDecodedBytes": 44352,
+      "decodedBytes": 44352,
+      "quality": 96,
+      "alpha": {
+        "exactAfterSizing": true,
+        "maxChannelError": 0,
+        "exteriorAlpha": 0
+      },
+      "nativeComparison": {
+        "ios": {
+          "nativeSize": [
+            48,
+            31
+          ],
+          "meanAbsoluteChannelError": 0.8945,
+          "p99ChannelError": 7.0
+        },
+        "android": {
+          "nativeSize": [
+            50,
+            32
+          ],
+          "meanAbsoluteChannelError": 0.9394,
+          "p99ChannelError": 8.0
+        }
+      }
+    }
+  ],
+  "sourceEncodedBytes": 13144415,
+  "encodedBytes": 541372,
+  "encodedBytesReductionPercent": 95.881,
+  "sourceDecodedBytes": 40692592,
+  "decodedBytes": 9011780,
+  "decodedBytesReductionPercent": 77.854
+}

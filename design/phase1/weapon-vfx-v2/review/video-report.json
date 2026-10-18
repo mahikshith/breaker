@@ -1,0 +1,59 @@
+{
+  "scope": "Chromium decodes final WebMs and seeks distinct actual video frames; this is delivery validation, not game/native-device performance.",
+  "renderer": "27923de30d50d1b9a334d583656b7b946a97c4b19ff0b8677fe3a367e5667eff",
+  "videos": {
+    "magnetic-breacher": {
+      "width": 1240,
+      "height": 1000,
+      "duration": 5.209,
+      "sha256": "2def9f2286509ee0a741207f9e2983e1727f990c4a1a6c0c1605e52f41d92047",
+      "bytes": 1592224,
+      "frames": [
+        {
+          "time": 1.5,
+          "sha256": "dc4bbd77d0c9d297cbf3e4c8f15a87bd9432b3700d04a1757cc56422804be6bf"
+        },
+        {
+          "time": 2.25,
+          "sha256": "7a087436da333c605bd07d91068419d6aba2429543ec5426100de981a45f3b87"
+        },
+        {
+          "time": 2.65,
+          "sha256": "88b87cf27e8aa7c087a71805caaa4b5a0bae6650f39738639b5730acb9538845"
+        },
+        {
+          "time": 3.21,
+          "sha256": "148df5aad506784555c3d250fb502d272c3bceca733ccc955dbad09623ae1752"
+        }
+      ],
+      "errors": []
+    },
+    "reactor-rupture": {
+      "width": 1240,
+      "height": 1000,
+      "duration": 5.209,
+      "sha256": "9fd74387e57410cb279eabe9ffcb9cfe5e610901ace565174be22a0127cc5c54",
+      "bytes": 1848792,
+      "frames": [
+        {
+          "time": 1.5,
+          "sha256": "bfb6c36195b11b1f4faeb6c23724539ca35d1dd72c3ef66599f077d765f49260"
+        },
+        {
+          "time": 2.25,
+          "sha256": "a928ae52ea632e7d3d89ab29a1fa93d3455009832c1a05d0f073c4615a58706e"
+        },
+        {
+          "time": 2.65,
+          "sha256": "6554c634f7697e1d0e65fe33f3becb33853ac19de529741a7959ce9db97160c5"
+        },
+        {
+          "time": 3.21,
+          "sha256": "c00cb44b5acd3ccdc3ce51278608e690452bd5079e971c4ebd96919e861cc8f3"
+        }
+      ],
+      "errors": []
+    }
+  },
+  "completed": true
+}

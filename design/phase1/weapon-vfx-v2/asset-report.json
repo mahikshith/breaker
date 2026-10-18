@@ -1,0 +1,561 @@
+{
+  "status": "PASS \u2014 two prototype charge atlases only; flight and impact held, no runtime admission",
+  "sourceSha256": "faf481a69e9c598ac7f7b7a421758ca1cb9f1f44e17667bd0d6bb693e14e7340",
+  "manifestSha256": "9c946badb34b73a94221845c3eefa1f80e50510e70c335cf67f344f9eff6bf41",
+  "atlases": {
+    "helix": {
+      "path": "design\\phase1\\weapon-vfx-v2\\helix-charge.png",
+      "sha256": "cb7ad875b0b2d2014f9a9e450a8e42b3334a6004b93bcc73b093a0f12bc87151",
+      "encodedBytes": 380130,
+      "decodedRGBABytes": 3145728,
+      "frames": [
+        {
+          "frame": 0,
+          "alphaBounds": [
+            74,
+            74,
+            182,
+            183
+          ],
+          "minPadding": 73,
+          "sha256": "f4e71fcaacba649fa5bd2e537084aa4ed6f263130a43d97e4c5f9af1dc1e8eb7"
+        },
+        {
+          "frame": 1,
+          "alphaBounds": [
+            74,
+            74,
+            182,
+            183
+          ],
+          "minPadding": 73,
+          "sha256": "4f049c9b81e4a6cfd9e6147c654176c7791154713b604ebb2cf9f4b80171896d"
+        },
+        {
+          "frame": 2,
+          "alphaBounds": [
+            74,
+            74,
+            182,
+            183
+          ],
+          "minPadding": 73,
+          "sha256": "3355a8a80b59a2b68e071f19574a8e9f3e3162a5c5cf568ea2379941603d2a21"
+        },
+        {
+          "frame": 3,
+          "alphaBounds": [
+            74,
+            74,
+            182,
+            183
+          ],
+          "minPadding": 73,
+          "sha256": "ab40ed1d857fbb0945ccadda60cf725c434cc91d14985e9ad5be4d032e61824c"
+        },
+        {
+          "frame": 4,
+          "alphaBounds": [
+            74,
+            74,
+            182,
+            183
+          ],
+          "minPadding": 73,
+          "sha256": "3966d76a99714a458f2ab634bde86d828a95255185fa447e8784b104649f3d85"
+        },
+        {
+          "frame": 5,
+          "alphaBounds": [
+            74,
+            74,
+            181,
+            182
+          ],
+          "minPadding": 74,
+          "sha256": "423705a8c5d62d9d171e2bdb189ea2e78c0dce533078580a7b2a505a74f2773f"
+        },
+        {
+          "frame": 6,
+          "alphaBounds": [
+            74,
+            74,
+            181,
+            182
+          ],
+          "minPadding": 74,
+          "sha256": "aa143a406bc778bc44473310344cdde814f36d5fd5b153816e8615804d36dd87"
+        },
+        {
+          "frame": 7,
+          "alphaBounds": [
+            74,
+            74,
+            181,
+            181
+          ],
+          "minPadding": 74,
+          "sha256": "62ef2f3a1640152a6041890029d6ca230a89db4f1c4ca4bccf3aaeccc6387128"
+        },
+        {
+          "frame": 8,
+          "alphaBounds": [
+            74,
+            74,
+            181,
+            181
+          ],
+          "minPadding": 74,
+          "sha256": "570e63a8845441f7a723414a829090799a6366f48e91279e34e321b44afaa766"
+        },
+        {
+          "frame": 9,
+          "alphaBounds": [
+            74,
+            74,
+            181,
+            181
+          ],
+          "minPadding": 74,
+          "sha256": "cb85521856c2b3e132ce1fce1048fb7cb940153f911c406264ea1bd1ea9f2b65"
+        },
+        {
+          "frame": 10,
+          "alphaBounds": [
+            74,
+            74,
+            181,
+            182
+          ],
+          "minPadding": 74,
+          "sha256": "ee6e627f8768bd89af59802a391511c3411adffcfb511ffcf2d63fb089d0abde"
+        },
+        {
+          "frame": 11,
+          "alphaBounds": [
+            74,
+            74,
+            181,
+            182
+          ],
+          "minPadding": 74,
+          "sha256": "6f50550bb37091d15ea10d5a20169e97d0c9c42577fa1cd7101e135a00c2fb85"
+        }
+      ]
+    },
+    "reactor": {
+      "path": "design\\phase1\\weapon-vfx-v2\\reactor-charge.png",
+      "sha256": "b781323b90610e2f7a4380a1bfa54daf7be809ea6a9c4db7055d12db41577fa3",
+      "encodedBytes": 455969,
+      "decodedRGBABytes": 3145728,
+      "frames": [
+        {
+          "frame": 0,
+          "alphaBounds": [
+            67,
+            67,
+            189,
+            190
+          ],
+          "minPadding": 66,
+          "sha256": "c0cb9bbe44e59909f959e8ba588c05b7d98e0a74460848002c2116c42fb06836"
+        },
+        {
+          "frame": 1,
+          "alphaBounds": [
+            67,
+            67,
+            189,
+            190
+          ],
+          "minPadding": 66,
+          "sha256": "ac02b5bf6e58089631a23c840b976623fa8dd24985238b7a71226abe2ee60dce"
+        },
+        {
+          "frame": 2,
+          "alphaBounds": [
+            67,
+            67,
+            190,
+            190
+          ],
+          "minPadding": 66,
+          "sha256": "8a6f4e70ce490034d0cb88835acee6c12b456df306a8621301d884256fbebafd"
+        },
+        {
+          "frame": 3,
+          "alphaBounds": [
+            67,
+            67,
+            189,
+            189
+          ],
+          "minPadding": 67,
+          "sha256": "332f5d8fd2fad4762962b7241d08435625279152e836641ffa1ffc1225150a22"
+        },
+        {
+          "frame": 4,
+          "alphaBounds": [
+            67,
+            67,
+            189,
+            189
+          ],
+          "minPadding": 67,
+          "sha256": "4f094848b39dee4f54a2fe78287a4c12593631c248005b5c36fb6fe1392867cf"
+        },
+        {
+          "frame": 5,
+          "alphaBounds": [
+            67,
+            67,
+            189,
+            189
+          ],
+          "minPadding": 67,
+          "sha256": "d9b1c72e779bf71d38ced8b720394356037dfbca351cf5cc4239c368f0194325"
+        },
+        {
+          "frame": 6,
+          "alphaBounds": [
+            67,
+            67,
+            189,
+            189
+          ],
+          "minPadding": 67,
+          "sha256": "5548faa39c01b856828cc295498784baaf27c24c67bfcc5d20bf38002f7de72d"
+        },
+        {
+          "frame": 7,
+          "alphaBounds": [
+            67,
+            67,
+            189,
+            188
+          ],
+          "minPadding": 67,
+          "sha256": "18ef7b04af7e8938c90d25e760ebeb3407877681c3027c2572f261b3d29a266c"
+        },
+        {
+          "frame": 8,
+          "alphaBounds": [
+            67,
+            67,
+            189,
+            187
+          ],
+          "minPadding": 67,
+          "sha256": "bb1a8149762271ee2029b60819234cfb2bb30f361c29b243adad764ed987a8bd"
+        },
+        {
+          "frame": 9,
+          "alphaBounds": [
+            67,
+            67,
+            189,
+            188
+          ],
+          "minPadding": 67,
+          "sha256": "d2ac7135807488a8f025a1f0e62b7ee5b03df040af921f8083c22561e95b4da7"
+        },
+        {
+          "frame": 10,
+          "alphaBounds": [
+            67,
+            67,
+            189,
+            189
+          ],
+          "minPadding": 67,
+          "sha256": "0f4b426bde41c4b307ff42bd49f787e6646930b1d962a6806c8fa9586e33ac1a"
+        },
+        {
+          "frame": 11,
+          "alphaBounds": [
+            67,
+            67,
+            189,
+            189
+          ],
+          "minPadding": 67,
+          "sha256": "531713812a57fa6ec487e90fa362242a6a3e2430be9fc4f8698d00fb686febf0"
+        }
+      ]
+    }
+  },
+  "unrendered": [
+    "helix/flight",
+    "helix/impact",
+    "reactor/flight",
+    "reactor/impact"
+  ],
+  "proofs": {
+    "proof\\helix-charge-08.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "570e63a8845441f7a723414a829090799a6366f48e91279e34e321b44afaa766",
+      "alphaBounds": [
+        74,
+        74,
+        181,
+        181
+      ]
+    },
+    "proof\\helix-flight-08.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "dcd8d0ad5f8d14b0a478d51e302f63802ebfb888e2718e1ca728c17b1ee0c403",
+      "alphaBounds": [
+        105,
+        71,
+        150,
+        195
+      ]
+    },
+    "proof\\helix-impact-04.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "909a5bc1960ec8e7d1ca4d1b5945f937563a44d1b62645be939b204163a81f41",
+      "alphaBounds": [
+        69,
+        80,
+        187,
+        179
+      ]
+    },
+    "proof\\impact-v3\\helix-impact-02.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "ce6340f4f924b995b08291de0b8c1f79312359101a06ec205fa1570e52ce6f0f",
+      "alphaBounds": [
+        88,
+        106,
+        168,
+        147
+      ]
+    },
+    "proof\\impact-v3\\reactor-impact-04.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "f8400c51432eac187c683272fd4fb4e822167e773a6f5ebd996d1a718f2fd85c",
+      "alphaBounds": [
+        87,
+        97,
+        170,
+        170
+      ]
+    },
+    "proof\\impact-v4\\helix-impact-00.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "8f013cfd1d72337510b36842ace1551914af8cdda69fcbc65b6075a087a525e4",
+      "alphaBounds": [
+        95,
+        108,
+        170,
+        151
+      ]
+    },
+    "proof\\impact-v4\\helix-impact-01.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "251164074e85a26cd3abc085d400400deb8dde608804138d4f9f0496e3f2abc5",
+      "alphaBounds": [
+        89,
+        106,
+        167,
+        148
+      ]
+    },
+    "proof\\impact-v4\\helix-impact-04.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "3e8c6a5d87b06383b14457eddca1fb25ae7861e207f59eeea33214dce7600e1e",
+      "alphaBounds": [
+        58,
+        95,
+        195,
+        157
+      ]
+    },
+    "proof\\impact-v4\\helix-impact-08.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "8f80199a89be23389aae531f2a8a5f20e61a263d6dce21018c4160d44a54db6c",
+      "alphaBounds": [
+        34,
+        95,
+        222,
+        162
+      ]
+    },
+    "proof\\impact-v4\\reactor-impact-00.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "4ab8eeb36fb203ea694137940756338d802d0c1d4c3557c026604a63414840d6",
+      "alphaBounds": [
+        71,
+        85,
+        163,
+        167
+      ]
+    },
+    "proof\\impact-v4\\reactor-impact-01.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "4beeb1a12e2eee7f55dca4f453cdf6cc64ad00ac7d804c827aeb174afa2069e1",
+      "alphaBounds": [
+        72,
+        86,
+        168,
+        166
+      ]
+    },
+    "proof\\impact-v4\\reactor-impact-04.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "abc8049f887032547716763f901d35084bc2193b0c5f864d0407818d4da66018",
+      "alphaBounds": [
+        77,
+        89,
+        180,
+        180
+      ]
+    },
+    "proof\\impact-v4\\reactor-impact-08.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "30fab33b283d8dfd36043c87aa1f8171f2ac3b6daf290b48e054bec3cdf414aa",
+      "alphaBounds": [
+        79,
+        80,
+        188,
+        191
+      ]
+    },
+    "proof\\mechanical-v2\\helix-flight-08.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "bb3ea0783d917d3ee369f6561ef983378032e075cb93e215a8daab94f6b59f54",
+      "alphaBounds": [
+        84,
+        31,
+        190,
+        209
+      ]
+    },
+    "proof\\mechanical-v2\\helix-impact-04.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "a997c188bcc8abe0e39f0db7d0c3c8332044970b2d598d7944f3de3de1cbbf24",
+      "alphaBounds": [
+        68,
+        79,
+        185,
+        183
+      ]
+    },
+    "proof\\mechanical-v2\\reactor-flight-08.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "dc30280e37bb126a27875bbf66509b4322280f40cfcd69a85d0e2ad950967f18",
+      "alphaBounds": [
+        69,
+        47,
+        187,
+        191
+      ]
+    },
+    "proof\\mechanical-v2\\reactor-impact-04.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "45e29578d8cb0dc2edc3ee5739ff3c75a02a671f6ab82f7f92ce139d1534806c",
+      "alphaBounds": [
+        65,
+        74,
+        187,
+        187
+      ]
+    },
+    "proof\\reactor-charge-08.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "bb1a8149762271ee2029b60819234cfb2bb30f361c29b243adad764ed987a8bd",
+      "alphaBounds": [
+        67,
+        67,
+        189,
+        187
+      ]
+    },
+    "proof\\reactor-flight-08.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "4631e5d863bad5bd52bc5b9bebe11d346047a79d5202ac9934d61d78a7c40712",
+      "alphaBounds": [
+        85,
+        45,
+        171,
+        169
+      ]
+    },
+    "proof\\reactor-impact-04.png": {
+      "status": "unapproved draft still, not an atlas",
+      "sha256": "7e1f42866a003f68ec6e239918030906d3a143fbe43332c761080e434c81c084",
+      "alphaBounds": [
+        69,
+        76,
+        187,
+        183
+      ]
+    }
+  },
+  "flightCandidates": {
+    "payload-A.png": {
+      "path": "design\\phase1\\weapon-vfx-v2\\payload-A.png",
+      "status": "single-frame flight artwork awaiting owner review; motion composed in preview",
+      "sha256": "ab4dfc62bae61d1e232ad3c9667f493211ce595d1e9b0986b2d5b6581dfa510c",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "metadataKeys": [],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        17,
+        0,
+        1222,
+        1222
+      ],
+      "alpha16Bounds": [
+        350,
+        22,
+        906,
+        1214
+      ],
+      "edgeAlphaMax": 1,
+      "strictZeroAlphaPadding": false,
+      "encodedBytes": 1087297,
+      "decodedRGBABytes": 6290064
+    },
+    "payload-B.png": {
+      "path": "design\\phase1\\weapon-vfx-v2\\payload-B.png",
+      "status": "single-frame flight artwork awaiting owner review; motion composed in preview",
+      "sha256": "99e9205b3e41fb91a37a57880b7fe11dd3f2550c7b339944f731ce1d2527ca85",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "metadataKeys": [],
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        23,
+        1222,
+        1220
+      ],
+      "alpha16Bounds": [
+        245,
+        27,
+        1011,
+        1213
+      ],
+      "edgeAlphaMax": 1,
+      "strictZeroAlphaPadding": false,
+      "encodedBytes": 1500139,
+      "decodedRGBABytes": 6290064
+    }
+  },
+  "totalEncodedBytes": 836099,
+  "totalDecodedRGBABytes": 6291456
+}

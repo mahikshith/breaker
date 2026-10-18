@@ -1,0 +1,3537 @@
+{
+  "scope": "One fixed-seed input-assisted attempt per mode/phone in the actual four-level Main bundle, Circuit index2. Public level aim/drag/update advances the accelerated simulation; real Main RAF renders without advancing between chunks. Earned Vesper choices use actual CDP touch. Policy reads balls, paddle, clock and visible bolts only. No target solver, HP/charge/ball/life/position writes or Continue. This is not human balance, real-time DOM paddle control or handset performance evidence.",
+  "html": "C:\\Users\\mahik\\Music\\Breach\\breaker\\out\\circuit-combat-browser\\final\\breach.html",
+  "htmlSHA256": "3239453720bd6b05c4165a8d7bdefa0ade1414882e41693a275e8b070dd39d3e",
+  "sources": {
+    "relay": "69fedc9fc28cf744871aa61086e993209af90ae7aeab83a7e2266db491db35ea",
+    "skiff": "d2fabc1e58894d772b86190731dc93b06dd2abc31c45aeae49c244de81d40b4e",
+    "arena": "9e70676cee22003cc6e0866fae9f1e624cd694e4361c375134ce3d72d3eef848",
+    "space-weapons": "74ae58b0340bd2a43e0d1c2803d88be208700ce63b621d2b70b715a045f18b07",
+    "space-companions": "85da929e6a65a1c5674f7ddb0c31a610beb9c51ba171d2440147943ac1190441",
+    "main": "5ddf475d829420476b5b9d6b8a8f946754fc2846abf926b5c2e795182211051c",
+    "difficulty": "3596ef0e04692535c0808b0d6625db6014f564e4f39a31741e88af2468407fd7"
+  },
+  "cases": [
+    {
+      "device": "ios",
+      "mode": "easy",
+      "state": "won",
+      "phase": "escape",
+      "clock": 43.36666666666485,
+      "hp": 0,
+      "lives": 2,
+      "remainingPanels": 0,
+      "remainingAmmo": 0,
+      "companionId": "vesper",
+      "returns": 40,
+      "priorVy": -1,
+      "priorLife": 2,
+      "aimTick": -1,
+      "nextInput": 5212,
+      "tick": 5207,
+      "casts": [
+        {
+          "kind": "five",
+          "t": 25.474999999999195,
+          "hp": 45,
+          "countBefore": 1,
+          "jammed": [
+            {
+              "id": "circuit-gun0",
+              "until": 31.474999999999195
+            }
+          ]
+        }
+      ],
+      "powers": [
+        {
+          "kind": "shield",
+          "t": 2.0499999999999954
+        },
+        {
+          "kind": "split",
+          "t": 3.408333333333324
+        }
+      ],
+      "damage": [
+        {
+          "id": "circuit-hull",
+          "t": 5.700000000000073,
+          "before": 72,
+          "after": 71,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 5.825000000000079,
+          "before": 71,
+          "after": 70,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 5.8833333333334155,
+          "before": 70,
+          "after": 69,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 6.275000000000102,
+          "before": 69,
+          "after": 68,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 10.100000000000067,
+          "before": 68,
+          "after": 67,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 11.250000000000002,
+          "before": 67,
+          "after": 66,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 12.40833333333327,
+          "before": 66,
+          "after": 65,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 14.308333333333161,
+          "before": 65,
+          "after": 64,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 14.39166666666649,
+          "before": 64,
+          "after": 63,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 14.591666666666478,
+          "before": 63,
+          "after": 62,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 14.708333333333139,
+          "before": 62,
+          "after": 61,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 14.766666666666469,
+          "before": 61,
+          "after": 60,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 14.816666666666466,
+          "before": 60,
+          "after": 59,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 14.849999999999797,
+          "before": 59,
+          "after": 58,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 16.5999999999997,
+          "before": 58,
+          "after": 57,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 16.616666666666365,
+          "before": 57,
+          "after": 56,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 16.641666666666364,
+          "before": 56,
+          "after": 55,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 16.674999999999695,
+          "before": 55,
+          "after": 54,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 17.09999999999967,
+          "before": 54,
+          "after": 53,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 17.108333333333004,
+          "before": 53,
+          "after": 52,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 18.424999999999596,
+          "before": 52,
+          "after": 51,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 18.87499999999957,
+          "before": 51,
+          "after": 50,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 20.166666666666163,
+          "before": 50,
+          "after": 49,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 20.258333333332825,
+          "before": 49,
+          "after": 48,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 20.27499999999949,
+          "before": 48,
+          "after": 47,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 23.233333333332656,
+          "before": 47,
+          "after": 46,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 23.291666666665986,
+          "before": 46,
+          "after": 45,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 25.941666666665835,
+          "before": 45,
+          "after": 44,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 26.65833333333246,
+          "before": 44,
+          "after": 43,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 28.033333333332383,
+          "before": 43,
+          "after": 42,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 28.616666666665683,
+          "before": 42,
+          "after": 41,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 28.674999999999013,
+          "before": 41,
+          "after": 40,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 28.849999999999003,
+          "before": 40,
+          "after": 39,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 30.433333333332246,
+          "before": 39,
+          "after": 38,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 31.008333333332214,
+          "before": 38,
+          "after": 37,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 31.249999999998867,
+          "before": 37,
+          "after": 36,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 32.399999999998805,
+          "before": 36,
+          "after": 35,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 32.77499999999878,
+          "before": 35,
+          "after": 34,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 33.17499999999876,
+          "before": 34,
+          "after": 33,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 33.54166666666541,
+          "before": 33,
+          "after": 32,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 33.92499999999872,
+          "before": 32,
+          "after": 31,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.30833333333203,
+          "before": 31,
+          "after": 30,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.68333333333201,
+          "before": 30,
+          "after": 29,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 35.07499999999865,
+          "before": 29,
+          "after": 28,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 35.458333333331964,
+          "before": 28,
+          "after": 27,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 35.85833333333194,
+          "before": 27,
+          "after": 26,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 36.23333333333192,
+          "before": 26,
+          "after": 25,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 36.61666666666523,
+          "before": 25,
+          "after": 24,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.18333333333181,
+          "before": 24,
+          "after": 23,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.23333333333181,
+          "before": 23,
+          "after": 22,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.24166666666514,
+          "before": 22,
+          "after": 21,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.29999999999847,
+          "before": 21,
+          "after": 20,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.341666666665134,
+          "before": 20,
+          "after": 19,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.34999999999847,
+          "before": 19,
+          "after": 18,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.36666666666513,
+          "before": 18,
+          "after": 17,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.39166666666513,
+          "before": 17,
+          "after": 16,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.41666666666513,
+          "before": 16,
+          "after": 15,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.42499999999846,
+          "before": 15,
+          "after": 14,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.42499999999846,
+          "before": 14,
+          "after": 13,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.44166666666513,
+          "before": 13,
+          "after": 12,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.516666666665124,
+          "before": 12,
+          "after": 11,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 40.78333333333166,
+          "before": 11,
+          "after": 10,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 40.80833333333166,
+          "before": 10,
+          "after": 9,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 40.849999999998325,
+          "before": 9,
+          "after": 8,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 40.94999999999832,
+          "before": 8,
+          "after": 7,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 41.01666666666498,
+          "before": 7,
+          "after": 6,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 41.07499999999831,
+          "before": 6,
+          "after": 5,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 41.13333333333164,
+          "before": 5,
+          "after": 4,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 41.374999999998295,
+          "before": 4,
+          "after": 3,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 41.44999999999829,
+          "before": 3,
+          "after": 2,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 41.63333333333161,
+          "before": 2,
+          "after": 1,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 41.65833333333161,
+          "before": 1,
+          "after": 0,
+          "shot": false,
+          "titan": 0
+        }
+      ],
+      "losses": [
+        {
+          "t": 18.9333333333329,
+          "from": 3,
+          "to": 2
+        }
+      ],
+      "phases": [
+        {
+          "phase": "relay",
+          "t": 0,
+          "hp": 72,
+          "lives": 3
+        },
+        {
+          "phase": "launch",
+          "t": 31.249999999998867,
+          "hp": 36,
+          "lives": 2
+        },
+        {
+          "phase": "flight",
+          "t": 31.69999999999884,
+          "hp": 36,
+          "lives": 2
+        },
+        {
+          "phase": "return",
+          "t": 36.61666666666523,
+          "hp": 24,
+          "lives": 2
+        },
+        {
+          "phase": "relay",
+          "t": 37.066666666665206,
+          "hp": 24,
+          "lives": 2
+        },
+        {
+          "phase": "escape",
+          "t": 41.65833333333161,
+          "hp": 0,
+          "lives": 2
+        }
+      ],
+      "lastPhase": "escape",
+      "firstReady": {
+        "t": 25.474999999999195,
+        "hp": 45,
+        "phase": "relay",
+        "liveBalls": 1
+      },
+      "errors": [],
+      "decodedImages": 190
+    },
+    {
+      "device": "ios",
+      "mode": "medium",
+      "state": "won",
+      "phase": "escape",
+      "clock": 55.3749999999975,
+      "hp": 0,
+      "lives": 2,
+      "remainingPanels": 0,
+      "remainingAmmo": 0,
+      "companionId": "vesper",
+      "returns": 48,
+      "priorVy": -1,
+      "priorLife": 2,
+      "aimTick": -1,
+      "nextInput": 6651,
+      "tick": 6648,
+      "casts": [
+        {
+          "kind": "five",
+          "t": 31.474999999998854,
+          "hp": 72,
+          "countBefore": 1,
+          "jammed": [
+            {
+              "id": "circuit-gun0",
+              "until": 37.47499999999886
+            }
+          ]
+        }
+      ],
+      "powers": [
+        {
+          "kind": "shield",
+          "t": 2.0499999999999954
+        },
+        {
+          "kind": "split",
+          "t": 3.408333333333324
+        }
+      ],
+      "damage": [
+        {
+          "id": "circuit-hull",
+          "t": 6.033333333333423,
+          "before": 96,
+          "after": 95,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 6.11666666666676,
+          "before": 95,
+          "after": 94,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 6.141666666666762,
+          "before": 94,
+          "after": 93,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 6.158333333333429,
+          "before": 93,
+          "after": 92,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 6.175000000000097,
+          "before": 92,
+          "after": 91,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 6.200000000000098,
+          "before": 91,
+          "after": 90,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 6.233333333333433,
+          "before": 90,
+          "after": 89,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 7.8333333333335124,
+          "before": 89,
+          "after": 88,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 7.941666666666851,
+          "before": 88,
+          "after": 87,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 8.750000000000144,
+          "before": 87,
+          "after": 86,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 11.291666666666666,
+          "before": 86,
+          "after": 85,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 13.249999999999888,
+          "before": 85,
+          "after": 84,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 14.39166666666649,
+          "before": 84,
+          "after": 83,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 16.5999999999997,
+          "before": 83,
+          "after": 82,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 20.324999999999488,
+          "before": 82,
+          "after": 81,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 23.174999999999326,
+          "before": 81,
+          "after": 80,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 25.92499999999917,
+          "before": 80,
+          "after": 79,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 25.941666666665835,
+          "before": 79,
+          "after": 78,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 25.9583333333325,
+          "before": 78,
+          "after": 77,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 26.008333333332498,
+          "before": 77,
+          "after": 76,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 26.491666666665804,
+          "before": 76,
+          "after": 75,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 26.5416666666658,
+          "before": 75,
+          "after": 74,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 29.4833333333323,
+          "before": 74,
+          "after": 73,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 29.524999999998965,
+          "before": 73,
+          "after": 72,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 31.858333333332165,
+          "before": 72,
+          "after": 71,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 32.62499999999879,
+          "before": 71,
+          "after": 70,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 32.65833333333212,
+          "before": 70,
+          "after": 69,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 32.724999999998786,
+          "before": 69,
+          "after": 68,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 32.74166666666545,
+          "before": 68,
+          "after": 67,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 32.75833333333212,
+          "before": 67,
+          "after": 66,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 32.76666666666545,
+          "before": 66,
+          "after": 65,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 32.79166666666545,
+          "before": 65,
+          "after": 64,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 32.808333333332115,
+          "before": 64,
+          "after": 63,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 32.841666666665446,
+          "before": 63,
+          "after": 62,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 32.87499999999878,
+          "before": 62,
+          "after": 61,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 32.87499999999878,
+          "before": 61,
+          "after": 60,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 33.20833333333209,
+          "before": 60,
+          "after": 59,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 33.508333333332075,
+          "before": 59,
+          "after": 58,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 33.649999999998734,
+          "before": 58,
+          "after": 57,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 33.95833333333205,
+          "before": 57,
+          "after": 56,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.14166666666537,
+          "before": 56,
+          "after": 55,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.2499999999987,
+          "before": 55,
+          "after": 54,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.35833333333203,
+          "before": 54,
+          "after": 53,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.62499999999868,
+          "before": 53,
+          "after": 52,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.94166666666533,
+          "before": 52,
+          "after": 51,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.94999999999866,
+          "before": 51,
+          "after": 50,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 35.04166666666532,
+          "before": 50,
+          "after": 49,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 35.083333333331986,
+          "before": 49,
+          "after": 48,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 36.249999999998586,
+          "before": 48,
+          "after": 47,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 36.6083333333319,
+          "before": 47,
+          "after": 46,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 36.99166666666521,
+          "before": 46,
+          "after": 45,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 37.36666666666519,
+          "before": 45,
+          "after": 44,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 37.7499999999985,
+          "before": 44,
+          "after": 43,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.14999999999848,
+          "before": 43,
+          "after": 42,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.52499999999846,
+          "before": 42,
+          "after": 41,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.924999999998434,
+          "before": 41,
+          "after": 40,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 39.29166666666508,
+          "before": 40,
+          "after": 39,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 39.69999999999839,
+          "before": 39,
+          "after": 38,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 40.07499999999837,
+          "before": 38,
+          "after": 37,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 40.43333333333168,
+          "before": 37,
+          "after": 36,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 42.09999999999825,
+          "before": 36,
+          "after": 35,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 42.133333333331585,
+          "before": 35,
+          "after": 34,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 42.133333333331585,
+          "before": 34,
+          "after": 33,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 42.14999999999825,
+          "before": 33,
+          "after": 32,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 42.17499999999825,
+          "before": 32,
+          "after": 31,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 42.19999999999825,
+          "before": 31,
+          "after": 30,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.54166666666478,
+          "before": 30,
+          "after": 29,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.57499999999811,
+          "before": 29,
+          "after": 28,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.59166666666478,
+          "before": 28,
+          "after": 27,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.608333333331444,
+          "before": 27,
+          "after": 26,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.62499999999811,
+          "before": 26,
+          "after": 25,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.641666666664776,
+          "before": 25,
+          "after": 24,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.86666666666476,
+          "before": 24,
+          "after": 23,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 45.17499999999808,
+          "before": 23,
+          "after": 22,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 45.25833333333141,
+          "before": 22,
+          "after": 21,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 45.67499999999805,
+          "before": 21,
+          "after": 20,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 46.183333333331355,
+          "before": 20,
+          "after": 19,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 47.04999999999797,
+          "before": 19,
+          "after": 18,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 47.82499999999793,
+          "before": 18,
+          "after": 17,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 47.85833333333126,
+          "before": 17,
+          "after": 16,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 48.166666666664575,
+          "before": 16,
+          "after": 15,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 48.2999999999979,
+          "before": 15,
+          "after": 14,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 49.34166666666451,
+          "before": 14,
+          "after": 13,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 49.42499999999784,
+          "before": 13,
+          "after": 12,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 49.449999999997836,
+          "before": 12,
+          "after": 11,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 49.474999999997834,
+          "before": 11,
+          "after": 10,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 49.508333333331166,
+          "before": 10,
+          "after": 9,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 50.6333333333311,
+          "before": 9,
+          "after": 8,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 50.674999999997766,
+          "before": 8,
+          "after": 7,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 51.48333333333105,
+          "before": 7,
+          "after": 6,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 51.59166666666438,
+          "before": 6,
+          "after": 5,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 51.59999999999771,
+          "before": 5,
+          "after": 4,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 52.274999999997675,
+          "before": 4,
+          "after": 3,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 52.30833333333101,
+          "before": 3,
+          "after": 2,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 52.34999999999767,
+          "before": 2,
+          "after": 1,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 53.66666666666426,
+          "before": 1,
+          "after": 0,
+          "shot": false,
+          "titan": 0
+        }
+      ],
+      "losses": [
+        {
+          "t": 17.12499999999967,
+          "from": 3,
+          "to": 2
+        }
+      ],
+      "phases": [
+        {
+          "phase": "relay",
+          "t": 0,
+          "hp": 96,
+          "lives": 3
+        },
+        {
+          "phase": "launch",
+          "t": 35.083333333331986,
+          "hp": 48,
+          "lives": 2
+        },
+        {
+          "phase": "flight",
+          "t": 35.53333333333196,
+          "hp": 48,
+          "lives": 2
+        },
+        {
+          "phase": "return",
+          "t": 40.43333333333168,
+          "hp": 36,
+          "lives": 2
+        },
+        {
+          "phase": "relay",
+          "t": 40.883333333331656,
+          "hp": 36,
+          "lives": 2
+        },
+        {
+          "phase": "escape",
+          "t": 53.66666666666426,
+          "hp": 0,
+          "lives": 2
+        }
+      ],
+      "lastPhase": "escape",
+      "firstReady": {
+        "t": 31.474999999998854,
+        "hp": 72,
+        "phase": "relay",
+        "liveBalls": 1
+      },
+      "errors": [],
+      "decodedImages": 190
+    },
+    {
+      "device": "ios",
+      "mode": "hard",
+      "state": "lost",
+      "phase": "relay",
+      "clock": 79.73333333334286,
+      "hp": 3,
+      "lives": 0,
+      "reason": "Out of balls",
+      "remainingPanels": 0,
+      "remainingAmmo": 0,
+      "companionId": "vesper",
+      "returns": 60,
+      "priorVy": -1,
+      "priorLife": 0,
+      "aimTick": -1,
+      "nextInput": 9581,
+      "tick": 9570,
+      "casts": [
+        {
+          "kind": "five",
+          "t": 37.474999999998516,
+          "hp": 96,
+          "countBefore": 1,
+          "jammed": [
+            {
+              "id": "circuit-gun0",
+              "until": 43.474999999998516
+            }
+          ]
+        }
+      ],
+      "powers": [
+        {
+          "kind": "shield",
+          "t": 2.0499999999999954
+        },
+        {
+          "kind": "split",
+          "t": 3.408333333333324
+        }
+      ],
+      "damage": [
+        {
+          "id": "circuit-hull",
+          "t": 5.700000000000073,
+          "before": 120,
+          "after": 119,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 6.350000000000105,
+          "before": 119,
+          "after": 118,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 6.38333333333344,
+          "before": 118,
+          "after": 117,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 6.466666666666778,
+          "before": 117,
+          "after": 116,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 7.191666666666814,
+          "before": 116,
+          "after": 115,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 8.091666666666848,
+          "before": 115,
+          "after": 114,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 8.12500000000018,
+          "before": 114,
+          "after": 113,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 8.150000000000178,
+          "before": 113,
+          "after": 112,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 8.175000000000177,
+          "before": 112,
+          "after": 111,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 8.21666666666684,
+          "before": 111,
+          "after": 110,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 11.233333333333336,
+          "before": 110,
+          "after": 109,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 16.824999999999687,
+          "before": 109,
+          "after": 108,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 16.92499999999968,
+          "before": 108,
+          "after": 107,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 25.14166666666588,
+          "before": 107,
+          "after": 106,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 25.174999999999212,
+          "before": 106,
+          "after": 105,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 25.22499999999921,
+          "before": 105,
+          "after": 104,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 25.274999999999206,
+          "before": 104,
+          "after": 103,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 28.05833333333238,
+          "before": 103,
+          "after": 102,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 30.641666666665568,
+          "before": 102,
+          "after": 101,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 30.70833333333223,
+          "before": 101,
+          "after": 100,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 30.741666666665562,
+          "before": 100,
+          "after": 99,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 30.76666666666556,
+          "before": 99,
+          "after": 98,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 30.841666666665557,
+          "before": 98,
+          "after": 97,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 33.14999999999876,
+          "before": 97,
+          "after": 96,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.67499999999845,
+          "before": 96,
+          "after": 95,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.68333333333178,
+          "before": 95,
+          "after": 94,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.83333333333177,
+          "before": 94,
+          "after": 93,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.85833333333177,
+          "before": 93,
+          "after": 92,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.958333333331765,
+          "before": 92,
+          "after": 91,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 41.03333333333165,
+          "before": 91,
+          "after": 90,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 41.04999999999831,
+          "before": 90,
+          "after": 89,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 41.21666666666497,
+          "before": 89,
+          "after": 88,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 42.05833333333159,
+          "before": 88,
+          "after": 87,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 42.074999999998255,
+          "before": 87,
+          "after": 86,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 42.09999999999825,
+          "before": 86,
+          "after": 85,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 42.66666666666489,
+          "before": 85,
+          "after": 84,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 43.033333333331534,
+          "before": 84,
+          "after": 83,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 43.89999999999815,
+          "before": 83,
+          "after": 82,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 43.97499999999815,
+          "before": 82,
+          "after": 81,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.174999999998136,
+          "before": 81,
+          "after": 80,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.2666666666648,
+          "before": 80,
+          "after": 79,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.608333333331444,
+          "before": 79,
+          "after": 78,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.641666666664776,
+          "before": 78,
+          "after": 77,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.666666666664774,
+          "before": 77,
+          "after": 76,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.68333333333144,
+          "before": 76,
+          "after": 75,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.699999999998106,
+          "before": 75,
+          "after": 74,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.71666666666477,
+          "before": 74,
+          "after": 73,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.73333333333144,
+          "before": 73,
+          "after": 72,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.7499999999981,
+          "before": 72,
+          "after": 71,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.76666666666477,
+          "before": 71,
+          "after": 70,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.783333333331434,
+          "before": 70,
+          "after": 69,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.7999999999981,
+          "before": 69,
+          "after": 68,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.816666666664766,
+          "before": 68,
+          "after": 67,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.841666666664764,
+          "before": 67,
+          "after": 66,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.85833333333143,
+          "before": 66,
+          "after": 65,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 45.3833333333314,
+          "before": 65,
+          "after": 64,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 45.41666666666473,
+          "before": 64,
+          "after": 63,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 45.4333333333314,
+          "before": 63,
+          "after": 62,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 45.458333333331396,
+          "before": 62,
+          "after": 61,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 45.47499999999806,
+          "before": 61,
+          "after": 60,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 46.624999999997996,
+          "before": 60,
+          "after": 59,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 47.00833333333131,
+          "before": 59,
+          "after": 58,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 47.38333333333129,
+          "before": 58,
+          "after": 57,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 47.758333333331265,
+          "before": 57,
+          "after": 56,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 48.14166666666458,
+          "before": 56,
+          "after": 55,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 48.541666666664554,
+          "before": 55,
+          "after": 54,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 48.94166666666453,
+          "before": 54,
+          "after": 53,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 49.31666666666451,
+          "before": 53,
+          "after": 52,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 49.708333333331154,
+          "before": 52,
+          "after": 51,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 50.06666666666447,
+          "before": 51,
+          "after": 50,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 50.441666666664446,
+          "before": 50,
+          "after": 49,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 50.82499999999776,
+          "before": 49,
+          "after": 48,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 52.458333333331,
+          "before": 48,
+          "after": 47,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 52.49166666666433,
+          "before": 47,
+          "after": 46,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 52.508333333330995,
+          "before": 46,
+          "after": 45,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 52.59999999999766,
+          "before": 45,
+          "after": 44,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 52.63333333333099,
+          "before": 44,
+          "after": 43,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 52.64166666666432,
+          "before": 43,
+          "after": 42,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 54.87499999999753,
+          "before": 42,
+          "after": 41,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 55.16666666666418,
+          "before": 41,
+          "after": 40,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 55.2999999999975,
+          "before": 40,
+          "after": 39,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 55.366666666664166,
+          "before": 39,
+          "after": 38,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 57.35833333333072,
+          "before": 38,
+          "after": 37,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 57.48333333333071,
+          "before": 37,
+          "after": 36,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 57.54166666666404,
+          "before": 36,
+          "after": 35,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 57.7583333333307,
+          "before": 35,
+          "after": 34,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 59.69999999999725,
+          "before": 34,
+          "after": 33,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 59.72499999999725,
+          "before": 33,
+          "after": 32,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 59.766666666663916,
+          "before": 32,
+          "after": 31,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 60.09999999999723,
+          "before": 31,
+          "after": 30,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 60.15833333333056,
+          "before": 30,
+          "after": 29,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 60.199999999997225,
+          "before": 29,
+          "after": 28,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 60.291666666663886,
+          "before": 28,
+          "after": 27,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 60.349999999997216,
+          "before": 27,
+          "after": 26,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 62.19999999999711,
+          "before": 26,
+          "after": 25,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 62.266666666663774,
+          "before": 25,
+          "after": 24,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 62.649999999997085,
+          "before": 24,
+          "after": 23,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 64.0416666666637,
+          "before": 23,
+          "after": 22,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 64.13333333333044,
+          "before": 22,
+          "after": 21,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 64.65833333333086,
+          "before": 21,
+          "after": 20,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 64.71666666666424,
+          "before": 20,
+          "after": 19,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 66.52499999999901,
+          "before": 19,
+          "after": 18,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 66.99166666666605,
+          "before": 18,
+          "after": 17,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 68.86666666666754,
+          "before": 17,
+          "after": 16,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 68.88333333333422,
+          "before": 16,
+          "after": 15,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 68.90833333333424,
+          "before": 15,
+          "after": 14,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 69.17500000000112,
+          "before": 14,
+          "after": 13,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 71.32500000000283,
+          "before": 13,
+          "after": 12,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 71.89166666666995,
+          "before": 12,
+          "after": 11,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 72.04166666667007,
+          "before": 11,
+          "after": 10,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 73.93333333333824,
+          "before": 10,
+          "after": 9,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 74.47500000000534,
+          "before": 9,
+          "after": 8,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 76.14166666667333,
+          "before": 8,
+          "after": 7,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 77.10833333334077,
+          "before": 7,
+          "after": 6,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 78.30000000000838,
+          "before": 6,
+          "after": 5,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 79.25833333334248,
+          "before": 5,
+          "after": 4,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 79.30833333334252,
+          "before": 4,
+          "after": 3,
+          "shot": false,
+          "titan": 0
+        }
+      ],
+      "losses": [
+        {
+          "t": 9.975000000000074,
+          "from": 3,
+          "to": 2
+        },
+        {
+          "t": 15.61666666666642,
+          "from": 2,
+          "to": 1
+        },
+        {
+          "t": 79.73333333334286,
+          "from": 1,
+          "to": 0
+        }
+      ],
+      "phases": [
+        {
+          "phase": "relay",
+          "t": 0,
+          "hp": 120,
+          "lives": 3
+        },
+        {
+          "phase": "launch",
+          "t": 45.47499999999806,
+          "hp": 60,
+          "lives": 1
+        },
+        {
+          "phase": "flight",
+          "t": 45.924999999998036,
+          "hp": 60,
+          "lives": 1
+        },
+        {
+          "phase": "return",
+          "t": 50.82499999999776,
+          "hp": 48,
+          "lives": 1
+        },
+        {
+          "phase": "relay",
+          "t": 51.27499999999773,
+          "hp": 48,
+          "lives": 1
+        }
+      ],
+      "lastPhase": "relay",
+      "firstReady": {
+        "t": 37.474999999998516,
+        "hp": 96,
+        "phase": "relay",
+        "liveBalls": 1
+      },
+      "errors": [],
+      "decodedImages": 190
+    },
+    {
+      "device": "android",
+      "mode": "easy",
+      "state": "won",
+      "phase": "escape",
+      "clock": 46.65833333333133,
+      "hp": 0,
+      "lives": 3,
+      "remainingPanels": 0,
+      "remainingAmmo": 0,
+      "companionId": "vesper",
+      "returns": 50,
+      "priorVy": -1,
+      "priorLife": 3,
+      "aimTick": -1,
+      "nextInput": 5608,
+      "tick": 5602,
+      "casts": [
+        {
+          "kind": "five",
+          "t": 25.541666666665858,
+          "hp": 59,
+          "countBefore": 3,
+          "jammed": [
+            {
+              "id": "circuit-gun0",
+              "until": 31.541666666665858
+            }
+          ]
+        }
+      ],
+      "powers": [
+        {
+          "kind": "shield",
+          "t": 2.474999999999994
+        },
+        {
+          "kind": "split",
+          "t": 4.300000000000003
+        }
+      ],
+      "damage": [
+        {
+          "id": "circuit-hull",
+          "t": 14.774999999999801,
+          "before": 72,
+          "after": 71,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 16.94999999999968,
+          "before": 71,
+          "after": 70,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 17.491666666666315,
+          "before": 70,
+          "after": 69,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 17.924999999999624,
+          "before": 69,
+          "after": 68,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 18.541666666666256,
+          "before": 68,
+          "after": 67,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 19.5166666666662,
+          "before": 67,
+          "after": 66,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 19.558333333332865,
+          "before": 66,
+          "after": 65,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 19.583333333332863,
+          "before": 65,
+          "after": 64,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 19.616666666666195,
+          "before": 64,
+          "after": 63,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 22.28333333333271,
+          "before": 63,
+          "after": 62,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 22.34166666666604,
+          "before": 62,
+          "after": 61,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 23.18333333333266,
+          "before": 61,
+          "after": 60,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 24.808333333332566,
+          "before": 60,
+          "after": 59,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 25.699999999999182,
+          "before": 59,
+          "after": 58,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 26.841666666665784,
+          "before": 58,
+          "after": 57,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 26.91666666666578,
+          "before": 57,
+          "after": 56,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 26.958333333332444,
+          "before": 56,
+          "after": 55,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 26.966666666665777,
+          "before": 55,
+          "after": 54,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 27.00833333333244,
+          "before": 54,
+          "after": 53,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 27.024999999999107,
+          "before": 53,
+          "after": 52,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 27.041666666665773,
+          "before": 52,
+          "after": 51,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 27.041666666665773,
+          "before": 51,
+          "after": 50,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 27.05833333333244,
+          "before": 50,
+          "after": 49,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 27.074999999999104,
+          "before": 49,
+          "after": 48,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 27.074999999999104,
+          "before": 48,
+          "after": 47,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 27.099999999999103,
+          "before": 47,
+          "after": 46,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 27.141666666665767,
+          "before": 46,
+          "after": 45,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 27.18333333333243,
+          "before": 45,
+          "after": 44,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 27.199999999999097,
+          "before": 44,
+          "after": 43,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 28.858333333332336,
+          "before": 43,
+          "after": 42,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 28.883333333332335,
+          "before": 42,
+          "after": 41,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 28.916666666665666,
+          "before": 41,
+          "after": 40,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 29.558333333332296,
+          "before": 40,
+          "after": 39,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 29.62499999999896,
+          "before": 39,
+          "after": 38,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 29.65833333333229,
+          "before": 38,
+          "after": 37,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 29.68333333333229,
+          "before": 37,
+          "after": 36,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 30.933333333332218,
+          "before": 36,
+          "after": 35,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 31.31666666666553,
+          "before": 35,
+          "after": 34,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 31.708333333332174,
+          "before": 34,
+          "after": 33,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 32.07499999999882,
+          "before": 33,
+          "after": 32,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 32.458333333332135,
+          "before": 32,
+          "after": 31,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 32.841666666665446,
+          "before": 31,
+          "after": 30,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 33.241666666665424,
+          "before": 30,
+          "after": 29,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 33.6416666666654,
+          "before": 29,
+          "after": 28,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.00833333333205,
+          "before": 28,
+          "after": 27,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.383333333332025,
+          "before": 27,
+          "after": 26,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.76666666666534,
+          "before": 26,
+          "after": 25,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 35.14999999999865,
+          "before": 25,
+          "after": 24,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 36.96666666666521,
+          "before": 24,
+          "after": 23,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 37.09999999999854,
+          "before": 23,
+          "after": 22,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 37.1166666666652,
+          "before": 22,
+          "after": 21,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 37.1416666666652,
+          "before": 21,
+          "after": 20,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 37.183333333331866,
+          "before": 20,
+          "after": 19,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 37.1916666666652,
+          "before": 19,
+          "after": 18,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 37.2166666666652,
+          "before": 18,
+          "after": 17,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 37.23333333333186,
+          "before": 17,
+          "after": 16,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 37.416666666665186,
+          "before": 16,
+          "after": 15,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.97499999999843,
+          "before": 15,
+          "after": 14,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 39.774999999998386,
+          "before": 14,
+          "after": 13,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 40.04166666666504,
+          "before": 13,
+          "after": 12,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 40.17499999999836,
+          "before": 12,
+          "after": 11,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 40.84166666666499,
+          "before": 11,
+          "after": 10,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 41.59166666666495,
+          "before": 10,
+          "after": 9,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 42.12499999999825,
+          "before": 9,
+          "after": 8,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 42.15833333333158,
+          "before": 8,
+          "after": 7,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 42.17499999999825,
+          "before": 7,
+          "after": 6,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 42.18333333333158,
+          "before": 6,
+          "after": 5,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 42.21666666666491,
+          "before": 5,
+          "after": 4,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 42.67499999999822,
+          "before": 4,
+          "after": 3,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 43.0749999999982,
+          "before": 3,
+          "after": 2,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.09166666666481,
+          "before": 2,
+          "after": 1,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 44.94999999999809,
+          "before": 1,
+          "after": 0,
+          "shot": false,
+          "titan": 0
+        }
+      ],
+      "losses": [],
+      "phases": [
+        {
+          "phase": "relay",
+          "t": 0,
+          "hp": 72,
+          "lives": 3
+        },
+        {
+          "phase": "launch",
+          "t": 29.68333333333229,
+          "hp": 36,
+          "lives": 3
+        },
+        {
+          "phase": "flight",
+          "t": 30.133333333332263,
+          "hp": 36,
+          "lives": 3
+        },
+        {
+          "phase": "return",
+          "t": 35.14999999999865,
+          "hp": 24,
+          "lives": 3
+        },
+        {
+          "phase": "relay",
+          "t": 35.59999999999862,
+          "hp": 24,
+          "lives": 3
+        },
+        {
+          "phase": "escape",
+          "t": 44.94999999999809,
+          "hp": 0,
+          "lives": 3
+        }
+      ],
+      "lastPhase": "escape",
+      "firstReady": {
+        "t": 25.541666666665858,
+        "hp": 59,
+        "phase": "relay",
+        "liveBalls": 3
+      },
+      "errors": [],
+      "decodedImages": 190
+    },
+    {
+      "device": "android",
+      "mode": "medium",
+      "state": "lost",
+      "phase": "relay",
+      "clock": 39.14999999999842,
+      "hp": 83,
+      "lives": 0,
+      "reason": "Out of balls",
+      "remainingPanels": 0,
+      "remainingAmmo": 12,
+      "companionId": "vesper",
+      "returns": 32,
+      "priorVy": -1,
+      "priorLife": 0,
+      "aimTick": -1,
+      "nextInput": 4707,
+      "tick": 4699,
+      "casts": [
+        {
+          "kind": "five",
+          "t": 31.541666666665517,
+          "hp": 96,
+          "countBefore": 1,
+          "jammed": [
+            {
+              "id": "circuit-gun0",
+              "until": 37.54166666666552
+            }
+          ]
+        }
+      ],
+      "powers": [
+        {
+          "kind": "shield",
+          "t": 2.474999999999994
+        },
+        {
+          "kind": "split",
+          "t": 4.300000000000003
+        }
+      ],
+      "damage": [
+        {
+          "id": "circuit-hull",
+          "t": 34.2749999999987,
+          "before": 96,
+          "after": 95,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.2999999999987,
+          "before": 95,
+          "after": 94,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.31666666666536,
+          "before": 94,
+          "after": 93,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.35833333333203,
+          "before": 93,
+          "after": 92,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.37499999999869,
+          "before": 92,
+          "after": 91,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.39166666666536,
+          "before": 91,
+          "after": 90,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.41666666666536,
+          "before": 90,
+          "after": 89,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.49166666666535,
+          "before": 89,
+          "after": 88,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 34.53333333333202,
+          "before": 88,
+          "after": 87,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 37.49166666666518,
+          "before": 87,
+          "after": 86,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 37.849999999998495,
+          "before": 86,
+          "after": 85,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.06666666666515,
+          "before": 85,
+          "after": 84,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 38.21666666666514,
+          "before": 84,
+          "after": 83,
+          "shot": false,
+          "titan": 0
+        }
+      ],
+      "losses": [
+        {
+          "t": 17.266666666666328,
+          "from": 3,
+          "to": 2
+        },
+        {
+          "t": 25.424999999999198,
+          "from": 2,
+          "to": 1
+        },
+        {
+          "t": 39.14999999999842,
+          "from": 1,
+          "to": 0
+        }
+      ],
+      "phases": [
+        {
+          "phase": "relay",
+          "t": 0,
+          "hp": 96,
+          "lives": 3
+        }
+      ],
+      "lastPhase": "relay",
+      "firstReady": {
+        "t": 31.541666666665517,
+        "hp": 96,
+        "phase": "relay",
+        "liveBalls": 1
+      },
+      "errors": [],
+      "decodedImages": 190
+    },
+    {
+      "device": "android",
+      "mode": "hard",
+      "state": "lost",
+      "phase": "relay",
+      "clock": 22.733333333332684,
+      "hp": 117,
+      "lives": 0,
+      "reason": "Out of balls",
+      "remainingPanels": 5,
+      "remainingAmmo": 12,
+      "companionId": "vesper",
+      "returns": 14,
+      "priorVy": -1,
+      "priorLife": 0,
+      "aimTick": -1,
+      "nextInput": 2739,
+      "tick": 2729,
+      "casts": [],
+      "powers": [
+        {
+          "kind": "shield",
+          "t": 2.474999999999994
+        },
+        {
+          "kind": "split",
+          "t": 4.300000000000003
+        },
+        {
+          "kind": "laser",
+          "t": 19.841666666666182
+        }
+      ],
+      "damage": [
+        {
+          "id": "circuit-hull",
+          "t": 22.216666666666047,
+          "before": 120,
+          "after": 119,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 22.51666666666603,
+          "before": 119,
+          "after": 118,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "circuit-hull",
+          "t": 22.60833333333269,
+          "before": 118,
+          "after": 117,
+          "shot": true,
+          "titan": 0
+        }
+      ],
+      "losses": [
+        {
+          "t": 10.125000000000066,
+          "from": 3,
+          "to": 2
+        },
+        {
+          "t": 15.041666666666453,
+          "from": 2,
+          "to": 1
+        },
+        {
+          "t": 22.733333333332684,
+          "from": 1,
+          "to": 0
+        }
+      ],
+      "phases": [
+        {
+          "phase": "relay",
+          "t": 0,
+          "hp": 120,
+          "lives": 3
+        }
+      ],
+      "lastPhase": "relay",
+      "firstReady": null,
+      "errors": [],
+      "decodedImages": 190
+    }
+  ],
+  "hashAfter": "3239453720bd6b05c4165a8d7bdefa0ade1414882e41693a275e8b070dd39d3e",
+  "complete": true
+}

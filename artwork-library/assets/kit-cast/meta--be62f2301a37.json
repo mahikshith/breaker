@@ -1,0 +1,231 @@
+{
+  "cell": 256,
+  "pivot": [
+    128,
+    128
+  ],
+  "timing": {
+    "anticipation": 0.05,
+    "arrival": 0.3,
+    "settled": 0.46
+  },
+  "anims": {
+    "Spin": {
+      "frames": 16,
+      "loop": false,
+      "alpha_bounds": [
+        [
+          55,
+          44,
+          201,
+          228
+        ],
+        [
+          59,
+          39,
+          206,
+          228
+        ],
+        [
+          73,
+          35,
+          197,
+          228
+        ],
+        [
+          94,
+          33,
+          174,
+          227
+        ],
+        [
+          117,
+          32,
+          152,
+          227
+        ],
+        [
+          86,
+          33,
+          168,
+          227
+        ],
+        [
+          63,
+          35,
+          186,
+          228
+        ],
+        [
+          52,
+          39,
+          199,
+          228
+        ],
+        [
+          55,
+          44,
+          201,
+          228
+        ],
+        [
+          57,
+          39,
+          204,
+          228
+        ],
+        [
+          70,
+          35,
+          193,
+          228
+        ],
+        [
+          88,
+          33,
+          170,
+          227
+        ],
+        [
+          104,
+          32,
+          139,
+          227
+        ],
+        [
+          82,
+          33,
+          162,
+          227
+        ],
+        [
+          59,
+          35,
+          183,
+          228
+        ],
+        [
+          50,
+          39,
+          197,
+          228
+        ]
+      ],
+      "sha256": [
+        "9ccb3f5028e59dce6f68f8785fc047c1dbfd8512d9415d520fb4b768bad31fa4",
+        "fd525cc326864266406c2bf5495d9b2e4bca5d100d24349ca702a487d912c68f",
+        "016baa262d8d2a79fad174a5acd21598fd41603f6ba9622552cf917bd28bf8cf",
+        "663938c575387833d0c00601661dac39bc1891ae80ecaf893122d2d66208664e",
+        "a1d66e52a04a458b55779d4e637f61b910fba8f3beea3549839df8aa453aaa8a",
+        "ad2f95fd19e9ae1fd10d32508f08e3c6d19563da00f02ad8f6be0300f4f66a66",
+        "0197332c3228bc94bb52868df3fca57904eba76f4eb8e2b1532a937221ac6b52",
+        "eb2104214e41f3a1b7e7c273b139f56834b10a9d1c7056c9c71dac74361cc1c6",
+        "132b3a0298ee37c057110d690088fcdae0a47813fe3b9b47225ead8af6db20e1",
+        "5e124feeb95e7efcb5638b07fcc20e5c3716dc83b4c2c5e74d9acbf28cd61924",
+        "864401df4104e35402050da69af878cddc26df50c2706fb2755fc8580aed523a",
+        "72a06c48c6d03a66db1de50b4237fa6a873ef08ff8e4d097f7c44533732148e7",
+        "cd999acc4a862ee6e6a9b5f160c5079e953a9797683c4efee50bc3c8a6a7467f",
+        "24a43287d27fe59b2acde56c90c2ea979fb3fe17b2c67b3d76d58c1afc85149a",
+        "e2b6ac19ba9f391a1a8ad7eb1606b004fe9457d3d214a6176481582ec3c0e311",
+        "d19520e25e447ac431874bf560a0b4f7ed1e72001fafd6913d526af129801964"
+      ]
+    },
+    "Armour": {
+      "frames": 12,
+      "loop": false,
+      "alpha_bounds": [
+        [
+          67,
+          59,
+          189,
+          211
+        ],
+        [
+          67,
+          60,
+          189,
+          210
+        ],
+        [
+          65,
+          62,
+          191,
+          208
+        ],
+        [
+          63,
+          64,
+          193,
+          205
+        ],
+        [
+          61,
+          67,
+          195,
+          201
+        ],
+        [
+          61,
+          71,
+          195,
+          197
+        ],
+        [
+          62,
+          75,
+          194,
+          192
+        ],
+        [
+          62,
+          70,
+          194,
+          188
+        ],
+        [
+          62,
+          67,
+          194,
+          189
+        ],
+        [
+          59,
+          67,
+          197,
+          189
+        ],
+        [
+          57,
+          67,
+          199,
+          189
+        ],
+        [
+          57,
+          68,
+          199,
+          188
+        ]
+      ],
+      "sha256": [
+        "8ce04d98207ab0ae05c36b57d02b548d423950a27de6f593dea0467c4ce7fc6a",
+        "066c02816a84a5f9cb94a5358ff631d2ac399178438b8fd917c115fd11850a04",
+        "70b501621a832bb103c6fefd06b637c546e07a69d56245de27a7f174e84f2e26",
+        "5eb9ec56edffda610766e451589bfbe51cc534a9e2b3c990ee34c09d64068c09",
+        "f62637f7ed16702a0a86855130a64cf5f7195c3279d3725ebaef3fcbc0041abd",
+        "1183e84ddbc70d6e9731b9451b1a33362b2da3ff9d0c59a74dcc5aed21721895",
+        "b4716ba59e768fcee0c1b25c61dc8fdff700a334a836260af74f11c9a9657a41",
+        "95adb37be9d53cca9e27668ea378c711f19667b5d62b3ef64c4c57310c2e110a",
+        "b1e2cbd15a88a1a34a8345f4257ca8670f5580d4bf29178ed7daa1ba9a01f0cd",
+        "095ea6f1f10c086b64bbbd778ce0d6891c61d1e4e2e3ec11bae00acfb67b1d85",
+        "5641cdd239620b439d6e153701b43a085a2d4b92c36c64b472ff0d22ac3dc863",
+        "3191824bfc7219ebec90a257b553d36a1c13a37d3f18cf1efe8c85ee587edded"
+      ]
+    }
+  },
+  "source": "art/kit_cast.py; Kit heater profile/materials from art/kit.py",
+  "collision": "none; visual delivery only",
+  "renderer": "Blender 5.2.2 / Cycles",
+  "samples": 32,
+  "supersample": 2
+}

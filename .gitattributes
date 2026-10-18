@@ -1,0 +1,10 @@
+# Preserve the byte hashes used by the artwork catalogue and source rig manifests.
+* whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+artwork-library/** -text
+assets/** -text
+*.gltf -text
+*.blend -text
+*.svg -text
+art/brum.py -text
+art/frost_warden.py -text
+art/frost-warden/** -text

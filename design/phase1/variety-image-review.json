@@ -1,0 +1,27 @@
+{
+  "status": "direction options pending owner picks; not gameplay or production assets",
+  "boards": [
+    {
+      "path": "design/phase1/img/relay-variety-study-v3.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "sha256": "98c5c46cd080dee7ae97cf83120f519d158437c25db803a3a68f46b67810b1cd",
+      "metadata": {},
+      "pixelPreservingNormalisation": true
+    },
+    {
+      "path": "design/phase1/img/orbital-variety-study-v3.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "sha256": "278a52aac8f5167132ae47b787e12e2aeac25f285764e016a94440a488b53193",
+      "metadata": {},
+      "pixelPreservingNormalisation": true
+    }
+  ]
+}

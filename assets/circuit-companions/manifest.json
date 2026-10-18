@@ -1,0 +1,331 @@
+{
+  "version": 1,
+  "status": "Selected Circuit cast; normalized runtime raster family, native review required",
+  "reference": "design/phase1/img/space-relay-b.png",
+  "referenceSHA256": "ebeb16a19ab9bc624f4c7083ac18b4f1194630f6254f612002773da3b649381a",
+  "filter": "linear",
+  "collision": "presentation only; no ball or hostile collision",
+  "families": {
+    "vesper": {
+      "atlas": "assets/circuit-companions/vesper.png",
+      "cell": [
+        256,
+        256
+      ],
+      "columns": 3,
+      "rows": 3,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "clips": {
+        "idle": {
+          "frames": [
+            0
+          ],
+          "fps": 1,
+          "loop": true
+        },
+        "ready": {
+          "frames": [
+            1
+          ],
+          "fps": 1,
+          "loop": true
+        },
+        "warning": {
+          "frames": [
+            2
+          ],
+          "fps": 1,
+          "loop": true
+        },
+        "loss": {
+          "frames": [
+            3
+          ],
+          "fps": 1,
+          "loop": true
+        },
+        "win": {
+          "frames": [
+            4
+          ],
+          "fps": 1,
+          "loop": true
+        },
+        "secured": {
+          "frames": [
+            8
+          ],
+          "fps": 1,
+          "loop": true
+        },
+        "surprise": {
+          "frames": [
+            2
+          ],
+          "fps": 1,
+          "loop": true
+        },
+        "command": {
+          "frames": [
+            5,
+            6,
+            7,
+            8,
+            0
+          ],
+          "fps": 10,
+          "loop": false
+        }
+      },
+      "source": "art/space/circuit-companions/source/vesper-original.png",
+      "sourceSHA256": "e14168bb92fd911591de8d3fd6c493e50f88cdc7e302fb8d7bc37f3f678f9dac",
+      "uniformScale": 0.5558312655086849,
+      "sha256": "d20ca517d250f0badc1c50a38a46275d36ee6fe23f704b78852bbce782f4a969",
+      "frames": [
+        {
+          "index": 0,
+          "path": "assets/circuit-companions/vesper_00.png",
+          "sha256": "4ce37dce57a360b263ac9eee07d65d7aef57f75941ac7cfe66c2c6953058f256",
+          "bounds": [
+            23,
+            69,
+            233,
+            240
+          ]
+        },
+        {
+          "index": 1,
+          "path": "assets/circuit-companions/vesper_01.png",
+          "sha256": "8ca66e541d547d331c3e3a2505cb8358e81cd938e18196b76402d246dc153304",
+          "bounds": [
+            19,
+            68,
+            236,
+            240
+          ]
+        },
+        {
+          "index": 2,
+          "path": "assets/circuit-companions/vesper_02.png",
+          "sha256": "a11de8e09cbb8e53f3e9898a73678a5796fd8b39f12b9ed661a4673729c9f522",
+          "bounds": [
+            20,
+            65,
+            236,
+            240
+          ]
+        },
+        {
+          "index": 3,
+          "path": "assets/circuit-companions/vesper_03.png",
+          "sha256": "5d7866ac6a75ec92fca767a7c04955caea35d47370780ee61ae237d3befa8307",
+          "bounds": [
+            19,
+            64,
+            237,
+            240
+          ]
+        },
+        {
+          "index": 4,
+          "path": "assets/circuit-companions/vesper_04.png",
+          "sha256": "e1ec030c13e6540a66d9f2eecbc3839087ab8111508e9e58e036a17a5df9075d",
+          "bounds": [
+            17,
+            65,
+            239,
+            240
+          ]
+        },
+        {
+          "index": 5,
+          "path": "assets/circuit-companions/vesper_05.png",
+          "sha256": "9e30f9316c1da28e6ac5c47625f8cb668c0d03be02f056430fa6c212883a31f0",
+          "bounds": [
+            16,
+            64,
+            239,
+            240
+          ]
+        },
+        {
+          "index": 6,
+          "path": "assets/circuit-companions/vesper_06.png",
+          "sha256": "c648158a0c02329f4e7fd8db14252e18968eb2bce1712d056809b2b90bda2592",
+          "bounds": [
+            16,
+            69,
+            240,
+            240
+          ]
+        },
+        {
+          "index": 7,
+          "path": "assets/circuit-companions/vesper_07.png",
+          "sha256": "93660dd682576a6fd5949e7b236379403d2c29e8b83d8f6b51ef0dc18b16d1b9",
+          "bounds": [
+            17,
+            70,
+            239,
+            240
+          ]
+        },
+        {
+          "index": 8,
+          "path": "assets/circuit-companions/vesper_08.png",
+          "sha256": "ef3fdd37caef3b0dcfba9de597b6803a00d5a74e5652c0f552a5fb15ab916138",
+          "bounds": [
+            17,
+            75,
+            239,
+            240
+          ]
+        }
+      ]
+    },
+    "latch": {
+      "atlas": "assets/circuit-companions/latch.png",
+      "cell": [
+        256,
+        256
+      ],
+      "columns": 4,
+      "rows": 2,
+      "pivot": [
+        0.921875,
+        0.59
+      ],
+      "clips": {
+        "idle": {
+          "frames": [
+            0
+          ],
+          "fps": 1,
+          "loop": true
+        },
+        "approach": {
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": false
+        },
+        "clamp": {
+          "frames": [
+            3,
+            4
+          ],
+          "fps": 4,
+          "loop": true
+        },
+        "release": {
+          "frames": [
+            5,
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false
+        }
+      },
+      "source": "art/space/circuit-companions/source/latch-original.png",
+      "sourceSHA256": "80f2f30564372366b69be33b929eae50b3782beb77c48067468199ce65d17d58",
+      "uniformScale": 0.5320665083135392,
+      "sha256": "ff5b9a5f8a809bbdf34c59b8e1dfc60fb72d3954ea96d0eb2e52359a7b9b48f5",
+      "frames": [
+        {
+          "index": 0,
+          "path": "assets/circuit-companions/latch_00.png",
+          "sha256": "876d7e76963d7698b83f3b989653bb08df3cfd95b6e863b669f174ec79b42bfe",
+          "bounds": [
+            13,
+            45,
+            236,
+            212
+          ]
+        },
+        {
+          "index": 1,
+          "path": "assets/circuit-companions/latch_01.png",
+          "sha256": "cdab5b114225f1db356152cd84d823826a791a9728470adf164e0c543068723a",
+          "bounds": [
+            21,
+            49,
+            236,
+            208
+          ]
+        },
+        {
+          "index": 2,
+          "path": "assets/circuit-companions/latch_02.png",
+          "sha256": "f5eb95ea004236862f9e7d42cce7bcd9aec25c3e2aa48d7ed4a9bfb2a5f01b1c",
+          "bounds": [
+            31,
+            48,
+            236,
+            209
+          ]
+        },
+        {
+          "index": 3,
+          "path": "assets/circuit-companions/latch_03.png",
+          "sha256": "6f3dd57adebb8846c7eba42f13b309fffd7a01302c39be5c4383a82469cc20e8",
+          "bounds": [
+            14,
+            47,
+            236,
+            209
+          ]
+        },
+        {
+          "index": 4,
+          "path": "assets/circuit-companions/latch_04.png",
+          "sha256": "cf2ff9b72a5a97d73e3261e42577466b2f5295127b8a85c0f3419648df42522b",
+          "bounds": [
+            18,
+            52,
+            236,
+            205
+          ]
+        },
+        {
+          "index": 5,
+          "path": "assets/circuit-companions/latch_05.png",
+          "sha256": "1ee23cb5ca45d470c813734b8d72e6ceb957d510fbff8b74ffb265cbcd474bfb",
+          "bounds": [
+            25,
+            51,
+            236,
+            206
+          ]
+        },
+        {
+          "index": 6,
+          "path": "assets/circuit-companions/latch_06.png",
+          "sha256": "c72a1d78cb58ccef7031dfc52fc3a234c3b7301ad9f196a960a425561ccd176b",
+          "bounds": [
+            12,
+            51,
+            236,
+            206
+          ]
+        },
+        {
+          "index": 7,
+          "path": "assets/circuit-companions/latch_07.png",
+          "sha256": "b1b1d9441befcd29f4c66dad6f50a4fb89db99373b035baebbeffa0b79c5a8c7",
+          "bounds": [
+            38,
+            50,
+            236,
+            206
+          ]
+        }
+      ]
+    }
+  }
+}

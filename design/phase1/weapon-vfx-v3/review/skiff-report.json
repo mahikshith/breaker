@@ -1,0 +1,2005 @@
+{
+  "scope": "Composed visual-only skiff proposal using exact approved raster cuts and illustrated panel hits; no gameplay completion claim",
+  "sourceBefore": "35c10fd3ff37d1187428355203854545f64dd06abc7b8f12595a035e28367127",
+  "artBefore": "1a719e78b2bae0ecc3a96aee7475c6075a1b4d5227b9f1abd31824abdc084758",
+  "devices": {
+    "ios": {
+      "errors": [],
+      "checks": {
+        "baselineUnchanged": true,
+        "paddle": {
+          "x": 180,
+          "y": 614,
+          "w": 125,
+          "h": 29,
+          "vx": 0,
+          "baseW": 125,
+          "wideT": 0,
+          "wideLevel": 0,
+          "shrinkT": 0,
+          "laserT": 0,
+          "laserCd": 0,
+          "stun": 0,
+          "charge": 0
+        },
+        "ready": {
+          "x": 180,
+          "y": 604,
+          "m": 1,
+          "extension": 1,
+          "covers": 1,
+          "active": true,
+          "returning": false,
+          "muzzles": [
+            {
+              "x": 165.265625,
+              "y": 585.953125,
+              "recoil": 0,
+              "side": 0,
+              "flash": 0
+            },
+            {
+              "x": 194.765625,
+              "y": 585.953125,
+              "recoil": 0,
+              "side": 1,
+              "flash": 0
+            }
+          ]
+        },
+        "recoil": {
+          "x": 180,
+          "y": 604,
+          "m": 1,
+          "extension": 1,
+          "covers": 1,
+          "active": true,
+          "returning": false,
+          "muzzles": [
+            {
+              "x": 165.265625,
+              "y": 589.6572161034086,
+              "recoil": 3.70409110340859,
+              "side": 0,
+              "flash": 0.5972713076354079
+            },
+            {
+              "x": 194.765625,
+              "y": 585.953125,
+              "recoil": 0,
+              "side": 1,
+              "flash": 0
+            }
+          ]
+        },
+        "pulse": [
+          {
+            "launch": 0.58,
+            "from": {
+              "x": 165.265625,
+              "y": 585.953125,
+              "recoil": 0,
+              "side": 0,
+              "flash": 1
+            },
+            "to": {
+              "x": 172.49891611543086,
+              "y": 395
+            },
+            "target": {
+              "id": "circuit-panel26",
+              "part": "brick_cyan",
+              "art": {
+                "x": 153,
+                "y": 386.5,
+                "w": 59.77358490566038,
+                "h": 29.75,
+                "rect": {
+                  "x": 129,
+                  "y": 378,
+                  "w": 48,
+                  "h": 17
+                }
+              }
+            },
+            "duration": 0.3412322753097863
+          },
+          {
+            "launch": 0.96,
+            "from": {
+              "x": 194.765625,
+              "y": 585.953125,
+              "recoil": 0,
+              "side": 1,
+              "flash": 1
+            },
+            "to": {
+              "x": 188.74320902621847,
+              "y": 395
+            },
+            "target": {
+              "id": "circuit-panel27",
+              "part": "brick_violet",
+              "art": {
+                "x": 207,
+                "y": 386.6808510638298,
+                "w": 59.77358490566038,
+                "h": 30.382978723404253,
+                "rect": {
+                  "x": 183,
+                  "y": 378,
+                  "w": 48,
+                  "h": 17
+                }
+              }
+            },
+            "duration": 0.3411572696830763
+          },
+          {
+            "launch": 1.3399999999999999,
+            "from": {
+              "x": 165.265625,
+              "y": 585.953125,
+              "recoil": 0,
+              "side": 0,
+              "flash": 1
+            },
+            "to": {
+              "x": 173.29439465721458,
+              "y": 374
+            },
+            "target": {
+              "id": "circuit-panel20",
+              "part": "brick_violet",
+              "art": {
+                "x": 153,
+                "y": 365.6808510638298,
+                "w": 59.77358490566038,
+                "h": 30.382978723404253,
+                "rect": {
+                  "x": 129,
+                  "y": 357,
+                  "w": 48,
+                  "h": 17
+                }
+              }
+            },
+            "duration": 0.3787591698369406
+          },
+          {
+            "launch": 1.7200000000000002,
+            "from": {
+              "x": 194.765625,
+              "y": 585.953125,
+              "recoil": 0,
+              "side": 1,
+              "flash": 1
+            },
+            "to": {
+              "x": 188.08089603474787,
+              "y": 374
+            },
+            "target": {
+              "id": "circuit-panel21",
+              "part": "brick_cyan",
+              "art": {
+                "x": 207,
+                "y": 365.5,
+                "w": 59.77358490566038,
+                "h": 29.75,
+                "rect": {
+                  "x": 183,
+                  "y": 357,
+                  "w": 48,
+                  "h": 17
+                }
+              }
+            },
+            "duration": 0.3786759154938982
+          }
+        ],
+        "times": [
+          {
+            "x": 180,
+            "y": 614,
+            "m": 0,
+            "extension": 0,
+            "covers": 0,
+            "active": false,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 163.265625,
+                "y": 604.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.765625,
+                "y": 604.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 610.9008789310573,
+            "m": 0.30991210689427423,
+            "extension": 0.1169972795538498,
+            "covers": 0.20621179832180536,
+            "active": false,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 163.49961955910769,
+                "y": 600.8010284150727,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.53163044089231,
+                "y": 600.8010284150727,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 605.6679367982523,
+            "m": 0.83320632017477,
+            "extension": 0.9776185975036439,
+            "covers": 1,
+            "active": false,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.2208621950073,
+                "y": 587.8224944207195,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.8103878049927,
+                "y": 587.8224944207195,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 589.3833191540941,
+                "recoil": 3.4301941540941803,
+                "side": 0,
+                "flash": 0.445747300682782
+              },
+              {
+                "x": 194.765625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 589.1194562366647,
+                "recoil": 3.166331236664705,
+                "side": 1,
+                "flash": 0.9533985370263827
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 588.1604237249978,
+                "recoil": 2.207298724997816,
+                "side": 1,
+                "flash": 0.1363737370970075
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 585.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 604.3429355281207,
+            "m": 0.9657064471879289,
+            "extension": 1,
+            "covers": 1,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 586.2960605281207,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 586.2960605281207,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 608.7223492353808,
+            "m": 0.5277650764619226,
+            "extension": 0.5055300527007891,
+            "covers": 0.6868674595504435,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 164.27668510540158,
+                "y": 595.1257037610736,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 195.75456489459842,
+                "y": 595.1257037610736,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 613.4065945231926,
+            "m": 0.05934054768073971,
+            "extension": 0,
+            "covers": 0,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 163.265625,
+                "y": 604.3597195231926,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.765625,
+                "y": 604.3597195231926,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 614,
+            "m": 0,
+            "extension": 0,
+            "covers": 0,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 163.265625,
+                "y": 604.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.765625,
+                "y": 604.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 614,
+            "m": 0,
+            "extension": 0,
+            "covers": 0,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 163.265625,
+                "y": 604.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.765625,
+                "y": 604.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 614,
+            "m": 0,
+            "extension": 0,
+            "covers": 0,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 163.265625,
+                "y": 604.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.765625,
+                "y": 604.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 614,
+            "m": 0,
+            "extension": 0,
+            "covers": 0,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 163.265625,
+                "y": 604.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.765625,
+                "y": 604.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 614,
+            "m": 0,
+            "extension": 0,
+            "covers": 0,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 163.265625,
+                "y": 604.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.765625,
+                "y": 604.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 614,
+            "m": 0,
+            "extension": 0,
+            "covers": 0,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 163.265625,
+                "y": 604.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.765625,
+                "y": 604.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          }
+        ]
+      },
+      "stills": [
+        {
+          "name": "paddle",
+          "time": 0,
+          "file": "out/weapon-vfx-v3-skiff/proof/ios-paddle.png"
+        },
+        {
+          "name": "unlock",
+          "time": 0.12,
+          "file": "out/weapon-vfx-v3-skiff/proof/ios-unlock.png"
+        },
+        {
+          "name": "open",
+          "time": 0.25,
+          "file": "out/weapon-vfx-v3-skiff/proof/ios-open.png"
+        },
+        {
+          "name": "deployed",
+          "time": 0.45,
+          "file": "out/weapon-vfx-v3-skiff/proof/ios-deployed.png"
+        },
+        {
+          "name": "left-fire",
+          "time": 0.64,
+          "file": "out/weapon-vfx-v3-skiff/proof/ios-left-fire.png"
+        },
+        {
+          "name": "right-fire",
+          "time": 1.02,
+          "file": "out/weapon-vfx-v3-skiff/proof/ios-right-fire.png"
+        },
+        {
+          "name": "breakup",
+          "time": 1.2,
+          "file": "out/weapon-vfx-v3-skiff/proof/ios-breakup.png"
+        },
+        {
+          "name": "return",
+          "time": 3.69,
+          "file": "out/weapon-vfx-v3-skiff/proof/ios-return.png"
+        }
+      ]
+    },
+    "android": {
+      "errors": [],
+      "checks": {
+        "baselineUnchanged": true,
+        "paddle": {
+          "x": 180,
+          "y": 675,
+          "w": 125,
+          "h": 29,
+          "vx": 0,
+          "baseW": 125,
+          "wideT": 0,
+          "wideLevel": 0,
+          "shrinkT": 0,
+          "laserT": 0,
+          "laserCd": 0,
+          "stun": 0,
+          "charge": 0
+        },
+        "ready": {
+          "x": 180,
+          "y": 665,
+          "m": 1,
+          "extension": 1,
+          "covers": 1,
+          "active": true,
+          "returning": false,
+          "muzzles": [
+            {
+              "x": 165.265625,
+              "y": 646.953125,
+              "recoil": 0,
+              "side": 0,
+              "flash": 0
+            },
+            {
+              "x": 194.765625,
+              "y": 646.953125,
+              "recoil": 0,
+              "side": 1,
+              "flash": 0
+            }
+          ]
+        },
+        "recoil": {
+          "x": 180,
+          "y": 665,
+          "m": 1,
+          "extension": 1,
+          "covers": 1,
+          "active": true,
+          "returning": false,
+          "muzzles": [
+            {
+              "x": 165.265625,
+              "y": 650.6572161034086,
+              "recoil": 3.70409110340859,
+              "side": 0,
+              "flash": 0.5972713076354079
+            },
+            {
+              "x": 194.765625,
+              "y": 646.953125,
+              "recoil": 0,
+              "side": 1,
+              "flash": 0
+            }
+          ]
+        },
+        "pulse": [
+          {
+            "launch": 0.58,
+            "from": {
+              "x": 165.265625,
+              "y": 646.953125,
+              "recoil": 0,
+              "side": 0,
+              "flash": 1
+            },
+            "to": {
+              "x": 173.61158274518436,
+              "y": 395
+            },
+            "target": {
+              "id": "circuit-panel26",
+              "part": "brick_cyan",
+              "art": {
+                "x": 153,
+                "y": 386.5,
+                "w": 59.77358490566038,
+                "h": 29.75,
+                "rect": {
+                  "x": 129,
+                  "y": 378,
+                  "w": 48,
+                  "h": 17
+                }
+              }
+            },
+            "duration": 0.4501630664297014
+          },
+          {
+            "launch": 0.96,
+            "from": {
+              "x": 194.765625,
+              "y": 646.953125,
+              "recoil": 0,
+              "side": 1,
+              "flash": 1
+            },
+            "to": {
+              "x": 187.81680620659102,
+              "y": 395
+            },
+            "target": {
+              "id": "circuit-panel27",
+              "part": "brick_violet",
+              "art": {
+                "x": 207,
+                "y": 386.6808510638298,
+                "w": 59.77358490566038,
+                "h": 30.382978723404253,
+                "rect": {
+                  "x": 183,
+                  "y": 378,
+                  "w": 48,
+                  "h": 17
+                }
+              }
+            },
+            "duration": 0.4500873755871322
+          },
+          {
+            "launch": 1.3399999999999999,
+            "from": {
+              "x": 165.265625,
+              "y": 646.953125,
+              "recoil": 0,
+              "side": 0,
+              "flash": 1
+            },
+            "to": {
+              "x": 174.30720861864344,
+              "y": 374
+            },
+            "target": {
+              "id": "circuit-panel20",
+              "part": "brick_violet",
+              "art": {
+                "x": 153,
+                "y": 365.6808510638298,
+                "w": 59.77358490566038,
+                "h": 30.382978723404253,
+                "rect": {
+                  "x": 129,
+                  "y": 357,
+                  "w": 48,
+                  "h": 17
+                }
+              }
+            },
+            "duration": 0.4876836345711909
+          },
+          {
+            "launch": 1.7200000000000002,
+            "from": {
+              "x": 194.765625,
+              "y": 646.953125,
+              "recoil": 0,
+              "side": 1,
+              "flash": 1
+            },
+            "to": {
+              "x": 187.23763024018226,
+              "y": 374
+            },
+            "target": {
+              "id": "circuit-panel21",
+              "part": "brick_cyan",
+              "art": {
+                "x": 207,
+                "y": 365.5,
+                "w": 59.77358490566038,
+                "h": 29.75,
+                "rect": {
+                  "x": 183,
+                  "y": 357,
+                  "w": 48,
+                  "h": 17
+                }
+              }
+            },
+            "duration": 0.48760163498490616
+          }
+        ],
+        "times": [
+          {
+            "x": 180,
+            "y": 675,
+            "m": 0,
+            "extension": 0,
+            "covers": 0,
+            "active": false,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 163.265625,
+                "y": 665.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.765625,
+                "y": 665.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 671.9008789310573,
+            "m": 0.30991210689427423,
+            "extension": 0.1169972795538498,
+            "covers": 0.20621179832180536,
+            "active": false,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 163.49961955910769,
+                "y": 661.8010284150727,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.53163044089231,
+                "y": 661.8010284150727,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 666.6679367982523,
+            "m": 0.83320632017477,
+            "extension": 0.9776185975036439,
+            "covers": 1,
+            "active": false,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.2208621950073,
+                "y": 648.8224944207195,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.8103878049927,
+                "y": 648.8224944207195,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 650.3833191540941,
+                "recoil": 3.4301941540941803,
+                "side": 0,
+                "flash": 0.445747300682782
+              },
+              {
+                "x": 194.765625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 650.1194562366647,
+                "recoil": 3.166331236664705,
+                "side": 1,
+                "flash": 0.9533985370263827
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 649.1604237249978,
+                "recoil": 2.207298724997816,
+                "side": 1,
+                "flash": 0.1363737370970075
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665,
+            "m": 1,
+            "extension": 1,
+            "covers": 1,
+            "active": true,
+            "returning": false,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 646.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 665.3429355281207,
+            "m": 0.9657064471879289,
+            "extension": 1,
+            "covers": 1,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 165.265625,
+                "y": 647.2960605281207,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 194.765625,
+                "y": 647.2960605281207,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 669.7223492353808,
+            "m": 0.5277650764619226,
+            "extension": 0.5055300527007891,
+            "covers": 0.6868674595504435,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 164.27668510540158,
+                "y": 656.1257037610736,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 195.75456489459842,
+                "y": 656.1257037610736,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 674.4065945231926,
+            "m": 0.05934054768073971,
+            "extension": 0,
+            "covers": 0,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 163.265625,
+                "y": 665.3597195231926,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.765625,
+                "y": 665.3597195231926,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 675,
+            "m": 0,
+            "extension": 0,
+            "covers": 0,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 163.265625,
+                "y": 665.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.765625,
+                "y": 665.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 675,
+            "m": 0,
+            "extension": 0,
+            "covers": 0,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 163.265625,
+                "y": 665.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.765625,
+                "y": 665.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 675,
+            "m": 0,
+            "extension": 0,
+            "covers": 0,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 163.265625,
+                "y": 665.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.765625,
+                "y": 665.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 675,
+            "m": 0,
+            "extension": 0,
+            "covers": 0,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 163.265625,
+                "y": 665.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.765625,
+                "y": 665.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 675,
+            "m": 0,
+            "extension": 0,
+            "covers": 0,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 163.265625,
+                "y": 665.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.765625,
+                "y": 665.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          },
+          {
+            "x": 180,
+            "y": 675,
+            "m": 0,
+            "extension": 0,
+            "covers": 0,
+            "active": false,
+            "returning": true,
+            "muzzles": [
+              {
+                "x": 163.265625,
+                "y": 665.953125,
+                "recoil": 0,
+                "side": 0,
+                "flash": 0
+              },
+              {
+                "x": 196.765625,
+                "y": 665.953125,
+                "recoil": 0,
+                "side": 1,
+                "flash": 0
+              }
+            ]
+          }
+        ]
+      },
+      "stills": [
+        {
+          "name": "paddle",
+          "time": 0,
+          "file": "out/weapon-vfx-v3-skiff/proof/android-paddle.png"
+        },
+        {
+          "name": "unlock",
+          "time": 0.12,
+          "file": "out/weapon-vfx-v3-skiff/proof/android-unlock.png"
+        },
+        {
+          "name": "open",
+          "time": 0.25,
+          "file": "out/weapon-vfx-v3-skiff/proof/android-open.png"
+        },
+        {
+          "name": "deployed",
+          "time": 0.45,
+          "file": "out/weapon-vfx-v3-skiff/proof/android-deployed.png"
+        },
+        {
+          "name": "left-fire",
+          "time": 0.64,
+          "file": "out/weapon-vfx-v3-skiff/proof/android-left-fire.png"
+        },
+        {
+          "name": "right-fire",
+          "time": 1.02,
+          "file": "out/weapon-vfx-v3-skiff/proof/android-right-fire.png"
+        },
+        {
+          "name": "breakup",
+          "time": 1.2,
+          "file": "out/weapon-vfx-v3-skiff/proof/android-breakup.png"
+        },
+        {
+          "name": "return",
+          "time": 3.69,
+          "file": "out/weapon-vfx-v3-skiff/proof/android-return.png"
+        }
+      ]
+    }
+  },
+  "sourceAfter": "35c10fd3ff37d1187428355203854545f64dd06abc7b8f12595a035e28367127",
+  "artAfter": "1a719e78b2bae0ecc3a96aee7475c6075a1b4d5227b9f1abd31824abdc084758",
+  "moduleSHA256": "5738bbb412e1f56c9f3f90b15d6f41fe767ebc3364c98a7f5630429d06addf5f",
+  "visualRevision": {
+    "projectileCellDisplay": 37,
+    "visibleBodyUnits": 13.5859375,
+    "muzzleFlashSeconds": 0.14,
+    "recoilEnvelopeUnits": 5,
+    "nativeStillsInspected": [
+      "ios-left-fire.png",
+      "android-right-fire.png"
+    ],
+    "cadenceAndDamage": "unchanged; visual-only prototype",
+    "reviewSHA256": "25e19dd05bf1d6766bdeff92bcf73dad02d8ab83741f9194ed4bc703cd7883eb",
+    "payloadSHA256": "e50ca4d2e8b4aeb6f22925eceaf92f4826af7ac84a4fc2a785f6756ff4c97551"
+  }
+}

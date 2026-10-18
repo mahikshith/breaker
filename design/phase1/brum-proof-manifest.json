@@ -1,0 +1,57 @@
+{
+  "id": "brum-first-proof",
+  "role": "hero and ally; frost porter; not yet playable",
+  "status": "internal-visual-review",
+  "productionAdmitted": false,
+  "source": {
+    "creator": "Quaternius",
+    "pack": "Ultimate Monsters",
+    "license": "CC0-1.0",
+    "creatorUrl": "https://quaternius.com/packs/ultimatemonsters.html",
+    "inspectedCopyUrl": "https://raw.githubusercontent.com/castle-engine/castle-engine/60a49b33914135dbea5dbcd1c040a4bcf08db10e/examples/viewport_and_scenes/occlusion_culling/data/quaternius_ultimate_monsters/Yeti.gltf",
+    "sha256": "b9c088fbcd357b82f3cb9a3f33a6b5c5603d3e55958a695e2bd9e419cc6527fb",
+    "localIgnoredPath": "out/cast/source-audit/Yeti.gltf",
+    "bodyJoints": 43,
+    "bodyActions": 14,
+    "originalFaceRig": false
+  },
+  "script": "art/brum.py",
+  "output": {
+    "pxPerWorldUnit": 3,
+    "cellWorldUnits": [144, 128],
+    "cellPixels": [432, 384],
+    "pivotWorldUnits": [72, 116],
+    "pivotPixels": [216, 348],
+    "referenceCharacterHeightWorldUnits": 80,
+    "frontIdleAlphaBoundsPixels": [82, 107, 350, 349],
+    "facePortraitPixels": [512, 512],
+    "alpha": "straight RGBA",
+    "filtering": "smooth downsampling from 3px per world unit",
+    "collisionRole": "none; isolated proof only"
+  },
+  "proofs": {
+    "modelBoard": "out/brum-proof/coat-v7/model-review.png",
+    "motionBoard": "out/brum-proof/coat-v7/motion-review.png",
+    "continuityBoard": "out/brum-proof/coat-v7/continuity-review.png",
+    "beforeAfter": "out/brum-proof/coat-v7/comparison.png",
+    "keyPoseTimingStudy": "out/brum-proof/coat-v7/key-poses.gif",
+    "firstCoatVersionMotionHistory": ["out/brum-proof/punch.gif", "out/brum-proof/idle.gif", "out/brum-proof/walk.gif"],
+    "sourceTopology": "out/brum-proof/source-topology.json",
+    "sourceMotion": "out/brum-proof/source-motion.json",
+    "measuredContact": "out/brum-proof/coat-v7/contact-timing.json",
+    "imageChecks": "out/brum-proof/coat-v7/proof-checks.json"
+  },
+  "samples": {
+    "expressions": ["Neutral", "Welcome", "Protective"],
+    "Idle": {"frames": 4, "sourceFrameRange": [0, 24], "previewDurationMs": 1000},
+    "Walk": {"frames": 6, "sourceFrameRange": [0, 24], "previewDurationMs": 996},
+    "Punch": {"frames": 10, "sourceFrameRange": [0, 20.8], "previewDurationMs": 1000, "proposedContactPhase": 0.6}
+  },
+  "reviewLimits": [
+    "Coat-v7 replaces the collar and pendant locks with joined fur and passed focused independent review; owner review remains pending.",
+    "Finger closure and fist silhouette need continued review through the full motion.",
+    "Face expressions are new controls; source import alone does not validate final art quality.",
+    "Contact block is a pose timing target, with no implemented damage, collision or collapse.",
+    "No new level, encounter behavior, game bundle or production asset family is included."
+  ]
+}

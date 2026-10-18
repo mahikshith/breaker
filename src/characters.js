@@ -73,7 +73,8 @@ export function drawFox(g, x, y, s = 1, mood = 'scared', t = 0) {
 
 const SNAKE = '#3b1f4f', SNAKE_DARK = '#160a20', GOLD = '#f2c14e';
 // pts: [{x,y}] head first. dir: head angle. stun: seconds remaining.
-export function drawSerpent(g, pts, dir, t, stun = 0, open = 0) {
+export function drawSerpent(g, pts, dir, t, stun = 0, open = 0, palette = {}) {
+  const skin = palette.body || SNAKE, dark = palette.dark || SNAKE_DARK;
   const n = pts.length;
   // shadows
   g.fillStyle = 'rgba(0,0,0,0.35)';
@@ -81,12 +82,12 @@ export function drawSerpent(g, pts, dir, t, stun = 0, open = 0) {
   for (let i = n - 1; i >= 1; i--) {
     const p = pts[i], r = segR(i, n);
     const gr = g.createRadialGradient(p.x - r * 0.4, p.y - r * 0.5, r * 0.1, p.x, p.y, r);
-    gr.addColorStop(0, '#7a4a95'); gr.addColorStop(0.5, SNAKE); gr.addColorStop(1, SNAKE_DARK);
+    gr.addColorStop(0, palette.body ? shade(skin, 0.35) : '#7a4a95'); gr.addColorStop(0.5, skin); gr.addColorStop(1, dark);
     g.fillStyle = gr; g.beginPath(); g.arc(p.x, p.y, r, 0, 7); g.fill();
     // gold diamond marking along the spine
     const q = pts[i - 1], a = Math.atan2(q.y - p.y, q.x - p.x);
     g.save(); g.translate(p.x, p.y); g.rotate(a);
-    g.fillStyle = i % 2 ? GOLD : shade(GOLD, -0.25);
+    g.fillStyle = i % 2 ? palette.mark || GOLD : shade(palette.mark || GOLD, -0.25);
     g.beginPath(); g.moveTo(-r * 0.5, 0); g.lineTo(0, -r * 0.32); g.lineTo(r * 0.5, 0); g.lineTo(0, r * 0.32); g.closePath(); g.fill();
     g.restore();
     g.fillStyle = 'rgba(255,255,255,0.18)'; g.beginPath(); g.ellipse(p.x - r * 0.35, p.y - r * 0.45, r * 0.4, r * 0.2, -0.5, 0, 7); g.fill();
@@ -102,14 +103,14 @@ export function drawSerpent(g, pts, dir, t, stun = 0, open = 0) {
     g.beginPath(); g.moveTo(10, 0); g.lineTo(10 + L, 0); g.lineTo(14 + L, -3); g.moveTo(10 + L, 0); g.lineTo(14 + L, 3); g.stroke();
   }
   const hg = g.createRadialGradient(-3, -5, 1, 0, 0, 13);
-  hg.addColorStop(0, '#8a58a6'); hg.addColorStop(0.5, SNAKE); hg.addColorStop(1, SNAKE_DARK);
+  hg.addColorStop(0, palette.body ? shade(skin, 0.4) : '#8a58a6'); hg.addColorStop(0.5, skin); hg.addColorStop(1, dark);
   g.fillStyle = hg;
   g.beginPath(); g.moveTo(-9, -8); g.bezierCurveTo(3, -12, 13, -6, 13, 0); g.bezierCurveTo(13, 6, 3, 12, -9, 8); g.bezierCurveTo(-13, 4, -13, -4, -9, -8); g.fill();
   // jaw opens when chewing
   if (open > 0) { g.fillStyle = '#5a0d1e'; g.beginPath(); g.moveTo(13, 0); g.lineTo(5, -3 * open); g.lineTo(5, 3 * open); g.closePath(); g.fill(); }
   // brow ridges and eyes
   for (const s of [-1, 1]) {
-    g.fillStyle = SNAKE_DARK; g.beginPath(); g.ellipse(3, s * 6, 5, 2.4, s * 0.3, 0, 7); g.fill();
+    g.fillStyle = dark; g.beginPath(); g.ellipse(3, s * 6, 5, 2.4, s * 0.3, 0, 7); g.fill();
     g.fillStyle = stun > 0 ? '#c9c2d6' : '#ffd23f'; g.beginPath(); g.ellipse(4, s * 5.2, 3, 2.2, s * 0.2, 0, 7); g.fill();
     g.fillStyle = '#120612';
     if (stun > 0) { g.lineWidth = 0.9; g.strokeStyle = '#120612'; g.beginPath(); g.moveTo(2.5, s * 5.2 - 1.5); g.lineTo(5.5, s * 5.2 + 1.5); g.moveTo(5.5, s * 5.2 - 1.5); g.lineTo(2.5, s * 5.2 + 1.5); g.stroke(); }

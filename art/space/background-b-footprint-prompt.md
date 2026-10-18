@@ -1,0 +1,8 @@
+# Relay B background planet footprint correction
+
+Use case: precise-object-edit.
+Input1 is the current corrected production far background,1024×1536, with just one blue planet. Preserve the full-bleed dark starfield and existing distant edge asteroids. Change only the lower-right blue crescent planet and its immediate background where its old footprint is removed.
+
+The blue crescent currently reaches too far into the phone's central and lower gameplay lanes after a right-anchored uniform portrait crop. Shrink it and move it farther to the right, with most of the unlit sphere outside the right edge. Its only visible crescent/body slice in the1024×1536 output should lie roughly inside x868..1024 and y860..1198. That corresponds to the phone's rightmost22percent, around x78..100percent and y56..78percent. Do not draw a rectangular crop boundary; retain a natural sphere arc. A useful geometric target is a sphere center just outside the right edge around(1045,1029), radius175pixels. Reconstruct matching natural starfield where the former larger planet is removed. Leave no ghost arc, dark patched rectangle or additional planet.
+
+Dim the thin blue rim and surface by another30percent, keeping the crescent subdued and clearly behind the much brighter white ball/cyan foreground sprites. The unlit body should blend into space. Preserve its blue identity and true spherical curve; no rings, no egg stretch, no central spotlight. Keep the central play area and lower paddle lane dark and continuously star-filled. No other design changes, no new rocks in the center, no ships, hulls, cannons, portal, bricks, ball, paddle, workers, characters, companions, UI, labels, panels, rails, deck or text. Return the same1024×1536opaque full-bleed portrait plate.

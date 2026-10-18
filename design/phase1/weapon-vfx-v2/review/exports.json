@@ -1,0 +1,29 @@
+{
+  "scope": "Full-resolution VP9 motion uses a quality100/4:4:4 JPEG pipe into the bundled losslessVP9 encoder, because it lacks a PNG decoder. CompactGIF viewing copies and native source-frame contact boards are also provided. Native PNGs are authoritative.",
+  "files": {
+    "magnetic-breacher-contact.png": {
+      "bytes": 875243,
+      "sha256": "8b6a5488bf0dcc4cb64e9789a8505a9321d3257e7f04811a0c6b758414823a90"
+    },
+    "magnetic-breacher.gif": {
+      "bytes": 6643428,
+      "sha256": "a9ac00129a2b70ad49734d3701e3085de9ce1f1b04a15efeb6670e5ebb28bf1c"
+    },
+    "magnetic-breacher.webm": {
+      "bytes": 1592224,
+      "sha256": "2def9f2286509ee0a741207f9e2983e1727f990c4a1a6c0c1605e52f41d92047"
+    },
+    "reactor-rupture-contact.png": {
+      "bytes": 889636,
+      "sha256": "94f32e4b0f42fc98937d66589dd29ca451b72ebab7f204cef3121135a3c20dcc"
+    },
+    "reactor-rupture.gif": {
+      "bytes": 7674801,
+      "sha256": "54a504ef642fc5294e9451239db93ce35d5192a4dda36d87e753d9b5b08e255d"
+    },
+    "reactor-rupture.webm": {
+      "bytes": 1848792,
+      "sha256": "9fd74387e57410cb279eabe9ffcb9cfe5e610901ace565174be22a0127cc5c54"
+    }
+  }
+}

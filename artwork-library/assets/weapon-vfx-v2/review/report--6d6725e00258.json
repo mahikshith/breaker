@@ -1,0 +1,212 @@
+{
+  "scope": "Visual-only actual rendered animation review, not damage/physics/difficulty proof. Native393×852 movies; both393×852 and412×915 exact rendered phase stills. Original cannon/panel rasters and approved A/B payloads, actual12-frame charge clips; no rejected flight/impact seed.",
+  "fps": 24,
+  "frozen": {
+    "carrier": "c404346220646c2f671987204710f190c031b08228990dd4778a2ff0d5fadcfd",
+    "circuit": "31fd49e80d9e0299403914a2d8479e49d3d0e899818170538276639b3ccff08f",
+    "forge": "144524ad1418c4439e518969378c3e662d5e1d885667a359c5f7fe86d2148202"
+  },
+  "selection": "99b74438144e2f4c8a4789727c5351ea80852848fbda75153947612e95881d74",
+  "manifest": "9c946badb34b73a94221845c3eefa1f80e50510e70c335cf67f344f9eff6bf41",
+  "renderer": "27923de30d50d1b9a334d583656b7b946a97c4b19ff0b8677fe3a367e5667eff",
+  "families": {
+    "magnetic-breacher": {
+      "timeline": {
+        "charge": 0.35,
+        "fire": 1.65,
+        "impact": 2.4,
+        "cool": 2.95,
+        "end": 4.1,
+        "duration": 5.2
+      },
+      "phases": {
+        "charge": 1.49,
+        "discharge": 1.7799999999999998,
+        "travel": 2.1375,
+        "impact": 2.56,
+        "cooling": 3.8
+      },
+      "frames": 125,
+      "drawCost": {
+        "p50": 0.10000002384185791,
+        "p95": 0.20000004768371582,
+        "max": 0.5,
+        "scope": "Desktop headless browser milliseconds for3native canvases including UI writes; not real-phone FPS."
+      }
+    },
+    "reactor-rupture": {
+      "timeline": {
+        "charge": 0.35,
+        "fire": 1.95,
+        "impact": 3.05,
+        "cool": 3.6,
+        "end": 4.7,
+        "duration": 5.2
+      },
+      "phases": {
+        "charge": 1.79,
+        "discharge": 2.08,
+        "travel": 2.665,
+        "impact": 3.21,
+        "cooling": 4.4
+      },
+      "frames": 125,
+      "drawCost": {
+        "p50": 0.19999992847442627,
+        "p95": 0.40000009536743164,
+        "max": 2.6999999284744263,
+        "scope": "Desktop headless browser milliseconds for3native canvases including UI writes; not real-phone FPS."
+      }
+    }
+  },
+  "errors": [],
+  "failedRequests": [],
+  "metrics": {
+    "frames": 1559,
+    "drawCalls": 6,
+    "maxDrawCalls": 33,
+    "maxFrameMs": 28.799999952316284,
+    "readyClips": {
+      "helix": [
+        "charge",
+        "payload"
+      ],
+      "reactor": [
+        "charge",
+        "payload"
+      ]
+    },
+    "timelines": {
+      "helix": {
+        "charge": 0.35,
+        "fire": 1.65,
+        "impact": 2.4,
+        "cool": 2.95,
+        "end": 4.1,
+        "duration": 5.2
+      },
+      "reactor": {
+        "charge": 0.35,
+        "fire": 1.95,
+        "impact": 3.05,
+        "cool": 3.6,
+        "end": 4.7,
+        "duration": 5.2
+      }
+    },
+    "frozen": {
+      "carrier": "c404346220646c2f671987204710f190c031b08228990dd4778a2ff0d5fadcfd",
+      "circuit": "31fd49e80d9e0299403914a2d8479e49d3d0e899818170538276639b3ccff08f",
+      "forge": "144524ad1418c4439e518969378c3e662d5e1d885667a359c5f7fe86d2148202"
+    },
+    "scope": "Rendered charge atlases, actual approved payload PNGs and actual source panel/metal breakup. No rejected flight/impact seed is used."
+  },
+  "frozenAfter": {
+    "carrier": "c404346220646c2f671987204710f190c031b08228990dd4778a2ff0d5fadcfd",
+    "circuit": "31fd49e80d9e0299403914a2d8479e49d3d0e899818170538276639b3ccff08f",
+    "forge": "144524ad1418c4439e518969378c3e662d5e1d885667a359c5f7fe86d2148202"
+  },
+  "completed": true,
+  "sourceAssets": {
+    "assets/orbital-forge/cannon.png": "524b08b6c8f8a6fe850ca44ce0aba4f2775480cd814f72314538c4f69ef46651",
+    "assets/orbital-forge/cyan.png": "39ce1af0c96757c191b8826f3e8696e07571e4e437506eb6e7e69b50d7bc34c4",
+    "assets/space-a/brick_cyan.png": "1924df6e3e6cce57525926af53d6b166d3406f8650ce20c61c439ae104fb71b8",
+    "assets/space-a/cannon_barrel.png": "7aa333c33e806a030a64f38333b2b822b200f3c75c8aff59e4892be304957fa9",
+    "assets/space-b/cannon_barrel.png": "9e53a947eeea5e15097dc68433657bab415101684e653ecd0ac04c4a73f30afe",
+    "assets/space-common/brick_violet.png": "4a6563431caca5e83378822dc35f54ebeb8c74e35e541e0ee353eff0c4402b03",
+    "design/phase1/weapon-vfx-v2/helix-charge.png": "cb7ad875b0b2d2014f9a9e450a8e42b3334a6004b93bcc73b093a0f12bc87151",
+    "design/phase1/weapon-vfx-v2/payload-A.png": "ab4dfc62bae61d1e232ad3c9667f493211ce595d1e9b0986b2d5b6581dfa510c",
+    "design/phase1/weapon-vfx-v2/payload-B.png": "99e9205b3e41fb91a37a57880b7fe11dd3f2550c7b339944f731ce1d2527ca85",
+    "design/phase1/weapon-vfx-v2/reactor-charge.png": "b781323b90610e2f7a4380a1bfa54daf7be809ea6a9c4db7055d12db41577fa3"
+  },
+  "exports": {
+    "scope": "Full-resolution VP9 motion uses a quality100/4:4:4 JPEG pipe into the bundled losslessVP9 encoder, because it lacks a PNG decoder. CompactGIF viewing copies and native source-frame contact boards are also provided. Native PNGs are authoritative.",
+    "files": {
+      "magnetic-breacher-contact.png": {
+        "bytes": 875243,
+        "sha256": "8b6a5488bf0dcc4cb64e9789a8505a9321d3257e7f04811a0c6b758414823a90"
+      },
+      "magnetic-breacher.gif": {
+        "bytes": 6643428,
+        "sha256": "a9ac00129a2b70ad49734d3701e3085de9ce1f1b04a15efeb6670e5ebb28bf1c"
+      },
+      "magnetic-breacher.webm": {
+        "bytes": 1592224,
+        "sha256": "2def9f2286509ee0a741207f9e2983e1727f990c4a1a6c0c1605e52f41d92047"
+      },
+      "reactor-rupture-contact.png": {
+        "bytes": 889636,
+        "sha256": "94f32e4b0f42fc98937d66589dd29ca451b72ebab7f204cef3121135a3c20dcc"
+      },
+      "reactor-rupture.gif": {
+        "bytes": 7674801,
+        "sha256": "54a504ef642fc5294e9451239db93ce35d5192a4dda36d87e753d9b5b08e255d"
+      },
+      "reactor-rupture.webm": {
+        "bytes": 1848792,
+        "sha256": "9fd74387e57410cb279eabe9ffcb9cfe5e610901ace565174be22a0127cc5c54"
+      }
+    }
+  },
+  "deliveryValidation": {
+    "scope": "Chromium decodes final WebMs and seeks distinct actual video frames; this is delivery validation, not game/native-device performance.",
+    "renderer": "27923de30d50d1b9a334d583656b7b946a97c4b19ff0b8677fe3a367e5667eff",
+    "videos": {
+      "magnetic-breacher": {
+        "width": 1240,
+        "height": 1000,
+        "duration": 5.209,
+        "sha256": "2def9f2286509ee0a741207f9e2983e1727f990c4a1a6c0c1605e52f41d92047",
+        "bytes": 1592224,
+        "frames": [
+          {
+            "time": 1.5,
+            "sha256": "dc4bbd77d0c9d297cbf3e4c8f15a87bd9432b3700d04a1757cc56422804be6bf"
+          },
+          {
+            "time": 2.25,
+            "sha256": "7a087436da333c605bd07d91068419d6aba2429543ec5426100de981a45f3b87"
+          },
+          {
+            "time": 2.65,
+            "sha256": "88b87cf27e8aa7c087a71805caaa4b5a0bae6650f39738639b5730acb9538845"
+          },
+          {
+            "time": 3.21,
+            "sha256": "148df5aad506784555c3d250fb502d272c3bceca733ccc955dbad09623ae1752"
+          }
+        ],
+        "errors": []
+      },
+      "reactor-rupture": {
+        "width": 1240,
+        "height": 1000,
+        "duration": 5.209,
+        "sha256": "9fd74387e57410cb279eabe9ffcb9cfe5e610901ace565174be22a0127cc5c54",
+        "bytes": 1848792,
+        "frames": [
+          {
+            "time": 1.5,
+            "sha256": "bfb6c36195b11b1f4faeb6c23724539ca35d1dd72c3ef66599f077d765f49260"
+          },
+          {
+            "time": 2.25,
+            "sha256": "a928ae52ea632e7d3d89ab29a1fa93d3455009832c1a05d0f073c4615a58706e"
+          },
+          {
+            "time": 2.65,
+            "sha256": "6554c634f7697e1d0e65fe33f3becb33853ac19de529741a7959ce9db97160c5"
+          },
+          {
+            "time": 3.21,
+            "sha256": "c00cb44b5acd3ccdc3ce51278608e690452bd5079e971c4ebd96919e861cc8f3"
+          }
+        ],
+        "errors": []
+      }
+    },
+    "completed": true
+  },
+  "rendererSnapshot": "tools/weapon-vfx-review/review.js",
+  "previousRectangularFracture": "Pre-correction report/exports retained only as history; final video hashes are in deliveryValidation and use27923DE3 jagged-fracture renderer."
+}

@@ -2,7 +2,7 @@
 
 Companion to `docs/BREACH-ChatGPT-handoff.md`. Every script below is in the repo, https://github.com/mahikshith/breaker, at the path shown. They run headless with Blender 5.2 as a Python module:
 
-- Python 3.11, then `pip install bpy==5.2.2 pillow numpy`;
+- Python 3.13, then `pip install bpy==5.2.2 pillow numpy`;
 - Cycles on the CPU.
 
 The order of work is render, post-process, `python3 tools/pack_art.py`, then `npm run build`. Before committing, strip the PNG metadata (doc 02, section 3).
@@ -13,18 +13,805 @@ Design rule for anything new: reuse these materials, this light rig and this fac
 
 | Script | Status | What it does | Run | Output |
 |---|---|---|---|---|
+| `art/frost_warden.py` | Frost Warden runtime family | Separate hostile Yeti palette and seven real rig clips. Retains Brum ally source, measures projected hand and torso collision anchors, and renders 28 poses for the fifth princess encounter. | `python art/frost_warden.py art/frost-warden/renders --samples 16 --threads 4 --yaw 65` | art/frost-warden/renders/ and assets/frost-warden/ after packing |
+| `art/frost-warden/pack.py` | Frost atlas normalization | Normalizes rendered poses to 256x228 with fixed pivots, strips PNG metadata, preserves actual measured anchors and records source/runtime hashes. | `python art/frost-warden/pack.py` | assets/frost-warden/warden.png and manifest.json |
+| `art/space/weapons_v2.py` | Rejected historical study | Dimensional dark-metal charge clips and preserved flight/impact drafts for the replacement ship weapon review. Only charge atlases are complete; current single-frame payloads and Canvas motion remain outside gameplay. See design/phase1/weapon-vfx-v2-review.md and its asset report. | `python art/space/weapons-v2/validate.py` | design/phase1/weapon-vfx-v2/; saved scenes in art/space/weapons-v2/ |
+| `tools/archive_artwork.py` | Artwork preservation | Verifies preserved originals, stores new versions byte-for-byte, deduplicates identical artwork and updates the reusable catalogue and space-board gallery. Scope and backup limits are in docs/ARTWORK_LIBRARY.md. | `python tools/archive_artwork.py` | artwork-library/manifest.json, CATALOGUE.md, SPACE_BOARDS.md and preserved files |
+| `art/space/circuit/prepare.py` | Selected isolated review | Circuit skiff poses, measured emitters/cradle/lip and real B port leaves. Preserves original source family and emits stripped PNGs/normalized collision manifest; no permanent menu or APK admission. | `python art/space/circuit/prepare.py` | assets/relay-circuit/manifest.json and PNG family |
+| `art/space/forge/prepare.py` | Selected isolated review | Forge frame/coil/hinged cover, real C hull, external reactor/arm, cannon, panels and dark Saturn. Source-alpha ownership and measured contours preserve actual physical openings. | `python art/space/forge/prepare.py` | assets/orbital-forge/manifest.json and PNG family |
+| `tools/space-assets/pack-level-family.py` | Isolated runtime utility | Sizes selected level textures to phone resolution, writes lossless WebP and asserts exact resized-reference RGBA plus native-scale fidelity; source collision and anchors stay authoritative. | `python tools/space-assets/pack-level-family.py <manifest> <out>` | ignored runtime textures and report.json |
 | `art/render_vault_assets.py` | Production | The Vault: background plate, iron cage bars layer, glazed brick sprites (5 colours x 2 widths x damage states, gold gem, granite), chrome ball/fire/titan balls, paddle, power-up capsules. Defines the shared look: glazed-ceramic and vinyl materials, key/fill/bounce area lights, softbox reflection plane, ortho camera, AgX Medium High Contrast. | `python3 art/render_vault_assets.py all|plate|bars|sprites|post [--fast] [--threads N]` | art/out/vault_raw/ then assets/vault/ (via vault_post.py) |
 | `art/vault_post.py` | Production (no Blender) | Pillow/numpy post-process for the Vault renders: glows, splits the paddle into stretchable caps and middle, builds atlas.json and preview sheets. | `python3 art/vault_post.py` | assets/vault/ |
 | `art/render_invasion_assets.py` | Production | Invasion: hangar plate, candy/armour/power bricks, toy robot invaders (7 expressions x colours), the mothership with alien pilot (5 expressions and rim lights), bolt and bomb. Imports the Vault materials and light rig so both levels match. | `python3 art/render_invasion_assets.py all|plate|static|ship|bots|sprites|post` | art/out/invasion_raw/ then assets/invasion/ |
 | `art/invasion_post.py` | Production (no Blender) | Pillow/numpy post-process for Invasion: LED and plasma glows, calm/dim passes, atlas.json, contact and composite sheets. | `python3 art/invasion_post.py` | assets/invasion/ |
 | `art/princess.py` | Production, the model for every new character | Princess Lumi from the KayKit Rogue (CC0): atlas recolour, tiara, bell skirt, and the expressive face rig (glossy eyeballs with iris/pupil/catch-lights, skin lids with lash line, brows, reshaping mouth decal, blush) with per-animation expressions. Prince Kit should be built the same way from kk_Knight.glb. | `python3 art/princess.py assets/princess Idle:16 Cheer:16 Running_A:12 ... [--face] [--samples N] [--threads N]` | assets/princess/<Anim>_NN.png |
-| `art/snake.py` | Production | Gnash the serpent: angular faceted viper head with brow plates, hinged jaw and expressive eyes, 13 expressions in left/right facings. The body is drawn in code in the game. | `python3 art/snake.py assets/snake [expr ...] --dirs r,l --samples N --px N` | assets/snake/head_<expr>_<r|l>.png, meta.json |
+| `art/kit.py` | Production, selected Knight 2 | Open-helmet cobalt knight from KayKit Knight (CC0): continuous skin, fitted expressive face, hand-mounted heater shield and eight real rig animation families. Supersampled output is normalized to 168-pixel cells with fixed feet anchor; presentation portraits/turnaround are separate. | `python3 art/kit.py assets/kit Idle:16 Focus:12 Grin:12 Shock:8 Worried:12 Cheer:16 Hurt:8 Laugh:16 [--face] [--yaw N] [--samples N] [--threads N]` | assets/kit/<Clip>_NN.png; out/kit-proof/kit.blend |
+| `art/kit_cast.py` | Production, selected cast A | Spinning heater shield and unfolding brick armour. Sixteen Spin and twelve Armour frames deliver the existing timed Ward without a connecting light trail or changed defence deadlines. | `python3 art/kit_cast.py assets/kit-cast [--samples N] [--threads N]` | assets/kit-cast/Spin_NN.png and Armour_NN.png; ignored out/kit-cast-proof/ |
+| `art/brum.py` | Proof only, selected Brum | Bounded Yeti model/expression/motion proof: continuous source mouth and face, repaired eye surfaces, fitted lids and real articulated fists. Uses the verified CC0 source hash documented in design/phase1/04-brum-proof.md. No finished sprite family or encounter is implied. | `python3 art/brum.py out/brum-proof/front Neutral:1 Welcome:1 Protective:1 [--face] [--yaw N] [--samples N] [--threads N]` | ignored out/brum-proof/ PNGs, proof.json and editable scene |
+| `art/vesper.py` | Proof only, selected Relay Raiders | Bounded quadruped Cat source proof: continuous feline face, three expressions, four-paw skiff fit and retargeted Walk contact/loop checks. No finished sprite family, steering/flight system or playable encounter is implied. | `python3 art/vesper.py out/relay-proof/vesper/front Curious:1 Focus:1 Alarm:1 [--face] [--view N] [--samples N] [--threads N]` | ignored out/relay-proof/ PNGs, proof checks and editable scene |
+| `art/snake.py` | Production | Gnash and the jade warden variant: angular faceted viper head with brow plates, hinged jaw and expressive eyes, 13 expressions in left/right facings. The body is drawn in code with the matching palette. | `python3 art/snake.py assets/snake-jade --palette jade --dirs r,l --samples 64 --px 4 --threads 2` | assets/snake[-jade]/head_<expr>_<r|l>.png, meta.json |
 | `art/char_preview.py` | Utility | Quick lit preview of any rigged GLB at one frame of one animation; useful for checking KayKit parts and poses. | `python3 art/char_preview.py model.glb out.png [action] [frame]` | one PNG |
 | `art/vault_tower.py` | Look test (history) | The approved v3 look test: the Vault as a cutaway tower wall with big glazed bricks. The "shiny" target the production renders copy. (Its comments still mention an early fox character, later replaced by the princess.) | `python3 art/vault_tower.py [out.png] [scale]` | art/out/ |
 | `art/vault_side.py` | Look test (history) | Earlier side-view look test of the Vault. | `python3 art/vault_side.py [out.png] [scale]` | art/out/ |
 | `art/vault_scene.py` | Look test (history) | First top-down look test built from art/vault-grid.json. | `python3 art/vault_scene.py [out.png] [scale]` | art/out/ |
 | `art/vault-grid.json` | Data | Grid used by the early look tests. | `-` | - |
 | `tools/pack_art.py` | Production | Packs all rendered PNGs into src/vault-art.js as WebP data URIs (3 px per game unit for sprites) so the game ships as one HTML file. Run after any render, then npm run build. | `python3 tools/pack_art.py` | src/vault-art.js |
+
+
+---
+
+## `art/frost_warden.py`
+
+Separate hostile Yeti palette and seven real rig clips. Retains Brum ally source, measures projected hand and torso collision anchors, and renders 28 poses for the fifth princess encounter.
+
+```python
+# Render the hostile Frost Warden using the retained, licensed Yeti rig.
+from pathlib import Path
+import hashlib,json,math
+
+ROOT=Path(__file__).resolve().parents[1]
+frost_base_path=ROOT/'art/brum.py'
+assert hashlib.sha256(frost_base_path.read_bytes()).hexdigest()=='75968015af39eb6395d3f598f7f53f4a1db9cca2a21b83dbcab4c773dff45abd'
+code=frost_base_path.read_text().split("report={'source':str(SOURCE)")[0]
+replacements={
+    "ROOT/'out/cast/source-audit/Yeti.gltf'":"ROOT/'art/frost-warden/source/Yeti.gltf'",
+    "'#EAE1CE'":"'#444151'", "'#4B8DAD'":"'#91A8B5'", "'#496170'":"'#292D42'",
+    "'#28536C'":"'#302537'", "'#E7DFC9'":"'#E5EEF0'", "'#B6677C'":"'#87617E'", "'#102333'":"'#121322'",
+}
+for old,new in replacements.items():
+    assert old in code,old
+    code=code.replace(old,new)
+exec(compile(code,str(frost_base_path),'exec'),globals())
+from bpy_extras.object_utils import world_to_camera_view
+import numpy as np
+
+assert not args.face and not args.skin
+arm.rotation_euler=(0,0,math.radians(65))
+STATES['Scowl']=dict(mouth=.45,corner=-.018,lid=.31,low=.03,brow=-.015,tilt=.11,teeth=True)
+STATES['Stagger']=dict(mouth=.82,corner=-.025,lid=.20,low=.02,brow=.045,tilt=0,teeth=True)
+STATES['Triumph']=dict(mouth=.75,corner=.04,lid=.35,low=.06,brow=-.01,tilt=.10,teeth=True)
+track={}
+for side,sign in [('L',1),('R',-1)]:
+    group=skin.vertex_groups.new(name='frost_hand_'+side)
+    group.add([v.index for v in skin.data.vertices if v.co.x*sign>1.50],1,'REPLACE');track[side]=group.index
+
+def project(point):
+    q=world_to_camera_view(sc,cam,point)
+    return [q.x*CELL[0]-PIVOT[0],(1-q.y)*CELL[1]-PIVOT[1]]
+
+def rect(points):
+    xs=[p[0]for p in points];ys=[p[1]for p in points]
+    return dict(x=min(xs),y=min(ys),w=max(xs)-min(xs),h=max(ys)-min(ys))
+
+def anchors():
+    dep=bpy.context.evaluated_depsgraph_get();eo=skin.evaluated_get(dep);me=eo.to_mesh(preserve_all_data_layers=True,depsgraph=dep);hands={}
+    for side in ['L','R']:
+        points=[project(eo.matrix_world@v.co)for v in me.vertices if any(g.group==track[side] and g.weight>.5 for g in v.groups)]
+        box=rect(points);hands[side]={'x':box['x']+box['w']/2,'y':box['y']+box['h']/2,'r':min(box['w'],box['h'])*.46,'bounds':box}
+    eo.to_mesh_clear()
+    bones={side:{'shoulder':project(arm.matrix_world@arm.pose.bones['UpperArm.'+side].head),'elbow':project(arm.matrix_world@arm.pose.bones['LowerArm.'+side].head),'wrist':project(arm.matrix_world@arm.pose.bones['LowerArm.'+side].tail)}for side in ['L','R']}
+    return {'hands':hands,'bones':bones}
+
+specs=[
+ ('idle','Idle',[0,.25,.5,.75],'Scowl',6,True),
+ ('walk','Walk',[0,.25,.5,.75],'Scowl',8,True),
+ ('windup','Punch',[0,.1,.2,.3],'Protective',10,False),
+ ('strike','Punch',[.4,.5,.6,.7],'Protective',12,False),
+ ('recover','Punch',[.8,.9,.97,1],'Scowl',10,False),
+ ('hurt','HitReact',[0,.3,.6,.9],'Stagger',10,False),
+ ('victory','Yes',[0,.25,.5,.75],'Triumph',8,False),
+]
+OUT.mkdir(exist_ok=True,parents=True)
+meta={'source':'art/frost-warden/source/Yeti.gltf','sourceSHA256':hashlib.sha256(SOURCE.read_bytes()).hexdigest(),'derivedScript':'art/brum.py','derivedScriptSHA256':hashlib.sha256(frost_base_path.read_bytes()).hexdigest(),'unit':[144,128],'pivot':[.5,.90625],'nativeHeight':80,'forward':'right','yaw':65,'anchorSpace':'world units relative to feet pivot; x right, y down','clips':{},'frames':[]}
+for name,action_name,fractions,state,fps,loop in specs:
+    action=bpy.data.actions[action_name];arm.animation_data.action=action
+    if action.slots:arm.animation_data.action_slot=action.slots[0]
+    start=len(meta['frames']);meta['clips'][name]={'start':start,'n':len(fractions),'frames':list(range(start,start+len(fractions))),'fps':fps,'loop':loop,'source':action_name,'fractions':fractions}
+    f0,f1=action.frame_range
+    for i,fraction in enumerate(fractions):
+        frame=f0+(f1-f0)*fraction;sc.frame_set(int(frame),subframe=frame-int(frame));pose_fingers();face(state);bpy.context.view_layer.update()
+        measured=anchors();dest=OUT/f'{name}_{i:02}.png';sc.render.filepath=str(dest)
+        print('FROST RENDER',len(meta['frames'])+1,'/28',dest.name,flush=True)
+        bpy.ops.render.render(write_still=True)
+        with Image.open(dest)as im:
+            im.load();assert im.mode=='RGBA';b=im.getchannel('A').getbbox();assert b and min(b[:2])>1 and b[2]<im.width-1 and b[3]<im.height-1,(name,i,b)
+            im.save(dest)
+            # A conservative measured torso box excludes empty arm/leg corners.
+            alpha=np.array(im.getchannel('A'));rows=[]
+            for y in range(round(PX*46),round(PX*78)):
+                xs=np.where(alpha[y]>128)[0]
+                if len(xs):rows.append((int(xs.min()),int(xs.max())))
+            left=max(x[0]for x in rows);right=min(x[1]for x in rows)
+            measured['body']={'x':left/PX-PIVOT[0],'y':46-PIVOT[1],'w':max(8,(right-left)/PX),'h':32}
+        measured.update(index=len(meta['frames']),clip=name,pose=i,sourceFrame=frame,file=dest.name,alphaBounds=b)
+        meta['frames'].append(measured);(OUT/'render-progress.json').write_text(json.dumps(meta,indent=2))
+forward=max(['L','R'],key=lambda side:max(f['hands'][side]['x']+f['hands'][side]['r']for f in meta['frames']if f['clip']=='strike'))
+meta['forwardHand']=forward
+for f in meta['frames']:
+    f['fist']={k:f['hands'][forward][k]for k in ['x','y','r']};f.update(f['bones'][forward])
+bpy.ops.wm.save_as_mainfile(filepath=str(OUT/'frost-warden.blend'))
+(OUT/'render.json').write_text(json.dumps(meta,indent=2))
+print('FROST COMPLETE',forward,'forward hand',flush=True)
+```
+
+
+---
+
+## `art/frost-warden/pack.py`
+
+Normalizes rendered poses to 256x228 with fixed pivots, strips PNG metadata, preserves actual measured anchors and records source/runtime hashes.
+
+```python
+from pathlib import Path
+import json,hashlib
+from PIL import Image
+import numpy as np
+ROOT=Path(__file__).resolve().parents[2];SOURCE=Path(__file__).parent/'renders';OUT=ROOT/'assets/frost-warden';OUT.mkdir(parents=True,exist_ok=True)
+meta=json.loads((SOURCE/'render.json').read_text());atlas=Image.new('RGBA',(1792,912));records=[]
+
+def opaque_body_shapes(im):
+    alpha=np.array(im.getchannel('A'))
+    sx=im.width/144;sy=im.height/128;shapes=[]
+    # Intersect real contiguous opaque runs in short horizontal bands. This
+    # includes the head and lower belly without filling empty arm/leg corners.
+    for top in range(36,103,6):
+        rows=[];y0=round(top*sy);y1=round((top+6)*sy)
+        for row in alpha[y0:y1]:
+            occupied=row>=192
+            edges=np.diff(np.r_[False,occupied,False].astype(np.int8));runs=list(zip(np.where(edges==1)[0],np.where(edges==-1)[0]))
+            choices=[(l,r)for l,r in runs if l<=im.width*.5<=r]
+            if not choices:
+                choices=[(l,r)for l,r in runs if l<im.width*.64 and r>im.width*.36]
+            if not choices:rows=[];break
+            rows.append(max(choices,key=lambda p:p[1]-p[0]))
+        if not rows:continue
+        left=max(v[0]for v in rows);right=min(v[1]for v in rows)
+        if (right-left)/sx>=10:
+            shapes.append({'x':left/sx-72,'y':y0/sy-116,'w':(right-left)/sx,'h':(y1-y0)/sy})
+    # Keep the two legs/feet separate; never bridge their transparent gap.
+    for top in range(104,116,2):
+        y0=round(top*sy);y1=round((top+2)*sy);common=None
+        for row in alpha[y0:y1]:
+            edges=np.diff(np.r_[False,row>=192,False].astype(np.int8));runs=list(zip(np.where(edges==1)[0],np.where(edges==-1)[0]))
+            common=runs if common is None else [(max(a,c),min(b,d))for a,b in common for c,d in runs if min(b,d)>max(a,c)]
+            if not common:break
+        for left,right in common or []:
+            if (right-left)/sx>=6:
+                shapes.append({'x':left/sx-72,'y':y0/sy-116,'w':(right-left)/sx,'h':(y1-y0)/sy})
+    assert shapes,'No measured opaque torso bands'
+    return shapes
+
+for i,f in enumerate(meta['frames']):
+    im=Image.open(SOURCE/f['file']).convert('RGBA').resize((256,228),Image.Resampling.LANCZOS);a=np.array(im);a[a[:,:,3]==0]=0;im=Image.fromarray(a)
+    f['bodyShapes']=opaque_body_shapes(im)
+    bounds=im.getchannel('A').point(lambda a:255 if a>8 else 0).getbbox();assert bounds and min(bounds[:2])>1 and bounds[2]<255 and bounds[3]<227,(f['file'],bounds)
+    path=OUT/f['file'];im.save(path);atlas.paste(im,(i%7*256,i//7*228));records.append({'index':i,'file':path.relative_to(ROOT).as_posix(),'bounds':bounds,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()})
+path=OUT/'warden.png';atlas.save(path)
+manifest={**{k:meta[k]for k in ['unit','pivot','nativeHeight','forward','yaw','anchorSpace','forwardHand','clips','source','sourceSHA256','derivedScript','derivedScriptSHA256']},'atlas':'assets/frost-warden/warden.png','sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'cell':[256,228],'columns':7,'rows':4,'anchors':meta['frames'],'frames':records,'size':[1792,912],'palette':{'coat':'#444151','skin':'#91A8B5','belly':'#292D42'},'provenance':{'creator':'Quaternius','license':'CC0-1.0','pack':'Ultimate Monsters','sourceURL':'https://raw.githubusercontent.com/castle-engine/castle-engine/60a49b33914135dbea5dbcd1c040a4bcf08db10e/examples/viewport_and_scenes/occlusion_culling/data/quaternius_ultimate_monsters/Yeti.gltf','externalTextures':[]},'collision':'Measured projected fist circle, conservative torso box and alpha>=192 contiguous opaque head/chest/belly bands; runtime placement and sweeps require native alignment review'}
+manifest['render']={'script':'art/frost_warden.py','sha256':hashlib.sha256((ROOT/'art/frost_warden.py').read_bytes()).hexdigest(),'engine':'Blender 5.2.2 / Cycles CPU','samples':16,'sourceCell':[432,384],'sourcePixelsPerUnit':3,'runtimeFilter':'Lanczos, transparent RGB zeroed','normalizer':'art/frost-warden/pack.py','normalizerSHA256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
+(OUT/'manifest.json').write_text(json.dumps(manifest,indent=2));print(json.dumps({'atlas':str(path),'sha256':manifest['sha256'],'decodedRGBA':1792*912*4,'forwardHand':meta['forwardHand']}))
+```
+
+
+---
+
+## `art/space/weapons_v2.py`
+
+Dimensional dark-metal charge clips and preserved flight/impact drafts for the replacement ship weapon review. Only charge atlases are complete; current single-frame payloads and Canvas motion remain outside gameplay. See design/phase1/weapon-vfx-v2-review.md and its asset report.
+
+```python
+"""Bounded transparent 3D weapon motion studies. Not runtime-admitted.
+
+python art/space/weapons_v2.py proof | render [helix|reactor] | pack
+Sources and saved hero scenes stay in art/space/weapons-v2; cells/atlases in design/phase1/weapon-vfx-v2.
+"""
+import bpy, math, random, json, sys, hashlib
+from mathutils import Vector
+from pathlib import Path
+from PIL import Image, ImageFilter, ImageChops, ImageDraw
+
+ROOT=Path(__file__).resolve().parents[2]
+SOURCE=ROOT/'art/space/weapons-v2'
+OUT=ROOT/'design/phase1/weapon-vfx-v2'
+for p in (SOURCE,OUT,OUT/'proof',OUT/'frames'):p.mkdir(parents=True,exist_ok=True)
+N=12; SIZE=256; TAU=math.tau
+
+def mat(name,color,metal=0.,rough=.2,emission=0.):
+ m=bpy.data.materials.new(name);m.use_nodes=True;b=m.node_tree.nodes.get('Principled BSDF')
+ b.inputs['Base Color'].default_value=(*color,1);b.inputs['Metallic'].default_value=metal
+ b.inputs['Roughness'].default_value=rough;b.inputs['Coat Weight'].default_value=.65
+ b.inputs['Coat Roughness'].default_value=.07
+ b.inputs['Emission Color'].default_value=(*color,1);b.inputs['Emission Strength'].default_value=emission
+ return m
+
+def materials():
+ global M
+ M={
+  'chrome':mat('polished dark violet chrome',(.14,.105,.21),.96,.15),
+  'edge':mat('silver reflected bevel',(.48,.52,.67),1,.13),
+  'dark':mat('recessed graphite',(.018,.012,.036),.8,.24),
+  'armour':mat('blackened machined titanium',(.045,.05,.075),.94,.18),
+  'ceramic':mat('glossy dark ceramic',(.032,.018,.058),.48,.19),
+  'violet':mat('faceted amethyst plasma',(.25,.025,.8),.45,.15,.45),
+  'pink':mat('dense magenta current',(.36,.004,.12),.22,.18,1.35),
+  'cyan':mat('cyan edge current',(.012,.25,.42),.55,.12,.65),
+  'hot':mat('white violet energy',(.5,.12,.8),.25,.16,1.65),
+ }
+ # Turbulence creates material depth on solid plasma rather than a uniform emissive line.
+ nt=M['violet'].node_tree;b=nt.nodes.get('Principled BSDF');tex=nt.nodes.new('ShaderNodeTexNoise')
+ tex.inputs['Scale'].default_value=7;tex.inputs['Detail'].default_value=3
+ ramp=nt.nodes.new('ShaderNodeValToRGB');ramp.color_ramp.elements[0].color=(.025,.002,.085,1)
+ ramp.color_ramp.elements[1].color=(.55,.045,.85,1)
+ nt.links.new(tex.outputs['Fac'],ramp.inputs['Fac']);nt.links.new(ramp.outputs['Color'],b.inputs['Base Color'])
+
+def meshmat(o,key):o.data.materials.append(M[key]);return o
+def smooth(o):
+ if o.type=='MESH':
+  for p in o.data.polygons:p.use_smooth=True
+ return o
+def sphere(name,loc,scale,key,sub=2,faceted=False):
+ bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=sub,radius=1,location=loc);o=bpy.context.object;o.name=name;o.scale=scale
+ if not faceted:smooth(o)
+ return meshmat(o,key)
+def box(name,loc,scale,key,rot=(0,0,0),bevel=.05):
+ bpy.ops.mesh.primitive_cube_add(size=1,location=loc,rotation=rot);o=bpy.context.object;o.name=name;o.scale=scale
+ bpy.ops.object.transform_apply(location=False,rotation=False,scale=True)
+ mod=o.modifiers.new('machined rounded bevel','BEVEL');mod.width=bevel;mod.segments=3
+ o.modifiers.new('weighted reflections','WEIGHTED_NORMAL');return meshmat(o,key)
+def tube(name,pts,r,key):
+ c=bpy.data.curves.new(name,'CURVE');c.dimensions='3D';c.resolution_u=1;c.bevel_depth=r;c.bevel_resolution=3
+ s=c.splines.new('POLY');s.points.add(len(pts)-1)
+ for p,co in zip(s.points,pts):p.co=(*co,1)
+ o=bpy.data.objects.new(name,c);bpy.context.collection.objects.link(o);return meshmat(o,key)
+def torus(name,loc,r,thick,key,rot=(math.pi/2,0,0),scale=None):
+ bpy.ops.mesh.primitive_torus_add(major_segments=48,minor_segments=10,location=loc,rotation=rot,major_radius=r,minor_radius=thick)
+ o=bpy.context.object;o.name=name
+ if scale:o.scale=scale
+ return meshmat(smooth(o),key)
+def shellplate(name,angle,width,levels,key):
+ # Separate thick armour segments keep real open channels; bevels catch the same softboxes as the cannons.
+ verts=[];cols=5
+ for z,r in levels:
+  for k in range(cols):
+   a=angle+(k/(cols-1)-.5)*width;verts.append((r*math.cos(a),r*math.sin(a),z))
+ faces=[]
+ for j in range(len(levels)-1):
+  for k in range(cols-1):
+   a=j*cols+k;faces.append((a,a+1,a+cols+1,a+cols))
+ me=bpy.data.meshes.new(name);me.from_pydata(verts,[],faces);me.update();o=bpy.data.objects.new(name,me);bpy.context.collection.objects.link(o);meshmat(o,key)
+ mod=o.modifiers.new('solid armour thickness','SOLIDIFY');mod.thickness=.075
+ mod=o.modifiers.new('milled edge bevel','BEVEL');mod.width=.035;mod.segments=3
+ o.modifiers.new('broad machined normals','WEIGHTED_NORMAL');return o
+def fin(name,a,z):
+ # A welded trapezoid fin, not an unconnected jewel floating beside the body.
+ pts=[(.36,-.05,z+.33),(.89,-.05,z+.14),(.83,-.05,z-.32),(.44,-.05,z-.23),(.36,.05,z+.33),(.89,.05,z+.14),(.83,.05,z-.32),(.44,.05,z-.23)]
+ verts=[(x*math.cos(a)-y*math.sin(a),x*math.sin(a)+y*math.cos(a),zz) for x,y,zz in pts]
+ me=bpy.data.meshes.new(name);me.from_pydata(verts,[],[(0,1,2,3),(4,7,6,5),(0,4,5,1),(1,5,6,2),(2,6,7,3),(3,7,4,0)]);me.update()
+ o=bpy.data.objects.new(name,me);bpy.context.collection.objects.link(o);meshmat(o,'armour');mod=o.modifiers.new('fin machined bevel','BEVEL');mod.width=.035;mod.segments=3;o.modifiers.new('weighted fin highlights','WEIGHTED_NORMAL')
+ tube('fin edge reflection',[(.52*math.cos(a),.52*math.sin(a)-.055,z+.25),(.83*math.cos(a),.83*math.sin(a)-.055,z+.13)],.018,'edge')
+def light(name,loc,power,size,color):
+ bpy.ops.object.light_add(type='AREA',location=loc);o=bpy.context.object;o.name=name;o.data.energy=power;o.data.shape='DISK';o.data.size=size;o.data.color=color
+ o.rotation_euler=(Vector((0,0,0))-o.location).to_track_quat('-Z','Y').to_euler()
+
+def reset(phase):
+ bpy.ops.wm.read_factory_settings(use_empty=True);materials();sc=bpy.context.scene
+ sc.render.engine='CYCLES';sc.cycles.device='CPU';sc.cycles.samples=16;sc.cycles.use_denoising=True
+ sc.render.threads_mode='FIXED';sc.render.threads=4
+ sc.render.resolution_x=SIZE;sc.render.resolution_y=SIZE;sc.render.resolution_percentage=100
+ sc.render.film_transparent=True;sc.render.image_settings.file_format='PNG';sc.render.image_settings.color_mode='RGBA';sc.render.image_settings.color_depth='8'
+ sc.view_settings.view_transform='AgX';sc.view_settings.look='AgX - Medium High Contrast'
+ sc.world=bpy.data.worlds.new('violet reflection environment');sc.world.use_nodes=True
+ sc.world.node_tree.nodes['Background'].inputs['Color'].default_value=(.095,.07,.16,1)
+ sc.world.node_tree.nodes['Background'].inputs['Strength'].default_value=.5
+ # Same soft key/cool fill/coloured bounce/reflection-card scheme as render_vault_assets.py, at local prop scale.
+ light('large silver key',(-3,-4,5),650,4,(.83,.88,1))
+ light('cyan edge strip',(4,-1,1),430,2,(.18,.75,1))
+ light('magenta bounce',(-2,2,-2),370,3,(1,.12,.47))
+ bpy.ops.mesh.primitive_plane_add(size=1,location=(0,-6,1),rotation=(math.pi/2,0,0))
+ card=bpy.context.object;card.name='reflection-only softbox';card.scale=(4,5,1);card.visible_camera=False;card.visible_shadow=False
+ cm=mat('softbox reflection',(.7,.83,1),0,.2,2.5);card.data.materials.append(cm)
+ bpy.ops.object.camera_add(location=(0,-10,3.6));cam=bpy.context.object
+ cam.rotation_euler=(Vector((0,0,0))-cam.location).to_track_quat('-Z','Y').to_euler();cam.data.type='ORTHO';cam.data.ortho_scale=4.5 if phase=='impact' else 3.7 if phase=='flight' else 4.5
+ sc.camera=cam;return sc
+
+def aperture(t,kind):
+ # A three-dimensional segmented iris: substantial bevels, recessed seats and chromed jaws.
+ spin=t*.55;radius=.77 if kind=='helix' else .9
+ torus('aperture rear wall',(0,.18,0),radius,.15,'dark')
+ torus('polished outer rim',(0,0,0),radius,.085,'edge')
+ torus('emissive inner groove',(0,-.07,0),radius-.2,.032,'pink')
+ for i in range(8):
+  a=TAU*i/8+spin;x=radius*math.cos(a);z=radius*math.sin(a)
+  box('bevelled magnetic jaw', (x,-.12,z),(.31,.3,.29),'chrome',(0,-a,0),.055)
+  box('cyan reflection insert',(x*1.04,-.29,z*1.04),(.18,.018,.045),'cyan',(0,-a,0),.012)
+  b=a+.23;rr=.5+.12*(1-t)
+  box('moving iris blade',(rr*math.cos(b),-.05,rr*math.sin(b)),(.34,.12,.18),'edge',(0,-b+.6,0),.03)
+ core=.19+.17*(t*t)
+ sphere('suspended charging core',(0,-.06,0),(core,core,core),'violet',2,True)
+ for j in range(3):
+  r=.17+j*.12+.04*math.sin(t*TAU+j)
+  pts=[(r*math.cos(a),-.14-.05*math.sin(a*3+t*5),r*math.sin(a)) for a in [TAU*k/64+t*(j+1) for k in range(65)]]
+  tube('braided charge filament',pts,.018 if j else .026,'hot' if j==0 else 'pink')
+ if kind=='reactor':
+  for i in range(4):
+   a=i*math.pi/2+t*1.1
+   pts=[(.38*math.cos(a+u),-.4+.7*math.sin(u),.38*math.sin(a+u)) for u in [math.pi*k/24 for k in range(25)]]
+   tube('suspended chrome cage rib',pts,.045,'chrome')
+
+def helix(t,phase):
+ if phase=='charge':aperture(t,'helix');return
+ if phase=='flight':
+  sphere('dense interior plasma',(0,0,-.12),(.38,.38,.95),'violet',3)
+  levels=[(.8,.35),(.58,.52),(-.25,.55),(-.7,.34),(-1.04,.055)]
+  for j in range(6):
+   a=j*TAU/6
+   shellplate('segmented armoured lance',a,.88,levels,'armour' if j%2 else 'ceramic')
+   # Etched dark tracks and thin reflected seams sit on armour rather than wrapping around the body.
+   pts=[(r*math.cos(a),r*math.sin(a),z) for z,r in[(.48,.535),(.1,.565),(-.35,.51)]]
+   tube('recessed etched track',pts,.021,'dark');tube('embedded cool seam',[(x*1.005,y*1.005,z) for x,y,z in pts],.008,'cyan')
+   if j%2==0:fin('attached containment fin',a,.35)
+   gap=a+.5
+   pts=[((r-.04)*math.cos(gap),(r-.04)*math.sin(gap),z) for z,r in levels[:-1]]
+   tube('irregular plasma inside armour gap',pts,.026,'pink')
+  torus('rear milled accelerator collar',(0,0,.7),.42,.075,'edge',rot=(0,0,0))
+  bpy.ops.mesh.primitive_cone_add(vertices=12,radius1=.03,radius2=.2,depth=.37,location=(0,0,-1.02));meshmat(bpy.context.object,'pink')
+  sphere('irregular hot nose nucleus',(.025,-.055,-1.13),(.055,.05,.08),'hot',1,True)
+  for j in range(3):
+   pts=[]
+   for k in range(25):
+    q=k/24;z=.78+q*.68;a=j*2.2+q*1.8+t*TAU;r=.1+.05*math.sin(q*10+t*TAU+j)
+    pts.append((r*math.cos(a),r*math.sin(a),z))
+   o=tube('short turbulent exhaust filament',pts,.045,'pink' if j!=0 else 'cyan')
+   for k,p in enumerate(o.data.splines[0].points):p.radius=(1-k/25)*(.6+.25*math.sin(k*.8+t*TAU+j))
+  return
+ impact(t,'helix')
+
+def reactor(t,phase):
+ if phase=='charge':aperture(t,'reactor');return
+ if phase=='flight':
+  sphere('fragmented dense reactor interior',(0,0,0),(.65,.65,.75),'violet',2)
+  levels=[(.8,.22),(.62,.59),(.1,.76),(-.45,.66),(-.78,.29)]
+  for j in range(8):
+   a=j*TAU/8+.04*math.sin(t*TAU+j)
+   shellplate('heavy fractured reactor armour',a,.62,levels,'armour' if j%3 else 'chrome')
+   pts=[]
+   for k,(z,r) in enumerate(levels):
+    b=a+.36+.035*math.sin(k*2+j+t*TAU);pts.append(((r-.035)*math.cos(b),(r-.035)*math.sin(b),z))
+   tube('emissive crack under cage',pts,.035,'pink')
+   if j%2==0:
+    box('attached containment block',(.73*math.cos(a),.73*math.sin(a),.05),(.19,.19,.34),'edge',(0,a,.2),.045)
+  for z in[-.68,.65]:torus('heavy reactor collar',(0,0,z),.38,.09,'edge',rot=(0,0,0))
+  for j in range(3):
+   a=j*2.4+t*TAU;z=.91+j*.12
+   sphere('short irregular ion wake',(.12*math.sin(a),.1*math.cos(a),z),(.07,.055,.16-.025*j),'pink',1,True)
+  return
+ impact(t,'reactor')
+
+def impact(t,kind):
+ q=1-(1-t)**2;fade=max(.005,1-t);rng=random.Random(419 if kind=='helix' else 991)
+ if kind=='helix':
+  # Lateral shear: broken milled armour is the read; the pressure flash is brief, never a full ring.
+  flash=max(.005,1-t/.27)
+  for j in range(5):
+   a=j*2.1;r=.15+.25*math.sin(j*3)
+   sphere('brief irregular pressure flash',(r*math.cos(a),-.15,.15*math.sin(a)),(.5*flash,.25*flash,.22*flash),'hot' if j%2 else 'pink',2)
+  for j in range(10):
+   side=-1 if j%2 else 1;x=side*(.2+q*(1.1+.1*(j%5)));z=(j//2-2)*.21*(.3+q)-.1*t*t;y=rng.uniform(-.2,.2)
+   o=box('laterally sheared milled shell',(x,y,z),((.4+.04*(j%3))*fade,.19*fade,.22*fade),'armour' if j%3 else 'edge',(j*.4,t*3*side,j*.3+t),.025*fade)
+   if j%2==0:tube('hot fracture edge',[(x-.13*fade,y-.11*fade,z),(x+.1*fade,y-.11*fade,z+.045)],.018*fade,'pink')
+  for j in range(3):
+   x=(-.3+j*.3)*fade
+   sphere('residual compressed plasma',(x,-.02,.08*math.sin(j+t*8)),(.13*fade,.1*fade,.2*fade),'violet',1,True)
+  return
+ # A dense off-centre rupture has no radial symmetry and stays heavier/closer than the lance shear.
+ sphere('ruptured black reactor mass',(-.14,.08,-.08),(.68*fade,.4*fade,.67*fade),'armour',2,True)
+ for j in range(3):
+  a=j*2.399;r=.2+.22*q;x=-.28+r*math.cos(a);z=.18+r*math.sin(a)
+  s=(.45+.04*math.sin(j))*fade
+  o=sphere('connected turbulent core rupture',(x,-.19+.07*math.sin(j),z),(s*1.15,s*.8,s),'pink' if j%2 else 'violet',3)
+  tex=bpy.data.textures.new('rough plasma surface','CLOUDS');tex.noise_scale=.2
+  d=o.modifiers.new('broken pressure volume','DISPLACE');d.texture=tex;d.strength=.22*fade;d.mid_level=.45
+ sphere('small exposed hot fracture',(-.36,-.47,.27),(.12*fade,.055*fade,.13*fade),'hot',2)
+ for j in range(8):
+  a=j*2.399+.3;r=.28+q*(.65+.2*rng.random());x=r*math.cos(a)+.12;z=r*math.sin(a)-.1
+  size=(.31+.05*rng.random())*fade
+  o=box('heavy reactor containment fracture',(x,rng.uniform(-.16,.18),z),(size,.22*fade,size*.75),'chrome' if j%3 else 'armour',(a*.4,t*2+a,a+t*1.3),.04*fade)
+  if j%2==0:sphere('hot crack at armour break',(x,-.2,z),(.075*fade,.04*fade,.14*fade),'pink',1,True)
+
+def render(family,phase,frame,proof=False):
+ sc=reset(phase);t=frame/(N if phase=='flight' else N-1);(helix if family=='helix' else reactor)(t,phase)
+ dest=OUT/(f'proof/{proof}' if isinstance(proof,str) else 'proof' if proof else f'frames/{family}-{phase}')
+ dest.mkdir(parents=True,exist_ok=True);path=dest/f'{family}-{phase}-{frame:02}.png'
+ sc.render.filepath=str(path);bpy.ops.render.render(write_still=True)
+ # Preserve raw geometry/shading output and strip PNG metadata; a tight luminance bloom is a derivative.
+ im=Image.open(path).convert('RGBA');im.save(path)
+ if proof:bpy.ops.wm.save_as_mainfile(filepath=str(SOURCE/f'{family}-{phase}-{proof if isinstance(proof,str) else "hero"}.blend'))
+ return path
+
+def manifest():
+ clips={}
+ for fam in['helix','reactor']:
+  clips[fam]={}
+  for phase in['charge','flight','impact']:
+   ready=(OUT/f'{fam}-{phase}.png').exists()
+   clips[fam][phase]={'atlas':f'{fam}-{phase}.png','available':ready,'approval':'prototype only; native assessment pending' if ready else 'UNRENDERED — held for native assessment','cell':[256,256],'grid':[4,3],'frames':12,'frameRects':[[i%4*256,i//4*256,256,256]for i in range(12)],'fps':24,'pivot':[128,128],'displayUnits':{'charge':56,'flight':88 if fam=='helix' else 80,'impact':96}[phase],'loop':phase=='flight','blend':'source-over','direction':'down at rotation 0'}
+  clips[fam]['discharge']={'alias':'flight','available':clips[fam]['flight']['available'],'indices':[0,1,2,3],'fps':24}
+  clips[fam]['cool']={'alias':'charge','available':clips[fam]['charge']['available'],'indices':[3,2,1,0],'fps':24}
+ m={'status':'prototype, unapproved, no gameplay integration; charge only is rendered','source':'art/space/weapons_v2.py','sourceSha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'sourceScenes':'art/space/weapons-v2','renderer':'Blender5.2.2 Cycles CPU,16samples,4threads,AgX Medium High Contrast,transparent RGBA','palette':['dark chrome','violet-magenta plasma','cyan reflection edges'],'families':clips,'collision':'visual studies only; no radius, damage, timing or rules admitted'}
+ (OUT/'manifest.json').write_text(json.dumps(m,indent=2))
+
+def pack(phase_only=None):
+ report=json.loads((OUT/'render-report.json').read_text()) if (OUT/'render-report.json').exists() else {}
+ for fam in['helix','reactor']:
+  for phase in([phase_only] if phase_only else ['charge','flight','impact']):
+   atlas=Image.new('RGBA',(1024,768));bounds=[]
+   for i in range(N):
+    p=OUT/f'frames/{fam}-{phase}/{fam}-{phase}-{i:02}.png';im=Image.open(p).convert('RGBA');atlas.paste(im,(i%4*256,i//4*256));bounds.append(im.getchannel('A').getbbox())
+   p=OUT/f'{fam}-{phase}.png';atlas.save(p)
+   report[f'{fam}-{phase}']={'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'bytes':p.stat().st_size,'alphaBounds':bounds}
+ (OUT/'render-report.json').write_text(json.dumps(report,indent=2))
+
+if __name__=='__main__':
+ manifest();cmd=sys.argv[1] if len(sys.argv)>1 else 'proof'
+ if cmd=='proof':
+  for fam in['helix','reactor']:
+   for phase in['charge','flight']:print('PROOF',render(fam,phase,8,True),flush=True)
+ elif cmd=='proof-impact':
+  for fam in['helix','reactor']:print('PROOF',render(fam,'impact',4,True),flush=True)
+ elif cmd=='proof-mechanical':
+  for fam in['helix','reactor']:
+   for phase in['flight','impact']:print('PROOF',render(fam,phase,8 if phase=='flight' else 4,'mechanical-v2'),flush=True)
+ elif cmd=='render':
+  fams=[sys.argv[2]] if len(sys.argv)>2 else ['helix','reactor']
+  for fam in fams:
+   for phase in['charge','flight','impact']:
+    for i in range(N):print('FRAME',render(fam,phase,i),flush=True)
+ elif cmd=='render-phase':
+  fams=[sys.argv[2]] if sys.argv[2]!='all' else ['helix','reactor'];phase=sys.argv[3]
+  for fam in fams:
+   for i in range(N):print('FRAME',render(fam,phase,i),flush=True)
+ elif cmd=='proof-impact-v3':
+  for fam in['helix','reactor']:print('PROOF',render(fam,'impact',2 if fam=='helix' else 4,'impact-v3'),flush=True)
+ elif cmd=='proof-impact-v4':
+  for fam in['helix','reactor']:
+   for i in[0,1,4,8]:print('PROOF',render(fam,'impact',i,'impact-v4'),flush=True)
+ elif cmd=='pack':pack(sys.argv[2] if len(sys.argv)>2 else None)
+```
+
+
+---
+
+## `tools/archive_artwork.py`
+
+Verifies preserved originals, stores new versions byte-for-byte, deduplicates identical artwork and updates the reusable catalogue and space-board gallery. Scope and backup limits are in docs/ARTWORK_LIBRARY.md.
+
+```python
+"""Preserve reusable artwork byte-for-byte; changed sources become new versions."""
+from pathlib import Path
+import hashlib
+import json
+import shutil
+
+ROOT = Path(__file__).resolve().parents[1]
+LIBRARY = ROOT / 'artwork-library'
+MEDIA = {'.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg', '.webm'}
+SOURCES = [
+    ('concepts', 'design/phase1/img'),
+    ('sources', 'art/space'),
+    ('sources', 'art/frost-warden'),
+    ('assets', 'design/phase1/weapon-vfx-v2'),
+    ('assets', 'design/phase1/weapon-vfx-v3'),
+    *[('assets', 'assets/' + name) for name in (
+        'space-a', 'space-b', 'space-c', 'space-common', 'space-companions', 'circuit-companions',
+        'relay-circuit', 'orbital-forge', 'frost-warden', 'kit', 'kit-cast', 'snake-jade')],
+    *[('renders', 'out/' + name) for name in (
+        'brum-proof', 'kit-proof', 'kit-cast-proof', 'cast',
+        'rejected-cast-20261018', 'rejected-kit-20261018')],
+]
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def main():
+    LIBRARY.mkdir(exist_ok=True)
+    manifest_path = LIBRARY / 'manifest.json'
+    manifest = json.loads(manifest_path.read_text('utf-8')) if manifest_path.exists() else {'version': 1, 'files': []}
+    files = {item['sha256']: item for item in manifest['files']}
+    for item in files.values():
+        path = LIBRARY / item['archive']
+        assert path.is_file() and digest(path) == item['sha256'], f"Archive changed: {path}"
+    for category, source_root in SOURCES:
+        base = ROOT / source_root
+        if not base.exists():
+            continue
+        for source in sorted(base.rglob('*')):
+            allowed = MEDIA | ({'.json'} if category == 'assets' else set())
+            if not source.is_file() or source.suffix.lower() not in allowed:
+                continue
+            sha = digest(source)
+            relative = source.relative_to(ROOT).as_posix()
+            item = files.get(sha)
+            if item is None:
+                tail = source.relative_to(base)
+                archived = Path(category) / base.name / tail.parent / f'{tail.stem}--{sha[:12]}{tail.suffix.lower()}'
+                target = LIBRARY / archived
+                target.parent.mkdir(parents=True, exist_ok=True)
+                assert not target.exists(), f'Archive name collision: {target}'
+                shutil.copyfile(source, target)
+                assert digest(target) == sha, f'Copy mismatch: {source}'
+                item = files[sha] = {'archive': archived.as_posix(), 'sha256': sha, 'bytes': source.stat().st_size, 'sources': []}
+            if relative not in item['sources']:
+                item['sources'].append(relative)
+                item['sources'].sort()
+    manifest['files'] = sorted(files.values(), key=lambda item: item['archive'])
+    manifest_path.write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
+    rows = ['# Artwork catalogue', '', 'Every link opens a preserved original. Identical files share one copy; source aliases and full SHA256 hashes are in [manifest.json](manifest.json).', '', '| Artwork | Working source / aliases |', '|---|---|']
+    for item in manifest['files']:
+        aliases = '<br>'.join(item['sources'])
+        rows.append(f"| [{Path(item['archive']).stem.rsplit('--', 1)[0]}]({item['archive']}) | {aliases} |")
+    (LIBRARY / 'CATALOGUE.md').write_text('\n'.join(rows) + '\n', encoding='utf-8')
+    boards = ['# Space design boards', '', 'Preserved originals; these links remain usable if a working source changes. Carrier A, Circuit A and Forge A are selected directions. Eclipse D and the alternate later gameplay directions remain references.', '']
+    for title, name in [('Carrier Breakout — A', 'space-carrier-a.png'), ('Relay Raiders — B', 'space-relay-b.png'), ('Orbital Breakout — C', 'space-orbital-c-v1.png'), ('Eclipse Rescue — D', 'space-eclipse-d-v1.png'), ('Circuit gameplay alternatives', 'relay-variety-study-v3.png'), ('Forge gameplay alternatives', 'orbital-variety-study-v3.png')]:
+        alias = 'design/phase1/img/' + name
+        match = next(item for item in files.values() if alias in item['sources'])
+        boards += [f'## {title}', '', f"![{title}]({match['archive']})", '']
+    (LIBRARY / 'SPACE_BOARDS.md').write_text('\n'.join(boards), encoding='utf-8')
+    print(json.dumps({'folder': str(LIBRARY), 'uniqueFiles': len(files), 'sourceVersions': sum(len(i['sources']) for i in files.values()), 'bytes': sum(i['bytes'] for i in files.values()), 'verified': True}))
+
+
+if __name__ == '__main__':
+    main()
+```
+
+
+---
+
+## `art/space/circuit/prepare.py`
+
+Circuit skiff poses, measured emitters/cradle/lip and real B port leaves. Preserves original source family and emits stripped PNGs/normalized collision manifest; no permanent menu or APK admission.
+
+```python
+"""Normalize the selected Circuit machinery/flight family; retain originals."""
+import json, math, hashlib
+from pathlib import Path
+from PIL import Image
+ROOT=Path(__file__).resolve().parents[3]; OUT=ROOT/'assets/relay-circuit'; OUT.mkdir(parents=True,exist_ok=True)
+SOURCES=Path(__file__).parent/'source';SOURCES.mkdir(exist_ok=True)
+craft=SOURCES/'craft-family.png';badge=SOURCES/'phase-badge.png'
+if not craft.is_file() or not badge.is_file():raise FileNotFoundError('Preserved Circuit source plates are required')
+parts={}
+def save(im,name,display,pivot=(.5,.5),collision=False):
+ path=OUT/(name+'.png');im.save(path)
+ w,h=im.size;box=im.getchannel('A').point(lambda v:255 if v>=32 else 0).getbbox()
+ p={'path':path.relative_to(ROOT).as_posix(),'size':[w,h],'display':display,'pivot':pivot,'artBounds':[box[0]/w,box[1]/h,(box[2]-box[0])/w,(box[3]-box[1])/h]}
+ if collision:
+  # A small raster contour uses the same measured-alpha pipeline as canonical B.
+  source=(ROOT/'tools/relay-preview/art_info.py').read_text();ns={};exec(source[:source.index('manifest =')],ns)
+  p['collision']=ns['contours'](im)
+ parts[name]=p
+im=Image.open(craft).convert('RGBA')
+regions=[(0,60,697,570),(697,0,1374,570),(0,580,700,1145),(700,580,1374,1145)]
+for name,region in zip(['craftMorph','craftFlight','craftLeft','craftRight'],regions):
+ z=im.crop(region);box=z.getchannel('A').point(lambda v:255 if v>=16 else 0).getbbox();z=z.crop(box)
+ z.thumbnail((448,352),Image.Resampling.LANCZOS);cell=Image.new('RGBA',(512,384));cell.alpha_composite(z,((512-z.width)//2,368-z.height));save(cell,name,[80,60],collision=True)
+z=Image.open(badge).convert('RGBA');z=z.crop(z.getchannel('A').point(lambda v:255 if v>=16 else 0).getbbox());z.thumbnail((240,192),Image.Resampling.LANCZOS);cell=Image.new('RGBA',(256,208));cell.alpha_composite(z,((256-z.width)//2,(208-z.height)//2));save(cell,'phaseBadge',[18,14])
+frame=Image.open(ROOT/'assets/space-b/pod_shell.png').convert('RGBA');w,h=frame.size;mid=w//2
+save(frame.crop((0,0,mid,h)),'portLeft',[31.5,52.83374083129584],[1,.5],True)
+save(frame.crop((mid,0,w,h)),'portRight',[31.5,52.83374083129584],[0,.5],True)
+report={'status':'selected Circuit source family; native/runtime review pending','parts':parts,'contract':{'craftCradle':[0,-23],'flightEmitters':[[-22,-23],[22,-23]],'portTravel':18,'plateLeaves':['left','left','left','right'],'glyphs':['circle','triangle','diamond','square']},'sources':{'craft':{'path':'art/space/circuit/source/craft-family.png','sha256':hashlib.sha256(craft.read_bytes()).hexdigest()},'badge':{'path':'art/space/circuit/source/phase-badge.png','sha256':hashlib.sha256(badge.read_bytes()).hexdigest()},'port':'assets/space-b/pod_shell.png'}}
+anchors={'craftFlight':{'muzzles':[[161.7/512,76.5/384],[350.5/512,76.5/384]],'cradle':[256/512,98/384],'cradleLip':[229,103,54,9]},'craftLeft':{'muzzles':[[112/512,73.2/384],[271.9/512,62.6/384]],'cradle':[225/512,94/384],'cradleLip':[201,99,54,10]},'craftRight':{'muzzles':[[231.9/512,54.7/384],[397/512,68.8/384]],'cradle':[281/512,92/384],'cradleLip':[255,97,55,10]}}
+for key,values in anchors.items():parts[key].update(values);parts[key]['stowedRadius']=3
+report['contract'].pop('craftCradle');report['contract'].pop('flightEmitters');report['contract']['anchors']='per-part UV measured from actual rail LEDs/U-recess; foreground source lip patch occludes the visual stowed icon only'
+(OUT/'manifest.json').write_text(json.dumps(report,indent=2))
+for p in OUT.glob('*.png'):
+ q=Image.open(p);assert q.mode=='RGBA' and not q.info
+print(json.dumps({k:{'size':v['size'],'display':v['display']} for k,v in parts.items()},indent=2))
+```
+
+
+---
+
+## `art/space/forge/prepare.py`
+
+Forge frame/coil/hinged cover, real C hull, external reactor/arm, cannon, panels and dark Saturn. Source-alpha ownership and measured contours preserve actual physical openings.
+
+```python
+"""Slice the reference-guided Forge family and derive collision from its alpha."""
+from pathlib import Path
+from collections import defaultdict
+import hashlib, json, math
+import numpy as np
+from PIL import Image, ImageChops
+
+ROOT = Path(__file__).resolve().parents[3]
+SRC = Path(__file__).resolve().parent
+OUT = ROOT / 'assets/orbital-forge'
+OUT.mkdir(exist_ok=True)
+sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+
+def area(points):
+    return sum(a[0]*b[1]-b[0]*a[1] for a,b in zip(points, points[1:]+points[:1]))/2
+
+def simplify(points, eps=1):
+    def rdp(p):
+        if len(p)<3: return p
+        a,b=p[0],p[-1]; dx,dy=b[0]-a[0],b[1]-a[1]; den=math.hypot(dx,dy)
+        d=[abs(dx*(a[1]-q[1])-(a[0]-q[0])*dy)/den if den else math.hypot(q[0]-a[0],q[1]-a[1]) for q in p]
+        i=max(range(len(p)),key=lambda i:d[i])
+        return rdp(p[:i+1])[:-1]+rdp(p[i:]) if d[i]>eps else [a,b]
+    i=max(range(1,len(points)),key=lambda i:(points[i][0]-points[0][0])**2+(points[i][1]-points[0][1])**2)
+    return rdp(points[:i+1])[:-1]+rdp(points[i:]+points[:1])[:-1]
+
+def contours(image):
+    a=np.asarray(image.getchannel('A'))>=128
+    edges=defaultdict(list)
+    for y,x in zip(*np.nonzero(a)):
+        if y==0 or not a[y-1,x]: edges[(int(x),int(y))].append((int(x+1),int(y)))
+        if x==a.shape[1]-1 or not a[y,x+1]: edges[(int(x+1),int(y))].append((int(x+1),int(y+1)))
+        if y==a.shape[0]-1 or not a[y+1,x]: edges[(int(x+1),int(y+1))].append((int(x),int(y+1)))
+        if x==0 or not a[y,x-1]: edges[(int(x),int(y+1))].append((int(x),int(y)))
+    loops=[]
+    while edges:
+        start=next(iter(edges)); p=start; points=[]
+        while True:
+            points.append(p); q=edges[p].pop()
+            if not edges[p]: del edges[p]
+            p=q
+            if p==start: break
+            if p not in edges: raise AssertionError('unclosed alpha boundary')
+        if abs(area(points))>=12: loops.append(simplify(points,1.2))
+    outer=[p for p in loops if area(p)>0]
+    holes=[p for p in loops if area(p)<0]
+    assert outer
+    norm=lambda p:[[round(x/image.width,7),round(y/image.height,7)] for x,y in p]
+    # Large disconnected pieces retain separate contours; tiny highlights are decoration.
+    return [{'type':'polygon','points':norm(p),'holes':[norm(h) for h in holes if min(x for x,y in p)<=h[0][0]<=max(x for x,y in p) and min(y for x,y in p)<=h[0][1]<=max(y for x,y in p)]} for p in outer if area(p)>=image.width*image.height*.0005]
+
+parts={}
+def save(id,image,source,crop=None,display=None,shared=False,contour=True):
+    image=image.convert('RGBA')
+    if not shared:
+        box=image.getchannel('A').point(lambda a:255 if a>=16 else 0).getbbox(); assert box
+        crop=box if crop is None else crop
+        image=image.crop(box)
+        cv=Image.new('RGBA',(image.width+8,image.height+8));cv.alpha_composite(image,(4,4));image=cv
+    if image.width>900 and id not in ['hull','bay_mask','bay_back','door_left','door_right']:
+        image=image.resize((900,round(image.height*900/image.width)),Image.Resampling.LANCZOS)
+    path=OUT/(id+'.png');image.save(path);assert not Image.open(path).info
+    parts[id]={'path':path.relative_to(ROOT).as_posix(),'size':list(image.size),'pivot':[.5,.5], 'sha256':sha(path),'source':source.relative_to(ROOT).as_posix(),'sourceSHA256':sha(source),'crop':list(crop) if crop else None,'metadataEmpty':True}
+    if display: parts[id]['display']=[display,display*image.height/image.width]
+    bounds=image.getchannel('A').point(lambda a:255 if a>=128 else 0).getbbox()
+    parts[id]['artBounds']=[bounds[0]/image.width,bounds[1]/image.height,(bounds[2]-bounds[0])/image.width,(bounds[3]-bounds[1])/image.height]
+    if contour: parts[id]['shapes']=contours(image)
+    return image
+
+opened=Image.open(SRC/'stabiliser-open-source.png').convert('RGBA')
+box=opened.getchannel('A').point(lambda a:255 if a>=16 else 0).getbbox()
+opened=opened.crop(box)
+opened=opened.resize((900,round(opened.height*900/opened.width)),Image.Resampling.LANCZOS)
+# Part ownership separates the visible energy cartridge from its U-shaped metal frame.
+mask=Image.new('L',opened.size); mask.paste(255,(round((432-box[0])*900/(box[2]-box[0])),round((360-box[1])*900/(box[2]-box[0])),round((832-box[0])*900/(box[2]-box[0])),round((928-box[1])*900/(box[2]-box[0]))))
+coil=opened.copy();coil.putalpha(ImageChops.multiply(opened.getchannel('A'),mask))
+body=opened.copy();body.putalpha(ImageChops.subtract(opened.getchannel('A'),coil.getchannel('A')))
+save('station_body',body,SRC/'stabiliser-open-source.png',box,55,True)
+save('station_coil',coil,SRC/'stabiliser-open-source.png',box,55,True)
+save('station_cover',Image.open(SRC/'stabiliser-cover-source.png'),SRC/'stabiliser-cover-source.png',display=55)
+
+projector=Image.open(SRC/'projector-source.png').convert('RGBA')
+pbox=projector.getchannel('A').point(lambda a:255 if a>=16 else 0).getbbox()
+projector=projector.crop(pbox)
+mask=Image.new('L',projector.size)
+from PIL import ImageDraw
+ImageDraw.Draw(mask).ellipse((445-pbox[0],785-pbox[1],812-pbox[0],1127-pbox[1]),fill=255)
+core=projector.copy();core.putalpha(ImageChops.multiply(projector.getchannel('A'),mask))
+arm=projector.copy();arm.putalpha(ImageChops.subtract(projector.getchannel('A'),core.getchannel('A')))
+save('projector_arm',arm,SRC/'projector-source.png',pbox,55,True)
+save('reactor',core,SRC/'projector-source.png',pbox,55,True)
+save('cannon',Image.open(SRC/'cannon-source.png'),SRC/'cannon-source.png',display=42)
+
+atlas=Image.open(SRC/'panel-family-source.png').convert('RGBA')
+rows=np.any(np.asarray(atlas.getchannel('A'))>=128,axis=1)
+groups=[]; start=None
+for y,on in enumerate(rows):
+    if on and start is None:start=y
+    if start is not None and (not on or y==len(rows)-1):
+        end=y if not on else y+1
+        if end-start>70:groups.append((start,end))
+        start=None
+assert len(groups)==3,groups
+for id,(y0,y1) in zip(['cyan','violet','armour'],groups):save(id,atlas.crop((0,y0,atlas.width,y1)),SRC/'panel-family-source.png',crop=(0,y0,atlas.width,y1),display=40)
+
+bg=Image.open(SRC/'background-source.png').convert('RGBA')
+save('background',bg,SRC/'background-source.png',shared=True,contour=False)
+
+machinery=json.loads((ROOT/'assets/space-c/machinery.json').read_text())
+for p in machinery['parts']:
+    im=Image.open(ROOT/p['path']).convert('RGBA')
+    parts[p['id']]={**p,'display':[360,360*im.height/im.width]}
+    if p['id']=='hull':parts[p['id']]['shapes']=contours(im)
+
+ab=json.loads((ROOT/'design/phase1/space-assets-ab.json').read_text())
+for id,source_id in [('paddle','aPaddle'),('ball','ball')]:
+    p=ab['parts'][source_id]; im=Image.open(ROOT/p['path']).convert('RGBA'); bounds=im.getchannel('A').point(lambda a:255 if a>=128 else 0).getbbox(); parts[id]={**p,'size':list(im.size),'pivot':p.get('pivot',[.5,.5]),'sha256':sha(ROOT/p['path']),'artBounds':[bounds[0]/im.width,bounds[1]/im.height,(bounds[2]-bounds[0])/im.width,(bounds[3]-bounds[1])/im.height]}
+
+result={'date':'2026-10-18','scope':'Selected Shutter Forge isolated art family; runtime admission pending','reference':'design/phase1/img/orbital-variety-study-v3.png','referenceSHA256':sha(ROOT/'design/phase1/img/orbital-variety-study-v3.png'),'generationReferences':['design/phase1/img/orbital-variety-study-v2.png','assets/space-c/hull.png'],'parts':parts,'machinery':machinery['assembly'],'source':{'directory':'art/space/forge/','method':'reference-guided raster parts; editable alpha decomposition and deterministic source contours in prepare.py'},'semantics':{'stationDisplayWidth':55,'stationCoilRegionOriginal':[432,360,832,928],'coreRegionOriginal':[445,785,812,1127],'gunPivot':[.5,.23],'gunMuzzle':[.5,.82],'hullWorldRect':[0,76,360,machinery['assembly']['displayHeight']]}}
+(OUT/'manifest.json').write_text(json.dumps(result,indent=2)+'\n')
+print(json.dumps({'parts':{k:{'size':v['size'],'display':v.get('display'),'shapes':len(v.get('shapes',[]))} for k,v in parts.items()},'manifestSHA256':sha(OUT/'manifest.json')},indent=2))
+```
+
+
+---
+
+## `tools/space-assets/pack-level-family.py`
+
+Sizes selected level textures to phone resolution, writes lossless WebP and asserts exact resized-reference RGBA plus native-scale fidelity; source collision and anchors stay authoritative.
+
+```python
+"""Size an isolated level family for phone rendering; preserve source geometry."""
+import hashlib
+import io
+import json
+import sys
+from pathlib import Path
+
+import numpy as np
+from PIL import Image
+
+ROOT = Path(__file__).resolve().parents[2]
+manifest_path, output = [Path(p).resolve() for p in sys.argv[1:]]
+manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+output.mkdir(parents=True, exist_ok=True)
+sha = lambda data: hashlib.sha256(data).hexdigest()
+rows = []
+for name, part in manifest['parts'].items():
+    source = ROOT / part['path']
+    raw = source.read_bytes()
+    if part.get('sha256'):
+        assert sha(raw) == part['sha256'], f'{name}: source changed'
+    with Image.open(io.BytesIO(raw)) as image:
+        assert not image.info, f'{name}: source metadata'
+        assert list(image.size) == part['size'], f'{name}: dimensions changed'
+        original = image.convert('RGBA')
+    image = original.copy()
+    display = part.get('display')
+    if isinstance(display, list):
+        ratio = min(1, max(display) * 3 / max(image.size))
+        if ratio < 1:
+            image = image.resize(tuple(max(1, round(n * ratio)) for n in image.size), Image.Resampling.LANCZOS)
+    pixels = np.array(image)
+    pixels[pixels[:, :, 3] == 0, :3] = 0
+    image = Image.fromarray(pixels)
+    encoded = io.BytesIO()
+    image.save(encoded, 'WEBP', lossless=True, exact=True, method=6)
+    data = encoded.getvalue()
+    decoded = Image.open(io.BytesIO(data)).convert('RGBA')
+    assert decoded.tobytes() == image.tobytes(), f'{name}: lossless round trip drift'
+    native_error = None
+    if isinstance(display, list):
+        size = tuple(max(1, round(n * 412 / 360)) for n in display)
+        def native(im):
+            backdrop = Image.new('RGBA', size, '#070c1e')
+            backdrop.alpha_composite(im.resize(size, Image.Resampling.LANCZOS))
+            return np.array(backdrop.convert('RGB'), dtype=np.float32)
+        native_error = float(np.abs(native(original) - native(decoded)).mean())
+        assert native_error < 4, (name, native_error)
+    path = output / f'{name}.webp'
+    path.write_bytes(data)
+    rows.append({'id': name, 'source': part['path'], 'sourceSHA256': sha(raw),
+        'path': path.relative_to(ROOT).as_posix(), 'runtimeSHA256': sha(data),
+        'sourceSize': part['size'], 'runtimeSize': list(image.size),
+        'sourceBytes': len(raw), 'encodedBytes': len(data),
+        'decodedRGBABytes': image.width * image.height * 4,
+        'nativeMeanChannelError': native_error, 'losslessRoundTrip': True})
+report = {'scope': 'Isolated phone texture sizing; original normalized collision/anchors remain authoritative',
+    'manifest': manifest_path.relative_to(ROOT).as_posix(), 'manifestSHA256': sha(manifest_path.read_bytes()),
+    'parts': rows, 'encodedBytes': sum(p['encodedBytes'] for p in rows),
+    'decodedRGBABytes': sum(p['decodedRGBABytes'] for p in rows)}
+(output / 'report.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+print(json.dumps({k: v for k, v in report.items() if k != 'parts'}, indent=2))
+```
 
 
 ---
@@ -3190,7 +3977,7 @@ THREADS = 0
 if '--threads' in argv:
     i = argv.index('--threads'); THREADS = int(argv[i + 1]); del argv[i:i + 2]
 argv = [a for a in argv if a != '--face']
-OUT = argv[0] if argv else os.path.join(HERE, 'out', 'princess')
+OUT = os.path.abspath(argv[0]) if argv else os.path.join(HERE, 'out', 'princess')
 ANIMS = [a.split(':') for a in argv[1:]] or [['Idle', '12']]
 PX = 3            # pixels per game unit
 BOX = 56          # sprite cell in game units (square); character ~42 units tall
@@ -4024,24 +4811,1783 @@ for spec in ANIMS:
 
 ---
 
+## `art/kit.py`
+
+Open-helmet cobalt knight from KayKit Knight (CC0): continuous skin, fitted expressive face, hand-mounted heater shield and eight real rig animation families. Supersampled output is normalized to 168-pixel cells with fixed feet anchor; presentation portraits/turnaround are separate.
+
+```python
+# Prince Kit: open-helmet knight with a surface-fitted expression rig and real KayKit animation.
+# Run: python3 art/kit.py <out_dir> <Idle:16> <Focus:12> ... [--face] [--yaw degrees] [--samples N] [--threads N]
+import bpy, bmesh, sys, os, math, json, addon_utils
+import numpy as np
+from mathutils import Vector, Matrix
+from mathutils.bvhtree import BVHTree
+from PIL import Image, ImageDraw, ImageFont
+from pathlib import Path
+import hashlib
+addon_utils.enable('cycles', default_set=True)
+HERE = os.path.dirname(os.path.abspath(__file__))
+argv = sys.argv[1:]
+
+def build_deliverables():
+    root=Path(HERE).parent; folder=root/'assets/kit'; proof=root/'out/kit-proof'
+    meta=json.loads((folder/'meta.json').read_text()); clips=meta['anims']; report=[]; frames={}
+    for name,clip in clips.items():
+        paths=[folder/f'{name}_{i:02d}.png' for i in range(clip['frames'])]
+        assert len(list(folder.glob(name+'_[0-9][0-9].png')))==len(paths), f'Wrong frame count: {name}'
+        images=[]; hashes=[]; boxes=[]
+        for path in paths:
+            with Image.open(path) as im:
+                assert im.mode=='RGBA' and im.size==(168,168), f'Wrong sprite format: {path}'
+                assert not im.text, f'Unexpected PNG text metadata: {path}'
+                bb=im.getchannel('A').point(lambda a:255 if a>8 else 0).getbbox()
+                assert bb and min(bb[:2])>1 and max(bb[2:])<167, f'Clipped frame: {path} {bb}'
+                images.append(im.copy());boxes.append(bb)
+            hashes.append(hashlib.sha256(path.read_bytes()).hexdigest())
+        assert len(set(hashes))>1, f'Static animation: {name}'
+        frames[name]=images
+        report.append({'id':'kit-'+name.lower(),'path_pattern':f'assets/kit/{name}_NN.png',
+                       'frames':clip['frames'],'fps':14,'loop':clip['loop'],'unique_frames':len(set(hashes)),
+                       'alpha_bounds':boxes,'sha256':hashes})
+    assert sum(c['frames'] for c in clips.values())==100
+    font_path='C:/Windows/Fonts/arial.ttf'
+    font=ImageFont.truetype(font_path,24) if Path(font_path).exists() else ImageFont.load_default(size=24)
+    small=ImageFont.truetype(font_path,18) if Path(font_path).exists() else ImageFont.load_default(size=18)
+    def board(size,title):
+        im=Image.new('RGB',size,'#141831');ImageDraw.Draw(im).text((24,16),title,font=font,fill='white');return im
+    def paste(dst,source,xy,size):
+        im=source.convert('RGBA').resize(size,Image.Resampling.LANCZOS);dst.paste(im,xy,im)
+    sheet=board((1200,744),'Prince Kit | eight expressions — actual Blender renders')
+    labels=['Determined / serve','Focused / aim','Grin / combo','Shock / life lost','Worried / danger','Cheer / win','Hurt / hit','Laugh / titan']
+    for i,(name,label) in enumerate(zip(clips,labels)):
+        x=(i%4)*300+6;y=64+(i//4)*336
+        with Image.open(folder/'faces'/f'{name}_face_00.png') as im:paste(sheet,im,(x,y),(288,288))
+        ImageDraw.Draw(sheet).text((x+8,y+292),label,font=small,fill='white')
+    sheet.save(folder/'expressions.png')
+    turn=board((1440,480),'Prince Kit | finished model turnaround')
+    sources=[proof/'turn-front/Idle_00.png',proof/'turn-quarter/Idle_00.png',proof/'turn-side/Idle_00.png',proof/'turn-back/Idle_00.png']
+    for i,(path,label) in enumerate(zip(sources,['Front','Three quarter','Side','Back'])):
+        with Image.open(path) as im:paste(turn,im,(i*360+12,62),(336,336))
+        ImageDraw.Draw(turn).text((i*360+24,416),label,font=font,fill='white')
+    turn.save(folder/'turnaround.png')
+    contact=board((1880,1296),'Prince Kit | all 100 normalized frames')
+    for row,(name,images) in enumerate(frames.items()):
+        ImageDraw.Draw(contact).text((12,100+row*148),name,font=small,fill='white')
+        for i,im in enumerate(images):paste(contact,im,(140+i*108,64+row*148),(108,108))
+    contact.save(folder/'contact-sheet.png')
+    preview=[]
+    for t in range(16):
+        im=board((1120,680),'Prince Kit | real rig animations · 14 fps')
+        for i,(name,images) in enumerate(frames.items()):
+            frame=images[t%len(images) if clips[name]['loop'] else min(t,len(images)-1)]
+            x=(i%4)*280+6;y=56+(i//4)*310
+            paste(im,frame,(x,y),(268,268));ImageDraw.Draw(im).text((x+16,y+270),name,font=small,fill='white')
+        preview.append(im)
+    palette=preview[0].quantize(colors=256,method=Image.Quantize.MEDIANCUT)
+    preview=[im.quantize(palette=palette,dither=Image.Dither.FLOYDSTEINBERG) for im in preview]
+    preview[0].save(folder/'preview.gif',save_all=True,append_images=preview[1:],duration=[int(round((t+1)*100/14)-round(t*100/14))*10 for t in range(16)],loop=0,disposal=2)
+    manifest={'schema_version':1,'selected_direction':'B / Knight 2 — Blue Helmet Guardian',
+              'status':'rendered; awaiting owner playtest approval','created_at':'2026-10-18',
+              'source':{'model':'assets/models/kk_Knight.glb','license':'CC0','renderer':'Blender 5.2.2 / Cycles',
+                        'script':'art/kit.py','editable_scene':'out/kit-proof/kit.blend'},
+              'technical':{'cell_px':168,'world_cell':56,'character_height':42,'feet':4,'alpha':True,'fps':14,
+                           'samples':48,'supersampling':2,'downsample':'Lanczos','png_text_metadata':False},
+              'verification':{'frame_count':100,'all_clips_animated':True,'all_transparent_edges':True,
+                              'skin_front_and_quarter_reviewed':True,'motion_clearance_reviewed':True,
+                              'native_scale_reviewed':True,'in_engine_reviewed':False,'owner_final_approval':False},
+              'deliverables':['assets/kit/turnaround.png','assets/kit/expressions.png','assets/kit/contact-sheet.png','assets/kit/preview.gif'],
+              'assets':report}
+    (root/'design/phase1/kit-asset-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
+    print('Validated 100 frames; built turnaround, eight expressions, contact sheet, animated preview and manifest.')
+
+if '--deliverables' in argv:
+    build_deliverables();sys.exit(0)
+FACE = '--face' in argv; SKIN_PROOF = '--skin' in argv; PROOF = '--proof' in argv
+argv = [a for a in argv if a not in ('--face','--skin','--proof')]
+def option(flag, default, cast=int):
+    if flag not in argv: return default
+    i=argv.index(flag); value=cast(argv[i+1]); del argv[i:i+2]; return value
+SAMPLES=option('--samples',48); THREADS=option('--threads',4); YAW=option('--yaw',0,float)
+OUT=os.path.abspath(argv[0]) if argv else os.path.join(HERE,'..','assets','kit')
+ANIMS=[a.split(':') for a in argv[1:]] or [['Idle','16']]
+PX, BOX, HEIGHT = 3, 56, 42
+SOURCE={'Idle':('Idle',0,1),'Focus':('Blocking',0.22,0.68),'Grin':('Interact',0.0,1.0),
+        'Shock':('Hit_A',0.0,0.85),'Worried':('Idle',0,1),'Cheer':('Cheer',0,1),
+        'Hurt':('Block_Hit',0,0.9),'Laugh':('Cheer',0,1)}
+for spec in ANIMS:
+    assert spec[0] in SOURCE, f'Unknown clip: {spec[0]}'
+    assert 1 <= int(spec[1]) <= 120, 'Frame count must be 1..120'
+bpy.ops.wm.read_factory_settings(use_empty=True)
+sc=bpy.context.scene
+bpy.ops.import_scene.gltf(filepath=os.path.join(HERE,'..','assets','models','kk_Knight.glb'))
+arm=next(o for o in sc.objects if o.type=='ARMATURE')
+for o in sc.objects:
+    if o.type=='MESH' and o.name in ('1H_Sword_Offhand','1H_Sword','2H_Sword','Rectangle_Shield','Round_Shield','Spike_Shield'):
+        o.hide_render=True; o.hide_viewport=True
+head=bpy.data.objects['Knight_Head']
+arm.data.pose_position='REST'; bpy.context.view_layer.update()
+def srgb2lin(c):
+    c=np.asarray(c,dtype=np.float64)
+    return tuple(np.where(c<=0.04045,c/12.92,((c+0.055)/1.055)**2.4))
+def hexcol(s): return srgb2lin(tuple(int(s[i:i+2],16)/255 for i in (1,3,5)))
+def principled(m):
+    return next(n for n in m.node_tree.nodes if n.type == 'BSDF_PRINCIPLED')
+for m in bpy.data.materials:
+    b = principled(m); b.inputs['Coat Weight'].default_value = 0.35; b.inputs['Coat Roughness'].default_value = 0.25
+    b.inputs['Roughness'].default_value = 0.45
+
+def mat(name, color, rough, metal=0.0, coat=0.0, **kw):
+    m = bpy.data.materials.new(name); b = principled(m)
+    b.inputs['Base Color'].default_value = (*color, 1); b.inputs['Roughness'].default_value = rough
+    b.inputs['Metallic'].default_value = metal; b.inputs['Coat Weight'].default_value = coat
+    b.inputs['Coat Roughness'].default_value = 0.1
+    for k, v in kw.items():
+        b.inputs[k].default_value = v if not isinstance(v, tuple) else (*v, 1)[:len(b.inputs[k].default_value)]
+    return m
+
+
+SKIN=hexcol('#E7AB8B')
+M_SKIN=mat('kit_skin',SKIN,0.45,coat=0.35)
+M_HAIR=mat('kit_hair',hexcol('#253349'),0.4,coat=0.25)
+M_STEEL=mat('kit_silver',hexcol('#8D97B3'),0.24,0.72,0.4)
+M_EDGE=mat('kit_silver_edge',hexcol('#BFC8DD'),0.19,0.8,0.3)
+M_BLUE=mat('kit_cobalt',hexcol('#356AB3'),0.43,coat=0.18)
+M_NAVY=mat('kit_navy',hexcol('#26324D'),0.5,coat=0.12)
+M_CORAL=mat('kit_coral',hexcol('#E76F71'),0.48,coat=0.12)
+
+def loose_parts(bm):
+    bm.faces.ensure_lookup_table(); seen=set(); parts=[]
+    for f in bm.faces:
+        if f.index in seen: continue
+        stack=[f]; comp=[]; seen.add(f.index)
+        while stack:
+            g=stack.pop(); comp.append(g)
+            for e in g.edges:
+                for h in e.link_faces:
+                    if h.index not in seen: seen.add(h.index); stack.append(h)
+        parts.append(comp)
+    return parts
+
+def part_swatch(bm,comp):
+    uv=bm.loops.layers.uv.active; loops=[l[uv].uv for f in comp for l in f.loops]
+    return int(sum(v[0] for v in loops)/len(loops)*8),int((1-sum(v[1] for v in loops)/len(loops))*4)
+
+def bounds(comp):
+    vs={v for f in comp for v in f.verts}
+    return vs,np.min([v.co[:] for v in vs],axis=0),np.max([v.co[:] for v in vs],axis=0)
+
+# The lower jaw is part of the face hull; retain and weld it instead of leaving a face opening.
+bm=bmesh.new(); bm.from_mesh(head.data); kill=[]; removed={'eyes':0,'brows':0}
+for comp in loose_parts(bm):
+    sw=part_swatch(bm,comp); vs,lo,hi=bounds(comp)
+    kind=None
+    if sw==(2,0): kind='eyes'
+    elif sw==(1,0) and lo[2]>1.67 and hi[2]<1.81: kind='brows'
+    if kind: kill+=comp; removed[kind]+=1
+    elif sw==(0,0) and lo[1]<-0.52 and lo[2]>1.43:
+        base=Vector((0,-0.4,1.49))
+        for v in vs: v.co=base+(v.co-base)*0.50+Vector((0,0.025,0))
+    elif sw==(1,0):
+        if hi[2]>2.2 or lo[2]>1.99: kill+=comp
+        else:
+            for v in vs: v.co.z=1.816+(v.co.z-1.836)*0.44
+assert removed=={'eyes':2,'brows':8}, f'Reinspect changed Knight head topology: {removed}'
+bmesh.ops.delete(bm,geom=kill,context='FACES')
+bmesh.ops.remove_doubles(bm,verts=bm.verts[:],dist=0.0005)
+bm.to_mesh(head.data); bm.free()
+
+# Reprofile the source helmet as a continuous open shell; the original closed visor hides the brows.
+helmet=bpy.data.objects['Knight_Helmet']
+hv,hf=[],[]; NH, NV=64,20
+for i in range(NH):
+    ph=i/NH*math.tau; a=abs((ph+math.pi)%math.tau-math.pi)
+    u=max(0,min(1,(a-math.radians(52))/math.radians(22)));u=u*u*(3-2*u)
+    end=1.26+(2.25-1.26)*u
+    for j in range(NV+1):
+        th=end*j/NV
+        hv.append((0.54*math.copysign(abs(math.sin(ph))**0.65,math.sin(ph))*math.sin(th),-0.57*math.copysign(abs(math.cos(ph))**0.65,math.cos(ph))*math.sin(th),1.70+0.55*math.cos(th)-1.215891))
+for i in range(NH):
+    for j in range(NV):
+        a=i*(NV+1)+j;b=((i+1)%NH)*(NV+1)+j
+        hf.append((a,b,b+1,a+1))
+helmet.data=bpy.data.meshes.new('kit_open_helmet');helmet.data.from_pydata(hv,[],hf)
+bm=bmesh.new();bm.from_mesh(helmet.data);bmesh.ops.remove_doubles(bm,verts=bm.verts[:],dist=0.0001)
+bmesh.ops.recalc_face_normals(bm,faces=bm.faces[:]);bm.to_mesh(helmet.data);bm.free()
+sol=helmet.modifiers.new('shell_thickness','SOLIDIFY');sol.thickness=0.035;sol.offset=-1
+bev=helmet.modifiers.new('soft_helmet_edge','BEVEL');bev.width=0.012;bev.segments=3
+
+for o in [o for o in sc.objects if o.type=='MESH' and not o.hide_render]:
+    bm=bmesh.new();bm.from_mesh(o.data); mats=[M_SKIN,M_HAIR,M_STEEL,M_EDGE,M_BLUE,M_NAVY,M_CORAL]
+    o.data.materials.clear()
+    for m in mats:o.data.materials.append(m)
+    for comp in [[f] for f in bm.faces]:
+        sw=part_swatch(bm,comp) if bm.loops.layers.uv.active else None
+        if o==head: material=M_HAIR if sw==(1,0) else M_SKIN
+        elif o==helmet: material=M_STEEL
+        elif o.name=='Knight_Cape': material=M_BLUE
+        elif o.name=='Badge_Shield': material=M_BLUE if sw==(5,1) else M_STEEL
+        elif sw==(3,0): material=M_STEEL
+        elif sw==(7,0): material=M_EDGE
+        elif sw in ((4,0),(7,1),(0,1)): material=M_BLUE
+        else: material=M_NAVY
+        for f in comp:f.material_index=mats.index(material)
+    bm.to_mesh(o.data);bm.free()
+    o.data.shade_smooth()
+
+# Fit the broad shield to the hand in the actual idle pose, with its protective face toward the viewer.
+act=bpy.data.actions['Idle'];arm.animation_data_create();arm.animation_data.action=act
+if hasattr(arm.animation_data,'action_slot') and act.slots:arm.animation_data.action_slot=act.slots[0]
+arm.data.pose_position='POSE';sc.frame_set(1);bpy.context.view_layer.update()
+shield=bpy.data.objects['Badge_Shield']
+shield.matrix_world=Matrix.Translation(Vector((0.60,-0.40,0.72)))@Matrix.Rotation(math.radians(-12),4,'Z')
+# Preserve this fitted relation when the head/hand rig is evaluated again in rest space.
+fit_matrix=shield.matrix_world.copy(); hand_matrix=arm.matrix_world@arm.pose.bones['hand.l'].matrix
+shield_fit=hand_matrix.inverted()@fit_matrix
+shield_offset=Vector((0.60,-0.40,0.72))-hand_matrix.translation
+arm.data.pose_position='REST';bpy.context.view_layer.update()
+shield.matrix_world=(arm.matrix_world@arm.pose.bones['hand.l'].matrix)@shield_fit
+
+head.data.update()
+BVH=BVHTree.FromObject(head,bpy.context.evaluated_depsgraph_get())
+def surf(x,z):
+    hit=BVH.ray_cast(Vector((x,-2,z)),Vector((0,1,0)))
+    if hit[0] is None:return Vector((x,-0.35,z)),Vector((0,-1,0))
+    n=hit[1] if hit[1].y<0 else -hit[1]
+    return hit[0],n
+def bone_parent(o, bone):
+    mw = o.matrix_world.copy(); o.parent = arm; o.parent_type = 'BONE'; o.parent_bone = bone; o.matrix_world = mw
+
+def new_obj(name, mesh=None):
+    o = bpy.data.objects.new(name, mesh); sc.collection.objects.link(o); return o
+
+def mesh_obj(name, verts, faces, material=None, uvs=None, smooth=True):
+    m = bpy.data.meshes.new(name); m.from_pydata(verts, [], faces)
+    if uvs is not None:
+        lay = m.uv_layers.new(name='UVMap')
+        for poly in m.polygons:
+            for li in poly.loop_indices: lay.data[li].uv = uvs[m.loops[li].vertex_index]
+    if smooth: m.shade_smooth()
+    o = new_obj(name, m)
+    if material: m.materials.append(material)
+    return o
+
+def set_mesh(o, verts, faces, uvs=None):
+    m = o.data; m.clear_geometry(); m.from_pydata(verts, [], faces)
+    if uvs is not None:
+        lay = m.uv_layers.get('UVMap') or m.uv_layers.new(name='UVMap')
+        for poly in m.polygons:
+            for li in poly.loop_indices: lay.data[li].uv = uvs[m.loops[li].vertex_index]
+    m.shade_smooth(); m.update()
+
+# ---------------------------------------------------------------- node helpers
+class NT:
+    def __init__(self, m):
+        m.use_nodes = True; self.t = m.node_tree; self.n = self.t.nodes; self.l = self.t.links
+    def node(self, kind, **props):
+        nd = self.n.new(kind)
+        for k, v in props.items(): setattr(nd, k, v)
+        return nd
+    def link(self, a, b): self.l.new(a, b)
+    def math(self, op, a, b=None, clamp=False):
+        nd = self.node('ShaderNodeMath', operation=op, use_clamp=clamp)
+        for i, x in enumerate((a, b)):
+            if x is None: continue
+            if isinstance(x, (int, float)): nd.inputs[i].default_value = x
+            else: self.link(x, nd.inputs[i])
+        return nd.outputs[0]
+    def smooth(self, x, e0, e1):   # 0 below e0, 1 above e1
+        nd = self.node('ShaderNodeMapRange', interpolation_type='SMOOTHSTEP', clamp=True)
+        self.link(x, nd.inputs['Value']); nd.inputs['From Min'].default_value = e0; nd.inputs['From Max'].default_value = e1
+        return nd.outputs[0]
+    def mix(self, fac, a, b):
+        nd = self.node('ShaderNodeMix', data_type='RGBA', clamp_factor=True)
+        for sock, x in ((nd.inputs[0], fac), (nd.inputs[6], a), (nd.inputs[7], b)):
+            if isinstance(x, tuple): sock.default_value = (*x, 1) if len(x) == 3 else x
+            elif isinstance(x, (int, float)): sock.default_value = x
+            else: self.link(x, sock)
+        return nd.outputs[2]
+    def obj_radius(self, ob, sx=1.0, sz=1.0):  # distance in the X/Z plane of an empty's space
+        tc = self.node('ShaderNodeTexCoord', object=ob)
+        sep = self.node('ShaderNodeSeparateXYZ'); self.link(tc.outputs['Object'], sep.inputs[0])
+        x = self.math('MULTIPLY', sep.outputs[0], sx); z = self.math('MULTIPLY', sep.outputs[2], sz)
+        d = self.math('SQRT', self.math('ADD', self.math('MULTIPLY', x, x), self.math('MULTIPLY', z, z)))
+        return d, sep
+    def value(self, v):
+        nd = self.node('ShaderNodeValue'); nd.outputs[0].default_value = v; return nd
+
+# ---------------------------------------------------------------- eyes
+EYE_X, EYE_Z = 0.208, 1.57          # eye centres on the face (head rest coords, +x = her left = screen right)
+EYE_R = (0.105, 0.075, 0.137)        # half width, depth, half height
+IRIS_TOP, IRIS_BOT = hexcol('#263C66'), hexcol('#82A6D3')
+PUPIL = srgb2lin((0.05, 0.03, 0.10)); SCLERA = srgb2lin((0.98, 0.97, 1.0)); LASH = srgb2lin((0.16, 0.06, 0.08))
+LIDSKIN = mat('lid_skin', SKIN, 0.45, coat=0.35)
+
+def eye_material(name, iris_e, pupil_e, glint1, glint2):
+    m = bpy.data.materials.new(name); t = NT(m); b = principled(m)
+    d_i, sep_i = t.obj_radius(iris_e)
+    d_p, _ = t.obj_radius(pupil_e)
+    d_g1, _ = t.obj_radius(glint1); d_g2, _ = t.obj_radius(glint2)
+    iris_m = t.math('SUBTRACT', 1.0, t.smooth(d_i, 0.93, 1.0))
+    pupil_m = t.math('SUBTRACT', 1.0, t.smooth(d_p, 0.88, 1.0))
+    glint = t.math('MAXIMUM', t.math('SUBTRACT', 1.0, t.smooth(d_g1, 0.85, 1.0)), t.math('SUBTRACT', 1.0, t.smooth(d_g2, 0.8, 1.0)))
+    grad = t.math('SUBTRACT', 1.0, t.smooth(sep_i.outputs[2], -0.85, 0.75))
+    iris = t.mix(grad, IRIS_TOP, IRIS_BOT)
+    iris = t.mix(t.math('MULTIPLY', t.smooth(d_i, 0.72, 0.97), 0.85), iris, srgb2lin((0.02, 0.16, 0.22)))  # limbal ring
+    sclera_shade = t.smooth(sep_i.outputs[2], 0.2, 1.6)                                                 # lid shadow
+    sclera = t.mix(t.math('MULTIPLY', sclera_shade, 0.35), SCLERA, srgb2lin((0.72, 0.70, 0.86)))
+    col = t.mix(iris_m, sclera, iris)
+    col = t.mix(pupil_m, col, PUPIL)
+    col = t.mix(glint, col, (1, 1, 1))
+    t.link(col, b.inputs['Base Color'])
+    b.inputs['Roughness'].default_value = 0.12; b.inputs['Coat Weight'].default_value = 1.0; b.inputs['Coat Roughness'].default_value = 0.03
+    b.inputs['Emission Color'].default_value = (1, 1, 1, 1); t.link(t.math('MULTIPLY', glint, 6.0), b.inputs['Emission Strength'])
+    return m
+
+def lid_material(name):
+    m = bpy.data.materials.new(name); t = NT(m); b = principled(m)
+    tc = t.node('ShaderNodeTexCoord'); sep = t.node('ShaderNodeSeparateXYZ'); t.link(tc.outputs['Object'], sep.inputs[0])
+    z = t.math('ABSOLUTE', sep.outputs[2])
+    lash = t.math('SUBTRACT', 1.0, t.smooth(z, 0.24, 0.34))
+    t.link(t.mix(lash, SKIN, LASH), b.inputs['Base Color'])
+    b.inputs['Roughness'].default_value = 0.45; b.inputs['Coat Weight'].default_value = 0.35
+    return m
+
+def sphere_mesh(name, r, zmin=-2.0, zmax=2.0, seg=40, ring=24):
+    bm = bmesh.new(); bmesh.ops.create_uvsphere(bm, u_segments=seg, v_segments=ring, radius=r)
+    if zmin > -r or zmax < r:
+        if zmin > -r: bmesh.ops.bisect_plane(bm, geom=bm.verts[:] + bm.edges[:] + bm.faces[:], plane_co=(0, 0, zmin), plane_no=(0, 0, 1), clear_inner=True)
+        if zmax < r: bmesh.ops.bisect_plane(bm, geom=bm.verts[:] + bm.edges[:] + bm.faces[:], plane_co=(0, 0, zmax), plane_no=(0, 0, 1), clear_outer=True)
+    m = bpy.data.meshes.new(name); bm.to_mesh(m); bm.free(); m.shade_smooth(); return m
+
+EYES = []
+for side in (1, -1):
+    s = 'L' if side > 0 else 'R'
+    p, n = surf(side * EYE_X, EYE_Z)
+    fwd = (Vector((0, -1, 0)) * 0.55 + n * 0.45).normalized(); fwd.z = 0; fwd.normalize()
+    x_ax = Vector((-fwd.y, fwd.x, 0)).normalized()
+    if x_ax.x < 0: x_ax = -x_ax
+    ctr = p - fwd * (EYE_R[1] * 0.42)
+    root = new_obj(f'eye_{s}'); root.empty_display_size = 0.1
+    rot = Matrix((x_ax, -fwd, Vector((0, 0, 1)))).transposed()
+    root.matrix_world = Matrix.Translation(ctr) @ rot.to_4x4() @ Matrix.Diagonal((*EYE_R, 1))
+    def child(o, parent=root):
+        o.parent = parent; o.matrix_parent_inverse = Matrix.Identity(4); return o
+    iris_e = child(new_obj(f'iris_{s}')); iris_e.location = (0, -1, 0)
+    pupil_e = child(new_obj(f'pupil_{s}'), iris_e)
+    g1 = child(new_obj(f'glint1_{s}')); g1.location = (-0.30, -1, 0.36); g1.scale = (0.24, 1, 0.21)
+    g2 = child(new_obj(f'glint2_{s}')); g2.location = (0.26, -1, -0.38); g2.scale = (0.11, 1, 0.10)
+    ball = child(new_obj(f'eyeball_{s}', sphere_mesh(f'eyeball_{s}', 1.0)))
+    ball.data.materials.append(eye_material(f'eye_{s}', iris_e, pupil_e, g1, g2))
+    lid = child(new_obj(f'lid_{s}', sphere_mesh(f'lid_{s}', 1.09, zmin=0.0))); lid.data.materials.append(lid_material(f'lid_{s}'))
+    lid.rotation_mode = 'XYZ'
+    low = child(new_obj(f'lowlid_{s}', sphere_mesh(f'lowlid_{s}', 1.075, zmax=0.0))); low.data.materials.append(LIDSKIN)
+    low.rotation_mode = 'XYZ'
+    # outer lash flick: a small curved tapered wedge at the outer upper corner of the lid
+    lv, lf = [], []
+    for i in range(7):
+        a = i / 6
+        ang = math.radians(25 + 40 * a)
+        r = 1.10 + 0.05 * a
+        w = 0.16 * (1 - a) + 0.02
+        cx, cz = math.cos(ang) * r, math.sin(ang) * r
+        lv += [(cx, -0.25, cz), (cx + 0.18 * a + 0.05, -0.25, cz + w * 0.2 + 0.08 * a * a + w)]
+    for i in range(6): lf.append((2 * i, 2 * i + 2, 2 * i + 3, 2 * i + 1))
+    lmat = mat(f'lashmat_{s}', LASH, 0.5)
+    flick = child(mesh_obj(f'lash_{s}', lv, lf, lmat), lid)
+    sol = flick.modifiers.new('t', 'SOLIDIFY'); sol.thickness = 0.12; sol.offset = 0
+    EYES.append(dict(side=side, root=root, iris=iris_e, pupil=pupil_e, g1=g1, g2=g2, ball=ball, lid=lid, low=low,
+                     flick=flick, base=root.matrix_world.copy(), ctr=ctr, fwd=fwd))
+
+# ---------------------------------------------------------------- decals: brows, mouth, blush, closed-eye strokes
+BROW_C = hexcol('#253349'); LINE_C = srgb2lin((0.30, 0.06, 0.09))
+def flat_mat(name, color, rough=0.5, emit=0.0):
+    return mat(name, color, rough, coat=0.2, **({'Emission Color': color, 'Emission Strength': emit} if emit else {}))
+BROW_M = flat_mat('brow', BROW_C, 0.6)
+LINE_M = mat('mouth_line', LINE_C, 0.75, coat=0.0)
+CLOSED_M = flat_mat('closed_eye', LASH, 0.4)
+
+def mouth_material():
+    m = bpy.data.materials.new('mouth_fill'); t = NT(m); b = principled(m)
+    uv = t.node('ShaderNodeUVMap', uv_map='UVMap'); sep = t.node('ShaderNodeSeparateXYZ'); t.link(uv.outputs[0], sep.inputs[0])
+    u, v = sep.outputs[0], sep.outputs[1]
+    teeth_on = t.value(1.0); grim_on = t.value(0.0); tongue_on = t.value(1.0)
+    # tongue: ellipse resting on the lower lip
+    tu = t.math('DIVIDE', u, 0.62); tv = t.math('DIVIDE', t.math('SUBTRACT', v, -0.05), 0.52)
+    tongue = t.math('MULTIPLY', t.math('SUBTRACT', 1.0, t.smooth(t.math('ADD', t.math('MULTIPLY', tu, tu), t.math('MULTIPLY', tv, tv)), 0.85, 1.0)), tongue_on.outputs[0])
+    teeth = t.math('MULTIPLY', t.smooth(v, 0.70, 0.76), teeth_on.outputs[0])
+    teeth = t.math('MULTIPLY', teeth, t.math('SUBTRACT', 1.0, t.smooth(t.math('ABSOLUTE', u), 0.78, 0.9)))
+    # grimace: clenched teeth filling the mouth, a dark bite line and tooth gaps
+    gin = t.math('MULTIPLY', t.smooth(v, 0.12, 0.17), t.math('SUBTRACT', 1.0, t.smooth(v, 0.83, 0.88)))
+    gin = t.math('MULTIPLY', gin, t.math('SUBTRACT', 1.0, t.smooth(t.math('ABSOLUTE', u), 0.86, 0.93)))
+    bite = t.math('SUBTRACT', 1.0, t.smooth(t.math('ABSOLUTE', t.math('SUBTRACT', v, 0.5)), 0.035, 0.06))
+    gap = t.math('SUBTRACT', 1.0, t.smooth(t.math('ABSOLUTE', t.math('SUBTRACT', t.math('FRACT', t.math('MULTIPLY', t.math('ADD', u, 1.0), 2.5)), 0.5)), 0.42, 0.47))
+    gap = t.math('SUBTRACT', 1.0, gap)
+    grim = t.math('MULTIPLY', t.math('MULTIPLY', gin, t.math('MULTIPLY', t.math('SUBTRACT', 1.0, bite), t.math('SUBTRACT', 1.0, t.math('MULTIPLY', gap, 0.7)))), grim_on.outputs[0])
+    col = t.mix(tongue, srgb2lin((0.33, 0.04, 0.10)), srgb2lin((0.98, 0.42, 0.52)))
+    col = t.mix(teeth, col, (0.97, 0.95, 0.96))
+    col = t.mix(grim, col, (0.97, 0.95, 0.96))
+    t.link(col, b.inputs['Base Color']); b.inputs['Roughness'].default_value = 0.3; b.inputs['Coat Weight'].default_value = 0.6
+    return m, teeth_on, grim_on, tongue_on
+MOUTH_M, TEETH_ON, GRIM_ON, TONGUE_ON = mouth_material()
+
+def blush_material():
+    m = bpy.data.materials.new('blush'); t = NT(m); b = principled(m)
+    uv = t.node('ShaderNodeUVMap', uv_map='UVMap'); sep = t.node('ShaderNodeSeparateXYZ'); t.link(uv.outputs[0], sep.inputs[0])
+    r = t.math('SQRT', t.math('ADD', t.math('MULTIPLY', sep.outputs[0], sep.outputs[0]), t.math('MULTIPLY', sep.outputs[1], sep.outputs[1])))
+    strength = t.value(0.6)
+    a = t.math('MULTIPLY', t.math('SUBTRACT', 1.0, t.smooth(r, 0.0, 1.0)), strength.outputs[0])
+    mixs = t.node('ShaderNodeMixShader'); tr = t.node('ShaderNodeBsdfTransparent')
+    b.inputs['Base Color'].default_value = (*srgb2lin((1.0, 0.42, 0.55)), 1); b.inputs['Roughness'].default_value = 0.5
+    out = next(n for n in t.n if n.type == 'OUTPUT_MATERIAL')
+    t.link(a, mixs.inputs[0]); t.link(tr.outputs[0], mixs.inputs[1]); t.link(b.outputs[0], mixs.inputs[2]); t.link(mixs.outputs[0], out.inputs[0])
+    return m, strength
+BLUSH_M, BLUSH_K = blush_material()
+
+def project(pts2d, off, flatten=False):
+    out = []
+    for (x, z) in pts2d:
+        p, n = surf(x, z); out.append(p + n * off)
+    if flatten:   # strokes that cross a hair edge: keep each column at its frontmost depth
+        for i in range(0, len(out) - 1, 2):
+            y = min(out[i].y, out[i + 1].y); out[i].y = out[i + 1].y = y
+    return [tuple(v) for v in out]
+
+def ribbon(center, widths, off=0.006, flatten=False):
+    """a stroke along a 2D polyline: verts in pairs (left, right), quads between"""
+    pts, uvs = [], []
+    n = len(center)
+    for i, ((x, z), w) in enumerate(zip(center, widths)):
+        a = center[max(0, i - 1)]; b = center[min(n - 1, i + 1)]
+        tx, tz = b[0] - a[0], b[1] - a[1]; L = math.hypot(tx, tz) or 1; nx, nz = -tz / L, tx / L
+        pts += [(x + nx * w / 2, z + nz * w / 2), (x - nx * w / 2, z - nz * w / 2)]
+        uvs += [(i / (n - 1) * 2 - 1, 1), (i / (n - 1) * 2 - 1, -1)]
+    faces = [(2 * i, 2 * i + 1, 2 * i + 3, 2 * i + 2) for i in range(n - 1)]
+    return project(pts, off, flatten), faces, uvs
+
+def taper(n, w, head=0.25, tail=0.25, min_w=0.15):
+    out = []
+    for i in range(n):
+        a = i / (n - 1)
+        k = min(1.0, a / head if head else 1, (1 - a) / tail if tail else 1)
+        out.append(w * (min_w + (1 - min_w) * math.sin(k * math.pi / 2)))
+    return out
+
+def filled(top, bot, xs, off=0.005):
+    """a filled mouth between a top and bottom curve; uv = (x / half width, 0 at the bottom lip .. 1 at the top lip)"""
+    pts, uvs, NV = [], [], 7
+    w = max(abs(x) for x in xs) or 1
+    for x in xs:
+        zt, zb = top(x), bot(x)
+        for j in range(NV):
+            v = j / (NV - 1); pts.append((x, zb + (zt - zb) * v)); uvs.append((x / w, v))
+    faces = [(i * NV + j, (i + 1) * NV + j, (i + 1) * NV + j + 1, i * NV + j + 1) for i in range(len(xs) - 1) for j in range(NV - 1)]
+    return project(pts, off), faces, uvs
+
+def decal_obj(name, material):
+    o = mesh_obj(name, [(0, 0, 0)] * 3, [(0, 1, 2)], material, uvs=[(0, 0)] * 3)
+    bone_parent(o, 'head'); return o
+BROWS = {s: decal_obj(f'brow_{s}', BROW_M) for s in (1, -1)}
+CLOSED = {s: decal_obj(f'closed_{s}', CLOSED_M) for s in (1, -1)}
+MOUTH_LINE = decal_obj('mouth_line', LINE_M)
+MOUTH_FILL = decal_obj('mouth_fill', MOUTH_M)
+BLUSH = decal_obj('blush', BLUSH_M)
+for o in BROWS.values(): o.visible_shadow = False
+
+def ellipse_fill(cx, cz, rx, rz, off):
+    pts, uvs, faces, N, R = [], [], [], 28, 4
+    pts.append((cx, cz)); uvs.append((0, 0))
+    for r in range(1, R + 1):
+        for i in range(N):
+            a = i / N * math.tau; pts.append((cx + math.cos(a) * rx * r / R, cz + math.sin(a) * rz * r / R))
+            uvs.append((math.cos(a) * r / R, math.sin(a) * r / R))
+    for i in range(N): faces.append((0, 1 + i, 1 + (i + 1) % N))
+    for r in range(1, R):
+        for i in range(N):
+            a0 = 1 + (r - 1) * N; a1 = 1 + r * N
+            faces.append((a0 + i, a1 + i, a1 + (i + 1) % N, a0 + (i + 1) % N))
+    return project(pts, off), faces, uvs
+
+bv, bf, bu = [], [], []
+for s in (1, -1):
+    v, f, u = ellipse_fill(s * 0.30, 1.445, 0.085, 0.048, 0.004)
+    o = len(bv); bv += v; bf += [tuple(i + o for i in t) for t in f]; bu += u
+set_mesh(BLUSH, bv, bf, bu)
+
+
+# Give the source heraldic shield a clean enamel face and broad silver rim.
+shield=bpy.data.objects['Badge_Shield']
+profile=[(-0.43,0.49),(0.43,0.49),(0.43,0.12),(0.34,-0.27),(0,-0.60),(-0.34,-0.27),(-0.43,0.12)]
+def shield_mesh(profile,front,back):
+    n=len(profile);v=[(x,y,z) for y in (front,back) for x,z in profile]
+    f=[tuple(range(n-1,-1,-1)),tuple(range(n,2*n))]+[(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)]
+    return v,f
+v,f=shield_mesh(profile,-0.09,0.06)
+shield.data=bpy.data.meshes.new('kit_heater');shield.data.from_pydata(v,[],f);shield.data.materials.append(M_EDGE)
+bevel=shield.modifiers.new('soft_rim','BEVEL');bevel.width=0.025;bevel.segments=3
+weighted=shield.modifiers.new('rim_normals','WEIGHTED_NORMAL')
+panel=[(x*0.86,z*0.89+0.006) for x,z in profile]
+v,f=shield_mesh(panel,-0.113,-0.087)
+p=mesh_obj('shield_enamel',v,f,M_BLUE,smooth=False);p.parent=shield;p.matrix_parent_inverse=Matrix.Identity(4)
+b=p.modifiers.new('panel_bevel','BEVEL');b.width=0.012;b.segments=3
+bolt=[(0.08,0.34),(-0.20,-0.03),(-0.02,-0.03),(-0.12,-0.38),(0.20,0.06),(0.025,0.06)]
+b=mesh_obj('shield_bolt',[(x,-0.126,z) for x,z in bolt],[tuple(range(len(bolt)))],M_EDGE,smooth=False)
+b.parent=shield;b.matrix_parent_inverse=Matrix.Identity(4)
+sol=b.modifiers.new('raised_crest','SOLIDIFY');sol.thickness=0.014
+bev=b.modifiers.new('crest_bevel','BEVEL');bev.width=0.008;bev.segments=2
+
+# Silver rim around the open face and a single broad helmet ridge.
+cu=bpy.data.curves.new('helmet_trim','CURVE');cu.dimensions='3D';cu.bevel_depth=0.012;cu.bevel_resolution=3
+sp=cu.splines.new('POLY');sp.points.add(NH)
+for i,pt in enumerate(sp.points):
+    x,y,z=hv[(i%NH)*(NV+1)+NV];pt.co=(x,y,z,1)
+o=new_obj('helmet_rim',cu);cu.materials.append(M_EDGE);o.parent=helmet;o.matrix_parent_inverse=Matrix.Identity(4)
+rv,rf=[],[]
+for i in range(41):
+    th=-2.25+(2.25+1.26)*i/40
+    for x in (-0.025,0.025):rv.append((x,-0.585*math.sin(th),1.70+0.568*math.cos(th)-1.215891))
+for i in range(40):rf.append((i*2,i*2+1,i*2+3,i*2+2))
+o=mesh_obj('helmet_ridge',rv,rf,M_EDGE);o.parent=helmet;o.matrix_parent_inverse=Matrix.Identity(4)
+sol=o.modifiers.new('ridge_thickness','SOLIDIFY');sol.thickness=0.012
+
+# A simple split cobalt tabard leaves the original legs and their animation intact.
+for s in (1,-1):
+    x0,x1=(0.035,0.29) if s>0 else (-0.29,-0.035)
+    v=[(x0,-0.34,0.60),(x1,-0.32,0.60),(x1*1.2,-0.30,0.24),(x0,-0.34,0.28)]
+    o=mesh_obj('tabard_'+str(s),v,[(0,1,2,3)],M_BLUE,smooth=False)
+    sol=o.modifiers.new('cloth_thickness','SOLIDIFY');sol.thickness=0.018
+    bev=o.modifiers.new('soft_hem','BEVEL');bev.width=0.015;bev.segments=3
+    bone_parent(o,'hips')
+
+# Restrained coral tie, kept below the neck so it never hides the expression.
+verts=[(-0.27,-0.32,1.10),(-0.18,-0.35,1.10),(-0.17,-0.35,0.83),(-0.24,-0.34,0.87)]
+tie=mesh_obj('coral_tie',verts,[(0,1,2,3)],M_CORAL,smooth=False)
+sol=tie.modifiers.new('cloth_thickness','SOLIDIFY');sol.thickness=0.015
+bone_parent(tie,'chest')
+for e in EYES:
+    bone_parent(e['root'],'head');e['scale0']=e['root'].scale.copy()
+arm.data.pose_position='POSE';bpy.context.view_layer.update()
+# Use the same physical scale and feet placement for every clip and camera view.
+sc.frame_set(1);bpy.context.view_layer.update()
+Z0=0.0;Z1=2.268
+k=(HEIGHT*0.1)/(Z1-Z0)
+arm.scale=[s*k for s in arm.scale];arm.location.z-=Z0*k
+arm.rotation_mode='XYZ'
+bpy.context.view_layer.update()
+NEUTRAL = dict(gx=0.0, gz=0.0, lid=0.16, low=0.0, iris=1.0, pupil=1.0, eye=1.0, glint=1.0, eyes='open',
+               braise=0.0, btilt=0.0, mouth='smile', mw=1.0, mh=0.0, mc=0.5, wave=0.0, blush=0.55)
+
+def apply_face(P):
+    for e in EYES:
+        s = e['side']
+        e['iris'].location = (P['gx'] * 0.36, -1, P['gz'] * 0.30)
+        r = 0.66 * P['iris']; e['iris'].scale = (r, 1, r * 1.08)
+        pr = 0.46 * P['pupil'] / P['iris']; e['pupil'].scale = (pr, 1, pr * 1.1)
+        g = P['glint']; e['g1'].scale = (0.24 * g, 1, 0.21 * g); e['g2'].scale = (0.11 * g, 1, 0.10 * g)
+        # lids are hemispheres rotated about the eye's x axis; e = height of the lid edge at the front of the eye
+        e['lid'].rotation_euler = (-math.asin(max(-1, min(1, 1 - 2 * P['lid']))), 0, 0)
+        e['low'].rotation_euler = (-math.asin(max(-1, min(1, -1 + 2 * P['low']))), 0, 0)
+        e['root'].scale = e['scale0'] * P['eye']
+        show = P['eyes'] == 'open'
+        for key in ('ball', 'lid', 'low', 'flick'): e[key].hide_render = not show
+        # closed-eye strokes
+        cx, cz = s * EYE_X, EYE_Z
+        o = CLOSED[s]
+        if P['eyes'] == 'happy':          # ^ arcs
+            pts = [(cx + (i / 14 * 2 - 1) * 0.10, cz - 0.02 + 0.06 * (1 - (i / 14 * 2 - 1) ** 2)) for i in range(15)]
+            v, f, u = ribbon(pts, taper(15, 0.034, 0.3, 0.3, 0.25), off=0.006); set_mesh(o, v, f, u); o.hide_render = False
+        elif P['eyes'] == 'squeeze':      # > <  pointing at the nose
+            pts = [(cx + s * (0.075 - 0.15 * (1 - abs(2 * (i / 14) - 1)) ** 1.3), cz + 0.075 * (1 - 2 * i / 14)) for i in range(15)]
+            v, f, u = ribbon(pts, taper(15, 0.032, 0.3, 0.3, 0.3), off=0.006); set_mesh(o, v, f, u); o.hide_render = False
+        else:
+            o.hide_render = True
+        # brows: inner end at x 0.10, outer at 0.30; tilt > 0 lifts the inner end (worry), < 0 drops it (anger)
+        rz = P['braise'] * 0.035
+        tilt = math.radians(P['btilt'])
+        pts = []
+        for i in range(13):
+            t_ = i / 12
+            x = 0.105 + t_ * 0.19; z = 1.765 + 0.018 * math.sin(t_ * math.pi) - 0.006 * t_
+            dx, dz = x - 0.2, z - 1.765
+            x2 = 0.2 + dx * math.cos(tilt) + dz * math.sin(tilt)
+            z2 = 1.765 - dx * math.sin(tilt) + dz * math.cos(tilt) + rz
+            pts.append((s * x2, z2))
+        ws = [0.048 * (1 - 0.55 * (i / 12)) * min(1, (i + 1) / 2.5) for i in range(13)]
+        v, f, u = ribbon(pts, ws, off=0.010, flatten=True); set_mesh(BROWS[s], v, f, u)
+    # mouth
+    MZ = 1.383; w = 0.075 * P['mw']; kind = P['mouth']
+    xs = [w * -math.cos(i / 20 * math.pi) for i in range(21)]
+    if kind in ('smile', 'frown', 'flat', 'wavy'):
+        c = {'smile': 1.0, 'frown': -1.0, 'flat': 0.0, 'wavy': 0.0}[kind] * P['mc'] * 0.035
+        pts = [(x, MZ + c * ((x / w) ** 2 - 0.4) + P['wave'] * 0.012 * math.sin((x / w) * math.pi * 1.5)) for x in xs]
+        v, f, u = ribbon(pts, taper(21, 0.026, 0.25, 0.25, 0.3), off=0.006)
+        set_mesh(MOUTH_LINE, v, f, u); MOUTH_LINE.hide_render = False; MOUTH_FILL.hide_render = True
+    else:
+        h = 0.02 + 0.10 * P['mh']; c = P['mc'] * 0.03
+        TEETH_ON.outputs[0].default_value = 1.0 if kind == 'open' else 0.0
+        GRIM_ON.outputs[0].default_value = 1.0 if kind == 'grimace' else 0.0
+        TONGUE_ON.outputs[0].default_value = 0.0 if kind == 'grimace' else 1.0
+        if kind == 'open':     # D-shaped laugh: flat top lifted at the corners, deep round bottom
+            top = lambda x: MZ + 0.012 + c * (abs(x / w) ** 2.2) * 0.4
+            bot = lambda x: MZ + 0.012 + c * 0.4 - (h + c * 0.4) * (1 - abs(x / w) ** 2.2) ** 0.75
+        elif kind == 'O':      # oval scream
+            top = lambda x: MZ - h * 0.35 + h * 0.6 * (1 - (x / w) ** 2) ** 0.5
+            bot = lambda x: MZ - h * 0.35 - h * 0.6 * (1 - (x / w) ** 2) ** 0.5
+        else:                  # grimace: wide clenched box, corners pulled down
+            top = lambda x: MZ + h * 0.5 - c * (abs(x / w) ** 3) * 0.6 - 0.004 * (1 - (1 - abs(x / w) ** 6) ** 0.5) * 8
+            bot = lambda x: MZ - h * 0.5 - c * (abs(x / w) ** 3) * 0.6 + 0.004 * (1 - (1 - abs(x / w) ** 6) ** 0.5) * 8
+        v, f, u = filled(top, bot, xs)
+        set_mesh(MOUTH_FILL, v, f, u); MOUTH_FILL.hide_render = False; MOUTH_LINE.hide_render = True
+    BLUSH_K.outputs[0].default_value = P['blush']
+
+def lerp_keys(keys, t):
+    """keys: [(t, {param overrides})] sorted, each key inheriting the previous one; the loop wraps from the last key
+    to the first. Numbers ease smoothly between keys, other values switch half way."""
+    full, acc = [], dict(NEUTRAL)
+    for kt, d in keys:
+        acc = dict(acc); acc.update(d); full.append((kt, acc))
+    idx = max([i for i, (kt, _) in enumerate(full) if kt <= t] or [len(full) - 1])
+    t0, a = full[idx]; t1, b = full[(idx + 1) % len(full)]
+    if t1 <= t0: t1 += 1.0
+    tt = t if t >= t0 else t + 1.0
+    u = (tt - t0) / (t1 - t0) if t1 > t0 else 0.0; u = u * u * (3 - 2 * u)
+    return {k: (a[k] + (b[k] - a[k]) * u if isinstance(a[k], float) and isinstance(b[k], float) else (a[k] if u < 0.5 else b[k]))
+            for k in a}
+
+def F(**kw): return {k: (float(v) if isinstance(v, int) and not isinstance(v, bool) else v) for k, v in kw.items()}
+
+EXPRESSIONS={
+ 'Idle':[(0,F(btilt=-23,braise=-0.35,lid=0.18,mouth='flat',mw=1.15,mc=0.2,gz=0.1)),(0.45,F(gx=0.12)),(0.78,F(lid=0.85)),(0.86,F(lid=0.18,gx=0))],
+ 'Focus':[(0,F(btilt=-30,braise=-0.45,lid=0.42,low=0.1,mouth='flat',mw=0.95,gx=0.1,gz=0.3)),(0.5,F(gx=-0.15,gz=0.15,lid=0.37))],
+ 'Grin':[(0,F(btilt=-4,braise=0.1,lid=0.16,low=0.13,mouth='open',mw=1.15,mh=0.24,mc=0.8)),(0.4,F(gx=0.2,mh=0.42)),(0.8,F(gx=0))],
+ 'Shock':[(0,F(btilt=18,braise=0.85,lid=0,iris=0.75,pupil=0.7,mouth='O',mw=1.0,mh=0.95)),(0.5,F(eye=1.05,mh=1.05,gz=0.15)),(0.95,F(eye=1.0,mh=0.75))],
+ 'Worried':[(0,F(btilt=25,braise=0.5,lid=0.04,low=0.03,mouth='O',mw=0.65,mh=0.30,gx=-0.3,gz=0.15,blush=0.35)),(0.4,F(gx=0.3,mh=0.38)),(0.75,F(gx=0.1,gz=0.3,mh=0.3))],
+ 'Cheer':[(0,F(eyes='happy',braise=0.6,btilt=-3,mouth='open',mw=1.45,mh=0.85,mc=0.8,blush=0.75)),(0.5,F(mh=1.0,mw=1.5)),(0.8,F(mh=0.8))],
+ 'Hurt':[(0,F(eyes='squeeze',btilt=-17,braise=-0.4,mouth='grimace',mw=1.35,mh=0.35,mc=0.3,blush=0.6)),(0.45,F(mw=1.2,mh=0.25)),(0.9,F(eyes='open',lid=0.65,mouth='frown',mw=1.1,mc=0.7))],
+ 'Laugh':[(0,F(eyes='open',lid=0.08,low=0.2,braise=0.85,btilt=4,mouth='open',mw=1.6,mh=1.1,mc=0.7,blush=0.9)),(0.3,F(eyes='open',lid=0.1,low=0.3,mh=1.0,gz=0.1)),(0.65,F(eyes='happy',mh=1.25))]
+}
+
+def aim_bone(name,d):
+    pb=arm.pose.bones[name];m=pb.matrix.copy();h=m.translation.copy()
+    q=m.col[1].xyz.normalized().rotation_difference(Vector(d).normalized())
+    pb.matrix=Matrix.Translation(h)@q.to_matrix().to_4x4()@Matrix.Translation(-h)@m
+    bpy.context.view_layer.update()
+
+def pose_shield(name,phase):
+    # Keep the protective prop below the face in guard poses and outboard during a cheer.
+    if name in ('Focus','Hurt'):
+        aim_bone('upperarm.l',(0.75,-0.2,-0.75))
+        aim_bone('lowerarm.l',(0.1,-0.9,-0.4))
+        aim_bone('hand.l',(-0.1,-0.8,-0.3))
+    elif name in ('Cheer','Laugh'):
+        pulse=math.sin(phase*math.tau)
+        aim_bone('upperarm.l',(1,-0.1,0.15+0.1*pulse))
+        aim_bone('lowerarm.l',(0.7,-0.3,0.35+0.1*pulse))
+        aim_bone('hand.l',(0.6,-0.5,0.2))
+    hand=arm.pose.bones['hand.l'].head
+    position=arm.matrix_world@(hand+shield_offset)
+    shield.matrix_world=Matrix.Translation(position)@Matrix.Rotation(math.radians(YAW-12),4,'Z')@Matrix.Diagonal((k,k,k,1))
+
+def area(loc,energy,size,color):
+    bpy.ops.object.light_add(type='AREA',location=loc)
+    o=bpy.context.object;o.rotation_euler=(Vector((0,0,2.2))-o.location).to_track_quat('-Z','Y').to_euler()
+    o.data.energy=energy;o.data.size=size;o.data.color=color
+area((-8,-10,14),1600,7,(1,0.82,0.68))
+area((7,-5,7),850,6,(0.55,0.68,1))
+area((0,-9,3),550,7,(0.92,0.94,1))
+area((2,5,8),1100,6,(0.62,0.73,1))
+area((0,-3,-5),220,6,(1,0.5,0.65))
+w=bpy.data.worlds.new('kit_world');sc.world=w
+w.node_tree.nodes['Background'].inputs['Color'].default_value=(0.05,0.04,0.09,1)
+w.node_tree.nodes['Background'].inputs['Strength'].default_value=0.35
+bpy.ops.object.camera_add(location=(0,-40,BOX*0.1/2-0.4),rotation=(math.radians(90),0,0))
+cam=bpy.context.object;sc.camera=cam;cam.data.type='ORTHO';cam.data.ortho_scale=BOX*0.1
+sc.render.engine='CYCLES';sc.cycles.samples=SAMPLES;sc.cycles.use_denoising=True;sc.cycles.device='CPU'
+sc.render.threads_mode='FIXED';sc.render.threads=THREADS
+sc.render.resolution_x=sc.render.resolution_y=BOX*PX;sc.render.film_transparent=True
+sc.render.image_settings.file_format='PNG';sc.render.image_settings.color_mode='RGBA'
+sc.view_settings.view_transform='AgX';sc.view_settings.look='AgX - Medium High Contrast'
+if FACE:
+    sc.render.resolution_x=sc.render.resolution_y=288;cam.data.ortho_scale=2.4
+if PROOF and not FACE:sc.render.resolution_x=sc.render.resolution_y=336
+TARGET=sc.render.resolution_x
+sc.render.resolution_x=sc.render.resolution_y=TARGET*2
+os.makedirs(OUT,exist_ok=True)
+proof_dir=os.path.join(HERE,'..','out','kit-proof');os.makedirs(proof_dir,exist_ok=True)
+# Source scenes stay out of the shipping sprite directory.
+for spec in ANIMS:
+    name,n=spec[0],int(spec[1]);only=[int(x) for x in spec[2].split(',')] if len(spec)>2 else range(n)
+    assert all(0<=i<n for i in only),'Frame index outside clip'
+    src,r0,r1=SOURCE[name];act=bpy.data.actions[src]
+    arm.animation_data_create();a0,a1=act.frame_range
+    for i in only:
+        for pb in arm.pose.bones:
+            pb.location=(0,0,0);pb.rotation_quaternion=(1,0,0,0);pb.scale=(1,1,1)
+        arm.animation_data.action=act
+        if hasattr(arm.animation_data,'action_slot') and act.slots:arm.animation_data.action_slot=act.slots[0]
+        ph=i/n
+        if r0>0 or r1<1:ph=(i/max(1,n-1)) if name in ('Shock','Hurt') else 1-abs(1-2*ph)
+        fr=a0+(a1-a0)*(r0+(r1-r0)*ph);sc.frame_set(int(fr),subframe=fr-int(fr))
+        arm.rotation_euler=(0,0,math.radians(YAW))
+        bpy.context.view_layer.update();arm.animation_data.action=None
+        pose_shield(name,i/n)
+        apply_face(lerp_keys(EXPRESSIONS[name],i/n))
+        for e in EYES:
+            e['flick'].hide_render=True
+            if SKIN_PROOF:
+                for key in ('ball','lid','low'):e[key].hide_render=True
+        if SKIN_PROOF:
+            for o in list(BROWS.values())+list(CLOSED.values())+[MOUTH_LINE,MOUTH_FILL,BLUSH]:o.hide_render=True
+        bpy.context.view_layer.update()
+        if FACE:
+            hp=arm.matrix_world@arm.pose.bones['head'].head
+            cam.location=(hp.x,-40,hp.z+0.66)
+            path=os.path.join(OUT,f'{name}_face_{i:02d}.png')
+        else:path=os.path.join(OUT,f'{name}_{i:02d}.png')
+        if not FACE and not PROOF and not YAW and name=='Idle' and i==0:bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(os.path.join(proof_dir,'kit.blend')))
+        sc.render.filepath=path;bpy.ops.render.render(write_still=True)
+        with Image.open(path) as im:
+            out=im.resize((TARGET,TARGET),Image.Resampling.LANCZOS)
+            assert out.mode=='RGBA' and out.size==(TARGET,TARGET), 'Invalid sprite format'
+            bb=out.getchannel('A').point(lambda a:255 if a>8 else 0).getbbox()
+            assert bb and (FACE or (bb[0]>1 and bb[1]>1 and bb[2]<TARGET-1 and bb[3]<TARGET-1)), f'Clipped sprite: {name} {i} {bb}'
+            out.save(path)
+    print('rendered',name,len(only),flush=True)
+```
+
+
+---
+
+## `art/kit_cast.py`
+
+Spinning heater shield and unfolding brick armour. Sixteen Spin and twelve Armour frames deliver the existing timed Ward without a connecting light trail or changed defence deadlines.
+
+```python
+# Kit's selected spinning heater shield and unfolding brick armour.
+# Run: python3 art/kit_cast.py [assets/kit-cast] [--samples 32] [--threads 6]
+import argparse, hashlib, json, math
+from pathlib import Path
+
+import bpy
+import addon_utils
+from mathutils import Matrix, Vector
+from PIL import Image, ImageDraw, ImageFont
+
+ROOT = Path(__file__).resolve().parents[1]
+parser = argparse.ArgumentParser()
+parser.add_argument('out', nargs='?', default=str(ROOT / 'assets/kit-cast'))
+parser.add_argument('--samples', type=int, default=32)
+parser.add_argument('--threads', type=int, default=6)
+args = parser.parse_args()
+OUT = Path(args.out).resolve()
+PROOF = ROOT / 'out/kit-cast-proof'
+OUT.mkdir(parents=True, exist_ok=True)
+PROOF.mkdir(parents=True, exist_ok=True)
+CELL, SUPER = 256, 2
+TIMING = {'anticipation': 0.05, 'arrival': 0.30, 'settled': 0.46}
+assert TIMING['settled'] < 0.18 + 0.32  # latest legal Ward still arrives before venom impact
+
+addon_utils.enable('cycles', default_set=True)
+bpy.ops.wm.read_factory_settings(use_empty=True)
+sc = bpy.context.scene
+
+def material(name, color, rough, metal=0, coat=0):
+    rgb = [int(color[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+    rgb = [c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4 for c in rgb]
+    m = bpy.data.materials.new(name)
+    m.use_nodes = True
+    b = m.node_tree.nodes.get('Principled BSDF')
+    for key, value in {'Base Color': (*rgb, 1), 'Roughness': rough, 'Metallic': metal,
+                       'Coat Weight': coat, 'Coat Roughness': 0.1}.items():
+        b.inputs[key].default_value = value
+    return m
+
+silver = material('kit_silver_edge', '#BFC8DD', 0.19, 0.8, 0.3)
+blue = material('kit_cobalt', '#356AB3', 0.43, coat=0.18)
+enamel = material('ward_enamel', '#76BACD', 0.28, 0.25, 0.4)
+
+def mesh(name, verts, faces, mat, bevel=0):
+    data = bpy.data.meshes.new(name)
+    data.from_pydata(verts, [], faces)
+    data.materials.append(mat)
+    o = bpy.data.objects.new(name, data)
+    sc.collection.objects.link(o)
+    if bevel:
+        b = o.modifiers.new('Rounded enamel edges', 'BEVEL')
+        b.width, b.segments = bevel, 3
+        o.modifiers.new('Weighted normals', 'WEIGHTED_NORMAL')
+    return o
+
+def prism(name, profile, front, back, mat, bevel):
+    n = len(profile)
+    verts = [(x, y, z) for y in (front, back) for x, z in profile]
+    faces = [tuple(range(n - 1, -1, -1)), tuple(range(n, 2 * n))]
+    faces += [(i, (i + 1) % n, (i + 1) % n + n, i + n) for i in range(n)]
+    return mesh(name, verts, faces, mat, bevel)
+
+def half_profile(profile, side):
+    out = []
+    for a, b in zip(profile, profile[1:] + profile[:1]):
+        inside_a, inside_b = side * a[0] >= 0, side * b[0] >= 0
+        if inside_a:
+            out.append(a)
+        if inside_a != inside_b:
+            u = -a[0] / (b[0] - a[0])
+            out.append((0, a[1] + (b[1] - a[1]) * u))
+    clean = []
+    for p in out:
+        if not clean or p != clean[-1]:
+            clean.append(p)
+    if clean[0] == clean[-1]:
+        clean.pop()
+    return clean
+
+profile = [(-0.43, 0.49), (0.43, 0.49), (0.43, 0.12), (0.34, -0.27),
+           (0, -0.60), (-0.34, -0.27), (-0.43, 0.12)]
+panel = [(x * 0.86, z * 0.89 + 0.006) for x, z in profile]
+bolt = [(0.08, 0.34), (-0.20, -0.03), (-0.02, -0.03), (-0.12, -0.38), (0.20, 0.06), (0.025, 0.06)]
+halves = []
+for side in (-1, 1):
+    root = bpy.data.objects.new('heater_half_' + str(side), None)
+    sc.collection.objects.link(root)
+    for name, shape, front, back, mat, bevel in [
+        ('rim', profile, -0.09, 0.06, silver, 0.025),
+        ('enamel', panel, -0.113, -0.087, blue, 0.012),
+        ('crest', bolt, -0.14, -0.126, silver, 0.008),
+    ]:
+        o = prism(name + str(side), half_profile(shape, side), front, back, mat, bevel)
+        o.parent = root
+    halves.append((root, side))
+
+def cube(name, location, size, mat):
+    bpy.ops.mesh.primitive_cube_add(size=1, location=location)
+    o = bpy.context.object
+    o.name, o.dimensions = name, size
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+    o.data.materials.append(mat)
+    b = o.modifiers.new('Rounded enamel edges', 'BEVEL')
+    b.width, b.segments = 0.045, 3
+    o.modifiers.new('Weighted normals', 'WEIGHTED_NORMAL')
+    return o
+
+plates = []
+for side in (-1, 1):
+    for name, p, size, mat in [
+        ('side', (side * 0.68, 0, 0), (0.2, 0.3, 1.48), silver),
+        ('enamel_side', (side * 0.68, -0.17, 0), (0.115, 0.065, 1.26), enamel),
+        ('cross', (0, 0, side * 0.65), (1.46, 0.3, 0.18), silver),
+        ('enamel_cross', (0, -0.17, side * 0.65), (1.25, 0.065, 0.1), blue),
+    ]:
+        plates.append((cube(name, p, size, mat), p, side))
+for x in (-0.68, 0.68):
+    for z in (-0.65, 0.65):
+        p = (x, -0.23, z)
+        plates.append((cube('corner_latch', p, (0.29, 0.15, 0.29), enamel), p, 1 if x > 0 else -1))
+
+def area(location, energy, size, color):
+    bpy.ops.object.light_add(type='AREA', location=location)
+    o = bpy.context.object
+    o.rotation_euler = (Vector((0, 0, 2.2)) - o.location).to_track_quat('-Z', 'Y').to_euler()
+    o.data.energy, o.data.size, o.data.color = energy, size, color
+
+for values in [((-8, -10, 14), 1600, 7, (1, 0.82, 0.68)), ((7, -5, 7), 850, 6, (0.55, 0.68, 1)),
+               ((0, -9, 3), 550, 7, (0.92, 0.94, 1)), ((2, 5, 8), 1100, 6, (0.62, 0.73, 1)),
+               ((0, -3, -5), 220, 6, (1, 0.5, 0.65))]:
+    area(*values)
+world = bpy.data.worlds.new('kit_world')
+world.use_nodes = True
+sc.world = world
+world.node_tree.nodes['Background'].inputs['Color'].default_value = (0.05, 0.04, 0.09, 1)
+world.node_tree.nodes['Background'].inputs['Strength'].default_value = 0.35
+bpy.ops.object.camera_add(location=(0, -40, 0), rotation=(math.pi / 2, 0, 0))
+cam = bpy.context.object
+sc.camera, cam.data.type = cam, 'ORTHO'
+sc.render.engine, sc.cycles.samples, sc.cycles.use_denoising = 'CYCLES', args.samples, True
+sc.render.threads_mode, sc.render.threads = 'FIXED', args.threads
+sc.render.resolution_x = sc.render.resolution_y = CELL * SUPER
+sc.render.film_transparent = True
+sc.render.image_settings.file_format, sc.render.image_settings.color_mode = 'PNG', 'RGBA'
+sc.view_settings.view_transform, sc.view_settings.look = 'AgX', 'AgX - Medium High Contrast'
+
+def smooth(t):
+    t = max(0, min(1, t))
+    return t * t * (3 - 2 * t)
+
+def pose(clip, t):
+    spin = clip == 'Spin'
+    cam.data.ortho_scale = 2.8 if spin else 3.4
+    for o, p, side in plates:
+        o.hide_render = spin
+        if not spin:
+            u = smooth(min(1, t * 1.4))
+            settle = 1 + 0.07 * math.sin(t * math.pi * 3) * (1 - t)
+            o.location = (p[0] * u * settle, p[1], p[2] * u * settle)
+            o.scale = (max(0.04, u), 1, max(0.04, u))
+            o.rotation_euler = (0, 0, side * (1 - u) * math.pi * 0.47 if 'side' in o.name else 0)
+    for root, side in halves:
+        if spin:
+            root.matrix_world = Matrix.Rotation(t * math.tau, 4, 'Z') @ Matrix.Rotation(math.radians(12 * math.sin(t * math.tau)), 4, 'Y') @ Matrix.Diagonal((1.85, 1.85, 1.85, 1))
+        else:
+            u = smooth(t)
+            root.matrix_world = Matrix.Translation((side * 0.68 * u, 0.14 * u, 0)) @ Matrix.Rotation(side * u * math.pi * 0.5, 4, 'Z') @ Matrix.Diagonal((1.85 - 0.85 * u, 1.85, 1.85 - 0.75 * u, 1))
+    bpy.context.view_layer.update()
+
+metadata = {'cell': CELL, 'pivot': [128, 128], 'timing': TIMING, 'anims': {},
+            'source': 'art/kit_cast.py; Kit heater profile/materials from art/kit.py',
+            'collision': 'none; visual delivery only', 'renderer': 'Blender 5.2.2 / Cycles',
+            'samples': args.samples, 'supersample': SUPER}
+images = {}
+for clip, count in [('Spin', 16), ('Armour', 12)]:
+    frames, bounds, hashes = [], [], []
+    for i in range(count):
+        pose(clip, i / count if clip == 'Spin' else i / (count - 1))
+        path = OUT / f'{clip}_{i:02d}.png'
+        sc.render.filepath = str(path)
+        bpy.ops.render.render(write_still=True)
+        with Image.open(path) as raw:
+            im = raw.resize((CELL, CELL), Image.Resampling.LANCZOS)
+        im.info.clear()
+        im.save(path)
+        with Image.open(path) as check:
+            assert check.mode == 'RGBA' and check.size == (CELL, CELL) and not check.text
+            bb = check.getchannel('A').point(lambda a: 255 if a > 8 else 0).getbbox()
+            assert bb and min(bb[:2]) > 2 and max(bb[2:]) < CELL - 2, (path, bb)
+            frames.append(check.copy())
+        bounds.append(bb)
+        hashes.append(hashlib.sha256(path.read_bytes()).hexdigest())
+        print('rendered', clip, i, flush=True)
+    assert len(set(hashes)) == count, f'Duplicate frames in {clip}'
+    metadata['anims'][clip] = {'frames': count, 'loop': False, 'alpha_bounds': bounds, 'sha256': hashes}
+    images[clip] = frames
+(OUT / 'meta.json').write_text(json.dumps(metadata, indent=2), encoding='utf-8')
+sheet = Image.new('RGB', (CELL * 8, CELL * 4 + 70), '#141831')
+draw = ImageDraw.Draw(sheet)
+font = ImageFont.truetype('C:/Windows/Fonts/arial.ttf', 22)
+draw.text((20, 18), 'Kit / selected physical shield cast / actual Blender frames', font=font, fill='white')
+for row, frames in enumerate(images.values()):
+    for i, im in enumerate(frames):
+        xy = ((i % 8) * CELL, 70 + (row * 2 + i // 8) * CELL)
+        sheet.paste(im, xy, im)
+sheet.save(PROOF / 'contact-sheet.png')
+pose('Armour', 1)
+bpy.ops.wm.save_as_mainfile(filepath=str(PROOF / 'kit-cast.blend'))
+print('Kit cast complete:', sum(a['frames'] for a in metadata['anims'].values()), 'frames', flush=True)
+```
+
+
+---
+
+## `art/brum.py`
+
+Bounded Yeti model/expression/motion proof: continuous source mouth and face, repaired eye surfaces, fitted lids and real articulated fists. Uses the verified CC0 source hash documented in design/phase1/04-brum-proof.md. No finished sprite family or encounter is implied.
+
+```python
+# Brum frost porter: retained Yeti anatomy and animation, deforming source mouth and fitted lids.
+# python3 art/brum.py out/brum-proof/front Neutral:1 Welcome:1 Protective:1 --samples 32 --threads 2
+import argparse, hashlib, json, math
+from pathlib import Path
+import bpy, bmesh, addon_utils
+from mathutils import Vector, Matrix, Quaternion
+from mathutils.bvhtree import BVHTree
+from PIL import Image
+
+ROOT=Path(__file__).resolve().parents[1]
+ap=argparse.ArgumentParser()
+ap.add_argument('out');ap.add_argument('clips',nargs='*',default=['Neutral:1','Welcome:1','Protective:1'])
+ap.add_argument('--source',default=str(ROOT/'out/cast/source-audit/Yeti.gltf'))
+ap.add_argument('--samples',type=int,default=32);ap.add_argument('--threads',type=int,default=2)
+ap.add_argument('--yaw',type=float,default=0);ap.add_argument('--face',action='store_true');ap.add_argument('--skin',action='store_true')
+args=ap.parse_args();OUT=Path(args.out).resolve();OUT.mkdir(parents=True,exist_ok=True)
+SOURCE=Path(args.source).resolve()
+assert hashlib.sha256(SOURCE.read_bytes()).hexdigest()=='b9c088fbcd357b82f3cb9a3f33a6b5c5603d3e55958a695e2bd9e419cc6527fb'
+addon_utils.enable('cycles',default_set=True)
+bpy.ops.wm.read_factory_settings(use_empty=True);sc=bpy.context.scene
+bpy.ops.import_scene.gltf(filepath=str(SOURCE))
+arm=next(o for o in sc.objects if o.type=='ARMATURE');body=bpy.data.objects['Yeti']
+arm.rotation_mode='XYZ'
+for o in list(sc.objects):
+    if o.type=='MESH' and o!=body:bpy.data.objects.remove(o,do_unlink=True)
+arm.data.pose_position='REST';bpy.context.view_layer.update()
+assert len(arm.data.bones)==43
+# Source clips hold every finger channel at an open-hand identity. Remove those
+# held channels so the retained finger chains can form a proper porter fist.
+for action in bpy.data.actions:
+    for layer in action.layers:
+        for strip in layer.strips:
+            for slot in action.slots:
+                bag=strip.channelbag(slot)
+                if bag:
+                    for fc in list(bag.fcurves):
+                        if any(f'pose.bones["{name}'in fc.data_path for name in ['Index','Middle','Pinky','Thumb']):bag.fcurves.remove(fc)
+
+def lin(h):
+    cs=[int(h[i:i+2],16)/255 for i in (1,3,5)]
+    return tuple(c/12.92 if c<=.04045 else ((c+.055)/1.055)**2.4 for c in cs)
+def smooth(a,b,x):
+    t=max(0,min(1,(x-a)/(b-a)));return t*t*(3-2*t)
+def mat(name,color,rough=.43,coat=.3):
+    m=bpy.data.materials.new(name);m.use_nodes=True;b=m.node_tree.nodes.get('Principled BSDF')
+    b.inputs['Base Color'].default_value=(*lin(color),1);b.inputs['Roughness'].default_value=rough
+    b.inputs['Coat Weight'].default_value=coat;b.inputs['Coat Roughness'].default_value=.22
+    return m
+IVORY=mat('brum_ivory','#EAE1CE',.4,.3);BLUE=mat('brum_blue','#4B8DAD',.45,.3)
+SLATE=mat('brum_belly','#496170',.5,.18);BROW=mat('brum_brow','#28536C',.48,.2)
+TEETH=mat('brum_teeth','#E7DFC9',.38,.25);TONGUE=mat('brum_tongue','#B6677C',.5,.1)
+DARK=mat('brum_cavity','#102333',.8,0)
+CLAY=mat('continuity_clay','#AEB9C6',1,0)
+claybs=CLAY.node_tree.nodes.get('Principled BSDF');claybs.inputs['Emission Color'].default_value=(*lin('#AEB9C6'),1);claybs.inputs['Emission Strength'].default_value=.3
+
+# Material separation preserves the original skin hull and all armature weights.
+bpy.context.view_layer.objects.active=body;body.select_set(True)
+bpy.ops.object.mode_set(mode='EDIT');bpy.ops.mesh.select_all(action='SELECT');bpy.ops.mesh.separate(type='MATERIAL');bpy.ops.object.mode_set(mode='OBJECT')
+parts={o.data.materials[0].name:o for o in sc.objects if o.type=='MESH'}
+main=parts['Yeti_Main'];skin=parts['Yeti_Secondary'];white=parts['Eye_White'];black=parts['Eye_Black'];teeth=parts['Yeti_Teeth'];tongue=parts['Tongue']
+def components(bm):
+    bm.faces.ensure_lookup_table();seen=set();out=[]
+    for f in bm.faces:
+        if f.index in seen:continue
+        todo=[f];comp=[];seen.add(f.index)
+        while todo:
+            g=todo.pop();comp.append(g)
+            for e in g.edges:
+                for h in e.link_faces:
+                    if h.index not in seen:todo.append(h);seen.add(h.index)
+        out.append(comp)
+    return out
+def boundary_loops(me):
+    bm=bmesh.new();bm.from_mesh(me);bm.verts.ensure_lookup_table()
+    boundary={v for e in bm.edges if e.is_boundary for v in e.verts};seen=set();out=[]
+    for v in boundary:
+        if v in seen:continue
+        todo=[v];seen.add(v);loop=[]
+        while todo:
+            k=todo.pop();loop.append((k.index,k.co.copy()))
+            for edge in k.link_edges:
+                if not edge.is_boundary:continue
+                other=edge.other_vert(k)
+                if other not in seen:todo.append(other);seen.add(other)
+        out.append(loop)
+    bm.free();return out
+def jaw_loop(me):
+    return next(loop for loop in boundary_loops(me)if min(p.z for _,p in loop)>1.7 and min(p.z for _,p in loop)<1.9 and max(p.z for _,p in loop)>2.5)
+bm=bmesh.new();bm.from_mesh(black.data);kill=[]
+for comp in components(bm):
+    if len(comp)==24:kill.extend(comp)
+assert len(kill)==48
+bmesh.ops.delete(bm,geom=kill,context='FACES');bm.to_mesh(black.data);bm.free()
+bm=bmesh.new();bm.from_mesh(teeth.data);kill=[]
+for comp in components(bm):
+    vs={v for f in comp for v in f.verts};c=sum((v.co for v in vs),Vector())/len(vs)
+    if (c.z>1.99 and abs(c.x)>.18) or (c.z<1.99 and abs(c.x)>.075):kill.extend(comp)
+bmesh.ops.delete(bm,geom=kill,context='FACES');bm.to_mesh(teeth.data);bm.free()
+for o,m in [(main,IVORY),(skin,BLUE),(white,None),(black,DARK),(teeth,TEETH),(tongue,TONGUE)]:
+    if m:o.data.materials.clear();o.data.materials.append(m)
+    for p in o.data.polygons:p.use_smooth=True
+for v in skin.data.vertices:
+    p=v.co
+    if abs(p.x)>1.50:
+        p.x=math.copysign(1.50+(abs(p.x)-1.50)*.92,p.x);p.y=.16+(p.y-.16)*1.42;p.z=1.82+(p.z-1.82)*1.42
+
+# A wider source coat/sleeve, with the same shoulder-to-hand length and source weights.
+for v in main.data.vertices:
+    p=v.co
+    weights={main.vertex_groups[g.group].name:g.weight for g in v.groups}
+    aw=sum(w for name,w in weights.items()if 'Arm'in name)
+    if aw>.01:
+        p.y=.16+(p.y-.16)*(1+.75*aw);p.z=1.82+(p.z-1.82)*(1+.65*aw)
+    elif weights.get('Head',0)<.1 and abs(p.x)<.65 and 1.3<p.z<2.2:
+        p.x*=1.23;p.y=.12+(p.y-.12)*1.10
+    if abs(p.x)<.62 and p.y<-.20:
+        neck=max(0,1-abs(p.z-1.84)/.20)*max(0,1-(abs(p.x)/.62)**6)
+        p.y+=.16*neck;p.z-=.05*neck*(.5+.5*math.cos(p.x/.62*math.pi*3))
+    if p.z>2.56 and abs(p.x)<.2:
+        p.x*=1.45;p.y=-.47+(p.y+.47)*1.3
+skin.data.materials.append(SLATE)
+for p in skin.data.polygons:
+    co=sum((skin.data.vertices[i].co for i in p.vertices),Vector())/len(p.vertices)
+    if 1.0<co.z<1.65 and abs(co.x)<.5:p.material_index=1
+
+HC=Vector((0,-.30,2.23));HEAD_SCALE=Vector((1.12,1,1.08))
+for o in [main,skin,white,black,teeth,tongue]:
+    headgroup=o.vertex_groups.get('Head')
+    for v in o.data.vertices:
+        weight=next((g.weight for g in v.groups if headgroup and g.group==headgroup.index),0)
+        v.co += Vector((v.co[i]-HC[i])*(HEAD_SCALE[i]-1)*weight for i in range(3))
+    bm=bmesh.new();bm.from_mesh(o.data);bmesh.ops.remove_doubles(bm,verts=bm.verts[:],dist=.00001);bmesh.ops.recalc_face_normals(bm,faces=bm.faces[:]);bm.to_mesh(o.data);bm.free()
+    if o in [main,skin]:
+        mod=o.modifiers.new('broad_surface','SUBSURF');mod.levels=1;mod.render_levels=1
+BASE={o.name:[v.co.copy()for v in o.data.vertices]for o in [skin,black,teeth,tongue]}
+FACE_BORDER={i for i,_ in jaw_loop(skin.data)}
+MZ=HC.z+(1.985-HC.z)*HEAD_SCALE.z
+
+# Procedural iris uses a stable rest-space UV on the retained source eyeballs.
+eye_mat=mat('brum_eyes','#F0F4EC',.2,.45);nt=eye_mat.node_tree;nodes=nt.nodes;links=nt.links
+uv=nodes.new('ShaderNodeUVMap');uv.uv_map='brum_eye'
+sep=nodes.new('ShaderNodeSeparateXYZ');links.new(uv.outputs['UV'],sep.inputs[0])
+def op(kind,a,b):
+    n=nodes.new('ShaderNodeMath');n.operation=kind
+    for i,x in enumerate([a,b]):
+        if isinstance(x,(int,float)):n.inputs[i].default_value=x
+        else:links.new(x,n.inputs[i])
+    return n.outputs[0]
+dx=op('SUBTRACT',sep.outputs[0],.5);dz=op('SUBTRACT',sep.outputs[1],.46)
+dist=op('SQRT',op('ADD',op('MULTIPLY',dx,dx),op('MULTIPLY',dz,dz)),0)
+ramp=nodes.new('ShaderNodeValToRGB');links.new(dist,ramp.inputs['Fac'])
+cr=ramp.color_ramp;cr.interpolation='EASE';cr.elements[0].position=.15;cr.elements[0].color=(*lin('#071720'),1)
+cr.elements[1].position=.34;cr.elements[1].color=(*lin('#F0F4EC'),1)
+for pos,c in [(.19,'#0A1E2C'),(.22,'#2F6B88'),(.30,'#2F6B88'),(.32,'#193C54')]:cr.elements.new(pos).color=(*lin(c),1)
+links.new(ramp.outputs[0],nodes.get('Principled BSDF').inputs['Base Color'])
+white.data.materials.clear();white.data.materials.append(eye_mat)
+EYE_X=.3081654*1.12;EYE_Z=HC.z+(2.2776755-HC.z)*1.08;EYE_Y=-.390347
+RX=.163953*1.12;RZ=.163922*1.08;RY=.16612
+# The source whites have rectangular apertures where the original black inserts sat.
+# Replace only those two eye surfaces, at the audited source centres, with closed
+# ellipsoids; the source head, sockets and facial skin remain intact.
+bm=bmesh.new()
+for side in [-1,1]:
+    geo=bmesh.ops.create_uvsphere(bm,u_segments=40,v_segments=24,radius=1)
+    center=Vector((side*EYE_X,EYE_Y,EYE_Z))
+    for v in geo['verts']:v.co=center+Vector((v.co.x*RX,v.co.y*RY,v.co.z*RZ))
+bm.to_mesh(white.data);bm.free()
+white.data.shade_smooth();white.vertex_groups.clear();hg=white.vertex_groups.new(name='Head');hg.add(list(range(len(white.data.vertices))),1,'REPLACE')
+lay=white.data.uv_layers.new(name='brum_eye')
+for p in white.data.polygons:
+    for j in p.loop_indices:
+        co=white.data.vertices[white.data.loops[j].vertex_index].co;sgn=1 if co.x>0 else-1
+        lay.data[j].uv=((co.x-sgn*EYE_X)/(RX*2)+.5,(co.z-EYE_Z)/(RZ*2)+.5)
+
+def newobj(name,data=None):
+    o=bpy.data.objects.new(name,data);sc.collection.objects.link(o);return o
+def bone_parent(o):
+    attach_bone(o,'Head')
+def attach_bone(o,name):
+    mw=o.matrix_world.copy();bone=arm.data.bones[name]
+    rest=arm.matrix_world@bone.matrix_local@Matrix.Translation((0,bone.length,0))
+    o.parent=arm;o.parent_type='BONE';o.parent_bone=name;o.matrix_parent_inverse=Matrix.Identity(4);o.matrix_basis=rest.inverted()@mw
+def fur_lock(name,centers,radii,bone):
+    verts=[];faces=[];N=12
+    for k,(p,ry,rz)in enumerate(zip(centers,*radii)):
+        for j in range(N):
+            a=j/N*math.tau;verts.append((p[0],p[1]+math.cos(a)*ry,p[2]+math.sin(a)*rz))
+    for k in range(len(centers)-1):
+        for j in range(N):faces.append((k*N+j,k*N+(j+1)%N,(k+1)*N+(j+1)%N,(k+1)*N+j))
+    faces.extend([tuple(range(N-1,-1,-1)),tuple((len(centers)-1)*N+j for j in range(N))])
+    me=bpy.data.meshes.new(name);me.from_pydata(verts,[],faces);me.materials.append(IVORY);me.shade_smooth();o=newobj(name,me)
+    mod=o.modifiers.new('sculpted_lock','SUBSURF');mod.levels=mod.render_levels=1;attach_bone(o,bone)
+for side in [-1,1]:
+    for i,x in enumerate([.52,.82,1.12]):
+        centers=[(side*x,.14,1.84),(side*(x+.12),.015,1.84),(side*(x+.31),-.035,1.72),(side*(x+.43),-.045,1.65)]
+        fur_lock(f'coat_arm_{side}_{i}',centers,([.13,.22,.16,.008],[.18,.24,.18,.008]),'UpperArm.L'if side>0 else'UpperArm.R')
+    for i,z in enumerate([2.48,2.28,2.07]):
+        # Roots lie inside the retained head coat; only the broad outside scallop is exposed.
+        centers=[(side*.39,-.12,z),(side*.51,-.18,z-.035),(side*.63,-.16,z-.16),(side*.66,-.12,z-.28)]
+        fur_lock(f'coat_mane_{side}_{i}',centers,([.10,.19,.16,.005],[.16,.20,.14,.005]),'Head')
+# A single coat surface joins the source neck, mane, shoulder and sleeve fur.
+# The original face is a separate retained skin hull and is never remeshed.
+bpy.context.view_layer.update();eo=skin.evaluated_get(bpy.context.evaluated_depsgraph_get());me=eo.to_mesh()
+jaw=sorted([p for _,p in jaw_loop(me)if p.z<2.10],key=lambda p:p.x);eo.to_mesh_clear()
+def jaw_edge(x):
+    if x<=jaw[0].x:return jaw[0].copy()
+    for a,b in zip(jaw,jaw[1:]):
+        if a.x<=x<=b.x:return a.lerp(b,(x-a.x)/(b.x-a.x))
+    return jaw[-1].copy()
+def beard_tip(x):
+    anchors=[(0,1.42),(.15,1.56),(.30,1.49),(.45,1.65),(.56,1.90)];x=abs(x)
+    for(a,za),(b,zb)in zip(anchors,anchors[1:]):
+        if a<=x<=b:
+            t=(1-math.cos((x-a)/(b-a)*math.pi))/2;return za*(1-t)+zb*t
+    return anchors[-1][1]
+verts=[];faces=[];NX=40;NV=12
+for back in [False,True]:
+    for i in range(NX+1):
+        x=-.56+1.12*i/NX;edge=jaw_edge(x);top=edge.z+.01;bottom=beard_tip(x)
+        for j in range(NV+1):
+            t=j/NV;z=top*(1-t)+bottom*t
+            y=.14 if back else(edge.y+.035)*(1-t)-.32*t-.14*math.sin(math.pi*t)*(.8+.2*math.cos(x*math.pi/.15))
+            verts.append((x,y,z))
+count=(NX+1)*(NV+1)
+for back in [0,1]:
+    off=back*count
+    for i in range(NX):
+        for j in range(NV):
+            a=off+i*(NV+1)+j;b=a+NV+1
+            faces.append((a,a+1,b+1,b)if back else(a,b,b+1,a+1))
+boundary=[i*(NV+1)for i in range(NX+1)]+[NX*(NV+1)+j for j in range(1,NV+1)]+[i*(NV+1)+NV for i in range(NX-1,-1,-1)]+[j for j in range(NV-1,0,-1)]
+for k,a in enumerate(boundary):
+    b=boundary[(k+1)%len(boundary)];faces.append((a,a+count,b+count,b))
+me=bpy.data.meshes.new('coat_beard');me.from_pydata(verts,[],faces);me.materials.append(IVORY)
+bm=bmesh.new();bm.from_mesh(me);bmesh.ops.recalc_face_normals(bm,faces=bm.faces[:]);bm.to_mesh(me);bm.free()
+o=newobj('coat_beard',me);bone_parent(o)
+bpy.context.view_layer.update();coat=[main]+[o for o in sc.objects if o.type=='MESH'and o.name.startswith(('coat_arm_','coat_mane_','coat_beard'))]
+bpy.ops.object.select_all(action='DESELECT')
+for o in coat:
+    if o!=main:
+        bone=o.parent_bone;mw=o.matrix_world.copy();o.parent=None;o.matrix_world=mw
+        group=o.vertex_groups.new(name=bone);group.add(list(range(len(o.data.vertices))),1,'REPLACE')
+    o.select_set(True)
+bpy.context.view_layer.objects.active=main;bpy.ops.object.join()
+for mod in list(main.modifiers):main.modifiers.remove(mod)
+proxy=main.copy();proxy.data=main.data.copy();proxy.name='coat_weight_reference';sc.collection.objects.link(proxy)
+proxy.hide_render=True;proxy.hide_set(True)
+shell=main.modifiers.new('closed_coat_shell','SOLIDIFY');shell.thickness=.055;shell.offset=-1;shell.use_rim=True
+bpy.ops.object.modifier_apply(modifier=shell.name)
+main.data.remesh_voxel_size=.022;main.data.remesh_voxel_adaptivity=0;bpy.ops.object.voxel_remesh()
+for g in proxy.vertex_groups:
+    if not main.vertex_groups.get(g.name):main.vertex_groups.new(name=g.name)
+dt=main.modifiers.new('source_coat_weights','DATA_TRANSFER');dt.object=proxy;dt.use_vert_data=True;dt.data_types_verts={'VGROUP_WEIGHTS'};dt.vert_mapping='POLYINTERP_NEAREST';dt.mix_mode='REPLACE'
+bpy.ops.object.modifier_apply(modifier=dt.name)
+coat_weight_sums=[sum(g.weight for g in v.groups)for v in main.data.vertices]
+assert min(coat_weight_sums)>.99 and max(coat_weight_sums)<1.01
+smooth_coat=main.modifiers.new('joined_coat_smooth','SMOOTH');smooth_coat.factor=.8;smooth_coat.iterations=8
+soft=main.modifiers.new('coat_finish','SUBSURF');soft.levels=soft.render_levels=1
+rig=main.modifiers.new('retained_source_rig','ARMATURE');rig.object=arm
+main.data.materials.clear();main.data.materials.append(IVORY)
+for p in main.data.polygons:p.material_index=0;p.use_smooth=True
+print('Joined coat vertices:',len(main.data.vertices),flush=True)
+def cap(name,upper):
+    bm=bmesh.new();bmesh.ops.create_uvsphere(bm,u_segments=40,v_segments=24,radius=1.04)
+    bmesh.ops.bisect_plane(bm,geom=bm.verts[:]+bm.edges[:]+bm.faces[:],plane_co=(0,0,0),plane_no=(0,0,1),clear_inner=upper,clear_outer=not upper)
+    me=bpy.data.meshes.new(name);bm.to_mesh(me);bm.free();me.shade_smooth();o=newobj(name,me);me.materials.append(BLUE);return o
+LIDS=[];BROWS=[];CLOSED=[]
+SKIN_BVH=BVHTree.FromObject(skin,bpy.context.evaluated_depsgraph_get())
+def surface_y(x,z):
+    hit,_,_,_=SKIN_BVH.ray_cast(Vector((x,-4,z)),Vector((0,1,0)),8)
+    return hit.y-.007 if hit else -.54
+print('Eye surface / retained sphere front:',surface_y(EYE_X,EYE_Z),EYE_Y-RY,flush=True)
+for side in [-1,1]:
+    root=newobj('eye_mount_'+str(side));root.matrix_world=Matrix.Translation(Vector((side*EYE_X,EYE_Y,EYE_Z)))@Matrix.Diagonal((RX,RY,RZ,1));bone_parent(root)
+    up=cap('upper_lid_'+str(side),True);low=cap('lower_lid_'+str(side),False)
+    for o in [up,low]:o.parent=root;o.matrix_parent_inverse=Matrix.Identity(4)
+    LIDS.append((side,up,low))
+    cu=bpy.data.curves.new('brow_'+str(side),'CURVE');cu.dimensions='3D';cu.resolution_u=12;cu.bevel_depth=.042;cu.bevel_resolution=3;cu.use_fill_caps=True
+    sp=cu.splines.new('BEZIER');sp.bezier_points.add(4)
+    ob=newobj('brow_'+str(side),cu);cu.materials.append(BROW);bone_parent(ob);BROWS.append((side,sp))
+    cu=bpy.data.curves.new('closed_eye_'+str(side),'CURVE');cu.dimensions='3D';cu.resolution_u=12;cu.bevel_depth=.021;cu.bevel_resolution=3;cu.use_fill_caps=True
+    sp=cu.splines.new('BEZIER');sp.bezier_points.add(4)
+    for i,b in enumerate(sp.bezier_points):
+        u=i/4;x=side*EYE_X+(u-.5)*.25;z=EYE_Z+.015+math.sin(u*math.pi)*.065
+        b.co=(x,surface_y(x,z),z);b.handle_left_type=b.handle_right_type='AUTO';b.radius=.5+math.sin(u*math.pi)*.5
+    ob=newobj('happy_eye_'+str(side),cu);cu.materials.append(BROW);bone_parent(ob);CLOSED.append(ob)
+
+STATES={
+ 'Neutral':dict(mouth=.18,corner=.012,lid=.28,low=.03,brow=.0,tilt=0,teeth=False),
+ 'Welcome':dict(mouth=1.12,corner=.065,lid=.84,low=.45,brow=.025,tilt=-.01,teeth=True),
+ 'Protective':dict(mouth=1.25,corner=-.018,lid=.40,low=.06,brow=-.018,tilt=.12,teeth=True)}
+def face(state):
+    p=STATES[state]
+    for o in [skin,black,teeth,tongue]:
+        for v,base in zip(o.data.vertices,BASE[o.name]):
+            co=base.copy()
+            if o==skin:
+                weight=(1-smooth(.31,.46,abs(co.x)))*smooth(1.80,1.86,co.z)*(1-smooth(2.07,2.18,co.z))*(1-smooth(-.38,-.28,co.y))
+                if v.index in FACE_BORDER:weight=0
+            else:weight=1
+            z=MZ+(co.z-MZ)*p['mouth']+p['corner']*(abs(co.x)/.3)**2
+            co.z+=(z-co.z)*weight
+            if o==tongue:co.y+=.17;co.z+=.025
+            if o==teeth and base.z<MZ:co.y+=.13
+            v.co=co
+        o.data.update()
+    teeth.hide_render=not p['teeth'];tongue.hide_render=state!='Welcome'
+    white.hide_render=state=='Welcome'
+    for ob in CLOSED:ob.hide_render=state!='Welcome'
+    for side,up,low in LIDS:
+        up.hide_render=low.hide_render=state=='Welcome'
+        up.rotation_euler=(-math.asin(max(-1,min(1,1-2*p['lid']))),-side*p['tilt']*2.5,0)
+        low.rotation_euler=(math.asin(max(-1,min(1,1-2*p['low']))),0,0)
+    for side,sp in BROWS:
+        for i,b in enumerate(sp.bezier_points):
+            u=i/4;x=side*(.17+u*.30);z=EYE_Z+.17+p['brow']+math.sin(u*math.pi)*.022+p['tilt']*(u-.5)
+            b.co=(x,surface_y(x,z),z);b.radius=.65+math.sin(u*math.pi)*.35;b.handle_left_type=b.handle_right_type='AUTO'
+    if args.skin:
+        white.hide_render=teeth.hide_render=tongue.hide_render=black.hide_render=True
+        for _,up,low in LIDS:up.hide_render=low.hide_render=True
+        for ob in sc.objects:
+            if ob.type=='CURVE':ob.hide_render=True
+
+if args.skin:
+    for o in sc.objects:
+        if o.type=='MESH':
+            for i in range(len(o.data.materials)):o.data.materials[i]=CLAY
+arm.data.pose_position='POSE'
+sc.render.engine='CYCLES';sc.cycles.samples=args.samples;sc.cycles.use_denoising=True;sc.cycles.device='CPU'
+sc.render.threads_mode='FIXED';sc.render.threads=args.threads;sc.render.film_transparent=True
+sc.render.image_settings.file_format='PNG';sc.render.image_settings.color_mode='RGBA';sc.render.resolution_percentage=100
+sc.view_settings.view_transform='AgX';sc.view_settings.look='AgX - Medium High Contrast'
+def area(loc,energy,size,color):
+    bpy.ops.object.light_add(type='AREA',location=loc);o=bpy.context.object;o.data.energy=energy;o.data.size=size;o.data.color=color;o.rotation_euler=(Vector((0,0,1.6))-o.location).to_track_quat('-Z','Y').to_euler()
+area((-6,-5,9),1600,5,(1,.90,.80));area((7,-6,2),900,5,(.55,.65,1));area((2,6,6),1400,4,(.80,.85,1));area((0,-7,3),220,5,(1,.95,.95))
+world=bpy.data.worlds.new('brum_world');sc.world=world;world.node_tree.nodes['Background'].inputs['Color'].default_value=(.05,.04,.09,1)
+bpy.ops.object.camera_add(location=(0,-10,1.84),rotation=(math.pi/2,0,0));cam=bpy.context.object;sc.camera=cam;cam.data.type='ORTHO'
+PX=3;CELL=(144,128);PIVOT=(72,116)
+def pose_fingers(open_hand=False):
+    for side in ['L','R']:
+        sign=1 if side=='L'else-1
+        for finger in ['Index','Middle','Pinky','Thumb']:
+            for joint in range(1,3 if finger=='Thumb'else 4):
+                pb=arm.pose.bones[f'{finger}{joint}.{side}'];pb.rotation_mode='QUATERNION'
+                axis=pb.bone.matrix_local.to_3x3().inverted()@Vector((0,1,0))
+                pb.rotation_quaternion=Quaternion()if open_hand else Quaternion(axis.normalized(),sign*math.radians(48 if joint==1 else 65))
+arm.animation_data_create();ref_action=bpy.data.actions['Idle'];arm.animation_data.action=ref_action
+if ref_action.slots:arm.animation_data.action_slot=ref_action.slots[0]
+sc.frame_set(0);pose_fingers();face('Neutral');bpy.context.view_layer.update()
+pts=[];dep=bpy.context.evaluated_depsgraph_get()
+for o in sc.objects:
+    if o.type!='MESH'or o.hide_render:continue
+    eo=o.evaluated_get(dep);me=eo.to_mesh();pts.extend(eo.matrix_world@v.co for v in me.vertices);eo.to_mesh_clear()
+Z0=min(p.z for p in pts);Z1=max(p.z for p in pts);UNITS_PER_MODEL=80/(Z1-Z0)
+print('Reference feet/top:',Z0,Z1,'units/model:',UNITS_PER_MODEL,flush=True)
+cam.location.z=Z0+(PIVOT[1]-CELL[1]/2)/UNITS_PER_MODEL
+cam.data.ortho_scale=CELL[0]/UNITS_PER_MODEL;sc.render.resolution_x=CELL[0]*PX;sc.render.resolution_y=CELL[1]*PX
+if args.face:sc.render.resolution_x=sc.render.resolution_y=512;cam.data.ortho_scale=1.48
+report={'source':str(SOURCE),'sourceSHA256':hashlib.sha256(SOURCE.read_bytes()).hexdigest(),'px':PX,'cell':CELL,'pivot':PIVOT,'nativeHeight':80,'coat':{'joinedVertices':len(main.data.vertices),'weightSumRange':[min(coat_weight_sums),max(coat_weight_sums)]},'clips':{},'renders':[]}
+for spec in args.clips:
+    bits=spec.split(':');name=bits[0];n=int(bits[1])if len(bits)>1 else 1
+    only=[int(x)for x in bits[2].split(',')]if len(bits)>2 else range(n)
+    state=name if name in STATES else 'Welcome'if name=='Wave'else'Protective'if name=='Punch'else'Neutral'
+    action=bpy.data.actions['Idle'if name in STATES else name];arm.animation_data_create();arm.animation_data.action=action
+    if action.slots:arm.animation_data.action_slot=action.slots[0]
+    f0,f1=action.frame_range;arm.rotation_euler=(0,0,math.radians(args.yaw))
+    report['clips'][name]={'source':action.name,'sourceRange':[f0,f1],'n':n,'state':state}
+    for i in only:
+        fr=f0+(f1-f0)*i/n;sc.frame_set(int(fr),subframe=fr-int(fr))
+        pose_fingers(name=='Wave')
+        face(state);bpy.context.view_layer.update()
+        if args.face:
+            hp=arm.matrix_world@arm.pose.bones['Head'].head;cam.location=(hp.x,-10,hp.z+.18)
+        dest=OUT/f'{name}_{i:02d}.png';sc.render.filepath=str(dest);bpy.ops.render.render(write_still=True)
+        with Image.open(dest)as im:
+            im.load();assert im.mode=='RGBA';bounds=im.getchannel('A').getbbox();assert bounds
+            if not args.face:assert bounds[0]>0 and bounds[1]>0 and bounds[2]<im.width and bounds[3]<im.height,(name,i,bounds)
+            im.save(dest)
+        report['renders'].append({'file':dest.name,'alphaBounds':bounds})
+bpy.ops.wm.save_as_mainfile(filepath=str(OUT/'brum-proof.blend'))
+(OUT/'proof.json').write_text(json.dumps(report,indent=2)+'\n')
+print('Brum proof renders complete:',OUT)
+```
+
+
+---
+
+## `art/vesper.py`
+
+Bounded quadruped Cat source proof: continuous feline face, three expressions, four-paw skiff fit and retargeted Walk contact/loop checks. No finished sprite family, steering/flight system or playable encounter is implied.
+
+```python
+# Vesper first source-model proof: retained quadruped, fitted feline eyes and carved source mouth.
+# python3 art/vesper.py out/relay-proof/vesper Curious:1 Focus:1 Alarm:1 --face
+import argparse,hashlib,json,math
+from pathlib import Path
+import bpy,bmesh,addon_utils
+from mathutils import Vector,Matrix
+from mathutils.bvhtree import BVHTree
+from PIL import Image
+
+ROOT=Path(__file__).resolve().parents[1]
+ap=argparse.ArgumentParser();ap.add_argument('out');ap.add_argument('clips',nargs='*',default=['Curious:1'])
+ap.add_argument('--source',default=str(ROOT/'out/cast/anatomy-audit/Cat.blend'))
+ap.add_argument('--face',action='store_true');ap.add_argument('--clay',action='store_true');ap.add_argument('--skiff',action='store_true')
+ap.add_argument('--view',type=float,default=55);ap.add_argument('--samples',type=int,default=24);ap.add_argument('--threads',type=int,default=2)
+args=ap.parse_args();OUT=Path(args.out).resolve();OUT.mkdir(parents=True,exist_ok=True);SOURCE=Path(args.source).resolve()
+assert hashlib.sha256(SOURCE.read_bytes()).hexdigest()=='e9836027dc8591fd2da03e6d8d6575972bc5c7aebaa17a0762b82f7bc37264de'
+addon_utils.enable('cycles',default_set=True);bpy.ops.wm.open_mainfile(filepath=str(SOURCE),load_ui=False,use_scripts=False)
+sc=bpy.context.scene;arm=next(o for o in sc.objects if o.type=='ARMATURE');body=bpy.data.objects['Cat']
+for o in list(sc.objects):
+    if o not in [arm,body]:bpy.data.objects.remove(o,do_unlink=True)
+arm.data.pose_position='REST';arm.animation_data.use_nla=False;arm.rotation_mode='XYZ';arm.scale=(1,1,1)
+FOOT_BONES=['Bone.016','Bone.019','Bone.010','Bone.013']
+# Preserve the authored paw orientations before shortening the rest legs. The
+# lower-leg IK solution changes with those proportions, so its old local paw
+# rotations cannot simply be reused without turning the soles sideways.
+source_foot_rotations={};arm.data.pose_position='POSE';source_walk=bpy.data.actions['Walking'];arm.animation_data.action=source_walk
+if source_walk.slots:arm.animation_data.action_slot=source_walk.slots[0]
+for frame in range(41):
+    sc.frame_set(frame);bpy.context.view_layer.update();source_foot_rotations[frame]=[arm.pose.bones[name].matrix.to_quaternion()for name in FOOT_BONES]
+arm.data.pose_position='REST'
+for mod in list(body.modifiers):body.modifiers.remove(mod)
+bpy.context.view_layer.update()
+SHIFT=.512
+def short_leg_z(z):return z*.68 if z<1.6 else z-SHIFT
+for v in body.data.vertices:v.co.z=short_leg_z(v.co.z)
+bpy.ops.object.select_all(action='DESELECT');arm.select_set(True);bpy.context.view_layer.objects.active=arm;bpy.ops.object.mode_set(mode='EDIT')
+for b in arm.data.edit_bones:b.head.z=short_leg_z(b.head.z);b.tail.z=short_leg_z(b.tail.z)
+arm.data.edit_bones['Bone.002'].tail.x-=.40
+for point in ['head','tail']:getattr(arm.data.edit_bones['Bone.003'],point).x-=.40
+bpy.ops.object.mode_set(mode='OBJECT');arm.select_set(False);body.select_set(True)
+
+def lin(h):
+    cs=[int(h[i:i+2],16)/255 for i in (1,3,5)];return tuple(c/12.92 if c<=.04045 else((c+.055)/1.055)**2.4 for c in cs)
+def mat(name,h,rough=.4,coat=.3):
+    m=bpy.data.materials.new(name);m.use_nodes=True;b=m.node_tree.nodes.get('Principled BSDF')
+    b.inputs['Base Color'].default_value=(*lin(h),1);b.inputs['Roughness'].default_value=rough;b.inputs['Coat Weight'].default_value=coat;b.inputs['Coat Roughness'].default_value=.23;return m
+PURPLE=mat('vesper_coat','#554681');PALE=mat('vesper_pale','#B3A9CB');PINK=mat('vesper_ear_nose','#B77DAB',.47,.2)
+TIP=mat('vesper_tail_tip','#B29DE8');DARK=mat('vesper_cavity','#111526',.75,0);LID=mat('vesper_lid','#E4DCEB',.42,.3)
+CLAY=mat('vesper_clay','#B5B9C8',.9,0)
+SOURCE_MATERIALS=[p.material_index for p in body.data.polygons]
+body.data.materials.clear()
+for m in [PURPLE,PALE,PINK,DARK,TIP]:body.data.materials.append(m)
+for p,index in zip(body.data.polygons,SOURCE_MATERIALS):p.material_index=index
+DARK.node_tree.nodes['Principled BSDF'].inputs['Specular IOR Level'].default_value=0
+HC=arm.data.bones['Bone.003'].head_local.copy();HEAD='Bone.003'
+headgroup=body.vertex_groups[HEAD].index
+for v in body.data.vertices:
+    w=next((g.weight for g in v.groups if g.group==headgroup),0);p=v.co
+    p.x-=.40*w
+    p.x+= (p.x-HC.x)*.35*w;p.y*=1+1.20*w;p.z+=(p.z-HC.z)*.50*w
+    if w>.75 and p.x>2.65:p.x=2.65+(p.x-2.65)*.60
+    bw=sum(g.weight for g in v.groups if body.vertex_groups[g.group].name in ['Bone','Bone.001']);p.y*=1+.18*bw
+    for foot in ['Bone.016','Bone.019','Bone.010','Bone.013']:
+        idx=body.vertex_groups[foot].index;fw=next((g.weight for g in v.groups if g.group==idx),0)
+        if fw>.01:
+            c=arm.data.bones[foot].head_local;p.x=c.x+(p.x-c.x)*(1+.25*fw);p.y=c.y+(p.y-c.y)*(1+.70*fw)
+    leg=[g for g in v.groups if body.vertex_groups[g.group].name in [f'Bone.{i:03}'for i in range(8,20)]]
+    if leg:
+        group=max(leg,key=lambda g:g.weight);b=arm.data.bones[body.vertex_groups[group.group].name];axis=b.tail_local-b.head_local
+        t=max(0,min(1,(p-b.head_local).dot(axis)/axis.length_squared));center=b.head_local+axis*t
+        p[:]=center+(p-center)*(1+.28*group.weight)
+for p in body.data.polygons:
+    p.use_smooth=True
+    if sum(next((g.weight for g in body.data.vertices[i].groups if g.group==body.vertex_groups['Bone.007'].index),0)for i in p.vertices)/len(p.vertices)>.6:p.material_index=4
+# Replace the blunt distal cap with a connected tapered steering leaf. It is
+# bridged to the original tail tube and uses the fourth original tail joint.
+bm=bmesh.new();bm.from_mesh(body.data);cut_z=3.44
+bmesh.ops.bisect_plane(bm,geom=bm.verts[:]+bm.edges[:]+bm.faces[:],plane_co=(0,0,cut_z),plane_no=(0,0,1),clear_outer=True)
+base={v for e in bm.edges if e.is_boundary and all(abs(v.co.z-cut_z)<.0001 for v in e.verts)for v in e.verts}
+assert len(base)>=6;center=sum((v.co for v in base),Vector())/len(base);ring=sorted(base,key=lambda v:math.atan2(v.co.y-center.y,v.co.x-center.x));N=len(ring)
+dl=bm.verts.layers.deform.active;tip_group=body.vertex_groups['Bone.007'].index
+for z,rx,ry,dx in [(3.56,.065,.15,-.015),(3.77,.055,.25,-.025),(3.98,.025,.13,-.005)]:
+    nxt=[]
+    for k in range(N):
+        angle=math.atan2(ring[k].co.y-center.y,ring[k].co.x-center.x)if z==3.56 else angles[k]
+        nv=bm.verts.new((center.x+dx+rx*math.cos(angle),center.y+ry*math.sin(angle),z));nv[dl][tip_group]=1;nxt.append(nv)
+    if z==3.56:angles=[math.atan2(v.co.y-center.y,v.co.x-center.x)for v in ring]
+    for k in range(N):f=bm.faces.new((ring[k],ring[(k+1)%N],nxt[(k+1)%N],nxt[k]));f.material_index=4
+    ring=nxt
+tip=bm.verts.new((center.x+.02,center.y,4.10));tip[dl][tip_group]=1
+for k in range(N):f=bm.faces.new((ring[k],ring[(k+1)%N],tip));f.material_index=4
+bmesh.ops.recalc_face_normals(bm,faces=bm.faces[:]);bm.to_mesh(body.data);bm.free()
+nose_raw={i for p in body.data.polygons if p.material_index==2 and abs(sum(body.data.vertices[i].co.y for i in p.vertices)/len(p.vertices))<.30 and sum(body.data.vertices[i].co.z for i in p.vertices)/len(p.vertices)<2.60 and sum(body.data.vertices[i].co.x for i in p.vertices)/len(p.vertices)>2.50 for i in p.vertices}
+if nose_raw:
+    nc=sum((body.data.vertices[i].co for i in nose_raw),Vector())/len(nose_raw)
+    for i in nose_raw:
+        p=body.data.vertices[i].co;p.y=nc.y+(p.y-nc.y)*.65;p.z=nc.z+(p.z-nc.z)*.65
+# The source body, muzzle, ears and paws remain one connected mesh.
+bpy.context.view_layer.objects.active=body;body.select_set(True)
+sub=body.modifiers.new('source_surface','SUBSURF');sub.levels=sub.render_levels=2;bpy.ops.object.modifier_apply(modifier=sub.name)
+
+def newobj(name,data):
+    o=bpy.data.objects.new(name,data);sc.collection.objects.link(o);return o
+def bone_parent(o,bone=HEAD):
+    mw=o.matrix_world.copy();b=arm.data.bones[bone];rest=arm.matrix_world@b.matrix_local@Matrix.Translation((0,b.length,0))
+    o.parent=arm;o.parent_type='BONE';o.parent_bone=bone;o.matrix_parent_inverse=Matrix.Identity(4);o.matrix_basis=rest.inverted()@mw
+def uv_sphere(name,center,radii,material):
+    bm=bmesh.new();geo=bmesh.ops.create_uvsphere(bm,u_segments=40,v_segments=28,radius=1)
+    for v in geo['verts']:v.co=Vector(center)+Vector(v.co[i]*radii[i]for i in range(3))
+    me=bpy.data.meshes.new(name);bm.to_mesh(me);bm.free();me.shade_smooth();me.materials.append(material);return newobj(name,me)
+def cylinder_cut(name,cy,cz,ry,rz,xfront,xback):
+    verts=[];faces=[];N=64
+    for x in [xback,xfront]:
+        for i in range(N):
+            a=i/N*math.tau;verts.append((x,cy+math.cos(a)*ry,cz+math.sin(a)*rz))
+    for i in range(N):faces.append((i,(i+1)%N,N+(i+1)%N,N+i))
+    faces.extend([tuple(range(N-1,-1,-1)),tuple(N+i for i in range(N))])
+    me=bpy.data.meshes.new(name);me.from_pydata(verts,[],faces)
+    for m in body.data.materials:me.materials.append(m)
+    for p in me.polygons:p.material_index=3
+    o=newobj(name,me);bm=bmesh.new();bm.from_mesh(me);bmesh.ops.recalc_face_normals(bm,faces=bm.faces[:]);bm.to_mesh(me);bm.free()
+    bpy.context.view_layer.objects.active=body;mod=body.modifiers.new(name,'BOOLEAN');mod.operation='DIFFERENCE';mod.solver='EXACT';mod.object=o;bpy.ops.object.modifier_apply(modifier=mod.name);bpy.data.objects.remove(o,do_unlink=True)
+
+bpy.context.view_layer.update();bvh=BVHTree.FromObject(body,bpy.context.evaluated_depsgraph_get())
+def surf_x(y,z):
+    hit,_,_,_=bvh.ray_cast(Vector((10,y,z)),Vector((-1,0,0)),20)
+    assert hit,(y,z);return hit.x
+EYES=[];LIDS=[]
+EY=.59;EZ=3.08-SHIFT;ER=(.25,.34,.37)
+for side in [-1,1]:
+    sx=surf_x(side*EY,EZ);center=(sx-.17,side*EY,EZ)
+    cylinder_cut('eye_socket_'+str(side),side*EY,EZ,.315,.345,sx+.5,sx-.40)
+    EYES.append((side,center))
+nose_faces=[p for p in body.data.polygons if p.material_index==2 and abs(p.center.y)<.20 and p.center.x>2.2]
+if nose_faces:
+    nose_center=max(nose_faces,key=lambda p:p.center.x).center.copy()
+else:
+    front=max(v.co.x for v in body.data.vertices);nose_points=[v.co for v in body.data.vertices if v.co.x>front-.04];nose_center=sum(nose_points,Vector())/len(nose_points)
+MZ=nose_center.z-.32;MX=surf_x(0,MZ)
+print('Nose / mouth centers:',list(nose_center),MZ,flush=True)
+cylinder_cut('source_mouth',0,MZ,.25,.08,MX+.4,MX-.52)
+# Boolean-created facial vertices stay on the source head bone; no face cover is added.
+for v in body.data.vertices:
+    if v.co.x>1.90 and v.co.z>1.9-SHIFT:
+        for g in body.vertex_groups:g.remove([v.index])
+        body.vertex_groups[HEAD].add([v.index],1,'REPLACE')
+for p in body.data.polygons:p.use_smooth=True
+
+# Cream face is a colour region on the continuous source surface.
+head_attr=body.data.attributes.new('head_weight','FLOAT','POINT')
+for v in body.data.vertices:
+    head_attr.data[v.index].value=next((g.weight for g in v.groups if g.group==headgroup),0)
+for name,axes in [('face_rest_yz',(1,2)),('face_rest_x',(0,0))]:
+    lay=body.data.uv_layers.new(name=name)
+    for p in body.data.polygons:
+        for j in p.loop_indices:
+            co=body.data.vertices[body.data.loops[j].vertex_index].co;lay.data[j].uv=(co[axes[0]],co[axes[1]])
+def node_math(nt,kind,a,b=0):
+    q=nt.nodes.new('ShaderNodeMath');q.operation=kind
+    for i,value in enumerate([a,b]):
+        if isinstance(value,(int,float)):q.inputs[i].default_value=value
+        else:nt.links.new(value,q.inputs[i])
+    return q.outputs[0]
+def clamp01(nt,value):return node_math(nt,'MINIMUM',1,node_math(nt,'MAXIMUM',0,value))
+for material in [PURPLE,PALE]:
+    nt=material.node_tree;n=nt.nodes;lk=nt.links;bs=n['Principled BSDF'];uv=n.new('ShaderNodeUVMap');uv.uv_map='face_rest_yz';sep=n.new('ShaderNodeSeparateXYZ');lk.new(uv.outputs[0],sep.inputs[0])
+    xu=n.new('ShaderNodeUVMap');xu.uv_map='face_rest_x';xs=n.new('ShaderNodeSeparateXYZ');lk.new(xu.outputs[0],xs.inputs[0])
+    ay=node_math(nt,'ABSOLUTE',sep.outputs[0]);z=sep.outputs[1];top=node_math(nt,'ADD',3.05-SHIFT,node_math(nt,'MULTIPLY',.9,clamp01(nt,node_math(nt,'DIVIDE',ay,.80))))
+    cream=clamp01(nt,node_math(nt,'DIVIDE',node_math(nt,'SUBTRACT',top,z),.055));gate=clamp01(nt,node_math(nt,'DIVIDE',node_math(nt,'SUBTRACT',xs.outputs[0],2.00),.30))
+    ear=node_math(nt,'MULTIPLY',clamp01(nt,node_math(nt,'DIVIDE',node_math(nt,'SUBTRACT',z,3.16-SHIFT),.32)),clamp01(nt,node_math(nt,'DIVIDE',node_math(nt,'SUBTRACT',ay,.60),.20)))
+    attr=n.new('ShaderNodeAttribute');attr.attribute_name='head_weight';fac=node_math(nt,'MULTIPLY',attr.outputs['Fac'],node_math(nt,'MULTIPLY',gate,node_math(nt,'MULTIPLY',cream,node_math(nt,'SUBTRACT',1,ear))))
+    mix=n.new('ShaderNodeMixRGB');mix.inputs[1].default_value=bs.inputs['Base Color'].default_value;mix.inputs[2].default_value=(*lin('#E4DCEB'),1);lk.new(fac,mix.inputs[0]);lk.new(mix.outputs[0],bs.inputs['Base Color'])
+
+EYE_MAT=mat('vesper_gold_eyes','#EEE5D8',.22,.45);nt=EYE_MAT.node_tree;n=nt.nodes;lk=nt.links
+uv=n.new('ShaderNodeUVMap');uv.uv_map='eye_yz';sep=n.new('ShaderNodeSeparateXYZ');lk.new(uv.outputs['UV'],sep.inputs[0])
+def mathnode(kind,a,b):
+    q=n.new('ShaderNodeMath');q.operation=kind
+    for i,x in enumerate([a,b]):
+        if isinstance(x,(float,int)):q.inputs[i].default_value=x
+        else:lk.new(x,q.inputs[i])
+    return q.outputs[0]
+dx=mathnode('SUBTRACT',sep.outputs[0],.5);dz=mathnode('SUBTRACT',sep.outputs[1],.5)
+dist=mathnode('SQRT',mathnode('ADD',mathnode('MULTIPLY',dx,dx),mathnode('MULTIPLY',dz,dz)),0)
+ramp=n.new('ShaderNodeValToRGB');lk.new(dist,ramp.inputs[0]);cr=ramp.color_ramp;cr.interpolation='EASE';cr.elements[0].position=.0;cr.elements[0].color=(*lin('#ECBA72'),1);cr.elements[1].position=.46;cr.elements[1].color=(*lin('#F3EEE7'),1)
+for p,c in [(.31,'#E8A54F'),(.39,'#99532D'),(.425,'#2C1E2C'),(.44,'#F3EEE7')]:cr.elements.new(p).color=(*lin(c),1)
+PUPIL_WIDTH=n.new('ShaderNodeValue');PUPIL_WIDTH.outputs[0].default_value=.11
+pd=mathnode('ADD',mathnode('POWER',mathnode('DIVIDE',dx,PUPIL_WIDTH.outputs[0]),2),mathnode('POWER',mathnode('DIVIDE',dz,.31),2))
+inside=mathnode('LESS_THAN',pd,1);mix=n.new('ShaderNodeMixRGB');mix.inputs[2].default_value=(*lin('#0F1421'),1);lk.new(inside,mix.inputs[0]);lk.new(ramp.outputs[0],mix.inputs[1]);lk.new(mix.outputs[0],n['Principled BSDF'].inputs['Base Color'])
+
+def cap(name,upper):
+    bm=bmesh.new();bmesh.ops.create_uvsphere(bm,u_segments=40,v_segments=28,radius=1.02)
+    bmesh.ops.bisect_plane(bm,geom=bm.verts[:]+bm.edges[:]+bm.faces[:],plane_co=(0,0,0),plane_no=(0,0,1),clear_inner=upper,clear_outer=not upper)
+    me=bpy.data.meshes.new(name);bm.to_mesh(me);bm.free();me.shade_smooth();me.materials.append(LID);return newobj(name,me)
+for side,center in EYES:
+    eye=uv_sphere('eye_'+str(side),center,ER,EYE_MAT);lay=eye.data.uv_layers.new(name='eye_yz')
+    for p in eye.data.polygons:
+        for j in p.loop_indices:
+            co=eye.data.vertices[eye.data.loops[j].vertex_index].co;lay.data[j].uv=((co.y-center[1])/(ER[1]*2)+.5,(co.z-EZ)/(ER[2]*2)+.5)
+    bone_parent(eye)
+    root=newobj('lid_mount_'+str(side),None);root.matrix_world=Matrix.Translation(Vector(center))@Matrix.Diagonal((*ER,1));bone_parent(root)
+    up=cap('upper_lid_'+str(side),True);low=cap('lower_lid_'+str(side),False)
+    for o in [up,low]:o.parent=root;o.matrix_parent_inverse=Matrix.Identity(4)
+    LIDS.append((side,up,low))
+
+BASE=[v.co.copy()for v in body.data.vertices]
+NOSE_VERTS={i for p in body.data.polygons if p.material_index==2 for i in p.vertices}
+STATES={'Curious':dict(lid=.14,low=.025,tilt=0,mouth=.22,corner=.035,pupil=.13,ears=0),
+        'Focus':dict(lid=.46,low=.07,tilt=.16,mouth=.13,corner=-.012,pupil=.075,ears=.07),
+        'Alarm':dict(lid=.035,low=.01,tilt=-.05,mouth=1.45,corner=0,pupil=.19,ears=-.23)}
+def smooth(a,b,x):
+    t=max(0,min(1,(x-a)/(b-a)));return t*t*(3-2*t)
+def face(name):
+    p=STATES[name];PUPIL_WIDTH.outputs[0].default_value=p['pupil']
+    for v,base in zip(body.data.vertices,BASE):
+        co=base.copy();w=smooth(MX-.50,MX-.12,co.x)*(1-smooth(.26,.40,abs(co.y)))*(1-smooth(.09,.19,abs(co.z-MZ)))
+        if v.index in NOSE_VERTS:w=0
+        target=MZ+(co.z-MZ)*p['mouth']+p['corner']*(abs(co.y)/.28)**2;co.z+=(target-co.z)*w
+        ear=smooth(3.35-SHIFT,3.72-SHIFT,co.z)*smooth(.45,.70,abs(co.y))*smooth(1.75,2.10,co.x)
+        co.x+=p['ears']*ear;co.z+=min(0,p['ears'])*.4*ear
+        v.co=co
+    body.data.update()
+    for side,up,low in LIDS:
+        up.rotation_euler=(side*p['tilt'],-math.asin(1-2*p['lid']),0);low.rotation_euler=(0,math.asin(1-2*p['low']),0)
+armMod=body.modifiers.new('retained_quadruped_rig','ARMATURE');armMod.object=arm
+arm.data.pose_position='POSE'
+# Bake a sternward/sideways steering bias into a copy of the source tail-root
+# motion. The other three articulated tail joints and the four-paw actions stay.
+tail=arm.pose.bones['Bone.004'];restq=tail.bone.matrix_local.to_quaternion()
+bias=restq.inverted()@(Matrix.Rotation(math.radians(45),4,'X')@Matrix.Rotation(math.radians(-36),4,'Y')).to_quaternion()@restq
+for source_name in ['Idle','Walking']:
+    source=bpy.data.actions[source_name];samples=[];arm.animation_data.action=source
+    if source.slots:arm.animation_data.action_slot=source.slots[0]
+    for frame in range(0,41,5):
+        sc.frame_set(frame);bpy.context.view_layer.update();samples.append((frame,tail.matrix_basis.to_quaternion()@bias))
+    action=source.copy();action.name='Vesper_'+source_name;action.use_fake_user=True
+    for layer in action.layers:
+        for strip in layer.strips:
+            for slot in action.slots:
+                bag=strip.channelbag(slot)
+                if not bag:continue
+                for fc in list(bag.fcurves):
+                    if fc.data_path.startswith('pose.bones["Bone.004"].rotation'):bag.fcurves.remove(fc)
+                for k in range(4):
+                    fc=bag.fcurves.new('pose.bones["Bone.004"].rotation_quaternion',index=k)
+                    for fr,q in samples:point=fc.keyframe_points.insert(fr,q[k]);point.interpolation='LINEAR'
+tail.rotation_mode='QUATERNION';arm.scale=(.45,.60,.60)
+if args.clay:
+    for o in sc.objects:
+        if o.type=='MESH':
+            for i in range(len(o.data.materials)):o.data.materials[i]=CLAY
+    for _,up,low in LIDS:up.hide_render=low.hide_render=True
+    for o in sc.objects:
+        if o.name.startswith('eye_'):o.hide_render=True
+
+sc.render.engine='CYCLES';sc.cycles.samples=args.samples;sc.cycles.use_denoising=True;sc.cycles.device='CPU';sc.render.threads_mode='FIXED';sc.render.threads=args.threads
+sc.render.film_transparent=True;sc.render.image_settings.file_format='PNG';sc.render.image_settings.color_mode='RGBA';sc.render.resolution_percentage=100
+sc.view_settings.view_transform='AgX';sc.view_settings.look='AgX - Medium High Contrast'
+def area(loc,en,size,color):
+    bpy.ops.object.light_add(type='AREA',location=loc);o=bpy.context.object;o.data.energy=en;o.data.size=size;o.data.color=color;o.rotation_euler=(Vector((0,0,1.5))-o.location).to_track_quat('-Z','Y').to_euler()
+area((6,-5,8),1600,5,(1,.90,.80));area((6,6,2),900,5,(.55,.65,1));area((-4,1,6),1400,4,(.80,.85,1))
+world=bpy.data.worlds.new('vesper_world');sc.world=world;world.node_tree.nodes['Background'].inputs['Color'].default_value=(.05,.04,.09,1)
+act=bpy.data.actions['Vesper_Idle'];arm.animation_data.action=act
+if act.slots:arm.animation_data.action_slot=act.slots[0]
+sc.frame_set(0);face('Curious');bpy.context.view_layer.update()
+dep=bpy.context.evaluated_depsgraph_get();eo=body.evaluated_get(dep);me=eo.to_mesh();pts=[eo.matrix_world@v.co for v in me.vertices];eo.to_mesh_clear()
+lo=Vector(min(p[i]for p in pts)for i in range(3));hi=Vector(max(p[i]for p in pts)for i in range(3));UPM=48/(hi.z-lo.z)
+PAW_VERTEX_IDS=[]
+for name in FOOT_BONES:
+    group=body.vertex_groups[name].index
+    PAW_VERTEX_IDS.append([v.index for v in body.data.vertices if sum(g.weight for g in v.groups if g.group==group)>.6])
+def paw_contacts():
+    eo=body.evaluated_get(bpy.context.evaluated_depsgraph_get());me=eo.to_mesh();rows=[]
+    for name,indices in zip(FOOT_BONES,PAW_VERTEX_IDS):
+        pts=[eo.matrix_world@me.vertices[i].co for i in indices]
+        assert pts;center=sum(pts,Vector())/len(pts)
+        rows.append({'bone':name,'center':list(center),'floorOffsetWorldUnits':(min(p.z for p in pts)-lo.z)*UPM})
+    eo.to_mesh_clear();return rows
+PAW_REFERENCE=paw_contacts()
+# The shorter rest legs need the source IK targets retargeted to their soles.
+# Preserve each supplied foot's lift phase, correcting the contact geometry;
+# this is a baked quadruped animation layer, not a body bob or runtime behavior.
+IK_NAMES=['IKFrontRight','IKFrontLeft','IKBackLeft','IKBackRight']
+walk=bpy.data.actions['Vesper_Walking'];arm.animation_data.action=walk
+if walk.slots:arm.animation_data.action_slot=walk.slots[0]
+target_heights={};source_positions={}
+for frame in range(41):
+    sc.frame_set(frame);bpy.context.view_layer.update();target_heights[frame]=[(arm.matrix_world@arm.pose.bones[name].head).z for name in IK_NAMES]
+    source_positions[frame]=[arm.pose.bones[name].location.copy()for name in IK_NAMES]
+# Unlink the old IK curves before the solver pass; otherwise dependency updates
+# re-evaluate those curves and discard the corrected target positions.
+for layer in walk.layers:
+    for strip in layer.strips:
+        for slot in walk.slots:
+            bag=strip.channelbag(slot)
+            if bag:
+                for fc in list(bag.fcurves):
+                    if any(fc.data_path==f'pose.bones["{name}"].location'for name in IK_NAMES)or any(fc.data_path.startswith(f'pose.bones["{name}"].rotation')for name in FOOT_BONES):bag.fcurves.remove(fc)
+for name in FOOT_BONES:arm.pose.bones[name].rotation_mode='QUATERNION'
+def orient_paws(frame):
+    for name,rotation in zip(FOOT_BONES,source_foot_rotations[frame]):
+        pb=arm.pose.bones[name];parent=pb.parent
+        relative_rest=parent.bone.matrix_local.inverted()@pb.bone.matrix_local
+        basis=relative_rest.to_3x3().inverted()@parent.matrix.to_3x3().inverted()@rotation.to_matrix()
+        pb.rotation_quaternion=basis.to_quaternion()
+    bpy.context.view_layer.update()
+base_heights=[min(h[i]for h in target_heights.values())for i in range(4)];corrected=[];max_residual=0
+for frame in range(41):
+    sc.frame_set(frame)
+    for name,position in zip(IK_NAMES,source_positions[frame]):arm.pose.bones[name].location=position*.68
+    bpy.context.view_layer.update();goals=[lo.z+max(0,h-base)*.68 for h,base in zip(target_heights[frame],base_heights)]
+    for repeat in range(120):
+        orient_paws(frame)
+        contacts=paw_contacts()
+        if max(abs(lo.z+row['floorOffsetWorldUnits']/UPM-goal)*UPM for row,goal in zip(contacts,goals))<.08:break
+        for name,row,goal in zip(IK_NAMES,contacts,goals):
+            pb=arm.pose.bones[name];actual=lo.z+row['floorOffsetWorldUnits']/UPM
+            matrix=arm.matrix_world.to_3x3()@pb.bone.matrix_local.to_3x3();pb.location+=matrix.inverted()@Vector((0,0,(goal-actual)*.35))
+        bpy.context.view_layer.update()
+    residual=max(abs(lo.z+row['floorOffsetWorldUnits']/UPM-goal)*UPM for row,goal in zip(paw_contacts(),goals));max_residual=max(max_residual,residual)
+    if residual>.5:print('Paw target residual',frame,residual,[round(row['floorOffsetWorldUnits'],3)for row in paw_contacts()],[round((g-lo.z)*UPM,3)for g in goals],flush=True)
+    corrected.append((frame,[arm.pose.bones[name].location.copy()for name in IK_NAMES],[arm.pose.bones[name].rotation_quaternion.copy()for name in FOOT_BONES]))
+assert max_residual<.5,('retargeted paw residual',max_residual)
+for layer in walk.layers:
+    for strip in layer.strips:
+        for slot in walk.slots:
+            bag=strip.channelbag(slot)
+            if not bag:continue
+            for fc in list(bag.fcurves):
+                if any(fc.data_path==f'pose.bones["{name}"].location'for name in IK_NAMES):bag.fcurves.remove(fc)
+            for i,name in enumerate(IK_NAMES):
+                for k in range(3):
+                    fc=bag.fcurves.new(f'pose.bones["{name}"].location',index=k)
+                    for frame,positions,rotations in corrected:point=fc.keyframe_points.insert(frame,positions[i][k]);point.interpolation='LINEAR'
+            for i,name in enumerate(FOOT_BONES):
+                for k in range(4):
+                    fc=bag.fcurves.new(f'pose.bones["{name}"].rotation_quaternion',index=k)
+                    for frame,positions,rotations in corrected:point=fc.keyframe_points.insert(frame,rotations[i][k]);point.interpolation='LINEAR'
+arm.animation_data.action=act
+if act.slots:arm.animation_data.action_slot=act.slots[0]
+sc.frame_set(0);bpy.context.view_layer.update()
+print('Retargeted walk paw residual:',max_residual,flush=True)
+if args.skiff:
+    hullmat=mat('skiff_fit_steel','#AFBBD1',.32,.35);hullmat.node_tree.nodes['Principled BSDF'].inputs['Metallic'].default_value=.24
+    deckmat=mat('skiff_fit_deck','#535A75',.55,.15);rim=mat('skiff_fit_rim','#3F416A',.35,.3);padmat=mat('paw_pressure_pad','#4FBDD0',.3,.3)
+    cx=(lo.x+hi.x)/2;floor=lo.z
+    def ellipse_rings(name,rings,material,close_top=True):
+        verts=[];faces=[];N=64
+        for rx,ry,z in rings:
+            for j in range(N):
+                angle=j/N*math.tau;verts.append((cx+rx/UPM*math.cos(angle),ry/UPM*math.sin(angle),floor+z/UPM))
+        for k in range(len(rings)-1):
+            for j in range(N):faces.append((k*N+j,k*N+(j+1)%N,(k+1)*N+(j+1)%N,(k+1)*N+j))
+        if close_top:faces.extend([tuple(range(N-1,-1,-1)),tuple((len(rings)-1)*N+j for j in range(N))])
+        me=bpy.data.meshes.new(name);me.from_pydata(verts,[],faces);me.materials.append(material)
+        bm=bmesh.new();bm.from_mesh(me);bmesh.ops.recalc_face_normals(bm,faces=bm.faces[:]);bm.to_mesh(me);bm.free();me.shade_smooth();o=newobj(name,me)
+        bevel=o.modifiers.new('soft_hull_edges','BEVEL');bevel.width=.5/UPM;bevel.segments=3
+        return o
+    ellipse_rings('skiff_fit_hull',[(42,18,-1),(42,18,-5),(32,12,-12)],hullmat)
+    ellipse_rings('skiff_fit_open_deck',[(35,13,0),(35,13,-1)],deckmat)
+    ellipse_rings('skiff_fit_low_rim',[(42,18,-.5),(35,13,.15)],rim,False)
+    for i,row in enumerate(PAW_REFERENCE[:2]):
+        c=Vector(row['center']);c.z=floor+.03/UPM
+        pad=uv_sphere('front_paw_pressure_pad_'+str(i),c,(2.7/UPM,2.2/UPM,.16/UPM),padmat)
+CELL=(112,96);PIVOT=(56,74);PX=3;theta=math.radians(args.view)
+target=Vector(((lo.x+hi.x)/2,0,lo.z+(PIVOT[1]-CELL[1]/2)/UPM))
+bpy.ops.object.camera_add(location=target+Vector((10*math.cos(theta),-10*math.sin(theta),2.13 if args.skiff else 0)));cam=bpy.context.object;sc.camera=cam;cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler();cam.data.type='ORTHO';cam.data.ortho_scale=CELL[0]/UPM
+sc.render.resolution_x=CELL[0]*PX;sc.render.resolution_y=CELL[1]*PX
+if args.face:
+    target=Vector((0,0,(3.0-SHIFT)*.60));cam.location=(12,0,target.z);cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler();cam.data.ortho_scale=1.8;sc.render.resolution_x=sc.render.resolution_y=512
+report={'source':str(SOURCE),'sourceSHA256':hashlib.sha256(SOURCE.read_bytes()).hexdigest(),'bodyJoints':len(arm.data.bones),'cell':CELL,'pivot':PIVOT,'px':PX,'referenceHeight':48,'skiffFitFixture':args.skiff,'skiffWorldDimensions':[84,36,12]if args.skiff else None,'referencePawContacts':PAW_REFERENCE,'walkRetargetMaxResidualWorldUnits':max_residual,'newFace':'carved source muzzle and eye sockets; fitted feline eye controls','renders':[]}
+for spec in args.clips:
+    bits=spec.split(':');name=bits[0];count=int(bits[1])if len(bits)>1 else 1;only=[int(x)for x in bits[2].split(',')]if len(bits)>2 else range(count)
+    state=name if name in STATES else'Curious';action=bpy.data.actions['Vesper_Walking'if name=='Walk'else'Vesper_Idle'];arm.animation_data.action=action
+    if action.slots:arm.animation_data.action_slot=action.slots[0]
+    f0,f1=action.frame_range
+    for i in only:
+        fr=f0+(f1-f0)*i/count;sc.frame_set(int(fr),subframe=fr-int(fr));face(state);bpy.context.view_layer.update()
+        p=OUT/f'{name}_{i:02}.png';sc.render.filepath=str(p);bpy.ops.render.render(write_still=True)
+        with Image.open(p)as im:
+            im.load();assert im.mode=='RGBA';bb=im.getchannel('A').getbbox();assert bb
+            if not args.face:assert bb[0]>0 and bb[1]>0 and bb[2]<im.width and bb[3]<im.height,(p,bb)
+            im.save(p)
+        report['renders'].append({'file':p.name,'alphaBounds':bb,'pawContacts':paw_contacts()})
+bpy.ops.wm.save_as_mainfile(filepath=str(OUT/'vesper-proof.blend'));(OUT/'proof.json').write_text(json.dumps(report,indent=2)+'\n')
+print('Vesper first source proof:',OUT)
+```
+
+
+---
+
 ## `art/snake.py`
 
-Gnash the serpent: angular faceted viper head with brow plates, hinged jaw and expressive eyes, 13 expressions in left/right facings. The body is drawn in code in the game.
+Gnash and the jade warden variant: angular faceted viper head with brow plates, hinged jaw and expressive eyes, 13 expressions in left/right facings. The body is drawn in code with the matching palette.
 
 ```python
 # Serpent head sprites: an angular viper head (flat-topped wedge with crisp ridges, brow plates and a hinged jaw)
 # with expressive eyes. Every expression is rendered in four facings so the key light always comes from the top-left.
 # The body is drawn in the game as a tapered, lit ribbon that follows the head.
-# Run: python3 art/snake.py <out_dir> [expr ...] [--dirs r,l,d,u] [--samples N] [--px N] [--threads N]
+# Run: python3 art/snake.py <out_dir> [expr ...] [--palette original|jade] [--dirs r,l] [--samples N] [--px N] [--threads N]
 import bpy, bmesh, sys, os, math, json, addon_utils
 from mathutils import Vector, Matrix
 
 addon_utils.enable("cycles", default_set=True)
 args = sys.argv[1:]
-OUT = args[0] if args else 'assets/snake'
+OUT = os.path.abspath(args[0] if args else 'assets/snake')
 opt = lambda k, d: args[args.index(k) + 1] if k in args else d
 DIRS = opt('--dirs', 'r,l').split(',')
 SAMPLES = int(opt('--samples', '64'))
+PALETTE = opt('--palette', 'original')
+if PALETTE not in ('original', 'jade'): raise ValueError('palette must be original or jade')
+COLORS = {'body': '#7a3ccc', 'belly': '#f6b08a', 'crown': '#5a2aa6', 'outline': '#1e0a40',
+          'brow': '#ff5fa2', 'brow_emit': '#ff3f8a', 'lid': '#6a32b4', 'mark': '#ff6fae', 'mark_emit': '#ff4f9a'}
+if PALETTE == 'jade':
+    COLORS.update(body='#168f83', belly='#c9e8d2', crown='#0b5d59', outline='#052d31',
+                  brow='#ff8a9b', brow_emit='#e95f86', lid='#11726c', mark='#83e4c2', mark_emit='#5acfb0')
 ONLY = [a for i, a in enumerate(args[1:], 1) if not a.startswith('--') and not args[i - 1].startswith('--')]
 PX, BOX = int(opt('--px', '4')), 44          # px per game unit, square sprite size in game units
 u = 0.1                  # one game unit in metres
@@ -4057,14 +6603,14 @@ def mat(name, color, rough=0.3, metal=0.0, coat=0.0, emit=None, es=0.6):
     return m
 
 def skin_mat():
-    """Plum scales on top, a peach belly underneath, split by the object-space normal so it holds in every facing."""
-    m = mat('skin', srgb('#7a3ccc'), rough=0.3, coat=0.7); nt = m.node_tree; b = nt.nodes['Principled BSDF']
+    """Scales and belly split by object-space normal so the palette holds in every facing."""
+    m = mat('skin', srgb(COLORS['body']), rough=0.3, coat=0.7); nt = m.node_tree; b = nt.nodes['Principled BSDF']
     tc = nt.nodes.new('ShaderNodeTexCoord'); sep = nt.nodes.new('ShaderNodeSeparateXYZ')
     nt.links.new(tc.outputs['Normal'], sep.inputs[0])
     ramp = nt.nodes.new('ShaderNodeValToRGB'); e = ramp.color_ramp.elements
     e[0].position, e[1].position = 0.30, 0.36
-    e[0].color = (*srgb('#f6b08a'), 1); e[1].color = (*srgb('#7a3ccc'), 1)
-    top = e.new(0.78); top.color = (*srgb('#5a2aa6'), 1)          # darker crown so the brows and eyes pop
+    e[0].color = (*srgb(COLORS['belly']), 1); e[1].color = (*srgb(COLORS['body']), 1)
+    top = e.new(0.78); top.color = (*srgb(COLORS['crown']), 1)          # darker crown so the brows and eyes pop
     mp = nt.nodes.new('ShaderNodeMapRange'); mp.inputs['From Min'].default_value = -1; mp.inputs['From Max'].default_value = 1
     nt.links.new(sep.outputs['Z'], mp.inputs['Value']); nt.links.new(mp.outputs['Result'], ramp.inputs['Fac'])
     nt.links.new(ramp.outputs['Color'], b.inputs['Base Color'])
@@ -4075,15 +6621,15 @@ def skin_mat():
     return m
 
 SKIN = skin_mat()
-PLATE = mat('plate', srgb('#1e0a40'), rough=0.2, coat=1.0)
-BROW = mat('brow', srgb('#ff5fa2'), rough=0.22, coat=1.0, emit=srgb('#ff3f8a'), es=0.15)
-LIDSKIN = mat('lidskin', srgb('#6a32b4'), rough=0.3, coat=0.7)
-EDGE = mat('edge', srgb('#ff6fae'), rough=0.2, coat=1.0, emit=srgb('#ff4f9a'), es=0.25)
+PLATE = mat('plate', srgb(COLORS['outline']), rough=0.2, coat=1.0)
+BROW = mat('brow', srgb(COLORS['brow']), rough=0.22, coat=1.0, emit=srgb(COLORS['brow_emit']), es=0.15)
+LIDSKIN = mat('lidskin', srgb(COLORS['lid']), rough=0.3, coat=0.7)
+EDGE = mat('edge', srgb(COLORS['mark']), rough=0.2, coat=1.0, emit=srgb(COLORS['mark_emit']), es=0.25)
 WHITE = mat('eyewhite', srgb('#fff6e8'), rough=0.08, coat=1.0)
 IRIS = mat('iris', srgb('#b8f03a'), rough=0.08, coat=1.0, emit=srgb('#9be022'), es=0.5)
 PUPIL = mat('pupil', (0.004, 0.002, 0.006), rough=0.05, coat=1.0)
 SHINE = mat('shine', (1, 1, 1), rough=0.0, emit=(1, 1, 1), es=4.0)
-LIDLINE = mat('lidline', srgb('#1c0838'), rough=0.4)
+LIDLINE = mat('lidline', srgb(COLORS['outline'] if PALETTE == 'jade' else '#1c0838'), rough=0.4)
 MOUTH = mat('mouth', srgb('#5a0b26'), rough=0.6)
 GUM = mat('gum', srgb('#c23a62'), rough=0.35, coat=0.5)
 FANG = mat('fang', srgb('#fffaf0'), rough=0.12, coat=1.0)
@@ -4395,7 +6941,9 @@ for d in DIRS:
     ROOT.rotation_euler = rot; HEAD.rotation_euler = (0, 0, math.radians(yaw))
     for n in names:
         pose(n); sc.render.filepath = os.path.join(OUT, f'head_{n}_{d}.png'); bpy.ops.render.render(write_still=True)
-json.dump({'px': PX, 'box': BOX, 'expressions': list(EXPR), 'dirs': DIRS}, open(os.path.join(OUT, 'meta.json'), 'w'))
+meta = {'px': PX, 'box': BOX, 'expressions': list(EXPR), 'dirs': DIRS}
+if PALETTE == 'jade': meta.update(palette=PALETTE, colors=COLORS)
+json.dump(meta, open(os.path.join(OUT, 'meta.json'), 'w'))
 print('done')
 ```
 
@@ -5037,17 +7585,24 @@ Packs all rendered PNGs into src/vault-art.js as WebP data URIs (3 px per game u
 ```python
 # Pack rendered Blender art into src/vault-art.js as WebP data URIs (so the game stays a single file).
 # Run: python3 tools/pack_art.py
-import base64, io, json, os, glob
-from PIL import Image
+import base64, io, json, os, glob, hashlib
+from PIL import Image, ImageChops, ImageStat
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 A = lambda *p: os.path.join(ROOT, 'assets', *p)
 PX = 3  # rendered pixels per game unit
 
-def uri(im, q=88):
-    b = io.BytesIO(); im.save(b, 'WEBP', quality=q, method=6); return 'data:image/webp;base64,' + base64.b64encode(b.getvalue()).decode()
+def uri(im, q=88, lossless=False):
+    b = io.BytesIO(); im.save(b, 'WEBP', quality=q, method=6, lossless=lossless, exact=lossless); return 'data:image/webp;base64,' + base64.b64encode(b.getvalue()).decode()
 
 art = {'sprites': {}}
+art['spaceWeapons'] = {}
+for name in ('shot', 'impact'):
+    path = os.path.join(ROOT, 'design', 'phase1', 'weapon-vfx-v3', f'plasma-{name}-runtime.png')
+    im = Image.open(path)
+    assert im.mode == 'RGBA' and not im.info, f'Invalid weapon PNG: {name}'
+    art['spaceWeapons'][name] = uri(im, 100, lossless=True)
+
 
 # princess: one sheet, one row per animation
 anims = ['Idle', 'Interact', 'Blocking', 'Cheer', 'Running_A', 'Jump_Full_Short', 'Scared', 'Nervous', 'Panic']
@@ -5062,16 +7617,64 @@ if 'Idle' in frames:
     art['princess'] = {'url': uri(sheet, 86), 'cell': cell, 'unit': cell / PX, 'feet': 4,
                        'anims': {a: {'row': r, 'n': len(frames[a])} for r, a in enumerate(anims)}}
 
+# Kit: one row per expression clip, with the same cell and feet contract as Lumi.
+kit_anims = ['Idle', 'Focus', 'Grin', 'Shock', 'Worried', 'Cheer', 'Hurt', 'Laugh']
+kit_frames = {a: sorted(glob.glob(A('kit', f'{a}_*.png'))) for a in kit_anims}
+if kit_frames['Idle']:
+    assert all(kit_frames.values()), 'Kit needs all eight expression clips before packing'
+    kit_meta = json.load(open(A('kit', 'meta.json')))
+    cell = 168
+    sheet = Image.new('RGBA', (max(map(len, kit_frames.values())) * cell, len(kit_anims) * cell))
+    for r, a in enumerate(kit_anims):
+        assert len(kit_frames[a]) == kit_meta['anims'][a]['frames'], f'Incomplete Kit clip: {a}'
+        for c, f in enumerate(kit_frames[a]):
+            with Image.open(f) as im:
+                assert im.size == (cell, cell) and im.mode == 'RGBA', f'Invalid Kit frame: {f}'
+                sheet.paste(im, (c * cell, r * cell))
+    art['kit'] = {'url': uri(sheet, 90), 'cell': cell, 'unit': 56, 'feet': 4,
+                  'anims': {a: {'row': r, 'n': len(kit_frames[a]), 'fps': kit_meta['anims'][a]['fps'], 'loop': kit_meta['anims'][a]['loop']} for r, a in enumerate(kit_anims)}}
+    face_cell = 288
+    faces = Image.new('RGBA', (len(kit_anims) * face_cell, face_cell))
+    for c, a in enumerate(kit_anims):
+        with Image.open(A('kit', 'faces', f'{a}_face_00.png')) as im:
+            assert im.size == (face_cell, face_cell) and im.mode == 'RGBA', f'Invalid Kit portrait: {a}'
+            faces.paste(im, (c * face_cell, 0))
+    art['kit']['faces'] = {'url': uri(faces, 90), 'cell': face_cell}
+
+# Selected Kit Ward: a physical spinning shield and its unfolding brick armour.
+cast_meta = A('kit-cast', 'meta.json')
+if os.path.exists(cast_meta):
+    meta = json.load(open(cast_meta))
+    cell = meta['cell']
+    assert cell == 256 and meta['collision'].startswith('none'), 'Invalid Kit cast contract'
+    timing = meta['timing']
+    assert 0 < timing['anticipation'] < timing['arrival'] < timing['settled'] < 0.5, 'Kit cast must settle before the latest legal venom impact'
+    sheet = Image.new('RGBA', (16 * cell, 2 * cell))
+    clips = {}
+    for row, (name, count) in enumerate([('Spin', 16), ('Armour', 12)]):
+        paths = sorted(glob.glob(A('kit-cast', f'{name}_*.png')))
+        assert len(paths) == count == meta['anims'][name]['frames'], f'Incomplete Kit cast: {name}'
+        for col, path in enumerate(paths):
+            assert os.path.basename(path) == f'{name}_{col:02d}.png', f'Unexpected Kit cast frame: {path}'
+            with Image.open(path) as im:
+                assert im.size == (cell, cell) and im.mode == 'RGBA' and not im.text, f'Invalid Kit cast frame: {path}'
+                bounds = im.getchannel('A').point(lambda a: 255 if a > 8 else 0).getbbox()
+                assert bounds and min(bounds[:2]) > 2 and max(bounds[2:]) < cell - 2, f'Clipped Kit cast frame: {path}'
+                sheet.paste(im, (col * cell, row * cell))
+        clips[name] = {'row': row, 'n': count}
+    art['kitCast'] = {'url': uri(sheet, 90), 'cell': cell, 'anims': clips, 'timing': timing}
+
 # serpent: one sheet of head sprites, a row per facing and a column per expression (art/snake.py)
-meta_path = A('snake', 'meta.json')
-if os.path.exists(meta_path):
+for key, directory in [('snake', 'snake'), ('snakeJade', 'snake-jade')]:
+    meta_path = A(directory, 'meta.json')
+    if not os.path.exists(meta_path): continue
     meta = json.load(open(meta_path)); px = meta['px']; cell = meta['box'] * px
     exprs, dirs = meta['expressions'], meta['dirs']
     sheet = Image.new('RGBA', (len(exprs) * cell, len(dirs) * cell))
     for r, d in enumerate(dirs):
-        for c, e in enumerate(exprs): sheet.paste(Image.open(A('snake', f'head_{e}_{d}.png')), (c * cell, r * cell))
-    art['snake'] = {'url': uri(sheet, 86), 'cell': cell, 'unit': meta['box'],
-                    'expr': {e: i for i, e in enumerate(exprs)}, 'dir': {d: i for i, d in enumerate(dirs)}}
+        for c, e in enumerate(exprs): sheet.paste(Image.open(A(directory, f'head_{e}_{d}.png')), (c * cell, r * cell))
+    art[key] = {'url': uri(sheet, 86), 'cell': cell, 'unit': meta['box'],
+                'expr': {e: i for i, e in enumerate(exprs)}, 'dir': {d: i for i, d in enumerate(dirs)}}
 
 # vault plate, bricks and props from the Blender pipeline (art/render_vault_assets.py), when present
 atlas = A('vault', 'atlas.json')
@@ -5103,6 +7706,111 @@ if os.path.exists(inv):
         if os.path.exists(A('invasion', p)):
             im = Image.open(A('invasion', p)).convert('RGB'); b = io.BytesIO(); im.save(b, 'WEBP', quality=86)
             art['invPlate'] = 'data:image/webp;base64,' + base64.b64encode(b.getvalue()).decode(); break
+
+# Carrier Breakout: preserve the reviewed component geometry while sizing textures for phone rendering.
+carrier_manifest = os.path.join(ROOT, 'design', 'phase1', 'space-assets-ab.json')
+if os.path.exists(carrier_manifest):
+    manifest = json.load(open(carrier_manifest, encoding='utf-8'))
+    selected = {k: p for k, p in manifest['parts'].items() if k.startswith('a') or k in ('ball', 'capsule_laser', 'capsule_split', 'capsule_shield')}
+    carrier = {'parts': {}, 'assembly': manifest['assemblies']['A'], 'motion': manifest['motion'], 'frame': manifest['frame'], 'payloads': manifest['draftIntegration']['payloads']['A']}
+    packed = []
+    for name, spec in selected.items():
+        path = os.path.join(ROOT, spec['path'])
+        with Image.open(path) as source:
+            assert not source.info, f'Carrier PNG metadata: {path}'
+            im = source.convert('RGB' if name == 'aBackground' else 'RGBA')
+            assert list(im.size) == spec['size'], f'Carrier dimensions changed: {name}'
+            bounds = im.getchannel('A').point(lambda a: 255 if a >= 16 else 0).getbbox() if im.mode == 'RGBA' else (0, 0, im.width, im.height)
+            assert bounds, f'Empty Carrier part: {name}'
+            art_bounds = [bounds[0] / im.width, bounds[1] / im.height, (bounds[2] - bounds[0]) / im.width, (bounds[3] - bounds[1]) / im.height]
+            if isinstance(spec['display'], list):
+                ratio = min(1, max(spec['display']) * PX / max(im.size))
+                if ratio < 1:
+                    im = im.resize((max(1, round(im.width * ratio)), max(1, round(im.height * ratio))), Image.Resampling.LANCZOS)
+            url = uri(im, 96)
+            part = {k: v for k, v in spec.items() if k not in ('path', 'size', 'collision', 'approval')}
+            part.update({'url': url, 'width': im.width, 'height': im.height, 'artBounds': art_bounds})
+            carrier['parts'][name] = part
+            packed.append({'id': name, 'source': spec['path'], 'sourceSHA256': hashlib.sha256(open(path, 'rb').read()).hexdigest(), 'sourceSize': spec['size'], 'runtimeSize': list(im.size), 'encodedBytes': len(base64.b64decode(url.split(',', 1)[1])), 'decodedBytes': im.width * im.height * 4, 'quality': 96})
+    assert len(carrier['assembly']['bricks']) == 16 and len(carrier['assembly']['pods']) == 5
+    art['carrier'] = carrier
+    os.makedirs(os.path.join(ROOT, 'out'), exist_ok=True)
+    with open(os.path.join(ROOT, 'out', 'carrier-pack-report.json'), 'w', encoding='utf-8') as f:
+        json.dump({'parts': packed, 'encodedBytes': sum(p['encodedBytes'] for p in packed), 'decodedBytes': sum(p['decodedBytes'] for p in packed)}, f, indent=2)
+
+# Preserve the reviewed phone texture packs and original collision geometry for the two space encounters.
+def runtime_parts(specs, report_path):
+    report = json.load(open(os.path.join(ROOT, report_path), encoding='utf-8'))
+    packed = {p['id']: p for p in report['parts']}
+    result = {}
+    for name, spec in specs.items():
+        p = packed[name]
+        source = os.path.join(ROOT, spec['path'])
+        target = os.path.join(ROOT, p['path'])
+        assert hashlib.sha256(open(source, 'rb').read()).hexdigest() == p['sourceSHA256'], f'Stale source: {name}'
+        data = open(target, 'rb').read()
+        assert hashlib.sha256(data).hexdigest() == p['runtimeSHA256'], f'Stale runtime: {name}'
+        result[name] = {**spec, 'url': 'data:image/webp;base64,' + base64.b64encode(data).decode()}
+    return result
+
+base = json.load(open(os.path.join(ROOT, 'design/phase1/space-assets-ab.json'), encoding='utf-8'))
+measured = json.load(open(os.path.join(ROOT, 'tools/relay-preview/art-info.json'), encoding='utf-8-sig'))
+extra = json.load(open(A('relay-circuit', 'manifest.json'), encoding='utf-8'))
+parts = {name: {**base['parts'][name], **p} for name, p in measured.items() if name != 'bWorker'}
+parts = runtime_parts(parts, 'assets/relay-circuit/runtime-base/report.json')
+parts.update(runtime_parts(extra['parts'], 'assets/relay-circuit/runtime-extra/report.json'))
+art['relayCircuit'] = {'parts': parts, 'assembly': base['assemblies']['B'], 'motion': base['motion'], 'payloads': base['draftIntegration']['payloads']['B']}
+forge = json.load(open(A('orbital-forge', 'manifest.json'), encoding='utf-8'))
+forge['parts'] = runtime_parts(forge['parts'], 'assets/orbital-forge/runtime/report.json')
+art['orbitalForge'] = forge
+
+# Selected companion atlases; each cast keeps its own expression and motion clips.
+art['spaceCompanions'] = {}; packed = []
+for directory, expected in [('space-companions', {'nix', 'tick'}), ('circuit-companions', {'vesper', 'latch'})]:
+    companion_manifest = A(directory, 'manifest.json')
+    manifest = json.load(open(companion_manifest, encoding='utf-8'))
+    assert set(manifest['families']) == expected, f'Unexpected cast: {directory}'
+    for name, spec in manifest['families'].items():
+        path = os.path.join(ROOT, spec['atlas'])
+        digest = hashlib.sha256(open(path, 'rb').read()).hexdigest()
+        assert digest == spec['sha256'], f'Companion source changed: {name}'
+        with Image.open(path) as im:
+            cw, ch = spec['cell']; count = spec['columns'] * spec['rows']
+            assert im.mode == 'RGBA' and not im.info, f'Invalid companion PNG: {name}'
+            assert im.size == (cw * spec['columns'], ch * spec['rows']) and len(spec['frames']) == count
+            for n in range(count):
+                bounds = im.crop((n % spec['columns'] * cw, n // spec['columns'] * ch, (n % spec['columns'] + 1) * cw, (n // spec['columns'] + 1) * ch)).getchannel('A').getbbox()
+                assert bounds and bounds[0] > 2 and bounds[1] > 2 and bounds[2] < cw - 2 and bounds[3] < ch - 2, f'Clipped companion cell: {name}/{n}'
+            for clip in spec['clips'].values():
+                assert clip['fps'] > 0 and clip['frames'] and all(isinstance(n, int) and 0 <= n < count for n in clip['frames'])
+            url = uri(im, 100, lossless=True); encoded = base64.b64decode(url.split(',', 1)[1])
+            decoded = Image.open(io.BytesIO(encoded)).convert('RGBA')
+            assert ImageChops.difference(im.getchannel('A'), decoded.getchannel('A')).getbbox() is None, f'Companion alpha changed: {name}'
+            means = ImageStat.Stat(ImageChops.difference(im, decoded), im.getchannel('A')).mean[:3]
+            assert max(means) == 0, f'Companion compression drift: {name}'
+            art['spaceCompanions'][name] = {k: spec[k] for k in ('cell', 'columns', 'rows', 'pivot', 'clips')}
+            art['spaceCompanions'][name]['url'] = url
+            packed.append({'id': name, 'sourceSHA256': digest, 'encodedBytes': len(encoded), 'decodedBytes': im.width * im.height * 4, 'rgbMeanAbsoluteError': means, 'alphaExact': True, 'encoding': 'lossless WebP'})
+    with open(os.path.join(ROOT, 'out', 'companion-pack-report.json'), 'w', encoding='utf-8') as f:
+        json.dump({'families': packed}, f, indent=2)
+
+frost_path = A('frost-warden', 'manifest.json')
+if os.path.exists(frost_path):
+    frost = json.load(open(frost_path, encoding='utf-8'))
+    atlas_path = os.path.join(ROOT, frost['atlas'])
+    assert hashlib.sha256(open(atlas_path, 'rb').read()).hexdigest() == frost['sha256'], 'Frost atlas changed'
+    with Image.open(atlas_path) as im:
+        cw, ch = frost['cell']; count = frost['columns'] * frost['rows']
+        assert im.mode == 'RGBA' and not im.info, 'Frost requires stripped RGBA'
+        assert im.size == (cw * frost['columns'], ch * frost['rows'])
+        assert len(frost['anchors']) == count, 'Every physical pose needs measured anchors'
+        for clip in frost['clips'].values():
+            assert clip['frames'] and all(isinstance(n, int) and 0 <= n < count for n in clip['frames'])
+        for n in range(count):
+            bounds = im.crop((n % frost['columns'] * cw, n // frost['columns'] * ch, (n % frost['columns'] + 1) * cw, (n // frost['columns'] + 1) * ch)).getchannel('A').getbbox()
+            assert bounds and bounds[0] > 0 and bounds[1] > 0 and bounds[2] < cw and bounds[3] < ch, f'Clipped Frost frame {n}'
+        art['frostWarden'] = {k: v for k, v in frost.items() if k not in ('atlas', 'sha256')}
+        art['frostWarden']['url'] = uri(im, 100, lossless=True)
 
 out = os.path.join(ROOT, 'src', 'vault-art.js')
 js = '// Rendered art for the Vault, generated by tools/pack_art.py from assets/. Do not edit by hand.\nexport const ART = ' + json.dumps(art) + ';\n'

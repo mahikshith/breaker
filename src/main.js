@@ -1,15 +1,24 @@
 // Entry: canvas sizing, fixed-step loop, input mapping and the three scenes (menu, level, results).
 import { setDPR, text, rrect, shade, vignette, drawGrain, cached, brick, FONT, artLoaded, SPR, ready } from './gfx.js';
 import { unlockAudio, setMuted, isMuted, sfx } from './audio.js';
-import { Invasion } from './invasion.js';
+import { Carrier } from './carrier.js';
+import { Relay } from './relay.js';
+import { Orbital } from './orbital.js';
+import { Frost } from './frost.js';
 import { Vault, drawPrincessIcon } from './vault.js';
 import { drawInvader } from './characters.js';
 import { store } from './prefs.js';
 import { MODE, PRICE, AD_SECONDS, continueOffer, isUnlocked, watchAd, buyFullGame } from './monetize.js';
+import { kitOrbContains, kitTap } from './kit.js';
+import { DIFFICULTY_IDS, difficulty } from './difficulty.js';
+import { spacePowerAt, drawSpacePowerMenu } from './space-companions.js';
 
 const LEVELS = [
-  { make: (W, H) => new Invasion(W, H), name: 'Invasion', sub: 'Clear the formation before it lands', color: '#ff5d8f' },
-  { make: (W, H) => new Vault(W, H), name: 'The Vault', sub: 'Free the princess before the serpent gets there', color: '#f4c542' },
+  { make: (W, H, s) => new Carrier(W, H, s, selectedDifficulty), name: 'Carrier Breakout', sub: 'Rescue the crew before the jump.', color: '#e58fcb', next: 2 },
+  { make: (W, H, s) => new Vault(W, H, s, selectedDifficulty), name: 'The Vault', sub: 'Protect Lumi from the serpent.', color: '#d99db8', next: 4, victory: 'PRINCESS SAVED!' },
+  { make: (W, H, s) => new Relay(W, H, s, selectedDifficulty), name: 'Circuit Breakout', sub: 'Disable the relay. Launch the skiff.', color: '#9eb6ef', next: 3, victory: 'CIRCUIT CLEARED!' },
+  { make: (W, H, s) => new Orbital(W, H, s, selectedDifficulty), name: 'Shutter Forge', sub: 'Crack the armour. Stop the reactor.', color: '#efb295', victory: 'FORGE DISABLED!' },
+  { make: (W, H, s) => new Frost(W, H, s, selectedDifficulty), name: 'Frost Warden', sub: 'Break the siege. Protect Lumi.', color: '#9bc9dd', victory: 'LUMI PROTECTED!' },
 ];
 const W = 360;
 let H = 740, scale = 1, FH = 740, inT = 0, inB = 0; // FH: full canvas height; H: playable height inside the safe area
@@ -19,9 +28,16 @@ const LIFT = 34;
 let offX = 0, offY = 0; // world units of screen beyond the 360 x FH frame: phones fill edge to edge, margins mirror the frame's edges
 const cv = document.getElementById('game'), g = cv.getContext('2d');
 
-let best = store.get('best') || [0, 0];
+let selectedDifficulty = difficulty(new URLSearchParams(location.search).get('difficulty') || store.get('difficulty')).id;
+const legacyBest = store.get('best'), savedBest = store.get('bestByDifficulty'), bestByDifficulty = {};
+const validStars = n => Number.isInteger(n) && n >= 0 && n <= 3 ? n : 0;
+for (const id of DIFFICULTY_IDS) bestByDifficulty[id] = LEVELS.map((_, i) => {
+  const saved = savedBest?.[id], legacy = id === 'easy' && i === 0 || id === 'hard' && i === 1;
+  return Math.max(validStars(Array.isArray(saved) ? saved[i] : 0), validStars(legacy && Array.isArray(legacyBest) ? legacyBest[i] : 0));
+});
+function selectDifficulty(id) { selectedDifficulty = difficulty(id).id; store.set('difficulty', selectedDifficulty); previews = []; }
 
-let scene = 'menu', level = null, levelIdx = 0, resultT = 0, buttons = [], menuT = 0, previews = [];
+let scene = 'menu', level = null, levelIdx = 0, resultT = 0, buttons = [], menuT = 0, previews = [], assetsReady = false;
 let cont = { used: 0, declined: false, ad: null, toast: null }; // continue offers for the current attempt
 
 // Notch / Dynamic Island / home indicator / Android cutouts, in CSS px. ?safe=top,bottom fakes them for testing.
@@ -46,34 +62,82 @@ function resize() {
   setDPR(scale * dpr);
   g.setTransform(scale * dpr, 0, 0, scale * dpr, offX * scale * dpr, offY * scale * dpr);
   previews = [];
-  if (level && (level.W !== W || level.H !== H + LIFT)) start(levelIdx); // geometry depends on H
+  if (level && (level.W !== W || level.H !== H + LIFT || level.kitUIScale !== scale)) start(levelIdx);
 }
 
 function start(i) {
-  levelIdx = i; level = LEVELS[i].make(W, H + LIFT); level.hudY = LIFT; level.inB = inB; scene = 'level'; resultT = 0;
+  levelIdx = i; level = LEVELS[i].make(W, H + LIFT, scale); level.hudY = LIFT; level.inB = inB; scene = 'level'; resultT = 0;
+  paddlePointer = null; kitPress = null; powerPress = null;
   cont = { used: 0, declined: false, ad: null, toast: null };
+  acc = 0; last = performance.now();
 }
 
 // ---------- input ----------
 const toWorld = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) / scale - offX, (e.clientY - r.top) / scale - offY - inT]; };
+let paddlePointer = null, paddleEpoch = 0, kitPress = null, powerPress = null, suspended = false;
+function clearInput() {
+  paddlePointer = null; kitPress = null; powerPress = null;
+  if (level) { level.closePowerMenu?.(); level.pointerCancel(); level.keys = {}; }
+}
+function pause() { clearInput(); if (scene === 'level' && level.state === 'play') scene = 'pause'; }
+function resume() { scene = 'level'; acc = 0; last = performance.now(); }
 cv.addEventListener('pointerdown', e => {
   unlockAudio(); cv.setPointerCapture(e.pointerId);
   const [x, y] = toWorld(e);
   const b = buttons.find(b => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h);
   if (b) { sfx.paddle(); b.fn(); return; }
-  if (scene === 'level' && level.state === 'play') level.pointerDown(x, y + LIFT);
+  if (scene === 'level' && level.state === 'play') {
+    if (level.powerMenuOpen) {
+      if (!powerPress) powerPress = { id: e.pointerId, level, epoch: level.inputEpoch, kind: spacePowerAt(level, x, y + LIFT), clientX: e.clientX, clientY: e.clientY, cancelled: false };
+      return;
+    }
+    if (paddleEpoch !== level.inputEpoch) paddlePointer = null;
+    if ((level.coreMode === 'manual' || level.coreMode === 'ward' && level.phase !== 'intro') && kitOrbContains(level.kitAnchor(), x, y + LIFT)) {
+      if (!kitPress || kitPress.epoch !== level.inputEpoch) kitPress = { id: e.pointerId, level, epoch: level.inputEpoch, x, y: y + LIFT, clientX: e.clientX, clientY: e.clientY, cancelled: false };
+      return;
+    }
+    if (paddlePointer === null) { paddlePointer = e.pointerId; paddleEpoch = level.inputEpoch; level.pointerDown(x, y + LIFT); }
+  }
 });
-cv.addEventListener('pointermove', e => { if (scene === 'level') { const [x, y] = toWorld(e); level.pointerMove(x, y + LIFT); } });
-const up = () => { if (scene === 'level') level.pointerUp(); };
+cv.addEventListener('pointermove', e => {
+  if (powerPress?.id === e.pointerId) { if (Math.hypot(e.clientX - powerPress.clientX, e.clientY - powerPress.clientY) > 8) powerPress.cancelled = true; return; }
+  if (kitPress?.id === e.pointerId) { if (Math.hypot(e.clientX - kitPress.clientX, e.clientY - kitPress.clientY) > 8) kitPress.cancelled = true; return; }
+  if (scene === 'level' && paddlePointer === e.pointerId && paddleEpoch === level.inputEpoch && level.ptr.down) { const [x, y] = toWorld(e); level.pointerMove(x, y + LIFT); }
+});
+const up = e => {
+  if (powerPress?.id === e.pointerId) {
+    const [x, y] = toWorld(e), press = powerPress; powerPress = null;
+    if (e.type !== 'pointercancel' && !press.cancelled && Math.hypot(e.clientX - press.clientX, e.clientY - press.clientY) <= 8
+      && scene === 'level' && level === press.level && level.powerMenuOpen && press.epoch === level.inputEpoch && spacePowerAt(level, x, y + LIFT) === press.kind) {
+      if (press.kind === 'close') level.closePowerMenu(); else level.chooseSpacePower(press.kind);
+    }
+    return;
+  }
+  if (kitPress?.id === e.pointerId) {
+    const [x, y] = toWorld(e), press = kitPress; kitPress = null;
+    if (e.type !== 'pointercancel' && scene === 'level' && level === press.level && press.epoch === level.inputEpoch && kitTap(press, x, y + LIFT, e.clientX, e.clientY, level.kitAnchor())) {
+      if (level.coreMode === 'manual') level.activateCorePower(); else level.activateKitPower();
+    }
+    return;
+  }
+  if (paddlePointer === e.pointerId) { paddlePointer = null; if (scene === 'level' && paddleEpoch === level.inputEpoch && level.ptr.down) e.type === 'pointercancel' ? level.pointerCancel() : level.pointerUp(); }
+};
 cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+addEventListener('blur', () => { suspended = true; pause(); });
+addEventListener('focus', () => { suspended = false; acc = 0; last = performance.now(); });
+document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); acc = 0; last = performance.now(); });
 addEventListener('keydown', e => {
   unlockAudio();
+  if (e.key === 'Escape') { if (level?.powerMenuOpen) { clearInput(); return; } scene === 'pause' ? resume() : pause(); return; }
+  if (suspended || document.hidden || scene === 'pause') return;
   if (scene === 'level' && !e.repeat) level.key(e.key, true);
-  if (e.key === ' ' || e.key.startsWith('Arrow')) e.preventDefault();
-  if (e.key === 'Escape') scene = 'menu';
-  if (scene === 'menu' && (e.key === '1' || e.key === '2')) start(+e.key - 1);
+  if (e.key === ' ' || e.key.startsWith('Arrow') || e.key.toLowerCase() === 'k') e.preventDefault();
+  if (scene === 'menu' && /^[1-9]$/.test(e.key) && +e.key <= LEVELS.length) start(+e.key - 1);
 });
-addEventListener('keyup', e => { if (scene === 'level') level.key(e.key, false); });
+addEventListener('keyup', e => {
+  if (e.key === ' ' && level?.suppressedSpace) { level.key(e.key, false); return; }
+  if (scene === 'level' && !suspended && !document.hidden && level.keys[e.key]) level.key(e.key, false);
+});
 addEventListener('resize', resize);
 
 // ---------- loop ----------
@@ -87,15 +151,18 @@ function frame(now) {
   requestAnimationFrame(frame);
 }
 function tick(dt) {
+  if (suspended || document.hidden || scene === 'pause') return;
   menuT += dt;
   if (scene !== 'level') return;
+  if (cont.ad) { cont.ad.t += dt; if (cont.ad.earned && cont.ad.t >= AD_SECONDS) doContinue(); }
   level.update(dt);
   if (level.state !== 'play') {
     resultT += dt;
     if (resultT > 1.1 && !level.resultSaved && !offering()) {
       level.resultSaved = true;
       const r = level.result();
-      if (r.stars > best[levelIdx]) { best[levelIdx] = r.stars; store.set('best', best); }
+      const best = bestByDifficulty[selectedDifficulty];
+      if (r.stars > best[levelIdx]) { best[levelIdx] = r.stars; store.set('bestByDifficulty', bestByDifficulty); }
     }
   }
 }
@@ -126,9 +193,9 @@ function star(x, y, r, on) {
 
 function preview(i, w, h) { // the level's opening playfield, cropped to fill the card
   if (!previews[i]) {
-    const lv = LEVELS[i].make(W, H), r = lv.previewRect(); lv.skipIntro?.();
+    const lv = LEVELS[i].make(W, H, scale), r = lv.previewRect(); lv.skipIntro?.();
     const k = Math.max(w / r.w, h / r.h);
-    previews[i] = cached(`preview${i}|${w}|${h}|${H}`, w, h, pg => {
+    previews[i] = cached(`preview${i}|${w}|${h}|${H}|${selectedDifficulty}`, w, h, pg => {
       pg.save(); pg.translate(w / 2, 0); pg.scale(k, k); pg.translate(-(r.x + r.w / 2), -r.y);
       lv.draw(pg); pg.restore();
     });
@@ -156,7 +223,8 @@ function drawMenu() {
   }
   g.globalAlpha = 1;
   // logo
-  const ly = 128 + Math.sin(menuT * 2) * 2;
+  const listTop = Math.min(248, Math.max(164, H - LEVELS.length * 76 - 66));
+  const ly = listTop - 120 + Math.sin(menuT * 2) * 2;
   g.font = `64px ${FONT}`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineJoin = 'round';
   g.fillStyle = 'rgba(0,0,0,0.45)'; g.fillText('BREACH', W / 2 + 3, ly + 7);
   g.strokeStyle = '#1a1030'; g.lineWidth = 10; g.strokeText('BREACH', W / 2, ly);
@@ -167,9 +235,10 @@ function drawMenu() {
   text(g, 'Break in. Break out.', W / 2, ly + 44, 15, '#cfd6f5', 'center');
 
   // level cards
-  const cw = W - 40, ch = Math.min(220, (H - 300) / 2 - 10);
-  LEVELS.forEach((L, i) => {
-    const x = 20, y = 210 + i * (ch + 18);
+  DIFFICULTY_IDS.forEach((id, i) => button(difficulty(id).label, 20 + i * 110, listTop - 54, 100, 42, id === selectedDifficulty ? '#9b6295' : '#414b65', () => selectDifficulty(id), true));
+  const cw = W - 40, ch = Math.min(104, (H - listTop - 66) / LEVELS.length - 8);
+  [0, 2, 3, 1, 4].filter(i => i < LEVELS.length).forEach((i, row) => {
+    const L = LEVELS[i], x = 20, y = listTop + row * (ch + 8);
     buttons.push({ x, y, w: cw, h: ch, fn: () => start(i) });
     g.fillStyle = 'rgba(0,0,0,0.45)'; rrect(g, x + 3, y + 6, cw, ch, 18); g.fill();
     g.fillStyle = '#0f1226'; rrect(g, x, y, cw, ch, 18); g.fill();
@@ -183,19 +252,14 @@ function drawMenu() {
     g.strokeStyle = shade(L.color, -0.1); g.lineWidth = 2.5; rrect(g, x, y, cw, ch, 18); g.stroke();
     g.strokeStyle = 'rgba(255,255,255,0.15)'; g.lineWidth = 1; rrect(g, x + 3, y + 3, cw - 6, ch - 6, 15); g.stroke();
     // level number badge
-    g.fillStyle = L.color; g.beginPath(); g.arc(x + 26, y + ch - 46, 15, 0, 7); g.fill();
-    g.fillStyle = 'rgba(255,255,255,0.4)'; g.beginPath(); g.ellipse(x + 22, y + ch - 53, 7, 3, -0.4, 0, 7); g.fill();
-    text(g, `${i + 1}`, x + 26, y + ch - 45, 17, '#fff', 'center');
-    text(g, L.name, x + 50, y + ch - 48, 22, '#fff');
-    text(g, L.sub, x + 16, y + ch - 20, 12, '#c9cfee');
-    for (let s = 0; s < 3; s++) star(x + cw - 66 + s * 22, y + ch - 47, 8, s < best[i]);
-    // a character peeks out on each card
-    const bot = SPR[`inv_bot_blue_${['march0', 'march1', 'march0', 'march1', 'laugh', 'laugh'][Math.floor(menuT * 3) % 6]}`];
-    if (i === 0 && ready(bot)) g.drawImage(bot.img, x + cw - 64, y + 6, bot.uw * 1.4, bot.uh * 1.4);
-    else if (i === 0) drawInvader(g, x + cw - 52, y + 10, 36, 24, '#5ccf6a', Math.floor(menuT * 3) % 2, Math.sin(menuT));
-    else drawPrincessIcon(g, x + cw - 36, y + 34, 64, menuT);
+    g.fillStyle = L.color; g.beginPath(); g.arc(x + 26, y + ch - 33, 13, 0, 7); g.fill();
+    g.fillStyle = 'rgba(255,255,255,0.4)'; g.beginPath(); g.ellipse(x + 22, y + ch - 39, 6, 3, -0.4, 0, 7); g.fill();
+    text(g, i === 1 ? 'V' : i === 4 ? 'F' : `${row + 1}`, x + 26, y + ch - 32, 15, '#fff', 'center');
+    text(g, L.name, x + 50, y + ch - 34, 17, '#fff');
+    text(g, L.sub, x + 16, y + ch - 13, 10, '#c9cfee');
+    for (let s = 0; s < 3; s++) star(x + cw - 66 + s * 22, y + 15, 7, s < bestByDifficulty[selectedDifficulty][i]);
+
   });
-  text(g, 'Drag to move · hold still as the ball lands to catch & aim', W / 2, H - 52, 12, 'rgba(220,226,255,0.65)', 'center');
   if (canFull()) {
     button(isMuted() ? 'Sound: off' : 'Sound: on', W / 2 - 128, H - 38, 120, 30, '#4b5370', () => setMuted(!isMuted()), true);
     button('Full screen', W / 2 + 8, H - 38, 120, 30, '#3f6fd1', goFull, true);
@@ -228,7 +292,7 @@ function drawContinue() {
   g.globalAlpha = 1;
   let by = y + 160;
   if (offer === 'ad') {
-    button('▶  Watch ad · Continue', x + 24, by, pw - 48, 48, '#5ccf6a', () => { cont.ad = { t: 0 }; watchAd().then(ok => { if (ok && cont.ad) doContinue(); else cont.ad = null; }); });
+    button('▶  Watch ad · Continue', x + 24, by, pw - 48, 48, '#5ccf6a', () => { cont.ad = { t: 0 }; watchAd().then(ok => { if (ok && cont.ad) cont.ad.earned = true; else cont.ad = null; }); });
     by += 62;
     if (MODE !== 'free' && !isUnlocked()) button(`Unlock full game · ${PRICE}`, x + 24, by, pw - 48, 40, '#9b4fd1', () => buyFullGame().then(ok => { if (ok) { cont.toast = { text: 'Full game unlocked · no more ads', t: menuT }; doContinue(); } }), true);
     by += 54;
@@ -240,7 +304,7 @@ function drawContinue() {
   text(g, 'No thanks', W / 2, by + 10, 15, 'rgba(220,226,255,0.7)', 'center');
 }
 function drawAdPlaceholder() { // stands in for a rewarded ad until a real SDK is wired up in monetize.js
-  const t = (cont.ad.t += 1 / 60), left = Math.max(0, AD_SECONDS - t);
+  const left = Math.max(0, AD_SECONDS - cont.ad.t);
   g.fillStyle = '#0b0d1c'; g.fillRect(0, 0, W, H);
   g.strokeStyle = 'rgba(255,255,255,0.15)'; g.setLineDash([6, 6]); g.lineWidth = 2; rrect(g, 24, H / 2 - 120, W - 48, 240, 18); g.stroke(); g.setLineDash([]);
   text(g, 'AD PLACEHOLDER', W / 2, H / 2 - 40, 26, '#c9cfee', 'center');
@@ -266,7 +330,7 @@ function drawResults() {
   const pg = g.createLinearGradient(0, y, 0, y + ph); pg.addColorStop(0, '#2c3360'); pg.addColorStop(1, '#171b36');
   g.fillStyle = pg; rrect(g, x, y, pw, ph, 22); g.fill();
   g.strokeStyle = 'rgba(255,255,255,0.18)'; g.lineWidth = 1.5; rrect(g, x + 1, y + 1, pw - 2, ph - 2, 21); g.stroke();
-  const title = won ? (levelIdx === 1 ? 'PRINCESS SAVED!' : 'INVASION OVER!') : 'SO CLOSE!';
+  const title = won ? (LEVELS[levelIdx].victory || 'CREW SAVED!') : 'SO CLOSE!';
   text(g, title, W / 2, y + 36, 30, won ? '#ffd36b' : '#ff7a8a', 'center');
   if (!won) text(g, level.reason || '', W / 2, y + 66, 13, '#c9cfee', 'center');
   for (let s = 0; s < 3; s++) {
@@ -281,9 +345,9 @@ function drawResults() {
   });
   g.globalAlpha = 1;
   const by = y + ph - 58;
-  if (won && levelIdx < LEVELS.length - 1) {
+  if (won && LEVELS[levelIdx].next !== undefined) {
     button('Retry', x + 20, by, 110, 40, '#4b5370', () => start(levelIdx));
-    button('Next', x + pw - 130, by, 110, 40, '#5ccf6a', () => start(levelIdx + 1));
+    button('Next', x + pw - 130, by, 110, 40, '#5ccf6a', () => start(LEVELS[levelIdx].next));
   } else if (won) {
     button('Retry', x + 20, by, 110, 40, '#4b5370', () => start(levelIdx));
     button('Menu', x + pw - 130, by, 110, 40, '#3fa8f5', () => { scene = 'menu'; });
@@ -299,14 +363,19 @@ function draw() {
   // extend the scene's top and bottom pixel rows under the notch and home indicator
   const bg = scene === 'menu' ? menuBg() : level.background(), k = bg.height / (scene === 'menu' ? H : H + LIFT);
   const top = scene === 'menu' ? inT : inT - LIFT;   // screen space above the level's y = 0
-  if (top > 0 && scene !== 'menu' && level.drawTopInset) { g.save(); g.translate(0, top); level.drawTopInset(g, top + 1); g.restore(); }
-  else if (top > 0) g.drawImage(bg, 0, 0, bg.width, k, 0, 0, W, top + 1);
-  if (inB) g.drawImage(bg, 0, bg.height - k, bg.width, k, 0, FH - inB - 1, W, inB + 1);
+  if (scene !== 'menu' && level.drawFullBleedBackground) level.drawFullBleedBackground(g, top, FH);
+  else {
+    if (top > 0 && scene !== 'menu' && level.drawTopInset) { g.save(); g.translate(0, top); level.drawTopInset(g, top + 1); g.restore(); }
+    else if (top > 0) g.drawImage(bg, 0, 0, bg.width, k, 0, 0, W, top + 1);
+    if (inB) g.drawImage(bg, 0, bg.height - k, bg.width, k, 0, FH - inB - 1, W, inB + 1);
+  }
   g.translate(0, inT);
   if (scene === 'menu') drawMenu();
   else {
     g.save(); g.translate(0, -LIFT); level.draw(g); g.restore();
-    if (level.state === 'play') pauseButton();
+    if (scene === 'level' && level.powerMenuOpen) { g.save(); g.translate(0, -LIFT); drawSpacePowerMenu(g, level); g.restore(); }
+    if (scene === 'pause') drawPause();
+    else if (level.state === 'play') pauseButton();
     else drawResults();
     drawToast();
   }
@@ -325,24 +394,30 @@ function fillMargins() {
 // Full screen where the browser allows it (Android Chrome, desktop); iOS gets it from Add to Home Screen
 const canFull = () => !!(document.fullscreenEnabled && !document.fullscreenElement);
 function goFull() { document.documentElement.requestFullscreen?.({ navigationUI: 'hide' }).then(() => screen.orientation?.lock?.('portrait').catch(() => {})).catch(() => {}); }
-function pauseButton() { // top-left, away from the thumb that steers the paddle; 44pt touch target
-  const x = 10, y = 4, s = 30;
-  buttons.push({ x: x - 7, y: y - 7, w: s + 14, h: s + 14, fn: () => { scene = 'menu'; } });
-  g.fillStyle = 'rgba(0,0,0,0.35)'; rrect(g, x + 2, y + 3, s, s, 10); g.fill();
-  const gr = g.createLinearGradient(0, y, 0, y + s); gr.addColorStop(0, '#5d6688'); gr.addColorStop(1, '#2c3250');
-  g.fillStyle = gr; rrect(g, x, y, s, s, 10); g.fill();
-  g.fillStyle = 'rgba(255,255,255,0.25)'; rrect(g, x + 4, y + 2, s - 8, 4, 2); g.fill();
-  g.fillStyle = '#fff'; rrect(g, x + 10, y + 9, 4, 12, 1.5); g.fill(); rrect(g, x + 17, y + 9, 4, 12, 1.5); g.fill();
+function pauseButton() { // Icon only; the invisible target remains44 CSS pixels.
+  buttons.push({ x: 4 / scale, y: 0, w: 44 / scale, h: 44 / scale, fn: pause });
+  g.fillStyle = '#a8bfcc';
+  for (const x of [22, 28]) { rrect(g, x / scale, 11 / scale, 2.5 / scale, 14 / scale, 1 / scale); g.fill(); }
+}
+function drawPause() {
+  g.fillStyle = 'rgba(6,8,20,.78)'; g.fillRect(0, 0, W, H);
+  text(g, 'PAUSED', W / 2, H / 2 - 104, 30, '#edb0d6', 'center');
+  button('Resume', 70, H / 2 - 62, 220, 48, '#9b6295', resume);
+  button('Retry', 70, H / 2, 220, 48, '#4b5370', () => start(levelIdx));
+  button('Menu', 100, H / 2 + 62, 160, 44, '#4b5370', () => { clearInput(); scene = 'menu'; });
 }
 
 // test hook for automated playtests
-window.__breach = { start, get level() { return level; }, get scene() { return scene; }, set scene(s) { scene = s; } };
+window.__breach = { start, get ready() { return assetsReady; }, get level() { return level; }, get difficulty() { return selectedDifficulty; }, get scene() { return scene; }, set scene(s) { scene = s; } };
 
 resize();
-(document.fonts ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1500))]) : Promise.resolve()).then(() => {
+(document.fonts ? Promise.race([Promise.all([document.fonts.load('16px "Lilita One"'), document.fonts.load('600 12px Rubik')]).catch(() => {}), new Promise(r => setTimeout(r, 2500))]) : Promise.resolve()).then(async () => {
   previews = []; setDPR(scale * Math.min(3, devicePixelRatio || 1));
-  artLoaded().then(() => { previews = []; });   // re-crop the level cards once the rendered art is in
+  // Decode lazy chapter art before caching the first menu previews.
+  for (const chapter of LEVELS) chapter.make(W, H, scale);
+  await artLoaded();
+  assetsReady = true;
   const q = new URLSearchParams(location.search).get('level');
-  if (q) start(+q - 1);
+  if (q && Number.isInteger(+q) && +q >= 1 && +q <= LEVELS.length) start(+q - 1);
   requestAnimationFrame(t => { last = t; frame(t); });
 });

@@ -4,3 +4,7 @@ art/out/
 art/__pycache__/
 *.blend
 *.blend1
+!/art/frost-warden/renders/frost-warden.blend
+
+out/
+**/__pycache__/

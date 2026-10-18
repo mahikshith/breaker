@@ -1,0 +1,2080 @@
+{
+  "scope": "Actual five-level Main, native phone geometry and CDP touch. Kit charge/attack starts are staged UI fixtures, not earned wins, human balance or physical-device performance.",
+  "html": "C:\\Users\\mahik\\Music\\Breach\\breaker\\out\\five-level-canonical\\breach.html",
+  "sha256": "b06cdd969bcf5c420a74b3cf37a3eac45fe3d46eabb2926f5e5d2b8a42e01770",
+  "cases": [
+    {
+      "device": "ios",
+      "mode": "easy",
+      "geometry": {
+        "W": 360,
+        "H": 729,
+        "kitUIScale": 1.0916666666666666,
+        "orb": {
+          "x": 34.80916030534352,
+          "y": 701.5190839694657,
+          "r": 23.816793893129773
+        },
+        "kitPowers": true
+      },
+      "raster": {
+        "sx": 0,
+        "sy": 0,
+        "sw": 256,
+        "sh": 228,
+        "x": 13.694186279296886,
+        "y": 95.29407348632813,
+        "w": 172.79999999999998,
+        "h": 153.6,
+        "decoded": true,
+        "naturalWidth": 1792,
+        "naturalHeight": 912
+      },
+      "firstMenuReady": true,
+      "actualCardAimDrag": true,
+      "powers": [
+        {
+          "kind": "shield",
+          "open": false,
+          "charge": 0,
+          "ward": {
+            "targetId": "defence0",
+            "until": 10.008333333333333
+          },
+          "laser": 0,
+          "titans": 0,
+          "balls": 1
+        },
+        {
+          "kind": "arrows",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 10,
+          "titans": 0,
+          "balls": 1
+        },
+        {
+          "kind": "titan",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 0,
+          "titans": 1,
+          "balls": 1
+        },
+        {
+          "kind": "five",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 0,
+          "titans": 0,
+          "balls": 5
+        }
+      ],
+      "choiceFreeze": true,
+      "pauseFreeze": true,
+      "cancelAndSwipe": true,
+      "retry": {
+        "difficulty": "easy",
+        "hp": 40,
+        "maxHP": 40,
+        "charge": 0,
+        "ward": null,
+        "aim": true,
+        "down": false,
+        "keys": false,
+        "laser": 0,
+        "shots": 0,
+        "balls": 1,
+        "clock": 0,
+        "defences": [
+          {
+            "hp": 5,
+            "maxHP": 5
+          },
+          {
+            "hp": 5,
+            "maxHP": 5
+          },
+          {
+            "hp": 5,
+            "maxHP": 5
+          }
+        ]
+      },
+      "backgroundHandlerFixture": true,
+      "continueProgress": {
+        "hp": 39,
+        "score": 174,
+        "brick": 0
+      },
+      "stanceProof": [
+        {
+          "index": 0,
+          "post": "defence0",
+          "hp": 4,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.9749999999999954,
+              "post": "defence0",
+              "warded": false,
+              "from": {
+                "x": 93.23120648574829,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 137.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 2.1833333333333282,
+            "hp": 40,
+            "maxHP": 40,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 5
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 5,
+                "maxHP": 5
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 5,
+                "maxHP": 5
+              }
+            ],
+            "activeDefence": 0,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 91.29418627929688,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 138.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        },
+        {
+          "index": 1,
+          "post": "defence1",
+          "hp": 4,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.9749999999999954,
+              "post": "defence1",
+              "warded": false,
+              "from": {
+                "x": 137.2312064857483,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 181.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 2.1833333333333282,
+            "hp": 40,
+            "maxHP": 40,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 5
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 5
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 5,
+                "maxHP": 5
+              }
+            ],
+            "activeDefence": 1,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 135.2941862792969,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 182.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        },
+        {
+          "index": 2,
+          "post": "defence2",
+          "hp": 4,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.9749999999999954,
+              "post": "defence2",
+              "warded": false,
+              "from": {
+                "x": 181.2312064857483,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 225.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 2.1833333333333282,
+            "hp": 40,
+            "maxHP": 40,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 5
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 5
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 5
+              }
+            ],
+            "activeDefence": 2,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 179.2941862792969,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 226.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "device": "ios",
+      "mode": "medium",
+      "geometry": {
+        "W": 360,
+        "H": 729,
+        "kitUIScale": 1.0916666666666666,
+        "orb": {
+          "x": 34.80916030534352,
+          "y": 701.5190839694657,
+          "r": 23.816793893129773
+        },
+        "kitPowers": true
+      },
+      "raster": {
+        "sx": 0,
+        "sy": 0,
+        "sw": 256,
+        "sh": 228,
+        "x": 13.694186279296886,
+        "y": 95.29407348632813,
+        "w": 172.79999999999998,
+        "h": 153.6,
+        "decoded": true,
+        "naturalWidth": 1792,
+        "naturalHeight": 912
+      },
+      "firstMenuReady": true,
+      "actualCardAimDrag": true,
+      "powers": [
+        {
+          "kind": "shield",
+          "open": false,
+          "charge": 0,
+          "ward": {
+            "targetId": "defence0",
+            "until": 10.016666666666667
+          },
+          "laser": 0,
+          "titans": 0,
+          "balls": 1
+        },
+        {
+          "kind": "arrows",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 10,
+          "titans": 0,
+          "balls": 1
+        },
+        {
+          "kind": "titan",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 0,
+          "titans": 1,
+          "balls": 1
+        },
+        {
+          "kind": "five",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 0,
+          "titans": 0,
+          "balls": 5
+        }
+      ],
+      "choiceFreeze": true,
+      "pauseFreeze": true,
+      "cancelAndSwipe": true,
+      "retry": {
+        "difficulty": "medium",
+        "hp": 52,
+        "maxHP": 52,
+        "charge": 0,
+        "ward": null,
+        "aim": true,
+        "down": false,
+        "keys": false,
+        "laser": 0,
+        "shots": 0,
+        "balls": 1,
+        "clock": 0,
+        "defences": [
+          {
+            "hp": 4,
+            "maxHP": 4
+          },
+          {
+            "hp": 4,
+            "maxHP": 4
+          },
+          {
+            "hp": 4,
+            "maxHP": 4
+          }
+        ]
+      },
+      "backgroundHandlerFixture": true,
+      "continueProgress": {
+        "hp": 51,
+        "score": 174,
+        "brick": 0
+      },
+      "stanceProof": [
+        {
+          "index": 0,
+          "post": "defence0",
+          "hp": 3,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.6499999999999966,
+              "post": "defence0",
+              "warded": false,
+              "from": {
+                "x": 93.23120648574829,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 137.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 1.8499999999999959,
+            "hp": 52,
+            "maxHP": 52,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 3,
+                "maxHP": 4
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 4
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 4
+              }
+            ],
+            "activeDefence": 0,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 91.29418627929688,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 138.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        },
+        {
+          "index": 1,
+          "post": "defence1",
+          "hp": 3,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.6499999999999966,
+              "post": "defence1",
+              "warded": false,
+              "from": {
+                "x": 137.2312064857483,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 181.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 1.8499999999999959,
+            "hp": 52,
+            "maxHP": 52,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 4
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 3,
+                "maxHP": 4
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 4
+              }
+            ],
+            "activeDefence": 1,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 135.2941862792969,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 182.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        },
+        {
+          "index": 2,
+          "post": "defence2",
+          "hp": 3,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.6499999999999966,
+              "post": "defence2",
+              "warded": false,
+              "from": {
+                "x": 181.2312064857483,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 225.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 1.8499999999999959,
+            "hp": 52,
+            "maxHP": 52,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 4
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 4
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 3,
+                "maxHP": 4
+              }
+            ],
+            "activeDefence": 2,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 179.2941862792969,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 226.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "device": "ios",
+      "mode": "hard",
+      "geometry": {
+        "W": 360,
+        "H": 729,
+        "kitUIScale": 1.0916666666666666,
+        "orb": {
+          "x": 34.80916030534352,
+          "y": 701.5190839694657,
+          "r": 23.816793893129773
+        },
+        "kitPowers": true
+      },
+      "raster": {
+        "sx": 0,
+        "sy": 0,
+        "sw": 256,
+        "sh": 228,
+        "x": 13.694186279296886,
+        "y": 95.29407348632813,
+        "w": 172.79999999999998,
+        "h": 153.6,
+        "decoded": true,
+        "naturalWidth": 1792,
+        "naturalHeight": 912
+      },
+      "firstMenuReady": true,
+      "actualCardAimDrag": true,
+      "powers": [
+        {
+          "kind": "shield",
+          "open": false,
+          "charge": 0,
+          "ward": {
+            "targetId": "defence0",
+            "until": 10.008333333333333
+          },
+          "laser": 0,
+          "titans": 0,
+          "balls": 1
+        },
+        {
+          "kind": "arrows",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 10,
+          "titans": 0,
+          "balls": 1
+        },
+        {
+          "kind": "titan",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 0,
+          "titans": 1,
+          "balls": 1
+        },
+        {
+          "kind": "five",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 0,
+          "titans": 0,
+          "balls": 5
+        }
+      ],
+      "choiceFreeze": true,
+      "pauseFreeze": true,
+      "cancelAndSwipe": true,
+      "retry": {
+        "difficulty": "hard",
+        "hp": 66,
+        "maxHP": 66,
+        "charge": 0,
+        "ward": null,
+        "aim": true,
+        "down": false,
+        "keys": false,
+        "laser": 0,
+        "shots": 0,
+        "balls": 1,
+        "clock": 0,
+        "defences": [
+          {
+            "hp": 4,
+            "maxHP": 4
+          },
+          {
+            "hp": 4,
+            "maxHP": 4
+          },
+          {
+            "hp": 4,
+            "maxHP": 4
+          }
+        ]
+      },
+      "backgroundHandlerFixture": true,
+      "continueProgress": {
+        "hp": 65,
+        "score": 174,
+        "brick": 0
+      },
+      "stanceProof": [
+        {
+          "index": 0,
+          "post": "defence0",
+          "hp": 3,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.3833333333333309,
+              "post": "defence0",
+              "warded": false,
+              "from": {
+                "x": 93.23120648574829,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 137.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 1.5333333333333303,
+            "hp": 66,
+            "maxHP": 66,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 3,
+                "maxHP": 4
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 4
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 4
+              }
+            ],
+            "activeDefence": 0,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 91.29418627929688,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 138.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        },
+        {
+          "index": 1,
+          "post": "defence1",
+          "hp": 3,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.3833333333333309,
+              "post": "defence1",
+              "warded": false,
+              "from": {
+                "x": 137.2312064857483,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 181.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 1.5333333333333303,
+            "hp": 66,
+            "maxHP": 66,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 4
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 3,
+                "maxHP": 4
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 4
+              }
+            ],
+            "activeDefence": 1,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 135.2941862792969,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 182.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        },
+        {
+          "index": 2,
+          "post": "defence2",
+          "hp": 3,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.3833333333333309,
+              "post": "defence2",
+              "warded": false,
+              "from": {
+                "x": 181.2312064857483,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 225.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 1.5333333333333303,
+            "hp": 66,
+            "maxHP": 66,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 4
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 4
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 3,
+                "maxHP": 4
+              }
+            ],
+            "activeDefence": 2,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 179.2941862792969,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 226.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "device": "android",
+      "mode": "easy",
+      "geometry": {
+        "W": 360,
+        "H": 785,
+        "kitUIScale": 1.14375,
+        "orb": {
+          "x": 33.224043715846996,
+          "y": 758.7704918032787,
+          "r": 22.73224043715847
+        },
+        "kitPowers": true
+      },
+      "raster": {
+        "sx": 0,
+        "sy": 0,
+        "sw": 256,
+        "sh": 228,
+        "x": 13.694186279296886,
+        "y": 95.29407348632813,
+        "w": 172.79999999999998,
+        "h": 153.6,
+        "decoded": true,
+        "naturalWidth": 1792,
+        "naturalHeight": 912
+      },
+      "firstMenuReady": true,
+      "actualCardAimDrag": true,
+      "powers": [
+        {
+          "kind": "shield",
+          "open": false,
+          "charge": 0,
+          "ward": {
+            "targetId": "defence0",
+            "until": 10.008333333333333
+          },
+          "laser": 0,
+          "titans": 0,
+          "balls": 1
+        },
+        {
+          "kind": "arrows",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 10,
+          "titans": 0,
+          "balls": 1
+        },
+        {
+          "kind": "titan",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 0,
+          "titans": 1,
+          "balls": 1
+        },
+        {
+          "kind": "five",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 0,
+          "titans": 0,
+          "balls": 5
+        }
+      ],
+      "choiceFreeze": true,
+      "pauseFreeze": true,
+      "cancelAndSwipe": true,
+      "retry": {
+        "difficulty": "easy",
+        "hp": 40,
+        "maxHP": 40,
+        "charge": 0,
+        "ward": null,
+        "aim": true,
+        "down": false,
+        "keys": false,
+        "laser": 0,
+        "shots": 0,
+        "balls": 1,
+        "clock": 0,
+        "defences": [
+          {
+            "hp": 5,
+            "maxHP": 5
+          },
+          {
+            "hp": 5,
+            "maxHP": 5
+          },
+          {
+            "hp": 5,
+            "maxHP": 5
+          }
+        ]
+      },
+      "backgroundHandlerFixture": true,
+      "continueProgress": {
+        "hp": 39,
+        "score": 174,
+        "brick": 0
+      },
+      "stanceProof": [
+        {
+          "index": 0,
+          "post": "defence0",
+          "hp": 4,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.9749999999999954,
+              "post": "defence0",
+              "warded": false,
+              "from": {
+                "x": 93.23120648574829,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 137.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 2.1833333333333282,
+            "hp": 40,
+            "maxHP": 40,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 5
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 5,
+                "maxHP": 5
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 5,
+                "maxHP": 5
+              }
+            ],
+            "activeDefence": 0,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 91.29418627929688,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 138.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        },
+        {
+          "index": 1,
+          "post": "defence1",
+          "hp": 4,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.9749999999999954,
+              "post": "defence1",
+              "warded": false,
+              "from": {
+                "x": 137.2312064857483,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 181.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 2.1833333333333282,
+            "hp": 40,
+            "maxHP": 40,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 5
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 5
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 5,
+                "maxHP": 5
+              }
+            ],
+            "activeDefence": 1,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 135.2941862792969,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 182.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        },
+        {
+          "index": 2,
+          "post": "defence2",
+          "hp": 4,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.9749999999999954,
+              "post": "defence2",
+              "warded": false,
+              "from": {
+                "x": 181.2312064857483,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 225.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 2.1833333333333282,
+            "hp": 40,
+            "maxHP": 40,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 5
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 5
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 5
+              }
+            ],
+            "activeDefence": 2,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 179.2941862792969,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 226.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "device": "android",
+      "mode": "medium",
+      "geometry": {
+        "W": 360,
+        "H": 785,
+        "kitUIScale": 1.14375,
+        "orb": {
+          "x": 33.224043715846996,
+          "y": 758.7704918032787,
+          "r": 22.73224043715847
+        },
+        "kitPowers": true
+      },
+      "raster": {
+        "sx": 0,
+        "sy": 0,
+        "sw": 256,
+        "sh": 228,
+        "x": 13.694186279296886,
+        "y": 95.29407348632813,
+        "w": 172.79999999999998,
+        "h": 153.6,
+        "decoded": true,
+        "naturalWidth": 1792,
+        "naturalHeight": 912
+      },
+      "firstMenuReady": true,
+      "actualCardAimDrag": true,
+      "powers": [
+        {
+          "kind": "shield",
+          "open": false,
+          "charge": 0,
+          "ward": {
+            "targetId": "defence0",
+            "until": 10.016666666666667
+          },
+          "laser": 0,
+          "titans": 0,
+          "balls": 1
+        },
+        {
+          "kind": "arrows",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 10,
+          "titans": 0,
+          "balls": 1
+        },
+        {
+          "kind": "titan",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 0,
+          "titans": 1,
+          "balls": 1
+        },
+        {
+          "kind": "five",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 0,
+          "titans": 0,
+          "balls": 5
+        }
+      ],
+      "choiceFreeze": true,
+      "pauseFreeze": true,
+      "cancelAndSwipe": true,
+      "retry": {
+        "difficulty": "medium",
+        "hp": 52,
+        "maxHP": 52,
+        "charge": 0,
+        "ward": null,
+        "aim": true,
+        "down": false,
+        "keys": false,
+        "laser": 0,
+        "shots": 0,
+        "balls": 1,
+        "clock": 0,
+        "defences": [
+          {
+            "hp": 4,
+            "maxHP": 4
+          },
+          {
+            "hp": 4,
+            "maxHP": 4
+          },
+          {
+            "hp": 4,
+            "maxHP": 4
+          }
+        ]
+      },
+      "backgroundHandlerFixture": true,
+      "continueProgress": {
+        "hp": 51,
+        "score": 174,
+        "brick": 0
+      },
+      "stanceProof": [
+        {
+          "index": 0,
+          "post": "defence0",
+          "hp": 3,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.6499999999999966,
+              "post": "defence0",
+              "warded": false,
+              "from": {
+                "x": 93.23120648574829,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 137.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 1.8499999999999959,
+            "hp": 52,
+            "maxHP": 52,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 3,
+                "maxHP": 4
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 4
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 4
+              }
+            ],
+            "activeDefence": 0,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 91.29418627929688,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 138.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        },
+        {
+          "index": 1,
+          "post": "defence1",
+          "hp": 3,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.6499999999999966,
+              "post": "defence1",
+              "warded": false,
+              "from": {
+                "x": 137.2312064857483,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 181.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 1.8499999999999959,
+            "hp": 52,
+            "maxHP": 52,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 4
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 3,
+                "maxHP": 4
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 4
+              }
+            ],
+            "activeDefence": 1,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 135.2941862792969,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 182.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        },
+        {
+          "index": 2,
+          "post": "defence2",
+          "hp": 3,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.6499999999999966,
+              "post": "defence2",
+              "warded": false,
+              "from": {
+                "x": 181.2312064857483,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 225.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 1.8499999999999959,
+            "hp": 52,
+            "maxHP": 52,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 4
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 4
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 3,
+                "maxHP": 4
+              }
+            ],
+            "activeDefence": 2,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 179.2941862792969,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 226.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        }
+      ],
+      "errors": []
+    },
+    {
+      "device": "android",
+      "mode": "hard",
+      "geometry": {
+        "W": 360,
+        "H": 785,
+        "kitUIScale": 1.14375,
+        "orb": {
+          "x": 33.224043715846996,
+          "y": 758.7704918032787,
+          "r": 22.73224043715847
+        },
+        "kitPowers": true
+      },
+      "raster": {
+        "sx": 0,
+        "sy": 0,
+        "sw": 256,
+        "sh": 228,
+        "x": 13.694186279296886,
+        "y": 95.29407348632813,
+        "w": 172.79999999999998,
+        "h": 153.6,
+        "decoded": true,
+        "naturalWidth": 1792,
+        "naturalHeight": 912
+      },
+      "firstMenuReady": true,
+      "actualCardAimDrag": true,
+      "powers": [
+        {
+          "kind": "shield",
+          "open": false,
+          "charge": 0,
+          "ward": {
+            "targetId": "defence0",
+            "until": 10.008333333333333
+          },
+          "laser": 0,
+          "titans": 0,
+          "balls": 1
+        },
+        {
+          "kind": "arrows",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 10,
+          "titans": 0,
+          "balls": 1
+        },
+        {
+          "kind": "titan",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 0,
+          "titans": 1,
+          "balls": 1
+        },
+        {
+          "kind": "five",
+          "open": false,
+          "charge": 0,
+          "ward": null,
+          "laser": 0,
+          "titans": 0,
+          "balls": 5
+        }
+      ],
+      "choiceFreeze": true,
+      "pauseFreeze": true,
+      "cancelAndSwipe": true,
+      "retry": {
+        "difficulty": "hard",
+        "hp": 66,
+        "maxHP": 66,
+        "charge": 0,
+        "ward": null,
+        "aim": true,
+        "down": false,
+        "keys": false,
+        "laser": 0,
+        "shots": 0,
+        "balls": 1,
+        "clock": 0,
+        "defences": [
+          {
+            "hp": 4,
+            "maxHP": 4
+          },
+          {
+            "hp": 4,
+            "maxHP": 4
+          },
+          {
+            "hp": 4,
+            "maxHP": 4
+          }
+        ]
+      },
+      "backgroundHandlerFixture": true,
+      "continueProgress": {
+        "hp": 65,
+        "score": 174,
+        "brick": 0
+      },
+      "stanceProof": [
+        {
+          "index": 0,
+          "post": "defence0",
+          "hp": 3,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.3833333333333309,
+              "post": "defence0",
+              "warded": false,
+              "from": {
+                "x": 93.23120648574829,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 137.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 1.5333333333333303,
+            "hp": 66,
+            "maxHP": 66,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 3,
+                "maxHP": 4
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 4
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 4
+              }
+            ],
+            "activeDefence": 0,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 91.29418627929688,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 138.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        },
+        {
+          "index": 1,
+          "post": "defence1",
+          "hp": 3,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.3833333333333309,
+              "post": "defence1",
+              "warded": false,
+              "from": {
+                "x": 137.2312064857483,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 181.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 1.5333333333333303,
+            "hp": 66,
+            "maxHP": 66,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 4
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 3,
+                "maxHP": 4
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 4,
+                "maxHP": 4
+              }
+            ],
+            "activeDefence": 1,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 135.2941862792969,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 182.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        },
+        {
+          "index": 2,
+          "post": "defence2",
+          "hp": 3,
+          "punches": 1,
+          "records": [
+            {
+              "at": 1.3833333333333309,
+              "post": "defence2",
+              "warded": false,
+              "from": {
+                "x": 181.2312064857483,
+                "y": 175.52706069946288,
+                "r": 11.748688201904297
+              },
+              "to": {
+                "x": 225.84564387512208,
+                "y": 171.1866943359375,
+                "r": 10.509183471679687
+              }
+            }
+          ],
+          "pose": {
+            "state": "play",
+            "phase": "siege",
+            "stage": "strike",
+            "clock": 1.5333333333333303,
+            "hp": 66,
+            "maxHP": 66,
+            "defences": [
+              {
+                "id": "defence0",
+                "x": 148,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 4
+              },
+              {
+                "id": "defence1",
+                "x": 192,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 0,
+                "maxHP": 4
+              },
+              {
+                "id": "defence2",
+                "x": 236,
+                "y": 146,
+                "w": 18,
+                "h": 68,
+                "hp": 3,
+                "maxHP": 4
+              }
+            ],
+            "activeDefence": 2,
+            "windHits": 0,
+            "ward": null,
+            "bodyPose": {
+              "x": 179.2941862792969,
+              "y": 150.49407348632812,
+              "w": 31.599999999999998,
+              "h": 38.4
+            },
+            "fist": {
+              "x": 226.9917204589844,
+              "y": 180,
+              "r": 11.008279541015627
+            },
+            "lives": 3,
+            "started": true,
+            "punches": 1,
+            "blocked": 0
+          }
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "wardenAssetSHA256": "42dd68b5d37ba03a149614c3b0052778a34926fd4c8535f7e15e5ffe2aab39f4",
+  "hashAfter": "b06cdd969bcf5c420a74b3cf37a3eac45fe3d46eabb2926f5e5d2b8a42e01770",
+  "complete": true
+}

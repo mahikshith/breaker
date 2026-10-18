@@ -1,0 +1,49 @@
+{
+  "status": "visual-study-unapproved",
+  "reference": "design/phase1/img/space-carrier-a.png",
+  "normalization": "Full source canvas retained; Lanczos downsample only. No repainting.",
+  "assets": [
+    {
+      "path": "design/phase1/weapon-vfx-v3/plasma-shot-source.png",
+      "sha256": "041a0ed6b89257d597d4e7be78ed63e50260917c60e877b1c02bceb332ccdce9",
+      "bytes": 679143,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": [
+        0,
+        254
+      ],
+      "metadataKeys": []
+    },
+    {
+      "path": "design/phase1/weapon-vfx-v3/plasma-shot.png",
+      "sha256": "0dfce08d82803df089568a47b279bc4babe5746cc82a3b48eae5cc5c99f3dff2",
+      "bytes": 689598,
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": [
+        0,
+        254
+      ],
+      "metadataKeys": []
+    },
+    {
+      "path": "design/phase1/weapon-vfx-v3/plasma-shot-runtime.png",
+      "sha256": "e50ca4d2e8b4aeb6f22925eceaf92f4826af7ac84a4fc2a785f6756ff4c97551",
+      "bytes": 38329,
+      "size": [
+        256,
+        256
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "metadataKeys": []
+    }
+  ]
+}

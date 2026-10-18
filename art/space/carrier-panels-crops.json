@@ -1,0 +1,10 @@
+{
+  "source":"art/space/source/carrier-panels-original.png",
+  "sourceSHA256":"8e48c463f84bd1af1356bde5a18f58126b1ec148642494dec434c336c68ab486",
+  "prompt":"art/space/carrier-panels-prompt.md",
+  "parts":{
+    "brick_cyan":{"region":[100,90,850,500],"visibleTarget":[36,20],"cell":[44,28],"role":"Carrier A cyan mechanical four-corner/X panel crate"},
+    "brick_pink":{"region":[900,90,1690,500],"visibleTarget":[36,20],"cell":[44,28],"role":"Carrier A rose mechanical four-corner/X panel crate"},
+    "paddle":{"region":[100,540,1690,840],"visibleTarget":[76,16],"cell":[84,24],"role":"Carrier A flat faceted metal paddle; not Relay B tube"}
+  }
+}

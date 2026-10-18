@@ -1,0 +1,1678 @@
+{
+  "scope": "Independent4190 staged visual/paddle-sweep review. No production damage, balance or device performance admission.",
+  "files": {
+    "tools/weapon-vfx-v3-review/review.js": "ddc0a4e99d0a3b18e06d4f1cac375a762fc588742c8681257bb19bdd0d7d9b5e",
+    "tools/weapon-vfx-v3-review/index.html": "8882fa8c905aef67ab2123fc4e3158e769de7b1936689c4d26441d2658ac41ed",
+    "tools/weapon-vfx-v3-review/capture.mjs": "312858cad967ca8293cde75ee85ae1fb71a699a7d88a2b95acca8ac8aadcdd9f",
+    "out/weapon-vfx-v3/scenes.json": "f788fcada5837e1e5553ae9f5cbfb16baf96d2e429ff43db74c94719872fe6c4",
+    "design/phase1/weapon-vfx-v3/plasma-shot-runtime.png": "e50ca4d2e8b4aeb6f22925eceaf92f4826af7ac84a4fc2a785f6756ff4c97551",
+    "src/carrier-physics.js": "33614f2b320f0e8fd5b42d15f2d07e5175b6ab38330a7aa34bf5082087ef2adb",
+    "design/phase1/weapon-vfx-v3/plasma-impact-runtime.png": "39091b038f2773e746cb4a017f2d0c2e7fde0c89653fd78b3221269c8bef16bb"
+  },
+  "baselineBefore": {
+    "src/arena.js": "db4af718f7e94021ffd0413ad61b412fa5e981f0bb6c850274e0abe48b28da1b",
+    "src/main.js": "9dc9c71bd7a4091d4958c012b5e91b6e4af79fec3add5613b02d045c1712102c",
+    "src/vault.js": "f25d206307db4b9cb1366ab193d5a415ece6eed8393416ba333beee75c6095e6",
+    "src/gfx.js": "743dca51b28cbbccf0bfbc35c2f3e25c4610eebeb89ab478d1d4575321ec938a",
+    "src/difficulty.js": "06eb044b3ad8c6989cec14d7e5090c023d2c789916bc889d541a90b825126ab5",
+    "src/space-companions.js": "f84b59c8e3bdd9de2be8c310b959f76903e5fa4ea70209a9f165e7895b84d139",
+    "src/space-weapons.js": "175692d52cb1eee17782314910f5db2ec64595d64e06ac900492e20a00c12f72",
+    "src/carrier.js": "91250a93b3ea514410bb385771f5dfb5f9a02fad59fae6f1a41dfcfe6d5a21d6",
+    "src/relay.js": "35c10fd3ff37d1187428355203854545f64dd06abc7b8f12595a035e28367127",
+    "src/orbital.js": "9374f100db9ba2cd12ef90a10cf623d43727772292eff583bad942cc66777ff7",
+    "dist/breach.html": "6bbebeca0fde25cae39bbc440cebf919d20eaf7c5152be4e023a141606981e33",
+    "out/space-selected-review/carrier.html": "c404346220646c2f671987204710f190c031b08228990dd4778a2ff0d5fadcfd",
+    "out/space-selected-review/circuit/circuit.html": "31fd49e80d9e0299403914a2d8479e49d3d0e899818170538276639b3ccff08f",
+    "out/space-selected-review/forge/forge.html": "144524ad1418c4439e518969378c3e662d5e1d885667a359c5f7fe86d2148202"
+  },
+  "cases": [
+    {
+      "device": "ios",
+      "mode": "heavy",
+      "boss": "carrier",
+      "rules": {
+        "label": "A \u00c2\u00b7 Heavy shot",
+        "shots": [
+          0.95
+        ],
+        "size": 65,
+        "r": 9,
+        "speed": 680,
+        "recoil": 8
+      },
+      "visibleIntactCrossings": [
+        {
+          "id": "aBrickCyan4",
+          "hp": 1,
+          "point": {
+            "x": 274.74741623391265,
+            "y": 271.92850000000004
+          },
+          "at": 1.0842575607418032
+        },
+        {
+          "id": "aBrickPink4",
+          "hp": 1,
+          "point": {
+            "x": 271.17340748827075,
+            "y": 299.25
+          },
+          "at": 1.1247785488520483
+        }
+      ],
+      "selectedCrossing": {
+        "id": "aBrickCyan4",
+        "hp": 1,
+        "point": {
+          "x": 274.74741623391265,
+          "y": 271.92850000000004
+        },
+        "at": 1.0842575607418032
+      },
+      "hitTimes": [
+        {
+          "x": 231.17731745002143,
+          "y": 614,
+          "at": 1.578241649878984
+        }
+      ],
+      "automaticDodge": {
+        "hits": 0,
+        "paddleX": 90
+      },
+      "actualTouchDodge": {
+        "hits": 0,
+        "paddleX": 89.99999999999999,
+        "touch": {
+          "from": {
+            "x": 251.08333333333337,
+            "y": 613.4999999999999
+          },
+          "to": {
+            "x": 98.25000000000003,
+            "y": 613.4999999999999
+          }
+        }
+      },
+      "exactRestoredCanvas": true,
+      "restoredSHA256": "673bfe8700eda088adece0584c66e29d75c15062c2c31aabe7b2e3ee1645adac",
+      "afterSHA256": "673bfe8700eda088adece0584c66e29d75c15062c2c31aabe7b2e3ee1645adac",
+      "brickSignatureUnchanged": true,
+      "captures": [
+        {
+          "name": "cross-intact",
+          "time": 1.0842575607418032,
+          "path": "out/weapon-vfx-v3-qa/final-raster/ios-heavy-carrier-cross-intact.png",
+          "sha256": "2167f436bf6c4974c5d913125c7203fb26826ba13a3ffa630bb49bcd5400436e"
+        },
+        {
+          "name": "paddle-hit",
+          "time": 1.633241649878984,
+          "path": "out/weapon-vfx-v3-qa/final-raster/ios-heavy-carrier-paddle-hit.png",
+          "sha256": "708b6092f8bdd866126b57ebd4fa644668ca367ab42b2331b7802346e04fa3f8"
+        }
+      ]
+    },
+    {
+      "device": "ios",
+      "mode": "heavy",
+      "boss": "circuit",
+      "rules": {
+        "label": "A \u00c2\u00b7 Heavy shot",
+        "shots": [
+          0.95
+        ],
+        "size": 65,
+        "r": 9,
+        "speed": 680,
+        "recoil": 8
+      },
+      "visibleIntactCrossings": [
+        {
+          "id": "circuit-panel10",
+          "hp": 1,
+          "point": {
+            "x": 282.11532322051016,
+            "y": 323.5
+          },
+          "at": 1.144133944282446
+        },
+        {
+          "id": "circuit-panel16",
+          "hp": 1,
+          "point": {
+            "x": 278.34795045758176,
+            "y": 344.5
+          },
+          "at": 1.1755093189936336
+        },
+        {
+          "id": "circuit-panel22",
+          "hp": 1,
+          "point": {
+            "x": 274.5805776946533,
+            "y": 365.5
+          },
+          "at": 1.2068846937048212
+        },
+        {
+          "id": "circuit-panel28",
+          "hp": 1,
+          "point": {
+            "x": 270.81320493172484,
+            "y": 386.5
+          },
+          "at": 1.2382600684160086
+        }
+      ],
+      "selectedCrossing": {
+        "id": "circuit-panel10",
+        "hp": 1,
+        "point": {
+          "x": 282.11532322051016,
+          "y": 323.5
+        },
+        "at": 1.144133944282446
+      },
+      "hitTimes": [
+        {
+          "x": 231.61458832697048,
+          "y": 614,
+          "at": 1.564713371958601
+        }
+      ],
+      "automaticDodge": {
+        "hits": 0,
+        "paddleX": 90
+      },
+      "actualTouchDodge": {
+        "hits": 0,
+        "paddleX": 89.99999999999999,
+        "touch": {
+          "from": {
+            "x": 251.08333333333337,
+            "y": 613.4999999999999
+          },
+          "to": {
+            "x": 98.25000000000003,
+            "y": 613.4999999999999
+          }
+        }
+      },
+      "exactRestoredCanvas": true,
+      "restoredSHA256": "68acb0bb81eb65125f8e0c0676f7bcdfcc31e220c42ff4ca267593452fc08620",
+      "afterSHA256": "68acb0bb81eb65125f8e0c0676f7bcdfcc31e220c42ff4ca267593452fc08620",
+      "brickSignatureUnchanged": true,
+      "captures": [
+        {
+          "name": "cross-intact",
+          "time": 1.144133944282446,
+          "path": "out/weapon-vfx-v3-qa/final-raster/ios-heavy-circuit-cross-intact.png",
+          "sha256": "7130196c8348c6f5d48d7bd5953ac5324adb16c6fcaff26ef62b658582c7b22f"
+        },
+        {
+          "name": "paddle-hit",
+          "time": 1.619713371958601,
+          "path": "out/weapon-vfx-v3-qa/final-raster/ios-heavy-circuit-paddle-hit.png",
+          "sha256": "cda6c0f7a3890f470707e51106af63db8e3d852e7462c4aab9b01f47b3d2310f"
+        }
+      ]
+    },
+    {
+      "device": "ios",
+      "mode": "heavy",
+      "boss": "forge",
+      "rules": {
+        "label": "A \u00c2\u00b7 Heavy shot",
+        "shots": [
+          0.95
+        ],
+        "size": 65,
+        "r": 9,
+        "speed": 680,
+        "recoil": 8
+      },
+      "visibleIntactCrossings": [
+        {
+          "id": "panel0-6",
+          "hp": 1,
+          "point": {
+            "x": 294.29834905660374,
+            "y": 250.5
+          },
+          "at": 1.0100600984733403
+        },
+        {
+          "id": "panel5-6",
+          "hp": 1,
+          "point": {
+            "x": 273.9563679245283,
+            "y": 365.5
+          },
+          "at": 1.1818031231196349
+        },
+        {
+          "id": "panel6-6",
+          "hp": 1,
+          "point": {
+            "x": 269.8879716981132,
+            "y": 388.5
+          },
+          "at": 1.2161517280488936
+        },
+        {
+          "id": "panel7-6",
+          "hp": 1,
+          "point": {
+            "x": 265.8195754716981,
+            "y": 411.5
+          },
+          "at": 1.2505003329781526
+        }
+      ],
+      "selectedCrossing": {
+        "id": "panel0-6",
+        "hp": 1,
+        "point": {
+          "x": 294.29834905660374,
+          "y": 250.5
+        },
+        "at": 1.0100600984733403
+      },
+      "hitTimes": [
+        {
+          "x": 231.59198113207532,
+          "y": 614,
+          "at": 1.5394766396656125
+        }
+      ],
+      "automaticDodge": {
+        "hits": 0,
+        "paddleX": 90
+      },
+      "actualTouchDodge": {
+        "hits": 0,
+        "paddleX": 89.99999999999999,
+        "touch": {
+          "from": {
+            "x": 251.08333333333337,
+            "y": 613.4999999999999
+          },
+          "to": {
+            "x": 98.25000000000003,
+            "y": 613.4999999999999
+          }
+        }
+      },
+      "exactRestoredCanvas": true,
+      "restoredSHA256": "318c04c974da65c5edafd5525883196e43d47497c1b3658a49529633784445f4",
+      "afterSHA256": "318c04c974da65c5edafd5525883196e43d47497c1b3658a49529633784445f4",
+      "brickSignatureUnchanged": true,
+      "captures": [
+        {
+          "name": "cross-intact",
+          "time": 1.0100600984733403,
+          "path": "out/weapon-vfx-v3-qa/final-raster/ios-heavy-forge-cross-intact.png",
+          "sha256": "eac0c2bd1fcf2e775f5ae4622a5914d8bcc3e18c24a1a7fa41dde8bac5b3b2dd"
+        },
+        {
+          "name": "paddle-hit",
+          "time": 1.5944766396656125,
+          "path": "out/weapon-vfx-v3-qa/final-raster/ios-heavy-forge-paddle-hit.png",
+          "sha256": "a19776ad2236502d18a6fd0e694685dec4f60d3c90419c606b93fd05eb93dfed"
+        }
+      ]
+    },
+    {
+      "device": "ios",
+      "mode": "salvo",
+      "boss": "carrier",
+      "rules": {
+        "label": "B \u00c2\u00b7 Three-shot salvo",
+        "shots": [
+          0.95,
+          1.09,
+          1.23
+        ],
+        "size": 54,
+        "r": 7.5,
+        "speed": 720,
+        "recoil": 5.5
+      },
+      "visibleIntactCrossings": [
+        {
+          "id": "aBrickCyan4",
+          "hp": 1,
+          "point": {
+            "x": 274.74741623391265,
+            "y": 271.92850000000004
+          },
+          "at": 1.0747154740339253
+        },
+        {
+          "id": "aBrickPink4",
+          "hp": 1,
+          "point": {
+            "x": 271.17340748827075,
+            "y": 299.25
+          },
+          "at": 1.1129852961380458
+        }
+      ],
+      "selectedCrossing": {
+        "id": "aBrickCyan4",
+        "hp": 1,
+        "point": {
+          "x": 274.74741623391265,
+          "y": 271.92850000000004
+        },
+        "at": 1.0747154740339253
+      },
+      "hitTimes": [
+        {
+          "x": 230.98109787501906,
+          "y": 614,
+          "at": 1.543357085442842
+        },
+        {
+          "x": 230.98109787501906,
+          "y": 614,
+          "at": 1.6833570854428421
+        },
+        {
+          "x": 230.98109787501906,
+          "y": 614,
+          "at": 1.823357085442842
+        }
+      ],
+      "automaticDodge": {
+        "hits": 0,
+        "paddleX": 90
+      },
+      "actualTouchDodge": {
+        "hits": 0,
+        "paddleX": 89.99999999999999,
+        "touch": {
+          "from": {
+            "x": 251.08333333333337,
+            "y": 613.4999999999999
+          },
+          "to": {
+            "x": 98.25000000000003,
+            "y": 613.4999999999999
+          }
+        }
+      },
+      "exactRestoredCanvas": true,
+      "restoredSHA256": "673bfe8700eda088adece0584c66e29d75c15062c2c31aabe7b2e3ee1645adac",
+      "afterSHA256": "673bfe8700eda088adece0584c66e29d75c15062c2c31aabe7b2e3ee1645adac",
+      "brickSignatureUnchanged": true,
+      "captures": [
+        {
+          "name": "cross-intact",
+          "time": 1.0747154740339253,
+          "path": "out/weapon-vfx-v3-qa/final-raster/ios-salvo-carrier-cross-intact.png",
+          "sha256": "4073c36ed50503a5d62e2d3e3887b852b7182d9bfd74137ecd15905cff5e1e90"
+        },
+        {
+          "name": "paddle-hit",
+          "time": 1.598357085442842,
+          "path": "out/weapon-vfx-v3-qa/final-raster/ios-salvo-carrier-paddle-hit.png",
+          "sha256": "bd0ebeca8c979ac2b309134250e4a3d72d8afe9f0c9f36284484f43a8ae5cfb2"
+        }
+      ]
+    },
+    {
+      "device": "ios",
+      "mode": "salvo",
+      "boss": "circuit",
+      "rules": {
+        "label": "B \u00c2\u00b7 Three-shot salvo",
+        "shots": [
+          0.95,
+          1.09,
+          1.23
+        ],
+        "size": 54,
+        "r": 7.5,
+        "speed": 720,
+        "recoil": 5.5
+      },
+      "visibleIntactCrossings": [
+        {
+          "id": "circuit-panel10",
+          "hp": 1,
+          "point": {
+            "x": 282.11532322051016,
+            "y": 323.5
+          },
+          "at": 1.1312653918223103
+        },
+        {
+          "id": "circuit-panel16",
+          "hp": 1,
+          "point": {
+            "x": 278.34795045758176,
+            "y": 344.5
+          },
+          "at": 1.160897690160654
+        },
+        {
+          "id": "circuit-panel22",
+          "hp": 1,
+          "point": {
+            "x": 274.5805776946533,
+            "y": 365.5
+          },
+          "at": 1.1905299884989977
+        },
+        {
+          "id": "circuit-panel28",
+          "hp": 1,
+          "point": {
+            "x": 270.81320493172484,
+            "y": 386.5
+          },
+          "at": 1.2201622868373414
+        }
+      ],
+      "selectedCrossing": {
+        "id": "circuit-panel10",
+        "hp": 1,
+        "point": {
+          "x": 282.11532322051016,
+          "y": 323.5
+        },
+        "at": 1.1312653918223103
+      },
+      "hitTimes": [
+        {
+          "x": 231.34549027247476,
+          "y": 614,
+          "at": 1.530595888477133
+        },
+        {
+          "x": 231.34549027247476,
+          "y": 614,
+          "at": 1.670595888477133
+        },
+        {
+          "x": 231.34549027247476,
+          "y": 614,
+          "at": 1.810595888477133
+        }
+      ],
+      "automaticDodge": {
+        "hits": 0,
+        "paddleX": 90
+      },
+      "actualTouchDodge": {
+        "hits": 0,
+        "paddleX": 89.99999999999999,
+        "touch": {
+          "from": {
+            "x": 251.08333333333337,
+            "y": 613.4999999999999
+          },
+          "to": {
+            "x": 98.25000000000003,
+            "y": 613.4999999999999
+          }
+        }
+      },
+      "exactRestoredCanvas": true,
+      "restoredSHA256": "68acb0bb81eb65125f8e0c0676f7bcdfcc31e220c42ff4ca267593452fc08620",
+      "afterSHA256": "68acb0bb81eb65125f8e0c0676f7bcdfcc31e220c42ff4ca267593452fc08620",
+      "brickSignatureUnchanged": true,
+      "captures": [
+        {
+          "name": "cross-intact",
+          "time": 1.1312653918223103,
+          "path": "out/weapon-vfx-v3-qa/final-raster/ios-salvo-circuit-cross-intact.png",
+          "sha256": "dc594dc3b55ed2dc14654e6c58085d46b4836aef0dcad38a9532e9315e2b3283"
+        },
+        {
+          "name": "paddle-hit",
+          "time": 1.5855958884771328,
+          "path": "out/weapon-vfx-v3-qa/final-raster/ios-salvo-circuit-paddle-hit.png",
+          "sha256": "fb7b442b9d41b950b7679200ac4035067f03efddf9951569f33a826e26953825"
+        }
+      ]
+    },
+    {
+      "device": "ios",
+      "mode": "salvo",
+      "boss": "forge",
+      "rules": {
+        "label": "B \u00c2\u00b7 Three-shot salvo",
+        "shots": [
+          0.95,
+          1.09,
+          1.23
+        ],
+        "size": 54,
+        "r": 7.5,
+        "speed": 720,
+        "recoil": 5.5
+      },
+      "visibleIntactCrossings": [
+        {
+          "id": "panel0-6",
+          "hp": 1,
+          "point": {
+            "x": 294.29834905660374,
+            "y": 250.5
+          },
+          "at": 1.0046400930025992
+        },
+        {
+          "id": "panel5-6",
+          "hp": 1,
+          "point": {
+            "x": 273.9563679245283,
+            "y": 365.5
+          },
+          "at": 1.1668418385018773
+        },
+        {
+          "id": "panel6-6",
+          "hp": 1,
+          "point": {
+            "x": 269.8879716981132,
+            "y": 388.5
+          },
+          "at": 1.199282187601733
+        },
+        {
+          "id": "panel7-6",
+          "hp": 1,
+          "point": {
+            "x": 265.8195754716981,
+            "y": 411.5
+          },
+          "at": 1.2317225367015885
+        }
+      ],
+      "selectedCrossing": {
+        "id": "panel0-6",
+        "hp": 1,
+        "point": {
+          "x": 294.29834905660374,
+          "y": 250.5
+        },
+        "at": 1.0046400930025992
+      },
+      "hitTimes": [
+        {
+          "x": 231.3266509433954,
+          "y": 614,
+          "at": 1.506760279069929
+        },
+        {
+          "x": 231.3266509433954,
+          "y": 614,
+          "at": 1.6467602790699292
+        },
+        {
+          "x": 231.3266509433954,
+          "y": 614,
+          "at": 1.786760279069929
+        }
+      ],
+      "automaticDodge": {
+        "hits": 0,
+        "paddleX": 90
+      },
+      "actualTouchDodge": {
+        "hits": 0,
+        "paddleX": 89.99999999999999,
+        "touch": {
+          "from": {
+            "x": 251.08333333333337,
+            "y": 613.4999999999999
+          },
+          "to": {
+            "x": 98.25000000000003,
+            "y": 613.4999999999999
+          }
+        }
+      },
+      "exactRestoredCanvas": true,
+      "restoredSHA256": "318c04c974da65c5edafd5525883196e43d47497c1b3658a49529633784445f4",
+      "afterSHA256": "318c04c974da65c5edafd5525883196e43d47497c1b3658a49529633784445f4",
+      "brickSignatureUnchanged": true,
+      "captures": [
+        {
+          "name": "cross-intact",
+          "time": 1.0046400930025992,
+          "path": "out/weapon-vfx-v3-qa/final-raster/ios-salvo-forge-cross-intact.png",
+          "sha256": "f8cc5aedef542b3bc1155f8d2c6c50708f6d3348f68f040a9a60e26fb37af478"
+        },
+        {
+          "name": "paddle-hit",
+          "time": 1.561760279069929,
+          "path": "out/weapon-vfx-v3-qa/final-raster/ios-salvo-forge-paddle-hit.png",
+          "sha256": "2197fd7e48527451a317a643ef1ffff5ed936d489f5f3ddcc9e632806c3a274d"
+        }
+      ]
+    },
+    {
+      "device": "android",
+      "mode": "heavy",
+      "boss": "carrier",
+      "rules": {
+        "label": "A \u00c2\u00b7 Heavy shot",
+        "shots": [
+          0.95
+        ],
+        "size": 65,
+        "r": 9,
+        "speed": 680,
+        "recoil": 8
+      },
+      "visibleIntactCrossings": [
+        {
+          "id": "aBrickCyan4",
+          "hp": 1,
+          "point": {
+            "x": 276.17134218247213,
+            "y": 271.92850000000004
+          },
+          "at": 1.0840025856917948
+        },
+        {
+          "id": "aBrickPink4",
+          "hp": 1,
+          "point": {
+            "x": 273.0416981231963,
+            "y": 299.25
+          },
+          "at": 1.124444003717484
+        }
+      ],
+      "selectedCrossing": {
+        "id": "aBrickCyan4",
+        "hp": 1,
+        "point": {
+          "x": 276.17134218247213,
+          "y": 271.92850000000004
+        },
+        "at": 1.0840025856917948
+      },
+      "hitTimes": [
+        {
+          "x": 231.03093887720317,
+          "y": 675,
+          "at": 1.6673091487835134
+        }
+      ],
+      "automaticDodge": {
+        "hits": 0,
+        "paddleX": 90
+      },
+      "actualTouchDodge": {
+        "hits": 0,
+        "paddleX": 90,
+        "touch": {
+          "from": {
+            "x": 263.1875,
+            "y": 687.51875
+          },
+          "to": {
+            "x": 103.0625,
+            "y": 687.51875
+          }
+        }
+      },
+      "exactRestoredCanvas": true,
+      "restoredSHA256": "90018f0a48390a7ec9bce69ea1bdf379b036e87c7dbcb98a98557c5831d44d9b",
+      "afterSHA256": "90018f0a48390a7ec9bce69ea1bdf379b036e87c7dbcb98a98557c5831d44d9b",
+      "brickSignatureUnchanged": true,
+      "captures": [
+        {
+          "name": "cross-intact",
+          "time": 1.0840025856917948,
+          "path": "out/weapon-vfx-v3-qa/final-raster/android-heavy-carrier-cross-intact.png",
+          "sha256": "8b33404c71a38314a79ecc6bc120571fa329f985b08c7d483cc7f4217d4c263b"
+        },
+        {
+          "name": "paddle-hit",
+          "time": 1.7223091487835134,
+          "path": "out/weapon-vfx-v3-qa/final-raster/android-heavy-carrier-paddle-hit.png",
+          "sha256": "734773bf8d603203a690ce606a2bd751f1d57a4a29b4d820dcc0e399c4ca6fe2"
+        }
+      ]
+    },
+    {
+      "device": "android",
+      "mode": "heavy",
+      "boss": "circuit",
+      "rules": {
+        "label": "A \u00c2\u00b7 Heavy shot",
+        "shots": [
+          0.95
+        ],
+        "size": 65,
+        "r": 9,
+        "speed": 680,
+        "recoil": 8
+      },
+      "visibleIntactCrossings": [
+        {
+          "id": "circuit-panel10",
+          "hp": 1,
+          "point": {
+            "x": 284.36060202899023,
+            "y": 327.9175616425194
+          },
+          "at": 1.1499939334063658
+        },
+        {
+          "id": "circuit-panel16",
+          "hp": 1,
+          "point": {
+            "x": 281.76343423079464,
+            "y": 344.5
+          },
+          "at": 1.1746771575423023
+        },
+        {
+          "id": "circuit-panel22",
+          "hp": 1,
+          "point": {
+            "x": 278.47438092112236,
+            "y": 365.5
+          },
+          "at": 1.2059359926834459
+        },
+        {
+          "id": "circuit-panel28",
+          "hp": 1,
+          "point": {
+            "x": 275.1853276114501,
+            "y": 386.5
+          },
+          "at": 1.2371948278245894
+        }
+      ],
+      "selectedCrossing": {
+        "id": "circuit-panel10",
+        "hp": 1,
+        "point": {
+          "x": 284.36060202899023,
+          "y": 327.9175616425194
+        },
+        "at": 1.1499939334063658
+      },
+      "hitTimes": [
+        {
+          "x": 231.40959427557294,
+          "y": 675,
+          "at": 1.6532350383936205
+        }
+      ],
+      "automaticDodge": {
+        "hits": 0,
+        "paddleX": 90
+      },
+      "actualTouchDodge": {
+        "hits": 0,
+        "paddleX": 90,
+        "touch": {
+          "from": {
+            "x": 263.1875,
+            "y": 687.51875
+          },
+          "to": {
+            "x": 103.0625,
+            "y": 687.51875
+          }
+        }
+      },
+      "exactRestoredCanvas": true,
+      "restoredSHA256": "ea13ba9ba9ee524039bba660fe2900667460b7d1b97187c3b9f7461ecc4f4a9e",
+      "afterSHA256": "ea13ba9ba9ee524039bba660fe2900667460b7d1b97187c3b9f7461ecc4f4a9e",
+      "brickSignatureUnchanged": true,
+      "captures": [
+        {
+          "name": "cross-intact",
+          "time": 1.1499939334063658,
+          "path": "out/weapon-vfx-v3-qa/final-raster/android-heavy-circuit-cross-intact.png",
+          "sha256": "36a1298eab5b82e7da262f30546857416e08abf499805b5a3100d25a29c1dbb8"
+        },
+        {
+          "name": "paddle-hit",
+          "time": 1.7082350383936205,
+          "path": "out/weapon-vfx-v3-qa/final-raster/android-heavy-circuit-paddle-hit.png",
+          "sha256": "fe74f4a7c5295ee9a6e26ff6461f5a60277b3ee132a266c76d62b04fc2f85705"
+        }
+      ]
+    },
+    {
+      "device": "android",
+      "mode": "heavy",
+      "boss": "forge",
+      "rules": {
+        "label": "A \u00c2\u00b7 Heavy shot",
+        "shots": [
+          0.95
+        ],
+        "size": 65,
+        "r": 9,
+        "speed": 680,
+        "recoil": 8
+      },
+      "visibleIntactCrossings": [
+        {
+          "id": "panel0-6",
+          "hp": 1,
+          "point": {
+            "x": 295.6443298969072,
+            "y": 250.5
+          },
+          "at": 1.0097364258717334
+        },
+        {
+          "id": "panel5-6",
+          "hp": 1,
+          "point": {
+            "x": 277.86082474226805,
+            "y": 365.5
+          },
+          "at": 1.1808642050769567
+        },
+        {
+          "id": "panel6-6",
+          "hp": 1,
+          "point": {
+            "x": 274.3041237113402,
+            "y": 388.5
+          },
+          "at": 1.2150897609180014
+        },
+        {
+          "id": "panel7-6",
+          "hp": 1,
+          "point": {
+            "x": 270.7474226804124,
+            "y": 411.5
+          },
+          "at": 1.249315316759046
+        }
+      ],
+      "selectedCrossing": {
+        "id": "panel0-6",
+        "hp": 1,
+        "point": {
+          "x": 295.6443298969072,
+          "y": 250.5
+        },
+        "at": 1.0097364258717334
+      },
+      "hitTimes": [
+        {
+          "x": 231.3917525773182,
+          "y": 675,
+          "at": 1.628028532478432
+        }
+      ],
+      "automaticDodge": {
+        "hits": 0,
+        "paddleX": 90
+      },
+      "actualTouchDodge": {
+        "hits": 0,
+        "paddleX": 90,
+        "touch": {
+          "from": {
+            "x": 263.1875,
+            "y": 687.51875
+          },
+          "to": {
+            "x": 103.0625,
+            "y": 687.51875
+          }
+        }
+      },
+      "exactRestoredCanvas": true,
+      "restoredSHA256": "90498742578cdc1ec286abab969777ccef9a0dbd4e04330a0296240d8db337ae",
+      "afterSHA256": "90498742578cdc1ec286abab969777ccef9a0dbd4e04330a0296240d8db337ae",
+      "brickSignatureUnchanged": true,
+      "captures": [
+        {
+          "name": "cross-intact",
+          "time": 1.0097364258717334,
+          "path": "out/weapon-vfx-v3-qa/final-raster/android-heavy-forge-cross-intact.png",
+          "sha256": "5a691f123b02e6ade3d7a2b05d47a77080668e17be61b0304dc622de06146ada"
+        },
+        {
+          "name": "paddle-hit",
+          "time": 1.683028532478432,
+          "path": "out/weapon-vfx-v3-qa/final-raster/android-heavy-forge-paddle-hit.png",
+          "sha256": "23b991c1c597fbe085bae9e0a35d40ffa8b669221fbb0a6e7996914172e2c4cf"
+        }
+      ]
+    },
+    {
+      "device": "android",
+      "mode": "salvo",
+      "boss": "carrier",
+      "rules": {
+        "label": "B \u00c2\u00b7 Three-shot salvo",
+        "shots": [
+          0.95,
+          1.09,
+          1.23
+        ],
+        "size": 54,
+        "r": 7.5,
+        "speed": 720,
+        "recoil": 5.5
+      },
+      "visibleIntactCrossings": [
+        {
+          "id": "aBrickCyan4",
+          "hp": 1,
+          "point": {
+            "x": 276.17134218247213,
+            "y": 271.92850000000004
+          },
+          "at": 1.0744746642644727
+        },
+        {
+          "id": "aBrickPink4",
+          "hp": 1,
+          "point": {
+            "x": 273.0416981231963,
+            "y": 299.25
+          },
+          "at": 1.1126693368442904
+        }
+      ],
+      "selectedCrossing": {
+        "id": "aBrickCyan4",
+        "hp": 1,
+        "point": {
+          "x": 276.17134218247213,
+          "y": 271.92850000000004
+        },
+        "at": 1.0744746642644727
+      },
+      "hitTimes": [
+        {
+          "x": 230.85911573100302,
+          "y": 675,
+          "at": 1.6274722641183366
+        },
+        {
+          "x": 230.85911573100302,
+          "y": 675,
+          "at": 1.7674722641183367
+        },
+        {
+          "x": 230.85911573100302,
+          "y": 675,
+          "at": 1.9074722641183366
+        }
+      ],
+      "automaticDodge": {
+        "hits": 0,
+        "paddleX": 90
+      },
+      "actualTouchDodge": {
+        "hits": 0,
+        "paddleX": 90,
+        "touch": {
+          "from": {
+            "x": 263.1875,
+            "y": 687.51875
+          },
+          "to": {
+            "x": 103.0625,
+            "y": 687.51875
+          }
+        }
+      },
+      "exactRestoredCanvas": true,
+      "restoredSHA256": "90018f0a48390a7ec9bce69ea1bdf379b036e87c7dbcb98a98557c5831d44d9b",
+      "afterSHA256": "90018f0a48390a7ec9bce69ea1bdf379b036e87c7dbcb98a98557c5831d44d9b",
+      "brickSignatureUnchanged": true,
+      "captures": [
+        {
+          "name": "cross-intact",
+          "time": 1.0744746642644727,
+          "path": "out/weapon-vfx-v3-qa/final-raster/android-salvo-carrier-cross-intact.png",
+          "sha256": "1bf4c9466b8121e3ef94ece993dc4305e4571ba11cf03a191d4cfe7500d9ef1d"
+        },
+        {
+          "name": "paddle-hit",
+          "time": 1.6824722641183365,
+          "path": "out/weapon-vfx-v3-qa/final-raster/android-salvo-carrier-paddle-hit.png",
+          "sha256": "8be3227e74e0c999444a6064a078414c2da3f3ba703682a5e39527498968f97a"
+        }
+      ]
+    },
+    {
+      "device": "android",
+      "mode": "salvo",
+      "boss": "circuit",
+      "rules": {
+        "label": "B \u00c2\u00b7 Three-shot salvo",
+        "shots": [
+          0.95,
+          1.09,
+          1.23
+        ],
+        "size": 54,
+        "r": 7.5,
+        "speed": 720,
+        "recoil": 5.5
+      },
+      "visibleIntactCrossings": [
+        {
+          "id": "circuit-panel10",
+          "hp": 1,
+          "point": {
+            "x": 284.36060202899023,
+            "y": 327.9175616425194
+          },
+          "at": 1.136799825994901
+        },
+        {
+          "id": "circuit-panel16",
+          "hp": 1,
+          "point": {
+            "x": 281.76343423079464,
+            "y": 344.5
+          },
+          "at": 1.160111759901063
+        },
+        {
+          "id": "circuit-panel22",
+          "hp": 1,
+          "point": {
+            "x": 278.47438092112236,
+            "y": 365.5
+          },
+          "at": 1.1896339930899211
+        },
+        {
+          "id": "circuit-panel28",
+          "hp": 1,
+          "point": {
+            "x": 275.1853276114501,
+            "y": 386.5
+          },
+          "at": 1.2191562262787792
+        }
+      ],
+      "selectedCrossing": {
+        "id": "circuit-panel10",
+        "hp": 1,
+        "point": {
+          "x": 284.36060202899023,
+          "y": 327.9175616425194
+        },
+        "at": 1.136799825994901
+      },
+      "hitTimes": [
+        {
+          "x": 231.17466189631057,
+          "y": 675,
+          "at": 1.614191822758259
+        },
+        {
+          "x": 231.17466189631057,
+          "y": 675,
+          "at": 1.7541918227582591
+        },
+        {
+          "x": 231.17466189631057,
+          "y": 675,
+          "at": 1.894191822758259
+        }
+      ],
+      "automaticDodge": {
+        "hits": 0,
+        "paddleX": 90
+      },
+      "actualTouchDodge": {
+        "hits": 0,
+        "paddleX": 90,
+        "touch": {
+          "from": {
+            "x": 263.1875,
+            "y": 687.51875
+          },
+          "to": {
+            "x": 103.0625,
+            "y": 687.51875
+          }
+        }
+      },
+      "exactRestoredCanvas": true,
+      "restoredSHA256": "ea13ba9ba9ee524039bba660fe2900667460b7d1b97187c3b9f7461ecc4f4a9e",
+      "afterSHA256": "ea13ba9ba9ee524039bba660fe2900667460b7d1b97187c3b9f7461ecc4f4a9e",
+      "brickSignatureUnchanged": true,
+      "captures": [
+        {
+          "name": "cross-intact",
+          "time": 1.136799825994901,
+          "path": "out/weapon-vfx-v3-qa/final-raster/android-salvo-circuit-cross-intact.png",
+          "sha256": "e0de7c20bede19f27636a6e9bc376f6adfd602bf4f49251ac0d29430b5e03129"
+        },
+        {
+          "name": "paddle-hit",
+          "time": 1.669191822758259,
+          "path": "out/weapon-vfx-v3-qa/final-raster/android-salvo-circuit-paddle-hit.png",
+          "sha256": "8cfd5bcfb2eb0128ee5440a2ee5c6d44a8f7e76de8c87ae79848c9e9f8076bb4"
+        }
+      ]
+    },
+    {
+      "device": "android",
+      "mode": "salvo",
+      "boss": "forge",
+      "rules": {
+        "label": "B \u00c2\u00b7 Three-shot salvo",
+        "shots": [
+          0.95,
+          1.09,
+          1.23
+        ],
+        "size": 54,
+        "r": 7.5,
+        "speed": 720,
+        "recoil": 5.5
+      },
+      "visibleIntactCrossings": [
+        {
+          "id": "panel0-6",
+          "hp": 1,
+          "point": {
+            "x": 295.6443298969072,
+            "y": 250.5
+          },
+          "at": 1.0043344022121927
+        },
+        {
+          "id": "panel5-6",
+          "hp": 1,
+          "point": {
+            "x": 277.86082474226805,
+            "y": 365.5
+          },
+          "at": 1.1659550825726814
+        },
+        {
+          "id": "panel6-6",
+          "hp": 1,
+          "point": {
+            "x": 274.3041237113402,
+            "y": 388.5
+          },
+          "at": 1.198279218644779
+        },
+        {
+          "id": "panel7-6",
+          "hp": 1,
+          "point": {
+            "x": 270.7474226804124,
+            "y": 411.5
+          },
+          "at": 1.2306033547168769
+        }
+      ],
+      "selectedCrossing": {
+        "id": "panel0-6",
+        "hp": 1,
+        "point": {
+          "x": 295.6443298969072,
+          "y": 250.5
+        },
+        "at": 1.0043344022121927
+      },
+      "hitTimes": [
+        {
+          "x": 231.15979381443407,
+          "y": 675,
+          "at": 1.5903850431715305
+        },
+        {
+          "x": 231.15979381443407,
+          "y": 675,
+          "at": 1.7303850431715306
+        },
+        {
+          "x": 231.15979381443407,
+          "y": 675,
+          "at": 1.8703850431715305
+        }
+      ],
+      "automaticDodge": {
+        "hits": 0,
+        "paddleX": 90
+      },
+      "actualTouchDodge": {
+        "hits": 0,
+        "paddleX": 90,
+        "touch": {
+          "from": {
+            "x": 263.1875,
+            "y": 687.51875
+          },
+          "to": {
+            "x": 103.0625,
+            "y": 687.51875
+          }
+        }
+      },
+      "exactRestoredCanvas": true,
+      "restoredSHA256": "90498742578cdc1ec286abab969777ccef9a0dbd4e04330a0296240d8db337ae",
+      "afterSHA256": "90498742578cdc1ec286abab969777ccef9a0dbd4e04330a0296240d8db337ae",
+      "brickSignatureUnchanged": true,
+      "captures": [
+        {
+          "name": "cross-intact",
+          "time": 1.0043344022121927,
+          "path": "out/weapon-vfx-v3-qa/final-raster/android-salvo-forge-cross-intact.png",
+          "sha256": "13014b6cd03297f19bd1e3a80197b2881ae6377e976e565d234bfa6361066f21"
+        },
+        {
+          "name": "paddle-hit",
+          "time": 1.6453850431715304,
+          "path": "out/weapon-vfx-v3-qa/final-raster/android-salvo-forge-paddle-hit.png",
+          "sha256": "ca907318af9c8df5f0c5ab2b55c770ca89e6bb93467343ca849eb37b21aa6d4d"
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "networkFailures": [],
+  "baselineAfter": {
+    "src/arena.js": "db4af718f7e94021ffd0413ad61b412fa5e981f0bb6c850274e0abe48b28da1b",
+    "src/main.js": "9dc9c71bd7a4091d4958c012b5e91b6e4af79fec3add5613b02d045c1712102c",
+    "src/vault.js": "f25d206307db4b9cb1366ab193d5a415ece6eed8393416ba333beee75c6095e6",
+    "src/gfx.js": "743dca51b28cbbccf0bfbc35c2f3e25c4610eebeb89ab478d1d4575321ec938a",
+    "src/difficulty.js": "06eb044b3ad8c6989cec14d7e5090c023d2c789916bc889d541a90b825126ab5",
+    "src/space-companions.js": "f84b59c8e3bdd9de2be8c310b959f76903e5fa4ea70209a9f165e7895b84d139",
+    "src/space-weapons.js": "175692d52cb1eee17782314910f5db2ec64595d64e06ac900492e20a00c12f72",
+    "src/carrier.js": "91250a93b3ea514410bb385771f5dfb5f9a02fad59fae6f1a41dfcfe6d5a21d6",
+    "src/relay.js": "35c10fd3ff37d1187428355203854545f64dd06abc7b8f12595a035e28367127",
+    "src/orbital.js": "9374f100db9ba2cd12ef90a10cf623d43727772292eff583bad942cc66777ff7",
+    "dist/breach.html": "6bbebeca0fde25cae39bbc440cebf919d20eaf7c5152be4e023a141606981e33",
+    "out/space-selected-review/carrier.html": "c404346220646c2f671987204710f190c031b08228990dd4778a2ff0d5fadcfd",
+    "out/space-selected-review/circuit/circuit.html": "31fd49e80d9e0299403914a2d8479e49d3d0e899818170538276639b3ccff08f",
+    "out/space-selected-review/forge/forge.html": "144524ad1418c4439e518969378c3e662d5e1d885667a359c5f7fe86d2148202"
+  },
+  "complete": true,
+  "targetedImpact": [
+    {
+      "device": "ios",
+      "mode": "heavy",
+      "boss": "carrier",
+      "age": 0.065,
+      "hit": {
+        "x": 231.17731745002143,
+        "y": 614,
+        "at": 1.578241649878984
+      },
+      "time": 1.643241649878984,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-ios-heavy-carrier-0.065.png",
+      "sha256": "68c8e5e9ad70b475cbec9111739fc628c31e8e2178f4d43a4cc3b440042bc3fc"
+    },
+    {
+      "device": "ios",
+      "mode": "heavy",
+      "boss": "carrier",
+      "age": 0.16,
+      "hit": {
+        "x": 231.17731745002143,
+        "y": 614,
+        "at": 1.578241649878984
+      },
+      "time": 1.7382416498789839,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-ios-heavy-carrier-0.16.png",
+      "sha256": "d9d80429b0a92769697e1e5c1816bafd138c58f11b022d5dffdb6495ca5eae39"
+    },
+    {
+      "device": "ios",
+      "mode": "heavy",
+      "boss": "circuit",
+      "age": 0.065,
+      "hit": {
+        "x": 231.61458832697048,
+        "y": 614,
+        "at": 1.564713371958601
+      },
+      "time": 1.629713371958601,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-ios-heavy-circuit-0.065.png",
+      "sha256": "c2d5eaaa47be85c66a8221d01370608c42fc4aba2b696b0735a07d043aa36356"
+    },
+    {
+      "device": "ios",
+      "mode": "heavy",
+      "boss": "circuit",
+      "age": 0.16,
+      "hit": {
+        "x": 231.61458832697048,
+        "y": 614,
+        "at": 1.564713371958601
+      },
+      "time": 1.724713371958601,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-ios-heavy-circuit-0.16.png",
+      "sha256": "977cf95e9578712220c1c32d1b48b6b2422b120e17fbe9dc3776c07f20b61bc3"
+    },
+    {
+      "device": "ios",
+      "mode": "heavy",
+      "boss": "forge",
+      "age": 0.065,
+      "hit": {
+        "x": 231.59198113207532,
+        "y": 614,
+        "at": 1.5394766396656125
+      },
+      "time": 1.6044766396656125,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-ios-heavy-forge-0.065.png",
+      "sha256": "2f59d4af4507fcf1b4222e0720c0fde52fbdd6c0551c1e2e6b44878ceafcf6cc"
+    },
+    {
+      "device": "ios",
+      "mode": "heavy",
+      "boss": "forge",
+      "age": 0.16,
+      "hit": {
+        "x": 231.59198113207532,
+        "y": 614,
+        "at": 1.5394766396656125
+      },
+      "time": 1.6994766396656125,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-ios-heavy-forge-0.16.png",
+      "sha256": "1c8edea3ae724b50f63662bb128e846c74fbcea5d634e6aa303e30763262f3d1"
+    },
+    {
+      "device": "ios",
+      "mode": "salvo",
+      "boss": "carrier",
+      "age": 0.065,
+      "hit": {
+        "x": 230.98109787501906,
+        "y": 614,
+        "at": 1.543357085442842
+      },
+      "time": 1.608357085442842,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-ios-salvo-carrier-0.065.png",
+      "sha256": "5a4d1f99d7f94eec198ac7740cd0d8d6161a712527dacf48991d78bb7ac106cf"
+    },
+    {
+      "device": "ios",
+      "mode": "salvo",
+      "boss": "carrier",
+      "age": 0.16,
+      "hit": {
+        "x": 230.98109787501906,
+        "y": 614,
+        "at": 1.543357085442842
+      },
+      "time": 1.703357085442842,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-ios-salvo-carrier-0.16.png",
+      "sha256": "eabf656787b258e7266905f850023e9f064f4647cc36fcea49beba41011acaf5"
+    },
+    {
+      "device": "ios",
+      "mode": "salvo",
+      "boss": "circuit",
+      "age": 0.065,
+      "hit": {
+        "x": 231.34549027247476,
+        "y": 614,
+        "at": 1.530595888477133
+      },
+      "time": 1.5955958884771329,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-ios-salvo-circuit-0.065.png",
+      "sha256": "5a257a420e5c75acbeef933db013a9ecb89dcf5d9fdbb4624eaae8f6af007fae"
+    },
+    {
+      "device": "ios",
+      "mode": "salvo",
+      "boss": "circuit",
+      "age": 0.16,
+      "hit": {
+        "x": 231.34549027247476,
+        "y": 614,
+        "at": 1.530595888477133
+      },
+      "time": 1.6905958884771328,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-ios-salvo-circuit-0.16.png",
+      "sha256": "d8a8277d4e3b02da1a7ff2c3de876e22e327fe2c40e68647cc3b713be6fe48ca"
+    },
+    {
+      "device": "ios",
+      "mode": "salvo",
+      "boss": "forge",
+      "age": 0.065,
+      "hit": {
+        "x": 231.3266509433954,
+        "y": 614,
+        "at": 1.506760279069929
+      },
+      "time": 1.571760279069929,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-ios-salvo-forge-0.065.png",
+      "sha256": "b6641269ff47415a2d3c3b4a96c0aea1b98213d30cd3054bab4147a5a430f40c"
+    },
+    {
+      "device": "ios",
+      "mode": "salvo",
+      "boss": "forge",
+      "age": 0.16,
+      "hit": {
+        "x": 231.3266509433954,
+        "y": 614,
+        "at": 1.506760279069929
+      },
+      "time": 1.666760279069929,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-ios-salvo-forge-0.16.png",
+      "sha256": "a213309cdca7e40b5d3ea601fd17e88d63859c42feb80550d600715e4b32ce05"
+    },
+    {
+      "device": "android",
+      "mode": "heavy",
+      "boss": "carrier",
+      "age": 0.065,
+      "hit": {
+        "x": 231.03093887720317,
+        "y": 675,
+        "at": 1.6673091487835134
+      },
+      "time": 1.7323091487835134,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-android-heavy-carrier-0.065.png",
+      "sha256": "dc96e58e37e3f7bd0c1de1851b027a8cb4d84a064e99f2a62865b11aae3f9724"
+    },
+    {
+      "device": "android",
+      "mode": "heavy",
+      "boss": "carrier",
+      "age": 0.16,
+      "hit": {
+        "x": 231.03093887720317,
+        "y": 675,
+        "at": 1.6673091487835134
+      },
+      "time": 1.8273091487835134,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-android-heavy-carrier-0.16.png",
+      "sha256": "bc8dc938e392e08efdf7952962c14d40e980a2ebf6bf603cba4de1876489a4ee"
+    },
+    {
+      "device": "android",
+      "mode": "heavy",
+      "boss": "circuit",
+      "age": 0.065,
+      "hit": {
+        "x": 231.40959427557294,
+        "y": 675,
+        "at": 1.6532350383936205
+      },
+      "time": 1.7182350383936205,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-android-heavy-circuit-0.065.png",
+      "sha256": "d75755aa99aa8b1eb32b15af9b848d31c6bcbf0f1711e5c68c18fd9a5f891737"
+    },
+    {
+      "device": "android",
+      "mode": "heavy",
+      "boss": "circuit",
+      "age": 0.16,
+      "hit": {
+        "x": 231.40959427557294,
+        "y": 675,
+        "at": 1.6532350383936205
+      },
+      "time": 1.8132350383936204,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-android-heavy-circuit-0.16.png",
+      "sha256": "a0d07e37b7f0ead6611336cfc7fb36d270099bf45a4d773939609dcd480ccc9f"
+    },
+    {
+      "device": "android",
+      "mode": "heavy",
+      "boss": "forge",
+      "age": 0.065,
+      "hit": {
+        "x": 231.3917525773182,
+        "y": 675,
+        "at": 1.628028532478432
+      },
+      "time": 1.693028532478432,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-android-heavy-forge-0.065.png",
+      "sha256": "055d0b2219ddce3f0dbbec846885542d9b60ca2e558f99ea8251bfe1c53e9948"
+    },
+    {
+      "device": "android",
+      "mode": "heavy",
+      "boss": "forge",
+      "age": 0.16,
+      "hit": {
+        "x": 231.3917525773182,
+        "y": 675,
+        "at": 1.628028532478432
+      },
+      "time": 1.788028532478432,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-android-heavy-forge-0.16.png",
+      "sha256": "2ba4bef048fbea3212f2a1117c9b9ebe1b472bf53a195e6a1901dd9be172e975"
+    },
+    {
+      "device": "android",
+      "mode": "salvo",
+      "boss": "carrier",
+      "age": 0.065,
+      "hit": {
+        "x": 230.85911573100302,
+        "y": 675,
+        "at": 1.6274722641183366
+      },
+      "time": 1.6924722641183365,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-android-salvo-carrier-0.065.png",
+      "sha256": "5ff7fb01ce2c4491a2cc648baaa1044b84b717cfa4143d16ff783aeb56492d31"
+    },
+    {
+      "device": "android",
+      "mode": "salvo",
+      "boss": "carrier",
+      "age": 0.16,
+      "hit": {
+        "x": 230.85911573100302,
+        "y": 675,
+        "at": 1.6274722641183366
+      },
+      "time": 1.7874722641183365,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-android-salvo-carrier-0.16.png",
+      "sha256": "37a6e20481f1ca5cd6af403a152c7ed30b012dce63c1ba88485a79a7978e4c24"
+    },
+    {
+      "device": "android",
+      "mode": "salvo",
+      "boss": "circuit",
+      "age": 0.065,
+      "hit": {
+        "x": 231.17466189631057,
+        "y": 675,
+        "at": 1.614191822758259
+      },
+      "time": 1.679191822758259,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-android-salvo-circuit-0.065.png",
+      "sha256": "22dfb2bf42ccdfda3559a85d99cc243b5eb5545c88595e09f70fcffff59af55c"
+    },
+    {
+      "device": "android",
+      "mode": "salvo",
+      "boss": "circuit",
+      "age": 0.16,
+      "hit": {
+        "x": 231.17466189631057,
+        "y": 675,
+        "at": 1.614191822758259
+      },
+      "time": 1.774191822758259,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-android-salvo-circuit-0.16.png",
+      "sha256": "c72aa52169d30d88ee426e862e119ebca4d42b64998958dbcb827cd5f5f7b034"
+    },
+    {
+      "device": "android",
+      "mode": "salvo",
+      "boss": "forge",
+      "age": 0.065,
+      "hit": {
+        "x": 231.15979381443407,
+        "y": 675,
+        "at": 1.5903850431715305
+      },
+      "time": 1.6553850431715305,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-android-salvo-forge-0.065.png",
+      "sha256": "43f06ea1aa635de1d578efedb0a44d70f580438523c106e8e2f0996668e97715"
+    },
+    {
+      "device": "android",
+      "mode": "salvo",
+      "boss": "forge",
+      "age": 0.16,
+      "hit": {
+        "x": 231.15979381443407,
+        "y": 675,
+        "at": 1.5903850431715305
+      },
+      "time": 1.7503850431715304,
+      "path": "out/weapon-vfx-v3-qa/final-raster/impact-android-salvo-forge-0.16.png",
+      "sha256": "5578e9af94c588391fa5aee83267a2db5bf01836869a105240ced5617c9773a7"
+    }
+  ],
+  "visualReview": {
+    "status": "Bounded visual-study checks pass; owner choice and gameplay admission remain pending.",
+    "phones": [
+      "393x852 safe59/34",
+      "412x915 safe32/24"
+    ],
+    "targetedImpactCrops": 24,
+    "contactAnchor": "actual paddle top, raster pivot .51/.89",
+    "rectangularStripEnds": false,
+    "fullHeightCarrierPaddle": true,
+    "unselectedNixAbsentFromCircuitForge": true,
+    "quietCircuitIris": true,
+    "staticWhiteBallReadable": true,
+    "notesPath": "out/weapon-vfx-v3-qa/final-raster/QA.md",
+    "limits": [
+      "Time-addressed study, not live gameplay",
+      "Static white ball marker, not moving-ball tracking proof",
+      "No life-loss/balance/Continue/power or handset-performance admission"
+    ]
+  },
+  "castReview": {
+    "document": "design/phase1/space-companion-role-review.md",
+    "documentSHA256": "cec3902d51b7dc2b675bca3da4ba919b33e65ccd238a886499bbc70298a565ee",
+    "image": "design/phase1/weapon-vfx-v3/cast-roles.png",
+    "imageSHA256": "08aca9f1febd518b989b8efb06e1cfd0451445594e181b8d8cddd72ab5ecd876",
+    "carrier": "Nix/Tick appearances selected; new Tow Break remains proposed",
+    "circuit": "Vesper/Latch preserved concepts; renewed pick required",
+    "forge": "Nova/Pin preserved concepts; unselected",
+    "powersProposalsOnly": true
+  }
+}

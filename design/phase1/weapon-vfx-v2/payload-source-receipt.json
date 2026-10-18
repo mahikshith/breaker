@@ -1,0 +1,65 @@
+{
+  "status": "Prototype source candidates; native moving review pending; no gameplay integration.",
+  "direction": "down",
+  "references": [
+    "assets/space-a/cannon_barrel.png",
+    "assets/space-b/cannon_barrel.png",
+    "assets/orbital-forge/cannon.png"
+  ],
+  "parts": [
+    {
+      "id": "A",
+      "path": "design\\phase1\\weapon-vfx-v2\\payload-A.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "opaqueBBox128": [
+        351,
+        35,
+        905,
+        1213
+      ],
+      "alphaBBox": [
+        17,
+        0,
+        1222,
+        1222
+      ],
+      "sha256": "ab4dfc62bae61d1e232ad3c9667f493211ce595d1e9b0986b2d5b6581dfa510c",
+      "metadataEmpty": true
+    },
+    {
+      "id": "B",
+      "path": "design\\phase1\\weapon-vfx-v2\\payload-B.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "opaqueBBox128": [
+        246,
+        32,
+        1010,
+        1212
+      ],
+      "alphaBBox": [
+        0,
+        23,
+        1222,
+        1220
+      ],
+      "sha256": "99e9205b3e41fb91a37a57880b7fe11dd3f2550c7b339944f731ce1d2527ca85",
+      "metadataEmpty": true
+    }
+  ]
+}

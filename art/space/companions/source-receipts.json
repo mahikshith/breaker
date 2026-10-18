@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-18",
+  "reference": "design/phase1/img/space-carrier-a.png",
+  "method": "Approved-reference raster pose families, followed by deterministic alpha/component normalization",
+  "prompts": "art/space/companions/production-prompts.json",
+  "returnedSources": {
+    "nix": {
+      "sourceID": "exec-fcb8d707-c32e-4fa0-9a80-58275aeb19b3",
+      "path": "art/space/companions/source/nix-family-original.png",
+      "sha256": "3a7c5a1e7a21f6294b602cbd65d0cc939830617b1db948ce2317dfa7c1710d93"
+    },
+    "tick": {
+      "sourceID": "exec-b82cc872-aab0-4e4f-9a57-28e97f23ac94",
+      "path": "art/space/companions/source/tick-secure-original.png",
+      "sha256": "74c033e4a2759eaf54a49462f9b4152b58d6f9f478d2e98304d854d8e9309c47"
+    }
+  },
+  "sourcePreservation": "Returned originals are retained unchanged. Only final normalized PNG metadata is stripped.",
+  "referenceCrops": {
+    "nix-reference.png": [589,178,808,415],
+    "nix-expressions-reference.png": [589,178,1163,415],
+    "tick-reference.png": [1185,164,1516,416]
+  },
+  "sourceLimits": "2D raster families; no editable 3D mesh, skeleton, unseen angles or full-body Nix family is implied. No third-party character-model package was added."
+}

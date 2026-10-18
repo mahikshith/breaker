@@ -1,0 +1,766 @@
+{
+  "scope": "Actual main bundle: touch, power selection, freeze, Retry, WIDE, safe-area and artwork checks. Power charge is staged; not human balance or physical handset performance.",
+  "builds": {
+    "carrier": "4071acee8be6ab862a3cd9a0ce35680b99090b9e254d7b858f699668d949b90a",
+    "circuit": "4071acee8be6ab862a3cd9a0ce35680b99090b9e254d7b858f699668d949b90a",
+    "forge": "4071acee8be6ab862a3cd9a0ce35680b99090b9e254d7b858f699668d949b90a"
+  },
+  "cases": [
+    {
+      "device": "ios",
+      "id": "carrier",
+      "mode": "easy",
+      "geometry": {
+        "W": 360,
+        "H": 729,
+        "kitUIScale": 1.0916666666666666,
+        "orb": {
+          "x": 34.80916030534352,
+          "y": 701.5190839694657,
+          "r": 23.816793893129773
+        },
+        "reserve": 125.54166666666666,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 8,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    },
+    {
+      "device": "ios",
+      "id": "carrier",
+      "mode": "medium",
+      "geometry": {
+        "W": 360,
+        "H": 729,
+        "kitUIScale": 1.0916666666666666,
+        "orb": {
+          "x": 34.80916030534352,
+          "y": 701.5190839694657,
+          "r": 23.816793893129773
+        },
+        "reserve": 125.54166666666666,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 7,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    },
+    {
+      "device": "ios",
+      "id": "carrier",
+      "mode": "hard",
+      "geometry": {
+        "W": 360,
+        "H": 729,
+        "kitUIScale": 1.0916666666666666,
+        "orb": {
+          "x": 34.80916030534352,
+          "y": 701.5190839694657,
+          "r": 23.816793893129773
+        },
+        "reserve": 125.54166666666666,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 6,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    },
+    {
+      "device": "ios",
+      "id": "circuit",
+      "mode": "easy",
+      "geometry": {
+        "W": 360,
+        "H": 729,
+        "kitUIScale": 1.0916666666666666,
+        "orb": {
+          "x": 34.80916030534352,
+          "y": 701.5190839694657,
+          "r": 23.816793893129773
+        },
+        "reserve": 125.54166666666666,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 8,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    },
+    {
+      "device": "ios",
+      "id": "circuit",
+      "mode": "medium",
+      "geometry": {
+        "W": 360,
+        "H": 729,
+        "kitUIScale": 1.0916666666666666,
+        "orb": {
+          "x": 34.80916030534352,
+          "y": 701.5190839694657,
+          "r": 23.816793893129773
+        },
+        "reserve": 125.54166666666666,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 7,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    },
+    {
+      "device": "ios",
+      "id": "circuit",
+      "mode": "hard",
+      "geometry": {
+        "W": 360,
+        "H": 729,
+        "kitUIScale": 1.0916666666666666,
+        "orb": {
+          "x": 34.80916030534352,
+          "y": 701.5190839694657,
+          "r": 23.816793893129773
+        },
+        "reserve": 125.54166666666666,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 6,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    },
+    {
+      "device": "ios",
+      "id": "forge",
+      "mode": "easy",
+      "geometry": {
+        "W": 360,
+        "H": 729,
+        "kitUIScale": 1.0916666666666666,
+        "orb": {
+          "x": 34.80916030534352,
+          "y": 701.5190839694657,
+          "r": 23.816793893129773
+        },
+        "reserve": 125.54166666666666,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 8,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    },
+    {
+      "device": "ios",
+      "id": "forge",
+      "mode": "medium",
+      "geometry": {
+        "W": 360,
+        "H": 729,
+        "kitUIScale": 1.0916666666666666,
+        "orb": {
+          "x": 34.80916030534352,
+          "y": 701.5190839694657,
+          "r": 23.816793893129773
+        },
+        "reserve": 125.54166666666666,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 7,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    },
+    {
+      "device": "ios",
+      "id": "forge",
+      "mode": "hard",
+      "geometry": {
+        "W": 360,
+        "H": 729,
+        "kitUIScale": 1.0916666666666666,
+        "orb": {
+          "x": 34.80916030534352,
+          "y": 701.5190839694657,
+          "r": 23.816793893129773
+        },
+        "reserve": 125.54166666666666,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 6,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    },
+    {
+      "device": "android",
+      "id": "carrier",
+      "mode": "easy",
+      "geometry": {
+        "W": 360,
+        "H": 785,
+        "kitUIScale": 1.14375,
+        "orb": {
+          "x": 33.224043715846996,
+          "y": 758.7704918032787,
+          "r": 22.73224043715847
+        },
+        "reserve": 125.8125,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 8,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    },
+    {
+      "device": "android",
+      "id": "carrier",
+      "mode": "medium",
+      "geometry": {
+        "W": 360,
+        "H": 785,
+        "kitUIScale": 1.14375,
+        "orb": {
+          "x": 33.224043715846996,
+          "y": 758.7704918032787,
+          "r": 22.73224043715847
+        },
+        "reserve": 125.8125,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 7,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    },
+    {
+      "device": "android",
+      "id": "carrier",
+      "mode": "hard",
+      "geometry": {
+        "W": 360,
+        "H": 785,
+        "kitUIScale": 1.14375,
+        "orb": {
+          "x": 33.224043715846996,
+          "y": 758.7704918032787,
+          "r": 22.73224043715847
+        },
+        "reserve": 125.8125,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 6,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    },
+    {
+      "device": "android",
+      "id": "circuit",
+      "mode": "easy",
+      "geometry": {
+        "W": 360,
+        "H": 785,
+        "kitUIScale": 1.14375,
+        "orb": {
+          "x": 33.224043715846996,
+          "y": 758.7704918032787,
+          "r": 22.73224043715847
+        },
+        "reserve": 125.8125,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 8,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    },
+    {
+      "device": "android",
+      "id": "circuit",
+      "mode": "medium",
+      "geometry": {
+        "W": 360,
+        "H": 785,
+        "kitUIScale": 1.14375,
+        "orb": {
+          "x": 33.224043715846996,
+          "y": 758.7704918032787,
+          "r": 22.73224043715847
+        },
+        "reserve": 125.8125,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 7,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    },
+    {
+      "device": "android",
+      "id": "circuit",
+      "mode": "hard",
+      "geometry": {
+        "W": 360,
+        "H": 785,
+        "kitUIScale": 1.14375,
+        "orb": {
+          "x": 33.224043715846996,
+          "y": 758.7704918032787,
+          "r": 22.73224043715847
+        },
+        "reserve": 125.8125,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 6,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    },
+    {
+      "device": "android",
+      "id": "forge",
+      "mode": "easy",
+      "geometry": {
+        "W": 360,
+        "H": 785,
+        "kitUIScale": 1.14375,
+        "orb": {
+          "x": 33.224043715846996,
+          "y": 758.7704918032787,
+          "r": 22.73224043715847
+        },
+        "reserve": 125.8125,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 8,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    },
+    {
+      "device": "android",
+      "id": "forge",
+      "mode": "medium",
+      "geometry": {
+        "W": 360,
+        "H": 785,
+        "kitUIScale": 1.14375,
+        "orb": {
+          "x": 33.224043715846996,
+          "y": 758.7704918032787,
+          "r": 22.73224043715847
+        },
+        "reserve": 125.8125,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 7,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    },
+    {
+      "device": "android",
+      "id": "forge",
+      "mode": "hard",
+      "geometry": {
+        "W": 360,
+        "H": 785,
+        "kitUIScale": 1.14375,
+        "orb": {
+          "x": 33.224043715846996,
+          "y": 758.7704918032787,
+          "r": 22.73224043715847
+        },
+        "reserve": 125.8125,
+        "spacePowers": true
+      },
+      "powers": [
+        {
+          "kind": "laser",
+          "laser": 6,
+          "titans": 0,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "titan",
+          "laser": 0,
+          "titans": 1,
+          "count": 1,
+          "caught": 1
+        },
+        {
+          "kind": "five",
+          "laser": 0,
+          "titans": 0,
+          "count": 5,
+          "caught": 0
+        }
+      ],
+      "actualTouchModalPauseRetry": true,
+      "errors": []
+    }
+  ]
+}

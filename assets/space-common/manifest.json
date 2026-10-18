@@ -1,0 +1,730 @@
+{
+  "version": 1,
+  "status": "Intact components normalized; alpha/crop and native raster context passed; Canvas assembly/owner review pending",
+  "source": "art/space/source/common-atlas-original.png",
+  "sourceSHA256": "7183a7727a7f24c44090908a7c6ac3f1dfd60955b2124d31ab13aa8639fd3505",
+  "prompt": "art/space/common-prompt.md",
+  "recipe": "art/space/common-crops.json",
+  "normalizer": "art/space/normalize_common.py",
+  "references": [
+    "design/phase1/img/space-carrier-a.png",
+    "design/phase1/img/space-relay-b.png"
+  ],
+  "pxPerWorldUnit": 3,
+  "filter": "linear",
+  "sourcePreserved": "Returned original retained byte-for-byte. source-crops preserve original pixels in each lossless crop; canonical cells remove disconnected faint alpha flecks and resample uniformly. No painted geometry changes.",
+  "parts": {
+    "brick_cyan": {
+      "path": "assets/space-common/brick_cyan.png",
+      "size": [
+        132,
+        84
+      ],
+      "pivot": [
+        66.0,
+        42.0
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.5
+      ],
+      "cellWorldUnits": [
+        44,
+        28
+      ],
+      "visibleTargetWorldUnits": [
+        36,
+        20
+      ],
+      "actualAlphaBounds": [
+        12,
+        17,
+        120,
+        67
+      ],
+      "solidAlphaBounds": [
+        13,
+        18,
+        119,
+        66
+      ],
+      "actualVisibleWorldUnits": [
+        35.333333333333336,
+        16.0
+      ],
+      "collisionSuggestedWorldUnits": [
+        35.333333333333336,
+        16.0
+      ],
+      "sourceRegion": [
+        0,
+        100,
+        430,
+        440
+      ],
+      "sourceCropWithinRegion": [
+        33,
+        91,
+        414,
+        269
+      ],
+      "sourceCrop": "assets/space-common/source-crops/brick_cyan.png",
+      "uniformScale": 0.28346456692913385,
+      "sha256": "6433636655ec29ba4b10bb03ac80bc762190ec02e535ee6234b72ba621e5fd98",
+      "role": "Breakable cyan enamel brick",
+      "states": [
+        "intact"
+      ],
+      "aperture": null,
+      "notes": "Uniform contain normalization preserves the generated aspect. Collision should use measured visible art, not the larger transparent cell.",
+      "source": "art/space/source/common-atlas-original.png",
+      "sourceSHA256": "7183a7727a7f24c44090908a7c6ac3f1dfd60955b2124d31ab13aa8639fd3505"
+    },
+    "brick_violet": {
+      "path": "assets/space-common/brick_violet.png",
+      "size": [
+        132,
+        84
+      ],
+      "pivot": [
+        66.0,
+        42.0
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.5
+      ],
+      "cellWorldUnits": [
+        44,
+        28
+      ],
+      "visibleTargetWorldUnits": [
+        36,
+        20
+      ],
+      "actualAlphaBounds": [
+        12,
+        17,
+        120,
+        66
+      ],
+      "solidAlphaBounds": [
+        13,
+        18,
+        119,
+        65
+      ],
+      "actualVisibleWorldUnits": [
+        35.333333333333336,
+        15.666666666666666
+      ],
+      "collisionSuggestedWorldUnits": [
+        35.333333333333336,
+        15.666666666666666
+      ],
+      "sourceRegion": [
+        440,
+        100,
+        890,
+        440
+      ],
+      "sourceCropWithinRegion": [
+        24,
+        91,
+        416,
+        269
+      ],
+      "sourceCrop": "assets/space-common/source-crops/brick_violet.png",
+      "uniformScale": 0.2755102040816326,
+      "sha256": "4a6563431caca5e83378822dc35f54ebeb8c74e35e541e0ee353eff0c4402b03",
+      "role": "Breakable violet enamel brick",
+      "states": [
+        "intact"
+      ],
+      "aperture": null,
+      "notes": "Uniform contain normalization preserves the generated aspect. Collision should use measured visible art, not the larger transparent cell.",
+      "source": "art/space/source/common-atlas-original.png",
+      "sourceSHA256": "7183a7727a7f24c44090908a7c6ac3f1dfd60955b2124d31ab13aa8639fd3505"
+    },
+    "brick_armour": {
+      "path": "assets/space-common/brick_armour.png",
+      "size": [
+        84,
+        84
+      ],
+      "pivot": [
+        42.0,
+        42.0
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.5
+      ],
+      "cellWorldUnits": [
+        28,
+        28
+      ],
+      "visibleTargetWorldUnits": [
+        20,
+        20
+      ],
+      "actualAlphaBounds": [
+        12,
+        12,
+        72,
+        72
+      ],
+      "solidAlphaBounds": [
+        12,
+        13,
+        72,
+        71
+      ],
+      "actualVisibleWorldUnits": [
+        20.0,
+        19.333333333333332
+      ],
+      "collisionSuggestedWorldUnits": [
+        20.0,
+        19.333333333333332
+      ],
+      "sourceRegion": [
+        900,
+        100,
+        1254,
+        440
+      ],
+      "sourceCropWithinRegion": [
+        32,
+        39,
+        306,
+        314
+      ],
+      "sourceCrop": "assets/space-common/source-crops/brick_armour.png",
+      "uniformScale": 0.21818181818181817,
+      "sha256": "cf43a70b894dbc4ff4646eff7eff505831d4b79c452a022363730e3849f9d629",
+      "role": "Dark silver X-armour clamp; HP cracks are a separate mechanical preview overlay",
+      "states": [
+        "intact"
+      ],
+      "aperture": null,
+      "notes": "Uniform contain normalization preserves the generated aspect. Collision should use measured visible art, not the larger transparent cell.",
+      "source": "art/space/source/common-atlas-original.png",
+      "sourceSHA256": "7183a7727a7f24c44090908a7c6ac3f1dfd60955b2124d31ab13aa8639fd3505"
+    },
+    "brick_crew_lock": {
+      "path": "assets/space-common/brick_crew_lock.png",
+      "size": [
+        132,
+        84
+      ],
+      "pivot": [
+        66.0,
+        42.0
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.5
+      ],
+      "cellWorldUnits": [
+        44,
+        28
+      ],
+      "visibleTargetWorldUnits": [
+        36,
+        20
+      ],
+      "actualAlphaBounds": [
+        14,
+        12,
+        118,
+        72
+      ],
+      "solidAlphaBounds": [
+        15,
+        13,
+        117,
+        71
+      ],
+      "actualVisibleWorldUnits": [
+        34.0,
+        19.333333333333332
+      ],
+      "collisionSuggestedWorldUnits": [
+        34.0,
+        19.333333333333332
+      ],
+      "sourceRegion": [
+        0,
+        510,
+        430,
+        810
+      ],
+      "sourceCropWithinRegion": [
+        32,
+        47,
+        409,
+        265
+      ],
+      "sourceCrop": "assets/space-common/source-crops/brick_crew_lock.png",
+      "uniformScale": 0.27522935779816515,
+      "sha256": "9541824d873f3d86d44e05cdb4cc1cb048ecc8b26c943bf91a610475d9b5847c",
+      "role": "Empty lock mounting tile; central alpha aperture accepts a separate payload behind; no character baked in",
+      "states": [
+        "intact"
+      ],
+      "aperture": {
+        "safeTransparentPixels": [
+          45,
+          34,
+          87,
+          51
+        ],
+        "safeTransparentNormalized": [
+          0.3409090909090909,
+          0.40476190476190477,
+          0.3181818181818182,
+          0.20238095238095238
+        ],
+        "layering": "Payload behind frame; this tile contains no worker or glass",
+        "mountCenterPixels": [
+          66,
+          42
+        ]
+      },
+      "notes": "Uniform contain normalization preserves the generated aspect. Collision should use measured visible art, not the larger transparent cell.",
+      "source": "art/space/source/common-atlas-original.png",
+      "sourceSHA256": "7183a7727a7f24c44090908a7c6ac3f1dfd60955b2124d31ab13aa8639fd3505"
+    },
+    "paddle": {
+      "path": "assets/space-common/paddle.png",
+      "size": [
+        252,
+        72
+      ],
+      "pivot": [
+        126.0,
+        36.0
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.5
+      ],
+      "cellWorldUnits": [
+        84,
+        24
+      ],
+      "visibleTargetWorldUnits": [
+        76,
+        16
+      ],
+      "actualAlphaBounds": [
+        28,
+        12,
+        224,
+        60
+      ],
+      "solidAlphaBounds": [
+        29,
+        13,
+        223,
+        58
+      ],
+      "actualVisibleWorldUnits": [
+        64.66666666666667,
+        15.0
+      ],
+      "collisionSuggestedWorldUnits": [
+        64.66666666666667,
+        15.0
+      ],
+      "sourceRegion": [
+        430,
+        530,
+        970,
+        810
+      ],
+      "sourceCropWithinRegion": [
+        9,
+        80,
+        500,
+        200
+      ],
+      "sourceCrop": "assets/space-common/source-crops/paddle.png",
+      "uniformScale": 0.4,
+      "sha256": "f90d9d8ab378d1e7485e5af6ca6f42094ed039e450068cf48fbeffe192270690",
+      "role": "Cyan metal player paddle",
+      "states": [
+        "intact"
+      ],
+      "aperture": null,
+      "notes": "Uniform contain normalization preserves the generated aspect. Collision should use measured visible art, not the larger transparent cell.",
+      "source": "art/space/source/common-atlas-original.png",
+      "sourceSHA256": "7183a7727a7f24c44090908a7c6ac3f1dfd60955b2124d31ab13aa8639fd3505"
+    },
+    "ball": {
+      "path": "assets/space-common/ball.png",
+      "size": [
+        60,
+        60
+      ],
+      "pivot": [
+        30.0,
+        30.0
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.5
+      ],
+      "cellWorldUnits": [
+        20,
+        20
+      ],
+      "visibleTargetWorldUnits": [
+        12,
+        12
+      ],
+      "actualAlphaBounds": [
+        12,
+        12,
+        48,
+        48
+      ],
+      "solidAlphaBounds": [
+        13,
+        13,
+        47,
+        47
+      ],
+      "actualVisibleWorldUnits": [
+        11.333333333333334,
+        11.333333333333334
+      ],
+      "collisionSuggestedWorldUnits": [
+        10,
+        10
+      ],
+      "sourceRegion": [
+        990,
+        510,
+        1254,
+        830
+      ],
+      "sourceCropWithinRegion": [
+        23,
+        63,
+        203,
+        243
+      ],
+      "sourceCrop": "assets/space-common/source-crops/ball.png",
+      "uniformScale": 0.2,
+      "sha256": "249c2451d683ca1ac68c39596c97c12607988681545c7db19dbf03a32e0abf00",
+      "role": "White luminous gameplay ball; no trail baked in",
+      "states": [
+        "intact"
+      ],
+      "aperture": null,
+      "notes": "Uniform contain normalization preserves the generated aspect. Collision should use measured visible art, not the larger transparent cell. Tight outer halo is decorative; opaque pearl core is about10u.",
+      "source": "art/space/source/common-atlas-original.png",
+      "sourceSHA256": "7183a7727a7f24c44090908a7c6ac3f1dfd60955b2124d31ab13aa8639fd3505"
+    },
+    "capsule_laser": {
+      "path": "assets/space-common/capsule_laser.png",
+      "size": [
+        96,
+        66
+      ],
+      "pivot": [
+        48.0,
+        33.0
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.5
+      ],
+      "cellWorldUnits": [
+        32,
+        22
+      ],
+      "visibleTargetWorldUnits": [
+        24,
+        14
+      ],
+      "actualAlphaBounds": [
+        12,
+        15,
+        84,
+        51
+      ],
+      "solidAlphaBounds": [
+        12,
+        15,
+        84,
+        50
+      ],
+      "actualVisibleWorldUnits": [
+        24.0,
+        11.666666666666666
+      ],
+      "collisionSuggestedWorldUnits": [
+        24.0,
+        11.666666666666666
+      ],
+      "sourceRegion": [
+        0,
+        890,
+        425,
+        1160
+      ],
+      "sourceCropWithinRegion": [
+        41,
+        40,
+        391,
+        215
+      ],
+      "sourceCrop": "assets/space-common/source-crops/capsule_laser.png",
+      "uniformScale": 0.2057142857142857,
+      "sha256": "1a6fb424897bd98333413cd847c993411d43cb6f76741e36524fb63f3541cf20",
+      "role": "Laser pickup; two bright parallel beam marks, no text",
+      "states": [
+        "intact"
+      ],
+      "aperture": null,
+      "notes": "Uniform contain normalization preserves the generated aspect. Collision should use measured visible art, not the larger transparent cell.",
+      "source": "art/space/source/common-atlas-original.png",
+      "sourceSHA256": "7183a7727a7f24c44090908a7c6ac3f1dfd60955b2124d31ab13aa8639fd3505"
+    },
+    "capsule_split": {
+      "path": "assets/space-common/capsule_split.png",
+      "size": [
+        96,
+        66
+      ],
+      "pivot": [
+        48.0,
+        33.0
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.5
+      ],
+      "cellWorldUnits": [
+        32,
+        22
+      ],
+      "visibleTargetWorldUnits": [
+        24,
+        14
+      ],
+      "actualAlphaBounds": [
+        12,
+        15,
+        84,
+        51
+      ],
+      "solidAlphaBounds": [
+        12,
+        15,
+        83,
+        51
+      ],
+      "actualVisibleWorldUnits": [
+        23.666666666666668,
+        12.0
+      ],
+      "collisionSuggestedWorldUnits": [
+        23.666666666666668,
+        12.0
+      ],
+      "sourceRegion": [
+        430,
+        890,
+        845,
+        1160
+      ],
+      "sourceCropWithinRegion": [
+        30,
+        40,
+        378,
+        215
+      ],
+      "sourceCrop": "assets/space-common/source-crops/capsule_split.png",
+      "uniformScale": 0.20689655172413793,
+      "sha256": "229cd3f1bde33c1c550918dae79ff06557a6ea15ba4a7998f9e17492aa0d6114",
+      "role": "Split pickup; three branching balls, no text",
+      "states": [
+        "intact"
+      ],
+      "aperture": null,
+      "notes": "Uniform contain normalization preserves the generated aspect. Collision should use measured visible art, not the larger transparent cell.",
+      "source": "art/space/source/common-atlas-original.png",
+      "sourceSHA256": "7183a7727a7f24c44090908a7c6ac3f1dfd60955b2124d31ab13aa8639fd3505"
+    },
+    "capsule_shield": {
+      "path": "assets/space-common/capsule_shield.png",
+      "size": [
+        96,
+        66
+      ],
+      "pivot": [
+        48.0,
+        33.0
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.5
+      ],
+      "cellWorldUnits": [
+        32,
+        22
+      ],
+      "visibleTargetWorldUnits": [
+        24,
+        14
+      ],
+      "actualAlphaBounds": [
+        12,
+        15,
+        84,
+        51
+      ],
+      "solidAlphaBounds": [
+        12,
+        15,
+        84,
+        51
+      ],
+      "actualVisibleWorldUnits": [
+        24.0,
+        12.0
+      ],
+      "collisionSuggestedWorldUnits": [
+        24.0,
+        12.0
+      ],
+      "sourceRegion": [
+        850,
+        890,
+        1254,
+        1160
+      ],
+      "sourceCropWithinRegion": [
+        17,
+        39,
+        364,
+        214
+      ],
+      "sourceCrop": "assets/space-common/source-crops/capsule_shield.png",
+      "uniformScale": 0.207492795389049,
+      "sha256": "f8d4eb1d711f767d9ca6f64c1c763d532fb0b8381047d50dcd0d4907838c5741",
+      "role": "Shield pickup; shield outline, no text",
+      "states": [
+        "intact"
+      ],
+      "aperture": null,
+      "notes": "Uniform contain normalization preserves the generated aspect. Collision should use measured visible art, not the larger transparent cell.",
+      "source": "art/space/source/common-atlas-original.png",
+      "sourceSHA256": "7183a7727a7f24c44090908a7c6ac3f1dfd60955b2124d31ab13aa8639fd3505"
+    },
+    "brick_pink": {
+      "path": "assets/space-common/brick_pink.png",
+      "size": [
+        132,
+        84
+      ],
+      "pivot": [
+        66.0,
+        42.0
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.5
+      ],
+      "cellWorldUnits": [
+        44,
+        28
+      ],
+      "visibleTargetWorldUnits": [
+        36,
+        20
+      ],
+      "actualAlphaBounds": [
+        12,
+        17,
+        120,
+        66
+      ],
+      "solidAlphaBounds": [
+        12,
+        17,
+        120,
+        66
+      ],
+      "actualVisibleWorldUnits": [
+        36.0,
+        16.333333333333332
+      ],
+      "collisionSuggestedWorldUnits": [
+        36.0,
+        16.333333333333332
+      ],
+      "sourceRegion": [
+        0,
+        0,
+        1836,
+        857
+      ],
+      "sourceCropWithinRegion": [
+        8,
+        12,
+        1826,
+        834
+      ],
+      "sourceCrop": "assets/space-common/source-crops/brick_pink.png",
+      "uniformScale": 0.0594059405940594,
+      "sha256": "fd6a94b4d17e830e2036ea15916e8feb37f06ea66b32c738859003f9742a4c31",
+      "role": "Historical common-chassis rose variant; Carrier A uses its dedicated panel brick",
+      "states": [
+        "intact"
+      ],
+      "aperture": null,
+      "notes": "Uniform contain normalization preserves the generated aspect. Collision should use measured visible art, not the larger transparent cell. Superseded for Carrier A by its dedicated mechanical panel family.",
+      "source": "art/space/source/brick-pink-original.png",
+      "sourceSHA256": "3b3a2bd067b5a6b7074260209c72d9285540c80fb3cc96cbef2a1db3654856f9",
+      "prompt": "art/space/brick-pink-prompt.md",
+      "supersededBy": "assets/space-a/brick_pink.png"
+    }
+  },
+  "qa": "out/space-common-proof/checks.json",
+  "backgrounds": {
+    "a": {
+      "path": "assets/space-a/background.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "sha256": "96125f702e2e0044d6d099868ebecdef0b1b83a56624937f6ffaed96aebad3db",
+      "source": "art/space/source/background-a-footprint-original.png",
+      "prompt": "art/space/background-a-footprint-prompt.md",
+      "centralLuminanceMean8bit": 8.644260670979817,
+      "centralLuminanceP95_8bit": 13.1952,
+      "fit": "uniform cover, right anchor; no extra wash or lower mask; rocks and planet are distant decoration with no collision"
+    },
+    "b": {
+      "path": "assets/space-b/background.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB",
+      "sha256": "f41cbd9891bf42e2b6336f41bd4dc24edab5870f916de9448a7bd0ff71503bac",
+      "source": "art/space/source/background-b-footprint-original.png",
+      "prompt": "art/space/background-b-footprint-prompt.md",
+      "centralLuminanceMean8bit": 4.197224665578205,
+      "centralLuminanceP95_8bit": 8.5442,
+      "fit": "uniform cover, right anchor; no extra wash or lower mask; rocks and planet are distant decoration with no collision"
+    }
+  },
+  "carrierOverride": "assets/space-a/common-panels-manifest.json"
+}

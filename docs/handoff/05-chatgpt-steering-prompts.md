@@ -224,7 +224,7 @@ Building is where most of the usage goes: rendering, coding, playtesting and fix
 1. **Design** in the ChatGPT project, then download the packaged files (section 7).
 2. **Put them in the repo** under `design/phase1/`. Either upload them on github.com (Add file → Upload files), or give them to Codex and ask it to add them.
 3. **Build:** open Codex and give it the prompt below. Use the Codex app, or the CLI in a local clone (`git clone https://github.com/mahikshith/breaker`).
-   - Blender rendering needs Python 3.11 and `pip install bpy==5.2.2`.
+   - Blender rendering needs Python 3.13 and `pip install bpy==5.2.2`.
    - A local clone on your computer is the safest place to run Blender. Cloud Codex may work too if its environment can install bpy, so test it with one small render first.
 4. **Review** the screenshots it shows you. Merge only when you're happy.
 5. **Don't run Codex and Claude on the repo at the same time.** If you do bring Claude back, say so, and Claude pulls the latest `main` first.
@@ -233,10 +233,10 @@ Building is where most of the usage goes: rendering, coding, playtesting and fix
 
 One-time setup on your computer:
 
-1. Install Git, Node.js 22 and Python 3.11. bpy 5.2 needs exactly Python 3.11.
+1. Install Git, Node.js 22 and Python 3.13. bpy 5.2.2 needs Python 3.13.
 2. Open Codex: in the ChatGPT desktop app, switch to the **Codex** view from the top-left menu (or use the CLI, `npm install -g @openai/codex`). Create a Codex project as **Local**, not Cloud, so it runs on your computer where Blender can run. A Codex project is a code folder, separate from a ChatGPT Project; the GitHub repo connects the two.
 3. Run `git clone https://github.com/mahikshith/breaker` and open the folder in Codex. Codex reads `AGENTS.md` automatically.
-4. Tell Codex: "Set up this repo exactly as AGENTS.md says (npm install, a Python 3.11 venv with bpy 5.2.2, pillow, numpy, Playwright), then run npm run build and npm test."
+4. Tell Codex: "Set up this repo exactly as AGENTS.md says (npm install, a Python 3.13 venv with bpy 5.2.2, pillow, numpy, Playwright), then run npm run build and npm test."
 5. Tell Codex: "Render one test frame with `python3 art/princess.py out/test Idle:1` and show me the image." If you see the princess, Codex can drive Blender.
 
 For each task:
@@ -253,7 +253,7 @@ fully, especially Parts E-G, and docs/BREACH-blender-scripts.md. Work only on a 
 named codex/<task>. Never commit to main.
 Set the git identity first: git config user.name mahikshith; git config user.email mahikshith97@gmail.com.
 Never add AI attribution to commits or files.
-Render with Blender as a Python module (pip install bpy==5.2.2, Python 3.11), headless, reusing the existing
+Render with Blender as a Python module (pip install bpy==5.2.2, Python 3.13), headless, reusing the existing
 material/light rig from art/render_vault_assets.py and the face rig approach from art/princess.py.
 Strip PNG metadata before committing (command in Part F section 3), run python3 tools/pack_art.py and
 npm run build, then show me the rendered sheet images before committing.

@@ -1,0 +1,49 @@
+{
+  "cell": 168,
+  "unit": 56,
+  "height": 42,
+  "feet": 4,
+  "fps": 14,
+  "anims": {
+    "Idle": {
+      "frames": 16,
+      "fps": 14,
+      "loop": true
+    },
+    "Focus": {
+      "frames": 12,
+      "fps": 14,
+      "loop": true
+    },
+    "Grin": {
+      "frames": 12,
+      "fps": 14,
+      "loop": true
+    },
+    "Shock": {
+      "frames": 8,
+      "fps": 14,
+      "loop": false
+    },
+    "Worried": {
+      "frames": 12,
+      "fps": 14,
+      "loop": true
+    },
+    "Cheer": {
+      "frames": 16,
+      "fps": 14,
+      "loop": true
+    },
+    "Hurt": {
+      "frames": 8,
+      "fps": 14,
+      "loop": false
+    },
+    "Laugh": {
+      "frames": 16,
+      "fps": 14,
+      "loop": true
+    }
+  }
+}

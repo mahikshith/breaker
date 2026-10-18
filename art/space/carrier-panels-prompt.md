@@ -1,0 +1,12 @@
+# Carrier A dedicated crate panels and flat paddle
+
+Use case: precise-object-edit.
+Input1 is an exact crop of Carrier A's cyan crate. Input2 is its rose crate. Input3 is its flat player paddle. Input4 is the original approved Carrier Breakout board; use its LEFT gameplay view only. These are the authoritative shapes, not the rounded gemstone bricks and tubular paddle in Relay B.
+
+Create one transparent three-component source sheet that faithfully recreates those three exact gameplay objects at higher resolution. Top left: the cyan crate. Top right: the rose/magenta crate. Bottom center: the long flat metal cyan paddle. Every part is separate, complete and centered with at least100pixels of empty transparent gutter; no overlap, captions or other objects. Genuine RGBA transparency, no scenery.
+
+Crates: front orthographic horizontal rectangular metal/enamel panels, visible aspect about1.9:1. Preserve the source's relatively FLAT broad face and slim bevel perimeter. The source geometry has four inset diagonal seams running from the four inner corner regions toward one small central hexagonal/square locking panel, forming an embossed X/four corner panel construction. Include the source's tiny corner fasteners. Keep these seams broad enough to read at36×20worldunits. This is a mechanical cargo crate, NOT a faceted gemstone or a glowing rounded capsule. The cyan plate is rich medium cyan/blue with restrained pale upper-left highlights. The rose plate is saturated warm rose/magenta with deeper plum corner facets, not violet. Both use the same chassis and identical seam layout, camera and light.
+
+Paddle: faithfully match input3's long low FLAT faceted metal shape. Visible aspect about6.5:1. It has a thin bright cyan upper strip and side brackets, short silver bevelled caps at both ends, and a broad dark slate angular center/front panel with two small corner screw marks. It is not a glossy tubular pill or a cylinder. Preserve the shallow angular underside and silver top bevel from the crop. Front orthographic, no perspective tilt.
+
+Same polished illustrated3D asset language and warm upper-left/cool violet fill as the board. Keep hard panel construction clean and the highlights restrained; do not add ornate grooves or noisy scratches. Do not draw text, letters, captions, stars, background, ships, characters, faces, companions, cannon parts, trails, shadows on a floor, UI, watermarks or borders. The final sprites will be cropped and uniformly normalized into center-pivot cells; do not crop the outer metal edges in the source sheet.

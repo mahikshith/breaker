@@ -1,0 +1,314 @@
+[
+  {
+    "key": "a_hull",
+    "target": "assets/space-a/carrier_hull.png",
+    "source": "art/space/source/a_hull.png",
+    "sha256": "9b1be2b66c4728a89ae0d21bcc53540a9f74d3f194a0980e33a70d264fdc5cb0",
+    "sourceSize": [
+      2060,
+      763
+    ],
+    "cropAlphaThreshold": 16,
+    "crop": [
+      5,
+      13,
+      2054,
+      727
+    ],
+    "size": [
+      2057,
+      722
+    ],
+    "transparentFraction": 0.3424
+  },
+  {
+    "key": "b_hull",
+    "target": "assets/space-b/relay_hull.png",
+    "source": "art/space/source/b_hull.png",
+    "sha256": "9c8f6bcfedf08531e04f73377a843e09e627b44d92ca2d9df4065a47ee410e31",
+    "sourceSize": [
+      1860,
+      846
+    ],
+    "cropAlphaThreshold": 16,
+    "crop": [
+      0,
+      0,
+      1860,
+      846
+    ],
+    "size": [
+      1868,
+      854
+    ],
+    "transparentFraction": 0.3988
+  },
+  {
+    "key": "a_cannon_v2",
+    "target": "assets/space-a/cannon_barrel.png",
+    "source": "art/space/source/a_cannon_v2.png",
+    "sha256": "7aa333c33e806a030a64f38333b2b822b200f3c75c8aff59e4892be304957fa9",
+    "sourceSize": [
+      1391,
+      1131
+    ],
+    "cropAlphaThreshold": 16,
+    "crop": [
+      344,
+      35,
+      1044,
+      1089
+    ],
+    "size": [
+      708,
+      1062
+    ],
+    "transparentFraction": 0.6582
+  },
+  {
+    "key": "b_cannon",
+    "target": "assets/space-b/cannon_barrel.png",
+    "source": "art/space/source/b_cannon.png",
+    "sha256": "9e53a947eeea5e15097dc68433657bab415101684e653ecd0ac04c4a73f30afe",
+    "sourceSize": [
+      1536,
+      1024
+    ],
+    "cropAlphaThreshold": 16,
+    "crop": [
+      340,
+      32,
+      1194,
+      962
+    ],
+    "size": [
+      862,
+      938
+    ],
+    "transparentFraction": 0.6491
+  },
+  {
+    "key": "a_fighter",
+    "target": "assets/space-a/fighter.png",
+    "source": "art/space/source/a_fighter.png",
+    "sha256": "f75025aa578627068bb7a990bed8ad1b6ea0708dce45867166a491a321120374",
+    "sourceSize": [
+      1536,
+      1024
+    ],
+    "cropAlphaThreshold": 16,
+    "crop": [
+      116,
+      29,
+      1422,
+      988
+    ],
+    "size": [
+      1314,
+      967
+    ],
+    "transparentFraction": 0.6235
+  },
+  {
+    "key": "b_skiff",
+    "target": "assets/space-b/skiff.png",
+    "source": "art/space/source/b_skiff.png",
+    "sha256": "1a09634bc06bc6035fb45002d71adf1ae9e4319f48e50ba4b2b217ed1501e4be",
+    "sourceSize": [
+      1536,
+      1024
+    ],
+    "cropAlphaThreshold": 16,
+    "crop": [
+      182,
+      141,
+      1354,
+      876
+    ],
+    "size": [
+      1180,
+      743
+    ],
+    "transparentFraction": 0.5861
+  },
+  {
+    "key": "a_doors",
+    "target": "assets/space-a/doors.png",
+    "source": "art/space/source/a_doors.png",
+    "sha256": "736218cc25b0c622b7e310f1a0cb01f36689fd403539eba12064e74aa3082b72",
+    "sourceSize": [
+      2172,
+      724
+    ],
+    "cropAlphaThreshold": 16,
+    "crop": [
+      21,
+      78,
+      2148,
+      642
+    ],
+    "size": [
+      2135,
+      572
+    ],
+    "transparentFraction": 0.2781
+  },
+  {
+    "key": "a_door_left",
+    "target": "assets/space-a/door_left.png",
+    "size": [
+      1075,
+      580
+    ],
+    "sha256": "143a85dec73f4be898f24e726fbafd515d0134fbab2e8035f8c3c1cc0b56a888",
+    "sliceX": [
+      0,
+      1067
+    ]
+  },
+  {
+    "key": "a_door_right",
+    "target": "assets/space-a/door_right.png",
+    "size": [
+      1076,
+      580
+    ],
+    "sha256": "c64a4fc4cf2b546802c19194e8518b897993ab681553fa8ffca096e81fc51fa1",
+    "sliceX": [
+      1067,
+      2135
+    ]
+  },
+  {
+    "key": "b_iris",
+    "target": "assets/space-b/iris_segment.png",
+    "source": "art/space/source/b_iris.png",
+    "sha256": "099278e1baa3786dd2efcb504635f3023a4621ec895086439836ccb923cfee06",
+    "sourceSize": [
+      1536,
+      1024
+    ],
+    "cropAlphaThreshold": 16,
+    "crop": [
+      144,
+      62,
+      1397,
+      962
+    ],
+    "size": [
+      1261,
+      908
+    ],
+    "transparentFraction": 0.6843
+  },
+  {
+    "key": "b_pod",
+    "target": "assets/space-b/pod_shell.png",
+    "source": "art/space/source/b_pod.png",
+    "sha256": "9a288792df913bde461f1b6445e1fb075c0d06be7052521461b2dce21fc61a96",
+    "sourceSize": [
+      1377,
+      1142
+    ],
+    "cropAlphaThreshold": 16,
+    "crop": [
+      79,
+      62,
+      1298,
+      1083
+    ],
+    "size": [
+      1227,
+      1029
+    ],
+    "transparentFraction": 0.4396
+  },
+  {
+    "key": "a_worker",
+    "target": "assets/space-a/worker.png",
+    "source": "art/space/source/a_worker.png",
+    "sha256": "93b2ca753032ca621e0a64602f1c90470c18186a1e9e0cc060f45b9bbe69c88e",
+    "sourceSize": [
+      1316,
+      1195
+    ],
+    "cropAlphaThreshold": 16,
+    "crop": [
+      295,
+      180,
+      1009,
+      1003
+    ],
+    "size": [
+      722,
+      831
+    ],
+    "transparentFraction": 0.7013
+  },
+  {
+    "key": "b_worker",
+    "target": "assets/space-b/worker.png",
+    "source": "art/space/source/b_worker.png",
+    "sha256": "685d5d066e5cc18a89029ad231d366e1217ce316541f963a59c31daa55ba04a5",
+    "sourceSize": [
+      1374,
+      1145
+    ],
+    "cropAlphaThreshold": 16,
+    "crop": [
+      348,
+      213,
+      1015,
+      973
+    ],
+    "size": [
+      675,
+      768
+    ],
+    "transparentFraction": 0.7517
+  },
+  {
+    "key": "plume",
+    "target": "assets/space-a/thruster.png",
+    "source": "art/space/source/plume.png",
+    "sha256": "c36266ea6681540b21bc2b209cf683ef44a7926c233fbc788a6c8669397c2035",
+    "sourceSize": [
+      793,
+      1983
+    ],
+    "cropAlphaThreshold": 16,
+    "crop": [
+      88,
+      215,
+      707,
+      1787
+    ],
+    "size": [
+      627,
+      1580
+    ],
+    "transparentFraction": 0.5662
+  },
+  {
+    "key": "b_portal",
+    "target": "assets/space-b/portal.png",
+    "source": "art/space/source/b_portal.png",
+    "sha256": "65e4354713e397f7efdd96db16b79528a2aba750b8b58fc95f7f3633f01ae111",
+    "sourceSize": [
+      1265,
+      1243
+    ],
+    "cropAlphaThreshold": 16,
+    "crop": [
+      59,
+      55,
+      1206,
+      1182
+    ],
+    "size": [
+      1155,
+      1135
+    ],
+    "transparentFraction": 0.249
+  }
+]

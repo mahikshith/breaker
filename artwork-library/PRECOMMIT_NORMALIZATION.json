@@ -1,0 +1,72 @@
+[
+  {
+    "originalSHA256": "467dc6d3a210b24b951c2922fea6562a17f497de924ad9e35a4c63f180e32e35",
+    "normalizedSHA256": "bc137f2b3036c0c2bbf1a4d92551c54ee13c490b9723160f4f315291b3255629",
+    "sources": [
+      "out/brum-proof/isolated-brum_blue.png"
+    ],
+    "pixelsUnchanged": true,
+    "note": "Removed render metadata before first commit, as required by AGENTS.md."
+  },
+  {
+    "originalSHA256": "a4409b83e80fa3613b8b08241139eeab98d414e373eb04635cdc30266f92c1f8",
+    "normalizedSHA256": "2c0727dc13ab760d0749a4d70ac9bf2e5adc1478a256cebd0577cfad7bb360ff",
+    "sources": [
+      "out/brum-proof/isolated-brum_cavity.png"
+    ],
+    "pixelsUnchanged": true,
+    "note": "Removed render metadata before first commit, as required by AGENTS.md."
+  },
+  {
+    "originalSHA256": "45fb462fc3590c3e1f3917c66a66891934bb4ccde232bd4d09e30b82bd463f4f",
+    "normalizedSHA256": "60e6b3a5b891e5ce54a1b492f577c587c8f139be62e034f9d79abdc4b76bd84b",
+    "sources": [
+      "out/brum-proof/isolated-brum_eyes.png"
+    ],
+    "pixelsUnchanged": true,
+    "note": "Removed render metadata before first commit, as required by AGENTS.md."
+  },
+  {
+    "originalSHA256": "cd58fb0d232a23a3cc6dd6144500daf115402632f465713e1f4675ce96d13838",
+    "normalizedSHA256": "b5565431f3fbb898f701f4dcb04e95fb40095ac1c4aaa2e9b62a7d6cc3202757",
+    "sources": [
+      "out/brum-proof/isolated-matte-eyes.png"
+    ],
+    "pixelsUnchanged": true,
+    "note": "Removed render metadata before first commit, as required by AGENTS.md."
+  },
+  {
+    "originalSHA256": "3ff5b09decad152b81186a30a1a4212dba998e3eee60fb8e1d42bba686ac3da8",
+    "normalizedSHA256": "0b5a8f7481c1b92ad8b723ee79f1f55727ecbc70d8a4800bb25c48caf8824a7c",
+    "sources": [
+      "out/brum-proof/isolated-white-eyes.png"
+    ],
+    "pixelsUnchanged": true,
+    "note": "Removed render metadata before first commit, as required by AGENTS.md."
+  },
+  {
+    "originalSHA256": "b64e70a2ae06e916b95eaaca86a9a3b4c329bbb81202009ebf0de98ab45d72ce",
+    "normalizedSHA256": "097230946b50cb1037897560e02031df011315710558edb57e556bcd3b2d07bd",
+    "sources": [
+      "out/brum-proof/skin-front/Neutral_00.png"
+    ],
+    "pixelsUnchanged": true,
+    "note": "Removed render metadata before first commit, as required by AGENTS.md."
+  },
+  {
+    "originalSHA256": "42a7d84ba3fd78df26143d003e2401e47e122d2286c9de43b8c38809462d5f9b",
+    "normalizedSHA256": "e32d08a6b8e0058f8d97e15feaabb1ebed9a9c26489e483e7365a2e20e0dc510",
+    "sources": [
+      "out/cast/anatomy-audit/Animal Pack Vol.2 by @Quaternius/Preview.png"
+    ],
+    "pixelsUnchanged": true,
+    "note": "Removed render metadata before first commit, as required by AGENTS.md."
+  },
+  {
+    "originalSHA256": "51328c5226ce9b81b54fda5a4de500d27726e46fd171303e957f835eda743507",
+    "source": [
+      "out/cast/source-audit/Atlas_Monsters.png"
+    ],
+    "note": "Historical failed texture download is HTML quota response; retained as text and excluded from runtime."
+  }
+]

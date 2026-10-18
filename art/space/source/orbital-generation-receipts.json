@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-18",
+  "reference": "design/phase1/img/space-orbital-c-v1.png",
+  "referencePromptRecord": "design/phase1/space-options-cd-prompts.md",
+  "productionMethod": "reference-guided raster cutouts, built-in image tool",
+  "promptRecord": "art/space/source/orbital-production-prompts.json",
+  "originals": [
+    {"id": "hull", "path": "art/space/source/orbital-hull-original.png", "returnedFilename": "exec-6e069654-f77d-4df3-9699-b8da8a67a600.png"},
+    {"id": "shutters", "path": "art/space/source/orbital-doors-original.png", "returnedFilename": "exec-0c845d08-ba29-4214-8366-3316c7b13153.png"},
+    {"id": "bay", "path": "art/space/source/orbital-bay-original.png", "returnedFilename": "exec-f48a3baa-9ef4-44d7-b8e4-6667844e7e7d.png"}
+  ],
+  "normalization": "tools/orbital-preview/prepare_art.py",
+  "hashAndCropRecord": "art/space/source/orbital-parts-report.json",
+  "selectionStatus": "first C hull/hangar family proof; independent review pending",
+  "scope": "Rendered 2D parts only. No 3D model, cannon barrel, fighter, worker pod, companion or complete C asset family is claimed."
+}

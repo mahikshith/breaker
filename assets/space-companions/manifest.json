@@ -1,0 +1,939 @@
+{
+  "version": 1,
+  "status": "Integrated lossless browser candidate; independent native-size expression/motion/input review passed; owner gameplay approval pending",
+  "reference": "design/phase1/img/space-carrier-a.png",
+  "referenceSHA256": "1e2bd83837948568adb58bc4110c2c35f11421f07d30320b15b347a8e81d0f23",
+  "prompts": "art/space/companions/production-prompts.json",
+  "normalizer": "art/space/companions/normalize.py",
+  "sourcePolicy": "Returned original PNGs retained byte-for-byte. Final cells use connected-alpha cleanup, a shared family scale and measured registration only; poses are not repainted.",
+  "filter": "linear",
+  "collision": "presentation only; no ball or hostile collision",
+  "families": {
+    "nix": {
+      "atlas": "assets/space-companions/nix.png",
+      "cell": [
+        256,
+        256
+      ],
+      "columns": 4,
+      "rows": 3,
+      "display": [
+        52,
+        52
+      ],
+      "displaySpace": "CSS pixels",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "clips": {
+        "idle": {
+          "frames": [
+            0
+          ],
+          "fps": 1,
+          "loop": true
+        },
+        "ready": {
+          "frames": [
+            1
+          ],
+          "fps": 1,
+          "loop": true
+        },
+        "warning": {
+          "frames": [
+            2
+          ],
+          "fps": 1,
+          "loop": true
+        },
+        "secured": {
+          "frames": [
+            3
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "loss": {
+          "frames": [
+            4
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "surprise": {
+          "frames": [
+            5
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "command": {
+          "frames": [
+            6,
+            7,
+            8,
+            9,
+            10,
+            0
+          ],
+          "fps": 10,
+          "loop": false
+        },
+        "win": {
+          "frames": [
+            11
+          ],
+          "fps": 1,
+          "loop": false
+        }
+      },
+      "source": "art/space/companions/source/nix-family-original.png",
+      "sourceSHA256": "3a7c5a1e7a21f6294b602cbd65d0cc939830617b1db948ce2317dfa7c1710d93",
+      "uniformScale": 0.6225895316804407,
+      "frames": [
+        {
+          "index": 0,
+          "name": "calm",
+          "path": "assets/space-companions/nix_calm.png",
+          "sha256": "6184f751d4375e1ecdaf96c760f73dfca29f7c21283ea79071b335ff60473031",
+          "sourceRegion": [
+            14,
+            56,
+            385,
+            350
+          ],
+          "sourceBounds": [
+            4,
+            4,
+            367,
+            290
+          ],
+          "sourceAnchor": [
+            197.0,
+            273.0
+          ],
+          "registrationOffset": [
+            5,
+            51
+          ],
+          "alphaBounds": [
+            5,
+            51,
+            236,
+            234
+          ],
+          "solidAlphaBounds": [
+            7,
+            53,
+            234,
+            232
+          ],
+          "removedDisconnectedAlphaPixels": 141
+        },
+        {
+          "index": 1,
+          "name": "focused",
+          "path": "assets/space-companions/nix_focused.png",
+          "sha256": "18be8288ad7f081f8781555b7597ad4bfceb664359dbabbea70168968f6f4a6f",
+          "sourceRegion": [
+            378,
+            58,
+            728,
+            348
+          ],
+          "sourceBounds": [
+            4,
+            4,
+            346,
+            286
+          ],
+          "sourceAnchor": [
+            191.0,
+            268.0
+          ],
+          "registrationOffset": [
+            9,
+            54
+          ],
+          "alphaBounds": [
+            9,
+            54,
+            227,
+            235
+          ],
+          "solidAlphaBounds": [
+            11,
+            56,
+            225,
+            233
+          ],
+          "removedDisconnectedAlphaPixels": 94
+        },
+        {
+          "index": 2,
+          "name": "worried",
+          "path": "assets/space-companions/nix_worried.png",
+          "sha256": "dc634c7ee2ac13201d03204802d6e30d4304b193f8f09d4019e7c843eede425b",
+          "sourceRegion": [
+            727,
+            57,
+            1082,
+            349
+          ],
+          "sourceBounds": [
+            4,
+            4,
+            351,
+            288
+          ],
+          "sourceAnchor": [
+            194.0,
+            271.0
+          ],
+          "registrationOffset": [
+            7,
+            52
+          ],
+          "alphaBounds": [
+            7,
+            52,
+            228,
+            234
+          ],
+          "solidAlphaBounds": [
+            9,
+            54,
+            226,
+            232
+          ],
+          "removedDisconnectedAlphaPixels": 135
+        },
+        {
+          "index": 3,
+          "name": "relieved",
+          "path": "assets/space-companions/nix_relieved.png",
+          "sha256": "81f3922d0e8d02c2a35dad4a6c7e8df7cbe46c0898e014ffc4506cb657ef1c8a",
+          "sourceRegion": [
+            1074,
+            55,
+            1436,
+            348
+          ],
+          "sourceBounds": [
+            4,
+            4,
+            358,
+            289
+          ],
+          "sourceAnchor": [
+            196.0,
+            272.0
+          ],
+          "registrationOffset": [
+            6,
+            51
+          ],
+          "alphaBounds": [
+            6,
+            51,
+            231,
+            233
+          ],
+          "solidAlphaBounds": [
+            8,
+            53,
+            229,
+            231
+          ],
+          "removedDisconnectedAlphaPixels": 111
+        },
+        {
+          "index": 4,
+          "name": "sorrow",
+          "path": "assets/space-companions/nix_sorrow.png",
+          "sha256": "d99dca21caab0475b8fc4ea07d3e8793f0cc47a5ea76faaaa81256e90d174ee3",
+          "sourceRegion": [
+            13,
+            392,
+            380,
+            688
+          ],
+          "sourceBounds": [
+            4,
+            4,
+            363,
+            292
+          ],
+          "sourceAnchor": [
+            198.0,
+            274.5
+          ],
+          "registrationOffset": [
+            5,
+            50
+          ],
+          "alphaBounds": [
+            5,
+            50,
+            233,
+            234
+          ],
+          "solidAlphaBounds": [
+            7,
+            52,
+            231,
+            232
+          ],
+          "removedDisconnectedAlphaPixels": 63
+        },
+        {
+          "index": 5,
+          "name": "surprised",
+          "path": "assets/space-companions/nix_surprised.png",
+          "sha256": "5e797fa48819fac09fb505ac2cbebda5b77dbaef51c4757d2af8e96d2f599169",
+          "sourceRegion": [
+            376,
+            392,
+            726,
+            680
+          ],
+          "sourceBounds": [
+            4,
+            4,
+            346,
+            284
+          ],
+          "sourceAnchor": [
+            193.0,
+            266.0
+          ],
+          "registrationOffset": [
+            8,
+            55
+          ],
+          "alphaBounds": [
+            8,
+            55,
+            226,
+            234
+          ],
+          "solidAlphaBounds": [
+            10,
+            57,
+            224,
+            232
+          ],
+          "removedDisconnectedAlphaPixels": 21
+        },
+        {
+          "index": 6,
+          "name": "command_anticipate",
+          "path": "assets/space-companions/nix_command_anticipate.png",
+          "sha256": "6d74a03a913443b0224546281cc1e189ee8d6b698c2a3f058434dc74b6097d20",
+          "sourceRegion": [
+            725,
+            392,
+            1083,
+            680
+          ],
+          "sourceBounds": [
+            4,
+            4,
+            354,
+            284
+          ],
+          "sourceAnchor": [
+            197.0,
+            266.0
+          ],
+          "registrationOffset": [
+            5,
+            55
+          ],
+          "alphaBounds": [
+            5,
+            55,
+            228,
+            234
+          ],
+          "solidAlphaBounds": [
+            7,
+            57,
+            226,
+            232
+          ],
+          "removedDisconnectedAlphaPixels": 20
+        },
+        {
+          "index": 7,
+          "name": "command_blink",
+          "path": "assets/space-companions/nix_command_blink.png",
+          "sha256": "fd4143686a6912b7198e446669094cd6734e18874abd893c5678a9c608d0f786",
+          "sourceRegion": [
+            1085,
+            397,
+            1437,
+            688
+          ],
+          "sourceBounds": [
+            4,
+            4,
+            348,
+            287
+          ],
+          "sourceAnchor": [
+            192.0,
+            271.0
+          ],
+          "registrationOffset": [
+            8,
+            52
+          ],
+          "alphaBounds": [
+            8,
+            52,
+            227,
+            233
+          ],
+          "solidAlphaBounds": [
+            10,
+            54,
+            225,
+            231
+          ],
+          "removedDisconnectedAlphaPixels": 12
+        },
+        {
+          "index": 8,
+          "name": "command_release",
+          "path": "assets/space-companions/nix_command_release.png",
+          "sha256": "70732736eb57951fd582839589e77ccc35b6d04cfb895cb62be9dac8db37634b",
+          "sourceRegion": [
+            17,
+            721,
+            377,
+            1015
+          ],
+          "sourceBounds": [
+            4,
+            4,
+            356,
+            290
+          ],
+          "sourceAnchor": [
+            193.0,
+            273.0
+          ],
+          "registrationOffset": [
+            8,
+            51
+          ],
+          "alphaBounds": [
+            8,
+            51,
+            232,
+            234
+          ],
+          "solidAlphaBounds": [
+            10,
+            53,
+            230,
+            232
+          ],
+          "removedDisconnectedAlphaPixels": 56
+        },
+        {
+          "index": 9,
+          "name": "command_rise",
+          "path": "assets/space-companions/nix_command_rise.png",
+          "sha256": "28e7ab6ff358060b6e8f5762e9ce90561d6dab677f7b0344157ee78e1f227acc",
+          "sourceRegion": [
+            373,
+            717,
+            731,
+            1008
+          ],
+          "sourceBounds": [
+            4,
+            4,
+            354,
+            287
+          ],
+          "sourceAnchor": [
+            191.0,
+            269.0
+          ],
+          "registrationOffset": [
+            9,
+            53
+          ],
+          "alphaBounds": [
+            9,
+            53,
+            232,
+            234
+          ],
+          "solidAlphaBounds": [
+            11,
+            55,
+            230,
+            232
+          ],
+          "removedDisconnectedAlphaPixels": 247
+        },
+        {
+          "index": 10,
+          "name": "command_settle",
+          "path": "assets/space-companions/nix_command_settle.png",
+          "sha256": "e5202d3a64dd96213cf65b34cdef356222df71d032877a4c3778924d049963d7",
+          "sourceRegion": [
+            722,
+            717,
+            1085,
+            1011
+          ],
+          "sourceBounds": [
+            4,
+            4,
+            359,
+            290
+          ],
+          "sourceAnchor": [
+            195.5,
+            273.0
+          ],
+          "registrationOffset": [
+            6,
+            51
+          ],
+          "alphaBounds": [
+            6,
+            51,
+            232,
+            234
+          ],
+          "solidAlphaBounds": [
+            8,
+            53,
+            230,
+            232
+          ],
+          "removedDisconnectedAlphaPixels": 233
+        },
+        {
+          "index": 11,
+          "name": "cheer",
+          "path": "assets/space-companions/nix_cheer.png",
+          "sha256": "6a000a865c7ab446bad56552cda088f1a4512ffb6a40eac5cb5a1a763c23774f",
+          "sourceRegion": [
+            1079,
+            717,
+            1439,
+            1010
+          ],
+          "sourceBounds": [
+            4,
+            4,
+            356,
+            289
+          ],
+          "sourceAnchor": [
+            197.0,
+            270.0
+          ],
+          "registrationOffset": [
+            5,
+            53
+          ],
+          "alphaBounds": [
+            5,
+            53,
+            229,
+            235
+          ],
+          "solidAlphaBounds": [
+            7,
+            55,
+            227,
+            233
+          ],
+          "removedDisconnectedAlphaPixels": 42
+        }
+      ],
+      "sha256": "5b97dcee89051ced363148436b581e73dc627df18fac137d597acf833ddad68f",
+      "totalEncodedPNGBytes": 1551006,
+      "atlasRGBABytes": 3145728
+    },
+    "tick": {
+      "atlas": "assets/space-companions/tick.png",
+      "cell": [
+        192,
+        192
+      ],
+      "columns": 4,
+      "rows": 2,
+      "display": [
+        40,
+        40
+      ],
+      "displaySpace": "world units",
+      "pivot": [
+        0.5,
+        0.84375
+      ],
+      "clips": {
+        "idle": {
+          "frames": [
+            0
+          ],
+          "fps": 1,
+          "loop": true
+        },
+        "secure": {
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "fps": 10,
+          "duration": 0.8,
+          "loop": false
+        },
+        "secured": {
+          "frames": [
+            7
+          ],
+          "fps": 1,
+          "loop": false
+        }
+      },
+      "source": "art/space/companions/source/tick-secure-original.png",
+      "sourceSHA256": "74c033e4a2759eaf54a49462f9b4152b58d6f9f478d2e98304d854d8e9309c47",
+      "uniformScale": 0.38995215311004783,
+      "frames": [
+        {
+          "index": 0,
+          "name": "neutral",
+          "path": "assets/space-companions/tick_neutral.png",
+          "sha256": "831d542215ca2d962ce4c7dbab729a17383a3e2ee38c386b73c82b75d3527128",
+          "sourceRegion": [
+            0,
+            0,
+            444,
+            444
+          ],
+          "sourceBounds": [
+            21,
+            53,
+            439,
+            413
+          ],
+          "sourceAnchor": [
+            230.0,
+            413
+          ],
+          "registrationOffset": [
+            6,
+            1
+          ],
+          "alphaBounds": [
+            12,
+            19,
+            179,
+            165
+          ],
+          "solidAlphaBounds": [
+            14,
+            21,
+            178,
+            162
+          ],
+          "removedDisconnectedAlphaPixels": 445
+        },
+        {
+          "index": 1,
+          "name": "reach",
+          "path": "assets/space-companions/tick_reach.png",
+          "sha256": "e985ebb37b7d635379a0f7a598298925a5bc3d56afa7a769cd7e3b42112c229a",
+          "sourceRegion": [
+            444,
+            0,
+            887,
+            444
+          ],
+          "sourceBounds": [
+            44,
+            84,
+            443,
+            413
+          ],
+          "sourceAnchor": [
+            243.5,
+            413
+          ],
+          "registrationOffset": [
+            1,
+            1
+          ],
+          "alphaBounds": [
+            15,
+            31,
+            174,
+            165
+          ],
+          "solidAlphaBounds": [
+            18,
+            33,
+            174,
+            163
+          ],
+          "removedDisconnectedAlphaPixels": 317
+        },
+        {
+          "index": 2,
+          "name": "align",
+          "path": "assets/space-companions/tick_align.png",
+          "sha256": "d99a07f1efa6474a41b48930a36db0cf08d69c710d7aa860aef110776730b96b",
+          "sourceRegion": [
+            887,
+            0,
+            1330,
+            444
+          ],
+          "sourceBounds": [
+            51,
+            107,
+            423,
+            415
+          ],
+          "sourceAnchor": [
+            237.0,
+            415
+          ],
+          "registrationOffset": [
+            4,
+            0
+          ],
+          "alphaBounds": [
+            21,
+            39,
+            172,
+            164
+          ],
+          "solidAlphaBounds": [
+            24,
+            41,
+            170,
+            162
+          ],
+          "removedDisconnectedAlphaPixels": 525
+        },
+        {
+          "index": 3,
+          "name": "clamp",
+          "path": "assets/space-companions/tick_clamp.png",
+          "sha256": "bfd20fad85e17a1e00a39884ccb9d92fdf7e5484fc573282ef33d992312707a3",
+          "sourceRegion": [
+            1330,
+            0,
+            1774,
+            444
+          ],
+          "sourceBounds": [
+            52,
+            114,
+            417,
+            414
+          ],
+          "sourceAnchor": [
+            234.5,
+            414
+          ],
+          "registrationOffset": [
+            5,
+            1
+          ],
+          "alphaBounds": [
+            23,
+            43,
+            170,
+            165
+          ],
+          "solidAlphaBounds": [
+            25,
+            45,
+            168,
+            163
+          ],
+          "removedDisconnectedAlphaPixels": 131
+        },
+        {
+          "index": 4,
+          "name": "turn",
+          "path": "assets/space-companions/tick_turn.png",
+          "sha256": "454fd3dce4b423badea0763ca4932c1925e9be8f0cd94691ac5a406436195893",
+          "sourceRegion": [
+            0,
+            444,
+            444,
+            887
+          ],
+          "sourceBounds": [
+            50,
+            64,
+            436,
+            382
+          ],
+          "sourceAnchor": [
+            243.0,
+            382
+          ],
+          "registrationOffset": [
+            1,
+            13
+          ],
+          "alphaBounds": [
+            18,
+            35,
+            173,
+            165
+          ],
+          "solidAlphaBounds": [
+            20,
+            37,
+            171,
+            163
+          ],
+          "removedDisconnectedAlphaPixels": 206
+        },
+        {
+          "index": 5,
+          "name": "retract",
+          "path": "assets/space-companions/tick_retract.png",
+          "sha256": "3b535c21df56381ac559522dc85881e4da51e232009384ec5b978163bc33eee1",
+          "sourceRegion": [
+            444,
+            444,
+            887,
+            887
+          ],
+          "sourceBounds": [
+            33,
+            41,
+            439,
+            391
+          ],
+          "sourceAnchor": [
+            236.0,
+            391
+          ],
+          "registrationOffset": [
+            4,
+            10
+          ],
+          "alphaBounds": [
+            14,
+            23,
+            177,
+            166
+          ],
+          "solidAlphaBounds": [
+            17,
+            26,
+            176,
+            163
+          ],
+          "removedDisconnectedAlphaPixels": 366
+        },
+        {
+          "index": 6,
+          "name": "pleased",
+          "path": "assets/space-companions/tick_pleased.png",
+          "sha256": "54d9039fea23511518ed0f274a0f1da82ca6737761ea0d8ef604e444b5dacead",
+          "sourceRegion": [
+            887,
+            444,
+            1330,
+            887
+          ],
+          "sourceBounds": [
+            31,
+            47,
+            429,
+            394
+          ],
+          "sourceAnchor": [
+            230.0,
+            394
+          ],
+          "registrationOffset": [
+            6,
+            8
+          ],
+          "alphaBounds": [
+            16,
+            24,
+            176,
+            165
+          ],
+          "solidAlphaBounds": [
+            18,
+            26,
+            174,
+            162
+          ],
+          "removedDisconnectedAlphaPixels": 519
+        },
+        {
+          "index": 7,
+          "name": "secured",
+          "path": "assets/space-companions/tick_secured.png",
+          "sha256": "0e87e5c8290ed5a7e932e027f76848a9a8d1e07eccee2df5eb4cadd53ef45537",
+          "sourceRegion": [
+            1330,
+            444,
+            1774,
+            887
+          ],
+          "sourceBounds": [
+            27,
+            39,
+            431,
+            394
+          ],
+          "sourceAnchor": [
+            229.0,
+            394
+          ],
+          "registrationOffset": [
+            7,
+            8
+          ],
+          "alphaBounds": [
+            15,
+            21,
+            178,
+            165
+          ],
+          "solidAlphaBounds": [
+            17,
+            23,
+            176,
+            162
+          ],
+          "removedDisconnectedAlphaPixels": 529
+        }
+      ],
+      "sha256": "b78910c17be32e97d9f0dec97d67775bea286f8f98847cd496029f5f865bf7f9",
+      "totalEncodedPNGBytes": 618963,
+      "atlasRGBABytes": 1179648
+    }
+  }
+}

@@ -5,11 +5,60 @@ import { ART } from './vault-art.js';
 export const SHADOW = { dx: 3, dy: 5, a: 0.35 };
 // Blender-rendered sprites (ball, paddle, capsules, bricks...), shared by both levels; code-drawn fallbacks stay in place
 const pending = [];
-export const loadImg = url => { const i = new Image(); i.src = url; pending.push(i.decode().catch(() => {})); return i; };
+const images = new Map();
+export const loadImg = url => {
+  if (images.has(url)) return images.get(url);
+  const i = new Image(); i.src = url; images.set(url, i); pending.push(i.decode().catch(() => {})); return i;
+};
 export const artLoaded = () => Promise.all(pending);   // resolves once every rendered image has decoded
 export const SPR = {};
 for (const [k, s] of Object.entries(ART?.sprites || {})) SPR[k] = { img: loadImg(s.url), ...s };
 export const ready = s => !!(s && s.img.complete && s.img.naturalWidth);
+export function drawStretchPaddle(g, part, p) {
+  if (!ready(part)) return;
+  const img = part.img, iw = img.naturalWidth, ih = img.naturalHeight;
+  const [bx, by, bw, bh] = part.artBounds || [0, 0, 1, 1], scale = p.h / (bh * ih);
+  const end = Math.min(bh * ih * 1.1, bw * iw * .25), cutL = bx * iw + end, cutR = (bx + bw) * iw - end;
+  const dwL = cutL * scale, dwR = (iw - cutR) * scale, x0 = p.x - p.w / 2 - bx * iw * scale;
+  const x1 = p.x + p.w / 2 + (1 - bx - bw) * iw * scale, y = p.y - by * ih * scale, h = ih * scale;
+  g.drawImage(img, 0, 0, cutL, ih, x0, y, dwL, h);
+  g.drawImage(img, cutL, 0, cutR - cutL, ih, x0 + dwL, y, Math.max(0, x1 - x0 - dwL - dwR), h);
+  g.drawImage(img, cutR, 0, iw - cutR, ih, x1 - dwR, y, dwR, h);
+}
+const KIT = ART?.kit ? { ...ART.kit, img: loadImg(ART.kit.url) } : null;
+const KIT_FACES = KIT?.faces ? { ...KIT.faces, img: loadImg(KIT.faces.url) } : null;
+export function drawKitFace(g, x, y, size, clip = 'Idle') {
+  if (!ready(KIT_FACES)) return;
+  const c = KIT_FACES.cell, col = (KIT.anims[clip] || KIT.anims.Idle).row;
+  g.drawImage(KIT_FACES.img, col * c, 0, c, c, x - size / 2, y - size / 2, size, size);
+}
+export function drawKit(g, x, feetY, clip, t, scale = 1) {
+  if (!ready(KIT)) return;
+  const a = KIT.anims[clip] || KIT.anims.Idle, cell = KIT.cell, u = KIT.unit * scale;
+  const frame = Math.max(0, Math.floor(t * a.fps)), f = a.loop ? frame % a.n : Math.min(frame, a.n - 1);
+  g.drawImage(KIT.img, f * cell, a.row * cell, cell, cell, x - u / 2, feetY - u + KIT.feet * scale, u, u);
+}
+const KIT_CAST = ART?.kitCast ? { ...ART.kitCast, img: loadImg(ART.kitCast.url) } : null;
+export function drawKitCastFlight(g, from, to, age, scale = 1) {
+  if (!ready(KIT_CAST) || age < 0 || age >= KIT_CAST.timing.arrival) return;
+  const { anticipation, arrival } = KIT_CAST.timing, a = KIT_CAST.anims.Spin, cell = KIT_CAST.cell;
+  const p = Math.max(0, (age - anticipation) / (arrival - anticipation)), u = p * p * (3 - 2 * p);
+  const sx = from.x + from.r + 14 / scale, sy = from.y - 10 / scale;
+  const cx = sx + 30 / scale, cy = (sy + to.y) / 2 - 36 / scale;
+  const x = (1 - u) ** 2 * sx + 2 * (1 - u) * u * cx + u * u * to.x;
+  const y = (1 - u) ** 2 * sy + 2 * (1 - u) * u * cy + u * u * to.y;
+  const size = 32 / scale * (1 - u) + to.size * (2.8 / 3.4) * u;
+  const f = Math.min(a.n - 1, Math.floor(p * a.n));
+  g.drawImage(KIT_CAST.img, f * cell, a.row * cell, cell, cell, x - size / 2, y - size / 2, size, size);
+}
+export function drawKitBrickArmour(g, x, y, age, size = 40, alpha = 1) {
+  if (!ready(KIT_CAST) || age < KIT_CAST.timing.arrival || alpha <= 0) return;
+  const { arrival, settled } = KIT_CAST.timing, a = KIT_CAST.anims.Armour, cell = KIT_CAST.cell;
+  const f = Math.min(a.n - 1, Math.floor((age - arrival) / (settled - arrival) * a.n));
+  g.save(); g.globalAlpha *= alpha;
+  g.drawImage(KIT_CAST.img, f * cell, a.row * cell, cell, cell, x - size / 2, y - size / 2, size, size);
+  g.restore();
+}
 let DPR = 1;
 export const setDPR = d => { DPR = d; cache.clear(); };
 

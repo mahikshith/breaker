@@ -1,0 +1,36 @@
+{
+  "source": "design/phase1/img/space-orbital-c-v1.png",
+  "sourceSHA256": "8afa8c869f0df6cf8c3b077c3a1135d419b987909818ce70b48974cb1183cb37",
+  "crops": [
+    {
+      "file": "art/space/source/orbital-reference-pane.png",
+      "crop": [
+        12,
+        12,
+        620,
+        990
+      ],
+      "sha256": "d0b0fbc43967fa58fb2f972d75800bdc3781e86e92c8823719f5bf7242a4f72e"
+    },
+    {
+      "file": "art/space/source/orbital-hull-reference.png",
+      "crop": [
+        12,
+        14,
+        620,
+        270
+      ],
+      "sha256": "e6655e12a9c4fc806ca87e4543d7471c106a6aeece880764e0dcf0b460dd6f6f"
+    },
+    {
+      "file": "art/space/source/orbital-hangar-reference.png",
+      "crop": [
+        214,
+        156,
+        435,
+        258
+      ],
+      "sha256": "76512e34872d6d195ef8254be1f3ee0b6071552040d64f11f08a33b7fca6b351"
+    }
+  ]
+}

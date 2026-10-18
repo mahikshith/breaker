@@ -1,16 +1,23 @@
 # Serpent head sprites: an angular viper head (flat-topped wedge with crisp ridges, brow plates and a hinged jaw)
 # with expressive eyes. Every expression is rendered in four facings so the key light always comes from the top-left.
 # The body is drawn in the game as a tapered, lit ribbon that follows the head.
-# Run: python3 art/snake.py <out_dir> [expr ...] [--dirs r,l,d,u] [--samples N] [--px N] [--threads N]
+# Run: python3 art/snake.py <out_dir> [expr ...] [--palette original|jade] [--dirs r,l] [--samples N] [--px N] [--threads N]
 import bpy, bmesh, sys, os, math, json, addon_utils
 from mathutils import Vector, Matrix
 
 addon_utils.enable("cycles", default_set=True)
 args = sys.argv[1:]
-OUT = args[0] if args else 'assets/snake'
+OUT = os.path.abspath(args[0] if args else 'assets/snake')
 opt = lambda k, d: args[args.index(k) + 1] if k in args else d
 DIRS = opt('--dirs', 'r,l').split(',')
 SAMPLES = int(opt('--samples', '64'))
+PALETTE = opt('--palette', 'original')
+if PALETTE not in ('original', 'jade'): raise ValueError('palette must be original or jade')
+COLORS = {'body': '#7a3ccc', 'belly': '#f6b08a', 'crown': '#5a2aa6', 'outline': '#1e0a40',
+          'brow': '#ff5fa2', 'brow_emit': '#ff3f8a', 'lid': '#6a32b4', 'mark': '#ff6fae', 'mark_emit': '#ff4f9a'}
+if PALETTE == 'jade':
+    COLORS.update(body='#168f83', belly='#c9e8d2', crown='#0b5d59', outline='#052d31',
+                  brow='#ff8a9b', brow_emit='#e95f86', lid='#11726c', mark='#83e4c2', mark_emit='#5acfb0')
 ONLY = [a for i, a in enumerate(args[1:], 1) if not a.startswith('--') and not args[i - 1].startswith('--')]
 PX, BOX = int(opt('--px', '4')), 44          # px per game unit, square sprite size in game units
 u = 0.1                  # one game unit in metres
@@ -26,14 +33,14 @@ def mat(name, color, rough=0.3, metal=0.0, coat=0.0, emit=None, es=0.6):
     return m
 
 def skin_mat():
-    """Plum scales on top, a peach belly underneath, split by the object-space normal so it holds in every facing."""
-    m = mat('skin', srgb('#7a3ccc'), rough=0.3, coat=0.7); nt = m.node_tree; b = nt.nodes['Principled BSDF']
+    """Scales and belly split by object-space normal so the palette holds in every facing."""
+    m = mat('skin', srgb(COLORS['body']), rough=0.3, coat=0.7); nt = m.node_tree; b = nt.nodes['Principled BSDF']
     tc = nt.nodes.new('ShaderNodeTexCoord'); sep = nt.nodes.new('ShaderNodeSeparateXYZ')
     nt.links.new(tc.outputs['Normal'], sep.inputs[0])
     ramp = nt.nodes.new('ShaderNodeValToRGB'); e = ramp.color_ramp.elements
     e[0].position, e[1].position = 0.30, 0.36
-    e[0].color = (*srgb('#f6b08a'), 1); e[1].color = (*srgb('#7a3ccc'), 1)
-    top = e.new(0.78); top.color = (*srgb('#5a2aa6'), 1)          # darker crown so the brows and eyes pop
+    e[0].color = (*srgb(COLORS['belly']), 1); e[1].color = (*srgb(COLORS['body']), 1)
+    top = e.new(0.78); top.color = (*srgb(COLORS['crown']), 1)          # darker crown so the brows and eyes pop
     mp = nt.nodes.new('ShaderNodeMapRange'); mp.inputs['From Min'].default_value = -1; mp.inputs['From Max'].default_value = 1
     nt.links.new(sep.outputs['Z'], mp.inputs['Value']); nt.links.new(mp.outputs['Result'], ramp.inputs['Fac'])
     nt.links.new(ramp.outputs['Color'], b.inputs['Base Color'])
@@ -44,15 +51,15 @@ def skin_mat():
     return m
 
 SKIN = skin_mat()
-PLATE = mat('plate', srgb('#1e0a40'), rough=0.2, coat=1.0)
-BROW = mat('brow', srgb('#ff5fa2'), rough=0.22, coat=1.0, emit=srgb('#ff3f8a'), es=0.15)
-LIDSKIN = mat('lidskin', srgb('#6a32b4'), rough=0.3, coat=0.7)
-EDGE = mat('edge', srgb('#ff6fae'), rough=0.2, coat=1.0, emit=srgb('#ff4f9a'), es=0.25)
+PLATE = mat('plate', srgb(COLORS['outline']), rough=0.2, coat=1.0)
+BROW = mat('brow', srgb(COLORS['brow']), rough=0.22, coat=1.0, emit=srgb(COLORS['brow_emit']), es=0.15)
+LIDSKIN = mat('lidskin', srgb(COLORS['lid']), rough=0.3, coat=0.7)
+EDGE = mat('edge', srgb(COLORS['mark']), rough=0.2, coat=1.0, emit=srgb(COLORS['mark_emit']), es=0.25)
 WHITE = mat('eyewhite', srgb('#fff6e8'), rough=0.08, coat=1.0)
 IRIS = mat('iris', srgb('#b8f03a'), rough=0.08, coat=1.0, emit=srgb('#9be022'), es=0.5)
 PUPIL = mat('pupil', (0.004, 0.002, 0.006), rough=0.05, coat=1.0)
 SHINE = mat('shine', (1, 1, 1), rough=0.0, emit=(1, 1, 1), es=4.0)
-LIDLINE = mat('lidline', srgb('#1c0838'), rough=0.4)
+LIDLINE = mat('lidline', srgb(COLORS['outline'] if PALETTE == 'jade' else '#1c0838'), rough=0.4)
 MOUTH = mat('mouth', srgb('#5a0b26'), rough=0.6)
 GUM = mat('gum', srgb('#c23a62'), rough=0.35, coat=0.5)
 FANG = mat('fang', srgb('#fffaf0'), rough=0.12, coat=1.0)
@@ -364,5 +371,7 @@ for d in DIRS:
     ROOT.rotation_euler = rot; HEAD.rotation_euler = (0, 0, math.radians(yaw))
     for n in names:
         pose(n); sc.render.filepath = os.path.join(OUT, f'head_{n}_{d}.png'); bpy.ops.render.render(write_still=True)
-json.dump({'px': PX, 'box': BOX, 'expressions': list(EXPR), 'dirs': DIRS}, open(os.path.join(OUT, 'meta.json'), 'w'))
+meta = {'px': PX, 'box': BOX, 'expressions': list(EXPR), 'dirs': DIRS}
+if PALETTE == 'jade': meta.update(palette=PALETTE, colors=COLORS)
+json.dump(meta, open(os.path.join(OUT, 'meta.json'), 'w'))
 print('done')

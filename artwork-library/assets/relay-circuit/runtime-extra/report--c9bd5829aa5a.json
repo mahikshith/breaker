@@ -1,0 +1,149 @@
+{
+  "scope": "Isolated phone texture sizing; original normalized collision/anchors remain authoritative",
+  "manifest": "assets/relay-circuit/manifest.json",
+  "manifestSHA256": "1a719e78b2bae0ecc3a96aee7475c6075a1b4d5227b9f1abd31824abdc084758",
+  "parts": [
+    {
+      "id": "craftMorph",
+      "source": "assets/relay-circuit/craftMorph.png",
+      "sourceSHA256": "7215b72eebfdc322ad214236118553788e67c6a3ab3ec5c646806c9e857f8490",
+      "path": "assets/relay-circuit/runtime-extra/craftMorph.webp",
+      "runtimeSHA256": "1ba23bf960eb6c31d0887998f8b8c819cd674cd9481bf496f9b1aba9b87dc0e8",
+      "sourceSize": [
+        512,
+        384
+      ],
+      "runtimeSize": [
+        240,
+        180
+      ],
+      "sourceBytes": 236698,
+      "encodedBytes": 44376,
+      "decodedRGBABytes": 172800,
+      "nativeMeanChannelError": 0.2828187346458435,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "craftFlight",
+      "source": "assets/relay-circuit/craftFlight.png",
+      "sourceSHA256": "3b4f122cbb36953953bca966d65f5561545d6a9ac0827aebdfaacb029e2f222a",
+      "path": "assets/relay-circuit/runtime-extra/craftFlight.webp",
+      "runtimeSHA256": "13a721a418e0297f54ce505c8ae521798e0c0f1e9a890db4ccfdb27173335188",
+      "sourceSize": [
+        512,
+        384
+      ],
+      "runtimeSize": [
+        240,
+        180
+      ],
+      "sourceBytes": 272031,
+      "encodedBytes": 50942,
+      "decodedRGBABytes": 172800,
+      "nativeMeanChannelError": 0.3441503942012787,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "craftLeft",
+      "source": "assets/relay-circuit/craftLeft.png",
+      "sourceSHA256": "4b18d236b3f6ce17335edc2cf7e5f2a7bbf1e6d430ea07fbd83d1baf58d1b5c5",
+      "path": "assets/relay-circuit/runtime-extra/craftLeft.webp",
+      "runtimeSHA256": "02926205ae49caae73ab746d00391781a6282252d645b24a59b849a6eda1b3b6",
+      "sourceSize": [
+        512,
+        384
+      ],
+      "runtimeSize": [
+        240,
+        180
+      ],
+      "sourceBytes": 278542,
+      "encodedBytes": 51654,
+      "decodedRGBABytes": 172800,
+      "nativeMeanChannelError": 0.3422600328922272,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "craftRight",
+      "source": "assets/relay-circuit/craftRight.png",
+      "sourceSHA256": "366cffa088eb66afc20885b15609e06dc73ac0a79ddfd1ecc9344b2342adc79a",
+      "path": "assets/relay-circuit/runtime-extra/craftRight.webp",
+      "runtimeSHA256": "5b12328a6fbe3eb2f9d74481be52122db05702291826b85c16094826db54d60a",
+      "sourceSize": [
+        512,
+        384
+      ],
+      "runtimeSize": [
+        240,
+        180
+      ],
+      "sourceBytes": 283214,
+      "encodedBytes": 53620,
+      "decodedRGBABytes": 172800,
+      "nativeMeanChannelError": 0.35307708382606506,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "phaseBadge",
+      "source": "assets/relay-circuit/phaseBadge.png",
+      "sourceSHA256": "1905a75c4f1bf587e536d9bdc75f3cb179c5d66c9d06dc85d35c90d0384811e5",
+      "path": "assets/relay-circuit/runtime-extra/phaseBadge.webp",
+      "runtimeSHA256": "63c882585f14cd17d21dc8dd5f319ebb12945aa162c35768dbee6429e661f256",
+      "sourceSize": [
+        256,
+        208
+      ],
+      "runtimeSize": [
+        54,
+        44
+      ],
+      "sourceBytes": 76241,
+      "encodedBytes": 4392,
+      "decodedRGBABytes": 9504,
+      "nativeMeanChannelError": 0.5109127163887024,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "portLeft",
+      "source": "assets/relay-circuit/portLeft.png",
+      "sourceSHA256": "f4ea282b05378eda645005a6588da0325302b66344d6ab9a1b6047ce4891aaf3",
+      "path": "assets/relay-circuit/runtime-extra/portLeft.webp",
+      "runtimeSHA256": "2115ce17adbec84e3da66dde8c1c5fa935ea536aaff6f5b64b30819fa420d2ba",
+      "sourceSize": [
+        613,
+        1029
+      ],
+      "runtimeSize": [
+        94,
+        159
+      ],
+      "sourceBytes": 773268,
+      "encodedBytes": 18510,
+      "decodedRGBABytes": 59784,
+      "nativeMeanChannelError": 0.39459875226020813,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "portRight",
+      "source": "assets/relay-circuit/portRight.png",
+      "sourceSHA256": "519c2e7933ead4bd390e18609f9a300e33ca5de447a75c0fefe5b047fb534835",
+      "path": "assets/relay-circuit/runtime-extra/portRight.webp",
+      "runtimeSHA256": "443280f6188d9f23bff7f7901982ce2b745358a27e62f9e9a768f56fc6d3bf8f",
+      "sourceSize": [
+        614,
+        1029
+      ],
+      "runtimeSize": [
+        95,
+        159
+      ],
+      "sourceBytes": 768434,
+      "encodedBytes": 18734,
+      "decodedRGBABytes": 60420,
+      "nativeMeanChannelError": 0.41018518805503845,
+      "losslessRoundTrip": true
+    }
+  ],
+  "encodedBytes": 242228,
+  "decodedRGBABytes": 820908
+}

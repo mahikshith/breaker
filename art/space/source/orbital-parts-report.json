@@ -1,0 +1,237 @@
+{
+  "date": "2026-10-18",
+  "status": "critical C hull/hangar asset proof; not runtime admitted",
+  "reference": "design/phase1/img/space-orbital-c-v1.png",
+  "referenceSHA256": "8afa8c869f0df6cf8c3b077c3a1135d419b987909818ce70b48974cb1183cb37",
+  "prompts": "art/space/source/orbital-production-prompts.json",
+  "method": "reference-guided raster production, deterministic aspect-preserving alpha normalization",
+  "parts": [
+    {
+      "id": "hull",
+      "path": "assets/space-c/hull.png",
+      "size": [
+        1992,
+        795
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "alphaBounds": [
+        4,
+        4,
+        1988,
+        791
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentFraction": 0.30174,
+      "sha256": "c3b2123bebc05712ab1de206e95e7a185519ce3eee18e0d343c76a01b4a13c0f",
+      "source": "art/space/source/orbital-hull-original.png",
+      "sourceSHA256": "ba86b0d03ece220111595656454674451cec8eaa1a3775920ed4dcef71eef398",
+      "crop": [
+        0,
+        4,
+        1984,
+        791
+      ],
+      "metadataEmpty": true
+    },
+    {
+      "id": "bay_mask",
+      "path": "assets/space-c/bay_mask.png",
+      "size": [
+        1992,
+        795
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "alphaBounds": [
+        774,
+        539,
+        1219,
+        707
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentFraction": 0.95402,
+      "sha256": "51f02118f2a7b0e0cd1e503011ff2468b05166c65122ef919aec0b57ace41f86",
+      "source": "art/space/source/orbital-hull-original.png",
+      "sourceSHA256": "ba86b0d03ece220111595656454674451cec8eaa1a3775920ed4dcef71eef398",
+      "crop": [
+        0,
+        4,
+        1984,
+        791
+      ],
+      "metadataEmpty": true
+    },
+    {
+      "id": "doors_pair",
+      "path": "assets/space-c/doors_pair.png",
+      "size": [
+        2022,
+        689
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "alphaBounds": [
+        4,
+        4,
+        2018,
+        685
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentFraction": 0.06041,
+      "sha256": "cf4eb410bc8e94bc2fc5d56ce12551ccb9c0e6de033b72bff4b4a08f3f603054",
+      "source": "art/space/source/orbital-doors-original.png",
+      "sourceSHA256": "22f40ae50e97abcfbc24057c7fe8fa520225bce355f852d6111a5da2f009ff72",
+      "crop": [
+        32,
+        35,
+        2046,
+        716
+      ],
+      "metadataEmpty": true
+    },
+    {
+      "id": "door_left",
+      "path": "assets/space-c/door_left.png",
+      "size": [
+        1019,
+        697
+      ],
+      "pivot": [
+        0.9960745829244357,
+        0.5
+      ],
+      "alphaBounds": [
+        8,
+        8,
+        1015,
+        689
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentFraction": 0.079,
+      "sha256": "0efe3cf550cf7f43dfe97c8f04d7d0f315bdb684b432e8e8fbd117591e7364e9",
+      "source": "art/space/source/orbital-doors-original.png",
+      "sourceSHA256": "22f40ae50e97abcfbc24057c7fe8fa520225bce355f852d6111a5da2f009ff72",
+      "crop": [
+        28,
+        31,
+        1039,
+        720
+      ],
+      "metadataEmpty": true
+    },
+    {
+      "id": "door_right",
+      "path": "assets/space-c/door_right.png",
+      "size": [
+        1019,
+        697
+      ],
+      "pivot": [
+        0.003925417075564278,
+        0.5
+      ],
+      "alphaBounds": [
+        4,
+        8,
+        1011,
+        689
+      ],
+      "alphaRange": [
+        0,
+        255
+      ],
+      "transparentFraction": 0.07798,
+      "sha256": "31cddc13e703ea9288894f41d83ad0737faab9cbc1ebd9173c25ab5c404ac0af",
+      "source": "art/space/source/orbital-doors-original.png",
+      "sourceSHA256": "22f40ae50e97abcfbc24057c7fe8fa520225bce355f852d6111a5da2f009ff72",
+      "crop": [
+        1039,
+        31,
+        2050,
+        720
+      ],
+      "metadataEmpty": true
+    },
+    {
+      "id": "bay_back",
+      "path": "assets/space-c/bay_back.png",
+      "size": [
+        1308,
+        438
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "alphaBounds": [
+        4,
+        4,
+        1304,
+        434
+      ],
+      "alphaRange": [
+        0,
+        254
+      ],
+      "transparentFraction": 0.02427,
+      "sha256": "206e2e2f33b6aa0b2d819ad74396fd06abbbd11cc1c237a7db740614c24fc39a",
+      "source": "art/space/source/orbital-bay-original.png",
+      "sourceSHA256": "dc094bc547ff5740819e0664b417401d88c958af74168f03ee898ea1cb42d21f",
+      "crop": [
+        390,
+        180,
+        1690,
+        610
+      ],
+      "metadataEmpty": true
+    }
+  ],
+  "assembly": {
+    "displayWidth": 360,
+    "displayHeight": 143.67469879518072,
+    "worldTop": 76,
+    "aperturePx": [
+      776,
+      541,
+      1217,
+      705
+    ],
+    "pairVisibleSize": [
+      2014,
+      681
+    ],
+    "closedSeam": 0.5,
+    "doorTravelPx": 242.55,
+    "drawOrder": [
+      "bay_back",
+      "door_left",
+      "door_right",
+      "hull"
+    ],
+    "mask": "assets/space-c/bay_mask.png",
+    "notes": [
+      "Command optic and static cannon sockets belong to this hull proof.",
+      "Cannon barrels, fighters, pods and all other C families remain separate missing work.",
+      "Mask measures presentation aperture only, not a gameplay collision contour."
+    ]
+  }
+}

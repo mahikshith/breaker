@@ -1,0 +1,65 @@
+{
+  "status": "Visual-study QA complete; owner moving-image selection and production/gameplay admission pending.",
+  "files": {
+    "tools/weapon-vfx-review/review.js": "27923de30d50d1b9a334d583656b7b946a97c4b19ff0b8677fe3a367e5667eff",
+    "tools/weapon-vfx-review/index.html": "0436ed861173527695a7b79adecf46f6f9b7ef2c1853b97a1485fb48f6e518ba",
+    "out/weapon-vfx-v2/selection.json": "99b74438144e2f4c8a4789727c5351ea80852848fbda75153947612e95881d74",
+    "out/weapon-vfx-v2/scenes.json": "7e14c5d6868963e8e1a397c1ea5eabb3d9f5b88b0fc5648d02528ded23d688fb",
+    "design/phase1/weapon-vfx-v2/manifest.json": "9c946badb34b73a94221845c3eefa1f80e50510e70c335cf67f344f9eff6bf41",
+    "design/phase1/weapon-vfx-v2/payload-A.png": "ab4dfc62bae61d1e232ad3c9667f493211ce595d1e9b0986b2d5b6581dfa510c",
+    "design/phase1/weapon-vfx-v2/payload-B.png": "99e9205b3e41fb91a37a57880b7fe11dd3f2550c7b339944f731ce1d2527ca85",
+    "design/phase1/weapon-vfx-v2/helix-charge.png": "cb7ad875b0b2d2014f9a9e450a8e42b3334a6004b93bcc73b093a0f12bc87151",
+    "design/phase1/weapon-vfx-v2/reactor-charge.png": "b781323b90610e2f7a4380a1bfa54daf7be809ea6a9c4db7055d12db41577fa3",
+    "tools/weapon-vfx-qa/review.mjs": "5d65076a9bfd3d8be19532944e2fffca659c22ba3213122cf3fba6bef7bd5381",
+    "tools/weapon-vfx-qa/profile.mjs": "957e77848b4a2c7e9fc93eb4d77eff4a1339b1b6576435070bb6fe58ce2e4557",
+    "tools/weapon-vfx-qa/summarize.py": "e6ef833f27721ab6368fdf705b2a7a9b514ced2abbc84cf7992b9078caa91e14",
+    "out/weapon-vfx-v2/qa/final/report.json": "7ce128a2cb8ea2f5931ca1e51cdbef445446c6fd8d06a201f743578900aa0d79",
+    "out/weapon-vfx-v2/qa/final/validation.json": "2cd1ff7b908b107ddf6cb2a0f415ac2b8e8a38d6c82afefc9b48b5e6ad627138",
+    "out/weapon-vfx-v2/qa/final/geometry-and-stability.json": "4cb7f164c3f113f3889fe5176f29ac5de477a11186297c5ed7c0832678017f4c",
+    "out/weapon-vfx-v2/qa/final/consumed-images.json": "af2f92bc2f0cba2b5c440dfcd6145c9e9a30e2c16a6bc3858024e9f50abce4c3",
+    "out/weapon-vfx-v2/qa/final/QA.md": "26e0a3b871cd47d3eefd8c05b70f4b32116f03ca9d21755dda50fdbcdd37c9f3",
+    "out/weapon-vfx-v2/qa/final/reactor-ios-impact-repair.png": "b84b78ba035977cde3f56f1e6bcc527a98350fb172539fdcb7bb17ac8fe3e72d",
+    "out/weapon-vfx-v2/qa/final/reactor-android-impact-repair.png": "4aaad0c4a9b2958d1d89fd9af0cdfa5ee5330db3f9d18033d123d9caeb30bc66"
+  },
+  "baseline": {
+    "src/arena.js": "db4af718f7e94021ffd0413ad61b412fa5e981f0bb6c850274e0abe48b28da1b",
+    "src/main.js": "9dc9c71bd7a4091d4958c012b5e91b6e4af79fec3add5613b02d045c1712102c",
+    "src/vault.js": "f25d206307db4b9cb1366ab193d5a415ece6eed8393416ba333beee75c6095e6",
+    "src/gfx.js": "743dca51b28cbbccf0bfbc35c2f3e25c4610eebeb89ab478d1d4575321ec938a",
+    "src/difficulty.js": "06eb044b3ad8c6989cec14d7e5090c023d2c789916bc889d541a90b825126ab5",
+    "src/space-companions.js": "f84b59c8e3bdd9de2be8c310b959f76903e5fa4ea70209a9f165e7895b84d139",
+    "src/space-weapons.js": "175692d52cb1eee17782314910f5db2ec64595d64e06ac900492e20a00c12f72",
+    "src/carrier.js": "91250a93b3ea514410bb385771f5dfb5f9a02fad59fae6f1a41dfcfe6d5a21d6",
+    "src/relay.js": "35c10fd3ff37d1187428355203854545f64dd06abc7b8f12595a035e28367127",
+    "src/orbital.js": "9374f100db9ba2cd12ef90a10cf623d43727772292eff583bad942cc66777ff7",
+    "dist/breach.html": "6bbebeca0fde25cae39bbc440cebf919d20eaf7c5152be4e023a141606981e33",
+    "out/space-selected-review/carrier.html": "c404346220646c2f671987204710f190c031b08228990dd4778a2ff0d5fadcfd",
+    "out/space-selected-review/circuit/circuit.html": "31fd49e80d9e0299403914a2d8479e49d3d0e899818170538276639b3ccff08f",
+    "out/space-selected-review/forge/forge.html": "144524ad1418c4439e518969378c3e662d5e1d885667a359c5f7fe86d2148202"
+  },
+  "servedBaseline": [
+    {
+      "route": "/carrier.html",
+      "path": "out/space-selected-review/carrier.html",
+      "sha256": "c404346220646c2f671987204710f190c031b08228990dd4778a2ff0d5fadcfd"
+    },
+    {
+      "route": "/circuit.html",
+      "path": "out/space-selected-review/circuit/circuit.html",
+      "sha256": "31fd49e80d9e0299403914a2d8479e49d3d0e899818170538276639b3ccff08f"
+    },
+    {
+      "route": "/forge.html",
+      "path": "out/space-selected-review/forge/forge.html",
+      "sha256": "144524ad1418c4439e518969378c3e662d5e1d885667a359c5f7fe86d2148202"
+    },
+    {
+      "route": "/",
+      "path": "out/space-selected-review/index.html",
+      "sha256": "846c30a630e46bec8c67829327ce5b8928a6a13486b99644d235b20de33756b5"
+    }
+  ],
+  "pageErrors": [],
+  "httpErrors": [],
+  "networkFailures": []
+}

@@ -1,0 +1,369 @@
+{
+  "scope": "Isolated phone texture sizing; original normalized collision/anchors remain authoritative",
+  "manifest": "assets/orbital-forge/manifest.json",
+  "manifestSHA256": "5e0dbe523a6c5a0a27be2484252056c5b0933180c67c0853f4f3e153e82e0ecc",
+  "parts": [
+    {
+      "id": "station_body",
+      "source": "assets/orbital-forge/station_body.png",
+      "sourceSHA256": "998d26c30a99aa430c1059a942f0f98c25e0a9d674314d04a57a4e75dbf1388e",
+      "path": "assets/orbital-forge/runtime/station_body.webp",
+      "runtimeSHA256": "8d37b97c37ae31097efd3c84dfcca0cabfc047ff84e935a8af78d96352875c6f",
+      "sourceSize": [
+        900,
+        724
+      ],
+      "runtimeSize": [
+        165,
+        133
+      ],
+      "sourceBytes": 1018149,
+      "encodedBytes": 27062,
+      "decodedRGBABytes": 87780,
+      "nativeMeanChannelError": 0.43873846530914307,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "station_coil",
+      "source": "assets/orbital-forge/station_coil.png",
+      "sourceSHA256": "3b9be7ab3140f856bd283708709b9582db33aeef763cb9ac1a87df8caf81f4aa",
+      "path": "assets/orbital-forge/runtime/station_coil.webp",
+      "runtimeSHA256": "e7ca40d1a43174f627c662ebf4f20c22bcb046bdd99435707a63d9f1da50c567",
+      "sourceSize": [
+        900,
+        724
+      ],
+      "runtimeSize": [
+        165,
+        133
+      ],
+      "sourceBytes": 1005444,
+      "encodedBytes": 11152,
+      "decodedRGBABytes": 87780,
+      "nativeMeanChannelError": 0.1758481115102768,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "station_cover",
+      "source": "assets/orbital-forge/station_cover.png",
+      "sourceSHA256": "a700916b13c1678b502c478790c2b7b719e496a81f9cce72fd1bc80357ab8ce4",
+      "path": "assets/orbital-forge/runtime/station_cover.webp",
+      "runtimeSHA256": "ffb11bd7db72adbf773136fa1c7bac631bd04fd9fac5d29a3c33714b2d43dfbf",
+      "sourceSize": [
+        900,
+        854
+      ],
+      "runtimeSize": [
+        165,
+        157
+      ],
+      "sourceBytes": 1308786,
+      "encodedBytes": 40338,
+      "decodedRGBABytes": 103620,
+      "nativeMeanChannelError": 0.7497354745864868,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "projector_arm",
+      "source": "assets/orbital-forge/projector_arm.png",
+      "sourceSHA256": "3db477f61d54c3f09e89f1af6510baf957f637a23e26aa521b1f27b5045f9996",
+      "path": "assets/orbital-forge/runtime/projector_arm.webp",
+      "runtimeSHA256": "afd497966b23be9e631280cb4ce4eeca830d621b83856f8d42f60e642ddaa984",
+      "sourceSize": [
+        592,
+        1116
+      ],
+      "runtimeSize": [
+        165,
+        311
+      ],
+      "sourceBytes": 836225,
+      "encodedBytes": 51086,
+      "decodedRGBABytes": 205260,
+      "nativeMeanChannelError": 0.32075053453445435,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "reactor",
+      "source": "assets/orbital-forge/reactor.png",
+      "sourceSHA256": "8cd74d7741bc8e9b5f4c4ae0aa8b248f4cd7f5d91c4973cbbfd0cb55cdbe9106",
+      "path": "assets/orbital-forge/runtime/reactor.webp",
+      "runtimeSHA256": "3a7e781e0e96470d64d41d1da15c17c44ca459ede26079c3ad7f66b60fad2199",
+      "sourceSize": [
+        592,
+        1116
+      ],
+      "runtimeSize": [
+        165,
+        311
+      ],
+      "sourceBytes": 817214,
+      "encodedBytes": 17228,
+      "decodedRGBABytes": 205260,
+      "nativeMeanChannelError": 0.1204037144780159,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "cannon",
+      "source": "assets/orbital-forge/cannon.png",
+      "sourceSHA256": "524b08b6c8f8a6fe850ca44ce0aba4f2775480cd814f72314538c4f69ef46651",
+      "path": "assets/orbital-forge/runtime/cannon.webp",
+      "runtimeSHA256": "6974ab7bf53afd8d8bf954965c00bc95211276d8ec687fea76f15b85e54c9e1c",
+      "sourceSize": [
+        900,
+        1075
+      ],
+      "runtimeSize": [
+        126,
+        151
+      ],
+      "sourceBytes": 1315533,
+      "encodedBytes": 29034,
+      "decodedRGBABytes": 76104,
+      "nativeMeanChannelError": 0.4939083755016327,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "cyan",
+      "source": "assets/orbital-forge/cyan.png",
+      "sourceSHA256": "39ce1af0c96757c191b8826f3e8696e07571e4e437506eb6e7e69b50d7bc34c4",
+      "path": "assets/orbital-forge/runtime/cyan.webp",
+      "runtimeSHA256": "6422c5e6fd40fc50f17ffe63bca689681451bfb7f015b4ae339d8074a2437bae",
+      "sourceSize": [
+        894,
+        416
+      ],
+      "runtimeSize": [
+        120,
+        56
+      ],
+      "sourceBytes": 419743,
+      "encodedBytes": 9154,
+      "decodedRGBABytes": 26880,
+      "nativeMeanChannelError": 0.5700483322143555,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "violet",
+      "source": "assets/orbital-forge/violet.png",
+      "sourceSHA256": "6e4c7913716f4102f509c79882a4f455315def697192aa281ded2cbbc762cd49",
+      "path": "assets/orbital-forge/runtime/violet.webp",
+      "runtimeSHA256": "623422fe1ce8d8179bbddef5956aced52e6a0deb726c70fb8b6a3fd4ae8631dc",
+      "sourceSize": [
+        895,
+        415
+      ],
+      "runtimeSize": [
+        120,
+        56
+      ],
+      "sourceBytes": 431470,
+      "encodedBytes": 9666,
+      "decodedRGBABytes": 26880,
+      "nativeMeanChannelError": 0.681504487991333,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "armour",
+      "source": "assets/orbital-forge/armour.png",
+      "sourceSHA256": "a8f27a75a1867a661f6e9d81fa7decdbb01365acc2b5e16444c1e0dcb741cbff",
+      "path": "assets/orbital-forge/runtime/armour.webp",
+      "runtimeSHA256": "15bd583141aed006c401b31431994e4208466d827961a7a76d7947218334f390",
+      "sourceSize": [
+        894,
+        458
+      ],
+      "runtimeSize": [
+        120,
+        61
+      ],
+      "sourceBytes": 784414,
+      "encodedBytes": 12934,
+      "decodedRGBABytes": 29280,
+      "nativeMeanChannelError": 0.5579710006713867,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "background",
+      "source": "assets/orbital-forge/background.png",
+      "sourceSHA256": "8b0ef447970e5e1ee642b7f0577759ff0af1d68a47ccecec2111b8c734e53c78",
+      "path": "assets/orbital-forge/runtime/background.webp",
+      "runtimeSHA256": "c954eec31a5c06b948c508bfbc40273245dfbdb757824a5a46fbff1c20aeb450",
+      "sourceSize": [
+        900,
+        1350
+      ],
+      "runtimeSize": [
+        900,
+        1350
+      ],
+      "sourceBytes": 1640435,
+      "encodedBytes": 1094686,
+      "decodedRGBABytes": 4860000,
+      "nativeMeanChannelError": null,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "hull",
+      "source": "assets/space-c/hull.png",
+      "sourceSHA256": "c3b2123bebc05712ab1de206e95e7a185519ce3eee18e0d343c76a01b4a13c0f",
+      "path": "assets/orbital-forge/runtime/hull.webp",
+      "runtimeSHA256": "898c2c7c1ba6d05abb6e983dea3b4d83c5d510a469285192aec2b4493fb2f318",
+      "sourceSize": [
+        1992,
+        795
+      ],
+      "runtimeSize": [
+        1080,
+        431
+      ],
+      "sourceBytes": 2059981,
+      "encodedBytes": 506824,
+      "decodedRGBABytes": 1861920,
+      "nativeMeanChannelError": 0.35991397500038147,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "bay_mask",
+      "source": "assets/space-c/bay_mask.png",
+      "sourceSHA256": "51f02118f2a7b0e0cd1e503011ff2468b05166c65122ef919aec0b57ace41f86",
+      "path": "assets/orbital-forge/runtime/bay_mask.webp",
+      "runtimeSHA256": "9be48207ee3800cb8817128141d3aee30f1406a1ac2394a2454b3052a3611571",
+      "sourceSize": [
+        1992,
+        795
+      ],
+      "runtimeSize": [
+        1080,
+        431
+      ],
+      "sourceBytes": 8346,
+      "encodedBytes": 904,
+      "decodedRGBABytes": 1861920,
+      "nativeMeanChannelError": 0.01493803784251213,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "doors_pair",
+      "source": "assets/space-c/doors_pair.png",
+      "sourceSHA256": "cf4eb410bc8e94bc2fc5d56ce12551ccb9c0e6de033b72bff4b4a08f3f603054",
+      "path": "assets/orbital-forge/runtime/doors_pair.webp",
+      "runtimeSHA256": "c55ccaabfd495e5e5cfb68b15e1cb87869f90c8bdff21cf07de19641494674e5",
+      "sourceSize": [
+        2022,
+        689
+      ],
+      "runtimeSize": [
+        1080,
+        368
+      ],
+      "sourceBytes": 2047445,
+      "encodedBytes": 449388,
+      "decodedRGBABytes": 1589760,
+      "nativeMeanChannelError": 0.5572642087936401,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "door_left",
+      "source": "assets/space-c/door_left.png",
+      "sourceSHA256": "0efe3cf550cf7f43dfe97c8f04d7d0f315bdb684b432e8e8fbd117591e7364e9",
+      "path": "assets/orbital-forge/runtime/door_left.webp",
+      "runtimeSHA256": "fb2f4e4571564706bcdfc971d5f7d27fb3790d4455317c8c032da3bb31bfd428",
+      "sourceSize": [
+        1019,
+        697
+      ],
+      "runtimeSize": [
+        1019,
+        697
+      ],
+      "sourceBytes": 1023204,
+      "encodedBytes": 698054,
+      "decodedRGBABytes": 2840972,
+      "nativeMeanChannelError": 0.0,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "door_right",
+      "source": "assets/space-c/door_right.png",
+      "sourceSHA256": "31cddc13e703ea9288894f41d83ad0737faab9cbc1ebd9173c25ab5c404ac0af",
+      "path": "assets/orbital-forge/runtime/door_right.webp",
+      "runtimeSHA256": "3dbf4f1f736cb42ab17e7ddc091e92e3341ad83f0fe3e9703f7a45a05482221d",
+      "sourceSize": [
+        1019,
+        697
+      ],
+      "runtimeSize": [
+        1019,
+        697
+      ],
+      "sourceBytes": 1031573,
+      "encodedBytes": 699376,
+      "decodedRGBABytes": 2840972,
+      "nativeMeanChannelError": 0.0,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "bay_back",
+      "source": "assets/space-c/bay_back.png",
+      "sourceSHA256": "206e2e2f33b6aa0b2d819ad74396fd06abbbd11cc1c237a7db740614c24fc39a",
+      "path": "assets/orbital-forge/runtime/bay_back.webp",
+      "runtimeSHA256": "41377b1a6bf9afaae6337bd2adfc04b2825b823f85e5553a816cbe439fd1c4fa",
+      "sourceSize": [
+        1308,
+        438
+      ],
+      "runtimeSize": [
+        1080,
+        362
+      ],
+      "sourceBytes": 761056,
+      "encodedBytes": 378576,
+      "decodedRGBABytes": 1563840,
+      "nativeMeanChannelError": 0.2678169310092926,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "paddle",
+      "source": "assets/space-a/paddle.png",
+      "sourceSHA256": "95d548c9cd0d9f22ee0f7474acfeb0ff0834f426a49cd217e70f7c15539df021",
+      "path": "assets/orbital-forge/runtime/paddle.webp",
+      "runtimeSHA256": "802deb3651c5fb8f8af2d4f7f4c25f3e5deacdf89d4d7bd3cd4cf2e5aabc04e6",
+      "sourceSize": [
+        252,
+        72
+      ],
+      "runtimeSize": [
+        252,
+        72
+      ],
+      "sourceBytes": 11928,
+      "encodedBytes": 8756,
+      "decodedRGBABytes": 72576,
+      "nativeMeanChannelError": 0.0,
+      "losslessRoundTrip": true
+    },
+    {
+      "id": "ball",
+      "source": "assets/space-common/ball.png",
+      "sourceSHA256": "249c2451d683ca1ac68c39596c97c12607988681545c7db19dbf03a32e0abf00",
+      "path": "assets/orbital-forge/runtime/ball.webp",
+      "runtimeSHA256": "9fa7ed4851e7b9f270e87de7417802c19a9bcc1e3b20e42ba0b0210541d8baec",
+      "sourceSize": [
+        60,
+        60
+      ],
+      "runtimeSize": [
+        60,
+        60
+      ],
+      "sourceBytes": 3076,
+      "encodedBytes": 2468,
+      "decodedRGBABytes": 14400,
+      "nativeMeanChannelError": 0.0,
+      "losslessRoundTrip": true
+    }
+  ],
+  "encodedBytes": 4046686,
+  "decodedRGBABytes": 18355204
+}

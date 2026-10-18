@@ -1,0 +1,67 @@
+[
+  {
+    "key": "a_hull",
+    "path": "C:\\Users\\mahik\\.codex\\generated_images\\01a14d28-4572-7933-9d93-b3b7cb0a8f09\\exec-19a8f3de-8de6-4fea-ad9b-3b92a5f6e1a2.png",
+    "target": "assets/space-a/carrier_hull.png"
+  },
+  {
+    "key": "b_hull",
+    "path": "C:\\Users\\mahik\\.codex\\generated_images\\01a14d28-4572-7933-9d93-b3b7cb0a8f09\\exec-816bef9e-38db-43cc-baa4-bd8428cb9946.png",
+    "target": "assets/space-b/relay_hull.png"
+  },
+  {
+    "key": "a_cannon_v2",
+    "path": "C:\\Users\\mahik\\.codex\\generated_images\\01a14d28-4572-7933-9d93-b3b7cb0a8f09\\exec-874090ec-55e7-4387-b39b-8793e6a73417.png",
+    "target": "assets/space-a/cannon_barrel.png"
+  },
+  {
+    "key": "b_cannon",
+    "path": "C:\\Users\\mahik\\.codex\\generated_images\\01a14d28-4572-7933-9d93-b3b7cb0a8f09\\exec-c8bd211b-3a92-4171-a9a5-a81f5edd0bc2.png",
+    "target": "assets/space-b/cannon_barrel.png"
+  },
+  {
+    "key": "a_fighter",
+    "path": "C:\\Users\\mahik\\.codex\\generated_images\\01a14d28-4572-7933-9d93-b3b7cb0a8f09\\exec-63ed1300-0fb5-4e0b-98c0-e4189233a936.png",
+    "target": "assets/space-a/fighter.png"
+  },
+  {
+    "key": "b_skiff",
+    "path": "C:\\Users\\mahik\\.codex\\generated_images\\01a14d28-4572-7933-9d93-b3b7cb0a8f09\\exec-5a1ae6cd-c13c-4bbc-a0c0-97d0729208fc.png",
+    "target": "assets/space-b/skiff.png"
+  },
+  {
+    "key": "a_doors",
+    "path": "C:\\Users\\mahik\\.codex\\generated_images\\01a14d28-4572-7933-9d93-b3b7cb0a8f09\\exec-45a94075-22d6-4ced-939e-6911e9525872.png",
+    "target": "assets/space-a/doors.png"
+  },
+  {
+    "key": "b_iris",
+    "path": "C:\\Users\\mahik\\.codex\\generated_images\\01a14d28-4572-7933-9d93-b3b7cb0a8f09\\exec-c3f71a55-c70e-4f05-87d7-ccfdb3ffc477.png",
+    "target": "assets/space-b/iris_segment.png"
+  },
+  {
+    "key": "b_pod",
+    "path": "C:\\Users\\mahik\\.codex\\generated_images\\01a14d28-4572-7933-9d93-b3b7cb0a8f09\\exec-edb93b53-bf42-4f28-8ff5-cc9ce3918870.png",
+    "target": "assets/space-b/pod_shell.png"
+  },
+  {
+    "key": "a_worker",
+    "path": "C:\\Users\\mahik\\.codex\\generated_images\\01a14d28-4572-7933-9d93-b3b7cb0a8f09\\exec-f71810b6-3da3-456e-872d-f20465085322.png",
+    "target": "assets/space-a/worker.png"
+  },
+  {
+    "key": "b_worker",
+    "path": "C:\\Users\\mahik\\.codex\\generated_images\\01a14d28-4572-7933-9d93-b3b7cb0a8f09\\exec-cc76f216-dec0-4abd-804b-f4563d77a308.png",
+    "target": "assets/space-b/worker.png"
+  },
+  {
+    "key": "plume",
+    "path": "C:\\Users\\mahik\\.codex\\generated_images\\01a14d28-4572-7933-9d93-b3b7cb0a8f09\\exec-afedd77b-6d1f-423a-952a-34b95650d58f.png",
+    "target": "assets/space-a/thruster.png"
+  },
+  {
+    "key": "b_portal",
+    "path": "C:\\Users\\mahik\\.codex\\generated_images\\01a14d28-4572-7933-9d93-b3b7cb0a8f09\\exec-d115df0e-8466-4dfd-8761-4c0f82c33017.png",
+    "target": "assets/space-b/portal.png"
+  }
+]

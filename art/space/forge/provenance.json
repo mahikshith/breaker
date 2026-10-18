@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-18",
+  "purpose": "Selected Shutter Forge A production source family for isolated gameplay review",
+  "selectedReference": "design/phase1/img/orbital-variety-study-v3.png",
+  "inputReferences": [
+    "design/phase1/img/orbital-variety-study-v2.png",
+    "assets/space-c/hull.png"
+  ],
+  "referenceNote": "The A panels are identical in v2 and selected v3; the v3 edit changed only a small prop in the future B alternative. No B machinery is admitted here.",
+  "normalization": "prepare.py; alpha ownership masks split the original coil/frame and reactor/arm without deleting solid pixels, uniform size normalization, alpha128 traced polygon outlines, PNG metadata stripped. Runtime derivatives use separately hashed lossless WebP after phone resolution sizing.",
+  "sourceBriefs": [
+    {
+      "file": "stabiliser-open-source.png",
+      "original": "exec-4d3cb00a-b88f-4af0-86a0-bd30cf3b51bc.png",
+      "brief": "One independent front orthographic empty stabiliser matching the selected C glossy slate/magenta hull materials and upper-left lighting. Open U frame, cyan ribbed coil, true physically open lower approach, no worker, front cover, words, background or beam; true alpha."
+    },
+    {
+      "file": "stabiliser-cover-source.png",
+      "original": "exec-44df9143-7568-444b-b2ef-d31ea9118a8a.png",
+      "brief": "Independent opaque octagonal cover for the supplied stabiliser body. Chunky slate bevels, inset metal X, amber corner lamps, left hinge convention, same camera/material/light as the supplied reference. No aperture, body, words or background; true alpha."
+    },
+    {
+      "file": "projector-source.png",
+      "original": "exec-482de242-c03b-478c-ba1d-6f4000ba480f.png",
+      "brief": "Independent front orthographic C projection arm for selected Forge A2. Vertical telescoping slate support, exposed glossy magenta reactor sphere at lower end, two open lower grippers and genuinely open lower ball approach, no enclosing bottom ring, beam, text or background; true alpha."
+    },
+    {
+      "file": "cannon-source.png",
+      "original": "exec-25d4c881-fec7-49a9-be5c-1f6d67c5741e.png",
+      "brief": "One front orthographic down-pointing C cannon barrel with top mount collar and clearly visible dark lower-front muzzle, chunky angular glossy slate, restrained magenta edge lights, reference-consistent light/material. No beam, projectile, hull, words or background; true alpha."
+    },
+    {
+      "file": "panel-family-source.png",
+      "original": "exec-b9cd86b8-aea5-4825-b71d-f54177b34bb5.png",
+      "brief": "One production family sheet with exactly three separated stacked panel sprites: cyan glazed bevel, violet glazed bevel, and reinforced metallic X. Consistent C camera/material/light, broad readable glossy facets, no labels, scene or baked power icons; true alpha."
+    },
+    {
+      "file": "background-source.png",
+      "original": "exec-b0ab3871-e8a5-4eb4-80b3-809bfbd75600.png",
+      "brief": "Portrait 1024x1536 near-black navy space field for selected Forge C. Very dark lower-right Saturn and rings, dim edge asteroids, sparse subdued stars, clear central gameplay area. No foreground ships, machines, HUD, text, beams or ball."
+    }
+  ],
+  "originalDirectory": "C:/Users/mahik/.codex/generated_images/01a14eba-9246-7f83-aa59-7b07e77146f7",
+  "status": "Selected source raster family and isolated final actual-art gameplay reviewed; exact source/runtime receipts and phone-proof limits are in design/phase1/orbital-forge.md. Permanent registry and APK admission await owner approval."
+}

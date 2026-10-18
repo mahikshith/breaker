@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "name": "BREACH — Space combat and Frost Warden preview",
+  "sourceBranch": "codex/space-combat-apk",
+  "reviewedCanonicalSha256": "b06cdd969bcf5c420a74b3cf37a3eac45fe3d46eabb2926f5e5d2b8a42e01770",
+  "saveSlots": ["Carrier Breakout", "The Vault", "Circuit Breakout", "Shutter Forge", "Frost Warden"],
+  "menuOrder": [0, 2, 3, 1, 4],
+  "difficulties": ["easy", "medium", "hard"],
+  "scope": "Heavy and salvo space batteries, distinct companion controls, bounded powers, five playable chapters and offline fonts.",
+  "limitations": "Debug preview; ads and purchases are local simulations. Physical-phone performance and human difficulty require device testing."
+}

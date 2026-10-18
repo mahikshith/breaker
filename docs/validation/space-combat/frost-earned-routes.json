@@ -1,0 +1,869 @@
+{
+  "scope": "One fixed-seed coarse Easy attempt per phone in actual Main index4. Public level input/update advances accelerated full physics, actual Main renders, earned Kit choices use CDP touch. Reads ball/paddle/time only; no target solver, HP/charge/life/ball position writes, forced capsule, Continue, retries or policy search. Not ordinary-only, human balance or handset evidence.",
+  "htmlSHA256": "e49ddc6838759a687067eed5a4375a7fcbf5b1210111bcd55fca96c37fcd30f4",
+  "sourceSHA256": "8c21d183411708c36a3c986eb94a00f6be23aa3c3ed6103d2a176b70a318d202",
+  "cases": [
+    {
+      "device": "ios",
+      "inspect": {
+        "state": "won",
+        "phase": "rescue",
+        "stage": "defeated",
+        "clock": 39.79166666666505,
+        "hp": 0,
+        "maxHP": 40,
+        "defences": [
+          {
+            "id": "defence0",
+            "x": 148,
+            "y": 146,
+            "w": 18,
+            "h": 68,
+            "hp": 2,
+            "maxHP": 5
+          },
+          {
+            "id": "defence1",
+            "x": 192,
+            "y": 146,
+            "w": 18,
+            "h": 68,
+            "hp": 5,
+            "maxHP": 5
+          },
+          {
+            "id": "defence2",
+            "x": 236,
+            "y": 146,
+            "w": 18,
+            "h": 68,
+            "hp": 5,
+            "maxHP": 5
+          }
+        ],
+        "activeDefence": 0,
+        "windHits": 1,
+        "ward": null,
+        "bodyPose": {
+          "x": 95.29418627929688,
+          "y": 150.49407348632812,
+          "w": 23.2,
+          "h": 38.4
+        },
+        "fist": {
+          "x": 83.43071086120605,
+          "y": 213.04081649780272,
+          "r": 12.271208221435549
+        },
+        "lives": 3,
+        "started": true,
+        "punches": 3,
+        "blocked": 0
+      },
+      "tick": 4776,
+      "nextInput": 4778,
+      "aimTick": -1,
+      "returns": 31,
+      "priorLife": 3,
+      "losses": [],
+      "casts": [
+        {
+          "kind": "five",
+          "state": "play",
+          "phase": "siege",
+          "stage": "recover",
+          "t": 22.65833333333269,
+          "hp": 35,
+          "lives": 3,
+          "choose": true
+        }
+      ],
+      "powers": [
+        {
+          "kind": "laser",
+          "t": 24.683333333332573
+        },
+        {
+          "kind": "fire",
+          "t": 25.974999999999167
+        },
+        {
+          "kind": "split",
+          "t": 27.258333333332427
+        },
+        {
+          "kind": "shield",
+          "t": 27.7333333333324
+        }
+      ],
+      "damage": [
+        {
+          "id": "warden",
+          "t": 9.283333333333447,
+          "before": 40,
+          "after": 39,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 10.150000000000064,
+          "before": 39,
+          "after": 38,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 11.641666666666646,
+          "before": 38,
+          "after": 37,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 14.708333333333139,
+          "before": 37,
+          "after": 36,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 15.14999999999978,
+          "before": 36,
+          "after": 35,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 26.233333333332485,
+          "before": 35,
+          "after": 34,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 26.441666666665807,
+          "before": 34,
+          "after": 33,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 26.89166666666578,
+          "before": 33,
+          "after": 32,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 27.516666666665746,
+          "before": 32,
+          "after": 31,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 27.799999999999063,
+          "before": 31,
+          "after": 30,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 28.033333333332383,
+          "before": 30,
+          "after": 29,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 28.033333333332383,
+          "before": 29,
+          "after": 28,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 28.81666666666567,
+          "before": 28,
+          "after": 27,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 29.024999999998993,
+          "before": 27,
+          "after": 26,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 29.91666666666561,
+          "before": 26,
+          "after": 25,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 30.308333333332254,
+          "before": 25,
+          "after": 24,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 31.558333333332182,
+          "before": 24,
+          "after": 23,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 31.716666666665507,
+          "before": 23,
+          "after": 22,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 31.74999999999884,
+          "before": 22,
+          "after": 21,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 32.01666666666549,
+          "before": 21,
+          "after": 20,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 32.316666666665476,
+          "before": 20,
+          "after": 19,
+          "shot": true,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 33.766666666665394,
+          "before": 19,
+          "after": 18,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 34.2249999999987,
+          "before": 18,
+          "after": 17,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 34.39166666666536,
+          "before": 17,
+          "after": 16,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 34.524999999998684,
+          "before": 16,
+          "after": 15,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 34.54166666666535,
+          "before": 15,
+          "after": 14,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 34.558333333332016,
+          "before": 14,
+          "after": 13,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 34.66666666666534,
+          "before": 13,
+          "after": 12,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 34.77499999999867,
+          "before": 12,
+          "after": 11,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 34.94999999999866,
+          "before": 11,
+          "after": 10,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 35.224999999998644,
+          "before": 10,
+          "after": 9,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 35.23333333333198,
+          "before": 9,
+          "after": 8,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 35.29999999999864,
+          "before": 8,
+          "after": 7,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 35.54166666666529,
+          "before": 7,
+          "after": 6,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 36.32499999999858,
+          "before": 6,
+          "after": 5,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 36.41666666666524,
+          "before": 5,
+          "after": 4,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 36.424999999998576,
+          "before": 4,
+          "after": 3,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 37.70833333333184,
+          "before": 3,
+          "after": 2,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 37.85833333333183,
+          "before": 2,
+          "after": 1,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 38.18333333333181,
+          "before": 1,
+          "after": 0,
+          "shot": false,
+          "titan": 0
+        }
+      ],
+      "firstReady": {
+        "t": 22.65833333333269,
+        "hp": 35,
+        "stage": "recover"
+      },
+      "errors": []
+    },
+    {
+      "device": "android",
+      "inspect": {
+        "state": "won",
+        "phase": "rescue",
+        "stage": "defeated",
+        "clock": 97.80833333335724,
+        "hp": 0,
+        "maxHP": 40,
+        "defences": [
+          {
+            "id": "defence0",
+            "x": 148,
+            "y": 146,
+            "w": 18,
+            "h": 68,
+            "hp": 0,
+            "maxHP": 5
+          },
+          {
+            "id": "defence1",
+            "x": 192,
+            "y": 146,
+            "w": 18,
+            "h": 68,
+            "hp": 2,
+            "maxHP": 5
+          },
+          {
+            "id": "defence2",
+            "x": 236,
+            "y": 146,
+            "w": 18,
+            "h": 68,
+            "hp": 5,
+            "maxHP": 5
+          }
+        ],
+        "activeDefence": 1,
+        "windHits": 0,
+        "ward": null,
+        "bodyPose": {
+          "x": 139.29418627929687,
+          "y": 150.49407348632812,
+          "w": 23.2,
+          "h": 38.4
+        },
+        "fist": {
+          "x": 127.43071086120605,
+          "y": 213.04081649780272,
+          "r": 12.271208221435549
+        },
+        "lives": 3,
+        "started": true,
+        "punches": 9,
+        "blocked": 1
+      },
+      "tick": 11738,
+      "nextInput": 11740,
+      "aimTick": -1,
+      "returns": 67,
+      "priorLife": 3,
+      "losses": [],
+      "casts": [
+        {
+          "kind": "shield",
+          "state": "play",
+          "phase": "siege",
+          "stage": "windup",
+          "t": 21.67499999999941,
+          "hp": 33,
+          "lives": 3,
+          "choose": true
+        },
+        {
+          "kind": "five",
+          "state": "play",
+          "phase": "siege",
+          "stage": "advance",
+          "t": 60.56666666666387,
+          "hp": 29,
+          "lives": 3,
+          "choose": true
+        },
+        {
+          "kind": "five",
+          "state": "play",
+          "phase": "siege",
+          "stage": "stun",
+          "t": 81.30833333334411,
+          "hp": 16,
+          "lives": 3,
+          "choose": true
+        }
+      ],
+      "powers": [
+        {
+          "kind": "fire",
+          "t": 43.441666666664844
+        },
+        {
+          "kind": "slow",
+          "t": 58.75833333333064
+        },
+        {
+          "kind": "wide",
+          "t": 70.45833333333547
+        }
+      ],
+      "damage": [
+        {
+          "id": "warden",
+          "t": 7.78333333333351,
+          "before": 40,
+          "after": 39,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 7.791666666666844,
+          "before": 39,
+          "after": 38,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 8.050000000000184,
+          "before": 38,
+          "after": 37,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 11.783333333333305,
+          "before": 37,
+          "after": 36,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 12.099999999999953,
+          "before": 36,
+          "after": 35,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 13.041666666666567,
+          "before": 35,
+          "after": 34,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 18.66666666666625,
+          "before": 34,
+          "after": 33,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 32.866666666665445,
+          "before": 33,
+          "after": 32,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 35.9999999999986,
+          "before": 32,
+          "after": 31,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 36.041666666665265,
+          "before": 31,
+          "after": 30,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 51.39166666666439,
+          "before": 30,
+          "after": 29,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 67.34999999999967,
+          "before": 29,
+          "after": 28,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 68.4000000000005,
+          "before": 28,
+          "after": 27,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 68.40833333333384,
+          "before": 27,
+          "after": 26,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 68.45000000000054,
+          "before": 26,
+          "after": 25,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 70.60000000000225,
+          "before": 25,
+          "after": 24,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 71.15000000000269,
+          "before": 24,
+          "after": 23,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 72.82500000000402,
+          "before": 23,
+          "after": 22,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 72.8416666666707,
+          "before": 22,
+          "after": 21,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 76.40833333334021,
+          "before": 21,
+          "after": 20,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 77.09166666667409,
+          "before": 20,
+          "after": 19,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 80.00833333334307,
+          "before": 19,
+          "after": 18,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 80.26666666667661,
+          "before": 18,
+          "after": 17,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 81.02500000001055,
+          "before": 17,
+          "after": 16,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 81.32500000001079,
+          "before": 16,
+          "after": 15,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 81.70833333334443,
+          "before": 15,
+          "after": 14,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 81.98333333334465,
+          "before": 14,
+          "after": 13,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 82.02500000001135,
+          "before": 13,
+          "after": 12,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 83.88333333334616,
+          "before": 12,
+          "after": 11,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 85.02500000001373,
+          "before": 11,
+          "after": 10,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 85.35833333334733,
+          "before": 10,
+          "after": 9,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 86.05833333334789,
+          "before": 9,
+          "after": 8,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 86.84166666668185,
+          "before": 8,
+          "after": 7,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 87.55000000001574,
+          "before": 7,
+          "after": 6,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 89.44166666668391,
+          "before": 6,
+          "after": 5,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 89.74166666668415,
+          "before": 5,
+          "after": 4,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 90.61666666668485,
+          "before": 4,
+          "after": 3,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 91.3583333333521,
+          "before": 3,
+          "after": 2,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 93.5250000000205,
+          "before": 2,
+          "after": 1,
+          "shot": false,
+          "titan": 0
+        },
+        {
+          "id": "warden",
+          "t": 96.20833333335597,
+          "before": 1,
+          "after": 0,
+          "shot": false,
+          "titan": 0
+        }
+      ],
+      "firstReady": {
+        "t": 21.67499999999941,
+        "hp": 33,
+        "stage": "windup"
+      },
+      "errors": []
+    }
+  ],
+  "hashAfter": "e49ddc6838759a687067eed5a4375a7fcbf5b1210111bcd55fca96c37fcd30f4",
+  "complete": true
+}

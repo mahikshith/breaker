@@ -1,0 +1,325 @@
+{
+  "scope": "One deterministic input-assisted attempt per mode/phone/ship. Reads ball trajectories and visible bolts; no target aiming solver, HP/charge/life writes or Continue. This controller is not human balance evidence.",
+  "sources": {
+    "arena": "9e70676cee22003cc6e0866fae9f1e624cd694e4361c375134ce3d72d3eef848",
+    "carrier": "685c4c8ed75891fc5918406eddc25ae4607e2f824f8565901bcf14e7bbc7f226",
+    "relay": "8d961e95c53ea6035e86767f441e63058098d92c0dffa0b0c135858d4f611cdf",
+    "orbital": "60fb0d3d74a8bde6d9a820c99c775cee883a07085359c8b23498a055daf54082",
+    "space-weapons": "74ae58b0340bd2a43e0d1c2803d88be208700ce63b621d2b70b715a045f18b07",
+    "difficulty": "3596ef0e04692535c0808b0d6625db6014f564e4f39a31741e88af2468407fd7"
+  },
+  "cases": [
+    {
+      "id": "carrier",
+      "mode": "easy",
+      "device": "ios",
+      "state": "lost",
+      "phase": "carrier",
+      "seconds": 46.43333333333134,
+      "lives": 0,
+      "casts": [
+        {
+          "t": 36.6333333333319,
+          "kind": "five"
+        }
+      ],
+      "losses": [
+        {
+          "t": 11.824999999999969,
+          "from": 3,
+          "to": 2
+        },
+        {
+          "t": 18.008333333332953,
+          "from": 2,
+          "to": 1
+        },
+        {
+          "t": 46.43333333333134,
+          "from": 1,
+          "to": 0
+        }
+      ],
+      "returns": 23,
+      "hp": 38,
+      "reason": "Out of balls",
+      "bricksRemaining": 0
+    },
+    {
+      "id": "carrier",
+      "mode": "easy",
+      "device": "android",
+      "state": "lost",
+      "phase": "carrier",
+      "seconds": 37.78333333333183,
+      "lives": 2,
+      "casts": [],
+      "losses": [
+        {
+          "t": 12.124999999999952,
+          "from": 3,
+          "to": 2
+        }
+      ],
+      "returns": 17,
+      "hp": 44,
+      "reason": "Crew taken",
+      "bricksRemaining": 8
+    },
+    {
+      "id": "carrier",
+      "mode": "medium",
+      "device": "ios",
+      "state": "won",
+      "phase": "retreat",
+      "seconds": 95.80833333335565,
+      "lives": 1,
+      "casts": [
+        {
+          "t": 39.99999999999837,
+          "kind": "five"
+        },
+        {
+          "t": 72.05000000000341,
+          "kind": "five"
+        }
+      ],
+      "losses": [
+        {
+          "t": 15.883333333333072,
+          "from": 3,
+          "to": 2
+        },
+        {
+          "t": 57.433333333330715,
+          "from": 2,
+          "to": 1
+        }
+      ],
+      "returns": 46,
+      "hp": 0,
+      "bricksRemaining": 0
+    },
+    {
+      "id": "carrier",
+      "mode": "medium",
+      "device": "android",
+      "state": "lost",
+      "phase": "carrier",
+      "seconds": 49.89166666666448,
+      "lives": 3,
+      "casts": [],
+      "losses": [],
+      "returns": 24,
+      "hp": 57,
+      "reason": "Crew taken",
+      "bricksRemaining": 5
+    },
+    {
+      "id": "carrier",
+      "mode": "hard",
+      "device": "ios",
+      "state": "lost",
+      "phase": "carrier",
+      "seconds": 26.649999999999128,
+      "lives": 3,
+      "casts": [],
+      "losses": [],
+      "returns": 17,
+      "hp": 78,
+      "reason": "Crew taken",
+      "bricksRemaining": 11
+    },
+    {
+      "id": "carrier",
+      "mode": "hard",
+      "device": "android",
+      "state": "lost",
+      "phase": "carrier",
+      "seconds": 42.03333333333159,
+      "lives": 3,
+      "casts": [],
+      "losses": [],
+      "returns": 21,
+      "hp": 78,
+      "reason": "Crew taken",
+      "bricksRemaining": 9
+    },
+    {
+      "id": "circuit",
+      "mode": "easy",
+      "device": "ios",
+      "state": "won",
+      "phase": "escape",
+      "seconds": 39.25833333333175,
+      "lives": 1,
+      "casts": [
+        {
+          "t": 25.474999999999195,
+          "kind": "five"
+        }
+      ],
+      "losses": [
+        {
+          "t": 5.491666666666729,
+          "from": 3,
+          "to": 2
+        },
+        {
+          "t": 10.841666666666692,
+          "from": 2,
+          "to": 1
+        }
+      ],
+      "returns": 15,
+      "hp": 0,
+      "bricksRemaining": 0
+    },
+    {
+      "id": "circuit",
+      "mode": "easy",
+      "device": "android",
+      "state": "won",
+      "phase": "escape",
+      "seconds": 37.69166666666517,
+      "lives": 2,
+      "casts": [
+        {
+          "t": 31.449999999998855,
+          "kind": "five"
+        }
+      ],
+      "losses": [
+        {
+          "t": 31.008333333332214,
+          "from": 3,
+          "to": 2
+        }
+      ],
+      "returns": 10,
+      "hp": 0,
+      "bricksRemaining": 0
+    },
+    {
+      "id": "circuit",
+      "mode": "medium",
+      "device": "ios",
+      "state": "won",
+      "phase": "escape",
+      "seconds": 51.99999999999769,
+      "lives": 1,
+      "casts": [
+        {
+          "t": 31.474999999998854,
+          "kind": "five"
+        }
+      ],
+      "losses": [
+        {
+          "t": 5.316666666666721,
+          "from": 3,
+          "to": 2
+        },
+        {
+          "t": 10.333333333333387,
+          "from": 2,
+          "to": 1
+        }
+      ],
+      "returns": 21,
+      "hp": 0,
+      "bricksRemaining": 0
+    },
+    {
+      "id": "circuit",
+      "mode": "medium",
+      "device": "android",
+      "state": "won",
+      "phase": "escape",
+      "seconds": 50.25833333333112,
+      "lives": 3,
+      "casts": [
+        {
+          "t": 31.541666666665517,
+          "kind": "five"
+        }
+      ],
+      "losses": [],
+      "returns": 15,
+      "hp": 0,
+      "bricksRemaining": 0
+    },
+    {
+      "id": "circuit",
+      "mode": "hard",
+      "device": "ios",
+      "state": "lost",
+      "phase": "relay",
+      "seconds": 42.63333333333156,
+      "lives": 0,
+      "casts": [],
+      "losses": [
+        {
+          "t": 29.558333333332296,
+          "from": 3,
+          "to": 2
+        },
+        {
+          "t": 35.19166666666531,
+          "from": 2,
+          "to": 1
+        },
+        {
+          "t": 42.63333333333156,
+          "from": 1,
+          "to": 0
+        }
+      ],
+      "returns": 28,
+      "hp": 29,
+      "reason": "Out of balls",
+      "bricksRemaining": 0
+    },
+    {
+      "id": "circuit",
+      "mode": "hard",
+      "device": "android",
+      "state": "lost",
+      "phase": "relay",
+      "seconds": 93.61666666668724,
+      "lives": 0,
+      "casts": [
+        {
+          "t": 40.733333333331665,
+          "kind": "five"
+        },
+        {
+          "t": 83.50833333334586,
+          "kind": "five"
+        }
+      ],
+      "losses": [
+        {
+          "t": 15.624999999999753,
+          "from": 3,
+          "to": 2
+        },
+        {
+          "t": 80.02500000000975,
+          "from": 2,
+          "to": 1
+        },
+        {
+          "t": 93.61666666668724,
+          "from": 1,
+          "to": 0
+        }
+      ],
+      "returns": 31,
+      "hp": 7,
+      "reason": "Out of balls",
+      "bricksRemaining": 0
+    }
+  ],
+  "complete": true
+}
