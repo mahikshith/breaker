@@ -2,7 +2,7 @@
 // chews its way down to her. Bricks that lose their hold on the tower fall out as rigid bodies.
 import { Arena } from './arena.js';
 import { makeGrid, makeBall } from './physics.js';
-import { brick, cached, text, vignette, drawGrain, rrect, shade, NUM, SPR, ready, loadImg } from './gfx.js';
+import { brick, cached, text, vignette, drawGrain, rrect, shade, NUM, SPR, ready, loadImg, drawKitCastFlight, drawKitBrickArmour } from './gfx.js';
 import { drawSerpent } from './characters.js';
 import { Debris } from './debris.js';
 import { ART } from './vault-art.js';
@@ -63,14 +63,14 @@ const BAR_ART = (() => { // one iron bar, for when the cage bursts
 });
 
 export class Vault extends Arena {
-  constructor(W, H) {
-    super(W, H, { accent: '#f4c542', top: OY, left: OX, right: W - OX - COLS * CELL, minPaddleY: OY + ROWS * CELL + 80 });
+  constructor(W, H, uiScale = 1) {
+    super(W, H, { accent: '#f4c542', top: OY, left: OX, right: W - OX - COLS * CELL, minPaddleY: OY + ROWS * CELL + 80, uiScale });
     this.name = 'The Vault'; this.subtitle = 'Free the princess before the serpent gets there';
     this.grid = makeGrid(COLS, ROWS, CELL, CELL, OX, OY);
     this.grid.unpierceable = [GRANITE, BARS];
     this.left = OX; this.right = OX + COLS * CELL; this.top = OY;
     this.paddle.baseW = this.paddle.w = 70;
-    this.debris = new Debris({ left: this.left, right: this.right, floor: H + 200, killY: this.paddle.y + 70, onPaddleHit: () => this.brickOnPaddle() });
+    this.debris = new Debris({ left: this.left, right: this.right, floor: H + 200, killY: this.drainY, onPaddleHit: () => this.brickOnPaddle() });
     this.build();
     this.snake = { cells: streamingCells(), hist: [], chew: 0, chewing: null, prog: 1, stun: 0, dir: Math.PI / 2, look: Math.PI / 2, faceLeft: true, path: [], open: 0, hits: [], flinch: 0, mood: null, moodT: 0, alpha: 1, fleeT: 0, eaten: 0, gulp: 0, lunge: 0 };
     this.entry = { progress: 0, speed: 1, fullHeadTurn: true };
@@ -118,6 +118,8 @@ export class Vault extends Arena {
   // In the cage she gets more frantic as the serpent closes in: idle, then nervous pacing, then running in circles.
   pacePrincess(dt) {
     const p = this.pr, d = this.danger || 0, sn = this.snake, free = p.loop; // a one-shot (cheer, flinch) plays out first
+    const captive = this.capturePose();
+    if (captive) { p.x = captive.x; p.depth = 0; p.flip = captive.side > 0; return; }
     const lo = OX + POCKET.c0 * CELL + 14, hi = OX + (POCKET.c1 + 1) * CELL - 14, cx = (lo + hi) / 2;
     const headX = OX + sn.cells[0][0] * CELL + CELL / 2;
     const walkTo = (x, v) => { const dx = x - p.x; if (Math.abs(dx) < 1) return true; p.x += Math.sign(dx) * Math.min(Math.abs(dx), v * dt); p.flip = dx < 0; return false; };
@@ -220,11 +222,13 @@ export class Vault extends Arena {
     this.fx.pop(this.W / 2, OY + 150, 'BREACH!', '#ffe08a', 40);
     this.play('Cheer'); this.say('Yay!', 1.4);
   }
-  burstCage() { // the bars spring out of the frame as physical pieces
+  burstCage(capture = false) { // the bars spring out of the frame as physical pieces
     const G = this.grid;
     for (let r = POCKET.r0; r <= POCKET.r1; r++) for (let c = POCKET.c0; c <= POCKET.c1; c++) G.cells[r * COLS + c] = EMPTY;
     const x0 = OX + POCKET.c0 * CELL, y0 = OY + POCKET.r0 * CELL;
+    const first = this.debris.pieces.length;
     for (let i = 1; i < 6; i++) this.debris.shatter(BAR_ART(), x0 + 96 * i / 6 - 2, y0, 4, 48, (i - 3) * 60, -200, 2);
+    if (capture) for (const p of this.debris.pieces.slice(first)) { p.capture = true; p.life = Math.min(p.life, 0.38); }
     this.cageGone = true;
   }
 
@@ -339,11 +343,11 @@ export class Vault extends Arena {
       s.prog = 0; s.chewing = null;
     }
   }
-  // The cage attack: rear back, smash the bars, rear back, smash them open, lunge at the princess.
+  // The second bar strike commits a visible coil capture; a head hit before it still drives the serpent off.
   // A head hit before the second strike drives it off (see ballVsSnake).
   startAttack() {
     const s = this.snake;
-    s.attack = { t: 0, struck: 0 }; s.chewing = null; s.lunge = 0;
+    s.attack = { t: 0, struck: 0, side: this.snakePoints()[0].x < PR_X ? 1 : -1 }; s.chewing = null; s.lunge = 0;
     this.timeScale = 0.6; sfx.hurt(); this.bump(0.3);
     this.say('No no no!', 1.4);
   }
@@ -363,12 +367,21 @@ export class Vault extends Arena {
       if (PRINCESS?.anims.Scared) this.play('Scared', true);
     }
     if (a.t >= 1.22 && a.struck === 1) { // strike two: they burst, there is no saving her now
-      a.struck = 2; this.burstCage(); this.phase = 'caught'; sfx.boom(); sfx.hurt(); this.bump(0.85, 0.1);
-      this.say('Eek!', 2);
+      const pts = this.snakePoints(), base = a.side > 0 ? 0 : Math.PI;
+      a.capture = { from: pts.slice(0, 3), x: this.pr.x, rotation: Math.atan2(Math.sin(s.look - base), Math.cos(s.look - base)) };
+      a.struck = 2; this.burstCage(true); this.phase = 'caught'; sfx.boom(); sfx.hurt(); this.bump(0.55, 0.06);
+      this.bubble = null; this.play('Scared', true); this.pr.depth = 0;
     }
-    a.reach = ease((a.t - 1.3) / 0.35);
-    if (a.t >= 1.7 && !a.got) { a.got = true; this.fx.pop(this.W / 2, OY + 150, 'GOT HER!', '#ff5d6e', 38); sfx.lose(); this.bump(0.6); }
-    if (a.t >= 2.7) { this.timeScale = 1; this.fail('The serpent got the princess'); }
+    if (a.t >= 1.85 && !a.got) { a.got = true; sfx.lose(); this.bump(0.2); }
+    if (a.t >= 2.7) { this.timeScale = 1; this.fail('The serpent caught the princess'); }
+  }
+  capturePose() {
+    const a = this.snake.attack; if (!a?.capture) return null;
+    const ease = x => { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); };
+    const turn = ease((a.t - 1.22) / 0.46), lift = ease((a.t - 1.42) / 0.46), move = ease((a.t - 1.32) / 0.48);
+    const x = a.capture.x + (PR_X + a.side * 20 - a.capture.x) * move, feet = FLOOR_Y - 1 - lift * 10 - Math.sin(lift * Math.PI) * 1.1;
+    return { x, feet, side: a.side, turn, rotation: a.capture.rotation * (1 - turn), scale: 1 - lift * 0.06, coilY: feet - 15,
+      head: { x: a.capture.from[0].x + (PR_X - a.side * 16 - a.capture.from[0].x) * turn, y: a.capture.from[0].y + (FLOOR_Y - 28 - a.capture.from[0].y) * turn } };
   }
   cancelAttack() { // driven off at the last moment
     const s = this.snake; if (!s.attack || s.attack.struck >= 2) return false;
@@ -382,7 +395,7 @@ export class Vault extends Arena {
   expression() {
     const s = this.snake, t = this.t, X = SNAKE?.expr || {};
     const fierce = 'strike' in X ? 'strike' : 'chew1', snarl = 'snarl' in X ? 'snarl' : 'hunt';
-    if (s.attack) return s.attack.t > 1.75 ? 'grin' : fierce;
+    if (s.attack) return s.attack.t > 1.85 ? 'grin' : fierce;
     if (s.mood && s.moodT > 0) return s.mood;
     if (s.stun > 0) return 'dizzy';
     if (this.venom.phase === 'warn') return snarl;
@@ -414,7 +427,20 @@ export class Vault extends Arena {
     const out = pts.map((p, i) => { const q = pts[i + 1] || p; return { x: q.x + (p.x - q.x) * k, y: q.y + (p.y - q.y) * k }; });
     const L = (s.lunge || 0) * 7, h = out[0];   // bites and strikes throw the head forward along its heading
     h.x += Math.cos(s.dir) * L; h.y += Math.sin(s.dir) * L;
-    if (s.attack?.reach > 0) { const r = s.attack.reach; h.x += (this.pr.x - h.x) * r; h.y += (FLOOR_Y - 16 - h.y) * r; }
+    const cap = this.capturePose();
+    if (cap) {
+      const from = s.attack.capture.from, side = cap.side, x = cap.x, y = cap.coilY;
+      const curl = [cap.head, { x: x - side * 18, y: y - 2 }, { x, y: y - 6 }, { x: x + side * 18, y },
+        { x, y: y + 6 }, { x: x - side * 18, y: y + 3 }, { x: x - side * 25, y: y + 24 },
+        { x: (x - side * 25 + from[1].x) / 2, y: (y + 24 + from[1].y) / 2 }, from[1], from[2]];
+      const lead = curl.map((p, i) => {
+        if (!i) return cap.head;
+        const f = i / (curl.length - 1) * 2, j = Math.min(1, Math.floor(f)), k = f - j;
+        const q = { x: from[j].x + (from[j + 1].x - from[j].x) * k, y: from[j].y + (from[j + 1].y - from[j].y) * k };
+        return { x: q.x + (p.x - q.x) * cap.turn, y: q.y + (p.y - q.y) * cap.turn };
+      });
+      return lead.concat(out.slice(3));
+    }
     return out;
   }
   ballVsSnake() {
@@ -615,12 +641,12 @@ export class Vault extends Arena {
     const { W, H } = this;
     g.drawImage(this.background(), 0, 0, W, H);
     const [sx, sy] = this.shakeOffset(), cam = this.camera(), zc = this.zc;
-    g.save(); g.translate(sx, sy);
+    g.save(); g.beginPath(); g.rect(0, -400, W, this.playClipY + 400); g.clip(); g.translate(sx, sy);
     if (cam) { g.translate(W / 2, H / 2); g.scale(cam.z, cam.z); g.translate(-cam.x, -cam.y); g.drawImage(this.background(), 0, 0, W, H); }
     else if (zc.z > 1.002) { g.translate(zc.ax, zc.ay); g.scale(zc.z, zc.z); g.translate(-zc.ax, -zc.ay); g.drawImage(this.background(), 0, 0, W, H); }
     const prX = this.pr.x, floorY = FLOOR_Y, dk = this.pr.depth || 0;
     this.drawCell(g);
-    if (['intro', 'rescue', 'caught'].includes(this.phase)) { this.drawPrincess(g, prX, floorY - 1 - dk * 1.5, 1 + dk * 0.07); if (!this.cageGone) this.drawBars(g); }
+    if (['intro', 'rescue', 'caught'].includes(this.phase)) { if (!this.capturePose()) this.drawPrincess(g, prX, floorY - 1 - dk * 1.5, 1 + dk * 0.07); if (!this.cageGone) this.drawBars(g); }
     // bricks: shadow pass, then sprites (top rows first so lower bricks overlap upper front faces)
     g.fillStyle = 'rgba(0,0,0,0.42)';
     for (const br of this.bricks) if (!br.gone) g.fillRect(br.x + 2.5, br.y + 4, br.w - 1, br.h - 1);
@@ -638,41 +664,42 @@ export class Vault extends Arena {
       this.drawPrincess(g, this.paddle.x, this.paddle.y, 0.75);
     }
     if (this.snake.alpha > 0 && this.state !== 'won') this.drawSnake(g);
-    this.debris.draw(g);
+    g.save(); g.beginPath(); g.rect(0, -400, W, this.playClipY + 400); g.clip(); this.debris.draw(g); g.restore();
     this.drawDrops(g); this.drawPaddle(g); this.drawBalls(g); this.fx.draw(g); this.drawAim(g);
     this.drawBubble(g, Math.max(OX + 60, Math.min(OX + COLS * CELL - 60, prX + 4)), floorY - 54);
     g.restore();
-    if (this.phase !== 'intro') { this.drawDeck(g); this.drawWardTransfer(g); }
+    if (this.phase !== 'intro') { this.drawDeck(g); this.drawWardCast(g); }
     if (this.wardCoach) this.drawWardCoach(g);
     if (this.phase === 'rescue' && this.danger > 0.5) {
       const a = (this.danger - 0.5) * 0.7 * (0.6 + 0.4 * Math.sin(this.t * 7));
       const vg = g.createRadialGradient(W / 2, H / 2, H * 0.3, W / 2, H / 2, H * 0.75);
       vg.addColorStop(0, 'rgba(160,0,30,0)'); vg.addColorStop(1, `rgba(160,0,30,${a})`); g.fillStyle = vg; g.fillRect(0, 0, W, H);
     }
-    const at = this.snake.attack?.t || 0;
-    if (at > 1.65) { g.fillStyle = `rgba(200,0,30,${Math.max(0, 0.45 - (at - 1.65) * 0.4)})`; g.fillRect(0, 0, W, H); }
     if (this.phase === 'intro') this.drawIntroText(g);
     else this.drawHUD(g);
   }
   // The serpent: a tapered, lit body that follows the path, under a rendered head that changes expression.
   drawSnake(g) {
-    const s = this.snake, pts = this.snakePoints(), t = this.t;
+    const s = this.snake, pts = this.snakePoints(), t = this.t, cap = this.capturePose();
     g.save();
     g.fillStyle = '#080e15'; g.fillRect(269, 78, 30, 26); g.strokeStyle = '#263740'; g.lineWidth = 2;
     g.beginPath(); g.moveTo(269, 96); g.lineTo(269, 82); g.quadraticCurveTo(284, 70, 299, 82); g.lineTo(299, 96); g.stroke();
     if (this.phase === 'intro' && this.introT < 1.7) { g.restore(); return; }
     g.beginPath(); g.rect(0, OY, this.W, this.H); g.rect(269, 78, 30, 18); g.clip();
-    if (!SNAKE || !ready(SNAKE)) { this.drawSnakeBody(g, pts); drawSerpent(g, [pts[0]], s.dir, t, s.stun, s.open, { body: '#168f83', dark: '#052d31', mark: '#83e4c2' }); g.restore(); this.drawVenom(g, pts[0]); return; }
     g.globalAlpha = s.alpha;
     this.drawSnakeBody(g, pts);
+    if (cap) this.drawCaptive(g, pts, cap);
+    if (!SNAKE || !ready(SNAKE)) { drawSerpent(g, [pts[0]], s.dir, t, s.stun, s.open, { body: '#168f83', dark: '#052d31', mark: '#83e4c2' }); g.restore(); this.drawVenom(g, pts[0]); return; }
     // head: the rendered facing nearest the direction it's looking, rotated the rest of the way
     // the head faces left or right and noses up or down at most ~55 degrees, so its face always reads
-    const h = pts[0], a = s.look, L = s.faceLeft, base = L ? Math.PI : 0;
+    const h = pts[0], a = s.look, L = s.attack ? s.attack.side < 0 : s.faceLeft, base = L ? Math.PI : 0;
     const angle = Math.atan2(Math.sin(a - base), Math.cos(a - base));
     let rot = Math.max(-0.95, Math.min(0.95, angle));
-    if (this.entry.fullHeadTurn) { if (this.phase === 'intro' || angle < -0.95) rot = angle; else this.entry.fullHeadTurn = false; }
+    if (cap) rot = cap.rotation;
+    else if (s.attack) rot = angle;
+    else if (this.entry.fullHeadTurn) { if (this.phase === 'intro' || angle < -0.95) rot = angle; else this.entry.fullHeadTurn = false; }
     const best = [L ? 'l' : 'r'];
-    const ex = this.expression(), shake = ex === 'ouch' || s.flinch > 0 ? Math.sin(t * 60) * 0.06 : ex === 'dizzy' ? Math.sin(t * 9) * 0.1 : Math.sin(t * 2.6) * 0.04;
+    const ex = this.expression(), shake = cap ? Math.sin(t * 2.6) * 0.012 : ex === 'ouch' || s.flinch > 0 ? Math.sin(t * 60) * 0.06 : ex === 'dizzy' ? Math.sin(t * 9) * 0.1 : Math.sin(t * 2.6) * 0.04;
     const k = 1.45 * (1 + Math.min(0.25, s.eaten * 0.015) + (s.gulp || 0) * 0.06), size = SNAKE.unit * k, cell = SNAKE.cell, col = SNAKE.expr[ex] ?? 0, row = SNAKE.dir[best[0]];
     const bob = Math.sin(t * 3.2) * 0.8 + (ex === 'hiss' ? -1.5 : 0);
     g.save(); g.translate(h.x, h.y + bob); g.rotate(rot + shake);
@@ -682,6 +709,18 @@ export class Vault extends Arena {
     if ((at >= 0 && at < 0.6) || (at > 0.8 && at < 1.2)) text(g, '!', h.x, h.y - 26 - Math.sin(t * 30) * 1.5, 22, '#ff4d5e', 'center');
     g.restore();
     this.drawVenom(g, pts[0]);
+  }
+  drawCaptive(g, pts, cap) {
+    this.drawPrincess(g, cap.x, cap.feet, cap.scale);
+    // Repaint the front of the same ribbon, retaining its continuous belly, diamonds and highlights.
+    g.save(); g.beginPath(); g.rect(cap.x - 23, cap.coilY + 0.5, 46, 16); g.clip(); this.drawSnakeBody(g, pts); g.restore();
+    const age = this.snake.attack.t - 1.62;
+    if (age >= 0 && age < 0.17) {
+      const f = age / 0.17, x = cap.x - cap.side * 10, y = cap.feet - 12;
+      g.save(); g.strokeStyle = '#fff5df'; g.lineWidth = 1.2; g.globalAlpha = 1 - f;
+      for (let i = 0; i < 7; i++) { const a = i * Math.PI * 2 / 7; g.beginPath(); g.moveTo(x + Math.cos(a) * 3, y + Math.sin(a) * 3); g.lineTo(x + Math.cos(a) * (5 + f * 4), y + Math.sin(a) * (5 + f * 4)); g.stroke(); }
+      g.restore();
+    }
   }
   drawVenom(g, h) {
     const v = this.venom, s = this.snake;
@@ -724,20 +763,17 @@ export class Vault extends Arena {
       g.beginPath(); g.arc(h.x, h.y, 21, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (1 - v.t / VENOM.recovery)); g.stroke();
       text(g, 'COOLING', h.x, h.y - 26, 8, '#d8f7ec', 'center');
     }
-    if (v.ward && (v.phase !== 'cool' || v.t < 0.25)) {
-      const b = q.br; g.globalAlpha = Math.min(0.9, v.ward.age / VENOM.cast); g.fillStyle = 'rgba(80,198,255,0.2)'; g.fillRect(b.x - 2, b.y - 2, b.w + 4, b.h + 4);
-      g.strokeStyle = '#9ceeff'; g.lineWidth = 2; g.strokeRect(b.x - 2, b.y - 2, b.w + 4, b.h + 4);
-      g.beginPath(); g.moveTo(q.x - 5, q.y - 5); g.lineTo(q.x + 5, q.y - 5); g.lineTo(q.x + 4, q.y + 1); g.lineTo(q.x, q.y + 6); g.lineTo(q.x - 4, q.y + 1); g.closePath(); g.fillStyle = '#b9f4ff'; g.fill(); g.strokeStyle = '#12618d'; g.lineWidth = 0.8; g.stroke();
+    if (this.state === 'play' && this.phase === 'rescue' && v.ward && (v.phase !== 'cool' || v.t < 0.25)) {
+      g.globalAlpha = 1;
+      drawKitBrickArmour(g, q.x, q.y, v.ward.age, 40, v.phase === 'cool' ? Math.max(0, 1 - v.t / 0.25) : 1);
     }
     g.restore();
   }
-  drawWardTransfer(g) {
-    const v = this.venom; if (!v.ward || !v.target || v.ward.age >= 0.25) return;
-    const from = this.kitAnchor?.() || { x: 64, y: this.drainY + 34 / (this.kitUIScale || 1) }, z = this.zc, q = v.target;
-    const tx = z.ax + (q.x - z.ax) * z.z, ty = z.ay + (q.y - z.ay) * z.z, k = Math.min(1, v.ward.age / VENOM.cast), cx = from.x - 18, cy = from.y - 160;
-    g.save(); g.strokeStyle = 'rgba(143,231,255,0.6)'; g.lineWidth = 2; g.beginPath(); g.moveTo(from.x, from.y); g.quadraticCurveTo(cx, cy, tx, ty); g.stroke();
-    const x = (1 - k) ** 2 * from.x + 2 * (1 - k) * k * cx + k * k * tx, y = (1 - k) ** 2 * from.y + 2 * (1 - k) * k * cy + k * k * ty;
-    g.fillStyle = '#d7fbff'; g.beginPath(); g.arc(x, y, 5, 0, Math.PI * 2); g.fill(); g.restore();
+  drawWardCast(g) {
+    const v = this.venom;
+    if (this.state !== 'play' || this.phase !== 'rescue' || v.phase === 'idle' || !v.ward || !v.target) return;
+    const z = this.zc, q = v.target;
+    drawKitCastFlight(g, this.kitAnchor(), { x: z.ax + (q.x - z.ax) * z.z, y: z.ay + (q.y - z.ay) * z.z, size: 40 * z.z }, v.ward.age, this.kitUIScale);
   }
   drawWardCoach(g) {
     const y = OY + ROWS * CELL + 30;
@@ -745,11 +781,11 @@ export class Vault extends Arena {
     g.strokeStyle = '#83d8ea'; g.lineWidth = 1; rrect(g, 36, y, this.W - 72, 62, 12); g.stroke();
     text(g, 'VENOM MELTS THIS WALL', this.W / 2, y + 20, 17, '#c1f278', 'center');
     text(g, 'Tap Kit to guard it', this.W / 2, y + 43, 16, '#cff5ff', 'center');
-    const a = this.kitAnchor(); g.strokeStyle = '#b6f2ff'; g.lineWidth = 2;
+    const a = this.kitAnchor(); g.strokeStyle = '#f4aec4'; g.lineWidth = 2;
     g.beginPath(); g.arc(a.x, a.y, a.r + 4 / (this.kitUIScale || 1), 0, Math.PI * 2); g.stroke(); g.restore();
   }
   drawSnakeBody(g, pts) {
-    const s = this.snake, t = this.t;
+    const s = this.snake, t = this.t, cap = this.capturePose();
     // a smooth centreline through the cell centres (Catmull-Rom), extended past the last cell to a tail tip
     const P = pts.slice(), n = P.length;
     if (n < 2) return;
@@ -767,13 +803,14 @@ export class Vault extends Arena {
     C.push(P[P.length - 1]);
     let len = 0; const arc = [0];
     for (let i = 1; i < C.length; i++) { len += Math.hypot(C[i].x - C[i - 1].x, C[i].y - C[i - 1].y); arc.push(len); }
-    const belly = s.faceLeft ? -1 : 1, shake = s.flinch > 0 ? s.flinch * 2.2 : 0, gr = this.growth();
+    const belly = (s.attack ? s.attack.side < 0 : s.faceLeft) ? -1 : 1, shake = s.flinch > 0 ? s.flinch * 2.2 : 0, gr = this.growth();
     const S = C.map((p, i) => {
       const q = C[Math.min(C.length - 1, i + 1)], o = C[Math.max(0, i - 1)];
       let tx = o.x - q.x, ty = o.y - q.y; const tl = Math.hypot(tx, ty) || 1; tx /= tl; ty /= tl;   // tangent toward the head
       const f = arc[i] / len, nx = -ty * belly, ny = tx * belly;                                    // normal toward the belly
       const bulge = s.gulp > 0 ? Math.exp(-Math.pow((f - (1 - s.gulp)) * 7, 2)) * 3 * s.gulp : 0;   // a swallowed lump travels down the body
-      const w = ((f < 0.12 ? 12 + f / 0.12 * 2 : 14 * Math.pow((1 - f) / 0.88, 0.7)) * gr + bulge) / 2 + 0.6;
+      let w = ((f < 0.12 ? 12 + f / 0.12 * 2 : 14 * Math.pow((1 - f) / 0.88, 0.7)) * gr + bulge) / 2 + 0.6;
+      if (cap) { const neck = Math.min(1, arc[i] / 18) * Math.max(0, Math.min(1, (145 - arc[i]) / 35)); w += (Math.min(w, 3.8) - w) * neck * cap.turn; }
       const wig = Math.sin(t * 4.5 - arc[i] * 0.22) * 1.3 * Math.min(1, f * 4) + Math.sin(t * 50 + i) * shake;
       return { x: p.x + nx * wig, y: p.y + ny * wig, nx, ny, tx, ty, w, a: arc[i] };
     });
@@ -862,7 +899,7 @@ export class Vault extends Arena {
     g.restore();
   }
   drawBubble(g, x, y) {
-    const b = this.bubble; if (!b || this.phase === 'escape' || this.phase === 'frenzy') return;
+    const b = this.bubble; if (!b || this.phase === 'escape' || this.phase === 'frenzy' || this.phase === 'caught') return;
     const k = Math.min(1, b.t / 0.15), out = b.t > b.dur - 0.2 ? (b.dur - b.t) / 0.2 : 1, s = (0.6 + 0.4 * k + (k < 1 ? 0 : Math.sin(b.t * 10) * 0.02)) * out;
     g.save(); g.translate(x, y); g.scale(s, s);
     g.font = '15px "Lilita One", system-ui'; const w = g.measureText(b.text).width + 20;
@@ -888,32 +925,31 @@ export class Vault extends Arena {
     text(g, 'Tap to skip', this.W / 2, this.H - 118, 12, 'rgba(255,255,255,0.7)', 'center');
     g.globalAlpha = 1;
   }
-  drawHUD(g) { // how close the serpent is: no numbers, just a bar that runs green to amber to red, from serpent to princess
-    const W = this.W, y = this.hudY + 27, x0 = 52, x1 = W - 120;
-    text(g, 'SERPENT', x0, this.hudY + 10, 13, '#d9b8f0');
+  drawHUD(g) {
+    const W = this.W, s = this.kitUIScale, y = this.hudY + 35 / s, x = 64 / s, w = W - 180 / s, h = 3 / s;
     const d = this.phase === 'rescue' ? (this.snake.attack ? 1 : this.danger || 0) : this.phase === 'caught' ? 1 : 0;
-    const lerp = (a, b, k) => a.map((v, i) => Math.round(v + (b[i] - v) * k));
-    const c = d < 0.5 ? lerp([95, 211, 138], [255, 201, 71], d / 0.5) : lerp([255, 201, 71], [255, 77, 94], (d - 0.5) / 0.5);
-    const light = `rgb(${c.map(v => Math.round(v + (255 - v) * 0.45))})`, dark = `rgb(${c.map(v => Math.round(v * 0.7))})`;
-    g.fillStyle = 'rgba(0,0,0,0.45)'; rrect(g, x0, y - 6, x1 - x0, 12, 6); g.fill();
-    const fw = Math.max(12, (x1 - x0) * d), pulse = d > 0.75 ? 0.75 + 0.25 * Math.sin(this.t * 10) : 1;
-    const mg = g.createLinearGradient(0, y - 6, 0, y + 6); mg.addColorStop(0, light); mg.addColorStop(1, dark);
-    g.globalAlpha = pulse; g.fillStyle = mg; rrect(g, x0, y - 6, fw, 12, 6); g.fill(); g.globalAlpha = 1;
-    g.fillStyle = 'rgba(255,255,255,0.35)'; rrect(g, x0 + 4, y - 4, Math.max(4, fw - 8), 3, 1.5); g.fill();
-    drawPrincessIcon(g, x1 + 14, y - 3, 30, this.t);   // the goal at the end of the bar
+    const c = [95, 211, 138].map((v, i) => Math.round(v + ([242, 194, 86][i] - v) * Math.min(1, d)));
+    g.fillStyle = 'rgba(255,255,255,0.12)'; rrect(g, x, y - h / 2, w, h, h / 2); g.fill();
+    g.fillStyle = `rgb(${c})`; rrect(g, x, y - h / 2, Math.max(h, w * d), h, h / 2); g.fill();
     if (this.phase === 'frenzy') text(g, `FRENZY ${Math.ceil(this.frenzyT)}`, W / 2, OY + ROWS * CELL + 40, 22, '#ffb35c', 'center');
     this.drawHUDBase(g);
   }
   // the sky above the playfield, under the notch: the plate extends 40 units above y = 0, then its top row stretches
   drawTopInset(g, h) {
     if (!(PLATE?.complete && PLATE.naturalWidth)) { g.fillStyle = '#1b1530'; g.fillRect(0, -h, this.W, h); return; }
-    if (h > 40) g.drawImage(PLATE, 0, 0, PLATE.width, 1, 0, -h, 360, h - 39);
-    g.drawImage(PLATE, 0, 0, PLATE.width, 80, 0, -40, 360, 40);
+    if (h > 40) g.drawImage(PLATE, 288, 0, 432, 1, 0, -h, 360, h - 39);
+    g.drawImage(PLATE, 288, 0, 432, 80, 0, -40, 360, 40);
   }
   background() {
     return cached('vault2-bg' + this.W + 'x' + this.H + (PLATE?.complete ? 'p' : ''), this.W, this.H, g => {
       const { W, H } = this;
-      if (PLATE?.complete && PLATE.naturalWidth) { g.drawImage(PLATE, 0, -40, 360, 820); if (H > 780) g.drawImage(PLATE, 0, PLATE.height - 2, PLATE.width, 2, 0, 780, W, H - 780); return; }
+      if (PLATE?.complete && PLATE.naturalWidth) {
+        g.drawImage(PLATE, 0, -40, 360, 820);
+        // Reuse the plate's moon-free sky; keep the registered tower and cage unchanged.
+        g.drawImage(PLATE, 288, 0, 432, 212, 0, -40, W, 106);
+        if (H > 780) g.drawImage(PLATE, 0, PLATE.height - 2, PLATE.width, 2, 0, 780, W, H - 780);
+        return;
+      }
       const bg = g.createLinearGradient(0, 0, 0, H);
       bg.addColorStop(0, '#1c2140'); bg.addColorStop(0.5, '#141831'); bg.addColorStop(1, '#0b0d1c');
       g.fillStyle = bg; g.fillRect(0, 0, W, H);

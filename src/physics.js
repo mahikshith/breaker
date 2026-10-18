@@ -1,4 +1,5 @@
 // Ball physics: fixed-step, substepped circle vs uniform grid, walls and paddle. No DOM.
+import { collideTargets } from './carrier-physics.js';
 
 export function makeGrid(cols, rows, cw, ch, ox = 0, oy = 0) {
   return { cols, rows, cw, ch, ox, oy, cells: new Uint8Array(cols * rows), hp: new Uint8Array(cols * rows) };
@@ -11,13 +12,14 @@ export function makeBall(x, y, vx, vy, r = 5) {
 
 const MIN_VY = 0.22; // never let a ball fly near-horizontal for long (fraction of speed)
 
-// Advance one ball by dt. world = { grid, left, right, top, bottom, paddle, onHit(c, r, ball), onPaddle(ball), onLost(ball) }
+// Optional targets/onTarget add visible irregular actors; absent in existing levels.
 export function stepBall(b, dt, world) {
   if (b.dead || b.caught) return;
   const G = world.grid;
   const speed = Math.hypot(b.vx, b.vy);
   const maxMove = Math.min(G ? Math.min(G.cw, G.ch) : 8, b.r) * 0.45;
-  const n = Math.max(1, Math.ceil((speed * dt) / maxMove));
+  const targetSpeed = world.targets?.reduce((m, t) => t.active === false ? m : Math.max(m, Math.hypot(t.vx || 0, t.vy || 0)), 0) || 0;
+  const n = Math.max(1, Math.ceil(((speed + targetSpeed) * dt) / maxMove));
   const h = dt / n;
   for (let i = 0; i < n && !b.dead; i++) {
     if (b.spin) { // spin curves the ball: rotate velocity, then decay
@@ -31,6 +33,8 @@ export function stepBall(b, dt, world) {
     if (b.x + b.r > world.right) { b.x = world.right - b.r; b.vx = -Math.abs(b.vx); world.onWall?.(b); }
     if (b.y - b.r < world.top) { b.y = world.top + b.r; b.vy = Math.abs(b.vy); world.onWall?.(b); }
     if (G) collideGrid(b, G, world.onHit);
+    if (world.targets) collideTargets(b, world.targets, world.onTarget, (i + 1) * h);
+    if (b.dead) break;
     if (world.paddle) collidePaddle(b, world.paddle, world.onPaddle);
     if (b.y - b.r > world.bottom) { b.dead = true; world.onLost?.(b); }
   }

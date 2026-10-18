@@ -1,0 +1,2083 @@
+{
+  "version": 1,
+  "status": "A/B asset proofs delivered and checked. Only Carrier A is active: playable web candidate F4863DC5A87D6B46A8A1AFDB702C264F432196B851B61B828946DB8AB75A0423 passes 44 unit tests, two-phone simulated gameplay and independent final visual checks. APK packaging/native CI is pending, not delivered. Nix/Tick appearances are selected; full expressive sprite/animation families and live cast integration remain unbuilt. B/C/D are deferred. EA839F00 is historical baseline evidence. Owner APK request authorizes only its necessary checkpoint commit/push/CI on isolated codex/carrier-mobile-preview; no main merge or pending companion admission.",
+  "scope": "Canonical delivered independent A/B playfield machinery and worker asset/proof contracts. A now has separately tested gameplay integration; B is deferred. Selected Nix/Tick character families remain pending. Original assembly geometry/presentation fields below preserve the asset-proof contract and are not the authoritative runtime collision state; current Carrier uses 125×17u paddle and 7.5r ordinary/10r TITAN ball. Human balance, physical-device performance and APK completion are not claimed.",
+  "references": {
+    "A": "design/phase1/img/space-carrier-a.png",
+    "B": "design/phase1/img/space-relay-b.png"
+  },
+  "frame": {
+    "worldWidth": 360,
+    "safeLift": 34,
+    "paddleReserveCSS": 126,
+    "filter": "linear",
+    "lighting": "Warm upper-left key, cool fill, restrained pink bounce. Cyan/lavender/magenta enamel and brushed silver machinery.",
+    "alpha": "RGBA PNG with real transparent exterior and mechanical apertures; no board background, text or baked companion.",
+    "devices": {
+      "ios": {
+        "width": 393,
+        "height": 852,
+        "top": 59,
+        "bottom": 34
+      },
+      "android": {
+        "width": 412,
+        "height": 915,
+        "top": 32,
+        "bottom": 24
+      }
+    },
+    "paddleCollision": [
+      74,
+      12
+    ],
+    "ordinaryBallCollisionDiameter": 12,
+    "paddleAssembly": "Asset preview follows broad125u A/140u B reference appearance, uniformly scaled from measured alpha. Current live74x12 collision is recorded separately and unchanged; asset preview contains no collision."
+  },
+  "parts": {
+    "aHull": {
+      "path": "assets/space-a/carrier_hull.png",
+      "size": [
+        2057,
+        722
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        360,
+        126.35877491492465
+      ],
+      "layer": 20,
+      "collision": "Future static armour sectors; hangar aperture excluded",
+      "aperture": [
+        0.36,
+        0.6,
+        0.28,
+        0.22
+      ],
+      "approval": "pending raster and assembly QA"
+    },
+    "aDoorLeft": {
+      "path": "assets/space-a/door_left.png",
+      "size": [
+        1075,
+        580
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        50.400000000000006,
+        27.19255813953489
+      ],
+      "layer": 24,
+      "collision": "Closed hangar shutter visual; future collision must follow visible opening",
+      "approval": "pending"
+    },
+    "aDoorRight": {
+      "path": "assets/space-a/door_right.png",
+      "size": [
+        1076,
+        580
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        50.400000000000006,
+        27.167286245353164
+      ],
+      "layer": 24,
+      "collision": "Closed hangar shutter visual; future collision must follow visible opening",
+      "approval": "pending"
+    },
+    "aFighter": {
+      "path": "assets/space-a/fighter.png",
+      "size": [
+        1314,
+        967
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        39,
+        28.700913242009133
+      ],
+      "layer": 22,
+      "thruster": [
+        0.5,
+        0.88
+      ],
+      "collision": "Future moving hostile hull; no active combat in preview",
+      "approval": "pending",
+      "thrusterPorts": [
+        [
+          0.29,
+          0.28
+        ],
+        [
+          0.71,
+          0.28
+        ]
+      ],
+      "exhaustRadians": 3.141592653589793
+    },
+    "aPod": {
+      "path": "assets/space-common/brick_crew_lock.png",
+      "size": [
+        132,
+        84
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        44,
+        28
+      ],
+      "layer": 42,
+      "window": [
+        0.3409090909090909,
+        0.40476190476190477,
+        0.3181818181818182,
+        0.20238095238095238
+      ],
+      "collision": "Future crew-window/pod housing only; worker is friendly. HP awaits gameplay integration approval.",
+      "approval": "pending",
+      "alphaVisible": [
+        34,
+        19.3333
+      ]
+    },
+    "aWorker": {
+      "path": "assets/space-a/worker.png",
+      "size": [
+        722,
+        831
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        14,
+        16.113573407202217
+      ],
+      "layer": 40,
+      "collision": "Friendly rescue payload; never a damage target",
+      "approval": "pending"
+    },
+    "aThruster": {
+      "path": "assets/space-a/thruster.png",
+      "size": [
+        627,
+        1580
+      ],
+      "pivot": [
+        0.5,
+        0
+      ],
+      "display": [
+        10,
+        25.199362041467303
+      ],
+      "layer": 21,
+      "collision": "Decorative; no light trail across playfield",
+      "approval": "pending"
+    },
+    "bHull": {
+      "path": "assets/space-b/relay_hull.png",
+      "size": [
+        1868,
+        854
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        313.636,
+        143.38605139186296
+      ],
+      "layer": 20,
+      "collision": "Future static relay armour; central iris excluded",
+      "aperture": [
+        0.384,
+        0.336,
+        0.232,
+        0.508
+      ],
+      "approval": "pending"
+    },
+    "bIris": {
+      "path": "assets/space-b/iris_segment.png",
+      "size": [
+        1261,
+        908
+      ],
+      "pivot": [
+        0.55,
+        0.99
+      ],
+      "display": [
+        90,
+        64.80570975416336
+      ],
+      "layer": 18,
+      "collision": "Visual gate segments; no invisible closing wall",
+      "approval": "pending"
+    },
+    "bSkiff": {
+      "path": "assets/space-b/skiff.png",
+      "size": [
+        1180,
+        743
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        55,
+        34.63135593220339
+      ],
+      "layer": 34,
+      "thruster": [
+        0.5,
+        0.88
+      ],
+      "collision": "Unoccupied friendly escape vehicle; no pilot/companion",
+      "approval": "pending"
+    },
+    "bPod": {
+      "path": "assets/space-b/pod_shell.png",
+      "size": [
+        1227,
+        1029
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        63,
+        52.83374083129584
+      ],
+      "layer": 42,
+      "window": [
+        0.23,
+        0.22,
+        0.53,
+        0.49
+      ],
+      "collision": "Future crew-window/pod housing only; worker is friendly. HP awaits gameplay integration approval.",
+      "approval": "pending"
+    },
+    "bWorker": {
+      "path": "assets/space-b/worker.png",
+      "size": [
+        675,
+        768
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        22,
+        25.031111111111112
+      ],
+      "layer": 40,
+      "collision": "Friendly rescue payload; never a damage target",
+      "approval": "pending",
+      "windowFit": "Full worker fits within delivered window before front release; no silhouette pop when glass clears."
+    },
+    "bThruster": {
+      "path": "assets/space-a/thruster.png",
+      "size": [
+        627,
+        1580
+      ],
+      "pivot": [
+        0.5,
+        0
+      ],
+      "display": [
+        10,
+        25.199362041467303
+      ],
+      "layer": 33,
+      "collision": "Decorative; no long light path",
+      "approval": "pending"
+    },
+    "aCannonBarrel": {
+      "path": "assets/space-a/cannon_barrel.png",
+      "size": [
+        708,
+        1062
+      ],
+      "pivot": [
+        0.5,
+        0.71
+      ],
+      "display": [
+        40,
+        60
+      ],
+      "layer": 32,
+      "muzzle": [
+        0.5,
+        0.71
+      ],
+      "collision": "Barrel visual; future hazard uses timed muzzle position, not image bounds",
+      "approval": "pending",
+      "mountsNormalized": [
+        [
+          0.205,
+          0.7
+        ],
+        [
+          0.795,
+          0.7
+        ]
+      ],
+      "mounts": [
+        [
+          73.79999999999998,
+          184.37925498298492
+        ],
+        [
+          286.20000000000005,
+          184.37925498298492
+        ]
+      ],
+      "occlusion": "Fixed socket ellipse masks rear tube; front collar remains visible through recoil."
+    },
+    "aBackground": {
+      "path": "assets/space-a/background.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": "uniform cover; full screen",
+      "layer": 0,
+      "collision": "none",
+      "approval": "pending"
+    },
+    "bCannonBarrel": {
+      "path": "assets/space-b/cannon_barrel.png",
+      "size": [
+        862,
+        938
+      ],
+      "pivot": [
+        0.5,
+        0.86
+      ],
+      "display": [
+        51,
+        55.49651972157773
+      ],
+      "layer": 32,
+      "muzzle": [
+        0.5,
+        0.86
+      ],
+      "collision": "Barrel visual; future hazard uses timed muzzle position, not image bounds",
+      "approval": "pending",
+      "mountsNormalized": [
+        [
+          0.105,
+          0.824
+        ],
+        [
+          0.895,
+          0.824
+        ]
+      ],
+      "mounts": [
+        [
+          57.47677999999999,
+          194.5475806509636
+        ],
+        [
+          305.24922000000004,
+          194.5475806509636
+        ]
+      ]
+    },
+    "bBackground": {
+      "path": "assets/space-b/background.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": "uniform cover; full screen",
+      "layer": 0,
+      "collision": "none",
+      "approval": "pending"
+    },
+    "bPortal": {
+      "path": "assets/space-b/portal.png",
+      "size": [
+        1155,
+        1135
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        76,
+        74.68398268398268
+      ],
+      "layer": 10,
+      "collision": "Visual passage only; no preview collision",
+      "approval": "pending"
+    },
+    "brick_cyan": {
+      "path": "assets/space-common/brick_cyan.png",
+      "size": [
+        132,
+        84
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        44,
+        28
+      ],
+      "layer": 50,
+      "gutterWorld": 4,
+      "collision": "Visible core only; exclude4u exterior alpha gutter",
+      "approval": "pending",
+      "alphaVisible": [
+        35.333333333333336,
+        16.0
+      ]
+    },
+    "brick_violet": {
+      "path": "assets/space-common/brick_violet.png",
+      "size": [
+        132,
+        84
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        44,
+        28
+      ],
+      "layer": 50,
+      "gutterWorld": 4,
+      "collision": "Visible core only; exclude4u exterior alpha gutter",
+      "approval": "pending",
+      "alphaVisible": [
+        35.333333333333336,
+        15.666666666666666
+      ]
+    },
+    "brick_armour": {
+      "path": "assets/space-common/brick_armour.png",
+      "size": [
+        84,
+        84
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        28,
+        28
+      ],
+      "layer": 50,
+      "gutterWorld": 4,
+      "collision": "Visible core only; exclude4u exterior alpha gutter",
+      "approval": "pending",
+      "alphaVisible": [
+        20.0,
+        19.333333333333332
+      ]
+    },
+    "brick_crew_lock": {
+      "path": "assets/space-common/brick_crew_lock.png",
+      "size": [
+        132,
+        84
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        44,
+        28
+      ],
+      "layer": 50,
+      "gutterWorld": 4,
+      "collision": "Visible core only; exclude4u exterior alpha gutter",
+      "approval": "pending",
+      "alphaVisible": [
+        34.0,
+        19.333333333333332
+      ]
+    },
+    "paddle": {
+      "path": "assets/space-common/paddle.png",
+      "size": [
+        252,
+        72
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        84,
+        24
+      ],
+      "layer": 50,
+      "gutterWorld": 4,
+      "collision": "Visible core only; exclude4u exterior alpha gutter",
+      "approval": "pending",
+      "alphaVisible": [
+        64.66666666666667,
+        15.0
+      ]
+    },
+    "ball": {
+      "path": "assets/space-common/ball.png",
+      "size": [
+        60,
+        60
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        20,
+        20
+      ],
+      "layer": 50,
+      "gutterWorld": 4,
+      "collision": "Visible core only; exclude4u exterior alpha gutter",
+      "approval": "pending",
+      "alphaVisible": [
+        11.333333333333334,
+        11.333333333333334
+      ]
+    },
+    "capsule_laser": {
+      "path": "assets/space-common/capsule_laser.png",
+      "size": [
+        96,
+        66
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        32,
+        22
+      ],
+      "layer": 50,
+      "gutterWorld": 4,
+      "collision": "none",
+      "approval": "pending",
+      "alphaVisible": [
+        24.0,
+        11.666666666666666
+      ]
+    },
+    "capsule_split": {
+      "path": "assets/space-common/capsule_split.png",
+      "size": [
+        96,
+        66
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        32,
+        22
+      ],
+      "layer": 50,
+      "gutterWorld": 4,
+      "collision": "none",
+      "approval": "pending",
+      "alphaVisible": [
+        23.666666666666668,
+        12.0
+      ]
+    },
+    "capsule_shield": {
+      "path": "assets/space-common/capsule_shield.png",
+      "size": [
+        96,
+        66
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        32,
+        22
+      ],
+      "layer": 50,
+      "gutterWorld": 4,
+      "collision": "none",
+      "approval": "pending",
+      "alphaVisible": [
+        24.0,
+        12.0
+      ]
+    },
+    "brick_pink": {
+      "path": "assets/space-common/brick_pink.png",
+      "size": [
+        132,
+        84
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        44,
+        28
+      ],
+      "layer": 50,
+      "gutterWorld": 4,
+      "collision": "Future visible core only; HP not approved in this asset pass",
+      "approval": "pending",
+      "alphaVisible": [
+        36.0,
+        16.333333333333332
+      ]
+    },
+    "aBrickCyan": {
+      "path": "assets/space-a/brick_cyan.png",
+      "size": [
+        132,
+        84
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        44,
+        28
+      ],
+      "alphaVisible": [
+        36.0,
+        17.333333333333332
+      ],
+      "layer": 50,
+      "collision": "Future visible core; source-gutter excluded",
+      "approval": "native raster QA passed; assembly review pending"
+    },
+    "aBrickPink": {
+      "path": "assets/space-a/brick_pink.png",
+      "size": [
+        132,
+        84
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        44,
+        28
+      ],
+      "alphaVisible": [
+        36.0,
+        17.333333333333332
+      ],
+      "layer": 50,
+      "collision": "Future visible core; source-gutter excluded",
+      "approval": "native raster QA passed; assembly review pending"
+    },
+    "aPaddle": {
+      "path": "assets/space-a/paddle.png",
+      "size": [
+        252,
+        72
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        84,
+        24
+      ],
+      "alphaVisible": [
+        76.0,
+        10.333333333333334
+      ],
+      "layer": 50,
+      "collision": "Future visible core; source-gutter excluded",
+      "approval": "native raster QA passed; assembly review pending"
+    }
+  },
+  "assemblies": {
+    "A": {
+      "title": "Carrier Breakout",
+      "hull": {
+        "part": "aHull",
+        "x": 180,
+        "y": 159.1075
+      },
+      "hangar": {
+        "x": 180,
+        "y": 185.64284273213417,
+        "w": 100.80000000000001,
+        "h": 27.798930481283424,
+        "mouthY": 199.5423079727759,
+        "doorTravel": 50.400000000000006
+      },
+      "pods": [
+        {
+          "x": 79.0715,
+          "y": 243.643,
+          "referenceRect": [
+            58.5,
+            230.786,
+            41.143,
+            25.714
+          ],
+          "id": "aCrewCell0"
+        },
+        {
+          "x": 283.821,
+          "y": 243.643,
+          "referenceRect": [
+            263.571,
+            230.786,
+            40.5,
+            25.714
+          ],
+          "id": "aCrewCell1"
+        },
+        {
+          "x": 77.143,
+          "y": 328.1785,
+          "referenceRect": [
+            54,
+            315,
+            46.286,
+            26.357
+          ],
+          "id": "aCrewCell2"
+        },
+        {
+          "x": 178.714,
+          "y": 328.1785,
+          "referenceRect": [
+            155.571,
+            315,
+            46.286,
+            26.357
+          ],
+          "id": "aCrewCell3"
+        },
+        {
+          "x": 281.572,
+          "y": 328.1785,
+          "referenceRect": [
+            258.429,
+            315,
+            46.286,
+            26.357
+          ],
+          "id": "aCrewCell4"
+        }
+      ],
+      "fighterPaths": [
+        {
+          "delay": 1.55,
+          "end": [
+            137.57,
+            229.82
+          ],
+          "angle": -0.28,
+          "display": [
+            31,
+            22.813546423135463
+          ]
+        },
+        {
+          "delay": 1.95,
+          "end": [
+            180.96,
+            255.86
+          ],
+          "angle": 0,
+          "display": [
+            50,
+            36.796042617960424
+          ]
+        },
+        {
+          "delay": 2.35,
+          "end": [
+            223.07,
+            234.32
+          ],
+          "angle": 0.28,
+          "display": [
+            35,
+            25.7572298325723
+          ]
+        }
+      ],
+      "states": [
+        "doors closed",
+        "doors open",
+        "three fighters launch from masked bay",
+        "cannon warn",
+        "fire and recoil",
+        "cooldown",
+        "five crew-window doors open",
+        "workers release",
+        "doors close"
+      ],
+      "duration": 10,
+      "bricks": [
+        {
+          "part": "aBrickCyan",
+          "rect": [
+            3.214,
+            230.786,
+            54,
+            25.071
+          ],
+          "id": "aBrickCyan0"
+        },
+        {
+          "part": "aBrickCyan",
+          "rect": [
+            306.643,
+            230.786,
+            52.714,
+            25.071
+          ],
+          "id": "aBrickCyan1"
+        },
+        {
+          "part": "aBrickCyan",
+          "rect": [
+            3.214,
+            260.357,
+            52.071,
+            23.143
+          ],
+          "id": "aBrickCyan2"
+        },
+        {
+          "part": "aBrickCyan",
+          "rect": [
+            59.143,
+            260.357,
+            41.143,
+            23.143
+          ],
+          "id": "aBrickCyan3"
+        },
+        {
+          "part": "aBrickCyan",
+          "rect": [
+            263.571,
+            260.357,
+            41.143,
+            23.143
+          ],
+          "id": "aBrickCyan4"
+        },
+        {
+          "part": "aBrickCyan",
+          "rect": [
+            309.857,
+            260.357,
+            49.5,
+            23.143
+          ],
+          "id": "aBrickCyan5"
+        },
+        {
+          "part": "aBrickCyan",
+          "rect": [
+            3.214,
+            315,
+            47.571,
+            25.714
+          ],
+          "id": "aBrickCyan6"
+        },
+        {
+          "part": "aBrickCyan",
+          "rect": [
+            104.143,
+            315,
+            46.929,
+            25.714
+          ],
+          "id": "aBrickCyan7"
+        },
+        {
+          "part": "aBrickCyan",
+          "rect": [
+            206.357,
+            315,
+            47.571,
+            25.714
+          ],
+          "id": "aBrickCyan8"
+        },
+        {
+          "part": "aBrickCyan",
+          "rect": [
+            308.571,
+            315,
+            50.786,
+            25.714
+          ],
+          "id": "aBrickCyan9"
+        },
+        {
+          "part": "aBrickPink",
+          "rect": [
+            3.214,
+            288,
+            46.929,
+            22.5
+          ],
+          "id": "aBrickPink0"
+        },
+        {
+          "part": "aBrickPink",
+          "rect": [
+            54,
+            288,
+            46.286,
+            22.5
+          ],
+          "id": "aBrickPink1"
+        },
+        {
+          "part": "aBrickPink",
+          "rect": [
+            104.143,
+            288,
+            46.929,
+            22.5
+          ],
+          "id": "aBrickPink2"
+        },
+        {
+          "part": "aBrickPink",
+          "rect": [
+            208.286,
+            288,
+            46.929,
+            22.5
+          ],
+          "id": "aBrickPink3"
+        },
+        {
+          "part": "aBrickPink",
+          "rect": [
+            257.786,
+            288,
+            46.929,
+            22.5
+          ],
+          "id": "aBrickPink4"
+        },
+        {
+          "part": "aBrickPink",
+          "rect": [
+            308.571,
+            288,
+            50.786,
+            22.5
+          ],
+          "id": "aBrickPink5"
+        }
+      ],
+      "paddleVisibleWidth": 125,
+      "mainBallDiameter": 15
+    },
+    "B": {
+      "title": "Relay Raiders",
+      "hull": {
+        "part": "bHull",
+        "x": 181.363,
+        "y": 148.0905
+      },
+      "iris": {
+        "x": 181.363,
+        "y": 160.99524462526765,
+        "radius": 36.381776,
+        "segments": 6
+      },
+      "skiff": {
+        "x": 181.091,
+        "y": 194.4545
+      },
+      "pods": [
+        {
+          "x": 63.8185,
+          "y": 248.7275,
+          "referenceRect": [
+            32.182,
+            220.364,
+            63.273,
+            56.727
+          ],
+          "id": "bCrewPod0"
+        },
+        {
+          "x": 139.0915,
+          "y": 248.7275,
+          "referenceRect": [
+            107.455,
+            220.364,
+            63.273,
+            56.727
+          ],
+          "id": "bCrewPod1"
+        },
+        {
+          "x": 225.54549999999998,
+          "y": 248.45450000000002,
+          "referenceRect": [
+            194.182,
+            219.818,
+            62.727,
+            57.273
+          ],
+          "id": "bCrewPod2"
+        },
+        {
+          "x": 302.454,
+          "y": 249.0,
+          "referenceRect": [
+            270.545,
+            220.909,
+            63.818,
+            56.182
+          ],
+          "id": "bCrewPod3"
+        }
+      ],
+      "states": [
+        "iris closed",
+        "cannon aim and warn",
+        "fire and recoil",
+        "cooldown",
+        "four pods open sequentially",
+        "workers leave pods",
+        "iris opens",
+        "empty skiff collects crew and exits"
+      ],
+      "duration": 11,
+      "bricks": [
+        {
+          "part": "brick_cyan",
+          "rect": [
+            9.818,
+            262.364,
+            20.727,
+            13.636
+          ],
+          "id": "bBrickCyan0"
+        },
+        {
+          "part": "brick_cyan",
+          "rect": [
+            334.364,
+            262.364,
+            19.091,
+            13.636
+          ],
+          "id": "bBrickCyan1"
+        },
+        {
+          "part": "brick_cyan",
+          "rect": [
+            33.273,
+            278.182,
+            34.909,
+            19.091
+          ],
+          "id": "bBrickCyan2"
+        },
+        {
+          "part": "brick_cyan",
+          "rect": [
+            139.636,
+            278.182,
+            32.727,
+            19.091
+          ],
+          "id": "bBrickCyan3"
+        },
+        {
+          "part": "brick_cyan",
+          "rect": [
+            195.273,
+            278.182,
+            30.545,
+            19.091
+          ],
+          "id": "bBrickCyan4"
+        },
+        {
+          "part": "brick_cyan",
+          "rect": [
+            295.636,
+            278.182,
+            34.364,
+            19.091
+          ],
+          "id": "bBrickCyan5"
+        },
+        {
+          "part": "brick_cyan",
+          "rect": [
+            74.182,
+            321.818,
+            50.727,
+            20.182
+          ],
+          "id": "bBrickCyan6"
+        },
+        {
+          "part": "brick_cyan",
+          "rect": [
+            238.909,
+            321.818,
+            50.727,
+            20.727
+          ],
+          "id": "bBrickCyan7"
+        },
+        {
+          "part": "brick_cyan",
+          "rect": [
+            27.818,
+            345.273,
+            46.909,
+            22.909
+          ],
+          "id": "bBrickCyan8"
+        },
+        {
+          "part": "brick_cyan",
+          "rect": [
+            290.727,
+            345.273,
+            45.818,
+            22.909
+          ],
+          "id": "bBrickCyan9"
+        },
+        {
+          "part": "brick_violet",
+          "rect": [
+            85.091,
+            278.182,
+            36,
+            19.091
+          ],
+          "id": "bBrickViolet0"
+        },
+        {
+          "part": "brick_violet",
+          "rect": [
+            243.273,
+            278.182,
+            34.909,
+            19.091
+          ],
+          "id": "bBrickViolet1"
+        },
+        {
+          "part": "brick_violet",
+          "rect": [
+            29.455,
+            300.545,
+            45.818,
+            22.364
+          ],
+          "id": "bBrickViolet2"
+        },
+        {
+          "part": "brick_violet",
+          "rect": [
+            288.545,
+            300.545,
+            44.727,
+            22.364
+          ],
+          "id": "bBrickViolet3"
+        },
+        {
+          "part": "brick_violet",
+          "rect": [
+            99.273,
+            345.273,
+            28.909,
+            22.909
+          ],
+          "id": "bBrickViolet4"
+        },
+        {
+          "part": "brick_violet",
+          "rect": [
+            236.727,
+            345.273,
+            28.364,
+            22.909
+          ],
+          "id": "bBrickViolet5"
+        },
+        {
+          "part": "brick_armour",
+          "rect": [
+            9.273,
+            278.182,
+            20.727,
+            19.091
+          ],
+          "id": "bArmour0"
+        },
+        {
+          "part": "brick_armour",
+          "rect": [
+            69.818,
+            278.182,
+            13.636,
+            19.091
+          ],
+          "id": "bArmour1"
+        },
+        {
+          "part": "brick_armour",
+          "rect": [
+            123.273,
+            278.182,
+            14.182,
+            19.091
+          ],
+          "id": "bArmour2"
+        },
+        {
+          "part": "brick_armour",
+          "rect": [
+            174.545,
+            278.182,
+            18.545,
+            19.091
+          ],
+          "id": "bArmour3"
+        },
+        {
+          "part": "brick_armour",
+          "rect": [
+            228,
+            278.182,
+            14.182,
+            19.091
+          ],
+          "id": "bArmour4"
+        },
+        {
+          "part": "brick_armour",
+          "rect": [
+            281.455,
+            278.182,
+            12.545,
+            19.091
+          ],
+          "id": "bArmour5"
+        },
+        {
+          "part": "brick_armour",
+          "rect": [
+            334.364,
+            278.182,
+            19.091,
+            19.091
+          ],
+          "id": "bArmour6"
+        },
+        {
+          "part": "brick_armour",
+          "rect": [
+            171.273,
+            299.455,
+            22.364,
+            22.909
+          ],
+          "id": "bArmour7"
+        },
+        {
+          "part": "brick_armour",
+          "rect": [
+            9.818,
+            312.545,
+            16.909,
+            19.636
+          ],
+          "id": "bArmour8"
+        },
+        {
+          "part": "brick_armour",
+          "rect": [
+            339.818,
+            313.091,
+            14.727,
+            20.182
+          ],
+          "id": "bArmour9"
+        },
+        {
+          "part": "brick_armour",
+          "rect": [
+            33.818,
+            324.545,
+            36.545,
+            15.273
+          ],
+          "id": "bArmour10"
+        },
+        {
+          "part": "brick_armour",
+          "rect": [
+            296.182,
+            325.091,
+            33.818,
+            14.727
+          ],
+          "id": "bArmour11"
+        },
+        {
+          "part": "brick_armour",
+          "rect": [
+            78,
+            345.273,
+            19.091,
+            22.909
+          ],
+          "id": "bArmour12"
+        },
+        {
+          "part": "brick_armour",
+          "rect": [
+            268.364,
+            345.273,
+            19.091,
+            22.909
+          ],
+          "id": "bArmour13"
+        }
+      ],
+      "paddleVisibleWidth": 140,
+      "mainBallDiameter": 16
+    }
+  },
+  "motion": {
+    "doors": {
+      "start": 0.8,
+      "openDuration": 0.65,
+      "closeStart": 3.8,
+      "closeDuration": 0.65,
+      "ease": "smoothstep"
+    },
+    "fighterLaunch": {
+      "duration": 1.1,
+      "bayOcclusion": "Draw inside-bay portion through aperture clip before the hull; draw only the emerged portion in front. No craft appears from outside the hangar.",
+      "thrusters": "idle 0.7 scale, burst 1.5 scale, off zero alpha",
+      "coastAndDeparture": "Each hull continuously banks offscreen after the bay launch; no opacity fade or in-bounds despawn. Three source scales/paths remain coherent."
+    },
+    "cannon": {
+      "warningStart": 3.3,
+      "warningDuration": 1.1,
+      "fireDuration": 0.18,
+      "recoilDuration": 0.2,
+      "cooldown": 0.9,
+      "recoilDistance": 5,
+      "maxAimRadians": 0.2,
+      "warning": "Three short muzzle marks; not a screen-long connecting line"
+    },
+    "pod": {
+      "releaseStart": 5.5,
+      "stagger": 0.45,
+      "doorDuration": 0.45,
+      "workerDuration": 1.5,
+      "release": "A workers follow a continuous upper/right offscreen exit after the hatch opens; no invented rescue destination. B workers travel to the real empty collection skiff; its foreground lip occludes boarding.",
+      "doorArtwork": "Native translucent glass/glint, clipped to each real window, retracts on opening. A shallow crew frame also parts into two real sprite halves to clear the worker.",
+      "acceptance": "Release/boarding presentation proof only, not an implemented objective or rescue logic.",
+      "boarding": "B: worker starts fully contained inside real window; after glass clears it moves in front of the frame, then reduces apparent scale at the actual skiff canopy; canopy clip and redrawn original hull lip occlude boarding. Occupants remain aboard during departure; no midair fade.",
+      "releaseProof": "Native frames at0/25/50/75/100 percent eased first-worker release are captured separately."
+    },
+    "iris": {
+      "openStart": 7.5,
+      "openDuration": 0.8,
+      "rotationRadians": 0.48,
+      "radialTravel": 57
+    },
+    "playback": "Deterministic presentation clock only. No active timers, collision, rescue balance, damage or new mode is implied."
+  },
+  "brickRoles": {
+    "candy": {
+      "hp": "Existing baseline1; future reference-family integration unapproved",
+      "collision": "28x18 world cell",
+      "viewStates": [
+        "intact",
+        "broken"
+      ]
+    },
+    "armour": {
+      "hp": "Existing baseline3; future reference-family integration unapproved",
+      "collision": "28x18 world cell",
+      "viewStates": [
+        "intact",
+        "cracked",
+        "critical",
+        "broken"
+      ],
+      "stateArtwork": "One canonical base; stable deterministic Canvas hairline cracks for2HP/1HP. No unprovided damage sprite family is claimed."
+    },
+    "power": {
+      "hp": 1,
+      "payloads": [
+        "laser",
+        "split",
+        "shield"
+      ],
+      "collision": "28x18 world cell",
+      "viewStates": [
+        "marked",
+        "released capsule",
+        "collected"
+      ]
+    },
+    "crewLock": {
+      "collision": "Housing only; worker is friendly",
+      "viewStates": [
+        "locked",
+        "cracked",
+        "open",
+        "released"
+      ],
+      "stateArtwork": "Canonical empty frame around root worker; deterministic crack cue on housing only, never worker.",
+      "integration": "Hitpoints not approved in this assets-only pass; no discarded rescue HP rule is imported."
+    },
+    "note": "Roles describe future integration properties; the assembly viewer demonstrates states without changing the game. Supporting existing brick sprites are labelled as reuse rather than new approved ship artwork."
+  },
+  "validation": {
+    "required": [
+      "independent real-alpha files",
+      "no companions/pilots/text",
+      "no missing-part substitutes",
+      "door seam and bay masking",
+      "all three fighter launches visible",
+      "cannon distinct warning/fire/recoil/cooldown",
+      "thruster idle/burst/off",
+      "pod worker occlusion and release",
+      "iris closed/open coverage",
+      "native iPhone/Android visibility",
+      "developer geometry off by default",
+      "active build unchanged"
+    ],
+    "observations": {
+      "status": "Native automated checks and independent visual review passed at asset-assembly scope; owner review pending.",
+      "activeBuildSha256": "ea839f00a4683bd3cfd05cb87bde6da4b79edfff0191621362fb90a75ff9fbac",
+      "report": "out/space-assets-ab/final/asset-report.json",
+      "pngMetadata": "Every canonical PNG contains only IHDR/IDAT/IEND; foreground RGBA alpha verified in Canvas",
+      "pageErrors": 0,
+      "font": "Local Lilita One embedded and loaded; no network dependency",
+      "reserveCSS": {
+        "ios": 125.54166666666666,
+        "android": 125.8125
+      },
+      "captives": {
+        "A": 5,
+        "B": 4
+      },
+      "visualSizesWorld": {
+        "paddleA": 125,
+        "paddleB": 140,
+        "ballA": 15,
+        "ballB": 16
+      },
+      "hudBallDiameterCSS": 13,
+      "proofScope": "Independent high-resolution asset motion assembly, no gameplay/payload/collision integration or APK-ready claim",
+      "independentReview": "Four full native reference views; adjacent first-emergence/launch/departure; B0-10.92s; release0/25/50/75/100 on both phones. Door, iris, muzzle, worker boarding/escape and no-companion scope passed."
+    }
+  },
+  "normalization": "Natural aspect retained for each raster. Common parts use assets/space-common/manifest.json alpha bounds and uniform contain inside measured reference envelopes; no independent-axis stretching.",
+  "referenceMeasurements": {
+    "note": "Hand-measured source envelopes, approximately +/-3 source pixels; not collision polygons or approved combat data. Natural delivered-raster aspect is preserved; companions excluded.",
+    "frames": {
+      "A": {
+        "crop": [
+          16,
+          14,
+          560,
+          968
+        ],
+        "yBase": 72
+      },
+      "B": {
+        "crop": [
+          0,
+          0,
+          660,
+          1024
+        ],
+        "yBase": 72
+      }
+    }
+  },
+  "proceduralOverlays": {
+    "podGlass": "Thin clipped translucent glass with short glint; retracts completely on opening. Not a supplied raster door.",
+    "cracks": "Stable native hairlines only over mechanical housing at HP2/1; base art remains unchanged.",
+    "cannonWarning": "Three short local muzzle marks.",
+    "shot": "Short travelling rounded bolt and local flash, no long connecting trail."
+  },
+  "draftIntegration": {
+    "status": "Draft integration geometry and initial tuning, not owner-approved balance; asset preview only, no active collision/damage/payload dispatch",
+    "shapeSpace": "Normalized visual envelope [0..1]; translate/scale with measured assembly rectangle, and rotate with actor. Validate against actual delivered alpha before gameplay use.",
+    "hull": {
+      "A": {
+        "hp": 36,
+        "sectors": [
+          [
+            [
+              0,
+              0.34
+            ],
+            [
+              0.075,
+              0.16
+            ],
+            [
+              0.28,
+              0.06
+            ],
+            [
+              0.405,
+              0
+            ],
+            [
+              0.59,
+              0
+            ],
+            [
+              0.76,
+              0.12
+            ],
+            [
+              0.91,
+              0.17
+            ],
+            [
+              1,
+              0.34
+            ],
+            [
+              1,
+              0.56
+            ],
+            [
+              0,
+              0.56
+            ]
+          ],
+          [
+            [
+              0,
+              0.57
+            ],
+            [
+              0.31,
+              0.57
+            ],
+            [
+              0.31,
+              0.97
+            ],
+            [
+              0,
+              0.97
+            ]
+          ],
+          [
+            [
+              0.69,
+              0.57
+            ],
+            [
+              1,
+              0.57
+            ],
+            [
+              1,
+              0.97
+            ],
+            [
+              0.69,
+              0.97
+            ]
+          ],
+          [
+            [
+              0.31,
+              0.94
+            ],
+            [
+              0.69,
+              0.94
+            ],
+            [
+              0.69,
+              1
+            ],
+            [
+              0.31,
+              1
+            ]
+          ]
+        ],
+        "excludedAperture": [
+          0.31964,
+          0.56444,
+          0.34821,
+          0.34222
+        ]
+      },
+      "B": {
+        "hp": 36,
+        "sectors": [
+          [
+            [
+              0.28,
+              0
+            ],
+            [
+              0.72,
+              0
+            ],
+            [
+              0.82,
+              0.13
+            ],
+            [
+              0.74,
+              0.23
+            ],
+            [
+              0.26,
+              0.23
+            ],
+            [
+              0.18,
+              0.13
+            ]
+          ],
+          [
+            [
+              0.14,
+              0.15
+            ],
+            [
+              0.29,
+              0.16
+            ],
+            [
+              0.34,
+              0.39
+            ],
+            [
+              0.32,
+              0.8
+            ],
+            [
+              0.22,
+              1
+            ],
+            [
+              0,
+              0.71
+            ],
+            [
+              0.01,
+              0.42
+            ]
+          ],
+          [
+            [
+              0.86,
+              0.15
+            ],
+            [
+              0.71,
+              0.16
+            ],
+            [
+              0.66,
+              0.39
+            ],
+            [
+              0.68,
+              0.8
+            ],
+            [
+              0.78,
+              1
+            ],
+            [
+              1,
+              0.71
+            ],
+            [
+              0.99,
+              0.42
+            ]
+          ]
+        ],
+        "excludedAperture": [
+          0.35304,
+          0.2549,
+          0.28522,
+          0.58431
+        ]
+      }
+    },
+    "cannon": {
+      "hp": 6,
+      "collision": {
+        "type": "ellipse",
+        "centre": [
+          0.5,
+          0.5
+        ],
+        "radii": [
+          0.4,
+          0.36
+        ]
+      },
+      "aimPivot": [
+        0.5,
+        0.45
+      ],
+      "barrelRecoil": 5,
+      "maxAimRadians": 0.2,
+      "muzzle": "Use actual per-part muzzle in manifest, transformed by mount angle; never centre of whole hull",
+      "recoilAxis": "opposite local muzzle direction",
+      "contactDedup": "One hit per projectile-contact episode per actor"
+    },
+    "fighter": {
+      "hp": 2,
+      "polygon": [
+        [
+          0.5,
+          0.06
+        ],
+        [
+          0.66,
+          0.25
+        ],
+        [
+          0.94,
+          0.46
+        ],
+        [
+          0.8,
+          0.72
+        ],
+        [
+          0.62,
+          0.7
+        ],
+        [
+          0.5,
+          0.91
+        ],
+        [
+          0.38,
+          0.7
+        ],
+        [
+          0.2,
+          0.72
+        ],
+        [
+          0.06,
+          0.46
+        ],
+        [
+          0.34,
+          0.25
+        ]
+      ],
+      "thrustCollision": false,
+      "hitDedup": "One actor hit until the ball exits expanded polygon"
+    },
+    "friendly": {
+      "worker": {
+        "collision": false,
+        "hp": null,
+        "payload": "rescued worker"
+      },
+      "skiff": {
+        "collision": false,
+        "hp": null
+      },
+      "portal": {
+        "collision": false,
+        "hp": null
+      }
+    },
+    "brick": {
+      "candy": {
+        "hp": 1,
+        "shape": {
+          "type": "insetRect",
+          "inset": [
+            0.04,
+            0.08,
+            0.04,
+            0.08
+          ]
+        },
+        "payload": null
+      },
+      "armour": {
+        "hp": 3,
+        "shape": {
+          "type": "insetRect",
+          "inset": [
+            0.04,
+            0.08,
+            0.04,
+            0.08
+          ]
+        },
+        "payload": null
+      },
+      "power": {
+        "hp": 1,
+        "shape": {
+          "type": "insetRect",
+          "inset": [
+            0.04,
+            0.08,
+            0.04,
+            0.08
+          ]
+        }
+      },
+      "crewHousing": {
+        "hp": 2,
+        "shape": "frame union, not worker or window interior",
+        "frameRects": [
+          [
+            0,
+            0,
+            1,
+            0.15
+          ],
+          [
+            0,
+            0.85,
+            1,
+            0.15
+          ],
+          [
+            0,
+            0.15,
+            0.13,
+            0.7
+          ],
+          [
+            0.87,
+            0.15,
+            0.13,
+            0.7
+          ]
+        ],
+        "states": [
+          "locked",
+          "hit",
+          "open",
+          "released"
+        ],
+        "openCollision": false
+      }
+    },
+    "damage": {
+      "actor": {
+        "normal": 1,
+        "fire": 3,
+        "titan": 4,
+        "laser": 1
+      },
+      "breakableBrick": {
+        "normal": 1,
+        "titan": 1,
+        "laser": 1,
+        "fire": "destroy"
+      },
+      "shutters": "No independent HP initially; attached to hull. Only closed visible leaves solid, open leaves use their translated shapes, aperture clear."
+    },
+    "payloads": {
+      "A": {
+        "aBrickCyan2": "laser",
+        "aBrickCyan5": "split",
+        "aBrickPink4": "shield"
+      },
+      "B": {
+        "bBrickCyan3": "laser",
+        "bBrickViolet2": "shield",
+        "bBrickViolet3": "split"
+      },
+      "allOtherModules": null,
+      "randomDrops": false
+    },
+    "rules": {
+      "shield": "Existing2 charges/16s missed-ball saves only. No new laser/bolt interception is approved.",
+      "deadline": null,
+      "ordinaryBallCanOpenEveryRequiredHousing": true,
+      "noPaidGate": true
+    },
+    "actualRasterAlignment": "UNVERIFIED STENCILS: source-board sectors are not final collision. Actual A hull natural aspect360x126.36 vsreference360x144.64; use delivered normalized aperture[.36,.60,.28,.22]. Actual B aperture[.384,.336,.232,.508]. Align to alpha and state before any gameplay admission."
+  },
+  "sourceRecords": {
+    "rootParts": "art/space/parts-source.json",
+    "rootPartsNormalization": "art/space/parts-report.json",
+    "commonParts": "assets/space-common/manifest.json",
+    "referenceBounds": "design/phase1/space-assets-ab-spec.md",
+    "carrierCommon": "assets/space-a/common-panels-manifest.json"
+  },
+  "preview": {
+    "command": "node tools/space-assets/preview.mjs --out=out/space-assets-ab/final --capture --motion",
+    "outputs": "out/space-assets-ab/final/space-a.html and space-b.html",
+    "controls": "Space pause/play; arrows seek0.1s; D developer bounds; H mechanical crack/HP state. Geometry off by default.",
+    "offline": "Parts and local Lilita One font are embedded; no network request required.",
+    "scope": "Asset motion assembly only; no ball collision, timed rescue mission, new chapter or gameplay rule is implemented."
+  },
+  "proof": {
+    "directory": "out/space-assets-ab/final",
+    "nativeStills": [
+      "A-ios-reference.png",
+      "A-android-reference.png",
+      "B-ios-reference.png",
+      "B-android-reference.png"
+    ],
+    "movies": [
+      "A-motion.gif",
+      "B-motion.gif"
+    ],
+    "nativeFrames": {
+      "A": 120,
+      "B": 132
+    },
+    "fps": 12,
+    "releases": "{A,B}-{ios,android}-release-{0,25,50,75,100}.png",
+    "mechanisms": "Native numbered time stills0/1.2/2.2/3/4.45/5.2/6.8/8.4/9.4s",
+    "commands": [
+      "node tools/space-assets/preview.mjs --out=out/space-assets-ab/final --capture --motion",
+      "python tools/space-assets/motion_gif.py out/space-assets-ab/final"
+    ],
+    "stable": true,
+    "scope": "Lossless high-resolution PNG source + real Canvas part motion. GIF is a review encoding. Runtime texture normalization, gameplay and APK integration are separate work."
+  },
+  "textureBudgets": {
+    "A": {
+      "uniquePaths": [
+        "assets/space-a/carrier_hull.png",
+        "assets/space-a/door_left.png",
+        "assets/space-a/door_right.png",
+        "assets/space-a/fighter.png",
+        "assets/space-common/brick_crew_lock.png",
+        "assets/space-a/worker.png",
+        "assets/space-a/thruster.png",
+        "assets/space-a/cannon_barrel.png",
+        "assets/space-a/background.png",
+        "assets/space-common/brick_cyan.png",
+        "assets/space-common/brick_violet.png",
+        "assets/space-common/brick_armour.png",
+        "assets/space-common/paddle.png",
+        "assets/space-common/ball.png",
+        "assets/space-common/capsule_laser.png",
+        "assets/space-common/capsule_split.png",
+        "assets/space-common/capsule_shield.png",
+        "assets/space-common/brick_pink.png",
+        "assets/space-a/brick_cyan.png",
+        "assets/space-a/brick_pink.png",
+        "assets/space-a/paddle.png"
+      ],
+      "encodedBytes": 9544490,
+      "decodedBytes": 32205016,
+      "deduplicatedBy": "Canonical file path, including the shared exhaust"
+    },
+    "B": {
+      "uniquePaths": [
+        "assets/space-b/relay_hull.png",
+        "assets/space-b/iris_segment.png",
+        "assets/space-b/skiff.png",
+        "assets/space-b/pod_shell.png",
+        "assets/space-b/worker.png",
+        "assets/space-a/thruster.png",
+        "assets/space-b/cannon_barrel.png",
+        "assets/space-b/background.png",
+        "assets/space-b/portal.png",
+        "assets/space-common/brick_cyan.png",
+        "assets/space-common/brick_violet.png",
+        "assets/space-common/brick_armour.png",
+        "assets/space-common/brick_crew_lock.png",
+        "assets/space-common/paddle.png",
+        "assets/space-common/ball.png",
+        "assets/space-common/capsule_laser.png",
+        "assets/space-common/capsule_split.png",
+        "assets/space-common/capsule_shield.png",
+        "assets/space-common/brick_pink.png"
+      ],
+      "encodedBytes": 13144415,
+      "decodedBytes": 40692592,
+      "deduplicatedBy": "Canonical file path, including the shared exhaust"
+    }
+  }
+}

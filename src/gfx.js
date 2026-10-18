@@ -23,6 +23,27 @@ export function drawKit(g, x, feetY, clip, t, scale = 1) {
   const frame = Math.max(0, Math.floor(t * a.fps)), f = a.loop ? frame % a.n : Math.min(frame, a.n - 1);
   g.drawImage(KIT.img, f * cell, a.row * cell, cell, cell, x - u / 2, feetY - u + KIT.feet * scale, u, u);
 }
+const KIT_CAST = ART?.kitCast ? { ...ART.kitCast, img: loadImg(ART.kitCast.url) } : null;
+export function drawKitCastFlight(g, from, to, age, scale = 1) {
+  if (!ready(KIT_CAST) || age < 0 || age >= KIT_CAST.timing.arrival) return;
+  const { anticipation, arrival } = KIT_CAST.timing, a = KIT_CAST.anims.Spin, cell = KIT_CAST.cell;
+  const p = Math.max(0, (age - anticipation) / (arrival - anticipation)), u = p * p * (3 - 2 * p);
+  const sx = from.x + from.r + 14 / scale, sy = from.y - 10 / scale;
+  const cx = sx + 30 / scale, cy = (sy + to.y) / 2 - 36 / scale;
+  const x = (1 - u) ** 2 * sx + 2 * (1 - u) * u * cx + u * u * to.x;
+  const y = (1 - u) ** 2 * sy + 2 * (1 - u) * u * cy + u * u * to.y;
+  const size = 32 / scale * (1 - u) + to.size * (2.8 / 3.4) * u;
+  const f = Math.min(a.n - 1, Math.floor(p * a.n));
+  g.drawImage(KIT_CAST.img, f * cell, a.row * cell, cell, cell, x - size / 2, y - size / 2, size, size);
+}
+export function drawKitBrickArmour(g, x, y, age, size = 40, alpha = 1) {
+  if (!ready(KIT_CAST) || age < KIT_CAST.timing.arrival || alpha <= 0) return;
+  const { arrival, settled } = KIT_CAST.timing, a = KIT_CAST.anims.Armour, cell = KIT_CAST.cell;
+  const f = Math.min(a.n - 1, Math.floor((age - arrival) / (settled - arrival) * a.n));
+  g.save(); g.globalAlpha *= alpha;
+  g.drawImage(KIT_CAST.img, f * cell, a.row * cell, cell, cell, x - size / 2, y - size / 2, size, size);
+  g.restore();
+}
 let DPR = 1;
 export const setDPR = d => { DPR = d; cache.clear(); };
 

@@ -1,7 +1,7 @@
 // Entry: canvas sizing, fixed-step loop, input mapping and the three scenes (menu, level, results).
 import { setDPR, text, rrect, shade, vignette, drawGrain, cached, brick, FONT, artLoaded, SPR, ready } from './gfx.js';
 import { unlockAudio, setMuted, isMuted, sfx } from './audio.js';
-import { Invasion } from './invasion.js';
+import { Carrier } from './carrier.js';
 import { Vault, drawPrincessIcon } from './vault.js';
 import { drawInvader } from './characters.js';
 import { store } from './prefs.js';
@@ -9,8 +9,8 @@ import { MODE, PRICE, AD_SECONDS, continueOffer, isUnlocked, watchAd, buyFullGam
 import { kitOrbContains, kitTap } from './kit.js';
 
 const LEVELS = [
-  { make: (W, H) => new Invasion(W, H), name: 'Invasion', sub: 'Clear the formation before it lands', color: '#ff5d8f' },
-  { make: (W, H) => new Vault(W, H), name: 'The Vault', sub: 'Free the princess before the serpent gets there', color: '#f4c542' },
+  { make: (W, H, s) => new Carrier(W, H, s), name: 'Carrier Breakout', sub: 'Disable the carrier. Free all five crew.', color: '#e58fcb' },
+  { make: (W, H, s) => new Vault(W, H, s), name: 'The Vault', sub: 'Free the princess before the serpent gets there', color: '#f4c542' },
 ];
 const W = 360;
 let H = 740, scale = 1, FH = 740, inT = 0, inB = 0; // FH: full canvas height; H: playable height inside the safe area
@@ -47,13 +47,12 @@ function resize() {
   setDPR(scale * dpr);
   g.setTransform(scale * dpr, 0, 0, scale * dpr, offX * scale * dpr, offY * scale * dpr);
   previews = [];
-  if (level && (level.W !== W || level.H !== H + LIFT)) start(levelIdx); // geometry depends on H
-  if (level) level.kitUIScale = scale;
+  if (level && (level.W !== W || level.H !== H + LIFT || level.kitUIScale !== scale)) start(levelIdx);
 }
 
 function start(i) {
-  levelIdx = i; level = LEVELS[i].make(W, H + LIFT); level.hudY = LIFT; level.inB = inB; scene = 'level'; resultT = 0;
-  level.kitUIScale = scale; paddlePointer = null; kitPress = null;
+  levelIdx = i; level = LEVELS[i].make(W, H + LIFT, scale); level.hudY = LIFT; level.inB = inB; scene = 'level'; resultT = 0;
+  paddlePointer = null; kitPress = null;
   cont = { used: 0, declined: false, ad: null, toast: null };
 }
 
@@ -66,7 +65,7 @@ cv.addEventListener('pointerdown', e => {
   const b = buttons.find(b => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h);
   if (b) { sfx.paddle(); b.fn(); return; }
   if (scene === 'level' && level.state === 'play') {
-    if (level.phase !== 'intro' && kitOrbContains(level.kitAnchor(), x, y + LIFT)) {
+    if (level.coreMode === 'ward' && level.phase !== 'intro' && kitOrbContains(level.kitAnchor(), x, y + LIFT)) {
       if (!kitPress) kitPress = { id: e.pointerId, level, x, y: y + LIFT, clientX: e.clientX, clientY: e.clientY, cancelled: false };
       return;
     }
@@ -147,7 +146,7 @@ function star(x, y, r, on) {
 
 function preview(i, w, h) { // the level's opening playfield, cropped to fill the card
   if (!previews[i]) {
-    const lv = LEVELS[i].make(W, H), r = lv.previewRect(); lv.skipIntro?.();
+    const lv = LEVELS[i].make(W, H, scale), r = lv.previewRect(); lv.skipIntro?.();
     const k = Math.max(w / r.w, h / r.h);
     previews[i] = cached(`preview${i}|${w}|${h}|${H}`, w, h, pg => {
       pg.save(); pg.translate(w / 2, 0); pg.scale(k, k); pg.translate(-(r.x + r.w / 2), -r.y);
@@ -216,7 +215,6 @@ function drawMenu() {
     else if (i === 0) drawInvader(g, x + cw - 52, y + 10, 36, 24, '#5ccf6a', Math.floor(menuT * 3) % 2, Math.sin(menuT));
     else drawPrincessIcon(g, x + cw - 36, y + 34, 64, menuT);
   });
-  text(g, 'Drag to move · hold still as the ball lands to catch & aim', W / 2, H - 52, 12, 'rgba(220,226,255,0.65)', 'center');
   if (canFull()) {
     button(isMuted() ? 'Sound: off' : 'Sound: on', W / 2 - 128, H - 38, 120, 30, '#4b5370', () => setMuted(!isMuted()), true);
     button('Full screen', W / 2 + 8, H - 38, 120, 30, '#3f6fd1', goFull, true);
@@ -287,7 +285,7 @@ function drawResults() {
   const pg = g.createLinearGradient(0, y, 0, y + ph); pg.addColorStop(0, '#2c3360'); pg.addColorStop(1, '#171b36');
   g.fillStyle = pg; rrect(g, x, y, pw, ph, 22); g.fill();
   g.strokeStyle = 'rgba(255,255,255,0.18)'; g.lineWidth = 1.5; rrect(g, x + 1, y + 1, pw - 2, ph - 2, 21); g.stroke();
-  const title = won ? (levelIdx === 1 ? 'PRINCESS SAVED!' : 'INVASION OVER!') : 'SO CLOSE!';
+  const title = won ? (levelIdx === 1 ? 'PRINCESS SAVED!' : 'CREW SAVED!') : 'SO CLOSE!';
   text(g, title, W / 2, y + 36, 30, won ? '#ffd36b' : '#ff7a8a', 'center');
   if (!won) text(g, level.reason || '', W / 2, y + 66, 13, '#c9cfee', 'center');
   for (let s = 0; s < 3; s++) {
@@ -320,9 +318,12 @@ function draw() {
   // extend the scene's top and bottom pixel rows under the notch and home indicator
   const bg = scene === 'menu' ? menuBg() : level.background(), k = bg.height / (scene === 'menu' ? H : H + LIFT);
   const top = scene === 'menu' ? inT : inT - LIFT;   // screen space above the level's y = 0
-  if (top > 0 && scene !== 'menu' && level.drawTopInset) { g.save(); g.translate(0, top); level.drawTopInset(g, top + 1); g.restore(); }
-  else if (top > 0) g.drawImage(bg, 0, 0, bg.width, k, 0, 0, W, top + 1);
-  if (inB) g.drawImage(bg, 0, bg.height - k, bg.width, k, 0, FH - inB - 1, W, inB + 1);
+  if (scene !== 'menu' && level.drawFullBleedBackground) level.drawFullBleedBackground(g, top, FH);
+  else {
+    if (top > 0 && scene !== 'menu' && level.drawTopInset) { g.save(); g.translate(0, top); level.drawTopInset(g, top + 1); g.restore(); }
+    else if (top > 0) g.drawImage(bg, 0, 0, bg.width, k, 0, 0, W, top + 1);
+    if (inB) g.drawImage(bg, 0, bg.height - k, bg.width, k, 0, FH - inB - 1, W, inB + 1);
+  }
   g.translate(0, inT);
   if (scene === 'menu') drawMenu();
   else {
@@ -346,14 +347,10 @@ function fillMargins() {
 // Full screen where the browser allows it (Android Chrome, desktop); iOS gets it from Add to Home Screen
 const canFull = () => !!(document.fullscreenEnabled && !document.fullscreenElement);
 function goFull() { document.documentElement.requestFullscreen?.({ navigationUI: 'hide' }).then(() => screen.orientation?.lock?.('portrait').catch(() => {})).catch(() => {}); }
-function pauseButton() { // top-left, away from the thumb that steers the paddle; 44pt touch target
-  const x = 10, y = 4, s = 30;
-  buttons.push({ x: x - 7, y: y - 7, w: s + 14, h: s + 14, fn: () => { scene = 'menu'; } });
-  g.fillStyle = 'rgba(0,0,0,0.35)'; rrect(g, x + 2, y + 3, s, s, 10); g.fill();
-  const gr = g.createLinearGradient(0, y, 0, y + s); gr.addColorStop(0, '#5d6688'); gr.addColorStop(1, '#2c3250');
-  g.fillStyle = gr; rrect(g, x, y, s, s, 10); g.fill();
-  g.fillStyle = 'rgba(255,255,255,0.25)'; rrect(g, x + 4, y + 2, s - 8, 4, 2); g.fill();
-  g.fillStyle = '#fff'; rrect(g, x + 10, y + 9, 4, 12, 1.5); g.fill(); rrect(g, x + 17, y + 9, 4, 12, 1.5); g.fill();
+function pauseButton() { // Icon only; the invisible target remains44 CSS pixels.
+  buttons.push({ x: 4 / scale, y: 0, w: 44 / scale, h: 44 / scale, fn: () => { scene = 'menu'; } });
+  g.fillStyle = '#a8bfcc';
+  for (const x of [22, 28]) { rrect(g, x / scale, 11 / scale, 2.5 / scale, 14 / scale, 1 / scale); g.fill(); }
 }
 
 // test hook for automated playtests

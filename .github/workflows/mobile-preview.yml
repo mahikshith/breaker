@@ -1,9 +1,9 @@
-name: Mobile preview
+name: Carrier mobile preview
 
 on:
   workflow_dispatch:
   push:
-    branches: [coding/mobile-preview]
+    branches: [codex/carrier-mobile-preview]
     paths-ignore: ['docs/**', 'design/**']
 
 permissions:
@@ -32,13 +32,18 @@ jobs:
         run: |
           npm install --prefix "$RUNNER_TEMP/browser-tools" --no-package-lock playwright@1.61.1
           "$RUNNER_TEMP/browser-tools/node_modules/.bin/playwright" install --with-deps chromium
-      - name: Phone control, Ward and venom regressions
+      - name: Carrier gameplay and both phone regressions
         env:
           PW_MODULE: file://${{ runner.temp }}/browser-tools/node_modules/playwright/index.mjs
         run: |
+          node tools/playtest/carrier.mjs out/ci-carrier
+          node tools/playtest/mobile-ui.mjs out/ci-mobile-ui
           node tools/playtest/kit.mjs out/ci-kit
           node tools/playtest/venom.mjs out/ci-venom
+          node tools/playtest/capture.mjs out/ci-capture
           node tools/playtest/layout.mjs out/ci-layout
+          node tools/playtest/polish.mjs out/ci-polish-ios ios
+          node tools/playtest/polish.mjs out/ci-polish-android android
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
@@ -97,14 +102,14 @@ jobs:
       - name: Package installable artifact
         run: |
           mkdir -p out/apk
-          cp android/app/build/outputs/apk/debug/app-debug.apk out/apk/BREACH-preview.apk
+          cp android/app/build/outputs/apk/debug/app-debug.apk out/apk/BREACH-Carrier-preview.apk
           cp android/app/src/main/assets/preview.json out/apk/preview.json
           cp docs/MOBILE_PREVIEW.md out/apk/README.md
-          sha256sum out/apk/BREACH-preview.apk > out/apk/SHA256SUMS.txt
+          sha256sum out/apk/BREACH-Carrier-preview.apk > out/apk/SHA256SUMS.txt
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: success()
         with:
-          name: BREACH-android-preview-${{ github.run_number }}
+          name: BREACH-carrier-android-${{ github.run_number }}
           path: out/apk/
           if-no-files-found: error
           retention-days: 30

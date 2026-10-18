@@ -39,8 +39,8 @@ function cellArt(v, row, color, dmg) {   // { img, ox, oy, iw, ih } with the ima
 const botSprite = (color, expr) => spr(`bot_${BOT_KEY[color] || 'white'}_${expr}`);
 
 export class Invasion extends Arena {
-  constructor(W, H) {
-    super(W, H, { accent: '#ff5d8f', top: 64, left: 10, right: 10, minPaddleY: 470 });
+  constructor(W, H, uiScale = 1) {
+    super(W, H, { accent: '#ff5d8f', top: 64, left: 10, right: 10, minPaddleY: 470, uiScale });
     this.name = 'Invasion'; this.subtitle = 'Clear the formation before it lands';
     this.homeX = (W - COLS * CW) / 2;
     this.grid = makeGrid(COLS, ROWS, CW, CH, this.homeX, 92);
@@ -56,7 +56,7 @@ export class Invasion extends Arena {
     this.bolts = []; this.boltT = 2.5; this.hurt = new Float32Array(COLS * ROWS);
     this.phase = 'formation'; this.boss = null;
     this.mood = new Array(COLS * ROWS).fill(null); this.moodT = new Float32Array(COLS * ROWS); this.windup = null;
-    this.debris = new Debris({ left: this.left, right: this.right, floor: H + 200, killY: this.paddle.y + 70, onPaddleHit: p => this.wreckOnPaddle(p) });
+    this.debris = new Debris({ left: this.left, right: this.right, floor: H + 200, killY: this.drainY, onPaddleHit: p => this.wreckOnPaddle(p) });
   }
   setMood(k, name, secs) { this.mood[k] = name; this.moodT[k] = secs; }
   // a robot's face: reactions first, otherwise the two-step march (and a dented look once it's been hit)
@@ -151,7 +151,7 @@ export class Invasion extends Arena {
       // balls knock bolts out of the sky
       for (const b of this.balls) if (!s.dead && !b.caught && Math.hypot(b.x - s.x, b.y - s.y) < b.r + s.r + 1) { s.dead = true; this.addScore(20, s.x, s.y); this.fx.shatter(s.x - 4, s.y - 4, 8, 8, '#ff4d5e', 4, 0.6); sfx.tough(); }
     }
-    this.bolts = this.bolts.filter(s => !s.dead && s.y < this.H + 20);
+    this.bolts = this.bolts.filter(s => !s.dead && s.y - s.r < this.drainY);
   }
 
   updateMarch(dt) {
@@ -307,8 +307,10 @@ export class Invasion extends Arena {
       g.globalAlpha = 1;
     }
     if (this.boss) this.drawBoss(g);
+    g.save(); g.beginPath(); g.rect(0, -400, W, this.playClipY + 400); g.clip();
     this.debris.draw(g);
     for (const s of this.bolts) this.drawBolt(g, s);
+    g.restore();
     this.drawDrops(g); this.drawPaddle(g); this.drawBalls(g); this.fx.draw(g); this.drawAim(g);
     g.restore();
     if (near > 0.4) {
@@ -372,23 +374,11 @@ export class Invasion extends Arena {
     }
   }
   drawHUD(g) {
-    const W = this.W;
-    if (this.phase === 'formation') {
-      const n = this.alive();
-      text(g, 'FORMATION', 52, this.hudY + 10, 13, '#ffb3c8');
-      const x1 = W - 150, y = this.hudY + 27, f = n / this.total;
-      g.fillStyle = 'rgba(0,0,0,0.45)'; rrect(g, 52, y - 6, x1 - 52, 12, 6); g.fill();
-      const mg = g.createLinearGradient(0, y - 6, 0, y + 6); mg.addColorStop(0, '#ffa3bf'); mg.addColorStop(1, '#c2305e');
-      g.fillStyle = mg; rrect(g, 52, y - 6, Math.max(12, (x1 - 52) * f), 12, 6); g.fill();
-      g.fillStyle = 'rgba(255,255,255,0.35)'; rrect(g, 56, y - 4, Math.max(4, (x1 - 60) * f), 3, 1.5); g.fill();
-      text(g, `${n} left`, x1 + 8, y, 12, '#fff');
-    } else if (this.boss) {
-      text(g, 'MOTHERSHIP', 52, this.hudY + 10, 13, '#ffb3c8');
-      const x1 = W - 150, y = this.hudY + 27, f = Math.max(0, this.boss.hp / BOSS_HP);
-      g.fillStyle = 'rgba(0,0,0,0.45)'; rrect(g, 52, y - 6, x1 - 52, 12, 6); g.fill();
-      const mg = g.createLinearGradient(0, y - 6, 0, y + 6); mg.addColorStop(0, '#ffe08a'); mg.addColorStop(1, '#e0602a');
-      g.fillStyle = mg; rrect(g, 52, y - 6, Math.max(12, (x1 - 52) * f), 12, 6); g.fill();
-      text(g, `${this.boss.hp} HP`, x1 + 8, y, 12, '#fff');
+    const s = this.kitUIScale, x = 64 / s, y = this.hudY + 35 / s, w = this.W - 180 / s, h = 3 / s;
+    const f = this.phase === 'formation' ? this.alive() / this.total : this.boss ? Math.max(0, this.boss.hp / BOSS_HP) : 0;
+    if (f > 0) {
+      g.fillStyle = 'rgba(255,255,255,0.12)'; rrect(g, x, y - h / 2, w, h, h / 2); g.fill();
+      g.fillStyle = this.boss ? '#e9bd64' : '#df86a2'; rrect(g, x, y - h / 2, Math.max(h, w * f), h, h / 2); g.fill();
     }
     this.drawHUDBase(g);
   }
@@ -445,23 +435,21 @@ export class Invasion extends Arena {
       const fg = g.createRadialGradient(W / 2, H - 70, 10, W / 2, H - 70, W * 0.7);
       fg.addColorStop(0, 'rgba(255,93,143,0.10)'); fg.addColorStop(1, 'rgba(255,93,143,0)');
       g.fillStyle = fg; g.fillRect(0, H * 0.5, W, H * 0.5);
+      this.calm(g);
       vignette(g, W, H, 0.55);
       drawGrain(g, W, H);
     });
   }
-  // The hangar render is lovely but busy; knock it back so the play reads first: less saturation, darker overall,
-  // and darker still in the lower hangar (its neon and panels sit right behind the paddle).
+  // Saturn stays legible as a silhouette, behind the brighter play pieces.
   calm(g) {
     const { W, H } = this;
     g.save();
-    g.globalCompositeOperation = 'saturation'; g.fillStyle = 'rgba(128,128,128,0.5)'; g.fillRect(-1, -60, W + 2, H + 60);
-    g.globalCompositeOperation = 'source-over'; g.fillStyle = 'rgba(6,8,20,0.46)'; g.fillRect(-1, -60, W + 2, H + 60);
-    // the ringed planet and the nebula are the loudest things in the window: sink them well behind the play
-    const pg = g.createRadialGradient(262, 330, 30, 262, 330, 190);
-    pg.addColorStop(0, 'rgba(6,8,20,0.7)'); pg.addColorStop(0.6, 'rgba(6,8,20,0.5)'); pg.addColorStop(1, 'rgba(6,8,20,0)'); g.fillStyle = pg; g.fillRect(60, 130, 300, 400);
-    g.fillStyle = 'rgba(6,8,20,0.22)'; g.fillRect(14, 70, W - 28, 380);
-    const lg = g.createLinearGradient(0, 420, 0, 520); lg.addColorStop(0, 'rgba(6,8,20,0)'); lg.addColorStop(1, 'rgba(6,8,20,0.42)');
-    g.fillStyle = lg; g.fillRect(0, 420, W, H - 420);
+    g.globalCompositeOperation = 'saturation'; g.fillStyle = 'rgba(128,128,128,0.8)'; g.fillRect(0, -60, W, H + 60);
+    g.globalCompositeOperation = 'source-over'; g.fillStyle = 'rgba(3,5,12,0.68)'; g.fillRect(0, -60, W, H + 60);
+    const top = g.createLinearGradient(0, -60, 0, 28); top.addColorStop(0, '#090c1d'); top.addColorStop(1, '#11152a');
+    g.fillStyle = top; g.fillRect(0, -60, W, 88);
+    const lower = g.createLinearGradient(0, 455, 0, H); lower.addColorStop(0, '#101326'); lower.addColorStop(1, '#090c19');
+    g.fillStyle = lower; g.fillRect(0, 455, W, Math.max(0, H - 455));
     g.restore();
   }
   result() {

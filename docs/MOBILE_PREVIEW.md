@@ -1,47 +1,37 @@
-# BREACH Android preview
+# BREACH Carrier Android preview
 
-This is the owner's requested pre-Brum gameplay checkpoint, distributed from the separate `coding/mobile-preview` branch. It includes Knight 2, the mixed harder Vault, the left Kit orb with the earlier 12-second body appearance, earned Ward, variable venom, the first-use lesson and the downward tunnel entrance. The current Invasion level is also playable.
+The owner requested an installable Carrier Breakout checkpoint on the new `codex/carrier-mobile-preview` branch. The primary working branch and `main` remain separate. This preview contains the selected A carrier, open hangar and three-fighter launch, two telegraphed cannons,16 authored panel bricks, five captive crew cells and Laser/Split/Shield rewards. Win by disabling the carrier and freeing all five crew. The Vault retains the selected face-only Kit, shield cast and connected-coil capture.
 
-It deliberately retains the earlier cast and princess-capture animations. Their replacements, Brum, new space characters and later levels are still in design and are not in this APK. The owner explicitly authorized committing and pushing this checkpoint and running its CI on a new branch; `main` remains unchanged.
-
-## Verified artifact
-
-- [Successful CI run](https://github.com/mahikshith/breaker/actions/runs/39108320738), tested code commit `085a2c6`.
-- [APK artifact: BREACH-android-preview-4](https://github.com/mahikshith/breaker/actions/runs/39108320738/artifacts/12129462604) (30-day retention).
-- APK: 1,854,545 bytes; SHA256 `3e34835d9bf44f5d9c82f5f1e0be292dc79019545bf80de8827df997763842a7`.
-- [Native screenshots, lint and test reports](https://github.com/mahikshith/breaker/actions/runs/39108320738/artifacts/12129562329).
-- Web unit/phone/venom checks passed. Offline Android 15 instrumentation: one test, zero failures/errors; actual fonts, canvas, aim/serve/steer, both levels and storage after recreation passed. Downloaded APK payload/fonts/hash and absence of network permission were independently checked. Native screenshots were reviewed.
-
-Android lint has no errors and nine nonfatal warnings: the preview targets SDK 35, three pinned test-library versions have updates, portrait orientation raises two form-factor warnings, JavaScript is necessary for the local game, a future release should define modern backup extraction rules, and the reused bitmap launcher icon should move from drawable to mipmap resources. These were not silently suppressed. This test package is not a Store release.
+Nix/Tick appearances are selected, but their full expressive character sprite families are not in this checkpoint. Relay Raiders, Level3 and later work are excluded from the frozen APK.
 
 ## Install
 
-1. Download the `BREACH-android-preview-<run>` artifact from the successful **Mobile preview** Actions run and unzip it.
-2. Copy `BREACH-preview.apk` to an Android phone running Android 8.0 or newer with an up-to-date Android System WebView.
-3. Open the APK and permit installation from that browser or file manager when Android requests it. Launch **BREACH Preview**.
+Download the APK artifact from this branch's successful **Carrier mobile preview** Actions run, unzip it and open `BREACH-Carrier-preview.apk` on an Android8.0+ phone. Allow installation from the app opening the file if Android requests it, then launch **BREACH Preview**. This is a debug-signed test app. If Android reports a signature conflict with an older preview, uninstalling that preview first clears its local progress.
 
-This is a debug-signed test app, not a Play Store release. A later build with a different disposable debug key may require uninstalling this preview first, which clears its local progress. It uses a separate preview application ID. The game and its Lilita One/Rubik fonts are bundled and require no network permission.
+The game, artwork and OFL-licensed Lilita One/Rubik fonts work offline. The app has no network permission. Purchases/ads remain the existing local simulation; no payment is taken.
 
-## Controls and test scope
+## Validation and exact scope
 
-Drag in the lower deck to steer. Release the opening held ball to serve. Hold briefly during play for a Focus catch, aim, then release. Break bricks to charge Kit; in the Vault, tap his left orb during the marked venom warning to shield the threatened partition. Invasion retains its charged centre-return Titan.
+The Windows gameplay bundle SHA256 is `F4863DC5A87D6B46A8A1AFDB702C264F432196B851B61B828946DB8AB75A0423`. Its portable LF-canonical hash is `2ab4ee63e929373359d90f3cef5a9e9fbdea679592c98b01fc9de673404d0e04`; `prepare-android.mjs` rejects any different source. Offline font packaging produces hash `4d5d7b5ebd5d0b167e96ed0d6063058cf27530160715d6977e686db7f25da72e`.
 
-Ads and purchases remain the existing simulation: no real advertisement or payment service is connected and no money is charged. The fake unlock button only changes this preview's local state.
+Local checks pass44 unit tests and both-phone Carrier, mobile UI, Vault capture/venom, polish and layout suites. Seeded public-input assisted runs earned all five rescues and disabled the carrier in82.3s on the simulated iPhone and45.2s on simulated Android. These demonstrate a reachable win, not human difficulty or real-device performance. Native reference-quality review passes continuous backgrounds, source-specific art and paddle alpha/collider alignment.
 
-CI runs unit tests and browser checks on both phone sizes, then Android lint and an Android 15 emulator installation with network disabled. Its native smoke test checks bundled fonts, a nonempty canvas, touch aiming/serve/steering, both levels, a clean entrance and persistent local storage after recreation. Screenshots and test reports are separate evidence artifacts. These checks do not establish physical-phone performance, sound, thumb comfort, Safari behaviour or human difficulty balance.
+Carrier has a physical/visible125x17u paddle and7.5r ordinary ball; Vault stays74x12/6r. Both retain126CSS lower control reserve, compact top HUD and no repeated control text. Carrier collision uses the actual delivered hull opening, clipped fighter emergence, moving weapon poses, non-pierceable disabled cover, substepped contacts and swept lasers. Powers cannot award repeated overlap damage. Hostile shots stop on visible cover.
+
+Version is0.3-carrier-preview/code3. Native immersive mode, cutout/gesture safe areas, transient bars, offline Carrier touch/launch and Vault/recreation tests are prepared. Their compilation/emulator outcome is pending the current CI run; do not call this a verified APK until the run succeeds. Evidence and installable APK are uploaded as separate artifacts, and the APK artifact is gated on all native checks.
 
 ## Reproduce
 
-Use Node 22.23.3, Java 17, Gradle 8.11.1 and Android SDK 35:
+Use Node22.23.3, Java17, Gradle8.11.1 and Android SDK35:
 
 ```sh
 npm ci
 npm test
 npm run build
 node tools/prepare-android.mjs
-gradle -p android assembleDebug lintDebug
+gradle -p android assembleDebug assembleDebugAndroidTest lintDebug connectedDebugAndroidTest
 ```
 
-`tools/prepare-android.mjs` rejects source changes that would silently alter the frozen checkpoint. Its SHA256 normalizes only line endings: `88d7c7f6b6703354d9ed08145bc21b6771b41b4a460281f2a212818fe2c1768c`. The original Windows build SHA256 is `3A6B8A8C5368364AFCFCE6BBF7B1994D4598C121C90B45B72FE5BD7E45285EC1`. Packaging replaces external font links with bundled OFL fonts and records the packaged HTML hash in `preview.json`.
+The workflow runs Carrier and shared phone suites before Android lint, then installs and tests with network disabled on an Android15 Pixel6 emulator. Debug keyboard test hooks and browser fixtures do not establish physical-phone audio, thermal/memory behavior, thumb comfort or Safari behavior.
 
-The GitHub workflow is `.github/workflows/mobile-preview.yml`; it triggers on this branch's pushes and by manual dispatch. No Android SDK or Java installation is required on the owner's desktop to download the artifact.
+Previous pre-Brum APK history remains at [the earlier successful run](https://github.com/mahikshith/breaker/actions/runs/39108320738). It is not this Carrier build.

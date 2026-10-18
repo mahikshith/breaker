@@ -1,6 +1,6 @@
 // Shared gameplay for every level: paddle, balls, serve and Focus aim, power-ups, lives, combo, juice.
 import { makeBall, stepBall, cellAt } from './physics.js';
-import { FX, drawBall, drawKit, drawKitFace, capsule, POWER, rrect, shade, text, NUM, SHADOW, SPR, ready } from './gfx.js';
+import { FX, drawBall, drawKitFace, capsule, POWER, rrect, shade, text, SHADOW, SPR, ready } from './gfx.js';
 import { sfx } from './audio.js';
 import { store } from './prefs.js';
 import { kitExpression, updateKitPresence, kitLayout } from './kit.js';
@@ -12,30 +12,35 @@ const DRAG_GAIN = 1.15;      // paddle travel per unit of thumb travel
 const CORE_HALF = 7;         // half-width of the paddle's sweet spot
 const CORE_BRICKS = 12;      // bricks to break to charge it
 
-// The paddle sits well above the thumb: the bottom quarter of the screen is a control deck you drag on.
-export function paddleY(H, minY = 0) { return Math.round(Math.max(minY, H - Math.max(150, Math.min(210, H * 0.25)))); }
+// Reserve the face control and the full last-live TITAN halo, in CSS pixels.
+export function paddleY(H, minY = 0, uiScale = 1) { return Math.round(Math.max(minY, H - 126 / uiScale)); }
+const compactScore = new Intl.NumberFormat('en-US', { notation: 'compact', maximumSignificantDigits: 3 });
 
 export class Arena {
   constructor(W, H, opt = {}) {
     this.W = W; this.H = H;
+    this.kitUIScale = opt.uiScale || 1;
     this.accent = opt.accent || '#3fa8f5';
     this.left = opt.left ?? 12; this.right = W - (opt.right ?? 12); this.top = opt.top ?? 70;
-    this.paddle = { x: W / 2, y: paddleY(H, opt.minPaddleY), w: 74, h: 12, vx: 0, baseW: 74, wideT: 0, shrinkT: 0, laserT: 0, laserCd: 0, stun: 0, charge: 0 };
-    this.deckY = this.paddle.y + 34; this.drainY = this.paddle.y + 46; this.shieldY = this.paddle.y + 28;
+    this.ballRadius = opt.ballRadius || 6;
+    const paddleWidth = opt.paddleWidth || 74;
+    this.paddle = { x: W / 2, y: paddleY(H, opt.minPaddleY, this.kitUIScale), w: paddleWidth, h: opt.paddleHeight || 12, vx: 0, baseW: paddleWidth, wideT: 0, shrinkT: 0, laserT: 0, laserCd: 0, stun: 0, charge: 0 };
+    this.drainY = this.paddle.y + 20; this.shieldY = this.paddle.y + 18;
+    this.playClipY = H - 64 / this.kitUIScale;
     this.speed = BALL_SPEED * (opt.speed || 1);
     this.balls = []; this.drops = []; this.shots = []; this.fx = new FX();
     this.score = 0; this.combo = 0; this.bestCombo = 0; this.lives = 3; this.focus = 2; this.focusMax = 3; this.focusFill = 0;
     this.trauma = 0; this.hitStop = 0; this.timeScale = 1; this.fireT = 0; this.slowT = 0; this.shield = 0; this.shieldT = 0;
     this.state = 'play'; this.t = 0; this.bricksBroken = 0; this.breaks = [];
     this.kitMood = 'Idle'; this.kitAt = 0; this.kitShockUntil = 0;
-    this.coreMode = 'titan'; this.kitUIScale = 1; this.kitTime = 0; this.kitBodyAt = 0; this.kitBodyUntil = 0;
-    this.kitCastAt = -Infinity; this.kitReactionAt = -Infinity; this.kitChargeAt = -Infinity;
+    this.coreMode = 'titan'; this.kitTime = 0; this.kitBodyAt = 0; this.kitBodyUntil = 0;
+    this.kitCastAt = -Infinity; this.kitReactionAt = -Infinity;
     this.kitWasFull = false; this.kitSeenCastAt = -Infinity; this.kitHintUntil = 0;
     this.hudY = 0; this.inB = 0; // set by main: where the top HUD bar sits, and the home-indicator strip below H
     this.ptr = { down: false, x: W / 2, y: 0, stillT: 0, lastX: W / 2 };
     this.keys = {};
     this.aim = null; // { ball, angle, serve, t }
-    this.coach = store.get('aimCoach') || 0; this.coreCoach = store.get('coreCoach') || 0;
+    this.aimReadySeen = !!store.get('aimReadySeen'); this.aimReadyUntil = 0;
     this.serve();
   }
 
@@ -43,28 +48,36 @@ export class Arena {
   pointerDown(x, y) {
     Object.assign(this.ptr, { down: true, x, y, stillT: 0, lastX: x, anchor: x, padAnchor: this.paddle.x });
     if (this.aim) this.aim.anchorX = x;
+    this.showAimReady();
   }
   pointerMove(x, y) { this.ptr.x = x; this.ptr.y = y; }
   pointerUp() { this.ptr.down = false; if (this.aim) this.release(); }
-  pointerCancel() { this.ptr.down = false; }
-  key(k, down) { this.keys[k] = down; if (k === ' ' && !down && this.aim) this.release(); if (k.toLowerCase() === 'k' && down) this.activateKitPower(); }
+  pointerCancel() { this.ptr.down = false; this.aimReadyUntil = 0; }
+  key(k, down) { this.keys[k] = down; if (k === ' ' && down) this.showAimReady(); if (k === ' ' && !down && this.aim) this.release(); if (k.toLowerCase() === 'k' && down && this.coreMode === 'ward') this.activateKitPower(); }
+  showAimReady() {
+    if (this.state !== 'play' || this.wardCoach || this.aimReadySeen || !this.aim?.ball.caught || !(this.ptr.down || this.keys[' '])) return;
+    this.aimReadySeen = true; this.aimReadyUntil = this.kitTime + 1;
+    store.set('aimReadySeen', true);
+  }
   kitAnchor() { return kitLayout(this); }
   canUseKitPower() { return false; }
   useKitPower() { return false; }
   activateKitPower() {
-    if (this.state !== 'play') return false;
-    if (this.coreMode === 'ward' && this.useKitPower()) { updateKitPresence(this); return true; }
+    if (this.state !== 'play' || this.coreMode !== 'ward') return false;
+    if (this.useKitPower()) { updateKitPresence(this); return true; }
     this.kitHintUntil = this.t + 2.2;
     this.kitHint = this.paddle.charge < 1 ? 'Break bricks to charge Kit' : this.coreMode === 'ward' ? 'Wait for the venom warning' : 'Centre return makes TITAN';
+    this.fx.pop(this.W / 2, this.paddle.y - 36 / this.kitUIScale, this.kitHint, '#edb0c8', 12 / this.kitUIScale);
     return false;
   }
 
   serve() {
-    const p = this.paddle, b = makeBall(p.x, p.y - 6, 0, -this.speed, 6);
+    const p = this.paddle, b = makeBall(p.x, p.y - this.ballRadius, 0, -this.speed, this.ballRadius);
     b.caught = true; this.balls.push(b);
     this.aim = { ball: b, angle: 0, serve: true, t: 0, anchorX: this.ptr.x };
   }
   release() {
+    this.aimReadyUntil = 0;
     if (this.wardCoach) return;
     const a = this.aim; if (!a) return;
     const b = a.ball, s = a.serve ? this.speed : Math.max(this.speed, Math.hypot(b.vx, b.vy));
@@ -92,10 +105,8 @@ export class Arena {
     const p = this.paddle;
     if (p.charge < 1) {
       p.charge = Math.min(1, p.charge + 1 / CORE_BRICKS);
-      this.kitChargeAt = this.kitTime;
       if (p.charge >= 1) {
-        sfx.power(); this.fx.pop(p.x, p.y - 30, this.coreMode === 'ward' ? 'KIT SHIELD READY' : this.coreCoach < 3 ? 'CORE READY · hit it dead centre' : 'CORE READY', '#9feeff', 13);
-        this.coreCoach++; store.set('coreCoach', this.coreCoach);
+        sfx.power(); this.fx.pop(p.x, p.y - 30, this.coreMode === 'ward' ? 'KIT SHIELD READY' : 'CORE READY', '#edb0c8', 13);
       }
     }
     sfx.hit(this.combo);
@@ -113,12 +124,12 @@ export class Arena {
     if (kind === 'split') {
       const add = [];
       for (const b of this.balls) if (!b.dead && !b.caught) for (const da of [-0.35, 0.35]) {
-        const c = Math.cos(da), s = Math.sin(da), nb = makeBall(b.x, b.y, b.vx * c - b.vy * s, b.vx * s + b.vy * c, 6);
+        const c = Math.cos(da), s = Math.sin(da), nb = makeBall(b.x, b.y, b.vx * c - b.vy * s, b.vx * s + b.vy * c, this.ballRadius);
         add.push(nb);
       }
       this.balls.push(...add.slice(0, 60));
     } else if (kind === 'burst') {
-      for (const a of [-0.4, 0, 0.4]) this.balls.push(makeBall(p.x, p.y - 8, Math.sin(a) * this.speed, -Math.cos(a) * this.speed, 6));
+      for (const a of [-0.4, 0, 0.4]) this.balls.push(makeBall(p.x, p.y - this.ballRadius - 2, Math.sin(a) * this.speed, -Math.cos(a) * this.speed, this.ballRadius));
     } else if (kind === 'fire') this.fireT = 8;
     else if (kind === 'wide') { p.wideT = 12; p.shrinkT = 0; }
     else if (kind === 'shrink') { p.shrinkT = 9; p.wideT = 0; }
@@ -184,7 +195,7 @@ export class Arena {
     for (const b of this.balls) {
       if (b.caught) continue;
       b.fire = fire;
-      if (b.titan > 0 && (b.titan -= dt) <= 0) { b.titan = 0; b.r = 6; }
+      if (b.titan > 0 && (b.titan -= dt) <= 0) { b.titan = 0; b.r = this.ballRadius; }
       stepBall(b, ballDt, world);
       if (this.shield > 0 && !b.dead && b.vy > 0 && b.y + b.r >= this.shieldY) { // the shield saves the ball once per charge
         b.y = this.shieldY - b.r; b.vy = -Math.abs(b.vy); this.shield--; if (!this.shield) this.shieldT = 0;
@@ -200,7 +211,7 @@ export class Arena {
       d.vy += 120 * dt; d.y += d.vy * dt;
       if (d.y > p.y - 8 && d.y < p.y + p.h + 6 && Math.abs(d.x - p.x) < p.w / 2 + 16) { d.got = true; this.applyPower(d.kind); }
     }
-    this.drops = this.drops.filter(d => !d.got && d.y < this.drainY + 10);
+    this.drops = this.drops.filter(d => !d.got && d.y < Math.min(this.drainY + 10, this.playClipY - 18));
 
     this.updateLevel(dt, dtReal);
     updateKitPresence(this);
@@ -218,9 +229,9 @@ export class Arena {
     }
     const G = this.grid;
     for (const s of this.shots) {
-      s.y += s.vy * dt;
+      const previousY = s.y; s.y += s.vy * dt;
       if (s.y < this.top) { s.dead = true; continue; }
-      if (this.shotHit(s)) { s.dead = true; continue; }
+      if (this.shotHit(s, previousY, dt)) { s.dead = true; continue; }
       if (G) {
         const c = Math.floor((s.x - G.ox) / G.cw), r = Math.floor((s.y - G.oy) / G.ch);
         if (cellAt(G, c, r)) { s.dead = true; this.fx.ring(s.x, s.y, '#ff8fa3', 8); this.hitCell(c, r, { x: s.x, y: s.y, vx: 0, vy: s.vy, r: 2, shot: true }); }
@@ -248,7 +259,7 @@ export class Arena {
       const base = Math.atan2(b.vx, -b.vy);
       this.aim = { ball: b, angle: base, base, serve: false, t: 0, anchorX: ptr.x };
       this.timeScale = FOCUS_SLOW;
-      if (this.coach < 3) { this.coach++; store.set('aimCoach', this.coach); }
+      this.showAimReady();
     }
   }
   loseBall() {
@@ -273,43 +284,18 @@ export class Arena {
     const s = this.trauma * this.trauma * 9;
     return [Math.sin(this.t * 61) * s, Math.cos(this.t * 47) * s * 0.8];
   }
-  // the control deck under the paddle: where the thumb lives, kept clear of the play
+  // The face is the only persistent lower control; dragging remains invisible.
   drawDeck(g) {
-    const { W, H } = this, y = this.deckY, p = this.paddle;
-    const dg = g.createLinearGradient(0, y, 0, y + 40);
-    dg.addColorStop(0, 'rgba(4,5,14,0.5)'); dg.addColorStop(1, 'rgba(4,5,14,0.78)');
-    g.fillStyle = dg; g.fillRect(0, y, W, H + this.inB + 2 - y);
-    g.fillStyle = 'rgba(255,255,255,0.1)'; g.fillRect(0, y, W, 1);
-    // the drain: a faint red line the ball must never cross
-    g.fillStyle = 'rgba(255,77,94,0.18)'; g.fillRect(this.left, this.drainY, this.right - this.left, 1);
-    // a grooved track with a grip that follows the paddle, so it is obvious where to drag
-    const s = this.kitUIScale, orb = this.kitAnchor(), ty = orb.trackY, full = p.charge >= 1, body = this.kitTime < this.kitBodyUntil;
+    if (this.coreMode !== 'ward') return;
+    const s = this.kitUIScale, orb = this.kitAnchor(), p = this.paddle;
     g.save(); g.beginPath(); g.arc(orb.x, orb.y, orb.r - 3 / s, 0, Math.PI * 2); g.clip();
-    g.fillStyle = '#22364a'; g.fillRect(orb.x - orb.r, orb.y - orb.r, orb.r * 2, orb.r * 2);
-    if (!body) drawKitFace(g, orb.x, orb.y, orb.r * 2 - 6 / s, this.kitMood);
+    g.fillStyle = '#3d2b3d'; g.fillRect(orb.x - orb.r, orb.y - orb.r, orb.r * 2, orb.r * 2);
+    drawKitFace(g, orb.x, orb.y, orb.r * 2 - 6 / s, this.kitMood);
     g.restore();
-    g.strokeStyle = '#33455f'; g.lineWidth = 3 / s; g.beginPath(); g.arc(orb.x, orb.y, orb.r - 1.5 / s, 0, Math.PI * 2); g.stroke();
+    g.strokeStyle = '#6c3c55'; g.lineWidth = 3 / s; g.beginPath(); g.arc(orb.x, orb.y, orb.r - 1.5 / s, 0, Math.PI * 2); g.stroke();
     if (p.charge > 0) {
-      g.strokeStyle = full ? '#b0f4ff' : '#73b9d2'; g.beginPath(); g.arc(orb.x, orb.y, orb.r - 1.5 / s, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * p.charge); g.stroke();
+      g.strokeStyle = p.charge >= 1 ? '#f2a6c4' : '#d37b9f'; g.beginPath(); g.arc(orb.x, orb.y, orb.r - 1.5 / s, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * p.charge); g.stroke();
     }
-    if (body) {
-      g.save(); g.globalAlpha = Math.max(0, Math.min(1, (this.kitTime - this.kitBodyAt) / 0.15, (this.kitBodyUntil - this.kitTime) / 0.3));
-      drawKit(g, orb.bodyX, orb.bodyFeet + Math.sin((this.kitTime - this.kitBodyAt) * 4) * 0.7 / s, this.kitMood, this.kitTime - this.kitAt, 0.94);
-      g.restore();
-    }
-    const chargeAge = this.kitTime - this.kitChargeAt;
-    if (chargeAge >= 0 && chargeAge < 0.4) {
-      g.fillStyle = '#c0fff1'; g.globalAlpha = 1 - chargeAge / 0.4;
-      for (let i = 0; i < 3; i++) { const k = Math.min(1, chargeAge / 0.4 + i * 0.1); g.beginPath(); g.arc(orb.x + (1 - k) * (25 + i * 5) / s, orb.y - (1 - k) * (36 - i * 5) / s, 1.5 / s, 0, 7); g.fill(); }
-      g.globalAlpha = 1;
-    }
-    g.fillStyle = 'rgba(0,0,0,0.45)'; rrect(g, 24, ty - 3 / s, W - 48, 6 / s, 3 / s); g.fill();
-    g.fillStyle = 'rgba(255,255,255,0.06)'; rrect(g, 24, ty + 1 / s, W - 48, 2 / s, 1 / s); g.fill();
-    const on = this.ptr.down, gw = 46, gx = Math.max(24, Math.min(W - 24 - gw, p.x - gw / 2));
-    g.fillStyle = on ? shade(this.accent, 0.2) : 'rgba(200,210,240,0.35)'; rrect(g, gx, ty - 5 / s, gw, 10 / s, 5 / s); g.fill();
-    g.fillStyle = 'rgba(0,0,0,0.35)'; for (let i = -1; i <= 1; i++) g.fillRect(gx + gw / 2 - 0.6 + i * 6, ty - 2.5 / s, 1.2, 5 / s);
-    const hint = this.kitHintUntil > this.t ? this.kitHint : full && this.coreMode === 'ward' && this.canUseKitPower() ? 'FULL SHIELD · TAP KIT' : 'Drag to move';
-    text(g, hint, (orb.x + orb.r + this.right) / 2, ty - 15 / s, 10 / s, '#bdd2e5', 'center');
   }
   drawPaddle(g) {
     const p = this.paddle, x = p.x - p.w / 2, y = p.y, h = p.h, ptr = this.ptr;
@@ -319,7 +305,6 @@ export class Arena {
       const k = Math.min(1, (ptr.stillT - 0.12) * 8);
       g.strokeStyle = `rgba(227,182,255,${0.8 * k})`; g.lineWidth = 2;
       for (const s of [-1, 1]) { const ex = p.x + s * (p.w / 2 + 5); g.beginPath(); g.moveTo(ex - s * 6, y - 9); g.lineTo(ex, y - 9); g.lineTo(ex, y + 3); g.stroke(); }
-      g.globalAlpha = k * 0.9; text(g, 'CATCH READY', p.x, y - 18, 11, '#e3b6ff', 'center'); g.globalAlpha = 1;
     }
     if (this.shield > 0) { // energy barrier below the paddle, one segment per save left
       const a = 0.55 + 0.25 * Math.sin(this.t * 8), sy = this.shieldY;
@@ -330,7 +315,18 @@ export class Arena {
       g.restore();
     }
     g.fillStyle = 'rgba(0,0,0,0.35)'; rrect(g, x + SHADOW.dx, y + SHADOW.dy + 2, p.w, h, h / 2); g.fill();
-    const L = SPR.paddle_l, M = SPR.paddle_m, R = SPR.paddle_r;
+    this.drawPaddleArt(g, p);
+    if (p.laserT > 0) for (const s of [-1, 1]) {
+      const ex = p.x + s * (p.w / 2 - 7), on = Math.max(0, 1 - p.laserCd / 0.3);
+      g.fillStyle = '#5a1020'; rrect(g, ex - 3, y - 5, 6, 7, 2); g.fill();
+      g.fillStyle = `rgba(255,${120 + on * 100},${140 + on * 80},1)`; rrect(g, ex - 1.6, y - 6.5, 3.2, 3.5, 1.5); g.fill();
+    }
+    this.drawCore(g, p.x, y + h / 2 - 1);
+    if (p.shrinkT > 0) { g.globalAlpha = 0.25 + 0.1 * Math.sin(this.t * 10); g.fillStyle = '#ff4d5e'; rrect(g, x, y, p.w, h, h / 2); g.fill(); g.globalAlpha = 1; }
+    if (stun) { g.globalAlpha = 0.45; g.fillStyle = '#ff4d5e'; rrect(g, x, y, p.w, h, h / 2); g.fill(); g.globalAlpha = 1; }
+  }
+  drawPaddleArt(g, p) {
+    const x = p.x - p.w / 2, y = p.y, h = p.h, L = SPR.paddle_l, M = SPR.paddle_m, R = SPR.paddle_r;
     if (ready(L) && ready(M) && ready(R)) { // rendered chrome paddle: two end caps and a middle stretched to the width
       g.drawImage(L.img, x - 4, y - 4, 16, 20); g.drawImage(M.img, x + 12, y - 4, p.w - 24, 20); g.drawImage(R.img, x + p.w - 12, y - 4, 16, 20);
     } else {
@@ -339,14 +335,6 @@ export class Arena {
       g.fillStyle = '#1a1e30'; rrect(g, x, y + 3, p.w, h, h / 2); g.fill();
       g.fillStyle = gr; rrect(g, x, y, p.w, h, h / 2); g.fill();
     }
-    if (p.laserT > 0) for (const s of [-1, 1]) { // twin emitters on the ends
-      const ex = p.x + s * (p.w / 2 - 7), on = Math.max(0, 1 - p.laserCd / 0.3);
-      g.fillStyle = '#5a1020'; rrect(g, ex - 3, y - 5, 6, 7, 2); g.fill();
-      g.fillStyle = `rgba(255,${120 + on * 100},${140 + on * 80},1)`; rrect(g, ex - 1.6, y - 6.5, 3.2, 3.5, 1.5); g.fill();
-    }
-    this.drawCore(g, p.x, y + h / 2 - 1);
-    if (p.shrinkT > 0) { g.globalAlpha = 0.25 + 0.1 * Math.sin(this.t * 10); g.fillStyle = '#ff4d5e'; rrect(g, x, y, p.w, h, h / 2); g.fill(); g.globalAlpha = 1; }
-    if (stun) { g.globalAlpha = 0.45; g.fillStyle = '#ff4d5e'; rrect(g, x, y, p.w, h, h / 2); g.fill(); g.globalAlpha = 1; }
   }
   drawCore(g, cx, cy) { // the sweet spot: a gem that fills as bricks break and blazes when a centre hit will make a TITAN
     const p = this.paddle, full = this.coreMode === 'titan' && p.charge >= 1, c = full ? 1 : 0, s = 4.2;
@@ -385,13 +373,18 @@ export class Arena {
     }
   }
   drawAim(g, P = (x, y) => [x, y]) { // P maps world to screen (identity in 2D, projection in 3D)
-    this.drawCoach(g);
     const a = this.aim; if (!a) return;
     // simulate the shot to show its first bounces
     const sim = makeBall(a.ball.x, a.ball.y, Math.sin(a.angle) * 300, -Math.cos(a.angle) * 300, a.ball.r);
     sim.fire = this.fireT > 0; sim.titan = a.ball.titan || 0;
     let bounces = 0, stop = false;
     const w = { ...this.world(), paddle: null, onWall: () => bounces++, onHit: () => { bounces++; if (bounces >= 2) stop = true; } };
+    // A preview never dispatches live actor damage, drops, cooldowns or phase changes.
+    w.onTarget = () => { bounces++; if (bounces >= 2) stop = true; };
+    w.onLost = undefined;
+    w.targets = w.targets?.map(target => ({ ...target, vx: 0, vy: 0,
+      shapes: (target.shapes || [target]).map(shape => ({ ...shape,
+        points: shape.points?.map(p => p.slice()), holes: shape.holes?.map(h => h.map(p => p.slice())) })) }));
     w.grid = this.grid && { ...this.grid, cells: this.grid.cells.slice() };
     const pts = [];
     for (let i = 0; i < 160 && !stop && bounces < 3 && !sim.dead; i++) { stepBall(sim, 1 / 120, w); if (i % 4 === 0) pts.push(sim.x, sim.y); }
@@ -403,55 +396,31 @@ export class Arena {
       g.beginPath(); g.arc(x, y, 1.8 * k + 0.6, 0, 7); g.fill();
     }
     g.globalAlpha = 1;
+    if (this.kitTime < this.aimReadyUntil && (this.ptr.down || this.keys[' '])) text(g, 'Aim ready', this.paddle.x, this.paddle.y - 23 / this.kitUIScale, 15 / this.kitUIScale, '#dfc2f1', 'center');
     if (stop) { const [x, y] = P(sim.x, sim.y); g.strokeStyle = 'rgba(255,255,255,0.8)'; g.lineWidth = 1.5; g.beginPath(); g.arc(x, y, 7, 0, 7); g.stroke(); }
     if (!a.serve) { // remaining hold time
       g.strokeStyle = '#e3b6ff'; g.lineWidth = 2.5;
       const [bx, by] = P(a.ball.x, a.ball.y);
       g.beginPath(); g.arc(bx, by, 12, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (1 - a.t / 1.6)); g.stroke();
-      text(g, 'Slide to aim · lift to fire', this.W / 2, this.paddle.y + 22, 12, '#e3b6ff', 'center');
     }
-  }
-  // Teaches Focus aim until the player has used it a few times: as a ball drops toward the paddle, a callout says to hold still
-  drawCoach(g) {
-    if (this.coach >= 3 || this.aim || this.focus < 1 || this.state !== 'play' || this.t < 4) return;
-    const p = this.paddle;
-    const near = this.balls.some(b => !b.caught && b.vy > 0 && b.y > p.y - 170 && b.y < p.y);
-    this.coachK = Math.max(0, Math.min(1, (this.coachK || 0) + (near ? 0.08 : -0.05)));
-    if (this.coachK <= 0) return;
-    const armed = this.ptr.down && this.ptr.stillT > 0.12;
-    const msg = armed ? 'Keep holding… it will catch' : 'HOLD STILL as it lands to catch & aim', bx = Math.max(110, Math.min(this.W - 110, p.x)), by = p.y + 22;
-    g.globalAlpha = this.coachK;
-    g.font = '12px "Lilita One", system-ui'; const w = g.measureText(msg).width + 22;
-    g.fillStyle = 'rgba(40,16,60,0.92)'; rrect(g, bx - w / 2, by - 11, w, 22, 11); g.fill();
-    g.strokeStyle = '#c46bf0'; g.lineWidth = 1.2; g.stroke();
-    text(g, msg, bx, by + 0.5, 12, '#f1d6ff', 'center');
-    g.globalAlpha = 1;
   }
   drawHUDBase(g) {
-    const y = this.H - 22;
-    // lives as little steel balls
-    for (let i = 0; i < 3; i++) drawBall(g, { x: 24 + i * 16, y, r: 5, vx: 0, vy: 0 }, i < this.lives ? 1 : 0.18);
-    // active power timers
-    // (the paddle's own size changes, WIDE and TINY, show on the paddle itself, so they get no chip)
-    const chips = [['fire', this.fireT, 8], ['laser', this.paddle.laserT, 7], ['slow', this.slowT, 8], ['shield', this.shield ? this.shieldT : 0, 16]].filter(c => c[1] > 0);
-    chips.slice(0, 3).forEach(([k, t, max], i) => {
-      const x = 80 + i * 44, P = POWER[k];
-      g.fillStyle = 'rgba(0,0,0,0.45)'; rrect(g, x, y - 7, 40, 14, 7); g.fill();
-      g.fillStyle = shade(P.color, -0.1); rrect(g, x, y - 7, Math.max(8, 40 * Math.min(1, t / max)), 14, 7); g.fill();
-      text(g, P.label, x + 20, y + 0.5, 9, '#fff', 'center');
-    });
-    // Focus pips
-    text(g, 'AIM', this.W - 88, y, 13, '#e3b6ff', 'right');
+    const s = this.kitUIScale, y = this.hudY + 18 / s;
+    for (let i = 0; i < Math.max(3, Math.min(5, this.lives)); i++) drawBall(g, { x: (66 + i * 14) / s, y, r: 4.5 / s, vx: 0, vy: 0 }, i < this.lives ? 1 : 0.18);
+    text(g, 'AIM', 150 / s, y, 12 / s, '#dfbaf5');
     for (let i = 0; i < this.focusMax; i++) {
-      const x = this.W - 82 + i * 22, full = i < this.focus;
-      g.fillStyle = 'rgba(0,0,0,0.4)'; rrect(g, x, y - 5, 18, 10, 5); g.fill();
-      if (full) { const gr = g.createLinearGradient(0, y - 5, 0, y + 5); gr.addColorStop(0, '#f1d6ff'); gr.addColorStop(1, '#9b4fd1'); g.fillStyle = gr; rrect(g, x, y - 5, 18, 10, 5); g.fill(); }
-      else if (i === this.focus) { g.fillStyle = 'rgba(196,107,240,0.5)'; rrect(g, x, y - 5, 18 * this.focusFill / 14, 10, 5); g.fill(); }
+      const x = (181 + i * 11) / s;
+      g.fillStyle = '#3f4059'; rrect(g, x, y - 3.5 / s, 8 / s, 7 / s, 3 / s); g.fill();
+      if (i < this.focus) {
+        g.fillStyle = '#dab1ee'; rrect(g, x, y - 3.5 / s, 8 / s, 7 / s, 3 / s); g.fill();
+      } else if (i === this.focus && this.focusFill > 0) {
+        g.fillStyle = '#9362ac'; rrect(g, x, y - 3.5 / s, 8 / s * this.focusFill / 14, 7 / s, 3 / s); g.fill();
+      }
     }
-    const hy = this.hudY;
-    text(g, this.score.toLocaleString(), this.W - 12, hy + 18, 22, '#fff', 'right', NUM);
-    if (this.combo >= 5) text(g, `COMBO ×${this.combo}`, this.W - 12, hy + 42, 12, '#ffd36b', 'right');
-    if (this.aim?.serve && this.t < 20) text(g, 'Slide to aim · lift to launch', this.W / 2, this.paddle.y + 22, 12, 'rgba(255,255,255,0.85)', 'center');
+    const score = this.score < 1e6 ? this.score.toLocaleString('en-US') : compactScore.format(this.score);
+    text(g, score, this.W - 12 / s, y, 18 / s, '#fff', 'right');
+
   }
+
 }
 export { cellAt };

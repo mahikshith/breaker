@@ -26,10 +26,12 @@ try {
     await page.addInitScript(({ url, faceUrl, cell, faceCell, poses }) => {
       window.__kitSeen = {};
       window.__kitFrames = {};
+      window.__kitBodyDraws = 0;
       const drawImage = CanvasRenderingContext2D.prototype.drawImage;
       CanvasRenderingContext2D.prototype.drawImage = function (...args) {
         const result = drawImage.apply(this, args);
         const body = args[0]?.src === url, face = args[0]?.src === faceUrl;
+        if (this.canvas.id === 'game' && body) window.__kitBodyDraws++;
         if (this.canvas.id === 'game' && (body || face) && args.length === 9) {
           const [img, sx, sy, , , x, y, w, h] = args;
           const pose = poses[body ? sy / cell : sx / faceCell], m = this.getTransform(), r = this.canvas.getBoundingClientRect();
@@ -60,7 +62,7 @@ try {
     const finger = (type, x, y) => touch.send('Input.dispatchTouchEvent', { type, touchPoints: type === 'touchEnd' ? [] : [{ x, y, radiusX: 4, radiusY: 4, force: 1 }] });
     await shot('00-menu');
 
-    for (const [lv, name] of [[1, 'vault'], [0, 'invasion']]) {
+    for (const [lv, name] of [[1, 'vault']]) {
       await page.evaluate(lv => { window.__breach.start(lv); window.__breach.level.skipIntro?.(); }, lv);
       await poseShot('Idle', `${name}-01-serve`);
       const fingerY = await page.evaluate(() => { const d = window.__kitDraw; return d.y + d.h / 2; });
@@ -111,20 +113,18 @@ try {
       assert.equal(await page.evaluate(() => window.__breach.level.focus), 1, `${dev}: Focus release spends one pip`);
       assert.equal(await page.evaluate(() => window.__breach.level.aim), null);
 
-      // A centre collision spends Titan in Invasion and preserves the reserved Ward charge in Vault.
+      // Vault keeps its earned charge for Ward on an ordinary centre return.
       await page.evaluate(() => {
         const l = window.__breach.level, b = l.balls[0], p = l.paddle;
         p.charge = 1; Object.assign(b, { x: p.x, y: p.y - 30, vx: 0, vy: 300, caught: false, titan: 0 });
       });
-      if (name === 'invasion') {
-        await page.waitForFunction(() => window.__breach.level.balls.some(b => b.titan > 0));
-        await poseShot('Laugh', `${name}-04-titan`);
-      } else {
-        await page.waitForFunction(() => window.__breach.level.balls.some(b => !b.caught && b.vy < 0));
-        assert.equal(await page.evaluate(() => window.__breach.level.paddle.charge), 1, `${dev}: centre return reserves Ward charge`);
-        assert.equal(await page.evaluate(() => window.__breach.level.balls.some(b => b.titan > 0)), false);
-        await shot(`${name}-04-ward-ready`);
-      }
+      await page.waitForFunction(() => window.__breach.level.balls.some(b => !b.caught && b.vy < 0));
+      assert.equal(await page.evaluate(() => window.__breach.level.paddle.charge), 1, `${dev}: centre return reserves Ward charge`);
+      assert.equal(await page.evaluate(() => window.__breach.level.balls.some(b => b.titan > 0)), false);
+      await shot(`${name}-04-ward-ready`);
+      // Isolated expression fixture; Vault does not grant Titan through Kit.
+      await page.evaluate(() => { window.__breach.level.balls[0].titan = 1; });
+      await poseShot('Laugh', `${name}-04b-laugh-expression-fixture`);
       await page.evaluate(() => { const l = window.__breach.level; l.balls.forEach(b => { b.titan = 0; b.r = 6; b.caught = true; }); l.paddle.stun = 1; });
       await poseShot('Hurt', `${name}-05-hurt`);
       await page.evaluate(() => { const l = window.__breach.level; l.paddle.stun = 0; for (let i = 0; i < 5; i++) l.brokeBrick(); });
@@ -174,8 +174,9 @@ try {
     }
     const [seen, animatedFrames] = await page.evaluate(() => [window.__kitSeen, Object.fromEntries(Object.entries(window.__kitFrames).map(([clip, frames]) => [clip, Object.keys(frames).map(Number)]))]);
     for (const pose of poses) assert.ok(seen[pose] > 0, `${dev}: rendered ${pose} crop observed`);
+    assert.equal(await page.evaluate(() => window.__kitBodyDraws), 0, `${dev}: Kit always remains a face icon`);
     assert.deepEqual(errors, [], `${dev}: no browser errors`);
-    report.push({ device: dev, viewport: `${D.w}x${D.h}`, safe: [D.top, D.bottom], deviceScaleFactor: 2, errors, renderedPoses: Object.keys(seen), animatedFrames, checks: ['touch serve and central drag', 'secondary orb tap preserves primary paddle drag', 'stationary touch Focus catch and release', 'Invasion centre collision Titan; Vault reserves Ward charge', 'face returns after presence without spending charge', 'life drain and ad continue', 'seeded boss/frenzy completion', 'all eight rendered face/body crops inside safe bounds and below paddle'] });
+    report.push({ device: dev, viewport: `${D.w}x${D.h}`, safe: [D.top, D.bottom], deviceScaleFactor: 2, errors, renderedPoses: Object.keys(seen), animatedFrames, checks: ['Vault touch serve and central drag', 'secondary orb tap preserves primary paddle drag', 'stationary touch Focus catch and release', 'Vault centre return reserves Ward charge', 'face icon remains visible without spending charge', 'life drain and ad continue', 'seeded frenzy completion', 'all eight rendered face crops inside safe bounds; Laugh is an isolated expression fixture; zero body replacements'] });
     await page.close();
   }
   writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));

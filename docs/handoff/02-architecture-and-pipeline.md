@@ -1,19 +1,27 @@
 # BREACH: architecture, art pipeline, build and test
 
+**Latest selection and tested candidate (2026-10-18):** Only A / Carrier Breakout is active; Nix/Tick appearances are selected, but their full expressive sprite/animation families and runtime cast integration are not built. B/Relay Raiders, C/Orbital Breakout and D/Eclipse Rescue are deferred. The playable Carrier web candidate is SHA256 `F4863DC5A87D6B46A8A1AFDB702C264F432196B851B61B828946DB8AB75A0423`. It passes 44 unit tests and both-phone bundled gameplay/visual checks. Independent final captures at 393×852 safe59/34 and 412×915 safe32/24 preserve the approved A art, continuous safe-edge starfield, aligned 125×17u paddle and clean settled results, with zero page errors. Public-input assisted deterministic simulated wins record 82.3s iPhone / 45.2s Android of game clock; these do not establish human balance or physical-device performance. Evidence: `out/carrier-playable-final/report.json` and `out/carrier-visual-final/REVIEW.md`. The owner has requested an APK; packaging/native CI and delivery remain pending. No APK pass is claimed. EA839F00… remains historical accepted baseline evidence; the older A/B Canvas tranche remains asset-only history.
+
+**APK checkpoint authorization (2026-10-18):** The owner explicitly requests the APK. This authorizes the necessary checkpoint commit/push and CI on `codex/carrier-mobile-preview` in the existing isolated `breaker-mobile-preview` worktree, using the exact frozen Carrier/current Vault sources and native immersive fix. Primary `codex/phase1-kit` is preserved. No merge to `main` or pending Nix/Tick companion-family admission is authorized. APK/native CI remains pending; the earlier screenshot-approval notes do not block this specific APK checkpoint.
+
+
+**Historical A/B asset milestone (2026-10-18):** real independent PNG parts and the isolated Canvas motion assembly are complete for the approved A/B left playfields. Final proof is under `out/space-assets-ab/final/`: `A-ios-reference.png`, `A-android-reference.png`, `B-ios-reference.png`, `B-android-reference.png`, `A-motion.gif`, `B-motion.gif` and `asset-report.json`. Actual 393×852/412×915 images and sampled launch/release/boarding/iris sequences pass independent visual review; all four capture runs report zero page errors, real alpha/metadata checks and approximately 126 CSS paddle reserve. A has five shallow captive windows; B has four large worker pods. This asset-only milestone contains no companions, pilots or portraits and predates the latest Nix/Tick selection. These are asset-motion proofs with a placement ball, not new gameplay: runtime admission/WebP sizing, actual-alpha collision alignment, input/combat/rescue/power rules, full playable phone runs, memory/performance and new APK checks remain. The proof milestone retains EA839F00… as its gameplay baseline; it does not cover later Carrier integration. Reproduction and limits: `art/space/ASSETS_AB.md`; inventory/contracts: `design/phase1/space-assets-ab-spec.md` and `space-assets-ab.json`.
 This document is the "how it is built" reference. For current status and the task list, see `01-status-and-next-steps.md`. For tools, connections, skills, memory and UX rules, see `03-environment-skills-ux.md`.
-
-## Android preview checkpoint
-
-`coding/mobile-preview` packages the frozen pre-Brum milestone. `android/` is a native Java WebView shell, not a game-engine rewrite. `tools/prepare-android.mjs` validates the reviewed bundle and copies it plus OFL fonts to ignored Android assets. `.github/workflows/mobile-preview.yml` runs the unit/browser suites, Android lint and an offline emulator smoke test, then publishes APK/test evidence. See `docs/MOBILE_PREVIEW.md`. Ongoing character/capture/space revisions are excluded from this branch.
 
 ## 1. Aim and goal
 
 - **Product:** BREACH, a premium brick breaker for iOS and Android, portrait only. The tagline is "Break in. Break out."
-- **Current goal:** deliver selected Knight 2, the mixed harder Vault, left face-orb Ward, variable venom spray and streaming tunnel entrance, then continue Phase 1 after screenshot approval. The cast needs a new pick from the distinct-anatomy boards; none of those creatures is a finished production asset.
+- **Current goal:** deliver the owner-requested APK from the final tested Carrier web candidate. Selected A art, collision/physics, objective/combat/powers and native-size browser checks now pass; packaging/native CI is pending. Nix/Tick full families/runtime cast integration remain unbuilt. Preserve existing Vault controls and exclusive Kit, defer B/C/D and later chapters, and use the final evidence above instead of the earlier EA839F00 asset-proof baseline.
   - **Invasion:** Arkanoid crossed with Space Invaders.
   - **The Vault:** a rescue race against a serpent.
 - **Later:** a story mode and unlockables, planned in `docs/STORY_PLAN.md`. Nothing for those is built yet.
 - **Reference games:** BALL x PIT, Arkanoid, Space Invaders.
+
+The mobile baseline constructs both levels with the actual UI scale before creating the paddle/serve: `paddleY = round(max(minY,H-126/scale))`, drain=paddle+20u, shield=paddle+18u. `Arena.drawHUDBase` owns the compact top lives/AIM/18CSS Lilita score; each level draws a thin progress strip. Kit drawing, K power and orb input are restricted to `coreMode === 'ward'` (Vault). Invasion retains earned centre-return Titan. `aimReadySeen` persists the single caught-ball press hint; the bottom track, repeated coaching and power chips are removed. World debris/drop/bolt clipping keeps the lower input area clear.
+
+Verified Carrier integration: 125u physical/visible base paddle at natural height about 17u, ordinary ball 7.5r and TITAN 10r. Vault retains 74×12u/default6r. Shared constructor options preserve the selected ordinary radius through serve/split/burst and TITAN expiry. Both-phone tip overlays match visible alpha within 0.006 CSS px; actual bundled gameplay and power checks pass. Carrier-only full-viewport background drawing replaces safe-inset row stretching; settled results suppress frozen Carrier effects. Human balance and native performance remain to verify.
+
+The isolated `coding/mobile-preview` worktree has the unpublished native immersive follow-up and exact reviewed web candidate, with offline fonts and CI assertions for full window/CSS coverage, native safe insets, hidden/transient bars and recreation. The previously delivered APK is older. See that branch's `docs/MOBILE_PREVIEW.md`; native follow-up compilation/emulator verification is still pending and the newer Invasion rescue proposals are excluded.
 - **Business model (placeholder):** watch an ad to continue, or a one-time "Unlock full game" purchase. The option to make the whole game free is kept open: `MODE = 'free'` in `src/monetize.js`.
 
 ## 2. Runtime architecture
@@ -55,11 +63,11 @@ src/main.js ─ scenes: menu → level → results/continue
 - **Balls:**
   - radius 6 (titan 10);
   - speed 345 × `opt.speed` × the rally ramp (up to 1.28);
-  - the ball is lost at `drainY = paddle.y + 46`.
+  - the ball is lost at `drainY = paddle.y + 20`; the missed-ball shield plane is `paddle.y + 18`.
 - **Paddle:**
-  - y is `paddleY(H, minY)`, which equals `H - clamp(0.25H, 150, 210)`;
-  - width 74 (the Vault uses 70);
-  - the control deck starts at `paddle.y + 34`.
+  - y is `paddleY(H, minY, uiScale) = round(max(minY, H - 126 / uiScale))`;
+  - base width 74 in both current levels;
+  - no heavy lower deck/track; debris, drops and bolts are clipped/culled before `playClipY = H - 64 / uiScale`.
 - **Grid cells:** a `Uint8Array` of kinds and a parallel `hp` array.
   - The Vault adds `bid` (cell → brick id) because its bricks span 2 cells.
   - The Vault declares `unpierceable = [GRANITE, BARS]`. FIRE/TITAN bounce from those kinds and pierce ordinary bricks. Other levels keep their original piercing behaviour. Solid-corner normals ignore neighbouring pierced cells.

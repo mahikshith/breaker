@@ -1,0 +1,189 @@
+{
+  "version": 1,
+  "status": "Dedicated Carrier A family; alpha/crop and native raster context passed; Canvas assembly/owner review pending",
+  "pxPerWorldUnit": 3,
+  "source": "art/space/source/carrier-panels-original.png",
+  "sourceSHA256": "8e48c463f84bd1af1356bde5a18f58126b1ec148642494dec434c336c68ab486",
+  "prompt": "art/space/carrier-panels-prompt.md",
+  "recipe": "art/space/carrier-panels-crops.json",
+  "parts": {
+    "brick_cyan": {
+      "path": "assets/space-a/brick_cyan.png",
+      "size": [
+        132,
+        84
+      ],
+      "pivot": [
+        66.0,
+        42.0
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.5
+      ],
+      "cellWorldUnits": [
+        44,
+        28
+      ],
+      "actualAlphaBounds": [
+        12,
+        16,
+        120,
+        68
+      ],
+      "solidAlphaBounds": [
+        12,
+        16,
+        120,
+        68
+      ],
+      "actualVisibleWorldUnits": [
+        36.0,
+        17.333333333333332
+      ],
+      "collisionSuggestedWorldUnits": [
+        36.0,
+        17.333333333333332
+      ],
+      "role": "Carrier A cyan mechanical four-corner/X panel crate",
+      "states": [
+        "intact"
+      ],
+      "sourceRegion": [
+        100,
+        90,
+        850,
+        500
+      ],
+      "sourceCropWithinRegion": [
+        26,
+        45,
+        723,
+        380
+      ],
+      "sourceCrop": "assets/space-a/source-crops/brick_cyan.png",
+      "uniformScale": 0.15494978479196556,
+      "sha256": "1924df6e3e6cce57525926af53d6b166d3406f8650ce20c61c439ae104fb71b8",
+      "notes": "Use this dedicated A family instead of the rounded Relay/common bricks and tube paddle. Uniform contain preserves source aspect; do not collide against alpha gutters."
+    },
+    "brick_pink": {
+      "path": "assets/space-a/brick_pink.png",
+      "size": [
+        132,
+        84
+      ],
+      "pivot": [
+        66.0,
+        42.0
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.5
+      ],
+      "cellWorldUnits": [
+        44,
+        28
+      ],
+      "actualAlphaBounds": [
+        12,
+        16,
+        120,
+        68
+      ],
+      "solidAlphaBounds": [
+        12,
+        16,
+        120,
+        68
+      ],
+      "actualVisibleWorldUnits": [
+        36.0,
+        17.333333333333332
+      ],
+      "collisionSuggestedWorldUnits": [
+        36.0,
+        17.333333333333332
+      ],
+      "role": "Carrier A rose mechanical four-corner/X panel crate",
+      "states": [
+        "intact"
+      ],
+      "sourceRegion": [
+        900,
+        90,
+        1690,
+        500
+      ],
+      "sourceCropWithinRegion": [
+        51,
+        45,
+        749,
+        380
+      ],
+      "sourceCrop": "assets/space-a/source-crops/brick_pink.png",
+      "uniformScale": 0.15472779369627507,
+      "sha256": "fd66563e396dc16cc48818afc933f406abaf6a59e09d7512d1601c3177f9def9",
+      "notes": "Use this dedicated A family instead of the rounded Relay/common bricks and tube paddle. Uniform contain preserves source aspect; do not collide against alpha gutters."
+    },
+    "paddle": {
+      "path": "assets/space-a/paddle.png",
+      "size": [
+        252,
+        72
+      ],
+      "pivot": [
+        126.0,
+        36.0
+      ],
+      "pivotNormalized": [
+        0.5,
+        0.5
+      ],
+      "cellWorldUnits": [
+        84,
+        24
+      ],
+      "actualAlphaBounds": [
+        12,
+        20,
+        240,
+        51
+      ],
+      "solidAlphaBounds": [
+        12,
+        20,
+        240,
+        51
+      ],
+      "actualVisibleWorldUnits": [
+        76.0,
+        10.333333333333334
+      ],
+      "collisionSuggestedWorldUnits": [
+        76.0,
+        10.333333333333334
+      ],
+      "role": "Carrier A flat faceted metal paddle; not Relay B tube",
+      "states": [
+        "intact"
+      ],
+      "sourceRegion": [
+        100,
+        540,
+        1690,
+        840
+      ],
+      "sourceCropWithinRegion": [
+        53,
+        48,
+        1522,
+        245
+      ],
+      "sourceCrop": "assets/space-a/source-crops/paddle.png",
+      "uniformScale": 0.15520762423417292,
+      "sha256": "95d548c9cd0d9f22ee0f7474acfeb0ff0834f426a49cd217e70f7c15539df021",
+      "notes": "Use this dedicated A family instead of the rounded Relay/common bricks and tube paddle. Uniform contain preserves source aspect; do not collide against alpha gutters."
+    }
+  },
+  "qa": "out/space-common-proof/checks.json"
+}

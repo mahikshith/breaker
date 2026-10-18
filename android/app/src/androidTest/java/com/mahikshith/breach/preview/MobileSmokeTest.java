@@ -3,7 +3,9 @@ package com.mahikshith.breach.preview;
 import android.graphics.Bitmap;
 import android.os.SystemClock;
 import android.os.ParcelFileDescriptor;
+import android.os.Build;
 import android.view.MotionEvent;
+import android.view.WindowInsets;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -48,6 +50,55 @@ public class MobileSmokeTest {
         await("(() => { const c=document.getElementById('game'),g=c.getContext('2d'),col=new Set(); for(let y=1;y<12;y++)for(let x=1;x<8;x++)col.add(g.getImageData(Math.floor(c.width*x/8),Math.floor(c.height*y/12),1,1).data.join(',')); return col.size>15; })()");
     }
 
+    private void awaitCarrierArt() throws Exception {
+        // Inspect a real render without replacing any live renderer or image.
+        await("(() => { const l=window.__breach.level,c=document.createElement('canvas'); c.width=l.W; c.height=l.H; const g=c.getContext('2d'),images=new Set(),p=new Proxy(g,{get:(t,k)=>k==='drawImage'?(image,...args)=>{if(image instanceof HTMLImageElement)images.add(image);return t.drawImage(image,...args);}:typeof t[k]==='function'?t[k].bind(t):t[k],set:(t,k,v)=>{t[k]=v;return true;}}); l.draw(p); return images.size>=15 && [...images].every(i=>i.complete && i.naturalWidth>0 && i.src.startsWith('data:image/')); })()");
+    }
+
+    private void awaitSystemBars(boolean visible) throws Exception {
+        if (Build.VERSION.SDK_INT < 30) return;
+        long until = SystemClock.uptimeMillis() + 5000;
+        boolean[] ready = new boolean[1];
+        while (SystemClock.uptimeMillis() < until) {
+            InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
+                WindowInsets insets = activity.getWindow().getDecorView().getRootWindowInsets();
+                ready[0] = insets != null && insets.isVisible(WindowInsets.Type.statusBars()) == visible
+                    && insets.isVisible(WindowInsets.Type.navigationBars()) == visible;
+            });
+            if (ready[0]) return;
+            Thread.sleep(50);
+        }
+        fail("System bars did not become " + (visible ? "visible" : "hidden"));
+    }
+
+    private void assertFullscreenAndSafeArea() throws Exception {
+        awaitSystemBars(false);
+        int[] expected = new int[4];
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
+            int[] position = new int[2];
+            activity.game.getLocationOnScreen(position);
+            assertEquals("Canvas starts at screen left", 0, position[0]);
+            assertEquals("Canvas starts at screen top", 0, position[1]);
+            expected[0] = activity.game.getWidth(); expected[1] = activity.game.getHeight();
+            assertEquals("Canvas fills window width", activity.getWindow().getDecorView().getWidth(), expected[0]);
+            assertEquals("Canvas fills window height", activity.getWindow().getDecorView().getHeight(), expected[1]);
+            WindowInsets insets = activity.getWindow().getDecorView().getRootWindowInsets();
+            assertNotNull("Native window insets", insets);
+            if (Build.VERSION.SDK_INT >= 28 && insets.getDisplayCutout() != null) {
+                expected[2] = insets.getDisplayCutout().getSafeInsetTop();
+                expected[3] = insets.getDisplayCutout().getSafeInsetBottom();
+            }
+            if (Build.VERSION.SDK_INT >= 29) expected[3] = Math.max(expected[3], insets.getMandatorySystemGestureInsets().bottom);
+            if (Build.VERSION.SDK_INT >= 30) {
+                assertEquals("Full screen width", activity.getWindowManager().getCurrentWindowMetrics().getBounds().width(), expected[0]);
+                assertEquals("Full screen height", activity.getWindowManager().getCurrentWindowMetrics().getBounds().height(), expected[1]);
+                assertFalse("Status bar hidden", insets.isVisible(WindowInsets.Type.statusBars()));
+                assertFalse("Navigation bar hidden", insets.isVisible(WindowInsets.Type.navigationBars()));
+            }
+        });
+        await("(() => { const s=getComputedStyle(document.getElementById('safe')), r=document.getElementById('game').getBoundingClientRect(), d=devicePixelRatio; return Math.abs(parseFloat(s.paddingTop)-" + expected[2] + "/d)<.01 && Math.abs(parseFloat(s.paddingBottom)-" + expected[3] + "/d)<.01 && Math.abs(r.top)<1 && Math.abs(r.left)<1 && Math.abs(r.width*d-" + expected[0] + ")<2 && Math.abs(r.height*d-" + expected[1] + ")<2; })()");
+    }
+
     private void screenshot(String name) throws Exception {
         Bitmap image = InstrumentationRegistry.getInstrumentation().getUiAutomation().takeScreenshot();
         assertNotNull("Emulator screenshot", image);
@@ -81,17 +132,31 @@ public class MobileSmokeTest {
         event.recycle();
     }
 
-    @Test public void offlineCanvasTouchAndBothLevels() throws Exception {
+    @Test public void offlineCarrierTouchFullscreenAndVault() throws Exception {
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
             scenario.onActivity(value -> activity = value);
             awaitCanvas();
+            assertFullscreenAndSafeArea();
             screenshot("01-menu");
             js("window.__breach.start(0)");
             await("window.__breach.level.t > 0.3");
+            assertEquals("Carrier mechanics and actual art assembly", "true", js("(() => { const l=window.__breach.level; return l.name==='Carrier Breakout' && l.carrier.hp===36 && l.crew.length===5 && l.bricks.length===16 && l.guns.length===2 && l.paddle.baseW===125 && l.paddle.h===17 && l.ballRadius===7.5 && l.balls[0].r===7.5 && l.coreMode==='titan'; })()"));
+            awaitCarrierArt();
+            assertEquals("A held opening serve does not start enemy combat", "true", js("window.__breach.level.clock===0 && window.__breach.level.fighters.length===0"));
+            assertFullscreenAndSafeArea();
+            assertEquals("Lower paddle geometry", "true", js("Math.abs((window.__breach.level.H-window.__breach.level.paddle.y)*window.__breach.level.kitUIScale-126)<.6"));
+            if (Build.VERSION.SDK_INT >= 30) {
+                js("window.__previewLevel=window.__breach.level");
+                scenario.onActivity(value -> value.getWindow().getInsetsController().show(WindowInsets.Type.systemBars()));
+                awaitSystemBars(true);
+                scenario.onActivity(value -> value.getWindow().getInsetsController().hide(WindowInsets.Type.systemBars()));
+                assertFullscreenAndSafeArea();
+                assertEquals("Transient bars preserve the live level", "true", js("window.__breach.level===window.__previewLevel"));
+            }
             int[] origin = new int[2];
             AtomicReference<Integer> width = new AtomicReference<>(), height = new AtomicReference<>();
             scenario.onActivity(value -> { value.game.getLocationOnScreen(origin); width.set(value.game.getWidth()); height.set(value.game.getHeight()); });
-            float x = origin[0] + width.get() * 0.5f, y = origin[1] + height.get() * 0.84f;
+            float x = origin[0] + width.get() * 0.5f, y = origin[1] + height.get() * 0.94f;
             long down = SystemClock.uptimeMillis();
             touch(MotionEvent.ACTION_DOWN, x, y, down);
             Thread.sleep(100);
@@ -104,19 +169,32 @@ public class MobileSmokeTest {
             touch(MotionEvent.ACTION_MOVE, origin[0] + width.get() * 0.74f, y, down);
             await("window.__breach.level.paddle.x > 220");
             touch(MotionEvent.ACTION_UP, origin[0] + width.get() * 0.74f, y, down);
-            screenshot("02-invasion-touch-serve");
+            assertEquals("First deliberate catch press acknowledged", "true", js("localStorage.getItem('breach.aimReadySeen')==='true'"));
+            screenshot("02-carrier-touch-serve");
+            await("window.__breach.level.clock>2.4 && window.__breach.level.fighters.filter(f=>window.__breach.level.clock>=f.born).length===3");
+            assertEquals("The real hangar opens for its three fighters", "true", js("window.__breach.level.doorPose()>.99"));
+            screenshot("03-carrier-fighter-launch");
             js("window.__breach.start(1)");
             await("window.__breach.level.phase !== 'intro'");
+            assertFullscreenAndSafeArea();
             assertEquals("true", js("window.__breach.level.bricksBroken === 0 && window.__breach.level.venom.contacts.hits === 0"));
-            screenshot("03-vault-entry");
+            assertEquals("Vault keeps its own paddle, ball and Kit role", "true", js("(() => { const l=window.__breach.level; return l.name==='The Vault' && l.paddle.baseW===74 && l.paddle.h===12 && l.ballRadius===6 && l.balls[0].r===6 && l.coreMode==='ward'; })()"));
+            screenshot("04-vault-entry");
             assertNull("No errors before Activity recreation", activity.pageError);
             js("localStorage.setItem('breach.previewSmoke', 'true')");
             scenario.recreate();
             scenario.onActivity(value -> activity = value);
             awaitCanvas();
+            assertFullscreenAndSafeArea();
             assertEquals("\"true\"", js("localStorage.getItem('breach.previewSmoke')"));
+            assertEquals("Catch lesson acknowledgement survives recreation", "true", js("localStorage.getItem('breach.aimReadySeen')==='true'"));
             assertNull("No WebView console or load errors", activity.pageError);
-            screenshot("04-restored-menu");
+            screenshot("05-restored-menu");
+            js("window.__breach.start(0)");
+            awaitCarrierArt();
+            assertEquals("Recreated Carrier retains acknowledged controls", "true", js("window.__breach.level.aimReadySeen && window.__breach.level.ballRadius===7.5"));
+            assertNull("No errors after recreated Carrier art decode", activity.pageError);
+            screenshot("06-restored-carrier");
         }
     }
 }

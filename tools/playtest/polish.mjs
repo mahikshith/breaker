@@ -50,8 +50,17 @@ console.log('state', await ev(() => [window.__breach.level.state, window.__breac
 await ev(() => window.__breach.start(0)); await wait(800);
 await shot('11-invasion-serve');
 await bot(true); await wait(6000); await shot('12-invasion-play');
-await ev(() => { const l = window.__breach.level; l.grid.oy = l.dangerY - 9 * 18 + 2; });
-await wait(900); await shot('13-invasion-landed');
+const carrier = await ev(() => {
+  const l = window.__breach.level;
+  if (l.name === 'Carrier Breakout') {
+    // Staged real out-of-balls lifecycle; Carrier has no marching-grid landing.
+    l.lives = 1; l.aim = null;
+    for (const b of l.balls) Object.assign(b, { caught: false, x: l.left + 8, y: l.drainY + 30, vx: 0, vy: 300 });
+    return true;
+  }
+  l.grid.oy = l.dangerY - 9 * 18 + 2; return false;
+});
+await wait(900); await shot(carrier ? '13-carrier-loss-staged' : '13-invasion-landed');
 await wait(2600); await shot('14-invasion-continue');
 await bot(false);
 console.log('errors', errs.length ? errs : 'none');

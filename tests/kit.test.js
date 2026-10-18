@@ -56,14 +56,13 @@ test('presentation can expire while the coaching world clock stays frozen', () =
   assert.equal(l.kitBodyAt, 40); assert.equal(l.kitBodyUntil, 52);
 });
 
-test('orb and every body pose clear drain and full grip envelope on both phone scales', () => {
-  for (const s of [393 / 360, 915 / 800]) {
-    const orb = kitLayout({ drainY: 600, kitUIScale: s });
+test('the face orb stays at the safe bottom-left without a body or visible track layout', () => {
+  for (const [H, s] of [[729, 393 / 360], [785, 915 / 800]]) {
+    const orb = kitLayout({ H, kitUIScale: s });
     assert.equal(orb.r * 2 * s, 52);
-    assert(Math.abs((orb.y - orb.r - 600) * s - 8) < 1e-9);
-    assert(Math.abs((orb.trackY - 5 / s - orb.y - orb.r) * s - 8) < 1e-9);
-    assert((orb.bodyFeet - 43 * 0.94 - 0.7 / s - 600) * s >= 8);
-    assert((orb.trackY - 5 / s - (orb.bodyFeet + 1.667 * 0.94 + 0.7 / s)) * s >= 8);
+    assert(Math.abs((orb.x - orb.r) * s - 12) < 1e-9);
+    assert(Math.abs((H - orb.y - orb.r) * s - 4) < 1e-9);
+    assert.deepEqual(Object.keys(orb), ['x', 'y', 'r']);
   }
 });
 

@@ -1,6 +1,6 @@
 # Pack rendered Blender art into src/vault-art.js as WebP data URIs (so the game stays a single file).
 # Run: python3 tools/pack_art.py
-import base64, io, json, os, glob
+import base64, io, json, os, glob, hashlib
 from PIL import Image
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
@@ -49,6 +49,29 @@ if kit_frames['Idle']:
             faces.paste(im, (c * face_cell, 0))
     art['kit']['faces'] = {'url': uri(faces, 90), 'cell': face_cell}
 
+# Selected Kit Ward: a physical spinning shield and its unfolding brick armour.
+cast_meta = A('kit-cast', 'meta.json')
+if os.path.exists(cast_meta):
+    meta = json.load(open(cast_meta))
+    cell = meta['cell']
+    assert cell == 256 and meta['collision'].startswith('none'), 'Invalid Kit cast contract'
+    timing = meta['timing']
+    assert 0 < timing['anticipation'] < timing['arrival'] < timing['settled'] < 0.5, 'Kit cast must settle before the latest legal venom impact'
+    sheet = Image.new('RGBA', (16 * cell, 2 * cell))
+    clips = {}
+    for row, (name, count) in enumerate([('Spin', 16), ('Armour', 12)]):
+        paths = sorted(glob.glob(A('kit-cast', f'{name}_*.png')))
+        assert len(paths) == count == meta['anims'][name]['frames'], f'Incomplete Kit cast: {name}'
+        for col, path in enumerate(paths):
+            assert os.path.basename(path) == f'{name}_{col:02d}.png', f'Unexpected Kit cast frame: {path}'
+            with Image.open(path) as im:
+                assert im.size == (cell, cell) and im.mode == 'RGBA' and not im.text, f'Invalid Kit cast frame: {path}'
+                bounds = im.getchannel('A').point(lambda a: 255 if a > 8 else 0).getbbox()
+                assert bounds and min(bounds[:2]) > 2 and max(bounds[2:]) < cell - 2, f'Clipped Kit cast frame: {path}'
+                sheet.paste(im, (col * cell, row * cell))
+        clips[name] = {'row': row, 'n': count}
+    art['kitCast'] = {'url': uri(sheet, 90), 'cell': cell, 'anims': clips, 'timing': timing}
+
 # serpent: one sheet of head sprites, a row per facing and a column per expression (art/snake.py)
 for key, directory in [('snake', 'snake'), ('snakeJade', 'snake-jade')]:
     meta_path = A(directory, 'meta.json')
@@ -91,6 +114,37 @@ if os.path.exists(inv):
         if os.path.exists(A('invasion', p)):
             im = Image.open(A('invasion', p)).convert('RGB'); b = io.BytesIO(); im.save(b, 'WEBP', quality=86)
             art['invPlate'] = 'data:image/webp;base64,' + base64.b64encode(b.getvalue()).decode(); break
+
+# Carrier Breakout: preserve the reviewed component geometry while sizing textures for phone rendering.
+carrier_manifest = os.path.join(ROOT, 'design', 'phase1', 'space-assets-ab.json')
+if os.path.exists(carrier_manifest):
+    manifest = json.load(open(carrier_manifest, encoding='utf-8'))
+    selected = {k: p for k, p in manifest['parts'].items() if k.startswith('a') or k in ('ball', 'capsule_laser', 'capsule_split', 'capsule_shield')}
+    carrier = {'parts': {}, 'assembly': manifest['assemblies']['A'], 'motion': manifest['motion'], 'frame': manifest['frame'], 'payloads': manifest['draftIntegration']['payloads']['A']}
+    packed = []
+    for name, spec in selected.items():
+        path = os.path.join(ROOT, spec['path'])
+        with Image.open(path) as source:
+            assert not source.info, f'Carrier PNG metadata: {path}'
+            im = source.convert('RGB' if name == 'aBackground' else 'RGBA')
+            assert list(im.size) == spec['size'], f'Carrier dimensions changed: {name}'
+            bounds = im.getchannel('A').point(lambda a: 255 if a >= 16 else 0).getbbox() if im.mode == 'RGBA' else (0, 0, im.width, im.height)
+            assert bounds, f'Empty Carrier part: {name}'
+            art_bounds = [bounds[0] / im.width, bounds[1] / im.height, (bounds[2] - bounds[0]) / im.width, (bounds[3] - bounds[1]) / im.height]
+            if isinstance(spec['display'], list):
+                ratio = min(1, max(spec['display']) * PX / max(im.size))
+                if ratio < 1:
+                    im = im.resize((max(1, round(im.width * ratio)), max(1, round(im.height * ratio))), Image.Resampling.LANCZOS)
+            url = uri(im, 96)
+            part = {k: v for k, v in spec.items() if k not in ('path', 'size', 'collision', 'approval')}
+            part.update({'url': url, 'width': im.width, 'height': im.height, 'artBounds': art_bounds})
+            carrier['parts'][name] = part
+            packed.append({'id': name, 'source': spec['path'], 'sourceSHA256': hashlib.sha256(open(path, 'rb').read()).hexdigest(), 'sourceSize': spec['size'], 'runtimeSize': list(im.size), 'encodedBytes': len(base64.b64decode(url.split(',', 1)[1])), 'decodedBytes': im.width * im.height * 4, 'quality': 96})
+    assert len(carrier['assembly']['bricks']) == 16 and len(carrier['assembly']['pods']) == 5
+    art['carrier'] = carrier
+    os.makedirs(os.path.join(ROOT, 'out'), exist_ok=True)
+    with open(os.path.join(ROOT, 'out', 'carrier-pack-report.json'), 'w', encoding='utf-8') as f:
+        json.dump({'parts': packed, 'encodedBytes': sum(p['encodedBytes'] for p in packed), 'decodedBytes': sum(p['decodedBytes'] for p in packed)}, f, indent=2)
 
 out = os.path.join(ROOT, 'src', 'vault-art.js')
 js = '// Rendered art for the Vault, generated by tools/pack_art.py from assets/. Do not edit by hand.\nexport const ART = ' + json.dumps(art) + ';\n'

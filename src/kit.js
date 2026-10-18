@@ -25,8 +25,8 @@ export function updateKitPresence(level) {
 }
 
 export function kitLayout(level) {
-  const s = level.kitUIScale || 1, r = 26 / s, x = 64, y = level.drainY + 34 / s;
-  return { x, y, r, trackY: y + r + 13 / s, bodyX: x - 4.667 * 0.94, bodyFeet: y + 20.667 * 0.94 };
+  const s = level.kitUIScale || 1;
+  return { x: 38 / s, y: level.H - 30 / s, r: 26 / s };
 }
 
 export const kitOrbContains = (orb, x, y) => Math.hypot(x - orb.x, y - orb.y) <= orb.r;
