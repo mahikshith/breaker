@@ -229,6 +229,22 @@ Building is where most of the usage goes: rendering, coding, playtesting and fix
 4. **Review** the screenshots it shows you. Merge only when you're happy.
 5. **Don't run Codex and Claude on the repo at the same time.** If you do bring Claude back, say so, and Claude pulls the latest `main` first.
 
+**The ChatGPT project does not start Codex or control Blender by itself.** You open Codex and give it the work. Codex runs Blender headless through the Python scripts, so the Blender app is not needed.
+
+One-time setup on your computer:
+
+1. Install Git, Node.js 22 and Python 3.11. bpy 5.2 needs exactly Python 3.11.
+2. Install Codex: the desktop app, or `npm install -g @openai/codex`. Sign in with your ChatGPT account.
+3. Run `git clone https://github.com/mahikshith/breaker` and open the folder in Codex. Codex reads `AGENTS.md` automatically.
+4. Tell Codex: "Set up this repo exactly as AGENTS.md says (npm install, a Python 3.11 venv with bpy 5.2.2, pillow, numpy, Playwright), then run npm run build and npm test."
+5. Tell Codex: "Render one test frame with `python3 art/princess.py out/test Idle:1` and show me the image." If you see the princess, Codex can drive Blender.
+
+For each task:
+
+6. Package the design in ChatGPT (section 7). Copy the files into `design/phase1/`.
+7. Paste the starter prompt below, ending with `Task: design/phase1/<file>.md`. Steer Codex with the prompts in section 4.
+8. When you approve, tell Codex to commit as mahikshith on `codex/<task>`, push, and merge. Open `dist/breach.html` in a browser to play.
+
 Codex starter prompt:
 
 ```
