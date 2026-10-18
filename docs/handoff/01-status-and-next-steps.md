@@ -6,6 +6,12 @@ Read all three handoff docs before touching code: this one (status, rules, TODO 
 
 ## Progress log (newest first)
 
+- **2026-10-18 (Android checkpoint delivered; CI green).**
+  - Tested code commit `085a2c6` passed the complete [Mobile preview run39108320738](https://github.com/mahikshith/breaker/actions/runs/39108320738): all 21 unit tests, both phone control/Ward/venom suites, exact bundle guard, Android compile/lint, offline emulator install and native touch/font/level/storage checks, screenshot export and APK publication. One native instrumentation test, zero failures/errors. Lint: zero errors/eight documented nonfatal preview warnings.
+  - [Installable artifact](https://github.com/mahikshith/breaker/actions/runs/39108320738/artifacts/12129462604): `BREACH-android-preview-4`, APK1,854,545 bytes, SHA256 `3e34835d9bf44f5d9c82f5f1e0be292dc79019545bf80de8827df997763842a7`. [Native screenshots/reports](https://github.com/mahikshith/breaker/actions/runs/39108320738/artifacts/12129562329). Downloaded APK was checked against its workflow hash, packaged HTML manifest, bundled fonts and no-network-permission boundary; actual menu/Vault native images were reviewed. See `docs/MOBILE_PREVIEW.md`.
+  - The two actual pipeline defects are fixed: await font readiness after a first canvas request, and export native screenshots before AGP removes app-scoped test files. The export explicitly invokes `sh` because UiAutomation command execution does not interpret shell operators by itself. The superseded export run was cancelled. Game-byte hash remains the exact pre-Brum checkpoint.
+  - Docs-only pushes skip rerunning unchanged code. No merge to `main`. Physical-phone performance/audio/thumb comfort, Safari and human balance remain unchecked. Debug signing is disposable; ads/purchases remain simulations. Ongoing cast/capture/Relay Raiders/Brum work stays in the separate `codex/phase1-kit` workspace.
+
 - **2026-10-18 (Android checkpoint authorized on a new branch).**
   - The owner explicitly requested a new `coding/` branch, a push to GitHub, a triggered CI pipeline and an APK artifact of the reviewed work before Brum was selected, while design continues in parallel. This authorization applies to the checkpoint, not the unfinished revisions.
   - Reconstructed and rebuilt the exact tested pre-Brum source: Windows HTML SHA256 `3A6B8A8C5368364AFCFCE6BBF7B1994D4598C121C90B45B72FE5BD7E45285EC1`; all 21 unit tests pass. A packaging hash guard normalizes line endings for Linux CI.

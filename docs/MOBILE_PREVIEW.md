@@ -4,10 +4,20 @@ This is the owner's requested pre-Brum gameplay checkpoint, distributed from the
 
 It deliberately retains the earlier cast and princess-capture animations. Their replacements, Brum, new space characters and later levels are still in design and are not in this APK. The owner explicitly authorized committing and pushing this checkpoint and running its CI on a new branch; `main` remains unchanged.
 
+## Verified artifact
+
+- [Successful CI run](https://github.com/mahikshith/breaker/actions/runs/39108320738), tested code commit `085a2c6`.
+- [APK artifact: BREACH-android-preview-4](https://github.com/mahikshith/breaker/actions/runs/39108320738/artifacts/12129462604) (30-day retention).
+- APK: 1,854,545 bytes; SHA256 `3e34835d9bf44f5d9c82f5f1e0be292dc79019545bf80de8827df997763842a7`.
+- [Native screenshots, lint and test reports](https://github.com/mahikshith/breaker/actions/runs/39108320738/artifacts/12129562329).
+- Web unit/phone/venom checks passed. Offline Android 15 instrumentation: one test, zero failures/errors; actual fonts, canvas, aim/serve/steer, both levels and storage after recreation passed. Downloaded APK payload/fonts/hash and absence of network permission were independently checked. Native screenshots were reviewed.
+
+Android lint has no errors and eight nonfatal warnings: the preview targets SDK 35, three pinned test-library versions have updates, portrait orientation raises two form-factor warnings, JavaScript is necessary for the local game, and a future release should define modern backup extraction rules. These were not silently suppressed. This test package is not a Store release.
+
 ## Install
 
 1. Download the `BREACH-android-preview-<run>` artifact from the successful **Mobile preview** Actions run and unzip it.
-2. Copy `BREACH-preview.apk` to an Android phone running Android 8.0 or newer.
+2. Copy `BREACH-preview.apk` to an Android phone running Android 8.0 or newer with an up-to-date Android System WebView.
 3. Open the APK and permit installation from that browser or file manager when Android requests it. Launch **BREACH Preview**.
 
 This is a debug-signed test app, not a Play Store release. A later build with a different disposable debug key may require uninstalling this preview first, which clears its local progress. It uses a separate preview application ID. The game and its Lilita One/Rubik fonts are bundled and require no network permission.
