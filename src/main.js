@@ -3,7 +3,9 @@ import { setDPR, text, rrect, shade, vignette, drawGrain, cached, brick, FONT, a
 import { unlockAudio, setMuted, isMuted, sfx } from './audio.js';
 import { Invasion } from './invasion.js';
 import { Vault, drawPrincessIcon } from './vault.js';
-import { drawFox, drawInvader } from './characters.js';
+import { drawInvader } from './characters.js';
+import { store } from './prefs.js';
+import { MODE, PRICE, AD_SECONDS, continueOffer, isUnlocked, watchAd, buyFullGame } from './monetize.js';
 
 const LEVELS = [
   { make: (W, H) => new Invasion(W, H), name: 'Invasion', sub: 'Clear the formation before it lands', color: '#ff5d8f' },
@@ -13,13 +15,10 @@ const W = 360;
 let H = 740, scale = 1, FH = 740, inT = 0, inB = 0; // FH: full canvas height; H: playable height inside the safe area
 const cv = document.getElementById('game'), g = cv.getContext('2d');
 
-const store = {
-  get(k) { try { return JSON.parse(localStorage.getItem('breach.' + k)); } catch { return null; } },
-  set(k, v) { try { localStorage.setItem('breach.' + k, JSON.stringify(v)); } catch { /* private mode */ } },
-};
 let best = store.get('best') || [0, 0];
 
 let scene = 'menu', level = null, levelIdx = 0, resultT = 0, buttons = [], menuT = 0, previews = [];
+let cont = { used: 0, declined: false, ad: null, toast: null }; // continue offers for the current attempt
 
 // Notch / Dynamic Island / home indicator / Android cutouts, in CSS px. ?safe=top,bottom fakes them for testing.
 function safeInsets() {
@@ -45,6 +44,7 @@ function resize() {
 
 function start(i) {
   levelIdx = i; level = LEVELS[i].make(W, H); scene = 'level'; resultT = 0;
+  cont = { used: 0, declined: false, ad: null, toast: null };
 }
 
 // ---------- input ----------
@@ -85,7 +85,7 @@ function tick(dt) {
   level.update(dt);
   if (level.state !== 'play') {
     resultT += dt;
-    if (resultT > 1.1 && !level.resultSaved) {
+    if (resultT > 1.1 && !level.resultSaved && !offering()) {
       level.resultSaved = true;
       const r = level.result();
       if (r.stars > best[levelIdx]) { best[levelIdx] = r.stars; store.set('best', best); }
@@ -188,11 +188,65 @@ function drawMenu() {
     else if (i === 0) drawInvader(g, x + cw - 52, y + 10, 36, 24, '#5ccf6a', Math.floor(menuT * 3) % 2, Math.sin(menuT));
     else drawPrincessIcon(g, x + cw - 36, y + 34, 64, menuT);
   });
-  text(g, 'Drag anywhere to move · hold still on a catch to aim', W / 2, H - 52, 12, 'rgba(220,226,255,0.65)', 'center');
+  text(g, 'Drag to move · hold still as the ball lands to catch & aim', W / 2, H - 52, 12, 'rgba(220,226,255,0.65)', 'center');
   button(isMuted() ? 'Sound: off' : 'Sound: on', W / 2 - 60, H - 38, 120, 30, '#4b5370', () => setMuted(!isMuted()), true);
 }
 
+// ---------- continue offer (after a loss, before the results) ----------
+const CONT_AT = 0.9, CONT_SECS = 9;
+const offering = () => level.state === 'lost' && !cont.declined && !!continueOffer(cont.used);
+function doContinue() { cont.used++; cont.ad = null; level.continueRun(); resultT = 0; }
+function drawContinue() {
+  const k = Math.min(1, (resultT - CONT_AT) / 0.25); if (k <= 0) return;
+  g.fillStyle = `rgba(6,8,20,${0.72 * k})`; g.fillRect(0, 0, W, H);
+  if (cont.ad) return drawAdPlaceholder();
+  const left = CONT_SECS - (resultT - CONT_AT);
+  if (left <= 0) { cont.declined = true; resultT = 1.1; return; }
+  const offer = continueOffer(cont.used), pw = W - 48, ph = offer === 'ad' ? 330 : 280, x = 24, y = H / 2 - ph / 2 + (1 - k) * 40;
+  g.globalAlpha = k;
+  g.fillStyle = 'rgba(0,0,0,0.5)'; rrect(g, x + 4, y + 8, pw, ph, 22); g.fill();
+  const pg = g.createLinearGradient(0, y, 0, y + ph); pg.addColorStop(0, '#2c3360'); pg.addColorStop(1, '#171b36');
+  g.fillStyle = pg; rrect(g, x, y, pw, ph, 22); g.fill();
+  g.strokeStyle = 'rgba(255,255,255,0.18)'; g.lineWidth = 1.5; rrect(g, x + 1, y + 1, pw - 2, ph - 2, 21); g.stroke();
+  text(g, 'CONTINUE?', W / 2, y + 36, 30, '#ffd36b', 'center');
+  text(g, level.reason || '', W / 2, y + 64, 13, '#c9cfee', 'center');
+  // countdown ring
+  const cx = W / 2, cy = y + 112;
+  g.strokeStyle = 'rgba(0,0,0,0.45)'; g.lineWidth = 7; g.beginPath(); g.arc(cx, cy, 26, 0, 7); g.stroke();
+  g.strokeStyle = '#ff7a8a'; g.beginPath(); g.arc(cx, cy, 26, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (left / CONT_SECS)); g.stroke();
+  text(g, String(Math.ceil(left)), cx, cy + 1, 26, '#fff', 'center');
+  g.globalAlpha = 1;
+  let by = y + 160;
+  if (offer === 'ad') {
+    button('▶  Watch ad · Continue', x + 24, by, pw - 48, 48, '#5ccf6a', () => { cont.ad = { t: 0 }; watchAd().then(ok => { if (ok && cont.ad) doContinue(); else cont.ad = null; }); });
+    by += 62;
+    if (MODE !== 'free' && !isUnlocked()) button(`Unlock full game · ${PRICE}`, x + 24, by, pw - 48, 40, '#9b4fd1', () => buyFullGame().then(ok => { if (ok) { cont.toast = { text: 'Full game unlocked · no more ads', t: menuT }; doContinue(); } }), true);
+    by += 54;
+  } else {
+    button('Continue', x + 24, by, pw - 48, 48, '#5ccf6a', doContinue);
+    by += 62;
+  }
+  buttons.push({ x: W / 2 - 60, y: by - 6, w: 120, h: 32, fn: () => { cont.declined = true; resultT = 1.1; } });
+  text(g, 'No thanks', W / 2, by + 10, 15, 'rgba(220,226,255,0.7)', 'center');
+}
+function drawAdPlaceholder() { // stands in for a rewarded ad until a real SDK is wired up in monetize.js
+  const t = (cont.ad.t += 1 / 60), left = Math.max(0, AD_SECONDS - t);
+  g.fillStyle = '#0b0d1c'; g.fillRect(0, 0, W, H);
+  g.strokeStyle = 'rgba(255,255,255,0.15)'; g.setLineDash([6, 6]); g.lineWidth = 2; rrect(g, 24, H / 2 - 120, W - 48, 240, 18); g.stroke(); g.setLineDash([]);
+  text(g, 'AD PLACEHOLDER', W / 2, H / 2 - 40, 26, '#c9cfee', 'center');
+  text(g, 'A rewarded video plays here', W / 2, H / 2 - 8, 13, 'rgba(220,226,255,0.6)', 'center');
+  text(g, `Reward in ${Math.ceil(left)}`, W / 2, H / 2 + 40, 20, '#7bf2c8', 'center');
+}
+function drawToast() {
+  if (!cont.toast) return;
+  const a = menuT - cont.toast.t; if (a > 2.5) { cont.toast = null; return; }
+  g.globalAlpha = Math.min(1, (2.5 - a) * 2);
+  g.fillStyle = 'rgba(20,24,48,0.92)'; rrect(g, 40, 70, W - 80, 34, 17); g.fill();
+  text(g, cont.toast.text, W / 2, 87, 14, '#7bf2c8', 'center'); g.globalAlpha = 1;
+}
+
 function drawResults() {
+  if (offering()) { drawContinue(); return; }
   const k = Math.min(1, (resultT - 1.1) / 0.3); if (k <= 0) return;
   const r = level.result(), won = level.state === 'won';
   g.fillStyle = `rgba(6,8,20,${0.7 * k})`; g.fillRect(0, 0, W, H);
@@ -243,6 +297,7 @@ function draw() {
     level.draw(g);
     if (level.state === 'play') pauseButton();
     else drawResults();
+    drawToast();
   }
   g.restore();
 }

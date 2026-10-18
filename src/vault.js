@@ -14,9 +14,10 @@ const KIND = { y: SUN, c: CORAL, v: VIOLET, t: TEAL, b: BLUE, g: GOLD, '#': GRAN
 const LETTER = { [SUN]: 'y', [CORAL]: 'c', [VIOLET]: 'v', [TEAL]: 't', [BLUE]: 'b', [GOLD]: 'gold', [GRANITE]: 'granite' };
 const COLORS = { [SUN]: '#ffc73d', [CORAL]: '#ff6f61', [VIOLET]: '#8f5cf0', [TEAL]: '#22c4b0', [BLUE]: '#4f9dff', [GOLD]: '#f4c542', [GRANITE]: '#4a4f6e' };
 const HP = { [SUN]: 1, [CORAL]: 1, [VIOLET]: 2, [TEAL]: 2, [BLUE]: 1, [GOLD]: 1 };
-const CHEW = { [EMPTY]: 0.42, [BARS]: 0.42, [SUN]: 2.8, [CORAL]: 2.8, [VIOLET]: 4.6, [TEAL]: 4.6, [BLUE]: 2.8, [GOLD]: 2.8 }; // serpent seconds per cell
+const CHEW = { [EMPTY]: 0.32, [BARS]: 0.32, [SUN]: 2.1, [CORAL]: 2.1, [VIOLET]: 3.45, [TEAL]: 3.45, [BLUE]: 2.1, [GOLD]: 2.1 }; // serpent seconds per cell
 const POCKET = { c0: 7, c1: 12, r0: 3, r1: 5 };
-const DROPS = ['split', 'fire', 'wide', 'focus', 'burst', 'split'];
+const PR_X = OX + 10 * CELL, FLOOR_Y = OY + 6 * CELL; // the princess's spot in the cage
+const DROPS = ['split', 'laser', 'wide', 'shrink', 'focus', 'fire', 'shield', 'burst', 'slow', 'split', 'shrink'];
 const LAYOUT = [
   'tttttttttttttttt....',
   'tttttttttttttttt....',
@@ -61,18 +62,18 @@ const BAR_ART = (() => { // one gold bar, for when the cage bursts
 
 export class Vault extends Arena {
   constructor(W, H) {
-    super(W, H, { accent: '#f4c542', top: OY, left: OX, right: W - OX - COLS * CELL });
+    super(W, H, { accent: '#f4c542', top: OY, left: OX, right: W - OX - COLS * CELL, minPaddleY: OY + ROWS * CELL + 80 });
     this.name = 'The Vault'; this.subtitle = 'Free the princess before the serpent gets there';
     this.grid = makeGrid(COLS, ROWS, CELL, CELL, OX, OY);
     this.left = OX; this.right = OX + COLS * CELL; this.top = OY;
     this.paddle.baseW = this.paddle.w = 70;
-    this.debris = new Debris({ left: this.left, right: this.right, floor: H - 6, onPaddleHit: () => this.brickOnPaddle() });
+    this.debris = new Debris({ left: this.left, right: this.right, floor: H + 200, killY: this.paddle.y + 70, onPaddleHit: () => this.brickOnPaddle() });
     this.build();
     this.snake = { cells: [[16, 1], [17, 1], [18, 1], [19, 1], [19, 0]], hist: [], chew: 0, chewing: null, prog: 1, stun: 0, dir: Math.PI, look: Math.PI, faceLeft: true, path: [], open: 0, hits: [], flinch: 0, mood: null, moodT: 0, alpha: 1, fleeT: 0 };
     this.snakeStart = this.snakePlan().cost;
     this.phase = 'intro'; this.introT = 0; this.peakDanger = 0; this.foxT = 0; this.frenzyT = 0; this.beatT = 0; this.collapseDirty = false; this.collapseT = 0;
-    this.bubble = null; this.hintY = this.paddle.y + 40; this.barsWob = 0;
-    this.pr = { anim: 'Idle', t: 0, loop: true, flip: false };
+    this.bubble = null; this.barsWob = 0;
+    this.pr = { anim: 'Idle', t: 0, loop: true, flip: false, x: PR_X, pace: 1, pause: 0, th: 0, fps: 14 };
     this.motes = Array.from({ length: 18 }, (_, i) => ({ x: Math.random() * W, y: OY + Math.random() * (H - OY), s: 0.6 + Math.random() * 1.2, p: i }));
   }
   previewRect() { return { x: OX - 14, y: OY - 30, w: COLS * CELL + 28, h: 230 }; }
@@ -98,18 +99,45 @@ export class Vault extends Arena {
   art(br) { return brickArt(br.kind, br.n, br.max ? br.max - br.hp : 0); }
 
   // ---------- princess animation ----------
-  play(anim, loop = false) { if (this.pr.anim !== anim || !loop) Object.assign(this.pr, { anim, t: 0, loop }); }
+  play(anim, loop = false, fps = 14) { if (this.pr.anim !== anim || !loop) Object.assign(this.pr, { anim, t: 0, loop, fps }); else this.pr.fps = fps; }
+  // a looping animation, or a stand-in when that one hasn't been rendered
+  loopAnim(name, fallback, fps = 14, fbFps = fps) { if (PRINCESS?.anims[name]) this.play(name, true, fps); else this.play(fallback, true, fbFps); }
   updatePrincess(dt) {
     const p = this.pr; p.t += dt;
     const n = PRINCESS?.anims[p.anim]?.n || 12;
-    if (!p.loop && p.t * 14 >= n) { // one-shot finished: back to the mood the situation calls for
-      const scared = this.phase === 'rescue' && this.danger > 0.6;
-      this.play(scared ? 'Blocking' : 'Idle', true);
+    if (!p.loop && p.t * p.fps >= n) this.play('Idle', true); // one-shot finished
+    if (this.phase === 'rescue' || this.phase === 'caught') this.pacePrincess(dt);
+  }
+  // In the cage she gets more frantic as the serpent closes in: idle, then nervous pacing, then running in circles.
+  pacePrincess(dt) {
+    const p = this.pr, d = this.danger || 0, sn = this.snake, free = p.loop; // a one-shot (cheer, flinch) plays out first
+    const lo = OX + POCKET.c0 * CELL + 14, hi = OX + (POCKET.c1 + 1) * CELL - 14, cx = (lo + hi) / 2;
+    const headX = OX + sn.cells[0][0] * CELL + CELL / 2;
+    const walkTo = (x, v) => { const dx = x - p.x; if (Math.abs(dx) < 1) return true; p.x += Math.sign(dx) * Math.min(Math.abs(dx), v * dt); p.flip = dx < 0; return false; };
+    p.depth += (0 - (p.depth || 0)) * Math.min(1, dt * 4);
+    if (sn.attack || this.phase === 'caught') { // cower on the far side, facing it
+      const there = walkTo(headX < cx ? hi - 2 : lo + 2, 70);
+      if (there) { p.flip = headX < p.x; if (free) this.loopAnim('Scared', 'Blocking'); } else if (free) this.loopAnim('Panic', 'Running_A', 14, 20);
+      return;
     }
+    if (d < 0.3) { if (walkTo(cx, 24)) { if (free && p.anim !== 'Idle') this.play('Idle', true); } else if (free) this.loopAnim('Nervous', 'Running_A', 12, 8); return; }
+    if (d < 0.62) { // nervous pacing, with a pause and a scared glance toward the serpent at each end
+      if (p.pause > 0) { p.pause -= dt; p.flip = headX < p.x; if (free) this.loopAnim('Scared', 'Idle'); return; }
+      p.x += p.pace * 24 * dt; p.flip = p.pace < 0;
+      if (p.x > hi || p.x < lo) { p.x = Math.max(lo, Math.min(hi, p.x)); p.pace *= -1; p.pause = 0.7; }
+      if (free) this.loopAnim('Nervous', 'Running_A', 12, 8);
+      return;
+    }
+    // panic: running in little circles (an ellipse seen from the side: she grows a touch as she comes forward)
+    p.th = (p.th || 0) + dt * (2.2 + d * 1.6);
+    const nx = cx + Math.cos(p.th) * 30;
+    p.flip = nx < p.x; p.x = nx; p.depth = Math.sin(p.th);
+    if (free) this.loopAnim('Panic', 'Running_A', 16, 20);
+    if (!this.bubble && Math.random() < dt * 0.35) this.say(['Help!', 'Hurry!!', 'Aaah!'][Math.floor(Math.random() * 3)], 1);
   }
   drawPrincess(g, x, feetY, scale = 1) {
     if (!PRINCESS || !PRINCESS.img.complete) return;
-    const P = PRINCESS, a = P.anims[this.pr.anim], f = Math.floor(this.pr.t * 14) % a.n, u = P.unit * scale;
+    const P = PRINCESS, a = P.anims[this.pr.anim] || P.anims.Idle, f = Math.floor(this.pr.t * this.pr.fps) % a.n, u = P.unit * scale;
     g.save(); g.translate(x, feetY);
     if (this.pr.flip) g.scale(-1, 1);
     g.fillStyle = 'rgba(0,0,0,0.3)'; g.beginPath(); g.ellipse(2, 0, 10 * scale, 2.5 * scale, 0, 0, 7); g.fill();
@@ -127,7 +155,7 @@ export class Vault extends Arena {
     if (this.phase === 'intro') this.skipIntro();
     if (br.kind === GRANITE) { if (!b.fire) sfx.tough(); return; }
     br.hp = b.fire ? 0 : br.hp - 1;
-    if (br.hp > 0) { sfx.tough(); this.fx.shatter(b.x - 3, b.y - 3, 6, 6, COLORS[br.kind], 3, 0.5); this.bump(0.05); return; }
+    if (br.hp > 0) { sfx.tough(); this.fx.shatter(b.x - 3, b.y - 3, 6, 6, COLORS[br.kind], 1, 0.4); this.bump(0.05); return; }
     this.removeBrick(br, b);
     this.brokeBrick();
     this.addScore(br.kind === GOLD ? 50 : 10 * br.n * br.max, br.x + br.w / 2, br.y);
@@ -145,8 +173,9 @@ export class Vault extends Arena {
     br.gone = true;
     for (let i = 0; i < br.n; i++) { const k = br.r * COLS + br.c + i; G.cells[k] = EMPTY; G.hp[k] = 0; G.bid[k] = -1; }
     this.debris.removeStatic(br.id);
-    if (ball) this.debris.shatter(art, br.x, br.y, br.w, br.h, ball.vx, ball.vy, br.n === 2 ? 5 : 3);
-    else this.fx.shatter(br.x, br.y, br.w, br.h, COLORS[br.kind], 3, 0.4);
+    // a lone brick cracks and fades; only a big crash (chain, fire, titan) throws physical debris
+    if (ball && this.bigCrash(ball)) this.debris.shatter(art, br.x, br.y, br.w, br.h, ball.vx, ball.vy, br.n === 2 ? 5 : 3);
+    else this.debris.crumble(art, br.x, br.y, br.w, br.h, ball?.vx || 0, ball?.vy || 0, br.n === 2 ? 5 : 3);
     this.collapseDirty = true;
     if (this.phase === 'rescue') this.checkBreach();
   }
@@ -180,7 +209,7 @@ export class Vault extends Arena {
     this.foxPath = path.reverse().map(k => ({ x: OX + (k % COLS) * CELL + CELL / 2, y: OY + Math.floor(k / COLS) * CELL + CELL / 2 }));
     this.burstCage();
     this.phase = 'escape'; this.foxT = 0; this.mood('shock', 1.4);
-    sfx.breach(); this.bump(0.7, 0.12); this.timeScale = 0.35; this.slowT = 0.8;
+    sfx.breach(); this.bump(0.7, 0.12); this.timeScale = 0.35; this.slomoT = 0.8;
     this.fx.pop(this.W / 2, OY + 150, 'BREACH!', '#ffe08a', 40);
     this.play('Cheer'); this.say('Yay!', 1.4);
   }
@@ -216,44 +245,94 @@ export class Vault extends Arena {
   updateSnake(dt) {
     const s = this.snake;
     s.open = Math.max(0, s.open - dt * 4); s.flinch = Math.max(0, s.flinch - dt * 4);
+    if (!s.attack) s.lunge = Math.max(0, (s.lunge || 0) - dt * 5);
     // a brick tumbling toward it gets a wide-eyed look
     for (const p of this.debris.pieces) {
       if (p.kind !== 'brick' || p.dead) continue;
       const q = p.body.getPosition(), [hc, hr] = s.cells[0], hx = OX + hc * CELL + 8, hy = OY + hr * CELL + 8;
       if (p.body.getLinearVelocity().y > 1 && q.y * 16 < hy && hy - q.y * 16 < 70 && Math.abs(q.x * 16 - hx) < 30 && !(s.moodT > 0)) this.mood('shock', 0.5);
     }
+    if (s.attack) { this.updateAttack(dt); return; }
     if (s.stun > 0) { s.stun -= dt; return; }
-    if (s.prog < 1) { s.prog = Math.min(1, s.prog + dt / 0.38); return; }
+    if (s.prog < 1) { s.prog = Math.min(1, s.prog + dt / 0.3); return; }
     if (!s.chewing) {
       const plan = this.snakePlan(); s.path = plan.path; s.cost = plan.cost;
       if (!plan.path.length) return;
-      const k = plan.path[0], c = k % COLS, r = (k - c) / COLS;
-      s.chewing = [c, r]; s.chew = 0; s.need = this.chewTime(c, r);
+      const k = plan.path[0], c = k % COLS, r = (k - c) / COLS, [hc, hr] = s.cells[0];
+      s.dir = Math.atan2(r - hr, c - hc);
+      if (this.pocketCell(c, r)) { this.startAttack(); return; }   // at the bars: it goes for her
+      // it gets hungrier, and faster, the closer it is
+      s.chewing = [c, r]; s.chew = 0; s.bites = 0; s.need = this.chewTime(c, r) / (1 + (this.danger || 0) * 0.5);
     }
     const [c, r] = s.chewing, br = this.brickAt(c, r);
     if (br?.kind === GRANITE) { s.chewing = null; return; }
     s.chew += dt;
-    if (br) { s.open = 0.6 + 0.4 * Math.abs(Math.sin(s.chew * 9)); if (Math.floor(s.chew * 3) !== Math.floor((s.chew - dt) * 3)) { sfx.chew(); this.fx.shatter(OX + c * CELL, OY + r * CELL, CELL, CELL, COLORS[br.kind], 1, 0.4); } }
+    if (br) { // a chomp about every 0.4 s: the head lunges into the brick, which shudders and sheds chips
+      const n = Math.floor(s.chew * 2.4);
+      if (n !== s.bites) {
+        s.bites = n; s.lunge = 1; s.open = 1; br.wob = 1; sfx.chew(); sfx.tough(); this.bump(0.04);
+        const ex = OX + c * CELL + CELL / 2 - Math.cos(s.dir) * 6, ey = OY + r * CELL + CELL / 2 - Math.sin(s.dir) * 6;
+        this.fx.shatter(ex - 3, ey - 3, 6, 6, COLORS[br.kind], 2, 0.45);
+      }
+    }
     if (s.chew >= s.need) {
-      if (br && !br.gone) this.removeBrick(br, null);
+      if (br && !br.gone) { this.removeBrick(br, null); this.bump(0.1); }
       const [hc, hr] = s.cells[0];
       s.dir = Math.atan2(r - hr, c - hc);
       s.cells.unshift([c, r]); if (s.cells.length > 7) s.hist.push(s.cells.pop());
       s.prog = 0; s.chewing = null;
-      if (this.pocketCell(c, r)) { this.phase = 'caught'; sfx.hurt(); this.bump(0.8, 0.1); this.play(PRINCESS?.anims.Scared ? 'Scared' : 'Blocking', true); this.say('Eek!', 2); setTimeout(() => this.fail('The serpent got the princess'), 900); }
     }
+  }
+  // The cage attack: rear back, smash the bars, rear back, smash them open, lunge at the princess.
+  // A head hit before the second strike drives it off (see ballVsSnake).
+  startAttack() {
+    const s = this.snake;
+    s.attack = { t: 0, struck: 0 }; s.chewing = null; s.lunge = 0;
+    this.timeScale = 0.6; sfx.hurt(); this.bump(0.3);
+    this.say('No no no!', 1.4);
+  }
+  updateAttack(dt) {
+    const s = this.snake, a = s.attack; a.t += dt;
+    const ease = k => k <= 0 ? 0 : k >= 1 ? 1 : k * k * (3 - 2 * k);
+    // lunge < 0 rears back, > 0 strikes forward along s.dir
+    if (a.t < 0.6) s.lunge = -1.3 * ease(a.t / 0.5);
+    else if (a.t < 0.75) s.lunge = -1.3 + 3.3 * ease((a.t - 0.6) / 0.08);
+    else if (a.t < 1.2) s.lunge = 2 - 3.5 * ease((a.t - 0.75) / 0.4);
+    else if (a.t < 1.3) s.lunge = -1.5 + 3.8 * ease((a.t - 1.2) / 0.08);
+    else s.lunge = 2.3;
+    const cageX = OX + (POCKET.c0 + 3) * CELL, cageY = OY + (POCKET.r0 + 1.5) * CELL;
+    if (a.t >= 0.62 && a.struck === 0) { // strike one: the bars buckle
+      a.struck = 1; this.barsWob = 1.6; sfx.boom(); this.bump(0.55, 0.06);
+      this.fx.shatter(cageX - 10, cageY - 10, 20, 20, '#ffd36b', 8, 1.2); this.fx.pop(cageX, cageY - 30, 'CRACK!', '#ffb35c', 20);
+      if (PRINCESS?.anims.Scared) this.play('Scared', true);
+    }
+    if (a.t >= 1.22 && a.struck === 1) { // strike two: they burst, there is no saving her now
+      a.struck = 2; this.burstCage(); this.phase = 'caught'; sfx.boom(); sfx.hurt(); this.bump(0.85, 0.1);
+      this.say('Eek!', 2);
+    }
+    a.reach = ease((a.t - 1.3) / 0.35);
+    if (a.t >= 1.7 && !a.got) { a.got = true; this.fx.pop(this.W / 2, OY + 150, 'GOT HER!', '#ff5d6e', 38); sfx.lose(); this.bump(0.6); }
+    if (a.t >= 2.7) { this.timeScale = 1; this.fail('The serpent got the princess'); }
+  }
+  cancelAttack() { // driven off at the last moment
+    const s = this.snake; if (!s.attack || s.attack.struck >= 2) return false;
+    s.attack = null; s.lunge = 0; this.timeScale = 1;
+    this.fx.pop(this.W / 2, OY + 150, 'SAVED IT!', '#7bf2c8', 30); this.say('Phew!', 1.2); this.play('Cheer');
+    return true;
   }
   mood(name, secs) { this.snake.mood = name; this.snake.moodT = secs; }
   // which face the serpent pulls right now: reactions first, then what it is doing, with blinks and tongue flicks
   expression() {
-    const s = this.snake, t = this.t;
+    const s = this.snake, t = this.t, X = SNAKE?.expr || {};
+    const fierce = 'strike' in X ? 'strike' : 'chew1', snarl = 'snarl' in X ? 'snarl' : 'hunt';
+    if (s.attack) return s.attack.t > 1.75 ? 'grin' : fierce;
     if (s.mood && s.moodT > 0) return s.mood;
     if (s.stun > 0) return 'dizzy';
     if (this.phase === 'caught') return 'grin';
-    if (s.chewing && this.brickAt(...s.chewing)) return s.open > 0.78 ? 'chew1' : 'chew0';
+    if (s.chewing && this.brickAt(...s.chewing)) return s.lunge > 0.45 ? fierce : snarl;
     if (t % 3.1 < 0.13) return 'blink';
     if (t % 2.3 < 0.35) return 'taste';
-    return this.phase === 'rescue' && this.danger > 0.25 ? 'hunt' : 'idle';
+    return this.phase === 'rescue' && this.danger > 0.15 ? snarl : 'idle';
   }
   knockBack(steps) { // the serpent recoils back along the tunnel it came from
     const s = this.snake;
@@ -270,7 +349,11 @@ export class Vault extends Arena {
   snakePoints() {
     const s = this.snake, ctr = ([c, r]) => ({ x: OX + c * CELL + CELL / 2, y: OY + r * CELL + CELL / 2 });
     const pts = s.cells.map(ctr), k = s.prog;
-    return pts.map((p, i) => { const q = pts[i + 1] || p; return { x: q.x + (p.x - q.x) * k, y: q.y + (p.y - q.y) * k }; });
+    const out = pts.map((p, i) => { const q = pts[i + 1] || p; return { x: q.x + (p.x - q.x) * k, y: q.y + (p.y - q.y) * k }; });
+    const L = (s.lunge || 0) * 5, h = out[0];   // bites and strikes throw the head forward along its heading
+    h.x += Math.cos(s.dir) * L; h.y += Math.sin(s.dir) * L;
+    if (s.attack?.reach > 0) { const r = s.attack.reach; h.x += (this.pr.x - h.x) * r; h.y += (FLOOR_Y - 16 - h.y) * r; }
+    return out;
   }
   ballVsSnake() {
     const s = this.snake; if (this.phase !== 'rescue') return;
@@ -287,6 +370,7 @@ export class Vault extends Arena {
         if (i === 0) { // head: dizzy, shoved back; three quick hits send it reeling
           if (this.t - (s.lastHit ?? -9) < 0.35) break; // a ball rattling against the head counts once
           s.lastHit = this.t;
+          if (this.cancelAttack()) { this.knockBack(3); this.stunSnake(4, 'DRIVEN OFF!', 500, p.x, p.y); break; }
           s.hits = s.hits.filter(t => this.t - t < 6); s.hits.push(this.t);
           const big = s.hits.length >= 3; if (big) s.hits = [];
           this.knockBack(big ? 4 : 1);
@@ -349,13 +433,37 @@ export class Vault extends Arena {
     this.cPop = this.fx.pops[this.fx.pops.length - 1]; this.cPop.total = pts;
   }
 
+  // laser shots sting the serpent: a head shot dazes it (and can break up a cage attack), the body flinches
+  shotHit(shot) {
+    if (this.phase !== 'rescue') return false;
+    const pts = this.snakePoints();
+    for (let i = 0; i < pts.length; i++) {
+      const q = pts[i]; if (Math.hypot(shot.x - q.x, shot.y - q.y) > (i ? 8 : 12)) continue;
+      const s = this.snake;
+      if (i === 0) { if (this.cancelAttack()) this.knockBack(2); this.stunSnake(1.2, 'ZAP!', 60, q.x, q.y); }
+      else if (s.stun <= 0) { s.flinch = 1; s.chew *= 0.7; this.mood('hiss', 0.4); sfx.tough(); }
+      return true;
+    }
+    return false;
+  }
+  // a continue after she was caught: the cage is rebuilt and the serpent is thrown back down its tunnel
+  continueRun() {
+    const s = this.snake;
+    if (this.phase === 'caught' || s.attack) {
+      for (let r = POCKET.r0; r <= POCKET.r1; r++) for (let c = POCKET.c0; c <= POCKET.c1; c++) this.grid.cells[r * COLS + c] = BARS;
+      this.cageGone = false; s.attack = null; s.lunge = 0; this.phase = 'rescue';
+      this.knockBack(6); s.stun = 3; this.mood('ouch', 0.6);
+      this.pr.x = PR_X; this.pr.depth = 0; this.play('Cheer'); this.say('Phew!', 1.2);
+    }
+    super.continueRun();
+  }
   say(text, dur = 1.6) { this.bubble = { text, t: 0, dur }; }
   skipIntro() { if (this.phase === 'intro') { this.phase = 'rescue'; this.introT = 99; } }
   pointerDown(x, y) { if (this.phase === 'intro' && this.introT < 2.8) { this.skipIntro(); return; } super.pointerDown(x, y); }
   release() { if (this.phase === 'intro') this.skipIntro(); super.release(); }
 
   updateLevel(dt, dtReal) {
-    if (this.slowT > 0) { this.slowT -= dtReal; if (this.slowT <= 0 && !this.aim) this.timeScale = 1; }
+    if (this.slomoT > 0) { this.slomoT -= dtReal; if (this.slomoT <= 0 && !this.aim) this.timeScale = 1; }
     const p = this.paddle;
     this.debris.setPaddle(p.x, p.y, p.w, p.h, p.vx);
     for (const b of this.balls) if (!b.caught) this.debris.poke(b);
@@ -388,8 +496,9 @@ export class Vault extends Arena {
       this.danger = Math.max(0, Math.min(1, 1 - cost / this.snakeStart)); this.peakDanger = Math.max(this.peakDanger || 0, this.danger);
       this.beatT -= dt;
       if (this.danger > 0.55 && this.beatT <= 0) { sfx.beat(); this.beatT = 1.1 - this.danger * 0.6; }
-      if (this.danger > 0.6 && this.pr.anim === 'Idle') this.play('Blocking', true);
       if (this.danger > 0.7 && !this.bubble && Math.random() < dt * 0.25) { this.say(Math.random() < 0.5 ? 'Hurry!' : 'It\'s coming!', 1.3); this.play('Interact'); }
+    } else if (this.phase === 'caught') {
+      this.updateSnake(dt);
     } else if (this.phase === 'escape') {
       this.foxT += dt;
       if (this.foxT > 0.5) this.play('Running_A', true);
@@ -420,12 +529,13 @@ export class Vault extends Arena {
   draw(g) {
     const { W, H } = this;
     g.drawImage(this.background(), 0, 0, W, H);
+    if (this.phase !== 'intro') this.drawDeck(g);
     const [sx, sy] = this.shakeOffset(), cam = this.camera();
     g.save(); g.translate(sx, sy);
     if (cam) { g.translate(W / 2, H / 2); g.scale(cam.z, cam.z); g.translate(-cam.x, -cam.y); g.drawImage(this.background(), 0, 0, W, H); }
     this.drawLights(g);
-    const prX = OX + 10 * CELL, floorY = OY + 6 * CELL;
-    if (['intro', 'rescue', 'caught'].includes(this.phase)) { this.drawPrincess(g, prX, floorY - 1); this.drawBars(g); }
+    const prX = this.pr.x, floorY = FLOOR_Y, dk = this.pr.depth || 0;
+    if (['intro', 'rescue', 'caught'].includes(this.phase)) { this.drawPrincess(g, prX, floorY - 1 - dk * 1.5, 1 + dk * 0.07); if (!this.cageGone) this.drawBars(g); }
     // bricks: shadow pass, then sprites (top rows first so lower bricks overlap upper front faces)
     g.fillStyle = 'rgba(0,0,0,0.42)';
     for (const br of this.bricks) if (!br.gone) g.fillRect(br.x + 2.5, br.y + 4, br.w - 1, br.h - 1);
@@ -445,7 +555,7 @@ export class Vault extends Arena {
     if (this.snake.alpha > 0 && this.state !== 'won') this.drawSnake(g);
     this.debris.draw(g);
     this.drawDrops(g); this.drawPaddle(g); this.drawBalls(g); this.fx.draw(g); this.drawAim(g);
-    this.drawBubble(g, prX + 4, floorY - 54);
+    this.drawBubble(g, Math.max(OX + 60, Math.min(OX + COLS * CELL - 60, prX + 4)), floorY - 54);
     g.restore();
     this.drawMotes(g);
     if (this.phase === 'rescue' && this.danger > 0.5) {
@@ -453,6 +563,8 @@ export class Vault extends Arena {
       const vg = g.createRadialGradient(W / 2, H / 2, H * 0.3, W / 2, H / 2, H * 0.75);
       vg.addColorStop(0, 'rgba(160,0,30,0)'); vg.addColorStop(1, `rgba(160,0,30,${a})`); g.fillStyle = vg; g.fillRect(0, 0, W, H);
     }
+    const at = this.snake.attack?.t || 0;
+    if (at > 1.65) { g.fillStyle = `rgba(200,0,30,${Math.max(0, 0.45 - (at - 1.65) * 0.4)})`; g.fillRect(0, 0, W, H); }
     if (this.phase === 'intro') this.drawIntroText(g);
     else this.drawHUD(g);
   }
@@ -473,6 +585,8 @@ export class Vault extends Arena {
     g.save(); g.translate(h.x, h.y + bob); g.rotate(rot + shake);
     g.drawImage(SNAKE.img, col * cell, row * cell, cell, cell, -size / 2, -size / 2, size, size);
     g.restore();
+    const at = s.attack?.t ?? -1;   // telegraph each strike so a sharp player can still react
+    if ((at >= 0 && at < 0.6) || (at > 0.8 && at < 1.2)) text(g, '!', h.x, h.y - 26 - Math.sin(t * 30) * 1.5, 22, '#ff4d5e', 'center');
     g.restore();
   }
   drawSnakeBody(g, pts) {
@@ -558,12 +672,21 @@ export class Vault extends Arena {
       g.fillStyle = bg; g.fillRect(x - 1.2, y0, 2.8, h);
     }
   }
-  drawChew(g) {
-    const [c, r] = this.snake.chewing, br = this.brickAt(c, r);
+  drawChew(g) { // bite marks eaten out of the edge facing the serpent, deeper with every chomp
+    const s = this.snake, [c, r] = s.chewing, br = this.brickAt(c, r);
     if (!br || br.kind === GRANITE) return;
-    const x = OX + c * CELL, y = OY + r * CELL, k = Math.min(1, this.snake.chew / this.snake.need);
-    g.strokeStyle = 'rgba(30,0,20,0.75)'; g.lineWidth = 1.2; g.beginPath();
-    g.moveTo(x + 3, y + 3); g.lineTo(x + 3 + 10 * k, y + 3 + 9 * k); g.moveTo(x + 13, y + 4); g.lineTo(x + 13 - 8 * k, y + 4 + 8 * k); g.stroke();
+    const x = OX + c * CELL, y = OY + r * CELL, k = Math.min(1, s.chew / s.need), ux = -Math.cos(s.dir), uy = -Math.sin(s.dir);
+    const ex = x + CELL / 2 + ux * CELL / 2, ey = y + CELL / 2 + uy * CELL / 2, tx = -uy, ty = ux; // centre of the bitten edge, and along it
+    g.save(); g.beginPath(); g.rect(x, y, CELL, CELL); g.clip();
+    const n = 1 + Math.floor(k * 3);
+    for (let i = 0; i < n; i++) {
+      const o = (i - (n - 1) / 2) * 5, rad = 2.5 + k * 4.5, bx = ex + tx * o, by = ey + ty * o;
+      g.fillStyle = 'rgba(16,6,26,0.92)'; g.beginPath(); g.arc(bx, by, rad, 0, 7); g.fill();
+      g.strokeStyle = 'rgba(255,255,255,0.25)'; g.lineWidth = 0.8; g.beginPath(); g.arc(bx, by, rad + 0.6, 0, 7); g.stroke();
+    }
+    g.strokeStyle = 'rgba(20,6,30,0.7)'; g.lineWidth = 1; g.beginPath(); // cracks running away from the bite
+    g.moveTo(ex, ey); g.lineTo(ex - ux * 9 * k + tx * 3, ey - uy * 9 * k + ty * 3); g.moveTo(ex, ey); g.lineTo(ex - ux * 7 * k - tx * 4, ey - uy * 7 * k - ty * 4); g.stroke();
+    g.restore();
   }
   drawBubble(g, x, y) {
     const b = this.bubble; if (!b || this.phase === 'escape' || this.phase === 'frenzy') return;
@@ -596,12 +719,13 @@ export class Vault extends Arena {
     const W = this.W, y = 44, x1 = W - 150;
     text(g, 'SERPENT', 52, 24, 13, '#d9b8f0');
     g.fillStyle = 'rgba(0,0,0,0.45)'; rrect(g, 52, y - 6, x1 - 52, 12, 6); g.fill();
-    const d = this.phase === 'rescue' ? this.danger || 0 : 0;
+    const d = this.phase === 'rescue' ? this.danger || 0 : this.phase === 'caught' ? 1 : 0;
     const col = d > 0.75 ? '#ff4d5e' : d > 0.45 ? '#ffb347' : '#7bd88f';
     const mg = g.createLinearGradient(0, y - 6, 0, y + 6); mg.addColorStop(0, shade(col, 0.4)); mg.addColorStop(1, shade(col, -0.25));
     g.fillStyle = mg; rrect(g, 52, y - 6, Math.max(12, (x1 - 52) * d), 12, 6); g.fill();
     g.fillStyle = 'rgba(255,255,255,0.35)'; rrect(g, 56, y - 4, Math.max(4, (x1 - 60) * d), 3, 1.5); g.fill();
-    text(g, this.phase === 'rescue' ? `${Math.round((1 - d) * 100)}% away` : 'SAFE!', x1 + 8, y, 12, this.phase === 'rescue' ? '#fff' : '#7bd88f');
+    const label = this.phase === 'caught' || this.snake.attack ? 'AT THE CAGE!' : this.phase === 'rescue' ? `${Math.round((1 - d) * 100)}% away` : 'SAFE!';
+    text(g, label, x1 + 8, y, 12, this.phase === 'caught' || this.snake.attack ? '#ff6b7a' : this.phase === 'rescue' ? '#fff' : '#7bd88f');
     if (this.phase === 'frenzy') text(g, `FRENZY ${Math.ceil(this.frenzyT)}`, W / 2, OY + ROWS * CELL + 40, 22, '#ffb35c', 'center');
     this.drawHUDBase(g);
   }

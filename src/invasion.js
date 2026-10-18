@@ -12,7 +12,7 @@ const COLS = 11, ROWS = 9, CW = 28, CH = 18;
 const EMPTY = 0, CANDY = 1, ARMOR = 2, POWERB = 3, BOT = 4;
 const ROW_COLORS = ['#ff5d8f', '#ff8a3d', '#ffd23f', '#5ccf6a', '#2ec4b6', '#3fa8f5', '#7b6cf6', '#c46bf0', '#ff5d8f'];
 const HP = { [CANDY]: 1, [ARMOR]: 3, [POWERB]: 1, [BOT]: 2 };
-const DROPS = ['split', 'fire', 'burst', 'wide', 'split', 'focus'];
+const DROPS = ['split', 'laser', 'burst', 'shrink', 'wide', 'fire', 'laser', 'shield', 'focus', 'slow', 'shrink'];
 // 'c' candy, 'a' armor, 'p' power, 'b' robot, '.' empty
 const LAYOUT = [
   '..bbbbbbb..',
@@ -25,7 +25,7 @@ const LAYOUT = [
   '.ccccccccc.',
   '..c.c.c.c..',
 ];
-const BOSS_HP = 30;
+const BOSS_HP = 36;
 
 // ---------- art: Blender renders when packed (inv_*), code-drawn fallbacks otherwise ----------
 const PLATE = ART?.invPlate ? loadImg(ART.invPlate) : null;
@@ -40,7 +40,7 @@ const botSprite = (color, expr) => spr(`bot_${BOT_KEY[color] || 'white'}_${expr}
 
 export class Invasion extends Arena {
   constructor(W, H) {
-    super(W, H, { accent: '#ff5d8f', top: 64, left: 10, right: 10 });
+    super(W, H, { accent: '#ff5d8f', top: 64, left: 10, right: 10, minPaddleY: 470 });
     this.name = 'Invasion'; this.subtitle = 'Clear the formation before it lands';
     this.homeX = (W - COLS * CW) / 2;
     this.grid = makeGrid(COLS, ROWS, CW, CH, this.homeX, 92);
@@ -56,7 +56,7 @@ export class Invasion extends Arena {
     this.bolts = []; this.boltT = 2.5; this.hurt = new Float32Array(COLS * ROWS);
     this.phase = 'formation'; this.boss = null;
     this.mood = new Array(COLS * ROWS).fill(null); this.moodT = new Float32Array(COLS * ROWS); this.windup = null;
-    this.debris = new Debris({ left: this.left, right: this.right, floor: H - 6, onPaddleHit: p => this.wreckOnPaddle(p) });
+    this.debris = new Debris({ left: this.left, right: this.right, floor: H + 200, killY: this.paddle.y + 70, onPaddleHit: p => this.wreckOnPaddle(p) });
   }
   setMood(k, name, secs) { this.mood[k] = name; this.moodT[k] = secs; }
   // a robot's face: reactions first, otherwise the two-step march (and a dented look once it's been hit)
@@ -84,16 +84,18 @@ export class Invasion extends Arena {
     if (!v) return;
     const x = G.ox + c * CW, y = G.oy + r * CH;
     G.hp[k] = b.fire ? 0 : G.hp[k] - 1;
-    if (G.hp[k] > 0) { sfx.tough(); this.hurt[k] = 0.12; this.fx.shatter(x, y, CW, CH, this.color[k], 2, 0.5); this.bump(0.04); if (v === BOT) this.setMood(k, 'dizzy', 0.45); return; }
+    if (G.hp[k] > 0) { sfx.tough(); this.hurt[k] = 0.12; this.fx.shatter(x, y, CW, CH, this.color[k], 1, 0.4); this.bump(0.04); if (v === BOT) this.setMood(k, 'dizzy', 0.45); return; }
     G.cells[k] = EMPTY;
     if (v === BOT) { // the robot pops off the formation, dazed, and tumbles down as a rigid body
       const s = botSprite(this.color[k], 'dizzy');
       const art = s ? { img: s.img, ox: s.margin, oy: s.margin, iw: s.uw, ih: s.uh } : cellArt(CANDY, r, this.color[k], 0);
       this.debris.drop(art, x, y, CW, CH, { robot: true, n: 2 }, (b?.vx || 0) * 0.25, -90, (Math.random() - 0.5) * 9);
-      this.fx.shatter(x, y, CW, CH, this.color[k], 4, 0.8);
-    } else {
-      this.debris.shatter(cellArt(v, r, this.color[k], v === ARMOR ? 2 : 0), x, y, CW, CH, b?.vx || 0, b?.vy || -200, v === ARMOR ? 5 : 4);
-      this.fx.shatter(x, y, CW, CH, this.color[k], 3, v === ARMOR ? 1.3 : 1);
+      this.fx.shatter(x, y, CW, CH, this.color[k], 2, 0.6);
+    } else { // a lone brick cracks and fades; only a big crash throws physical debris
+      const art = cellArt(v, r, this.color[k], v === ARMOR ? 2 : 0);
+      if (this.bigCrash(b)) this.debris.shatter(art, x, y, CW, CH, b?.vx || 0, b?.vy || -200, v === ARMOR ? 5 : 4);
+      else this.debris.crumble(art, x, y, CW, CH, b?.vx || 0, b?.vy || 0, v === ARMOR ? 5 : 4);
+      this.fx.shatter(x, y, CW, CH, this.color[k], 1, 0.6);
     }
     this.brokeBrick();
     this.addScore(v === BOT ? 60 : v === ARMOR ? 40 : 15, x + CW / 2, y);
@@ -137,6 +139,7 @@ export class Invasion extends Arena {
     }
     if (this.phase === 'formation') this.updateMarch(dt);
     if (this.phase === 'boss') this.updateBoss(dt);
+    if (this.phase === 'landed') this.updateLanded(dt);
     // bolts and bombs
     const p = this.paddle;
     for (const s of this.bolts) {
@@ -156,7 +159,7 @@ export class Invasion extends Arena {
     m.t -= dt;
     if (m.t <= 0) {
       // fewer invaders, faster march (the Space Invaders rule)
-      m.t = 0.25 + 0.8 * (n / this.total);
+      m.t = 0.2 + 0.7 * (n / this.total);
       m.frame ^= 1;
       const nx = G.ox + m.dir * 7, range = 14;
       if (Math.abs(nx - this.homeX) > range) { m.dir *= -1; G.oy += 14; this.bump(0.05); sfx.beat(); }
@@ -168,11 +171,11 @@ export class Invasion extends Arena {
         if (c >= 0 && r >= 0 && c < COLS && r < ROWS && G.cells[r * COLS + c]) { b.y = G.oy + (r + 1) * CH + b.r + 0.5; b.vy = Math.abs(b.vy); }
       }
     }
-    if (this.lowestY() >= this.dangerY) { this.fx.pop(this.W / 2, this.dangerY - 20, 'THEY LANDED', '#ff4d5e', 24); sfx.hurt(); this.bump(0.9); this.fail('The formation landed'); }
+    if (this.lowestY() >= this.dangerY) { this.land(); return; }
     // robots fire, more often as the formation shrinks
     this.boltT -= dt;
     if (this.boltT <= 0) {
-      this.boltT = 1.1 + 1.8 * (n / this.total) + Math.random() * 0.8;
+      this.boltT = 0.9 + 1.4 * (n / this.total) + Math.random() * 0.7;
       const shooters = [];
       for (let c = 0; c < COLS; c++) for (let r = ROWS - 1; r >= 0; r--) {
         const v = G.cells[r * COLS + c];
@@ -189,10 +192,44 @@ export class Invasion extends Arena {
     }
     if (this.windup && (this.windup.t -= dt) <= 0) {
       const k = this.windup.k, c = k % COLS, r = (k - c) / COLS; this.windup = null;
-      if (G.cells[k] === BOT) { this.bolts.push({ x: G.ox + c * CW + CW / 2, y: G.oy + (r + 1) * CH, vy: 170, r: 3.5, t: 0, from: k }); sfx.zap(); }
+      if (G.cells[k] === BOT) { this.bolts.push({ x: G.ox + c * CW + CW / 2, y: G.oy + (r + 1) * CH, vy: 200, r: 3.5, t: 0, from: k }); sfx.zap(); }
     }
   }
 
+  // The formation touches down: every robot laughs, the line flashes, a beam zaps the paddle, then it's over.
+  land() {
+    this.phase = 'landed'; this.landT = 0; this.bolts.length = 0; this.windup = null;
+    for (let k = 0; k < COLS * ROWS; k++) if (this.grid.cells[k] === BOT) this.setMood(k, 'laugh', 3);
+    this.fx.pop(this.W / 2, this.dangerY - 30, 'THEY LANDED!', '#ff4d5e', 28); sfx.hurt(); this.bump(0.9, 0.08);
+  }
+  updateLanded(dt) {
+    this.landT += dt;
+    if (this.landT > 0.5 && !this.beamed) { this.beamed = true; this.paddle.stun = 2; sfx.zap(); sfx.boom(); this.bump(0.7); this.fx.ring(this.paddle.x, this.paddle.y, '#ff4d5e', 50); }
+    if (this.landT > 1.6) this.fail('The formation landed');
+  }
+  continueRun() { // the formation is pushed back up three steps
+    if (this.phase === 'landed') {
+      this.phase = 'formation'; this.beamed = false; this.grid.oy -= 42;
+      for (let k = 0; k < COLS * ROWS; k++) if (this.grid.cells[k] === BOT) this.setMood(k, 'shock', 1);
+    }
+    super.continueRun();
+  }
+  // laser shots damage the mothership too
+  shotHit(s) {
+    const B = this.boss; if (!B) return false;
+    const dx = (s.x - B.x) / 44, dy = (s.y - (B.y - 2.8)) / 18;
+    if (dx * dx + dy * dy > 1) return false;
+    this.hitBoss(1, s.x, s.y); return true;
+  }
+  hitBoss(dmg, x, y) {
+    const B = this.boss;
+    B.hp -= dmg; B.hurt = 0.1; B.mood = ['hurt', 0.35];
+    this.combo++; this.bestCombo = Math.max(this.bestCombo, this.combo); sfx.hit(this.combo);
+    this.addScore(80, x, y - 10); this.bump(0.18, 0.04);
+    this.fx.shatter(x - 6, y - 6, 12, 12, '#c9d1e2', 3, 0.9);
+    if (B.hp % 6 === 0 && B.hp > 0) this.dropPower(B.x, B.y + 20, DROPS[(B.hp / 6) % DROPS.length]);
+    if (B.hp <= 0) this.killBoss();
+  }
   updateBoss(dt) {
     const B = this.boss;
     B.t += dt; B.hurt = Math.max(0, B.hurt - dt); if (B.mood) B.mood[1] -= dt;
@@ -201,8 +238,9 @@ export class Invasion extends Arena {
     B.x = this.W / 2 + Math.sin(B.t * (0.7 + rage * 0.8)) * (this.W / 2 - 80);
     B.bombT -= dt;
     if (B.bombT <= 0 && B.y > B.ty - 10) {
-      B.bombT = 1.9 - rage * 0.9;
-      this.bolts.push({ x: B.x, y: B.y + 18, vy: 150 + rage * 70, r: 6, t: 0, bomb: true }); B.mood = ['angry', 0.5];
+      B.bombT = 1.7 - rage * 0.8;
+      this.bolts.push({ x: B.x, y: B.y + 18, vy: 160 + rage * 80, r: 6, t: 0, bomb: true }); B.mood = ['angry', 0.5];
+      if (rage > 0.5) for (const sx of [-1, 1]) this.bolts.push({ x: B.x + sx * 38, y: B.y + 10, vy: 210, r: 3.5, t: 0 }); // enraged: wing guns too
       sfx.zap();
     }
     for (const b of this.balls) {
@@ -214,12 +252,8 @@ export class Invasion extends Arena {
       const vn = b.vx * nx + b.vy * ny;
       if (vn < 0) { b.vx -= 2 * vn * nx; b.vy -= 2 * vn * ny; }
       b.x = B.x + dx / d * ex * 1.01; b.y = B.y - 2.8 + dy / d * ey * 1.01; b.hitBoss = B.t;
-      B.hp -= b.fire ? 3 : 1; B.hurt = 0.1; B.mood = ['hurt', 0.35];
-      this.combo++; this.bestCombo = Math.max(this.bestCombo, this.combo); sfx.hit(this.combo);
-      this.addScore(80, b.x, b.y - 10); this.bump(0.18, 0.04);
-      this.fx.shatter(b.x - 6, b.y - 6, 12, 12, '#c9d1e2', 4, 0.9);
-      if (B.hp % 6 === 0 && B.hp > 0) this.dropPower(B.x, B.y + 20, DROPS[(B.hp / 6) % DROPS.length]);
-      if (B.hp <= 0) { this.killBoss(); return; }
+      this.hitBoss(b.titan > 0 ? 4 : b.fire ? 3 : 1, b.x, b.y);
+      if (!this.boss) return;
     }
   }
   killBoss() {
@@ -238,8 +272,9 @@ export class Invasion extends Arena {
   draw(g) {
     const { W, H } = this, G = this.grid;
     g.drawImage(this.background(), 0, 0, W, H);
-    // danger line: hazard stripes the formation must never touch
-    const near = this.phase === 'formation' ? Math.max(0, 1 - (this.dangerY - this.lowestY()) / 140) : 0;
+    this.drawDeck(g);
+    // danger line: quiet until the formation gets close, then it warns
+    const near = this.phase === 'landed' ? 1 : this.phase === 'formation' ? Math.max(0, 1 - (this.dangerY - this.lowestY()) / 140) : 0;
     this.drawHazard(g, this.dangerY, near);
     const [sx, sy] = this.shakeOffset();
     g.save(); g.translate(sx, sy);
@@ -298,6 +333,7 @@ export class Invasion extends Arena {
     if (!(PLATE?.complete && PLATE.naturalWidth)) { g.drawImage(this.background(), 0, 0, this.W, 1, 0, -h, this.W, h); return; }
     if (h > 40) g.drawImage(PLATE, 0, 0, PLATE.width, 1, 0, -h, 360, h - 39);
     g.drawImage(PLATE, 0, 0, PLATE.width, 80, 0, -40, 360, 40);
+    g.save(); g.beginPath(); g.rect(0, -h, this.W, h); g.clip(); this.calm(g); g.restore();
   }
   drawBolt(g, s) {
     const S = spr(s.bomb ? 'bomb' : 'bolt');
@@ -321,15 +357,19 @@ export class Invasion extends Arena {
     g.fillStyle = 'rgba(255,255,255,0.7)'; rrect(g, x + 1, y + 1.5, 1.4, 5, 0.7); g.fill();
   }
   drawHazard(g, y, near) {
-    const W = this.W;
-    g.save(); g.beginPath(); g.rect(this.left, y - 3, this.right - this.left, 6); g.clip();
-    g.fillStyle = '#1b1d2e'; g.fillRect(0, y - 3, W, 6);
-    g.fillStyle = near > 0.5 && Math.floor(this.t * 6) % 2 ? '#ff4d5e' : '#f4c542';
-    for (let x = -10; x < W + 10; x += 14) { g.beginPath(); g.moveTo(x, y + 3); g.lineTo(x + 7, y - 3); g.lineTo(x + 12, y - 3); g.lineTo(x + 5, y + 3); g.closePath(); g.fill(); }
+    const W = this.W, flash = near > 0.5 && Math.floor(this.t * 6) % 2;
+    g.save(); g.globalAlpha = 0.22 + near * 0.7;
+    g.beginPath(); g.rect(this.left, y - 2, this.right - this.left, 4); g.clip();
+    g.fillStyle = '#14162a'; g.fillRect(0, y - 2, W, 4);
+    g.fillStyle = flash ? '#ff4d5e' : near > 0.2 ? '#f4c542' : '#8d97b3';
+    for (let x = -10; x < W + 10; x += 12) { g.beginPath(); g.moveTo(x, y + 2); g.lineTo(x + 5, y - 2); g.lineTo(x + 9, y - 2); g.lineTo(x + 4, y + 2); g.closePath(); g.fill(); }
     g.restore();
-    g.globalAlpha = 0.5 + near * 0.4;
-    g.fillStyle = 'rgba(0,0,0,0.35)'; g.fillRect(this.left, y + 3, this.right - this.left, 2);
-    g.globalAlpha = 1;
+    if (this.phase === 'landed' && this.landT > 0.4 && this.landT < 1.2) { // the tractor beam down onto the paddle
+      const p = this.paddle, a = Math.sin(Math.min(1, (this.landT - 0.4) / 0.8) * Math.PI);
+      g.save(); g.globalCompositeOperation = 'lighter';
+      const bg = g.createLinearGradient(p.x - 30, 0, p.x + 30, 0); bg.addColorStop(0, 'rgba(255,77,94,0)'); bg.addColorStop(0.5, `rgba(255,120,140,${0.6 * a})`); bg.addColorStop(1, 'rgba(255,77,94,0)');
+      g.fillStyle = bg; g.fillRect(p.x - 30, y, 60, p.y - y + 10); g.restore();
+    }
   }
   drawHUD(g) {
     const W = this.W;
@@ -355,7 +395,10 @@ export class Invasion extends Arena {
   background() {
     return cached('inv-bg' + this.W + 'x' + this.H + (PLATE?.complete ? 'p' : ''), this.W, this.H, g => {
       const { W, H } = this;
-      if (PLATE?.complete && PLATE.naturalWidth) { g.drawImage(PLATE, 0, -40, 360, 820); if (H > 780) g.drawImage(PLATE, 0, PLATE.height - 2, PLATE.width, 2, 0, 780, W, H - 780); return; }
+      if (PLATE?.complete && PLATE.naturalWidth) {
+        g.drawImage(PLATE, 0, -40, 360, 820); if (H > 780) g.drawImage(PLATE, 0, PLATE.height - 2, PLATE.width, 2, 0, 780, W, H - 780);
+        this.calm(g); return;
+      }
       const bg = g.createLinearGradient(0, 0, 0, H);
       bg.addColorStop(0, '#1a1f36'); bg.addColorStop(0.6, '#12162a'); bg.addColorStop(1, '#0a0c18');
       g.fillStyle = bg; g.fillRect(0, 0, W, H);
@@ -405,6 +448,19 @@ export class Invasion extends Arena {
       vignette(g, W, H, 0.55);
       drawGrain(g, W, H);
     });
+  }
+  // The hangar render is lovely but busy; knock it back so the play reads first: less saturation, darker overall,
+  // and darker still in the lower hangar (its neon and panels sit right behind the paddle).
+  calm(g) {
+    const { W, H } = this;
+    g.save();
+    g.globalCompositeOperation = 'saturation'; g.fillStyle = 'rgba(128,128,128,0.38)'; g.fillRect(-1, -60, W + 2, H + 60);
+    g.globalCompositeOperation = 'source-over'; g.fillStyle = 'rgba(6,8,20,0.4)'; g.fillRect(-1, -60, W + 2, H + 60);
+    const pg = g.createRadialGradient(262, 350, 20, 262, 350, 150); // the ringed planet is the loudest thing in the window
+    pg.addColorStop(0, 'rgba(6,8,20,0.45)'); pg.addColorStop(1, 'rgba(6,8,20,0)'); g.fillStyle = pg; g.fillRect(100, 190, 260, 320);
+    const lg = g.createLinearGradient(0, 420, 0, 520); lg.addColorStop(0, 'rgba(6,8,20,0)'); lg.addColorStop(1, 'rgba(6,8,20,0.42)');
+    g.fillStyle = lg; g.fillRect(0, 420, W, H - 420);
+    g.restore();
   }
   result() {
     const stars = this.state !== 'won' ? 0 : 1 + (this.lives >= 2 ? 1 : 0) + (this.lives >= 3 && this.bestCombo >= 12 ? 1 : 0);
