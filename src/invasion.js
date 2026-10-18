@@ -208,12 +208,12 @@ export class Invasion extends Arena {
     for (const b of this.balls) {
       if (b.caught) continue;
       // saucer is an ellipse; test the ball against it in a stretched space
-      const ex = 60 + b.r, ey = 18 + b.r, dx = (b.x - B.x) / ex, dy = (b.y - (B.y - 2)) / ey, d = Math.hypot(dx, dy);
+      const ex = 44 + b.r, ey = 18 + b.r, dx = (b.x - B.x) / ex, dy = (b.y - (B.y - 2.8)) / ey, d = Math.hypot(dx, dy);  // the rendered saucer's hull
       if (d >= 1 || (b.hitBoss && B.t - b.hitBoss < 0.08)) continue;
       let nx = dx / ex, ny = dy / ey; const m = Math.hypot(nx, ny) || 1; nx /= m; ny /= m;
       const vn = b.vx * nx + b.vy * ny;
       if (vn < 0) { b.vx -= 2 * vn * nx; b.vy -= 2 * vn * ny; }
-      b.x = B.x + dx / d * ex * 1.01; b.y = B.y - 2 + dy / d * ey * 1.01; b.hitBoss = B.t;
+      b.x = B.x + dx / d * ex * 1.01; b.y = B.y - 2.8 + dy / d * ey * 1.01; b.hitBoss = B.t;
       B.hp -= b.fire ? 3 : 1; B.hurt = 0.1; B.mood = ['hurt', 0.35];
       this.combo++; this.bestCombo = Math.max(this.bestCombo, this.combo); sfx.hit(this.combo);
       this.addScore(80, b.x, b.y - 10); this.bump(0.18, 0.04);

@@ -1,5 +1,5 @@
 // Entry: canvas sizing, fixed-step loop, input mapping and the three scenes (menu, level, results).
-import { setDPR, text, rrect, shade, vignette, drawGrain, cached, brick, FONT, artLoaded } from './gfx.js';
+import { setDPR, text, rrect, shade, vignette, drawGrain, cached, brick, FONT, artLoaded, SPR, ready } from './gfx.js';
 import { unlockAudio, setMuted, isMuted, sfx } from './audio.js';
 import { Invasion } from './invasion.js';
 import { Vault, drawPrincessIcon } from './vault.js';
@@ -183,7 +183,9 @@ function drawMenu() {
     text(g, L.sub, x + 16, y + ch - 20, 12, '#c9cfee');
     for (let s = 0; s < 3; s++) star(x + cw - 66 + s * 22, y + ch - 47, 8, s < best[i]);
     // a character peeks out on each card
-    if (i === 0) drawInvader(g, x + cw - 52, y + 10, 36, 24, '#5ccf6a', Math.floor(menuT * 3) % 2, Math.sin(menuT));
+    const bot = SPR[`inv_bot_blue_${['march0', 'march1', 'march0', 'march1', 'laugh', 'laugh'][Math.floor(menuT * 3) % 6]}`];
+    if (i === 0 && ready(bot)) g.drawImage(bot.img, x + cw - 64, y + 6, bot.uw * 1.4, bot.uh * 1.4);
+    else if (i === 0) drawInvader(g, x + cw - 52, y + 10, 36, 24, '#5ccf6a', Math.floor(menuT * 3) % 2, Math.sin(menuT));
     else drawPrincessIcon(g, x + cw - 36, y + 34, 64, menuT);
   });
   text(g, 'Drag anywhere to move · hold still on a catch to aim', W / 2, H - 52, 12, 'rgba(220,226,255,0.65)', 'center');

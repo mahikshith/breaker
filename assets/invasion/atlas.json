@@ -1,0 +1,1968 @@
+{
+ "version": 1,
+ "units": "game units (1 unit = 0.1 m in Blender); screen is 360 units wide",
+ "board": {
+  "ox": 26,
+  "oy": 92,
+  "cols": 11,
+  "rows": 9,
+  "cellW": 28,
+  "cellH": 18,
+  "note": "formation origin at the start; it marches +-14 sideways and steps down 14, so draw bricks relative to the live origin"
+ },
+ "plate": {
+  "file": "plate.png",
+  "jpg": "plate.jpg",
+  "px": [
+   720,
+   1640
+  ],
+  "ppu": 2,
+  "screenRect": [
+   0,
+   -40,
+   360,
+   820
+  ],
+  "convention": "pixel (px, py) <-> screen (x, y): px = 2*x, py = 2*(y + 40); draw plate at screen (0, -40) with size 360 x 820 units",
+  "stretchNote": "everything below y = 500 is generic wall / deck; stretch or tile that band for screens taller than 780"
+ },
+ "spriteConvention": "sprites are 3 px/unit; draw each centred on its anchor at the footprint centre, at size drawSize (units) = px / 3. Cell sprites (bricks, bots, masks): footprint 28 x 18 + a 4-unit transparent margin, so a cell (c, r) is drawn at x = ox + c*28 - 4, y = oy + r*18 - 4, w = 36, h = 26. Mothership: drawSize 108 x 80 centred on the boss position; its hit ellipse (radii 44 x 18) is centred hullCenter units from the sprite centre. bolt 16 x 24, bomb 20 x 24, centred.",
+ "tintJitter": 0.04,
+ "tintNote": "multiply glazed candy brick RGB by 1 + tintJitter*(2*hash(c,r)-1) for per-brick variation (composite.png does this)",
+ "botTint": "bot_white_<expr> has a near-white body (#f4f6fb). To tint to any colour T: draw bot_white, then draw it again into an offscreen buffer, multiply by T, keep only bot_mask_<expr> (destination-in) and draw that over. pink / yellow / blue are real renders for rows 0, 2, 5.",
+ "botColors": {
+  "white": "#f4f6fb",
+  "pink": "#ff5d8f",
+  "yellow": "#ffd23f",
+  "blue": "#3fa8f5"
+ },
+ "rowColors": [
+  "#ff5d8f",
+  "#ff8a3d",
+  "#ffd23f",
+  "#5ccf6a",
+  "#2ec4b6",
+  "#3fa8f5",
+  "#7b6cf6",
+  "#c46bf0",
+  "#ff5d8f"
+ ],
+ "anchors": {
+  "window": [
+   14,
+   46,
+   332,
+   388
+  ],
+  "windowRadius": 26,
+  "planet": [
+   266,
+   356,
+   98
+  ],
+  "moon": [
+   58,
+   82,
+   12
+  ],
+  "sillLed": 463.1,
+  "mullionsX": [
+   124,
+   236
+  ],
+  "indicatorLights": [
+   [
+    168.0,
+    493,
+    "#4fe9ff"
+   ],
+   [
+    180.0,
+    493,
+    "#4fe9ff"
+   ],
+   [
+    192.0,
+    493,
+    "#ff5d8f"
+   ],
+   [
+    330,
+    486,
+    "#c46bf0"
+   ],
+   [
+    30,
+    646,
+    "#7dff9a"
+   ],
+   [
+    39,
+    646,
+    "#4fe9ff"
+   ]
+  ]
+ },
+ "sprites": {
+  "brick_c_0_0": {
+   "file": "brick_c_0_0.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#ff5d8f",
+   "dmg": 0
+  },
+  "brick_c_0_1": {
+   "file": "brick_c_0_1.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#ff5d8f",
+   "dmg": 1
+  },
+  "brick_c_0_2": {
+   "file": "brick_c_0_2.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#ff5d8f",
+   "dmg": 2
+  },
+  "brick_c_1_0": {
+   "file": "brick_c_1_0.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#ff8a3d",
+   "dmg": 0
+  },
+  "brick_c_1_1": {
+   "file": "brick_c_1_1.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#ff8a3d",
+   "dmg": 1
+  },
+  "brick_c_1_2": {
+   "file": "brick_c_1_2.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#ff8a3d",
+   "dmg": 2
+  },
+  "brick_c_2_0": {
+   "file": "brick_c_2_0.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#ffd23f",
+   "dmg": 0
+  },
+  "brick_c_2_1": {
+   "file": "brick_c_2_1.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#ffd23f",
+   "dmg": 1
+  },
+  "brick_c_2_2": {
+   "file": "brick_c_2_2.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#ffd23f",
+   "dmg": 2
+  },
+  "brick_c_3_0": {
+   "file": "brick_c_3_0.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#5ccf6a",
+   "dmg": 0
+  },
+  "brick_c_3_1": {
+   "file": "brick_c_3_1.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#5ccf6a",
+   "dmg": 1
+  },
+  "brick_c_3_2": {
+   "file": "brick_c_3_2.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#5ccf6a",
+   "dmg": 2
+  },
+  "brick_c_4_0": {
+   "file": "brick_c_4_0.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#2ec4b6",
+   "dmg": 0
+  },
+  "brick_c_4_1": {
+   "file": "brick_c_4_1.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#2ec4b6",
+   "dmg": 1
+  },
+  "brick_c_4_2": {
+   "file": "brick_c_4_2.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#2ec4b6",
+   "dmg": 2
+  },
+  "brick_c_5_0": {
+   "file": "brick_c_5_0.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#3fa8f5",
+   "dmg": 0
+  },
+  "brick_c_5_1": {
+   "file": "brick_c_5_1.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#3fa8f5",
+   "dmg": 1
+  },
+  "brick_c_5_2": {
+   "file": "brick_c_5_2.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#3fa8f5",
+   "dmg": 2
+  },
+  "brick_c_6_0": {
+   "file": "brick_c_6_0.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#7b6cf6",
+   "dmg": 0
+  },
+  "brick_c_6_1": {
+   "file": "brick_c_6_1.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#7b6cf6",
+   "dmg": 1
+  },
+  "brick_c_6_2": {
+   "file": "brick_c_6_2.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#7b6cf6",
+   "dmg": 2
+  },
+  "brick_c_7_0": {
+   "file": "brick_c_7_0.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#c46bf0",
+   "dmg": 0
+  },
+  "brick_c_7_1": {
+   "file": "brick_c_7_1.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#c46bf0",
+   "dmg": 1
+  },
+  "brick_c_7_2": {
+   "file": "brick_c_7_2.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#c46bf0",
+   "dmg": 2
+  },
+  "brick_c_8_0": {
+   "file": "brick_c_8_0.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#ff5d8f",
+   "dmg": 0
+  },
+  "brick_c_8_1": {
+   "file": "brick_c_8_1.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#ff5d8f",
+   "dmg": 1
+  },
+  "brick_c_8_2": {
+   "file": "brick_c_8_2.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "candy",
+   "color": "#ff5d8f",
+   "dmg": 2
+  },
+  "brick_a_0": {
+   "file": "brick_a_0.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "armor",
+   "color": "#8d97b3",
+   "dmg": 0,
+   "hpLeft": 3
+  },
+  "brick_a_1": {
+   "file": "brick_a_1.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "armor",
+   "color": "#8d97b3",
+   "dmg": 1,
+   "hpLeft": 2
+  },
+  "brick_a_2": {
+   "file": "brick_a_2.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "armor",
+   "color": "#8d97b3",
+   "dmg": 2,
+   "hpLeft": 1
+  },
+  "brick_p_0": {
+   "file": "brick_p_0.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "power",
+   "color": "#f4c542"
+  },
+  "bot_white_march0": {
+   "file": "bot_white_march0.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "white",
+   "color": "#f4f6fb",
+   "expr": "march0",
+   "mask": "bot_mask_march0.png"
+  },
+  "bot_white_march1": {
+   "file": "bot_white_march1.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "white",
+   "color": "#f4f6fb",
+   "expr": "march1",
+   "mask": "bot_mask_march1.png"
+  },
+  "bot_white_angry": {
+   "file": "bot_white_angry.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "white",
+   "color": "#f4f6fb",
+   "expr": "angry",
+   "mask": "bot_mask_angry.png"
+  },
+  "bot_white_hurt": {
+   "file": "bot_white_hurt.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "white",
+   "color": "#f4f6fb",
+   "expr": "hurt",
+   "mask": "bot_mask_hurt.png"
+  },
+  "bot_white_dizzy": {
+   "file": "bot_white_dizzy.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "white",
+   "color": "#f4f6fb",
+   "expr": "dizzy",
+   "mask": "bot_mask_dizzy.png"
+  },
+  "bot_white_laugh": {
+   "file": "bot_white_laugh.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "white",
+   "color": "#f4f6fb",
+   "expr": "laugh",
+   "mask": "bot_mask_laugh.png"
+  },
+  "bot_white_shock": {
+   "file": "bot_white_shock.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "white",
+   "color": "#f4f6fb",
+   "expr": "shock",
+   "mask": "bot_mask_shock.png"
+  },
+  "bot_pink_march0": {
+   "file": "bot_pink_march0.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "pink",
+   "color": "#ff5d8f",
+   "expr": "march0"
+  },
+  "bot_pink_march1": {
+   "file": "bot_pink_march1.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "pink",
+   "color": "#ff5d8f",
+   "expr": "march1"
+  },
+  "bot_pink_angry": {
+   "file": "bot_pink_angry.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "pink",
+   "color": "#ff5d8f",
+   "expr": "angry"
+  },
+  "bot_pink_hurt": {
+   "file": "bot_pink_hurt.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "pink",
+   "color": "#ff5d8f",
+   "expr": "hurt"
+  },
+  "bot_pink_dizzy": {
+   "file": "bot_pink_dizzy.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "pink",
+   "color": "#ff5d8f",
+   "expr": "dizzy"
+  },
+  "bot_pink_laugh": {
+   "file": "bot_pink_laugh.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "pink",
+   "color": "#ff5d8f",
+   "expr": "laugh"
+  },
+  "bot_pink_shock": {
+   "file": "bot_pink_shock.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "pink",
+   "color": "#ff5d8f",
+   "expr": "shock"
+  },
+  "bot_yellow_march0": {
+   "file": "bot_yellow_march0.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "yellow",
+   "color": "#ffd23f",
+   "expr": "march0"
+  },
+  "bot_yellow_march1": {
+   "file": "bot_yellow_march1.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "yellow",
+   "color": "#ffd23f",
+   "expr": "march1"
+  },
+  "bot_yellow_angry": {
+   "file": "bot_yellow_angry.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "yellow",
+   "color": "#ffd23f",
+   "expr": "angry"
+  },
+  "bot_yellow_hurt": {
+   "file": "bot_yellow_hurt.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "yellow",
+   "color": "#ffd23f",
+   "expr": "hurt"
+  },
+  "bot_yellow_dizzy": {
+   "file": "bot_yellow_dizzy.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "yellow",
+   "color": "#ffd23f",
+   "expr": "dizzy"
+  },
+  "bot_yellow_laugh": {
+   "file": "bot_yellow_laugh.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "yellow",
+   "color": "#ffd23f",
+   "expr": "laugh"
+  },
+  "bot_yellow_shock": {
+   "file": "bot_yellow_shock.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "yellow",
+   "color": "#ffd23f",
+   "expr": "shock"
+  },
+  "bot_blue_march0": {
+   "file": "bot_blue_march0.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "blue",
+   "color": "#3fa8f5",
+   "expr": "march0"
+  },
+  "bot_blue_march1": {
+   "file": "bot_blue_march1.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "blue",
+   "color": "#3fa8f5",
+   "expr": "march1"
+  },
+  "bot_blue_angry": {
+   "file": "bot_blue_angry.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "blue",
+   "color": "#3fa8f5",
+   "expr": "angry"
+  },
+  "bot_blue_hurt": {
+   "file": "bot_blue_hurt.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "blue",
+   "color": "#3fa8f5",
+   "expr": "hurt"
+  },
+  "bot_blue_dizzy": {
+   "file": "bot_blue_dizzy.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "blue",
+   "color": "#3fa8f5",
+   "expr": "dizzy"
+  },
+  "bot_blue_laugh": {
+   "file": "bot_blue_laugh.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "blue",
+   "color": "#3fa8f5",
+   "expr": "laugh"
+  },
+  "bot_blue_shock": {
+   "file": "bot_blue_shock.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "bot",
+   "colorKey": "blue",
+   "color": "#3fa8f5",
+   "expr": "shock"
+  },
+  "bot_mask_march0": {
+   "file": "bot_mask_march0.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "botmask",
+   "expr": "march0"
+  },
+  "bot_mask_march1": {
+   "file": "bot_mask_march1.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "botmask",
+   "expr": "march1"
+  },
+  "bot_mask_angry": {
+   "file": "bot_mask_angry.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "botmask",
+   "expr": "angry"
+  },
+  "bot_mask_hurt": {
+   "file": "bot_mask_hurt.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "botmask",
+   "expr": "hurt"
+  },
+  "bot_mask_dizzy": {
+   "file": "bot_mask_dizzy.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "botmask",
+   "expr": "dizzy"
+  },
+  "bot_mask_laugh": {
+   "file": "bot_mask_laugh.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "botmask",
+   "expr": "laugh"
+  },
+  "bot_mask_shock": {
+   "file": "bot_mask_shock.png",
+   "px": [
+    108,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    54.0,
+    39.0
+   ],
+   "footprint": [
+    28,
+    18
+   ],
+   "drawSize": [
+    36.0,
+    26.0
+   ],
+   "margin": 4,
+   "kind": "botmask",
+   "expr": "shock"
+  },
+  "bolt": {
+   "file": "bolt.png",
+   "px": [
+    48,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    24.0,
+    36.0
+   ],
+   "footprint": [
+    6,
+    14
+   ],
+   "drawSize": [
+    16.0,
+    24.0
+   ],
+   "margin": null,
+   "kind": "projectile"
+  },
+  "bomb": {
+   "file": "bomb.png",
+   "px": [
+    60,
+    72
+   ],
+   "ppu": 3,
+   "anchor": [
+    30.0,
+    36.0
+   ],
+   "footprint": [
+    12,
+    12
+   ],
+   "drawSize": [
+    20.0,
+    24.0
+   ],
+   "margin": null,
+   "kind": "projectile"
+  },
+  "mothership_smug": {
+   "file": "mothership_smug.png",
+   "px": [
+    324,
+    240
+   ],
+   "ppu": 3,
+   "anchor": [
+    162.0,
+    120.0
+   ],
+   "footprint": [
+    94,
+    38
+   ],
+   "drawSize": [
+    108.0,
+    80.0
+   ],
+   "margin": null,
+   "kind": "boss",
+   "expr": "smug",
+   "hitEllipse": [
+    44,
+    18
+   ],
+   "hullCenter": [
+    0,
+    -2.8
+   ]
+  },
+  "mothership_angry": {
+   "file": "mothership_angry.png",
+   "px": [
+    324,
+    240
+   ],
+   "ppu": 3,
+   "anchor": [
+    162.0,
+    120.0
+   ],
+   "footprint": [
+    94,
+    38
+   ],
+   "drawSize": [
+    108.0,
+    80.0
+   ],
+   "margin": null,
+   "kind": "boss",
+   "expr": "angry",
+   "hitEllipse": [
+    44,
+    18
+   ],
+   "hullCenter": [
+    0,
+    -2.8
+   ]
+  },
+  "mothership_hurt": {
+   "file": "mothership_hurt.png",
+   "px": [
+    324,
+    240
+   ],
+   "ppu": 3,
+   "anchor": [
+    162.0,
+    120.0
+   ],
+   "footprint": [
+    94,
+    38
+   ],
+   "drawSize": [
+    108.0,
+    80.0
+   ],
+   "margin": null,
+   "kind": "boss",
+   "expr": "hurt",
+   "hitEllipse": [
+    44,
+    18
+   ],
+   "hullCenter": [
+    0,
+    -2.8
+   ]
+  },
+  "mothership_panic": {
+   "file": "mothership_panic.png",
+   "px": [
+    324,
+    240
+   ],
+   "ppu": 3,
+   "anchor": [
+    162.0,
+    120.0
+   ],
+   "footprint": [
+    94,
+    38
+   ],
+   "drawSize": [
+    108.0,
+    80.0
+   ],
+   "margin": null,
+   "kind": "boss",
+   "expr": "panic",
+   "hitEllipse": [
+    44,
+    18
+   ],
+   "hullCenter": [
+    0,
+    -2.8
+   ]
+  },
+  "mothership_dizzy": {
+   "file": "mothership_dizzy.png",
+   "px": [
+    324,
+    240
+   ],
+   "ppu": 3,
+   "anchor": [
+    162.0,
+    120.0
+   ],
+   "footprint": [
+    94,
+    38
+   ],
+   "drawSize": [
+    108.0,
+    80.0
+   ],
+   "margin": null,
+   "kind": "boss",
+   "expr": "dizzy",
+   "hitEllipse": [
+    44,
+    18
+   ],
+   "hullCenter": [
+    0,
+    -2.8
+   ]
+  },
+  "mothership_lights_0": {
+   "file": "mothership_lights_0.png",
+   "px": [
+    324,
+    240
+   ],
+   "ppu": 3,
+   "anchor": [
+    162.0,
+    120.0
+   ],
+   "footprint": [
+    94,
+    38
+   ],
+   "drawSize": [
+    108.0,
+    80.0
+   ],
+   "margin": null,
+   "kind": "bossLights",
+   "note": "additive-friendly overlay; draw over mothership_* with the same rect, alternate 0/1"
+  },
+  "mothership_lights_1": {
+   "file": "mothership_lights_1.png",
+   "px": [
+    324,
+    240
+   ],
+   "ppu": 3,
+   "anchor": [
+    162.0,
+    120.0
+   ],
+   "footprint": [
+    94,
+    38
+   ],
+   "drawSize": [
+    108.0,
+    80.0
+   ],
+   "margin": null,
+   "kind": "bossLights",
+   "note": "additive-friendly overlay; draw over mothership_* with the same rect, alternate 0/1"
+  }
+ }
+}
