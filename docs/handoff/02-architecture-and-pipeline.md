@@ -137,6 +137,16 @@ The owner has given feedback on several rounds of character drafts.
 - **Robots:** glossy toy robots in 4 colours with 7 expressions.
 - **Mothership:** a saucer with an alien face and 5 expressions.
 
+### Before committing renders
+
+Strip PNG text metadata, because Blender embeds the source .blend path:
+
+```
+python3 -c "import glob;from PIL import Image;[Image.open(f).save(f) for f in glob.glob('assets/**/*.png',recursive=True)]"
+```
+
+Then run `pack_art.py` and the build again.
+
 ## 4. Build, test, publish
 
 - **Build:** `npm install`, then `npm run build`. The bundler is esbuild (`tools/build.mjs`), output is a single minified IIFE, about 1.2 MB.

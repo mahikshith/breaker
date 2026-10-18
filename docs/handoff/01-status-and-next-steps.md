@@ -4,6 +4,19 @@ Read all three handoff docs before touching code: this one (status, rules, TODO 
 
 ## Progress log (newest first)
 
+- **2026-10-18 (round 3, merged to `main`).** Owner feedback: remove distractions so the focus is the snake, the princess, the gameplay and the power-ups.
+  - **Removed:** torchlight, dust motes, the window bars across Saturn, and the WIDE/TINY HUD chips.
+  - **Serpent meter:** a colour-only bar running green → amber → red, with no "% away".
+  - **Serpent behaviour:**
+    - it grows longer and thicker as it eats, and a swallow bulge travels down its body;
+    - it starts sluggish and speeds up (`speedK` in `updateSnake`);
+    - bites lunge harder and throw more chips.
+  - **Camera:** it pushes in as danger rises (anchored on the paddle line), then zooms to 1.55× on the cage during the attack.
+  - **Cage:** a dark stone cell with a cool light on the princess, and a rendered dark-iron `bars.png` (code fallback in `drawBars`).
+  - **Full screen:** the canvas covers the whole phone screen, and the edges mirror out (`fillMargins`). The menu has a Full screen button where the browser supports it.
+  - **Art v3:** glazed bricks, the new caps and titan ball, a torch-free Vault plate, a calmer Invasion plate, princess `Nervous`/`Panic`, serpent `snarl`/`strike`.
+  - **PNG metadata:** Blender writes the .blend path, which contains the home folder name, into PNG metadata. Strip it before committing; see the snippet in doc 02.
+
 - **2026-10-18 (edge-to-edge):** owner asked for a true full-screen layout with no dead band at the top. A dimmer Saturn followed: "the background must not outshine the foreground". They also wanted to actually see WIDE in play.
   - `main.js` `LIFT = 34`: each level is built `H + LIFT` tall, drawn shifted up by `LIFT`, and its pointer y is offset by `LIFT`.
   - The levels draw their top HUD at `this.hudY`. The deck fills into the home-indicator strip via `this.inB`.
