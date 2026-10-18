@@ -153,6 +153,7 @@ public class MobileSmokeTest {
                 assertFullscreenAndSafeArea();
                 assertEquals("Transient bars preserve the live level", "true", js("window.__breach.level===window.__previewLevel"));
             }
+            await("document.hasFocus()");
             int[] origin = new int[2];
             AtomicReference<Integer> width = new AtomicReference<>(), height = new AtomicReference<>();
             scenario.onActivity(value -> { value.game.getLocationOnScreen(origin); width.set(value.game.getWidth()); height.set(value.game.getHeight()); });

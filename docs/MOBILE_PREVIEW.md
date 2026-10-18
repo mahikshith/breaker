@@ -35,3 +35,5 @@ gradle -p android assembleDebug assembleDebugAndroidTest lintDebug connectedDebu
 The workflow runs Carrier and shared phone suites before Android lint, then installs and tests with network disabled on an Android15 Pixel6 emulator. Debug keyboard test hooks and browser fixtures do not establish physical-phone audio, thermal/memory behavior, thumb comfort or Safari behavior.
 
 Previous pre-Brum APK history remains at [the earlier successful run](https://github.com/mahikshith/breaker/actions/runs/39108320738). It is not this Carrier build.
+
+The initial Carrier run39122761324 passed web/build/lint but failed native touch injection under an unrelated launcher ANR system dialog. Emulator startup now stops the background launcher and acknowledges the OS immersive hint; input still uses native MotionEvents and every gameplay/fullscreen assertion remains. A fresh passing run is required before APK delivery.
