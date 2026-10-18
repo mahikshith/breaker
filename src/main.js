@@ -16,6 +16,7 @@ let H = 740, scale = 1, FH = 740, inT = 0, inB = 0; // FH: full canvas height; H
 // Levels are laid out with room for a HUD at the top; LIFT slides the whole level up under a slim HUD bar so the
 // play reaches right up to the status bar (the level is built LIFT taller so its bottom still meets the screen's)
 const LIFT = 34;
+let offX = 0, offY = 0; // world units of screen beyond the 360 x FH frame: phones fill edge to edge, margins mirror the frame's edges
 const cv = document.getElementById('game'), g = cv.getContext('2d');
 
 let best = store.get('best') || [0, 0];
@@ -32,15 +33,18 @@ function safeInsets() {
 }
 function resize() {
   const iw = document.body.clientWidth || innerWidth, ih = document.body.clientHeight || innerHeight, [st, sb] = safeInsets();
-  FH = iw < ih ? Math.round(Math.max(640, Math.min(880, (W * ih) / iw))) : 740;
+  const portrait = iw < ih;
+  FH = portrait ? Math.round(Math.max(600, Math.min(880, (W * ih) / iw))) : 740;
   scale = Math.min(iw / W, ih / FH);
+  const cw = portrait ? iw : W * scale, ch = portrait ? ih : FH * scale;   // portrait: the canvas covers the whole screen
+  offX = (cw / scale - W) / 2; offY = (ch / scale - FH) / 2;
   inT = iw < ih ? st / scale : 0; inB = iw < ih ? sb / scale : 0;
   H = Math.round(FH - inT - inB);
   const dpr = Math.min(3, devicePixelRatio || 1);
-  cv.style.width = `${W * scale}px`; cv.style.height = `${FH * scale}px`;
-  cv.width = Math.round(W * scale * dpr); cv.height = Math.round(FH * scale * dpr);
+  cv.style.width = `${cw}px`; cv.style.height = `${ch}px`;
+  cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr);
   setDPR(scale * dpr);
-  g.setTransform(scale * dpr, 0, 0, scale * dpr, 0, 0);
+  g.setTransform(scale * dpr, 0, 0, scale * dpr, offX * scale * dpr, offY * scale * dpr);
   previews = [];
   if (level && (level.W !== W || level.H !== H + LIFT)) start(levelIdx); // geometry depends on H
 }
@@ -51,7 +55,7 @@ function start(i) {
 }
 
 // ---------- input ----------
-const toWorld = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) / scale, (e.clientY - r.top) / scale - inT]; };
+const toWorld = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) / scale - offX, (e.clientY - r.top) / scale - offY - inT]; };
 cv.addEventListener('pointerdown', e => {
   unlockAudio(); cv.setPointerCapture(e.pointerId);
   const [x, y] = toWorld(e);
@@ -192,7 +196,10 @@ function drawMenu() {
     else drawPrincessIcon(g, x + cw - 36, y + 34, 64, menuT);
   });
   text(g, 'Drag to move · hold still as the ball lands to catch & aim', W / 2, H - 52, 12, 'rgba(220,226,255,0.65)', 'center');
-  button(isMuted() ? 'Sound: off' : 'Sound: on', W / 2 - 60, H - 38, 120, 30, '#4b5370', () => setMuted(!isMuted()), true);
+  if (canFull()) {
+    button(isMuted() ? 'Sound: off' : 'Sound: on', W / 2 - 128, H - 38, 120, 30, '#4b5370', () => setMuted(!isMuted()), true);
+    button('Full screen', W / 2 + 8, H - 38, 120, 30, '#3f6fd1', goFull, true);
+  } else button(isMuted() ? 'Sound: off' : 'Sound: on', W / 2 - 60, H - 38, 120, 30, '#4b5370', () => setMuted(!isMuted()), true);
 }
 
 // ---------- continue offer (after a loss, before the results) ----------
@@ -288,9 +295,9 @@ function drawResults() {
 
 function draw() {
   buttons = [];
-  g.save(); g.clearRect(0, 0, W, FH);
+  g.save(); g.clearRect(-offX - 1, -offY - 1, W + offX * 2 + 2, FH + offY * 2 + 2);
   // extend the scene's top and bottom pixel rows under the notch and home indicator
-  const bg = scene === 'menu' ? menuBg() : level.background(), k = bg.height / H;
+  const bg = scene === 'menu' ? menuBg() : level.background(), k = bg.height / (scene === 'menu' ? H : H + LIFT);
   const top = scene === 'menu' ? inT : inT - LIFT;   // screen space above the level's y = 0
   if (top > 0 && scene !== 'menu' && level.drawTopInset) { g.save(); g.translate(0, top); level.drawTopInset(g, top + 1); g.restore(); }
   else if (top > 0) g.drawImage(bg, 0, 0, bg.width, k, 0, 0, W, top + 1);
@@ -304,7 +311,20 @@ function draw() {
     drawToast();
   }
   g.restore();
+  fillMargins();
 }
+// Screens wider or taller than the frame: stretch the frame's outermost pixels into the margins so the scene runs to every edge
+function fillMargins() {
+  const k = scale * Math.min(3, devicePixelRatio || 1), x0 = Math.round(offX * k), y0 = Math.round(offY * k), w = Math.round(W * k), h = Math.round(FH * k);
+  if (x0 < 1 && y0 < 1) return;
+  g.save(); g.setTransform(1, 0, 0, 1, 0, 0);
+  if (x0 >= 1) { g.drawImage(cv, x0 + 1, 0, 1, cv.height, 0, 0, x0 + 1, cv.height); g.drawImage(cv, x0 + w - 2, 0, 1, cv.height, x0 + w - 1, 0, cv.width - x0 - w + 1, cv.height); }
+  if (y0 >= 1) { g.drawImage(cv, 0, y0 + 1, cv.width, 1, 0, 0, cv.width, y0 + 1); g.drawImage(cv, 0, y0 + h - 2, cv.width, 1, 0, y0 + h - 1, cv.width, cv.height - y0 - h + 1); }
+  g.restore();
+}
+// Full screen where the browser allows it (Android Chrome, desktop); iOS gets it from Add to Home Screen
+const canFull = () => !!(document.fullscreenEnabled && !document.fullscreenElement);
+function goFull() { document.documentElement.requestFullscreen?.({ navigationUI: 'hide' }).then(() => screen.orientation?.lock?.('portrait').catch(() => {})).catch(() => {}); }
 function pauseButton() { // top-left, away from the thumb that steers the paddle; 44pt touch target
   const x = 10, y = 4, s = 30;
   buttons.push({ x: x - 7, y: y - 7, w: s + 14, h: s + 14, fn: () => { scene = 'menu'; } });

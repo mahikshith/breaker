@@ -382,7 +382,8 @@ export class Arena {
     // lives as little steel balls
     for (let i = 0; i < 3; i++) drawBall(g, { x: 24 + i * 16, y, r: 5, vx: 0, vy: 0 }, i < this.lives ? 1 : 0.18);
     // active power timers
-    const p = this.paddle, chips = [['fire', this.fireT, 8], ['laser', p.laserT, 7], ['wide', p.wideT, 12], ['shrink', p.shrinkT, 9], ['slow', this.slowT, 8], ['shield', this.shield ? this.shieldT : 0, 16]].filter(c => c[1] > 0);
+    // (the paddle's own size changes, WIDE and TINY, show on the paddle itself, so they get no chip)
+    const chips = [['fire', this.fireT, 8], ['laser', this.paddle.laserT, 7], ['slow', this.slowT, 8], ['shield', this.shield ? this.shieldT : 0, 16]].filter(c => c[1] > 0);
     chips.slice(0, 3).forEach(([k, t, max], i) => {
       const x = 80 + i * 44, P = POWER[k];
       g.fillStyle = 'rgba(0,0,0,0.45)'; rrect(g, x, y - 7, 40, 14, 7); g.fill();
