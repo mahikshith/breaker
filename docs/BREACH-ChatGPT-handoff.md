@@ -5,7 +5,7 @@ This one file contains everything another assistant needs to design for, or take
 - **Game:** BREACH, a premium portrait brick breaker for iOS and Android. Tagline: "Break in. Break out."
 - **Owner:** mykee (GitHub `mahikshith`).
 - **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `codex/carrier-mobile-preview` is this working branch.
-- **Assembled at:** repo commit `250b266`.
+- **Assembled at:** repo commit `e47d07e`.
 
 ## How to read this file
 
@@ -1407,6 +1407,8 @@ Read all three handoff docs before touching code: this one (status, rules, TODO 
 
 ### Progress log (newest first)
 
+- **2026-10-18 (complete native preflight before third Carrier run).** Run39123471388 passed web/build/lint but failed a status-bar assertion after a one-frame hidden sample. Read-only independent review covered the complete Activity, native test, workflow and frozen packager. The test now waits500ms of focused/attached stable bar state, snapshots native geometry/insets on one UI turn, and asserts on its own thread with phase names. It captures failures before scenario close; the shell runner always preserves screenshots/logcat/window evidence and the original failure exit. The Activity detaches its WebView before destroy; a held-touch stop/resume case checks cancelled input, paused game time, same level and restored fullscreen. No bar/gameplay assertion is removed. The actual offline packaged HTML additionally passes both-phone Carrier suites locally (82.3/45.2s assisted earned wins),44 unit tests, source/packaged hash guards and native raster/font probe. Shell exit handling passes four failure/success combinations. CI will repeat the offline suite, compilation/lint and all native checks; no native pass or APK delivery is claimed yet. The same packaged build is served locally on127.0.0.1:4180/breach.html?level=1 and opened for owner play. Gameplay F4863DC5 and packaged4d5d7b5e remain unchanged.
+
 - **2026-10-18 (native CI failure diagnosed; fresh run prepared).** Carrier run39122761324 passed44 unit tests, all browser suites, frozen packaging, Android compilation and lint (0 errors,9 preview warnings). Native input failed because an Android launcher ANR dialog owned the touch target: `InputDispatcher` records `Application Not Responding: com.google.android.apps.nexuslauncher`. No game/native assertion was removed. The test emulator now stops that background launcher and acknowledges the system immersive hint before instrumentation; the smoke test explicitly awaits document focus before native touches. F4863DC5 gameplay bytes and offline packaged4d5d7b5e hash are unchanged. APK publication remains gated on a fresh complete CI pass.
 
 - **2026-10-18 (Carrier A playable candidate passes final web checks; APK requested).** Build `F4863DC5A87D6B46A8A1AFDB702C264F432196B851B61B828946DB8AB75A0423` passes 44 unit tests and real bundled two-phone gameplay checks. Public-input assisted deterministic simulated wins record 82.3s iPhone/two lives and 45.2s Android/three lives of game clock (`out/carrier-playable-final/report.json`), not human balance. Independent final captures in `out/carrier-visual-final/` confirm approved A hull/barrels/doors/fighters/panel bricks/paddle/ball, continuous top/bottom safe-area starfield, paddle alpha/collider alignment below 0.006 CSS px at both tips, and clean settled results with no frozen Carrier effects. All 147 images and both house fonts decode; zero page errors. Carrier uses 125×17u paddle, 7.5r ordinary ball and 10r TITAN; Vault keeps its prior dimensions and exclusive Kit. Nix/Tick appearances are selected, but full expressive sprite/animation families and live cast integration remain pending; B/C/D are deferred. The owner asks for an APK, authorizing its necessary checkpoint commit/push/CI on isolated `codex/carrier-mobile-preview` without merging to main. Packaging/native CI is underway; no passed APK or physical-device performance is claimed.
@@ -2315,6 +2317,7 @@ assets/snake-jade: 26 PNG renders
 assets/vault: 53 PNG renders
 assets/invasion: 78 PNG renders
 
+tools/test-android.sh
 .github/workflows/mobile-preview.yml
 .gitignore
 AGENTS.md

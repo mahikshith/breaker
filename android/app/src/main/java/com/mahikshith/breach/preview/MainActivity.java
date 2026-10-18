@@ -14,6 +14,7 @@ import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 public class MainActivity extends Activity {
@@ -109,6 +110,7 @@ public class MainActivity extends Activity {
         game.onResume();
     }
     @Override protected void onDestroy() {
+        if (game.getParent() instanceof ViewGroup) ((ViewGroup) game.getParent()).removeView(game);
         game.destroy();
         super.onDestroy();
     }

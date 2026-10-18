@@ -37,6 +37,7 @@ jobs:
           PW_MODULE: file://${{ runner.temp }}/browser-tools/node_modules/playwright/index.mjs
         run: |
           node tools/playtest/carrier.mjs out/ci-carrier
+          node tools/playtest/carrier.mjs out/ci-carrier-offline android/app/src/main/assets/breach.html
           node tools/playtest/mobile-ui.mjs out/ci-mobile-ui
           node tools/playtest/kit.mjs out/ci-kit
           node tools/playtest/venom.mjs out/ci-venom
@@ -98,9 +99,7 @@ jobs:
             adb shell svc data disable
             adb shell settings put secure immersive_mode_confirmations confirmed
             adb shell am force-stop com.google.android.apps.nexuslauncher
-            gradle -p android --no-daemon connectedDebugAndroidTest
-            mkdir -p out
-            adb pull /sdcard/Download/BreachPreviewScreenshots out/android-screenshots
+            bash tools/test-android.sh
       - name: Package installable artifact
         run: |
           mkdir -p out/apk
@@ -123,4 +122,6 @@ jobs:
             android/app/build/reports/
             android/app/build/outputs/androidTest-results/
             out/android-screenshots/
+            out/android-window.txt
+            out/android-logcat.txt
           retention-days: 30

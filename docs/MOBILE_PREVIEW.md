@@ -37,3 +37,7 @@ The workflow runs Carrier and shared phone suites before Android lint, then inst
 Previous pre-Brum APK history remains at [the earlier successful run](https://github.com/mahikshith/breaker/actions/runs/39108320738). It is not this Carrier build.
 
 The initial Carrier run39122761324 passed web/build/lint but failed native touch injection under an unrelated launcher ANR system dialog. Emulator startup now stops the background launcher and acknowledges the OS immersive hint; input still uses native MotionEvents and every gameplay/fullscreen assertion remains. A fresh passing run is required before APK delivery.
+
+The second run39123471388 exposed a one-frame system-bar visibility race. The expanded preflight retains every hidden-bar/geometry assertion, requires500ms focused attached stability, snapshots insets atomically, exercises held-input stop/resume and detaches the WebView before destruction. Failure screenshots/window/logcat now survive a failing test. The complete Carrier suite also runs against the actual offline packaged HTML; local both-phone runs pass. Native CI remains pending.
+
+Local browser play: http://127.0.0.1:4180/breach.html?level=1 while the preview server is running. This serves the same offline packaged payload as this APK candidate.
