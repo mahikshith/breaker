@@ -65,7 +65,7 @@ These skill guides were saved in the project at `/mnt/project-files/skills/gamed
 
 ```
 ┌──────────────────────────────┐  ← notch / Dynamic Island: scene art continues underneath (drawTopInset)
-│ [II]  LEVEL METER        SCORE│  y≈14-44: pause (top-left, 44pt target), level meter bar, score (Rubik)
+│ [II]  LEVEL METER        SCORE│  slim bar right under the status bar/notch: pause, level meter, score; the playfield is lifted (LIFT=34) to start just below it
 │                    COMBO ×n   │
 │   ┌──────────────────────┐   │
 │   │   PLAYFIELD (bricks, │   │  Invasion: formation + mothership; Vault: tower, cage, serpent
@@ -98,6 +98,7 @@ These skill guides were saved in the project at `/mnt/project-files/skills/gamed
   - single broken bricks crack and fade in about 0.4 s;
   - only big crashes leave physics debris, so nothing is mistaken for the ball;
   - backgrounds stay calm and dark, because the owner found the Invasion hangar too flashy.
+- **Edge to edge:** the scene art fills behind the status bar and home indicator. UI never sits inside the insets. The playfield starts directly under the slim HUD bar, with no dead band. Backgrounds must never outshine the foreground.
 - **Safe areas and inputs:** safe areas respected; 44 pt minimum touch targets; nothing interactive in the top corners except pause.
 - **Menu:**
   - a BREACH logo (gradient Lilita One with a thick outline) over floating glossy bricks;

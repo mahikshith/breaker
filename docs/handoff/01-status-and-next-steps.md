@@ -4,6 +4,13 @@ Read all three handoff docs before touching code: this one (status, rules, TODO 
 
 ## Progress log (newest first)
 
+- **2026-10-18 (edge-to-edge):** owner asked for a true full-screen layout with no dead band at the top. A dimmer Saturn followed: "the background must not outshine the foreground". They also wanted to actually see WIDE in play.
+  - `main.js` `LIFT = 34`: each level is built `H + LIFT` tall, drawn shifted up by `LIFT`, and its pointer y is offset by `LIFT`.
+  - The levels draw their top HUD at `this.hudY`. The deck fills into the home-indicator strip via `this.inB`.
+  - Invasion `calm()` darkens and desaturates the plate further, and sinks the planet with a radial shade.
+  - WIDE leads both drop tables.
+  - Layout check: `node tools/playtest/layout.mjs <out>`.
+
 - **2026-10-18 (later):** TODO items 1–7 in section 8 are implemented on `wip/polish-pass`:
   - level wiring, crumble vs. big crash, difficulty, continue screen, ferocious serpent with bite marks and the cage attack, nervous and panicking princess, and the Invasion calm-down with its landing beat.
   - Draft screens are in `/mnt/project-files/breaker/playtest/v3/`. Re-shoot them with `node tools/playtest/polish.mjs <out> ios|android`.
