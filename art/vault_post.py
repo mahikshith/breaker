@@ -2,8 +2,7 @@
 # Run after art/render_vault_assets.py has filled art/out/vault_raw/:
 #   python3 art/vault_post.py
 # Writes assets/vault/: plate.png/.jpg, bars.png, every sprite PNG, atlas.json, contact.png, composite.png.
-# Adds the light glows that Cycles has no cheap equivalent for (torch halos on the plate, halo around the fire
-# ball / torch flame / lantern), splits the paddle into stretchable caps + middle tile, and builds the previews.
+# Adds the light glows that Cycles has no cheap equivalent for (halo around the fire ball / torch flame / lantern), splits the paddle into stretchable caps + middle tile, and builds the previews.
 import json, os, hashlib, random
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
@@ -72,20 +71,29 @@ def add_halo(im, color, sigma_px, strength, core=None):
 
 def plate():
     im = np.asarray(Image.open(os.path.join(RAW, 'plate.png')).convert('RGB')).astype(np.float32)
-    h, w, _ = im.shape
-    for (x, y) in TORCH_FLAMES:   # warm halo around each torch flame (screen-add)
-        cx, cy = px(x, y + 1)
-        g = radial(w, h, cx, cy, 9 * PLATE_PPU) * 0.55 + radial(w, h, cx, cy, 28 * PLATE_PPU) * 0.16
-        im = 255 - (255 - im) * (1 - g[..., None] * np.array([1.0, 0.62, 0.3], np.float32))
+    # v3: the wall torches are gone, so no torch halos; the plate is used as rendered
     out = Image.fromarray(np.clip(im, 0, 255).astype(np.uint8), 'RGB')
     save_png(out, 'plate.png')
     out.save(os.path.join(OUT, 'plate.jpg'), quality=88, optimize=True, progressive=True)
     return out
 
 
+def bar_shadow(bars, dx=1.4, dy=2.2, blur_u=1.1, a=0.55):
+    """v3: a soft contact shadow of the cage bars on the chamber's back wall, baked into the (plate-registered) bars layer."""
+    from PIL import ImageFilter
+    al = bars.split()[3]
+    sh = Image.new('L', bars.size, 0); sh.paste(al, (round(dx * PLATE_PPU), round(dy * PLATE_PPU)))
+    sh = sh.filter(ImageFilter.GaussianBlur(blur_u * PLATE_PPU)).point(lambda v: int(v * a))
+    out = Image.merge('RGBA', (Image.new('L', bars.size, 4), Image.new('L', bars.size, 4), Image.new('L', bars.size, 8), sh))
+    out.alpha_composite(bars)
+    return out
+
+
 def sprites(manifest):
     atlas = {}
     for name, m in manifest.items():
+        if not os.path.exists(os.path.join(RAW, name + '.png')):   # declared but not rendered yet: leave it out of the atlas
+            print('post: no raw render for', name, '- skipped'); continue
         im = Image.open(os.path.join(RAW, name + '.png')).convert('RGBA')
         sw, sh = m['size']
         assert im.size == (sw * SPR_PPU, sh * SPR_PPU), (name, im.size)
@@ -143,7 +151,6 @@ def place(canvas, im, cx, cy, scale=PLATE_PPU / SPR_PPU, size=None):
 def composite(plate_im):
     cv = plate_im.convert('RGBA')
     L = lambda n: Image.open(os.path.join(OUT, n + '.png')).convert('RGBA')
-    place(cv, L('lantern'), *LANTERN)
     cv.alpha_composite(L('bars'))
     rng = random.Random(5)
     for c, r, v, w in cells():
@@ -199,7 +206,7 @@ def contact(atlas, plate_im):
 def main():
     manifest = json.load(open(os.path.join(RAW, 'manifest.json')))
     pl = plate()
-    bars = Image.open(os.path.join(RAW, 'bars.png')).convert('RGBA')
+    bars = bar_shadow(Image.open(os.path.join(RAW, 'bars.png')).convert('RGBA'))
     assert bars.size == pl.size
     save_png(bars, 'bars.png')
     sp = sprites(manifest)
@@ -216,8 +223,8 @@ def main():
                              'x = ox + c*16 - 4, y = oy + r*16 - 4, w = w*16 + 8, h = 24.'),
         'tintJitter': TINT_JITTER,
         'tintNote': 'multiply glazed brick RGB by 1 + tintJitter*(2*hash(c,r)-1) for per-brick variation (composite.png does this)',
-        'anchors': {'lantern': list(LANTERN), 'torchFlames': [list(t) for t in TORCH_FLAMES],
-                    'chamber': [OX + 7 * CELL, OY + 3 * CELL, 6 * CELL, 3 * CELL]},
+        'anchors': {'chamber': [OX + 7 * CELL, OY + 3 * CELL, 6 * CELL, 3 * CELL]},
+        'propsNote': 'v3 plate has no torches and no lantern; the lantern / torch_flame sprites are kept but unused',
         'sprites': sp,
     }
     json.dump(atlas, open(os.path.join(OUT, 'atlas.json'), 'w'), indent=1)

@@ -21,6 +21,8 @@ RAW = os.path.join(HERE, 'out', 'vault_raw')
 TMP = os.path.join(HERE, 'out', 'vault_tmp')
 os.makedirs(RAW, exist_ok=True); os.makedirs(TMP, exist_ok=True)
 FAST = '--fast' in sys.argv
+_thr = [a for a in sys.argv if a.startswith('--threads=')]
+THREADS = int(_thr[0].split('=')[1]) if _thr else 0   # --threads=N: fixed Cycles thread count (0 = auto)
 
 U = 0.1                                   # metres per game unit
 CELL, COLS, ROWS = 16, 20, 20
@@ -34,7 +36,8 @@ CH_X0, CH_Y0, CH_W, CH_H = OXU + 7 * CELL, OYU + 3 * CELL, 6 * CELL, 3 * CELL  #
 LANTERN = (CH_X0 + CH_W / 2 + 16, CH_Y0 + CH_H / 2 - 10)                        # (196, 158) as in the look test
 TORCHES = [(180 - 140, 536), (180 + 140, 536)]                                     # sconce centres
 COLORS = {'t': '#22c4b0', 'v': '#8f5cf0', 'c': '#ff6f61', 'y': '#ffc73d', 'b': '#4f9dff'}
-CAPS = {'split': '#5ccf6a', 'fire': '#ff8a3d', 'wide': '#3fa8f5', 'focus': '#c46bf0', 'burst': '#f7c948'}
+CAPS = {'split': '#5ccf6a', 'fire': '#ff8a3d', 'wide': '#3fa8f5', 'focus': '#c46bf0', 'burst': '#f7c948',
+        'laser': '#ff4d6d', 'shield': '#2ec4b6', 'slow': '#7fd6ff', 'shrink': '#5a5f78'}
 
 
 def S(x, y):  # screen units (y down) -> Blender XZ (z up)
@@ -137,6 +140,24 @@ def materials():
     )
 
 
+WALL_LIGHT, CHAMBER_LIGHT = 1100, 25
+
+
+def chamber_stone_mat():
+    """Cool dark hewn stone for the cage chamber (v3, replaces the wood planks)."""
+    m = mat('chamberstone', srgb('#222736'), rough=0.82, coat=0.15)
+    return noisy(m, scale=7, amount=0.4, bump=0.35, detail=8, color2=srgb('#171b26'))
+
+
+def cage_iron_mat(hexc='#555a66'):
+    """Gunmetal for the cage: dark blued iron, fairly tight specular with a faint forged roughness variation."""
+    m = mat('cageiron' + hexc, srgb(hexc), rough=0.22, metal=1.0, coat=0.35, coat_rough=0.08); nt = m.node_tree; b = nt.nodes['Principled BSDF']
+    tc = node(nt, 'ShaderNodeTexCoord'); nz = node(nt, 'ShaderNodeTexNoise'); nz.inputs['Scale'].default_value = 9.0; nz.inputs['Detail'].default_value = 6
+    nt.links.new(tc.outputs['Object'], nz.inputs['Vector'])
+    feed(nt, b.inputs['Roughness'], maprange(nt, nz.outputs['Fac'], 0.35, 0.65, 0.2, 0.25))
+    return m
+
+
 def interior_mat():
     """Dark hewn stone of the hollow tower interior: big blocks (larger than the game bricks), deep mortar."""
     m = mat('interior', srgb('#2a1f2e'), rough=0.9); nt = m.node_tree; b = nt.nodes['Principled BSDF']
@@ -162,10 +183,15 @@ def interior_mat():
     return m
 
 
-def glaze_mat(name, hexc, seed, crack=None, dims=None):
-    """Glossy candy glaze of the look test + a faint mottling (per-sprite seed) + optional crack texture."""
+def glaze_mat(name, hexc, seed, crack=None, dims=None, gloss=False):
+    """Glossy candy glaze of the look test + a faint mottling (per-sprite seed) + optional crack texture.
+    gloss=True is the v3 brick glaze (glazed ceramic: tight base specular, mirror coat at a higher IOR, a touch less
+    diffuse so the colour stays deep under the softbox highlight); the robots keep the original (gloss=False)."""
     base = srgb(hexc)
-    m = mat(name, base, rough=0.28, coat=1.0, coat_rough=0.02, sss=0.12); nt = m.node_tree; b = nt.nodes['Principled BSDF']
+    r0 = GLAZE_ROUGH if gloss else 0.28
+    m = mat(name, base, rough=r0, coat=1.0, coat_rough=0.008 if gloss else 0.02, sss=0.12); nt = m.node_tree; b = nt.nodes['Principled BSDF']
+    if gloss:
+        b.inputs['Coat IOR'].default_value = 1.65; b.inputs['IOR'].default_value = 1.6
     tc = node(nt, 'ShaderNodeTexCoord')
     mp = node(nt, 'ShaderNodeMapping'); mp.inputs['Location'].default_value = (seed * 3.1, seed * 1.7, seed * 2.3)
     nt.links.new(tc.outputs['Object'], mp.inputs['Vector'])
@@ -191,13 +217,52 @@ def glaze_mat(name, hexc, seed, crack=None, dims=None):
         cr, halo, hgt = sc_.outputs[0], sc_.outputs[1], sc_.outputs[2]
         col = mixc(nt, mth(nt, 'MULTIPLY', halo, 0.35), col, tuple(min(1, c * 1.25 + 0.04) for c in base))
         col = mixc(nt, cr, col, tuple(c * 0.05 for c in base))
-        feed(nt, b.inputs['Roughness'], maprange(nt, cr, 0, 1, 0.28, 0.8, smooth=False))
+        feed(nt, b.inputs['Roughness'], maprange(nt, cr, 0, 1, r0, 0.8, smooth=False))
         feed(nt, b.inputs['Coat Weight'], mth(nt, 'SUBTRACT', 1.0, cr, clamp=True))
         bp = node(nt, 'ShaderNodeBump', invert=True); bp.inputs['Strength'].default_value = 0.55; bp.inputs['Distance'].default_value = 0.025
         nt.links.new(hgt, bp.inputs['Height'])
         nt.links.new(bp.outputs['Normal'], b.inputs['Normal']); nt.links.new(bp.outputs['Normal'], b.inputs['Coat Normal'])
     nt.links.new(col, b.inputs['Base Color'])
     return m
+
+
+GLAZE_ROUGH = 0.12
+
+
+def gloss_card(name, W, H, y_face, d=2.5, strength=14.0, right=0.2, window=True, sheen=0.09):
+    """v3 brick shine: a reflection-only softbox card standing d metres in front of a sprite's face (glossy rays only,
+    invisible to camera / diffuse / shadow, transparent where unlit). The ortho camera mirrors the card 1:1 onto a
+    flat face, so its shape is the highlight: a bright window over the upper face that wraps over the top bevel, a
+    hot strip far above (crisp top-bevel glint), a hot column on the left (left-bevel glint), dimmer toward the
+    right, nothing below (dark lower bevel for depth). W, H = face size in metres."""
+    x0, _, z0 = at()
+    bpy.ops.mesh.primitive_plane_add(size=1, location=(x0, y_face - d, z0), rotation=(math.radians(90), 0, 0))
+    o = bpy.context.object; o.name = name; o.scale = (W + 14, H + 14, 1); bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+    for a in ('visible_camera', 'visible_diffuse', 'visible_transmission', 'visible_volume_scatter', 'visible_shadow'):
+        setattr(o, a, False)
+    m = bpy.data.materials.new(name); nt = m.node_tree; nt.nodes.remove(nt.nodes['Principled BSDF'])
+    tc = node(nt, 'ShaderNodeTexCoord'); sep = node(nt, 'ShaderNodeSeparateXYZ'); nt.links.new(tc.outputs['Object'], sep.inputs['Vector'])
+    X, Z = sep.outputs['X'], sep.outputs['Y']          # card local X = world x, local Y = world z (metres from the sprite centre)
+    # slight tilt so the window's lower edge runs down-left -> up-right like a key from the upper left
+    edge = mth(nt, 'SUBTRACT', Z, mth(nt, 'MULTIPLY', X, 0.10))
+    win = maprange(nt, edge, H * 0.10, H * 0.10 + 0.07)                     # crisp lower edge of the window
+    if window:
+        win = mth(nt, 'MULTIPLY', win, maprange(nt, Z, H / 2 + 2.4, H / 2 + 3.2, 1, 0))
+        win = mth(nt, 'MULTIPLY', win, mth(nt, 'ADD', 0.45, mth(nt, 'MULTIPLY', maprange(nt, Z, H * 0.1, H * 0.5), 0.55)))
+    # top-bevel glint: hot right where the bevel starts to roll over, then a softer band across the rest of the bevel
+    top = mth(nt, 'MULTIPLY', maprange(nt, Z, H / 2 + 0.25, H / 2 + 0.45),
+              maprange(nt, Z, H / 2 + 1.0, H / 2 + 4.5, 1, 0.08, smooth=False))
+    left = mth(nt, 'MULTIPLY', maprange(nt, X, -W / 2 - 0.2, -W / 2 - 0.45), maprange(nt, Z, -H / 2, H / 2 - 0.3, 0.0, 1.0, smooth=False))
+    mask = mth(nt, 'MAXIMUM', mth(nt, 'MAXIMUM', mth(nt, 'MULTIPLY', win, sheen), top), mth(nt, 'MULTIPLY', left, 0.7))
+    fall = maprange(nt, X, -W / 2, W / 2 + 0.6, 1.0, right, smooth=False)  # dimmer to the right
+    lum = mth(nt, 'MULTIPLY', mask, fall)
+    em = node(nt, 'ShaderNodeEmission'); em.inputs['Color'].default_value = (1.0, 0.985, 0.97, 1)
+    feed(nt, em.inputs['Strength'], mth(nt, 'MULTIPLY', lum, strength))
+    tr = node(nt, 'ShaderNodeBsdfTransparent')
+    sh = mixs(nt, mth(nt, 'GREATER_THAN', lum, 0.002), tr.outputs[0], em.outputs[0])
+    nt.links.new(sh, nt.nodes['Material Output'].inputs['Surface'])
+    o.data.materials.append(m)
+    return o
 
 
 def biscuit_mat(name, hexc):
@@ -288,6 +353,7 @@ def reset():
     sc.view_settings.view_transform = 'AgX'; sc.view_settings.look = 'AgX - Medium High Contrast'
     sc.render.image_settings.file_format = 'PNG'; sc.render.image_settings.color_depth = '8'
     sc.render.resolution_percentage = 100
+    if THREADS: sc.render.threads_mode = 'FIXED'; sc.render.threads = THREADS
     rig(sc)
     return sc
 
@@ -409,13 +475,20 @@ def build_plate():
     # hollow tower interior, recessed 2 m behind the brick face so the cornice and pillar cast soft shadows into it
     cx, cz = S(180, (88 + 424) / 2)
     box('interior', (BW + 6) * U, (424 - 88) * U, 0.4, 0, interior_mat(), (cx, 2.2, cz))
-    # chamber back wall: horizontal planks, slightly larger than the opening so no gap shows at the granite frame
-    nplank = 4; ph = (CH_H + 4) / nplank
-    for i in range(nplank):
-        px, pz = S(CH_X0 + CH_W / 2, CH_Y0 - 2 + ph * (i + 0.5))
-        box(f'plank{i}', (CH_W + 4) * U, ph * U - 0.05, 0.12, 0.03, MATS['WOOD'], (px, 0.6, pz), segs=2)
+    # chamber back wall (v3): dark, cool hewn stone in two staggered courses, so the princess reads against it
     hx, hz = S(CH_X0 + CH_W / 2, CH_Y0 + CH_H / 2)   # chamber centre
-    box('chamberback', (CH_W + 8) * U, (CH_H + 8) * U, 0.1, 0, MATS['MORT'], (hx, 0.75, hz))
+    CS = chamber_stone_mat()
+    ch_h = (CH_H + 4) / 2
+    for i in range(2):
+        y0 = CH_Y0 - 2 + ch_h * i
+        off = -14 if i % 2 else 0
+        for k in range(-1, 5):
+            x0 = CH_X0 - 2 + off + k * 34
+            xa, xb = max(x0, CH_X0 - 2), min(x0 + 34, CH_X0 + CH_W + 2)
+            if xb - xa < 1: continue
+            px_, pz_ = S((xa + xb) / 2, y0 + ch_h / 2)
+            box(f'cstone{i}_{k}', (xb - xa) * U - 0.08, ch_h * U - 0.08, 0.3, 0.06, CS, (px_, 0.62 + 0.03 * ((i + k) % 2), pz_), segs=2)
+    box('chamberback', (CH_W + 8) * U, (CH_H + 8) * U, 0.1, 0, MATS['MORT'], (hx, 0.85, hz))
     # pillars: stacked granite courses, inner faces flush with the board edges (x = 20 and 340)
     for side in (-1, 1):
         xin = OXU if side < 0 else OXU + BW
@@ -432,7 +505,7 @@ def build_plate():
         x = CX - BW * U / 2 - 0.8 + i * (BW * U + 1.6) / 10
         box(f'merlon{i}', 1.6, 1.4, 1.6, 0.15, G, (x, -0.5, CZ + BH * U / 2 + 1.3))
     box('cornice', BW * U + 4, 0.6, 2.0, 0.15, G, (CX, -0.5, CZ + BH * U / 2 + 0.4))
-    # courtyard wall behind the paddle: big dark blocks set back from the play plane, two torches
+    # courtyard wall behind the paddle: big dark blocks set back from the play plane (v3: no torches, lit evenly and dimly)
     base = OYU + BH
     rnd = random.Random(11)
     for row in range(10):
@@ -443,28 +516,28 @@ def build_plate():
             box(f'cw{row}_{i}', 80 * U - 0.15, 40 * U - 0.15, 1.0, 0.18, G, (bx, 2.5 + rnd.uniform(0, 0.15), bz))
     box('courtback', 50, (900 - base) * U, 0.2, 0, MATS['MORT'], (CX, 3.4, S(0, (base + 900) / 2)[1]))
     box('plinth', BW * U + 4, 0.9, 2.2, 0.15, G, (CX, -0.5, -(base + 4) * U))
-    fm = flame_mat('torchflame')
-    for i, (sx, sy) in enumerate(TORCHES):
-        tx, tz = S(sx, sy)
-        box(f'sconce{i}', 0.5, 1.2, 0.6, 0.1, MATS['IRON'], (tx, 1.6, tz))
-        cyl(0.32, 0.18, (tx, 1.35, tz + 0.62), MATS['IRON'])                  # cup
-        flame(f'torch{i}', (tx, 1.3, tz + 0.9), 0.33, fm)
-        bpy.ops.object.light_add(type='POINT', location=(tx, 0.6, tz + 1.2)); L = bpy.context.object.data
-        L.energy = 900; L.color = (1, 0.55, 0.25); L.shadow_soft_size = 0.4
-    # lantern light (the lantern itself is a sprite); a soft warm bounce around the chamber
-    lx, lz = S(*LANTERN)
-    bpy.ops.object.light_add(type='POINT', location=(lx, -0.2, lz)); L = bpy.context.object.data
-    L.energy = 60; L.color = (1, 0.6, 0.28); L.shadow_soft_size = 0.3
-    bpy.ops.object.light_add(type='AREA', location=(hx, 1.1, hz), rotation=(math.radians(90), 0, 0)); L = bpy.context.object.data
-    L.shape = 'RECTANGLE'; L.size = CH_W * U * 0.9; L.size_y = CH_H * U * 0.8; L.energy = 700; L.color = (1, 0.5, 0.22)
-    # gold bars (bars.png pass only)
+    # v3: no torches, no lantern. The lower dungeon wall gets one broad, dim, neutral-cool wash so it is lit evenly,
+    # and the chamber a faint cool top light so its stone reads without drawing the eye.
+    _, wz = S(0, (base + 780) / 2)
+    bpy.ops.object.light_add(type='AREA', location=(CX, -22, wz), rotation=(math.radians(90), 0, 0)); L = bpy.context.object.data
+    L.shape = 'RECTANGLE'; L.size = 46; L.size_y = 40; L.energy = WALL_LIGHT; L.color = (0.78, 0.8, 0.95)
+    bpy.ops.object.light_add(type='AREA', location=(hx, -1.0, hz + CH_H * U * 0.45), rotation=(math.radians(50), 0, 0)); L = bpy.context.object.data
+    L.shape = 'RECTANGLE'; L.size = CH_W * U; L.size_y = 0.6; L.energy = CHAMBER_LIGHT; L.color = (0.62, 0.72, 1.0)
+    # cage bars (bars.png pass only), v3: dark gunmetal iron, five thin round bars between a flat top and bottom rail,
+    # a rivet where each bar meets a rail and at the rail ends (same layout as the game's code-drawn cage)
     bars = []
+    IRN, RAIL, RIV = cage_iron_mat(), cage_iron_mat('#3a3e48'), MATS['RIVET']
+    yb = -DEPTH - 0.15
     for i in range(1, 6):
         x, _ = S(CH_X0 + CH_W * i / 6, 0)
-        bars.append(cyl(0.085, CH_H * U, (x, -DEPTH - 0.1, hz), MATS['BARS'], verts=24))
-    for yy in (CH_Y0 + 2.5, CH_Y0 + CH_H - 2.5):
+        bars.append(cyl(0.1, CH_H * U - 0.2, (x, yb, hz), IRN, verts=32))
+    for yy in (CH_Y0 + 1.75, CH_Y0 + CH_H - 1.75):
         _, z = S(0, yy)
-        bars.append(cyl(0.06, CH_W * U - 0.1, (hx, -DEPTH - 0.02, z), MATS['BARS'], rot=(0, math.radians(90), 0), verts=16))
+        bars.append(box('rail', CH_W * U, 0.35, 0.22, 0.06, RAIL, (hx, yb - 0.14, z), segs=3))
+        for i in range(0, 7):
+            x, _ = S(CH_X0 + 1.6 + (CH_W - 3.2) * i / 6 if i in (0, 6) else CH_X0 + CH_W * i / 6, 0)
+            bpy.ops.mesh.primitive_uv_sphere_add(radius=0.07, segments=20, ring_count=10, location=(x, yb - 0.26, z))
+            r = bpy.context.object; r.scale = (1, 0.6, 1); bpy.ops.object.shade_smooth(); r.data.materials.append(RIV); bars.append(r)
     for b in bars: b.hide_render = True
     return bars
 
@@ -485,6 +558,13 @@ def render_bars():
     for o in sc.objects:
         if o.type == 'MESH' and o.name != 'softbox': o.hide_render = True
     for b in bars: b.hide_render = False
+    for o in sc.objects:   # v3: keep the iron's highlights cool grey: warm lights do not show in its reflections
+        if o.type == 'LIGHT' and o.data.color[2] < 0.9: o.visible_glossy = False
+    hx, hz = S(CH_X0 + CH_W / 2, CH_Y0 + CH_H / 2)
+    bpy.ops.object.light_add(type='AREA', location=(hx - 4.0, -DEPTH - 6.0, hz + 2.0), rotation=(math.radians(78), 0, math.radians(-34)))
+    L = bpy.context.object.data; L.shape = 'RECTANGLE'; L.size = 1.0; L.size_y = 14; L.energy = 5000; L.color = (0.8, 0.86, 1.0)
+    bpy.ops.object.light_add(type='AREA', location=(hx + 5.0, -DEPTH - 5.0, hz + 1.0), rotation=(math.radians(80), 0, math.radians(45)))
+    L = bpy.context.object.data; L.shape = 'RECTANGLE'; L.size = 0.6; L.size_y = 14; L.energy = 1500; L.color = (0.7, 0.8, 1.0)   # cool rim
     P = PLATE
     sc.render.use_border = True; sc.render.use_crop_to_border = False
     sc.render.border_min_x = (CH_X0 - 6 - P['x0']) / P['w']; sc.render.border_max_x = (CH_X0 + CH_W + 6 - P['x0']) / P['w']
@@ -562,7 +642,7 @@ def make_brick(col, w, dmg):
         corner = (rng.choice((-1, 1)), rng.choice((-1, 1)))
         seed = {'t': 1, 'v': 2, 'c': 3, 'y': 4, 'b': 5}[col] * 7 + w
         crack = crack_texture(col, w, dmg, corner) if dmg else None
-        m = glaze_mat(f'glaze_{col}{w}{dmg}', COLORS[col], seed, crack, (W, H))
+        m = glaze_mat(f'glaze_{col}{w}{dmg}', COLORS[col], seed, crack, (W, H), gloss=True)
         o = box(f'brick_{col}_{w}_{dmg}', W, H, DEPTH, 0.3, m, at(y=-DEPTH / 2), segs=8, local=True)
         if dmg >= 2:
             bis = biscuit_mat(f'biscuit_{col}{w}', COLORS[col])
@@ -583,7 +663,7 @@ def make_brick(col, w, dmg):
             for c in cut: bpy.data.objects.remove(c)
             bpy.context.view_layer.objects.active = o; o.select_set(True)
             bpy.ops.object.shade_smooth_by_angle(angle=math.radians(35))
-        return [o]
+        return [o, gloss_card(f'card_{col}{w}{dmg}', W, H, -DEPTH)]
     SPRITES[f'brick_{col}_{w}_{dmg}'] = dict(size=(w * CELL + 2 * MARGIN, CELL + 2 * MARGIN), foot=(w * CELL, CELL), build=build, kind='brick')
 
 
@@ -594,7 +674,7 @@ def build_gold():
     g = bpy.context.object; g.scale = (1, 0.5, 1); g.data.materials.append(MATS['RUBY'])
     bpy.ops.mesh.primitive_torus_add(major_radius=0.46, minor_radius=0.05, location=at(y=-DEPTH - 0.1), rotation=(math.radians(90), 0, 0))
     t = bpy.context.object; bpy.ops.object.shade_smooth(); t.data.materials.append(MATS['GOLD'])
-    return [o, g, t]
+    return [o, g, t, gloss_card('card_gold', W, W, -DEPTH - 0.05, strength=2.5, window=False, sheen=0.0)]
 
 
 def build_granite():
@@ -606,6 +686,7 @@ def build_granite():
             objs.append(box(f'washer{dx}{dz}', 0.28, 0.28, 0.05, 0.015, MATS['IRON'], at(dx, dz, -DEPTH - 0.225), segs=2))
             bpy.ops.mesh.primitive_uv_sphere_add(radius=0.11, segments=16, ring_count=8, location=at(dx, dz, -DEPTH - 0.24))
             r = bpy.context.object; bpy.ops.object.shade_smooth(); r.data.materials.append(MATS['RIVET']); objs.append(r)
+    objs.append(gloss_card('card_granite', W, W, -DEPTH - 0.2, strength=3.0, sheen=0.10))
     return objs
 
 
@@ -656,6 +737,30 @@ def build_ball(fire=False):
     feed(nt, b.inputs['Emission Strength'], maprange(nt, lw.outputs['Facing'], 0.0, 1.0, 1.7, 0.6))
     o.data.materials.append(m)
     return [o]
+
+
+def build_titan():
+    """Titan core: dark gunmetal chrome ball (same 12-unit ball in a 20-unit sprite) cut by two tilted great-circle
+    seams that glow, one magenta and one cyan, each sunk in a thin dark groove; the vault reflection env as on the ball."""
+    bpy.ops.mesh.primitive_uv_sphere_add(segments=128, ring_count=64, radius=0.6, location=at(y=-DEPTH - 0.6))
+    o = bpy.context.object; bpy.ops.object.shade_smooth()
+    m, nt = layered('titan', None)
+    tc = node(nt, 'ShaderNodeTexCoord'); P = tc.outputs['Object']
+    gun = principled(nt, srgb('#4c5368'), 0.06, 1.0, coat=0.8)
+    sh, dist = gun, []
+    for n_, hexc, strength in (((0.30, -0.35, 0.89), '#ff3fd0', 4.0), ((0.88, -0.30, -0.36), '#3ff0ff', 3.5),
+                               ((-0.45, -0.55, 0.30), '#ff3fd0', 3.5)):
+        ln = math.sqrt(sum(c * c for c in n_)); n_ = tuple(c / ln for c in n_)
+        dp = node(nt, 'ShaderNodeVectorMath', operation='DOT_PRODUCT'); nt.links.new(P, dp.inputs[0]); dp.inputs[1].default_value = n_
+        d = mth(nt, 'ABSOLUTE', dp.outputs['Value'])                   # metres from the seam plane
+        groove = maprange(nt, d, 0.07, 0.055)                          # dark channel
+        core = maprange(nt, d, 0.045, 0.02)                            # glowing seam inside it
+        sh = mixs(nt, groove, sh, principled(nt, (0.02, 0.02, 0.03), 0.4, 0.8))
+        c = srgb(hexc)
+        sh = mixs(nt, core, sh, principled(nt, c, 0.2, 0.0, emit=c, emit_str=strength))
+    nt.links.new(sh, nt.nodes['Material Output'].inputs['Surface'])
+    o.data.materials.append(m)
+    return [o, ball_env('titanenv')]
 
 
 def strip_mask(nt, X, Z, half_len, half_h):
@@ -740,6 +845,7 @@ for _c in COLORS:
         for _d in (0, 1, 2):
             make_brick(_c, _w, _d)
 SPRITES['ball'] = dict(size=(20, 20), foot=(12, 12), build=build_ball, kind='ball')
+SPRITES['ball_titan'] = dict(size=(20, 20), foot=(12, 12), build=build_titan, kind='ball')
 SPRITES['ball_fire'] = dict(size=(20, 20), foot=(12, 12), build=lambda: build_ball(True), kind='ball')
 SPRITES['paddle'] = dict(size=(74 + 2 * MARGIN, 12 + 2 * MARGIN), foot=(74, 12), build=build_paddle, kind='paddle')
 for _k, _h in CAPS.items(): make_cap(_k, _h)

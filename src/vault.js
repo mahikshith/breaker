@@ -682,6 +682,7 @@ export class Vault extends Arena {
   // Dark iron bars: a rail top and bottom and a few thin uprights, lit from the top-left like everything else.
   drawBars(g) {
     const wob = this.barsWob ? Math.sin(this.barsWob * 30) * this.barsWob * 1.5 : 0;
+    if (BARS_IMG?.complete && BARS_IMG.naturalWidth) { g.drawImage(BARS_IMG, wob, -40, 360, 820); return; } // rendered iron cage, registered to the plate
     const x0 = OX + POCKET.c0 * CELL, y0 = OY + POCKET.r0 * CELL, w = 6 * CELL, h = 3 * CELL;
     const n = 5;
     for (let i = 1; i <= n; i++) {

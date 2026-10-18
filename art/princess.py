@@ -8,7 +8,7 @@
 # Run:  python3 art/princess.py <out_dir> <anim:frames>...
 #   e.g. python3 art/princess.py assets/princess Idle:16 Interact:12 Blocking:8 Cheer:16 Running_A:12 Jump_Full_Short:14 Scared:8
 # Options: <anim:frames:i,j,...> renders only those frame indices; --face renders a 4x close-up of the face instead
-#          (files <anim>_face_XX.png); --samples N overrides the Cycles sample count.
+#          (files <anim>_face_XX.png); --samples N overrides the Cycles sample count; --threads N fixes the CPU threads.
 import bpy, bmesh, sys, os, math, colorsys, addon_utils, mathutils
 import numpy as np
 from mathutils import Vector, Matrix
@@ -21,13 +21,21 @@ FACE = '--face' in argv
 SAMPLES = 48
 if '--samples' in argv:
     i = argv.index('--samples'); SAMPLES = int(argv[i + 1]); del argv[i:i + 2]
+THREADS = 0
+if '--threads' in argv:
+    i = argv.index('--threads'); THREADS = int(argv[i + 1]); del argv[i:i + 2]
 argv = [a for a in argv if a != '--face']
 OUT = argv[0] if argv else os.path.join(HERE, 'out', 'princess')
 ANIMS = [a.split(':') for a in argv[1:]] or [['Idle', '12']]
 PX = 3            # pixels per game unit
 BOX = 56          # sprite cell in game units (square); character ~42 units tall
 HEIGHT = 42
-SOURCE = {'Scared': ('Block', 0.30, 0.90)}   # new animations: KayKit action and the part of it to loop
+SOURCE = {'Scared': ('Block', 0.30, 0.90),     # new animations: KayKit action and the part of it to loop
+          'Nervous': ('Walking_B', 0.0, 1.0), 'Panic': ('Running_A', 0.0, 1.0)}
+# The glTF armature uses quaternion rotation, so every v1/v2 animation is rendered facing the camera head-on.
+# The pacing animations turn her toward screen right (the game mirrors the sprite for leftward movement); the
+# head then turns back toward the camera (see POSE_FX) so the face still reads.
+YAW = {'Nervous': 58, 'Panic': 62}
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 sc = bpy.context.scene
@@ -612,7 +620,7 @@ for e in EYES:
 arm.data.pose_position = 'POSE'; bpy.context.view_layer.update()
 k = (HEIGHT * 0.1) / (Z1 - Z0)
 arm.scale = [s * k for s in arm.scale]; arm.location.z -= Z0 * k; arm.location.x -= CX * k
-arm.rotation_euler.z = math.radians(-18)   # three-quarter view
+arm.rotation_mode = 'XYZ'   # (the old 'three-quarter view' rotation never applied: the importer leaves it quaternion)
 bpy.context.view_layer.update()
 
 # ---------------------------------------------------------------- expressions
@@ -735,6 +743,58 @@ EXPRESSIONS = {
                (0.75, F(gx=0.3, gz=0.22, mh=1.0, mw=0.9))],
 }
 
+# ---------------------------------------------------------------- pose layers on top of a KayKit clip (armature space:
+# +x her left, -y forward, +z up). Applied after the clip is evaluated, with the action detached so the render keeps them.
+def _rot(name, axis, deg):
+    pb = arm.pose.bones[name]; M = pb.matrix.copy(); h = M.translation.copy()
+    pb.matrix = Matrix.Translation(h) @ Matrix.Rotation(math.radians(deg), 4, Vector(axis)) @ Matrix.Translation(-h) @ M
+    bpy.context.view_layer.update()
+def _aim(name, d, roll=0.0):
+    pb = arm.pose.bones[name]; M = pb.matrix.copy(); h = M.translation.copy()
+    q = M.col[1].xyz.normalized().rotation_difference(Vector(d).normalized())
+    R = Matrix.Rotation(math.radians(roll), 4, Vector(d).normalized()) @ q.to_matrix().to_4x4()
+    pb.matrix = Matrix.Translation(h) @ R @ Matrix.Translation(-h) @ M
+    bpy.context.view_layer.update()
+
+def nervous_pose(i, n):
+    ph = i / n * math.tau
+    _rot('chest', (1, 0, 0), 9)                                   # hunched, shoulders up
+    _rot('head', (0, 0, 1), -34 - 16 * math.sin(ph))              # darting glances back over her shoulder
+    _rot('head', (1, 0, 0), -5)
+    tr = 3 * math.sin(ph * 3)                                     # trembling hands
+    for s in (1, -1):                                             # hands wrung together under her chin
+        _aim(f'upperarm.{"l" if s > 0 else "r"}', (s * 0.10, -0.62, -0.78))
+        _aim(f'lowerarm.{"l" if s > 0 else "r"}', (-s * 0.62, -0.45, 0.64 + 0.04 * tr))
+        _aim(f'hand.{"l" if s > 0 else "r"}', (-s * 0.75, -0.35, 0.55))
+
+def panic_pose(i, n):
+    ph = i / n * math.tau
+    _rot('head', (0, 0, 1), -28 - 8 * math.sin(ph))               # face turned back toward the camera / the serpent
+    _rot('head', (1, 0, 0), 6)
+    # arms flung up and out, flailing forward and back out of phase. (Straight up they vanish behind the big head.)
+    for s in (1, -1):
+        w = math.sin(ph * 2 + (0 if s > 0 else math.pi))
+        b = f'{"l" if s > 0 else "r"}'
+        _aim('upperarm.' + b, (s * 0.55, -0.62 * w, 0.42 + 0.12 * w))
+        _aim('lowerarm.' + b, (s * 0.45, -0.45 * w - 0.15, 0.85))
+        _aim('hand.' + b, (s * 0.35, -0.3 * w - 0.2, 0.9))
+POSE_FX = {'Nervous': nervous_pose, 'Panic': panic_pose}
+
+# pacing in the cage: on edge, wide eyes darting back at the serpent, small anxious open mouth
+EXPRESSIONS['Nervous'] = [
+    (0.0, F(eye=1.06, lid=0.02, low=0.05, iris=0.84, pupil=0.66, glint=1.15, btilt=24, braise=0.7, mouth='O', mw=0.55, mh=0.22, gx=0.15, gz=0.05, blush=0.35)),
+    (0.25, F(gx=-0.55, gz=0.1, mh=0.32, mw=0.6, braise=0.85)),
+    (0.5, F(gx=-0.65, gz=0.15, mh=0.26)),
+    (0.62, F(lid=0.9, braise=0.6)),                              # nervous blink
+    (0.70, F(lid=0.02, braise=0.8, gx=0.0)),
+    (0.85, F(gx=0.25, gz=0.0, mh=0.18, mw=0.5))]
+# running in circles: terrified, huge eyes, pinprick pupils, screaming
+EXPRESSIONS['Panic'] = [
+    (0.0, F(eye=1.16, lid=0.0, low=0.0, iris=0.6, pupil=0.4, glint=0.95, btilt=28, braise=1.05, mouth='O', mw=1.0, mh=1.1, gx=-0.45, gz=0.2, blush=0.25)),
+    (0.25, F(mh=1.2, mw=1.05, gx=-0.55, gz=0.25)),
+    (0.5, F(mh=0.95, mw=0.95, gx=-0.35, gz=0.15)),
+    (0.75, F(mh=1.2, mw=1.05, gx=-0.55, gz=0.28))]
+
 # ---------------------------------------------------------------- lights, camera (unchanged from v1)
 def area(loc, rot, energy, size, color):
     bpy.ops.object.light_add(type='AREA', location=loc, rotation=rot)
@@ -751,6 +811,7 @@ w = bpy.data.worlds.new('w'); sc.world = w; w.node_tree.nodes['Background'].inpu
 bpy.ops.object.camera_add(location=(0, -40, BOX * 0.1 / 2 - 0.4), rotation=(math.radians(90), 0, 0))
 cam = bpy.context.object; sc.camera = cam; cam.data.type = 'ORTHO'; cam.data.ortho_scale = BOX * 0.1
 sc.render.engine = 'CYCLES'; sc.cycles.samples = SAMPLES; sc.cycles.use_denoising = True; sc.cycles.device = 'CPU'
+if THREADS: sc.render.threads_mode = 'FIXED'; sc.render.threads = THREADS
 sc.render.resolution_x = sc.render.resolution_y = BOX * PX; sc.render.film_transparent = True
 sc.view_settings.view_transform = 'AgX'; sc.view_settings.look = 'AgX - Medium High Contrast'
 FACE_SPAN = 2.4   # Blender units framed by the face close-up (4x the sprite's pixel density)
@@ -769,12 +830,19 @@ for spec in ANIMS:
     if hasattr(arm.animation_data, 'action_slot') and act.slots: arm.animation_data.action_slot = act.slots[0]
     a0, a1 = act.frame_range; f0, f1 = a0 + (a1 - a0) * r0, a0 + (a1 - a0) * r1
     x0 = arm.location.x
+    arm.rotation_euler = (0, 0, math.radians(YAW.get(name, 0)))
     for i in only:
+        for pb in arm.pose.bones:   # clear any pose layer left by the previous frame (POSE_FX) before the clip re-keys it
+            pb.location = (0, 0, 0); pb.rotation_quaternion = (1, 0, 0, 0); pb.scale = (1, 1, 1)
+        arm.animation_data.action = act
+        if hasattr(arm.animation_data, 'action_slot') and act.slots: arm.animation_data.action_slot = act.slots[0]
         if r0 > 0 or r1 < 1:   # a held section of an action: ping-pong so the loop has no pop
             ph = 1 - abs(1 - 2 * i / n); sc.frame_set(round(f0 + (f1 - f0) * ph))
         else:
-            sc.frame_set(round(f0 + (f1 - f0) * i / n))
+            fr = f0 + (f1 - f0) * i / n; sc.frame_set(int(fr), subframe=fr - int(fr))   # even steps on fractional clips
         arm.location.x = x0 + (0.035 * (1 if i % 2 else -1) if name == 'Scared' else 0.0)   # trembling
+        if name in POSE_FX:
+            bpy.context.view_layer.update(); arm.animation_data.action = None; POSE_FX[name](i, n)
         apply_face(lerp_keys(EXPRESSIONS.get(name, [(0.0, {})]), i / n))
         bpy.context.view_layer.update()
         if FACE:
@@ -784,5 +852,5 @@ for spec in ANIMS:
         else:
             sc.render.filepath = os.path.join(OUT, f'{name}_{i:02d}.png')
         bpy.ops.render.render(write_still=True)
-    arm.location.x = x0
+    arm.location.x = x0; arm.rotation_euler = (0, 0, 0)
     print('rendered', name, len(only))

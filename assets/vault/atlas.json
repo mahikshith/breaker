@@ -43,20 +43,6 @@
  "tintJitter": 0.04,
  "tintNote": "multiply glazed brick RGB by 1 + tintJitter*(2*hash(c,r)-1) for per-brick variation (composite.png does this)",
  "anchors": {
-  "lantern": [
-   196,
-   158
-  ],
-  "torchFlames": [
-   [
-    40,
-    527
-   ],
-   [
-    320,
-    527
-   ]
-  ],
   "chamber": [
    132,
    144,
@@ -64,6 +50,7 @@
    48
   ]
  },
+ "propsNote": "v3 plate has no torches and no lantern; the lantern / torch_flame sprites are kept but unused",
  "sprites": {
   "brick_gold_1_0": {
    "file": "brick_gold_1_0.png",
@@ -791,6 +778,28 @@
    "margin": 4,
    "kind": "ball"
   },
+  "ball_titan": {
+   "file": "ball_titan.png",
+   "px": [
+    60,
+    60
+   ],
+   "ppu": 3,
+   "anchor": [
+    30.0,
+    30.0
+   ],
+   "footprint": [
+    12,
+    12
+   ],
+   "drawSize": [
+    20,
+    20
+   ],
+   "margin": 4,
+   "kind": "ball"
+  },
   "ball_fire": {
    "file": "ball_fire.png",
    "px": [
@@ -972,6 +981,94 @@
   },
   "cap_burst": {
    "file": "cap_burst.png",
+   "px": [
+    144,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    72.0,
+    39.0
+   ],
+   "footprint": [
+    40,
+    18
+   ],
+   "drawSize": [
+    48,
+    26
+   ],
+   "margin": 4,
+   "kind": "capsule"
+  },
+  "cap_laser": {
+   "file": "cap_laser.png",
+   "px": [
+    144,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    72.0,
+    39.0
+   ],
+   "footprint": [
+    40,
+    18
+   ],
+   "drawSize": [
+    48,
+    26
+   ],
+   "margin": 4,
+   "kind": "capsule"
+  },
+  "cap_shield": {
+   "file": "cap_shield.png",
+   "px": [
+    144,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    72.0,
+    39.0
+   ],
+   "footprint": [
+    40,
+    18
+   ],
+   "drawSize": [
+    48,
+    26
+   ],
+   "margin": 4,
+   "kind": "capsule"
+  },
+  "cap_slow": {
+   "file": "cap_slow.png",
+   "px": [
+    144,
+    78
+   ],
+   "ppu": 3,
+   "anchor": [
+    72.0,
+    39.0
+   ],
+   "footprint": [
+    40,
+    18
+   ],
+   "drawSize": [
+    48,
+    26
+   ],
+   "margin": 4,
+   "kind": "capsule"
+  },
+  "cap_shrink": {
+   "file": "cap_shrink.png",
    "px": [
     144,
     78

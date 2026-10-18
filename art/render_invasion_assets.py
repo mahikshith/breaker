@@ -604,11 +604,11 @@ def build_candy(ci, dmg):
     rng = random.Random(f'c{ci}-chip')
     corner = (rng.choice((-1, 1)), rng.choice((-1, 1)))
     crack = crack_texture(f'c{ci}', dmg, corner) if dmg else None
-    m = V.glaze_mat(f'glaze_c{ci}{dmg}', hexc, ci * 7 + 3, crack, (BW, BH))
+    m = V.glaze_mat(f'glaze_c{ci}{dmg}', hexc, ci * 7 + 3, crack, (BW, BH), gloss=True)
     o = box(f'brick_c_{ci}_{dmg}', BW, BH, BDEPTH, 0.3, m, at(y=-BDEPTH / 2), segs=8, local=True)
     if dmg >= 2:
         chip(o, rng, corner, BW, BH, V.biscuit_mat(f'biscuit_c{ci}', hexc))
-    return [o]
+    return [o, V.gloss_card(f'card_c{ci}{dmg}', BW, BH, -BDEPTH)]
 
 
 def armor_texture(dmg):
@@ -705,6 +705,7 @@ def build_armor(dmg):
             objs.append(cyl(0.085, 0.05, at(x, z, -(BDEPTH + 0.1) - 0.005), hole, rot=(math.radians(90), 0, 0), verts=16)); continue
         bpy.ops.mesh.primitive_uv_sphere_add(radius=0.1, segments=20, ring_count=10, location=at(x, z, -(BDEPTH + 0.1)))
         r = bpy.context.object; r.scale = (1, 0.6, 1); bpy.ops.object.shade_smooth(); r.data.materials.append(rv); objs.append(r)
+    objs.append(V.gloss_card(f'card_a{dmg}', BW, BH, -(BDEPTH + 0.1), strength=6.0, sheen=0.07))
     return objs
 
 
@@ -736,6 +737,7 @@ def build_power():
         ang = math.pi / 4 + a * math.pi / 2
         bpy.ops.mesh.primitive_uv_sphere_add(radius=0.07, segments=12, ring_count=6, location=at(math.cos(ang) * (r + 0.02), math.sin(ang) * (r + 0.02), -BDEPTH - 0.24))
         pp = bpy.context.object; bpy.ops.object.shade_smooth(); pp.data.materials.append(gold); objs.append(pp)
+    objs.append(V.gloss_card('card_p', BW, BH, -BDEPTH, strength=4.0, sheen=0.05))
     return objs
 
 
@@ -1169,11 +1171,28 @@ def render_ship(only=None):
 # =============================================================================================== plate
 WIN = dict(x0=14, y0=46, x1=346, y1=434, r=26)      # window opening (screen units)
 FRAME_W = 14                                        # frame width around the opening
-MULLIONS = (124, 236)
+MULLIONS = ()                                        # v3: removed (were at x = 124, 236)
 PLANET = dict(x=266, y=356, r=98)
 MOON = dict(x=58, y=82, r=12)
 SUN = Vector((-0.74, -0.2, 0.62)).normalized()     # light direction (towards the light) for the painted space bodies
 PLATE_LIGHTS = []                                   # (x, y, hex, size) indicator lights, for halos in post
+# v3 (backgrounds never outshine the play): no mullions across the window, a dim and muted planet / ring / nebula,
+# and quieter neon strips, indicator lights and deck treads in the lower hangar
+SPACE_GAIN, SPACE_SAT = 0.28, 0.42                  # planet, ring and moon emission gain / saturation kept
+NEBULA_GAIN, NEBULA_SAT = 0.45, 0.55
+NEON_K = 0.35                                       # LED strips and indicator lights, emission scale
+
+
+def mute(hexc, sat=SPACE_SAT):
+    """Hex colour pulled toward its own grey (keeps the luminance, drops saturation)."""
+    r, g, b = (int(hexc[i:i + 2], 16) for i in (1, 3, 5))
+    y = 0.2126 * r + 0.7152 * g + 0.0722 * b
+    return '#%02x%02x%02x' % tuple(round(y + (c - y) * sat) for c in (r, g, b))
+
+
+def mute_lin(c, sat):
+    y = 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+    return tuple(y + (k - y) * sat for k in c)
 
 
 def vmath(nt, op, a, b=None, scale=None):
@@ -1219,7 +1238,8 @@ def space_backdrop():
         dx = mth(nt, 'SUBTRACT', X, bx); dz = mth(nt, 'SUBTRACT', Z, bz)
         d = mth(nt, 'SQRT', mth(nt, 'ADD', mth(nt, 'MULTIPLY', dx, dx), mth(nt, 'MULTIPLY', dz, dz)))
         fall = maprange(nt, d, rad * U, 0.0, 0.0, 1.0)
-        cloud = mth(nt, 'MULTIPLY', maprange(nt, nz.outputs['Fac'], 0.42, 0.75), mth(nt, 'MULTIPLY', fall, amt))
+        cloud = mth(nt, 'MULTIPLY', maprange(nt, nz.outputs['Fac'], 0.42, 0.75), mth(nt, 'MULTIPLY', fall, amt * NEBULA_GAIN))
+        c = mute_lin(c, NEBULA_SAT)
         add = node(nt, 'ShaderNodeMix', data_type='RGBA', blend_type='ADD'); sock(add, 'Factor', 'VALUE').default_value = 1.0
         nt.links.new(col, sock(add, 'A', 'RGBA'))
         cm = node(nt, 'ShaderNodeMix', data_type='RGBA'); feed(nt, sock(cm, 'Factor', 'VALUE'), cloud)
@@ -1264,10 +1284,11 @@ def body_mat(name, bands, centre, radius, spec=0.5, atmo=(0.55, 0.3, 1.0), atmo_
     nt.links.new(tc.outputs['Object'], nz.inputs['Vector'])
     bandv = mth(nt, 'ADD', mth(nt, 'MULTIPLY', sep.outputs['Z'], band_scale / radius), mth(nt, 'MULTIPLY', nz.outputs['Fac'], 0.3 if not crater else 1.2))
     ramp = node(nt, 'ShaderNodeValToRGB'); e = ramp.color_ramp.elements
-    e[0].position, e[0].color = bands[0][0], (*srgb(bands[0][1]), 1)
-    e[1].position, e[1].color = bands[-1][0], (*srgb(bands[-1][1]), 1)
+    e[0].position, e[0].color = bands[0][0], (*srgb(mute(bands[0][1])), 1)
+    e[1].position, e[1].color = bands[-1][0], (*srgb(mute(bands[-1][1])), 1)
     for pos, hx in bands[1:-1]:
-        k = e.new(pos); k.color = (*srgb(hx), 1)
+        k = e.new(pos); k.color = (*srgb(mute(hx)), 1)
+    atmo = mute_lin(atmo, SPACE_SAT)
     nt.links.new(mth(nt, 'FRACT', mth(nt, 'MULTIPLY', bandv, 0.5)), ramp.inputs['Fac'])
     col = ramp.outputs['Color']
     shade = mth(nt, 'ADD', night, mth(nt, 'MULTIPLY', lit, 1.0 - night))
@@ -1304,7 +1325,7 @@ def body_mat(name, bands, centre, radius, spec=0.5, atmo=(0.55, 0.3, 1.0), atmo_
     lw = node(nt, 'ShaderNodeLayerWeight'); lw.inputs['Blend'].default_value = 0.35
     rim = mth(nt, 'MULTIPLY', mth(nt, 'POWER', lw.outputs['Facing'], 3.0), mth(nt, 'ADD', 0.25, mth(nt, 'MULTIPLY', lit, 0.75)))
     col = mixc(nt, mth(nt, 'MULTIPLY', rim, atmo_str), col, atmo)
-    em = node(nt, 'ShaderNodeEmission'); nt.links.new(col, em.inputs['Color']); em.inputs['Strength'].default_value = 1.0
+    em = node(nt, 'ShaderNodeEmission'); nt.links.new(col, em.inputs['Color']); em.inputs['Strength'].default_value = SPACE_GAIN
     nt.links.new(em.outputs[0], nt.nodes['Material Output'].inputs['Surface'])
     return m
 
@@ -1318,10 +1339,10 @@ def ring_mat(name, centre, R, r0, r1):
     ramp = node(nt, 'ShaderNodeValToRGB'); e = ramp.color_ramp.elements    # colour (rgb) + density (alpha)
     stops = [(0.0, '#6a4a9a', 0.0), (0.06, '#9a7ad0', 0.55), (0.22, '#e8b0d0', 0.8), (0.34, '#f5c8c0', 0.95), (0.40, '#3a2850', 0.12),
              (0.47, '#ffb6a6', 0.85), (0.7, '#d891c0', 0.7), (0.82, '#a070c8', 0.45), (0.9, '#6a4aa0', 0.25), (1.0, '#40306a', 0.0)]
-    e[0].position = stops[0][0]; e[0].color = (*srgb(stops[0][1]), stops[0][2])
-    e[1].position = stops[-1][0]; e[1].color = (*srgb(stops[-1][1]), stops[-1][2])
+    e[0].position = stops[0][0]; e[0].color = (*srgb(mute(stops[0][1])), stops[0][2])
+    e[1].position = stops[-1][0]; e[1].color = (*srgb(mute(stops[-1][1])), stops[-1][2])
     for pos, hx, a in stops[1:-1]:
-        k = e.new(pos); k.color = (*srgb(hx), a)
+        k = e.new(pos); k.color = (*srgb(mute(hx)), a)
     nt.links.new(f, ramp.inputs['Fac'])
     # fine ringlets
     wv = node(nt, 'ShaderNodeTexWave', wave_type='RINGS'); wv.inputs['Scale'].default_value = 1.0
@@ -1336,7 +1357,7 @@ def ring_mat(name, centre, R, r0, r1):
     perp = vmath(nt, 'LENGTH', vmath(nt, 'SUBTRACT', d, sc_node.outputs['Vector']))
     shadow = mth(nt, 'MULTIPLY', maprange(nt, perp, R * 1.02, R * 0.94), mth(nt, 'LESS_THAN', t, 0.0))
     lit = mth(nt, 'SUBTRACT', 1.0, mth(nt, 'MULTIPLY', shadow, 0.85))
-    em = node(nt, 'ShaderNodeEmission'); nt.links.new(ramp.outputs['Color'], em.inputs['Color']); feed(nt, em.inputs['Strength'], mth(nt, 'MULTIPLY', lit, 0.95))
+    em = node(nt, 'ShaderNodeEmission'); nt.links.new(ramp.outputs['Color'], em.inputs['Color']); feed(nt, em.inputs['Strength'], mth(nt, 'MULTIPLY', lit, 0.95 * SPACE_GAIN))
     tr = node(nt, 'ShaderNodeBsdfTransparent'); ms = node(nt, 'ShaderNodeMixShader')
     nt.links.new(dens, ms.inputs[0]); nt.links.new(tr.outputs[0], ms.inputs[1]); nt.links.new(em.outputs[0], ms.inputs[2])
     nt.links.new(ms.outputs[0], nt.nodes['Material Output'].inputs['Surface'])
@@ -1403,7 +1424,7 @@ def rivet(x, y, yy, m, r=1.3):
 
 
 def indicator(x, y, yy, hexc, r=1.6, strength=5.0):
-    m = mat('ind' + hexc, srgb(hexc), rough=0.1, coat=1.0, emit=srgb(hexc), emit_str=strength)
+    m = mat('ind' + hexc, srgb(hexc), rough=0.1, coat=1.0, emit=srgb(hexc), emit_str=strength * NEON_K)
     bpy.ops.mesh.primitive_uv_sphere_add(radius=r * U, segments=20, ring_count=10, location=(x * U, yy, -y * U))
     o = bpy.context.object; o.scale = (1, 0.6, 1); bpy.ops.object.shade_smooth(); o.data.materials.append(m)
     PLATE_LIGHTS.append((x, y, hexc, r))
@@ -1434,10 +1455,7 @@ def build_plate():
                0.35, 0.32, FRAME, -0.1)
     ring_frame('lip', (W['x0'] + 0.5, W['y0'] + 0.5, W['x1'] - 0.5, W['y1'] - 0.5, W['r'] - 0.5), (W['x0'] + 3, W['y0'] + 3, W['x1'] - 3, W['y1'] - 3, W['r'] - 3),
                0.08, 0.1, TRIM, 0.55)
-    for mx in MULLIONS:
-        sbox('mullion', mx - 2.6, W['y0'] - 2, mx + 2.6, W['y1'] + 2, 0.7, 0.05, 0.22, FRAME)
-        for yy in (W['y0'] + 10, W['y1'] - 10):
-            rivet(mx, yy, -0.04, RIV, 1.1)
+    # v3: no mullions (nothing crosses the window)
     # rivets around the frame face
     yfr = -0.1 - 0.35 - 0.32
     cxm = (W['x0'] + W['x1']) / 2
@@ -1455,7 +1473,7 @@ def build_plate():
     # sill under the window: a protruding ledge with a cyan LED strip on its lip
     ys = W['y1'] + fw
     sbox('sill', -10, ys + 2, 370, ys + 18, 1.6, -0.9, 0.35, FRAME)
-    strip = emission('sillstrip', srgb('#4fe9ff'), 3.0)
+    strip = emission('sillstrip', mute_lin(srgb('#4fe9ff'), 0.7), 3.0 * NEON_K)
     sbox('sillled', 10, ys + 14.4, 350, ys + 15.8, 0.05, -0.95, 0, strip)
     # side columns (the walls the ball bounces off) below the window
     for (x0, x1) in ((-6, 12), (348, 366)):
@@ -1487,12 +1505,13 @@ def build_plate():
                 rivet(rx, ry, -0.02, RIV, 0.9)
     # deck: a kick plate with horizontal treads and a soft pink edge light
     dy = py0 + 196
+    TREAD = metal_mat('tread', '#2c3247', rough=0.45, metal=0.4, coat=0.2)
     sbox('deck', -10, dy, 370, 830, 1.8, -1.2, 0.3, DARK)
-    edge = emission('deckedge', srgb('#ff5d8f'), 2.2)
+    edge = emission('deckedge', mute_lin(srgb('#ff5d8f'), 0.7), 2.2 * NEON_K)
     sbox('deckled', 12, dy + 3, 348, dy + 4.4, 0.05, -1.25, 0, edge)
     for k in range(9):
         yy = dy + 12 + k * 8
-        sbox('tread', 12, yy, 348, yy + 4.5, 0.25, -1.4, 0.08, FRAME, segs=2)
+        sbox('tread', 12, yy, 348, yy + 4.5, 0.25, -1.4, 0.08, TREAD, segs=2)
     # lights: space light spilling through the window onto the frame's inner rim, planet bounce, sill glow
     wx, wz = S(cxm, (W['y0'] + W['y1']) / 2)
     bpy.ops.object.light_add(type='AREA', location=(wx, 6.0, wz), rotation=(math.radians(-90), 0, 0))
@@ -1501,11 +1520,11 @@ def build_plate():
     px_, pz_ = S(PLANET['x'], PLANET['y'] + 40)
     bpy.ops.object.light_add(type='AREA', location=(px_, 4.0, pz_), rotation=(math.radians(-90), 0, 0))
     bpy.context.object.visible_camera = False
-    L = bpy.context.object.data; L.size = 14; L.energy = 6000; L.color = (1.0, 0.55, 0.5)
+    L = bpy.context.object.data; L.size = 14; L.energy = 6000 * SPACE_GAIN; L.color = (0.85, 0.65, 0.7)
     sx, sz = S(180, ys + 20)
     bpy.ops.object.light_add(type='AREA', location=(sx, -2.0, sz), rotation=(math.radians(-60), 0, 0))
     bpy.context.object.visible_camera = False
-    L = bpy.context.object.data; L.shape = 'RECTANGLE'; L.size = 34; L.size_y = 1; L.energy = 1600; L.color = (0.45, 0.9, 1.0)
+    L = bpy.context.object.data; L.shape = 'RECTANGLE'; L.size = 34; L.size_y = 1; L.energy = 1600 * NEON_K; L.color = (0.6, 0.85, 1.0)
 
 
 def noisy_panel(name, hexc):

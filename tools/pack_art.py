@@ -13,7 +13,7 @@ def uri(im, q=88):
 art = {'sprites': {}}
 
 # princess: one sheet, one row per animation
-anims = ['Idle', 'Interact', 'Blocking', 'Cheer', 'Running_A', 'Jump_Full_Short', 'Scared']
+anims = ['Idle', 'Interact', 'Blocking', 'Cheer', 'Running_A', 'Jump_Full_Short', 'Scared', 'Nervous', 'Panic']
 frames = {a: sorted(glob.glob(A('princess', f'{a}_*.png'))) for a in anims}
 anims = [a for a in anims if frames[a]]; frames = {a: frames[a] for a in anims}
 if 'Idle' in frames:

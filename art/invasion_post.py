@@ -72,19 +72,19 @@ def plate():
     # indicator light halos
     for (x, y, hx, r) in json.load(open(os.path.join(RAW, 'plate_lights.json'))):
         cx, cy = px(x, y)
-        g = radial(w, h, cx, cy, 2.2 * r * PPU) * 0.55 + radial(w, h, cx, cy, 6 * r * PPU) * 0.12
+        g = radial(w, h, cx, cy, 2.2 * r * PPU) * 0.28 + radial(w, h, cx, cy, 6 * r * PPU) * 0.05   # v3: quieter
         im = screen_add(im, g, hexrgb(hx))
     # LED strip glows (sill: cyan, deck edge: pink), soft horizontal bands
     yy = np.arange(h, dtype=np.float32)[:, None]; xx = np.arange(w, dtype=np.float32)[None, :]
     xfall = np.clip(np.minimum(xx - 10 * PPU, 350 * PPU - xx) / (30 * PPU), 0, 1)
-    for (ly, col, a, s1, s2) in ((SILL_LED_Y, '#4fe9ff', 0.42, 1.5, 9), (434 + 14 + 24 + 196 + 3.7, '#ff5d8f', 0.35, 1.4, 8)):
+    for (ly, col, a, s1, s2) in ((SILL_LED_Y, '#4fe9ff', 0.14, 1.5, 9), (434 + 14 + 24 + 196 + 3.7, '#ff5d8f', 0.10, 1.4, 8)):   # v3: quieter
         _, cy = px(0, ly)
         g = (np.exp(-(yy - cy) ** 2 / (2 * (s1 * PPU) ** 2)) * a + np.exp(-(yy - cy) ** 2 / (2 * (s2 * PPU) ** 2)) * a * 0.35) * xfall
         im = screen_add(im, g, hexrgb(col))
     # window glass: two faint diagonal sheen bands + a soft top-left reflection, only inside the opening
     win = rrect_mask(w, h, *(np.array(px(WIN['x0'], WIN['y0']))), *(np.array(px(WIN['x1'], WIN['y1']))), WIN['r'] * PPU)
     d = (xx * 0.62 + yy * 0.38) / PPU            # diagonal coordinate in units
-    sheen = (np.exp(-((d - 120) / 9) ** 2) * 0.05 + np.exp(-((d - 142) / 3.5) ** 2) * 0.035 + np.exp(-((d - 300) / 14) ** 2) * 0.03)
+    sheen = (np.exp(-((d - 120) / 16) ** 2) * 0.035 + np.exp(-((d - 300) / 22) ** 2) * 0.025)   # v3: soft only, no thin streak
     sheen += radial(w, h, *px(40, 60), 90 * PPU, 70 * PPU) * 0.03
     im = screen_add(im, sheen * win, (200, 215, 255))
     out = Image.fromarray(np.clip(im, 0, 255).astype(np.uint8), 'RGB')
@@ -332,7 +332,7 @@ def main():
         'rowColors': ROW_COLORS,
         'anchors': {'window': [WIN['x0'], WIN['y0'], WIN['x1'] - WIN['x0'], WIN['y1'] - WIN['y0']], 'windowRadius': WIN['r'],
                     'planet': [PLANET['x'], PLANET['y'], PLANET['r']], 'moon': [MOON['x'], MOON['y'], MOON['r']],
-                    'sillLed': SILL_LED_Y, 'mullionsX': [124, 236],
+                    'sillLed': SILL_LED_Y, 'mullionsX': [],
                     'indicatorLights': [[x, y, hx] for x, y, hx, r in json.load(open(os.path.join(RAW, 'plate_lights.json')))]},
         'sprites': sp,
     }

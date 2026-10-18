@@ -1,7 +1,7 @@
 # Serpent head sprites: an angular viper head (flat-topped wedge with crisp ridges, brow plates and a hinged jaw)
 # with expressive eyes. Every expression is rendered in four facings so the key light always comes from the top-left.
 # The body is drawn in the game as a tapered, lit ribbon that follows the head.
-# Run: python3 art/snake.py <out_dir> [expr ...] [--dirs r,l,d,u] [--samples N]
+# Run: python3 art/snake.py <out_dir> [expr ...] [--dirs r,l,d,u] [--samples N] [--px N] [--threads N]
 import bpy, bmesh, sys, os, math, json, addon_utils
 from mathutils import Vector, Matrix
 
@@ -140,7 +140,19 @@ gums = ellipsoid('gums', (2.5 * u, 0, -1.6 * u), (8.5 * u, 4.6 * u, 0.25 * u), G
 fangs = []
 for s in (-1, 1):
     bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=12, radius1=0.8 * u, radius2=0.04 * u, depth=3.4 * u)
-    f = new_mesh('fang', bm, FANG); f.location = (7.6 * u, s * 3.2 * u, -2.5 * u); f.rotation_euler = (0, math.radians(196), 0); f.parent = HEAD; fangs.append(f)
+    bmesh.ops.translate(bm, verts=bm.verts, vec=(0, 0, 1.7 * u))   # root at the origin, so a longer fang grows out of the gum
+    f = new_mesh('fang', bm, FANG); f.location = (8.07 * u, s * 3.2 * u, -0.87 * u); f.rotation_euler = (0, math.radians(196), 0); f.parent = HEAD; fangs.append(f)
+# rows of small hooked teeth along both gums, bared only by the ferocious expressions ('teeth')
+teeth = []
+def tooth(loc, rot, size, parent):
+    bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=8, radius1=0.42 * u * size, radius2=0.02 * u, depth=1.5 * u * size)
+    bmesh.ops.translate(bm, verts=bm.verts, vec=(0, 0, 0.75 * u * size))
+    t = new_mesh('tooth', bm, FANG); t.location = loc; t.rotation_euler = rot; t.parent = parent; teeth.append(t)
+for s in (-1, 1):
+    for a, sz in ((0.30, 0.8), (0.48, 0.95), (0.95, 1.0), (1.12, 0.9), (1.28, 0.8), (1.42, 0.7)):   # upper: skips the fang
+        tooth(((2.5 + 8.1 * math.cos(a)) * u, s * 4.3 * math.sin(a) * u, -1.55 * u), (0, math.radians(188), 0), sz, HEAD)
+    for a, sz in ((0.25, 0.75), (0.45, 0.9), (0.68, 1.0), (0.9, 0.95), (1.1, 0.85), (1.3, 0.7)):     # lower, on the jaw
+        tooth(((8.0 + 7.2 * math.cos(a)) * u, s * 3.7 * math.sin(a) * u, 0.15 * u), (0, math.radians(-8), 0), sz, jaw_pivot)
 # forked tongue: a stalk and two prongs, built along +x from its root and scaled out per expression
 tongue = bpy.data.objects.new('tongue', None); sc.collection.objects.link(tongue); link(tongue)
 tongue.location = (4.5 * u, 0, -1.7 * u)
@@ -197,6 +209,12 @@ def eye_material():
     e[0].position, e[0].color = 0.0, (*srgb('#e8ff7a'), 1); e[1].position, e[1].color = 0.62, (*srgb('#7fcf1a'), 1)
     ring = e.new(0.86); ring.color = (*srgb('#1f4a08'), 1)
     L(M('DIVIDE', r, 0.66), ramp.inputs['Fac'])
+    # rage: the iris burns from lime to a molten amber with a blood-red ring, and glows hotter
+    hot = N.new('ShaderNodeValToRGB'); e = hot.color_ramp.elements
+    e[0].position, e[0].color = 0.0, (*srgb('#fff36a'), 1); e[1].position, e[1].color = 0.55, (*srgb('#ffa21a'), 1)
+    e.new(0.86).color = (*srgb('#8a0a06'), 1)
+    L(M('DIVIDE', r, 0.66), hot.inputs['Fac'])
+    rage = V('rage', 0.0)
     # dizzy spiral: fract(angle / tau + r * 2.6)
     ang = M('DIVIDE', M('ARCTAN2', y, x), 6.2832)
     spiral = M('MULTIPLY', M('LESS_THAN', M('FRACT', M('ADD', ang, M('MULTIPLY', r, 2.6))), 0.42), M('MULTIPLY', front, M('LESS_THAN', r, 0.85)))
@@ -207,12 +225,15 @@ def eye_material():
             else: L(v, sock)
         return n.outputs[2]
     no_sp = M('SUBTRACT', 1.0, spf)
-    c1 = mix(M('MULTIPLY', iris, no_sp), (*srgb('#fff6e8'), 1), ramp.outputs['Color'])
+    icol = mix(rage, ramp.outputs['Color'], hot.outputs['Color'])
+    rim = M('MULTIPLY', rage, M('POWER', M('MINIMUM', r, 1.0), 3.0))          # bloodshot toward the edge of the eyeball
+    white = mix(M('MULTIPLY', rim, 0.55), (*srgb('#fff6e8'), 1), (*srgb('#ff6a5a'), 1))
+    c1 = mix(M('MULTIPLY', iris, no_sp), white, icol)
     c2 = mix(M('MULTIPLY', pupil, no_sp), c1, (0.004, 0.002, 0.006, 1))
     c3 = mix(M('MULTIPLY', spiral, spf), c2, (*srgb('#2a0f55'), 1))
     L(c3, b.inputs['Base Color'])
-    em = mix(M('MULTIPLY', M('SUBTRACT', iris, pupil), no_sp), (0, 0, 0, 1), ramp.outputs['Color'])
-    L(em, b.inputs['Emission Color']); b.inputs['Emission Strength'].default_value = 0.35
+    em = mix(M('MULTIPLY', M('SUBTRACT', iris, pupil), no_sp), (0, 0, 0, 1), icol)
+    L(em, b.inputs['Emission Color']); L(M('ADD', 0.35, M('MULTIPLY', rage, 1.1)), b.inputs['Emission Strength'])
     return m
 EYE = eye_material()
 
@@ -246,21 +267,25 @@ class Eye:
         so = lid.modifiers.new('so', 'SOLIDIFY'); so.thickness = 0.12 * R * u; so.material_offset_rim = 1; so.use_rim = True
         lid['s'] = s; return lid
 
-    def set(self, top=0.0, bot=0.0, look=(0, 0), pupil=1.0, slit=1.0, brow=0.0, raise_=0.0, spiral=False):
+    def set(self, top=0.0, bot=0.0, look=(0, 0), pupil=1.0, slit=1.0, brow=0.0, raise_=0.0, spiral=False, slant=0.0, rage=0.0, hood=0.0):
+        # slant > 0 tips the upper lid down toward the snout (a glare), the lower lid half as much the other way;
+        # hood > 0 pulls the brow plate out and down over the eyeball, rolled outward, so it overhangs the eye
         # lids rotate about the eye's local X: 0 = folded back (open), 1 = meeting across the middle
         for lid in self.lids:
             s = lid['s']; amt = top if s > 0 else bot
             h = max(-1.0, min(1.0, 1 - amt))   # where the lid edge crosses the front of the eye, in eye radii
-            lid.rotation_euler = (-s * (math.asin(h) + math.radians(18) * h), 0, 0)
+            sl = math.radians(slant) * self.side * (1.0 if s > 0 else 0.5)
+            lid.rotation_euler = (-s * (math.asin(h) + math.radians(18) * h), 0, sl)
         lx, ly = look   # look by turning the eyeball; the catch lights stay put
         self.ball.rotation_euler = (math.radians(-ly * 30), math.radians(lx * 30), 0)
         nt = EYE.node_tree.nodes
         nt['pw'].outputs[0].default_value = 0.14 * pupil * slit; nt['ph'].outputs[0].default_value = 0.52 * pupil
         nt['spiral'].outputs[0].default_value = 1.0 if spiral else 0.0
+        nt['rage'].outputs[0].default_value = rage
         for o in (self.shine, self.shine2): o.hide_render = top + bot > 1.4
         # brow: positive tilts the snout end down (anger), negative lifts it (worry, fear)
-        self.brow.location = self.brow_base + Vector((0, 0, raise_ * 1.3 * u))
-        self.brow.rotation_euler = (math.radians(self.side * -14), math.radians(brow), math.radians(self.side * 6))
+        self.brow.location = self.brow_base + Vector((0.5 * hood, self.side * 1.9 * hood, raise_ * 1.3 - 0.9 * hood)) * u
+        self.brow.rotation_euler = (math.radians(self.side * -(14 + 24 * hood)), math.radians(brow), math.radians(self.side * 6))
 
 eyes = [Eye(-1), Eye(1)]
 
@@ -279,13 +304,17 @@ EXPR = {
     'idle':   dict(jaw=0.0, corner=0.6, eye=dict(top=0.6, bot=0.1, brow=-4, raise_=0.3, look=(0.3, 0))),             # smug, half-lidded
     'blink':  dict(jaw=0.0, corner=0.7, eye=dict(top=1.05, bot=1.0, brow=10)),
     'taste':  dict(jaw=0.06, corner=0.5, tongue=1.0, eye=dict(top=0.32, bot=0.15, brow=14, look=(0.5, 0.1))),  # tongue flick
-    'hunt':   dict(jaw=0.0, corner=-0.2, eye=dict(top=0.42, bot=0.4, brow=40, raise_=-0.3, slit=0.45, look=(0.6, -0.25))),  # glaring at its prey
+    'hunt':   dict(jaw=0.0, corner=-0.1, eye=dict(top=0.56, bot=0.42, slant=24, brow=26, raise_=-0.35, hood=0.35, slit=0.32, rage=0.45, look=(0.7, -0.3))),  # glaring at its prey
     'chew0':  dict(jaw=0.35, eye=dict(top=0.36, bot=0.35, brow=36, raise_=-0.2, slit=0.6, look=(0.5, -0.2))),
     'chew1':  dict(jaw=0.8, eye=dict(top=0.3, bot=0.42, brow=40, raise_=-0.2, slit=0.55, look=(0.5, -0.2))),
     'hiss':   dict(jaw=1.0, tongue=1.0, fangs=True, eye=dict(top=0.0, bot=0.1, brow=44, slit=0.4, raise_=0.1, look=(0.4, 0))),
     'ouch':   dict(jaw=0.22, corner=-1.0, eye=dict(top=1.08, bot=1.0, brow=-34, raise_=0.6)),               # squeezed shut
     'dizzy':  dict(jaw=0.4, tongue=0.8, droop=48, eye=dict(top=0.12, bot=0.05, brow=-14, raise_=0.3, spiral=True), stars=True),
     'shock':  dict(jaw=0.5, eye=dict(top=0.0, bot=0.0, brow=-36, raise_=1.4, pupil=0.6, slit=2.6)),        # bricks coming down on it
+    # biting through bricks, closing on her: lips drawn back off every tooth, a low glare with burning eyes
+    'snarl':  dict(jaw=0.5, fang=1.45, teeth=True, eye=dict(top=0.56, bot=0.5, slant=28, brow=26, raise_=-0.35, hood=0.35, slit=0.3, rage=0.8, look=(0.7, -0.2))),
+    # the strike: jaws wide, fangs out, eyes blown wide and blazing under furious brows
+    'strike': dict(jaw=1.25, fang=1.7, teeth=True, eye=dict(top=0.14, bot=0.04, slant=18, brow=34, raise_=-0.1, hood=0.3, pupil=0.62, slit=0.45, rage=1.0, look=(0.8, 0))),
     'grin':   dict(jaw=0.0, corner=1.4, tongue=0.0, eye=dict(top=0.35, bot=0.62, brow=30, slit=0.45, look=(0.5, -0.2))),  # it reached her
 }
 
@@ -293,7 +322,9 @@ def pose(name, t=0.0):
     e = EXPR[name]; jw = e.get('jaw', 0)
     jaw_pivot.rotation_euler = (0, math.radians(30 * jw), 0)
     mouth.scale = (8.8 * u, 4.6 * u, (0.35 + 2.6 * jw) * u); mouth.location = (1.5 * u, 0, (-1.9 - 1.3 * jw) * u)
-    for f in fangs: f.hide_render = jw < 0.3
+    fl = e.get('fang', 1.0)
+    for f in fangs: f.hide_render = jw < 0.3; f.scale = (fl ** 0.5, fl ** 0.5, fl)
+    for t in teeth: t.hide_render = jw < 0.3 or not e.get('teeth')
     tg = e.get('tongue', 0.0)
     for o in tongue.children: o.hide_render = tg <= 0
     tongue.scale = (max(0.01, tg), 1, 1); tongue.rotation_euler = (0, math.radians(e.get('droop', 6 + 22 * jw)), 0)
@@ -317,6 +348,7 @@ TILT = 0.35
 bpy.ops.object.camera_add(location=(0, -40 * math.cos(TILT), 40 * math.sin(TILT)), rotation=(math.radians(90) - TILT, 0, 0))
 cam = bpy.context.object; sc.camera = cam; cam.data.type = 'ORTHO'; cam.data.ortho_scale = BOX * u
 sc.render.engine = 'CYCLES'; sc.cycles.samples = SAMPLES; sc.cycles.use_denoising = True
+if '--threads' in args: sc.render.threads_mode = 'FIXED'; sc.render.threads = int(opt('--threads', '0'))
 sc.render.resolution_x = sc.render.resolution_y = BOX * PX; sc.render.film_transparent = True
 sc.view_settings.view_transform = 'AgX'; sc.view_settings.look = 'AgX - Medium High Contrast'
 
