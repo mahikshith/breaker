@@ -2,6 +2,7 @@ package com.mahikshith.breach.preview;
 
 import android.graphics.Bitmap;
 import android.os.SystemClock;
+import android.os.ParcelFileDescriptor;
 import android.view.MotionEvent;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -10,6 +11,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -49,10 +53,22 @@ public class MobileSmokeTest {
         assertNotNull("Emulator screenshot", image);
         File folder = new File(activity.getExternalFilesDir(null), "screenshots");
         assertTrue(folder.isDirectory() || folder.mkdirs());
-        try (FileOutputStream file = new FileOutputStream(new File(folder, name + ".png"))) {
+        File capture = new File(folder, name + ".png");
+        try (FileOutputStream file = new FileOutputStream(capture)) {
             assertTrue(image.compress(Bitmap.CompressFormat.PNG, 100, file));
         }
         image.recycle();
+        String destination = "/sdcard/Download/BreachPreviewScreenshots";
+        String command = "(mkdir -p '" + destination + "' && cp '" + capture.getAbsolutePath()
+            + "' '" + destination + "/" + name + ".png' && echo CAPTURE_OK) 2>&1";
+        try (InputStream result = new ParcelFileDescriptor.AutoCloseInputStream(
+                InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand(command))) {
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            for (int n; (n = result.read(buffer)) != -1;) output.write(buffer, 0, n);
+            assertEquals("Screenshot export: " + name, "CAPTURE_OK",
+                new String(output.toByteArray(), StandardCharsets.UTF_8).trim());
+        }
     }
 
     private void touch(int action, float x, float y, long down) {

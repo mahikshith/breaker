@@ -93,7 +93,7 @@ jobs:
             adb shell svc data disable
             gradle -p android --no-daemon connectedDebugAndroidTest
             mkdir -p out
-            adb pull /sdcard/Android/data/com.mahikshith.breach.preview/files/screenshots out/android-screenshots
+            adb pull /sdcard/Download/BreachPreviewScreenshots out/android-screenshots
       - name: Package installable artifact
         run: |
           mkdir -p out/apk

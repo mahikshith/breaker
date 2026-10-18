@@ -5,7 +5,7 @@ This one file contains everything another assistant needs to design for, or take
 - **Game:** BREACH, a premium portrait brick breaker for iOS and Android. Tagline: "Break in. Break out."
 - **Owner:** mykee (GitHub `mahikshith`).
 - **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `coding/mobile-preview` is this working branch.
-- **Assembled at:** repo commit `bfe54b7`.
+- **Assembled at:** repo commit `8d10575`.
 
 ## How to read this file
 
@@ -1390,6 +1390,7 @@ Read all three handoff docs before touching code: this one (status, rules, TODO 
   - Reconstructed and rebuilt the exact tested pre-Brum source: Windows HTML SHA256 `3A6B8A8C5368364AFCFCE6BBF7B1994D4598C121C90B45B72FE5BD7E45285EC1`; all 21 unit tests pass. A packaging hash guard normalizes line endings for Linux CI.
   - Added a small portrait Android WebView app, bundled OFL fonts, no network permission, Android instrumentation smoke test, and branch-scoped GitHub Actions web/Android jobs. APK and native screenshots are published only after their required checks pass. CI results and artifact links must be recorded after the run, not assumed from the local build.
   - First Actions run `39106952788` passed web unit/phone/venom checks, APK compilation and Android lint. Native smoke stopped at the immediate font check (`MobileSmokeTest.java:61`): the test observed the page before the first Canvas frame requested the lazy-loaded bundled fonts. Replace that startup assertion with an awaited font-loaded condition at launch/recreation, retaining the actual font and pixel assertions; rerun CI before publishing the APK. No game-byte change accompanies this test repair.
+  - Second run `39107558744` passed all web, build/lint and native Android checks: one instrumentation test, zero failures/errors, including actual offline fonts, input, both levels and storage recreation. Its next screenshot pull failed because AGP removed the app-scoped external files during cleanup. Export each test capture to the emulator's shell-owned Download folder before cleanup and pull that folder; retain all native assertions and rerun the complete workflow before publishing the APK.
   - Known visual revisions: the owner now prefers the face icon at all times, rejects the old connecting cast trail, and requests a readable snake capture. This frozen preview retains the earlier animations by request; new options are being reviewed separately. Physical-phone feel/performance and human balance remain to be tested by the owner.
 
 - **2026-10-18 (A / left face orb integrated and tested; Brum proof selected; uncommitted).**
@@ -2259,6 +2260,7 @@ android/app/build.gradle
 android/app/src/androidTest/java/com/mahikshith/breach/preview/MobileSmokeTest.java
 android/app/src/main/AndroidManifest.xml
 android/app/src/main/java/com/mahikshith/breach/preview/MainActivity.java
+android/app/src/main/res/drawable/kit_face.png
 android/build.gradle
 android/gradle.properties
 android/settings.gradle
