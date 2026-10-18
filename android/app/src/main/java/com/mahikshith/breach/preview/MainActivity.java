@@ -44,7 +44,17 @@ public class MainActivity extends Activity {
         game.getSettings().setAllowFileAccess(false);
         game.getSettings().setAllowContentAccess(false);
         game.setWebViewClient(new WebViewClient() {
-            @Override public void onPageFinished(WebView view, String url) { applySafeArea(); }
+            @Override public void onPageFinished(WebView view, String url) {
+                applySafeArea();
+                // Recreation can preserve window focus while replacing its unfocused WebView.
+                view.post(() -> {
+                    if (view.isAttachedToWindow() && view.hasWindowFocus()) {
+                        fullscreen();
+                        view.requestFocus();
+                        view.requestApplyInsets();
+                    }
+                });
+            }
             @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 return !request.getUrl().toString().startsWith("file:///android_asset/");
             }
