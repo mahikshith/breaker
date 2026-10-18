@@ -2,6 +2,13 @@
 
 Read all three handoff docs before touching code: this one (status, rules, TODO with agreed designs), `02-architecture-and-pipeline.md` and `03-environment-skills-ux.md`. Keep them updated at the end of every session. Everything here reflects the repo as of branch `wip/polish-pass` (based on `main` @ b5df0eb, 2026-10-18).
 
+## Progress log (newest first)
+
+- **2026-10-18 (later):** TODO items 1–7 in section 8 are implemented on `wip/polish-pass`:
+  - level wiring, crumble vs. big crash, difficulty, continue screen, ferocious serpent with bite marks and the cage attack, nervous and panicking princess, and the Invasion calm-down with its landing beat.
+  - Draft screens are in `/mnt/project-files/breaker/playtest/v3/`. Re-shoot them with `node tools/playtest/polish.mjs <out> ios|android`.
+  - **Still open:** item 8 (shinier bricks, new capsules, titan ball, princess `Nervous`/`Panic` frames, serpent `snarl`/`strike` faces, all being rendered); then item 9 (playtest Android, tune difficulty) and item 10 (merge to `main`).
+
 ---
 
 ## 1. Rules from the owner (non-negotiable)
