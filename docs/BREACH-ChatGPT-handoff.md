@@ -5,7 +5,7 @@ This one file contains everything another assistant needs to design for, or take
 - **Game:** BREACH, a premium portrait brick breaker for iOS and Android. Tagline: "Break in. Break out."
 - **Owner:** mykee (GitHub `mahikshith`).
 - **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `wip/polish-pass` is the working branch.
-- **Assembled at:** repo commit `bcd8788`.
+- **Assembled at:** repo commit `6d95160`.
 
 ## How to read this file
 
@@ -717,7 +717,7 @@ Building is where most of the usage goes: rendering, coding, playtesting and fix
 One-time setup on your computer:
 
 1. Install Git, Node.js 22 and Python 3.11. bpy 5.2 needs exactly Python 3.11.
-2. Install Codex: the desktop app, or `npm install -g @openai/codex`. Sign in with your ChatGPT account.
+2. Open Codex: in the ChatGPT desktop app, switch to the **Codex** view from the top-left menu (or use the CLI, `npm install -g @openai/codex`). Create a Codex project as **Local**, not Cloud, so it runs on your computer where Blender can run. A Codex project is a code folder, separate from a ChatGPT Project; the GitHub repo connects the two.
 3. Run `git clone https://github.com/mahikshith/breaker` and open the folder in Codex. Codex reads `AGENTS.md` automatically.
 4. Tell Codex: "Set up this repo exactly as AGENTS.md says (npm install, a Python 3.11 venv with bpy 5.2.2, pillow, numpy, Playwright), then run npm run build and npm test."
 5. Tell Codex: "Render one test frame with `python3 art/princess.py out/test Idle:1` and show me the image." If you see the princess, Codex can drive Blender.
