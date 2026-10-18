@@ -59,10 +59,14 @@ public class MobileSmokeTest {
         }
         image.recycle();
         String destination = "/sdcard/Download/BreachPreviewScreenshots";
+        File export = new File(folder, "export.sh");
         String command = "(mkdir -p '" + destination + "' && cp '" + capture.getAbsolutePath()
-            + "' '" + destination + "/" + name + ".png' && echo CAPTURE_OK) 2>&1";
+            + "' '" + destination + "/" + name + ".png' && echo CAPTURE_OK) 2>&1\n";
+        try (FileOutputStream script = new FileOutputStream(export)) {
+            script.write(command.getBytes(StandardCharsets.UTF_8));
+        }
         try (InputStream result = new ParcelFileDescriptor.AutoCloseInputStream(
-                InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand(command))) {
+                InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand("sh " + export.getAbsolutePath()))) {
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
             for (int n; (n = result.read(buffer)) != -1;) output.write(buffer, 0, n);
