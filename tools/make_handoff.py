@@ -1,14 +1,32 @@
 # Builds docs/BREACH-ChatGPT-handoff.md: one self-contained file for another assistant (e.g. a ChatGPT project).
-# It concatenates the design brief, story plan, game plan and handoff docs 01-03, plus a repo file map.
+# It concatenates the design brief, steering prompts, story plan, game plan and handoff docs 01-03, plus a repo file map,
+# and writes the companion docs/BREACH-blender-scripts.md with every art script in full.
 # Run from the repo root after editing any of those docs:  python3 tools/make_handoff.py
 import subprocess
 
 PARTS = [('A', 'Design brief for ChatGPT (start here)', 'docs/handoff/04-chatgpt-design-brief.md'),
-         ('B', 'Story mode plan, research and roadmap', 'docs/STORY_PLAN.md'),
-         ('C', 'Original game plan', 'docs/GAME_PLAN.md'),
-         ('D', 'Status, owner rules, progress log, TODO, palette', 'docs/handoff/01-status-and-next-steps.md'),
-         ('E', 'Architecture, art pipeline, build and test', 'docs/handoff/02-architecture-and-pipeline.md'),
-         ('F', 'Environment, connections, skills, memory, UI/UX rules', 'docs/handoff/03-environment-skills-ux.md')]
+         ('B', 'Steering prompts: project instructions, task prompts, corrections, checklists', 'docs/handoff/05-chatgpt-steering-prompts.md'),
+         ('C', 'Story mode plan, research and roadmap', 'docs/STORY_PLAN.md'),
+         ('D', 'Original game plan', 'docs/GAME_PLAN.md'),
+         ('E', 'Status, owner rules, progress log, TODO, palette', 'docs/handoff/01-status-and-next-steps.md'),
+         ('F', 'Architecture, art pipeline, build and test', 'docs/handoff/02-architecture-and-pipeline.md'),
+         ('G', 'Environment, connections, skills, memory, UI/UX rules', 'docs/handoff/03-environment-skills-ux.md')]
+
+# Companion file: every art script in full, so another assistant sees exactly how the art is built.
+SCRIPTS = [
+    ('art/render_vault_assets.py', 'Production', 'The Vault: background plate, iron cage bars layer, glazed brick sprites (5 colours x 2 widths x damage states, gold gem, granite), chrome ball/fire/titan balls, paddle, power-up capsules. Defines the shared look: glazed-ceramic and vinyl materials, key/fill/bounce area lights, softbox reflection plane, ortho camera, AgX Medium High Contrast.', 'python3 art/render_vault_assets.py all|plate|bars|sprites|post [--fast] [--threads N]', 'art/out/vault_raw/ then assets/vault/ (via vault_post.py)'),
+    ('art/vault_post.py', 'Production (no Blender)', 'Pillow/numpy post-process for the Vault renders: glows, splits the paddle into stretchable caps and middle, builds atlas.json and preview sheets.', 'python3 art/vault_post.py', 'assets/vault/'),
+    ('art/render_invasion_assets.py', 'Production', 'Invasion: hangar plate, candy/armour/power bricks, toy robot invaders (7 expressions x colours), the mothership with alien pilot (5 expressions and rim lights), bolt and bomb. Imports the Vault materials and light rig so both levels match.', 'python3 art/render_invasion_assets.py all|plate|static|ship|bots|sprites|post', 'art/out/invasion_raw/ then assets/invasion/'),
+    ('art/invasion_post.py', 'Production (no Blender)', 'Pillow/numpy post-process for Invasion: LED and plasma glows, calm/dim passes, atlas.json, contact and composite sheets.', 'python3 art/invasion_post.py', 'assets/invasion/'),
+    ('art/princess.py', 'Production, the model for every new character', 'Princess Lumi from the KayKit Rogue (CC0): atlas recolour, tiara, bell skirt, and the expressive face rig (glossy eyeballs with iris/pupil/catch-lights, skin lids with lash line, brows, reshaping mouth decal, blush) with per-animation expressions. Prince Kit should be built the same way from kk_Knight.glb.', 'python3 art/princess.py assets/princess Idle:16 Cheer:16 Running_A:12 ... [--face] [--samples N] [--threads N]', 'assets/princess/<Anim>_NN.png'),
+    ('art/snake.py', 'Production', 'Gnash the serpent: angular faceted viper head with brow plates, hinged jaw and expressive eyes, 13 expressions in left/right facings. The body is drawn in code in the game.', 'python3 art/snake.py assets/snake [expr ...] --dirs r,l --samples N --px N', 'assets/snake/head_<expr>_<r|l>.png, meta.json'),
+    ('art/char_preview.py', 'Utility', 'Quick lit preview of any rigged GLB at one frame of one animation; useful for checking KayKit parts and poses.', 'python3 art/char_preview.py model.glb out.png [action] [frame]', 'one PNG'),
+    ('art/vault_tower.py', 'Look test (history)', 'The approved v3 look test: the Vault as a cutaway tower wall with big glazed bricks. The "shiny" target the production renders copy. (Its comments still mention an early fox character, later replaced by the princess.)', 'python3 art/vault_tower.py [out.png] [scale]', 'art/out/'),
+    ('art/vault_side.py', 'Look test (history)', 'Earlier side-view look test of the Vault.', 'python3 art/vault_side.py [out.png] [scale]', 'art/out/'),
+    ('art/vault_scene.py', 'Look test (history)', 'First top-down look test built from art/vault-grid.json.', 'python3 art/vault_scene.py [out.png] [scale]', 'art/out/'),
+    ('art/vault-grid.json', 'Data', 'Grid used by the early look tests.', '-', '-'),
+    ('tools/pack_art.py', 'Production', 'Packs all rendered PNGs into src/vault-art.js as WebP data URIs (3 px per game unit for sprites) so the game ships as one HTML file. Run after any render, then npm run build.', 'python3 tools/pack_art.py', 'src/vault-art.js'),
+]
 FRAMES = ['assets/princess', 'assets/snake', 'assets/vault', 'assets/invasion']
 
 
@@ -39,14 +57,36 @@ This one file contains everything another assistant needs to design for, or take
 
 ## How to read this file
 
-- **For design work:** read Part A first. It says what to make and in which format. Then read B for the story, and D and F for the rules.
-- **For execution work:** read D, E and F in full before touching anything.
+- **For design work:** read Part A first (what to make, and in which format) and Part B (how the owner steers you). Then read C for the story, and E and G for the rules.
+- **For execution work:** read E, F and G in full before touching anything, plus `docs/BREACH-blender-scripts.md`.
 
 | Part | Contents | Source file in the repo |
 |---|---|---|
-''' + ''.join(f'| {k} | {t} | `{p}` |\n' for k, t, p in PARTS) + '| G | Repository file map | `git ls-files` |\n'
+''' + ''.join(f'| {k} | {t} | `{p}` |\n' for k, t, p in PARTS) + '| H | Repository file map | `git ls-files` |\n\nCompanion file: `docs/BREACH-blender-scripts.md` has every Blender and art script in full.\n'
 for k, t, p in PARTS:
     doc += f'\n\n---\n\n# Part {k}: {t}\n\n*Source: `{p}`*\n\n' + demote(open(p).read())
-doc += '\n\n---\n\n# Part G: Repository file map\n\nThese are all tracked files, except individual render frames, which are counted instead:\n\n```\n' + counts + '\n\n' + '\n'.join(files) + '\n```\n'
+doc += '\n\n---\n\n# Part H: Repository file map\n\nThese are all tracked files, except individual render frames, which are counted instead:\n\n```\n' + counts + '\n\n' + '\n'.join(files) + '\n```\n'
 open('docs/BREACH-ChatGPT-handoff.md', 'w').write(doc)
 print(f'docs/BREACH-ChatGPT-handoff.md: {len(doc)} chars')
+
+art = '''# BREACH: Blender and art scripts (reference for how every asset is built)
+
+Companion to `docs/BREACH-ChatGPT-handoff.md`. Every script below is in the repo, https://github.com/mahikshith/breaker, at the path shown. They run headless with Blender 5.2 as a Python module:
+
+- Python 3.11, then `pip install bpy==5.2.2 pillow numpy`;
+- Cycles on the CPU.
+
+The order of work is render, post-process, `python3 tools/pack_art.py`, then `npm run build`. Before committing, strip the PNG metadata (doc 02, section 3).
+
+Design rule for anything new: reuse these materials, this light rig and this face rig, so new art matches the existing art.
+
+## Index
+
+| Script | Status | What it does | Run | Output |
+|---|---|---|---|---|
+''' + ''.join(f'| `{p}` | {st} | {what} | `{run}` | {out} |\n' for p, st, what, run, out in SCRIPTS)
+for p, st, what, run, out in SCRIPTS:
+    lang = 'json' if p.endswith('.json') else 'python'
+    art += f'\n\n---\n\n## `{p}`\n\n{what}\n\n```{lang}\n' + open(p).read().rstrip() + '\n```\n'
+open('docs/BREACH-blender-scripts.md', 'w').write(art)
+print(f'docs/BREACH-blender-scripts.md: {len(art)} chars')

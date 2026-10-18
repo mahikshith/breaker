@@ -11,12 +11,18 @@
 ## 0. How to use this brief (for the owner)
 
 1. Start a new ChatGPT project called "BREACH design".
-2. Add **`BREACH-ChatGPT-handoff.md`** to the project's files. That single file holds everything:
-   - this brief;
-   - the story plan and research;
-   - all three handoff docs: status, rules and history; architecture and pipeline; environment, skills and UX.
+2. Add two files to the project's files:
+   - **`docs/BREACH-ChatGPT-handoff.md`** holds everything:
+     - this brief;
+     - the steering prompts;
+     - the story plan and research, and the original game plan;
+     - all three handoff docs: status, rules and history; architecture and pipeline; environment, skills and UX;
+     - a map of the repo's files.
+   - **`docs/BREACH-blender-scripts.md`** holds every Blender and art script, with an index. Use it as the reference for how the art is built.
 
    Optionally, add the reference images from the repo (https://github.com/mahikshith/breaker): `docs/reference/`, `docs/screens/` and `docs/drafts/`. You can also connect GitHub in ChatGPT (Settings → Connectors → GitHub) so it can read the code.
+
+   Then paste the project instructions from Part B, section 1 into the project's Instructions field.
 3. Paste the "first message" in section 1.
 4. Work through the tasks in section 6 one at a time. Review each in ChatGPT until you like it.
 5. Bring the finished deliverables back to the Claude Project thread. Upload the files there, or paste the text, and say "build this". Claude will build them and show you screenshots.
@@ -30,8 +36,9 @@
 ```
 You are the lead game designer and art director for BREACH, a premium portrait brick breaker for
 iOS and Android. The project file BREACH-ChatGPT-handoff.md holds everything: your design brief
-(Part A), the story plan and research (Part B), the original game plan (Part C) and the full
-build handoff (Parts D-F). Read all of it before answering.
+(Part A), the steering prompts and checklists (Part B), the story plan and research (Part C), the
+original game plan (Part D) and the full build handoff (Parts E-G). BREACH-blender-scripts.md shows
+how all existing art is built in Blender. Read all of it before answering.
 
 Your job is DESIGN ONLY: story scripts, dialogue, character design sheets, concept art, UI/UX
 screen specs, level layouts and balance tables. Another engineer (Claude) builds everything in
@@ -39,8 +46,8 @@ code and Blender, so every deliverable must follow the exact formats in Part A s
 with exact colours (hex), sizes (in game units, 360 wide), timings (seconds) and file names.
 
 Follow the art and UX rules in Part A sections 3-5 strictly. Never contradict the owner's rules in
-section 2. When something isn't specified, propose 2-3 options with a recommendation and ask me.
-Start with Task 1 in section 6.
+Part A section 2. When something isn't specified, propose 2-3 options with a recommendation and ask me.
+Start with Task 1 in Part A section 6.
 ```
 
 ---
@@ -337,7 +344,7 @@ The owner uploads these files into the Claude Project thread, and Claude builds 
 |---|---|
 | Code repo | https://github.com/mahikshith/breaker (`main` is stable). Plain JS on Canvas 2D, bundled by esbuild into one HTML file. |
 | Story and roadmap | `docs/STORY_PLAN.md`; the live editable copy is a Claude Doc in the owner's Claude account |
-| Handoff docs | `docs/handoff/01`–`04` (this file is 04) |
+| Handoff docs | `docs/handoff/01`–`05` (this file is 04; 05 is the steering prompts). Single upload files: `docs/BREACH-ChatGPT-handoff.md` and `docs/BREACH-blender-scripts.md`, rebuilt with `python3 tools/make_handoff.py`. |
 | Art scripts | `art/*.py`, Blender `bpy` 5.2.2 run headless with Python 3.11. `art/princess.py` (character + face rig), `art/snake.py` (serpent heads), `art/render_vault_assets.py`, `art/render_invasion_assets.py` (plates, bricks, sprites). |
 | Packed art | `tools/pack_art.py` → `src/vault-art.js` (WebP data URIs) |
 | Playtests | Playwright + Chromium scripts in `tools/playtest/`, at iOS and Android sizes |
