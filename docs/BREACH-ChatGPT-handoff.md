@@ -5,7 +5,7 @@ This one file contains everything another assistant needs to design for, or take
 - **Game:** BREACH, a premium portrait brick breaker for iOS and Android. Tagline: "Break in. Break out."
 - **Owner:** mykee (GitHub `mahikshith`).
 - **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `codex/space-combat-apk` is this working branch.
-- **Assembled at:** repo commit `9c74978`.
+- **Assembled at:** repo commit `73c4b90`.
 
 ## How to read this file
 
@@ -233,7 +233,7 @@ A bounded public-input Node assist using those actual rig anchors cleared Easy a
 
 The initial Main phone, earned-gameplay and motion receipts use frozen HTML SHA256 `E49DDC6838759A687067EED5A4375A7FCBF5B1210111BCD55FCA96C37FCD30F4` before the menu-only crop above. Both start/end hashes match. The earlier four levels and their stable slots remain intact.
 
-The final canonical HTML is `B06CDD969BCF5C420A74B3CF37A3EAC45FE3D46EABB2926F5E5D2B8A42E01770`. All six Frost cases were repeated on that exact build and passed with matching before/after hashes and zero page errors. Canonical receipt: `out/frost-phones-canonical/report.json`, SHA256 `0DA34BF33BDCBB3676323DBF6057DB25AD62481532E0E331710F871F6C37B44C`. Actual final review inspected the corrected first menu, pre-contact Ward armour, and settled three-star staged win. The fifth card now shows the real Warden/Lumi/post art rather than sky; armour is visible before the protected punch. Root additionally reports six offline-packaged Frost cases and18 offline space cases passing; these are browser checks of packaged payloads, not native Android instrumentation.
+The final canonical HTML is `B06CDD969BCF5C420A74B3CF37A3EAC45FE3D46EABB2926F5E5D2B8A42E01770`. All six Frost cases were repeated on that exact build and passed with matching before/after hashes and zero page errors. Canonical receipt: `out/frost-phones-canonical/report.json`, SHA256 `0DA34BF33BDCBB3676323DBF6057DB25AD62481532E0E331710F871F6C37B44C`. Actual final review inspected the corrected first menu, pre-contact Ward armour, and settled three-star staged win. The fifth card now shows the real Warden/Lumi/post art rather than sky; armour is visible before the protected punch. Root additionally reports six offline-packaged Frost cases and 18 offline space cases passing; these are browser checks of packaged payloads, not native Android instrumentation.
 
 The independent public-input Easy browser controller won on both devices with all 3 lives and no Continue: iPhone 39.79s, Android 97.81s. iPhone earned Fan at 22.66s and naturally caught LASER/FIRE/SPLIT/SHIELD; Android earned Ward at 21.67s and Fan at 60.57/81.31s, naturally catching FIRE/SLOW/WIDE. These are power-assisted controller wins, not strict ordinary-only proof or human difficulty validation. There were no HP/life/charge/phase fixture writes in those runs. The successful combo variance is retained; no artificial wait or HP inflation was added. Receipt: `out/frost-earned/final/report.json`.
 
@@ -2892,7 +2892,6 @@ assets/snake-jade: 26 PNG renders
 assets/vault: 53 PNG renders
 assets/invasion: 78 PNG renders
 
-docs/validation/space-combat/frost-review.md
 .gitattributes
 .github/workflows/mobile-preview.yml
 .gitignore
@@ -4339,6 +4338,7 @@ docs/validation/space-combat/circuit-browser-routes.json
 docs/validation/space-combat/frost-earned-routes.json
 docs/validation/space-combat/frost-offline-controls.json
 docs/validation/space-combat/frost-phone-controls.json
+docs/validation/space-combat/frost-review.md
 docs/validation/space-combat/lf-build.json
 docs/validation/space-combat/phone-controls-pre-menu-crop.json
 docs/validation/space-combat/screenshots/android-circuit-powers.png
