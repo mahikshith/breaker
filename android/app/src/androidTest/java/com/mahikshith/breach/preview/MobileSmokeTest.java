@@ -81,6 +81,9 @@ public class MobileSmokeTest {
 
     private void assertFullscreenAndSafeArea(String phase) throws Exception {
         Log.i("BreachSmoke", phase + ": fullscreen and safe area");
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(() ->
+            Log.i("BreachSmoke", phase + ": activityFocus=" + activity.hasWindowFocus()
+                + ", webWindowFocus=" + activity.game.hasWindowFocus() + ", webFocus=" + activity.game.hasFocus()));
         await("document.hasFocus()");
         awaitSystemBars(false);
         int[] position = new int[2], expected = new int[4], decor = new int[2], window = new int[2];
@@ -129,8 +132,9 @@ public class MobileSmokeTest {
         image.recycle();
         String destination = "/sdcard/Download/BreachPreviewScreenshots";
         File export = new File(folder, "export.sh");
+        String diagnostics = name.equals("00-failure") ? " && dumpsys window > '" + destination + "/failure-window.txt'" : "";
         String command = "(mkdir -p '" + destination + "' && cp '" + capture.getAbsolutePath()
-            + "' '" + destination + "/" + name + ".png' && echo CAPTURE_OK) 2>&1\n";
+            + "' '" + destination + "/" + name + ".png'" + diagnostics + " && echo CAPTURE_OK) 2>&1\n";
         try (FileOutputStream script = new FileOutputStream(export)) {
             script.write(command.getBytes(StandardCharsets.UTF_8));
         }

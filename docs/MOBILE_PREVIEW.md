@@ -41,3 +41,5 @@ The initial Carrier run39122761324 passed web/build/lint but failed native touch
 The second run39123471388 exposed a one-frame system-bar visibility race. The expanded preflight retains every hidden-bar/geometry assertion, requires500ms focused attached stability, snapshots insets atomically, exercises held-input stop/resume and detaches the WebView before destruction. Failure screenshots/window/logcat now survive a failing test. The complete Carrier suite also runs against the actual offline packaged HTML; local both-phone runs pass. Native CI remains pending.
 
 Local browser play: http://127.0.0.1:4180/breach.html?level=1 while the preview server is running. This serves the same offline packaged payload as this APK candidate.
+
+The third run39124792121 passed source/offline web checks and native compile/lint, then failed initial document-focus readiness. The captured menu is fully drawn without an OS dialog. Startup now explicitly enables WebView touch focus and requests focus when its window gains focus. Native focus flags and a pre-close failure window dump improve diagnosis. This correction still requires native CI success.

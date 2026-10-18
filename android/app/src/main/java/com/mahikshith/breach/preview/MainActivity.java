@@ -31,6 +31,7 @@ public class MainActivity extends Activity {
         game = new WebView(this);
         game.setBackgroundColor(Color.rgb(7, 8, 15));
         game.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        game.setFocusableInTouchMode(true);
         frame.setOnApplyWindowInsetsListener((view, insets) -> {
             safeTopPx = Build.VERSION.SDK_INT >= 28 && insets.getDisplayCutout() != null ? insets.getDisplayCutout().getSafeInsetTop() : 0;
             safeBottomPx = Build.VERSION.SDK_INT >= 29 ? insets.getMandatorySystemGestureInsets().bottom : 0;
@@ -94,7 +95,10 @@ public class MainActivity extends Activity {
 
     @Override public void onWindowFocusChanged(boolean focused) {
         super.onWindowFocusChanged(focused);
-        if (focused) fullscreen();
+        if (focused) {
+            fullscreen();
+            game.requestFocus();
+        }
     }
 
     @Override protected void onPause() {
