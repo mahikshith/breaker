@@ -16,7 +16,7 @@ The Windows gameplay bundle SHA256 is `F4863DC5A87D6B46A8A1AFDB702C264F432196B85
 
 Local checks pass44 unit tests and both-phone Carrier, mobile UI, Vault capture/venom, polish and layout suites. Seeded public-input assisted runs earned all five rescues and disabled the carrier in82.3s on the simulated iPhone and45.2s on simulated Android. These demonstrate a reachable win, not human difficulty or real-device performance. Native reference-quality review passes continuous backgrounds, source-specific art and paddle alpha/collider alignment.
 
-Carrier has a physical/visible125x17u paddle and7.5r ordinary ball; Vault stays74x12/6r. Both retain126CSS lower control reserve, compact top HUD and no repeated control text. Carrier collision uses the actual delivered hull opening, clipped fighter emergence, moving weapon poses, non-pierceable disabled cover, substepped contacts and swept lasers. Powers cannot award repeated overlap damage. Hostile shots stop on visible cover.
+Carrier has a physical/visible125x17u paddle and7.5r ordinary ball; Vault stays70x12/6r. Both retain126CSS lower control reserve, compact top HUD and no repeated control text. Carrier collision uses the actual delivered hull opening, clipped fighter emergence, moving weapon poses, non-pierceable disabled cover, substepped contacts and swept lasers. Powers cannot award repeated overlap damage. Hostile shots stop on visible cover.
 
 Version is0.3-carrier-preview/code3. Native immersive mode, cutout/gesture safe areas, transient bars, offline Carrier touch/launch and Vault/recreation tests are prepared. Their compilation/emulator outcome is pending the current CI run; do not call this a verified APK until the run succeeds. Evidence and installable APK are uploaded as separate artifacts, and the APK artifact is gated on all native checks.
 
@@ -43,3 +43,5 @@ The second run39123471388 exposed a one-frame system-bar visibility race. The ex
 Local browser play: http://127.0.0.1:4180/breach.html?level=1 while the preview server is running. This serves the same offline packaged payload as this APK candidate.
 
 The third run39124792121 passed source/offline web checks and native compile/lint, then failed initial document-focus readiness. The captured menu is fully drawn without an OS dialog. Startup now explicitly enables WebView touch focus and requests focus when its window gains focus. Native focus flags and a pre-close failure window dump improve diagnosis. This correction still requires native CI success.
+
+Run39125706093 verified native focus, fullscreen/transient bars, held-touch stop/resume and Carrier input/launch; it failed an incorrect test expectation of Vault width74. The unchanged Vault constructor uses70. Its assertion now reports the exact identity/geometry tuple, and both-phone packaged-browser mirrors confirm every remaining static value and storage expectation. No gameplay or packaged hash changed. Native recreation/final CI still must pass.

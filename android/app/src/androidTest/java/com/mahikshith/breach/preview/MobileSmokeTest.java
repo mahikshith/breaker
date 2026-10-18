@@ -216,7 +216,7 @@ public class MobileSmokeTest {
                 await("window.__breach.level.phase !== 'intro'");
                 assertFullscreenAndSafeArea("vault");
                 assertEquals("true", js("window.__breach.level.bricksBroken === 0 && window.__breach.level.venom.contacts.hits === 0"));
-                assertEquals("Vault keeps its own paddle, ball and Kit role", "true", js("(() => { const l=window.__breach.level; return l.name==='The Vault' && l.paddle.baseW===74 && l.paddle.h===12 && l.ballRadius===6 && l.balls[0].r===6 && l.coreMode==='ward'; })()"));
+                assertEquals("Vault name, original paddle, ball and Kit role", "[\"The Vault\",70,12,6,6,\"ward\"]", js("(() => { const l=window.__breach.level; return [l.name,l.paddle.baseW,l.paddle.h,l.ballRadius,l.balls[0].r,l.coreMode]; })()"));
                 screenshot("04-vault-entry");
                 assertNull("No errors before Activity recreation", activity.pageError);
                 js("localStorage.setItem('breach.previewSmoke', 'true')");
