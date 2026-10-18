@@ -24,3 +24,7 @@ Physical-phone frame rate, touch comfort and human difficulty remain for device 
 - Six ship/phone VFX fixtures verify warnings, heavy/salvo travel and contact without enemy brick destruction. Separate earned routes preserve wins and losses; Frost's powered Easy browser routes finish at 39.79/97.81 seconds.
 - A separate LF source copy produces the identical canonical HTML. Both fonts are embedded in the browser and copied unchanged into APK-local files.
 - Permanent receipts and selected images: `docs/validation/space-combat/`. The new native CI run and downloaded APK hash will be appended after their checks complete.
+
+## Native verification correction
+
+Run [39163110800](https://github.com/mahikshith/breaker/actions/runs/39163110800) passed the complete web job, Android compilation and lint, but failed its first native canvas-colour probe. The callback timed out at `MobileSmokeTest.java:54`, after readiness and font checks; its native screenshot showed the correctly rendered five-card menu. The probe made 77 separate pixel reads on the live canvas. It now draws one 8×12 offscreen copy and reads it once, retaining the colour assertion without repeatedly reading the live render surface. The exact new probe passes against the final browser menu with a guard that rejects any live-canvas pixel read. Runtime HTML and package hashes are unchanged. A fresh CI run must pass the native gate before APK delivery.

@@ -34,7 +34,7 @@ public class MobileSmokeTest {
         CountDownLatch done = new CountDownLatch(1);
         InstrumentationRegistry.getInstrumentation().runOnMainSync(() ->
             activity.game.evaluateJavascript(script, value -> { result.set(value); done.countDown(); }));
-        assertTrue("JavaScript callback timed out", done.await(10, TimeUnit.SECONDS));
+        assertTrue("JavaScript callback timed out: " + script.substring(0, Math.min(160, script.length())), done.await(10, TimeUnit.SECONDS));
         return result.get();
     }
 
@@ -51,7 +51,8 @@ public class MobileSmokeTest {
         await("window.__breach && window.__breach.ready && document.getElementById('game').width > 300");
         js("document.fonts.load('16px \"Lilita One\"'); document.fonts.load('600 16px Rubik'); true");
         await("document.fonts.status === 'loaded' && document.fonts.check('16px \"Lilita One\"') && document.fonts.check('600 16px Rubik')");
-        await("(() => { const c=document.getElementById('game'),g=c.getContext('2d'),col=new Set(); for(let y=1;y<12;y++)for(let x=1;x<8;x++)col.add(g.getImageData(Math.floor(c.width*x/8),Math.floor(c.height*y/12),1,1).data.join(',')); return col.size>15; })()");
+        // Repeated readback of the live canvas can force its renderer into software mode.
+        await("(() => { const c=document.getElementById('game'),p=document.createElement('canvas'); p.width=8;p.height=12; const g=p.getContext('2d',{willReadFrequently:true}),col=new Set(); g.drawImage(c,0,0,8,12); const d=g.getImageData(0,0,8,12).data; for(let y=1;y<12;y++)for(let x=1;x<8;x++){const i=(y*8+x)*4;col.add(d.slice(i,i+4).join(','));} return col.size>15; })()");
     }
 
     private void awaitCarrierArt() throws Exception {
