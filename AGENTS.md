@@ -11,6 +11,27 @@ BREACH is a premium portrait brick breaker for iOS and Android. It is plain JS o
 5. `docs/handoff/04-chatgpt-design-brief.md`: the art bible, palette and design deliverable formats.
 6. Design deliverables to build, when present: `design/phase1/*.md` and `design/phase1/img/`.
 
+## Skills (read the matching SKILL.md before that kind of work)
+
+These are the skill guides used to build the game so far.
+
+| Kind of work | Read |
+|---|---|
+| Any code change: keep it lean, no frameworks unless needed | `skills/ponytail/ponytail/SKILL.md` |
+| Characters, sprites, backgrounds, concept art, Blender renders | `skills/gamedev/create-game-assets/SKILL.md` and its `references/` |
+| Juice: hit-stop, shake, tweening, impact feedback | `skills/gamedev/game-feel/SKILL.md` |
+| HUD, menus, results, chapter select, safe areas | `skills/gamedev/game-ui-ux/SKILL.md` |
+| Touch controls, paddle drag, aim | `skills/gamedev/input-systems/SKILL.md` |
+| Stage layouts, pacing, difficulty | `skills/gamedev/level-design/SKILL.md` |
+| Ball, debris and collision tuning | `skills/gamedev/physics-tuning/SKILL.md` |
+| Sound effects and music | `skills/gamedev/audio-design/SKILL.md` |
+| Frame rate and memory | `skills/gamedev/performance-optimization/SKILL.md` |
+| Quick experiments | `skills/gamedev/prototype-fast/SKILL.md` |
+| Procedural stages (Raid mode, Endless) | `skills/gamedev/procedural-gen/SKILL.md` |
+| Shader-style effects | `skills/gamedev/shader-programming/SKILL.md` |
+
+The game does not use Phaser or PixiJS, so skip those two skills unless the owner decides to switch engines.
+
 ## Hard rules
 
 - Every commit is authored and committed as `mahikshith <mahikshith97@gmail.com>`. Run `git config user.name mahikshith` and `git config user.email mahikshith97@gmail.com` first.
