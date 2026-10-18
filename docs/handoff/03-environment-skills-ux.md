@@ -17,7 +17,7 @@ This document covers where everything lives and how the work has been done. Any 
   - never ask for, or paste, the owner's token.
 - **Show drafts as you go.** The owner wants to see draft images whenever a piece is finished, especially UX screens, characters and assets. Post screenshots or sheets for iOS and Android sizes.
 - **Product feedback rules:** premium, inventive, urgent, addictive; never "vibe-coded"; expressions must say a lot; not too much yellow; keep the playful font and colours.
-- **Scope:** perfect the two levels first. Story mode, unlockables and new creatures come later.
+- **Scope:** the two levels are polished. Story mode, unlockables and new creatures are planned in `docs/STORY_PLAN.md` and wait for the owner's approval, one phase at a time.
 - **Work style:** the owner likes subtasks run in parallel (for example, one helper rendering art while code is written), and progress shown with images.
 
 ## 2. Where things live (connections and locations)
@@ -33,6 +33,7 @@ This document covers where everything lives and how the work has been done. Any 
 | | • `lookdev/`, Blender lookdev renders: `vault-top-down.png` is the "shinier" reference, plus `vault-side-view.png`; |
 | | • `drafts/`, the first screen drafts. |
 | | The key reference images are copied into the repo at `docs/reference/` and `docs/drafts/` so other tools can see them. |
+| Story and next-level plan | `docs/STORY_PLAN.md` in the repo. The live, editable version is a Claude Doc at https://claude.ai/code/artifact/5278a4c8-b669-4235-972f-7814c32382d9 (owner's account). A copy is in `/mnt/project-files/breaker/plan/`. |
 | Game-dev skills (Claude Projects) | `/mnt/project-files/skills/gamedev/` (see section 3) and `/mnt/project-files/skills/ponytail/`. |
 | Assistant memory (Claude Projects) | `/tmp/claude/memory/team/silo/MEMORY.md` (index) and `breaker-project.md` (project facts, rules, art direction). Their content is summarised in this document. |
 | Third-party assets | KayKit Adventurers (CC0) GLB models in `assets/models/`. Fonts: Google Fonts Lilita One and Rubik (OFL). Everything else is original Blender renders or code. |

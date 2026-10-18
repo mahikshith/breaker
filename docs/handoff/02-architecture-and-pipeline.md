@@ -8,7 +8,7 @@ This document is the "how it is built" reference. For current status and the tas
 - **Current goal:** two polished levels that feel inventive, urgent and addictive.
   - **Invasion:** Arkanoid crossed with Space Invaders.
   - **The Vault:** a rescue race against a serpent.
-- **Later:** a story mode and unlockables. Nothing for those is built yet.
+- **Later:** a story mode and unlockables, planned in `docs/STORY_PLAN.md`. Nothing for those is built yet.
 - **Reference games:** BALL x PIT, Arkanoid, Space Invaders.
 - **Business model (placeholder):** watch an ad to continue, or a one-time "Unlock full game" purchase. The option to make the whole game free is kept open: `MODE = 'free'` in `src/monetize.js`.
 

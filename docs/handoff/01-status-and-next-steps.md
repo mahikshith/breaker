@@ -24,6 +24,11 @@ Read all three handoff docs before touching code: this one (status, rules, TODO 
   - WIDE leads both drop tables.
   - Layout check: `node tools/playtest/layout.mjs <out>`.
 
+- **2026-10-18 (story plan):** owner asked for a dedicated story mode, a prince, locked weapons, a store with skins, and more power-ups (multi-ball multiplier, paddle bullets), backed by research into addictive games.
+  - Plan drafted, not built: `docs/STORY_PLAN.md` (live, editable copy: https://claude.ai/code/artifact/5278a4c8-b669-4235-972f-7814c32382d9; also `/mnt/project-files/breaker/plan/STORY_PLAN.md`).
+  - Core idea: bricks are alive with light and Princess Lumi is the light; Zorvax the Curator holds her in the Menagerie space prison; Prince Kit is the underdog hero; score becomes Shine, which rebuilds Brickhaven.
+  - Waiting on the owner's four decisions at the end of the plan (names, Kit's look, start Phase 1, business model). Nothing in section 9 is built until the owner approves.
+
 - **2026-10-18 (later):** TODO items 1–7 in section 8 are implemented on `wip/polish-pass`:
   - level wiring, crumble vs. big crash, difficulty, continue screen, ferocious serpent with bite marks and the cage attack, nervous and panicking princess, and the Invasion calm-down with its landing beat.
   - Draft screens are in `/mnt/project-files/breaker/playtest/v3/`. Re-shoot them with `node tools/playtest/polish.mjs <out> ios|android`.
@@ -423,7 +428,7 @@ Commit as mahikshith (no AI attribution) and merge `wip/polish-pass` into `main`
 
 ## 9. Future, NOT to build now (keep the code extensible)
 
-- **Story mode** chaining levels.
+- **Story mode** chaining levels. The full plan (story bible, chapters, heroes, weapons, power-ups, fusions, store, roadmap) is in `docs/STORY_PLAN.md`; build only after the owner approves a phase.
 - **Unlockables:** a locked princess, sword or prince shown as "next time" teasers; dragons and mythical beasts as new creatures.
 - **Extensibility:**
   - levels are self-contained classes in the `LEVELS` registry in `main.js`, so new levels and creatures slot in the same way;
