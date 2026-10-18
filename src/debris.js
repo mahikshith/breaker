@@ -21,13 +21,13 @@ function clipToward(poly, a, b) {
 function area(poly) { let s = 0; for (let i = 0; i < poly.length; i++) { const p = poly[i], q = poly[(i + 1) % poly.length]; s += p[0] * q[1] - q[0] * p[1]; } return Math.abs(s) / 2; }
 
 export class Debris {
-  constructor({ left, right, floor, onPaddleHit }) {
+  constructor({ left, right, floor, killY = Infinity, onPaddleHit }) {
     this.world = new World({ gravity: Vec2(0, 34) });
     const ground = this.world.createBody();
     ground.createFixture(Edge(v(left, -400), v(left, floor)), { friction: 0.4 });
     ground.createFixture(Edge(v(right, -400), v(right, floor)), { friction: 0.4 });
     ground.createFixture(Edge(v(left - 50, floor), v(right + 50, floor)), { friction: 0.8, restitution: 0.15 });
-    this.pieces = []; this.statics = new Map(); this.queue = [];
+    this.pieces = []; this.statics = new Map(); this.queue = []; this.fades = []; this.killY = killY;
     this.paddle = this.world.createBody({ type: 'kinematic' });
     this.paddleFix = null; this.paddleW = 0;
     this.onPaddleHit = onPaddleHit;
@@ -77,6 +77,23 @@ export class Debris {
       this.add({ kind: 'frag', body, local, art, bx: x - cx, by: y - cy, life: 2.2 + Math.random() * 0.8 });
     }
   }
+  // A single brick knocked out by the ball: it cracks into a few pieces that barely move, shrink and fade in a
+  // fraction of a second, so nothing small and shiny is left falling around to be mistaken for the ball.
+  crumble(art, x, y, w, h, vx = 0, vy = 0, n = 4) {
+    const seeds = [];
+    for (let i = 0; i < n; i++) seeds.push([x + w * (0.15 + 0.7 * Math.random()), y + h * (0.2 + 0.6 * Math.random())]);
+    for (const s of seeds) {
+      let poly = [[x, y], [x + w, y], [x + w, y + h], [x, y + h]];
+      for (const o of seeds) if (o !== s) poly = clipToward(poly, s, o);
+      if (poly.length < 3 || area(poly) < 4) continue;
+      const cx = poly.reduce((a, p) => a + p[0], 0) / poly.length, cy = poly.reduce((a, p) => a + p[1], 0) / poly.length;
+      const ox = (cx - (x + w / 2)) / w * 2, oy = (cy - (y + h / 2)) / h * 2;
+      this.fades.push({ x: cx, y: cy, local: poly.map(p => [p[0] - cx, p[1] - cy]), art, bx: x - cx, by: y - cy,
+        vx: ox * 26 + vx * 0.04 + (Math.random() - 0.5) * 10, vy: oy * 14 + vy * 0.04 + 6, a: 0, va: (Math.random() - 0.5) * 3, t: 0, life: 0.32 + Math.random() * 0.12 });
+    }
+    this.fades.push({ flash: true, x, y, w, h, t: 0, life: 0.12 });
+    if (this.fades.length > 160) this.fades.splice(0, this.fades.length - 160);
+  }
   // an unsupported brick tumbles out of the wall as one piece and shatters on impact
   drop(art, x, y, w, h, meta, vx = 0, vy = 0, spin = (Math.random() - 0.5) * 1.5) {
     const body = this.world.createBody({ type: 'dynamic', position: v(x + w / 2, y + h / 2), angularDamping: 0.1 });
@@ -112,7 +129,9 @@ export class Debris {
       this.kill(p);
       shatterBrick?.(p, pos.x * S, pos.y * S, vel.x * S, vel.y * S);
     }
-    for (const p of this.pieces) { p.t += dt; if (p.t > p.life) this.kill(p); }
+    for (const p of this.pieces) { p.t += dt; if (p.t > p.life || p.body.getPosition().y * S > this.killY) this.kill(p); }
+    for (const f of this.fades) { f.t += dt; if (!f.flash) { f.vy += 50 * dt; f.x += f.vx * dt; f.y += f.vy * dt; f.a += f.va * dt; } }
+    this.fades = this.fades.filter(f => f.t < f.life);
     this.pieces = this.pieces.filter(p => !p.dead);
   }
 
@@ -124,6 +143,14 @@ export class Debris {
       // the piece shows exactly the part of the brick image it was cut from
       g.save(); g.globalAlpha = fade; g.translate(x, y); g.rotate(a); path(); g.clip();
       const A = p.art; g.drawImage(A.img, p.bx - A.ox, p.by - A.oy, A.iw, A.ih);
+      g.restore();
+    }
+    for (const f of this.fades) {
+      const k = f.t / f.life;
+      if (f.flash) { g.globalAlpha = 0.55 * (1 - k); g.fillStyle = '#fff'; g.fillRect(f.x, f.y, f.w, f.h); g.globalAlpha = 1; continue; }
+      const sc = 1 - k * 0.35, path = () => { g.beginPath(); f.local.forEach(([px, py], i) => i ? g.lineTo(px, py) : g.moveTo(px, py)); g.closePath(); };
+      g.save(); g.globalAlpha = (1 - k) * (1 - k); g.translate(f.x, f.y); g.rotate(f.a); g.scale(sc, sc); path(); g.clip();
+      const A = f.art; g.drawImage(A.img, f.bx - A.ox, f.by - A.oy, A.iw, A.ih);
       g.restore();
     }
   }

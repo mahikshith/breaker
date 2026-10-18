@@ -109,7 +109,14 @@ export function drawBall(g, b, alpha = 1) {
   // short motion ghost: two faint copies behind, no glowing lines
   const sp = Math.hypot(b.vx, b.vy) || 1;
   // the rendered chrome ball is 12 units across inside a 20-unit image; the code-drawn one fills 36 of 40
-  const R = SPR[b.fire ? 'ball_fire' : 'ball'], spr = ready(R) ? R.img : ballSprite(b.fire), half = ready(R) ? b.r * 20 / 12 : 20 * s;
+  const titan = b.titan > 0, R = SPR[titan ? 'ball_titan' : b.fire ? 'ball_fire' : 'ball'], spr = ready(R) ? R.img : ballSprite(b.fire || titan), half = ready(R) ? b.r * 20 / 12 : 20 * s;
+  if (titan) { // a pulsing energy halo so the big ball reads as a power, not just a bigger ball
+    const pulse = 0.75 + 0.25 * Math.sin(performance.now() / 70);
+    g.save(); g.globalCompositeOperation = 'lighter'; g.globalAlpha = alpha * 0.55 * pulse;
+    const hg = g.createRadialGradient(b.x, b.y, b.r * 0.6, b.x, b.y, b.r * 2.1);
+    hg.addColorStop(0, 'rgba(255,90,220,0.9)'); hg.addColorStop(0.5, 'rgba(90,200,255,0.35)'); hg.addColorStop(1, 'rgba(90,200,255,0)');
+    g.fillStyle = hg; g.beginPath(); g.arc(b.x, b.y, b.r * 2.1, 0, 7); g.fill(); g.restore();
+  }
   for (let i = 2; i >= 1; i--) {
     g.globalAlpha = alpha * (b.fire ? 0.22 : 0.12) / i;
     const k = i * 0.012;
@@ -239,6 +246,10 @@ export const POWER = {
   wide: { color: '#3fa8f5', label: 'WIDE' },
   focus: { color: '#c46bf0', label: 'AIM' },
   burst: { color: '#f7c948', label: '+3' },
+  laser: { color: '#ff4d6d', label: 'LASER' },
+  shield: { color: '#2ec4b6', label: 'SHIELD' },
+  slow: { color: '#7fd6ff', label: 'SLOW' },
+  shrink: { color: '#5a5f78', label: 'TINY', bad: true },
 };
 export function capsule(kind) {
   const p = POWER[kind];

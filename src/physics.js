@@ -57,7 +57,7 @@ export function collideGrid(b, G, onHit) {
     let dx = b.x - px, dy = b.y - py;
     const d = Math.hypot(dx, dy);
     if (d >= b.r) continue;
-    if (b.fire) { hitBuf.push(c, r); continue; } // fireballs pass through
+    if (b.fire || b.titan > 0) { hitBuf.push(c, r); continue; } // fire and titan balls plough straight through
     if (d === 0) { dx = -b.vx; dy = -b.vy; }
     else if (dx && dy) {
       // Corner contact. If the neighbour along one axis is solid this is really a flat face

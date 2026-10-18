@@ -38,3 +38,4 @@ Controls: drag anywhere to move the paddle. Before a serve, drag to aim and rele
 | `src/main.js` | Canvas sizing with safe-area insets, game loop, input, menu and results screens. |
 
 The design plan is in [docs/GAME_PLAN.md](docs/GAME_PLAN.md).
+\nHandoff and project docs (status, architecture, art pipeline, tools, UI/UX rules) live in [docs/handoff/](docs/handoff/). Keep them current at the end of every session.
