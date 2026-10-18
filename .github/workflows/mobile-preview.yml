@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: [coding/mobile-preview]
+    paths-ignore: ['docs/**', 'design/**']
 
 permissions:
   contents: read

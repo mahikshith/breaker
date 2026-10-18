@@ -5,7 +5,7 @@ This one file contains everything another assistant needs to design for, or take
 - **Game:** BREACH, a premium portrait brick breaker for iOS and Android. Tagline: "Break in. Break out."
 - **Owner:** mykee (GitHub `mahikshith`).
 - **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `coding/mobile-preview` is this working branch.
-- **Assembled at:** repo commit `9c74978`.
+- **Assembled at:** repo commit `bfe54b7`.
 
 ## How to read this file
 
@@ -1389,6 +1389,7 @@ Read all three handoff docs before touching code: this one (status, rules, TODO 
   - The owner explicitly requested a new `coding/` branch, a push to GitHub, a triggered CI pipeline and an APK artifact of the reviewed work before Brum was selected, while design continues in parallel. This authorization applies to the checkpoint, not the unfinished revisions.
   - Reconstructed and rebuilt the exact tested pre-Brum source: Windows HTML SHA256 `3A6B8A8C5368364AFCFCE6BBF7B1994D4598C121C90B45B72FE5BD7E45285EC1`; all 21 unit tests pass. A packaging hash guard normalizes line endings for Linux CI.
   - Added a small portrait Android WebView app, bundled OFL fonts, no network permission, Android instrumentation smoke test, and branch-scoped GitHub Actions web/Android jobs. APK and native screenshots are published only after their required checks pass. CI results and artifact links must be recorded after the run, not assumed from the local build.
+  - First Actions run `39106952788` passed web unit/phone/venom checks, APK compilation and Android lint. Native smoke stopped at the immediate font check (`MobileSmokeTest.java:61`): the test observed the page before the first Canvas frame requested the lazy-loaded bundled fonts. Replace that startup assertion with an awaited font-loaded condition at launch/recreation, retaining the actual font and pixel assertions; rerun CI before publishing the APK. No game-byte change accompanies this test repair.
   - Known visual revisions: the owner now prefers the face icon at all times, rejects the old connecting cast trail, and requests a readable snake capture. This frozen preview retains the earlier animations by request; new options are being reviewed separately. Physical-phone feel/performance and human balance remain to be tested by the owner.
 
 - **2026-10-18 (A / left face orb integrated and tested; Brum proof selected; uncommitted).**
@@ -2250,6 +2251,9 @@ assets/vault: 53 PNG renders
 assets/invasion: 78 PNG renders
 
 .github/workflows/mobile-preview.yml
+.gitignore
+AGENTS.md
+README.md
 android/.gitignore
 android/app/build.gradle
 android/app/src/androidTest/java/com/mahikshith/breach/preview/MobileSmokeTest.java
@@ -2258,15 +2262,38 @@ android/app/src/main/java/com/mahikshith/breach/preview/MainActivity.java
 android/build.gradle
 android/gradle.properties
 android/settings.gradle
+art/char_preview.py
+art/invasion_post.py
 art/kit.py
+art/princess.py
+art/render_invasion_assets.py
+art/render_vault_assets.py
+art/snake.py
+art/vault-grid.json
+art/vault_post.py
+art/vault_scene.py
+art/vault_side.py
+art/vault_tower.py
 assets/fonts/LilitaOne-OFL.txt
 assets/fonts/LilitaOne-Regular.ttf
 assets/fonts/Rubik-OFL.txt
 assets/fonts/Rubik.ttf
+assets/invasion/atlas.json
+assets/invasion/plate.jpg
 assets/kit/meta.json
 assets/kit/preview.gif
+assets/models/kk_Knight.glb
+assets/models/kk_Mage.glb
+assets/models/kk_Rogue.glb
+assets/previews/Mage.png
+assets/previews/Rogue.png
+assets/previews/mage_rogue.png
+assets/previews/rogue_tex.png
 assets/snake-jade/README.md
 assets/snake-jade/meta.json
+assets/snake/meta.json
+assets/vault/atlas.json
+assets/vault/plate.jpg
 design/phase1/00-quality-target.md
 design/phase1/01-kit-character.md
 design/phase1/02-menagerie-cast.md
@@ -2290,44 +2317,10 @@ design/phase1/kit-asset-manifest.json
 design/phase1/level-layout-options.md
 design/phase1/snake-entrance.md
 design/phase1/venom-options.md
-docs/MOBILE_PREVIEW.md
-src/kit.js
-src/serpent.js
-tests/kit.test.js
-tests/serpent.test.js
-tools/playtest/kit.mjs
-tools/playtest/vault-v2.mjs
-tools/playtest/venom.mjs
-tools/prepare-android.mjs
-.gitignore
-AGENTS.md
-README.md
-art/char_preview.py
-art/invasion_post.py
-art/princess.py
-art/render_invasion_assets.py
-art/render_vault_assets.py
-art/snake.py
-art/vault-grid.json
-art/vault_post.py
-art/vault_scene.py
-art/vault_side.py
-art/vault_tower.py
-assets/invasion/atlas.json
-assets/invasion/plate.jpg
-assets/models/kk_Knight.glb
-assets/models/kk_Mage.glb
-assets/models/kk_Rogue.glb
-assets/previews/Mage.png
-assets/previews/Rogue.png
-assets/previews/mage_rogue.png
-assets/previews/rogue_tex.png
-assets/snake/meta.json
-assets/vault/atlas.json
-assets/vault/plate.jpg
 docs/BREACH-ChatGPT-handoff.md
 docs/BREACH-blender-scripts.md
 docs/GAME_PLAN.md
+docs/MOBILE_PREVIEW.md
 docs/STORY_PLAN.md
 docs/drafts/breach.png
 docs/drafts/forge.png
@@ -2404,18 +2397,26 @@ src/characters.js
 src/debris.js
 src/gfx.js
 src/invasion.js
+src/kit.js
 src/main.js
 src/monetize.js
 src/physics.js
 src/prefs.js
+src/serpent.js
 src/vault-art.js
 src/vault.js
+tests/kit.test.js
 tests/physics.test.js
+tests/serpent.test.js
 tools/build.mjs
 tools/make_handoff.py
 tools/pack_art.py
+tools/playtest/kit.mjs
 tools/playtest/l1.mjs
 tools/playtest/layout.mjs
 tools/playtest/polish.mjs
+tools/playtest/vault-v2.mjs
 tools/playtest/vault.mjs
+tools/playtest/venom.mjs
+tools/prepare-android.mjs
 ```

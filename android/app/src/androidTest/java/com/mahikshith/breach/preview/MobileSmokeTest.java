@@ -37,6 +37,13 @@ public class MobileSmokeTest {
         fail("Condition timed out: " + condition + "; page error: " + activity.pageError);
     }
 
+    private void awaitCanvas() throws Exception {
+        await("window.__breach && document.getElementById('game').width > 300");
+        js("document.fonts.load('16px \"Lilita One\"'); document.fonts.load('600 16px Rubik'); true");
+        await("document.fonts.status === 'loaded' && document.fonts.check('16px \"Lilita One\"') && document.fonts.check('600 16px Rubik')");
+        await("(() => { const c=document.getElementById('game'),g=c.getContext('2d'),col=new Set(); for(let y=1;y<12;y++)for(let x=1;x<8;x++)col.add(g.getImageData(Math.floor(c.width*x/8),Math.floor(c.height*y/12),1,1).data.join(',')); return col.size>15; })()");
+    }
+
     private void screenshot(String name) throws Exception {
         Bitmap image = InstrumentationRegistry.getInstrumentation().getUiAutomation().takeScreenshot();
         assertNotNull("Emulator screenshot", image);
@@ -57,10 +64,7 @@ public class MobileSmokeTest {
     @Test public void offlineCanvasTouchAndBothLevels() throws Exception {
         try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
             scenario.onActivity(value -> activity = value);
-            await("window.__breach && document.fonts.status === 'loaded'");
-            assertEquals("true", js("document.fonts.check('16px \"Lilita One\"') && document.fonts.check('600 16px Rubik')"));
-            assertEquals("true", js("document.getElementById('game').width > 300"));
-            await("(() => { const c=document.getElementById('game'),g=c.getContext('2d'),col=new Set(); for(let y=1;y<12;y++)for(let x=1;x<8;x++)col.add(g.getImageData(Math.floor(c.width*x/8),Math.floor(c.height*y/12),1,1).data.join(',')); return col.size>15; })()");
+            awaitCanvas();
             screenshot("01-menu");
             js("window.__breach.start(0)");
             await("window.__breach.level.t > 0.3");
@@ -89,7 +93,7 @@ public class MobileSmokeTest {
             js("localStorage.setItem('breach.previewSmoke', 'true')");
             scenario.recreate();
             scenario.onActivity(value -> activity = value);
-            await("window.__breach && document.fonts.status === 'loaded'");
+            awaitCanvas();
             assertEquals("\"true\"", js("localStorage.getItem('breach.previewSmoke')"));
             assertNull("No WebView console or load errors", activity.pageError);
             screenshot("04-restored-menu");

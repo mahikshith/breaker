@@ -116,4 +116,3 @@ LOCKS: creatures must have radically different silhouettes and faces: compact fo
 - The B attempt is rejected. Its new source and assets were removed from production paths; proof renders, source and `.blend` files are retained only under ignored `out/rejected-cast-20261018/`.
 - No full animation batch was produced, no encounter behavior was built, and this cast has no active runtime or packer integration.
 - New directions are options in `03-cast-restart.md`; no replacement is selected. Do not resume the rejected family under new names.
-

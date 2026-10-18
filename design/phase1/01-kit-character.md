@@ -159,4 +159,3 @@ Materials: coherent satin vinyl collectible toy, sculpted hair and skin, broad g
 ## Open question
 
 - Owner review of the completed animated Knight 2 and both phone screenshots remains pending before commit / push.
-

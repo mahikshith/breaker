@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <application android:label="BREACH Preview" android:theme="@android:style/Theme.Material.NoActionBar"
+    <application android:label="BREACH Preview" android:icon="@drawable/kit_face" android:theme="@android:style/Theme.Material.NoActionBar"
         android:allowBackup="false" android:usesCleartextTraffic="false" android:supportsRtl="true">
         <activity android:name=".MainActivity" android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|keyboardHidden" android:exported="true">
