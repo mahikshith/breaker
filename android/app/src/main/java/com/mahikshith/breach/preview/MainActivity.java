@@ -114,6 +114,7 @@ public class MainActivity extends Activity {
         if (focused) {
             fullscreen();
             game.requestFocus();
+            game.evaluateJavascript("window.dispatchEvent(new Event('focus'))", null);
         }
     }
 
@@ -128,6 +129,8 @@ public class MainActivity extends Activity {
         fullscreen();
         game.resumeTimers();
         game.onResume();
+        // Pair onPause's explicit blur even when the WebView retains window focus.
+        if (game.hasWindowFocus()) game.evaluateJavascript("window.dispatchEvent(new Event('focus'))", null);
     }
     @Override protected void onDestroy() {
         if (game.getParent() instanceof ViewGroup) ((ViewGroup) game.getParent()).removeView(game);

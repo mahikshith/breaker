@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="com.mahikshith.breach.preview.MobileSmokeTest" tests="1" failures="1" errors="0" skipped="0" time="79.08" timestamp="2026-10-18T20:57:58" hostname="localhost">
+  <properties>
+    <property name="device" value="emulator-5554 - 15" />
+    <property name="flavor" value="" />
+    <property name="project" value=":app" />
+  </properties>
+  <testcase name="offlineCarrierTouchFullscreenAndVault" classname="com.mahikshith.breach.preview.MobileSmokeTest" time="77.569">
+    <failure>java.lang.AssertionError: Condition timed out: window.__breach.level.aim &amp;&amp; window.__breach.level.aim.angle &gt; 0.1; page error: null
+at org.junit.Assert.fail(Assert.java:89)
+at com.mahikshith.breach.preview.MobileSmokeTest.await(MobileSmokeTest.java:47)
+at com.mahikshith.breach.preview.MobileSmokeTest.offlineCarrierTouchFullscreenAndVault(MobileSmokeTest.java:226)
+</failure>
+  </testcase>
+</testsuite>

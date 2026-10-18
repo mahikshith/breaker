@@ -44,7 +44,8 @@ public class MobileSmokeTest {
             if ("true".equals(js("Boolean(" + condition + ")"))) return;
             Thread.sleep(100);
         }
-        fail("Condition timed out: " + condition + "; page error: " + activity.pageError);
+        fail("Condition timed out: " + condition + "; page error: " + activity.pageError
+            + "; state: " + js("JSON.stringify({scene:window.__breach?.scene,focus:document.hasFocus(),hidden:document.hidden,t:window.__breach?.level?.t,ptr:window.__breach?.level?.ptr,angle:window.__breach?.level?.aim?.angle})"));
     }
 
     private void awaitCanvas() throws Exception {
@@ -219,8 +220,11 @@ public class MobileSmokeTest {
                 touch(MotionEvent.ACTION_DOWN, x, origin[1]+height.get()*resumeFraction, resumeDown);
                 touch(MotionEvent.ACTION_UP, x, origin[1]+height.get()*resumeFraction, resumeDown);
                 await("window.__breach.scene==='level'");
+                String resumedTime = js("window.__breach.level.t");
+                await("window.__breach.level.t > " + resumedTime);
                 down = SystemClock.uptimeMillis();
                 touch(MotionEvent.ACTION_DOWN, x, y, down);
+                await("window.__breach.level.ptr.down");
                 Thread.sleep(100);
                 touch(MotionEvent.ACTION_MOVE, origin[0] + width.get() * 0.74f, y, down);
                 await("window.__breach.level.aim && window.__breach.level.aim.angle > 0.1");
@@ -228,6 +232,7 @@ public class MobileSmokeTest {
                 await("window.__breach.level.balls.some(b => !b.caught && !b.dead)");
                 down = SystemClock.uptimeMillis();
                 touch(MotionEvent.ACTION_DOWN, x, y, down);
+                await("window.__breach.level.ptr.down");
                 touch(MotionEvent.ACTION_MOVE, origin[0] + width.get() * 0.74f, y, down);
                 await("window.__breach.level.paddle.x > 220");
                 touch(MotionEvent.ACTION_UP, origin[0] + width.get() * 0.74f, y, down);
@@ -247,6 +252,7 @@ public class MobileSmokeTest {
                     assertEquals("Distinct companion control", index == 2 ? "\"vesper\"" : "\"forge\"", js("window.__breach.level.companionId"));
                     down = SystemClock.uptimeMillis();
                     touch(MotionEvent.ACTION_DOWN, x, y, down);
+                    await("window.__breach.level.ptr.down");
                     touch(MotionEvent.ACTION_MOVE, origin[0] + width.get() * 0.65f, y, down);
                     await("window.__breach.level.aim && window.__breach.level.aim.angle > 0.1");
                     touch(MotionEvent.ACTION_UP, origin[0] + width.get() * 0.65f, y, down);
@@ -260,6 +266,7 @@ public class MobileSmokeTest {
                 assertEquals("Frost has its own actor, defensive posts and Kit", "true", js("(() => { const l=window.__breach.level; return l.name==='Frost Warden' && l.warden.hp===l.warden.maxHP && l.bricks.length===36 && l.defences.length===3 && l.kitPowers && !l.spacePowers; })()"));
                 down = SystemClock.uptimeMillis();
                 touch(MotionEvent.ACTION_DOWN, x, y, down);
+                await("window.__breach.level.ptr.down");
                 touch(MotionEvent.ACTION_MOVE, origin[0] + width.get() * 0.65f, y, down);
                 await("window.__breach.level.aim && window.__breach.level.aim.angle > 0.1");
                 touch(MotionEvent.ACTION_UP, origin[0] + width.get() * 0.65f, y, down);

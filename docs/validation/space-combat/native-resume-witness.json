@@ -1,0 +1,88 @@
+{
+  "scope": "Browser lifecycle witness with actual Main touch input; not native Android execution",
+  "htmlHash": "B06CDD969BCF5C420A74B3CF37A3EAC45FE3D46EABB2926F5E5D2B8A42E01770",
+  "errors": [],
+  "beforePause": {
+    "focused": true,
+    "hidden": false,
+    "scene": "level",
+    "t": 0.16666666666666666,
+    "clock": 0,
+    "serveAge": 0.16666666666666666,
+    "ptr": {
+      "down": false,
+      "x": 180
+    },
+    "aim": {
+      "angle": 0,
+      "anchorX": 180
+    },
+    "caught": true
+  },
+  "paused": {
+    "focused": true,
+    "hidden": false,
+    "scene": "pause",
+    "t": 0.18333333333333332,
+    "clock": 0,
+    "serveAge": 0.18333333333333332,
+    "ptr": {
+      "down": false,
+      "x": 180
+    },
+    "aim": {
+      "angle": 0,
+      "anchorX": 180
+    },
+    "caught": true
+  },
+  "afterUnpairedResumeDrag": {
+    "focused": true,
+    "hidden": false,
+    "scene": "level",
+    "t": 0.18333333333333332,
+    "clock": 0,
+    "serveAge": 0.18333333333333332,
+    "ptr": {
+      "down": true,
+      "x": 266.4524632855191
+    },
+    "aim": {
+      "angle": 0,
+      "anchorX": 180
+    },
+    "caught": true
+  },
+  "afterPairedFocus": {
+    "focused": true,
+    "hidden": false,
+    "scene": "level",
+    "t": 0.19999999999999998,
+    "clock": 0,
+    "serveAge": 0.19999999999999998,
+    "ptr": {
+      "down": true,
+      "x": 266.4524632855191
+    },
+    "aim": {
+      "angle": 1.0374295594262295,
+      "anchorX": 180
+    },
+    "caught": true
+  },
+  "afterRelease": {
+    "focused": true,
+    "hidden": false,
+    "scene": "level",
+    "t": 0.2333333333333333,
+    "clock": 0,
+    "serveAge": 0,
+    "ptr": {
+      "down": false,
+      "x": 266.4524632855191
+    },
+    "aim": null,
+    "caught": false
+  },
+  "pass": true
+}

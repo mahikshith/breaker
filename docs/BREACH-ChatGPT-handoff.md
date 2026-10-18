@@ -5,7 +5,7 @@ This one file contains everything another assistant needs to design for, or take
 - **Game:** BREACH, a premium portrait brick breaker for iOS and Android. Tagline: "Break in. Break out."
 - **Owner:** mykee (GitHub `mahikshith`).
 - **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `codex/space-combat-apk` is this working branch.
-- **Assembled at:** repo commit `28412e0`.
+- **Assembled at:** repo commit `09d6080`.
 
 ## How to read this file
 
@@ -469,6 +469,8 @@ Physical-phone frame rate, touch comfort and human difficulty remain for device 
 ### Native verification correction
 
 Run [39163110800](https://github.com/mahikshith/breaker/actions/runs/39163110800) passed the complete web job, Android compilation and lint, but failed its first native canvas-colour probe. The callback timed out at `MobileSmokeTest.java:54`, after readiness and font checks; its native screenshot showed the correctly rendered five-card menu. The probe made 77 separate pixel reads on the live canvas. It now draws one 8×12 offscreen copy and reads it once, retaining the colour assertion without repeatedly reading the live render surface. The exact new probe passes against the final browser menu with a guard that rejects any live-canvas pixel read. Runtime HTML and package hashes are unchanged. A fresh CI run must pass the native gate before APK delivery.
+
+Run [39164503538](https://github.com/mahikshith/breaker/actions/runs/39164503538) passed the full web job, Android compilation/lint and the corrected pixel check. Native fullscreen and pause preservation passed, but the first aim after resuming timed out. Android explicitly dispatched a blur on pause without reliably pairing it with focus on return; a focused WebView could retain the game's suspended flag. The native wrapper now sends the matching focus signal on window focus and on resume when focus is already retained. The pause scene remains until the user chooses Resume. Instrumentation now checks advancing game time after Resume and pointer acceptance before dragging, and records state on timeout. The game bundle hashes remain unchanged. Native success is still required before delivery.
 
 
 ---
@@ -2896,6 +2898,8 @@ assets/snake-jade: 26 PNG renders
 assets/vault: 53 PNG renders
 assets/invasion: 78 PNG renders
 
+docs/validation/space-combat/native-initial-failure.xml
+docs/validation/space-combat/native-resume-failure.xml
 .gitattributes
 .github/workflows/mobile-preview.yml
 .gitignore

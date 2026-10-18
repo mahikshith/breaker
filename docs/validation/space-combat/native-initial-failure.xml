@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="com.mahikshith.breach.preview.MobileSmokeTest" tests="1" failures="1" errors="0" skipped="0" time="38.339" timestamp="2026-10-18T20:38:09" hostname="localhost">
+  <properties>
+    <property name="device" value="emulator-5554 - 15" />
+    <property name="flavor" value="" />
+    <property name="project" value=":app" />
+  </properties>
+  <testcase name="offlineCarrierTouchFullscreenAndVault" classname="com.mahikshith.breach.preview.MobileSmokeTest" time="35.638">
+    <failure>java.lang.AssertionError: JavaScript callback timed out
+at org.junit.Assert.fail(Assert.java:89)
+at org.junit.Assert.assertTrue(Assert.java:42)
+at com.mahikshith.breach.preview.MobileSmokeTest.js(MobileSmokeTest.java:37)
+at com.mahikshith.breach.preview.MobileSmokeTest.await(MobileSmokeTest.java:44)
+at com.mahikshith.breach.preview.MobileSmokeTest.awaitCanvas(MobileSmokeTest.java:54)
+at com.mahikshith.breach.preview.MobileSmokeTest.offlineCarrierTouchFullscreenAndVault(MobileSmokeTest.java:178)
+</failure>
+  </testcase>
+</testsuite>
