@@ -25,16 +25,41 @@ if 'Idle' in frames:
     art['princess'] = {'url': uri(sheet, 86), 'cell': cell, 'unit': cell / PX, 'feet': 4,
                        'anims': {a: {'row': r, 'n': len(frames[a])} for r, a in enumerate(anims)}}
 
+# Kit: one row per expression clip, with the same cell and feet contract as Lumi.
+kit_anims = ['Idle', 'Focus', 'Grin', 'Shock', 'Worried', 'Cheer', 'Hurt', 'Laugh']
+kit_frames = {a: sorted(glob.glob(A('kit', f'{a}_*.png'))) for a in kit_anims}
+if kit_frames['Idle']:
+    assert all(kit_frames.values()), 'Kit needs all eight expression clips before packing'
+    kit_meta = json.load(open(A('kit', 'meta.json')))
+    cell = 168
+    sheet = Image.new('RGBA', (max(map(len, kit_frames.values())) * cell, len(kit_anims) * cell))
+    for r, a in enumerate(kit_anims):
+        assert len(kit_frames[a]) == kit_meta['anims'][a]['frames'], f'Incomplete Kit clip: {a}'
+        for c, f in enumerate(kit_frames[a]):
+            with Image.open(f) as im:
+                assert im.size == (cell, cell) and im.mode == 'RGBA', f'Invalid Kit frame: {f}'
+                sheet.paste(im, (c * cell, r * cell))
+    art['kit'] = {'url': uri(sheet, 90), 'cell': cell, 'unit': 56, 'feet': 4,
+                  'anims': {a: {'row': r, 'n': len(kit_frames[a]), 'fps': kit_meta['anims'][a]['fps'], 'loop': kit_meta['anims'][a]['loop']} for r, a in enumerate(kit_anims)}}
+    face_cell = 288
+    faces = Image.new('RGBA', (len(kit_anims) * face_cell, face_cell))
+    for c, a in enumerate(kit_anims):
+        with Image.open(A('kit', 'faces', f'{a}_face_00.png')) as im:
+            assert im.size == (face_cell, face_cell) and im.mode == 'RGBA', f'Invalid Kit portrait: {a}'
+            faces.paste(im, (c * face_cell, 0))
+    art['kit']['faces'] = {'url': uri(faces, 90), 'cell': face_cell}
+
 # serpent: one sheet of head sprites, a row per facing and a column per expression (art/snake.py)
-meta_path = A('snake', 'meta.json')
-if os.path.exists(meta_path):
+for key, directory in [('snake', 'snake'), ('snakeJade', 'snake-jade')]:
+    meta_path = A(directory, 'meta.json')
+    if not os.path.exists(meta_path): continue
     meta = json.load(open(meta_path)); px = meta['px']; cell = meta['box'] * px
     exprs, dirs = meta['expressions'], meta['dirs']
     sheet = Image.new('RGBA', (len(exprs) * cell, len(dirs) * cell))
     for r, d in enumerate(dirs):
-        for c, e in enumerate(exprs): sheet.paste(Image.open(A('snake', f'head_{e}_{d}.png')), (c * cell, r * cell))
-    art['snake'] = {'url': uri(sheet, 86), 'cell': cell, 'unit': meta['box'],
-                    'expr': {e: i for i, e in enumerate(exprs)}, 'dir': {d: i for i, d in enumerate(dirs)}}
+        for c, e in enumerate(exprs): sheet.paste(Image.open(A(directory, f'head_{e}_{d}.png')), (c * cell, r * cell))
+    art[key] = {'url': uri(sheet, 86), 'cell': cell, 'unit': meta['box'],
+                'expr': {e: i for i, e in enumerate(exprs)}, 'dir': {d: i for i, d in enumerate(dirs)}}
 
 # vault plate, bricks and props from the Blender pipeline (art/render_vault_assets.py), when present
 atlas = A('vault', 'atlas.json')

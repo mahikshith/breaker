@@ -2,6 +2,8 @@
 
 Oct 18, 2026 · Live version: https://claude.ai/code/artifact/5278a4c8-b669-4235-972f-7814c32382d9
 
+**Current direction (2026-10-18):** Phase 1 is approved. Selected A / left Kit face orb, 12-second expressive body windows, charged partition Ward, first-use lesson, variable venom spray and the simple head-down tunnel entrance are integrated with Knight 2/B and the harder mixed Vault. Simulated phone/control/venom checks pass; complete rescue runs succeeded on both phone sizes, with human difficulty tuning still open. Await the owner's screenshot OK before commit/push. The rejected creature set is archived. New anatomy boards separate rooted, long-arm, four-paw/tail, wing/fan-tail and fin/jaw shapes; Brum is selected for the first real model/expression/motion proof, not a new completed encounter. Later chapter/progression systems below remain plans. Doc 01 records the detailed current decisions and evidence.
+
 ## The pitch
 
 An alien collector steals the princess of a kingdom built from glossy bricks. The only one who can bring her back is the young prince everyone laughed at for playing the courtyard bounce game.

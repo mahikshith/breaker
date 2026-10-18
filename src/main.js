@@ -6,6 +6,7 @@ import { Vault, drawPrincessIcon } from './vault.js';
 import { drawInvader } from './characters.js';
 import { store } from './prefs.js';
 import { MODE, PRICE, AD_SECONDS, continueOffer, isUnlocked, watchAd, buyFullGame } from './monetize.js';
+import { kitOrbContains, kitTap } from './kit.js';
 
 const LEVELS = [
   { make: (W, H) => new Invasion(W, H), name: 'Invasion', sub: 'Clear the formation before it lands', color: '#ff5d8f' },
@@ -47,29 +48,49 @@ function resize() {
   g.setTransform(scale * dpr, 0, 0, scale * dpr, offX * scale * dpr, offY * scale * dpr);
   previews = [];
   if (level && (level.W !== W || level.H !== H + LIFT)) start(levelIdx); // geometry depends on H
+  if (level) level.kitUIScale = scale;
 }
 
 function start(i) {
   levelIdx = i; level = LEVELS[i].make(W, H + LIFT); level.hudY = LIFT; level.inB = inB; scene = 'level'; resultT = 0;
+  level.kitUIScale = scale; paddlePointer = null; kitPress = null;
   cont = { used: 0, declined: false, ad: null, toast: null };
 }
 
 // ---------- input ----------
 const toWorld = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) / scale - offX, (e.clientY - r.top) / scale - offY - inT]; };
+let paddlePointer = null, kitPress = null;
 cv.addEventListener('pointerdown', e => {
   unlockAudio(); cv.setPointerCapture(e.pointerId);
   const [x, y] = toWorld(e);
   const b = buttons.find(b => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h);
   if (b) { sfx.paddle(); b.fn(); return; }
-  if (scene === 'level' && level.state === 'play') level.pointerDown(x, y + LIFT);
+  if (scene === 'level' && level.state === 'play') {
+    if (level.phase !== 'intro' && kitOrbContains(level.kitAnchor(), x, y + LIFT)) {
+      if (!kitPress) kitPress = { id: e.pointerId, level, x, y: y + LIFT, clientX: e.clientX, clientY: e.clientY, cancelled: false };
+      return;
+    }
+    if (paddlePointer === null) { paddlePointer = e.pointerId; level.pointerDown(x, y + LIFT); }
+  }
 });
-cv.addEventListener('pointermove', e => { if (scene === 'level') { const [x, y] = toWorld(e); level.pointerMove(x, y + LIFT); } });
-const up = () => { if (scene === 'level') level.pointerUp(); };
+cv.addEventListener('pointermove', e => {
+  if (kitPress?.id === e.pointerId) { if (Math.hypot(e.clientX - kitPress.clientX, e.clientY - kitPress.clientY) > 8) kitPress.cancelled = true; return; }
+  if (scene === 'level' && paddlePointer === e.pointerId) { const [x, y] = toWorld(e); level.pointerMove(x, y + LIFT); }
+});
+const up = e => {
+  if (kitPress?.id === e.pointerId) {
+    const [x, y] = toWorld(e), press = kitPress; kitPress = null;
+    if (e.type !== 'pointercancel' && scene === 'level' && level === press.level && kitTap(press, x, y + LIFT, e.clientX, e.clientY, level.kitAnchor())) level.activateKitPower();
+    return;
+  }
+  if (paddlePointer === e.pointerId) { paddlePointer = null; if (scene === 'level') e.type === 'pointercancel' ? level.pointerCancel() : level.pointerUp(); }
+};
 cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+addEventListener('blur', () => { paddlePointer = null; kitPress = null; if (scene === 'level') level.pointerCancel(); });
 addEventListener('keydown', e => {
   unlockAudio();
   if (scene === 'level' && !e.repeat) level.key(e.key, true);
-  if (e.key === ' ' || e.key.startsWith('Arrow')) e.preventDefault();
+  if (e.key === ' ' || e.key.startsWith('Arrow') || e.key.toLowerCase() === 'k') e.preventDefault();
   if (e.key === 'Escape') scene = 'menu';
   if (scene === 'menu' && (e.key === '1' || e.key === '2')) start(+e.key - 1);
 });

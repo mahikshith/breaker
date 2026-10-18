@@ -49,7 +49,7 @@ The game does not use Phaser or PixiJS, so skip those two skills unless the owne
 
 ## Commands
 
-- **Setup:** `npm install`; Python 3.11 with `pip install bpy==5.2.2 pillow numpy`.
+- **Setup:** `npm install`; Python 3.13 with `pip install bpy==5.2.2 pillow numpy`. The pinned bpy release requires Python 3.13; Python 3.11 cannot install it.
 - **Build:** `npm run build` writes `dist/breach.html`. Run the unit tests with `npm test`.
 - **Art:** see the commands in doc 02, section 3. The scripts are in `art/`. New characters follow `art/princess.py`, which has the face rig. New assets reuse the light and material rig in `art/render_vault_assets.py`.
 - **Playtests:**

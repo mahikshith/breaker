@@ -1,0 +1,844 @@
+{
+  "schema_version": 1,
+  "selected_direction": "B / Knight 2 — Blue Helmet Guardian",
+  "status": "left face orb and Ward integrated; final simulated phone QA passed; awaiting owner approval",
+  "created_at": "2026-10-18",
+  "source": {
+    "model": "assets/models/kk_Knight.glb",
+    "license": "CC0",
+    "renderer": "Blender 5.2.2 / Cycles",
+    "script": "art/kit.py",
+    "editable_scene": "out/kit-proof/kit.blend"
+  },
+  "technical": {
+    "cell_px": 168,
+    "world_cell": 56,
+    "character_height": 42,
+    "feet": 4,
+    "alpha": true,
+    "fps": 14,
+    "samples": 48,
+    "supersampling": 2,
+    "downsample": "Lanczos",
+    "png_text_metadata": false,
+    "face_atlas_cell_px": 288,
+    "face_atlas_columns": 8
+  },
+  "verification": {
+    "frame_count": 100,
+    "all_clips_animated": true,
+    "all_transparent_edges": true,
+    "skin_front_and_quarter_reviewed": true,
+    "motion_clearance_reviewed": true,
+    "native_scale_reviewed": true,
+    "in_engine_reviewed": true,
+    "phone_qa_report": "out/kit-orb-final-qa/report.json",
+    "tested_build_sha256": "3A6B8A8C5368364AFCFCE6BBF7B1994D4598C121C90B45B72FE5BD7E45285EC1",
+    "owner_final_approval": false,
+    "independent_phone_qa_report": "out/kit-orb-independent/report.json"
+  },
+  "deliverables": [
+    "assets/kit/turnaround.png",
+    "assets/kit/expressions.png",
+    "assets/kit/contact-sheet.png",
+    "assets/kit/preview.gif"
+  ],
+  "assets": [
+    {
+      "id": "kit-idle",
+      "path_pattern": "assets/kit/Idle_NN.png",
+      "frames": 16,
+      "fps": 14,
+      "loop": true,
+      "unique_frames": 16,
+      "alpha_bounds": [
+        [
+          47,
+          29,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ],
+        [
+          47,
+          31,
+          142,
+          157
+        ],
+        [
+          47,
+          31,
+          142,
+          157
+        ],
+        [
+          47,
+          31,
+          142,
+          157
+        ],
+        [
+          47,
+          31,
+          142,
+          157
+        ],
+        [
+          47,
+          31,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ]
+      ],
+      "sha256": [
+        "1dcb200d464445b09683cd56d95983c3cafab3eabe9af7bdcfa36cce7a37d058",
+        "49c92e8a18acf60bc69e7549178e7327bc992f2840c44afd6380343078f0497d",
+        "61b5e96910979ebbee0b411343b27d22df71ff33f944261f4712ca84c8f6269c",
+        "7ac74048b4b20d9210750b96327c82ad1f8858df2edc9f76d3a20062535aa33c",
+        "aacf07757179ad78dd089e2d20005333ae0ca52126064430f0f6e04648e611c3",
+        "84488295001d260b52ffeb4aa233c2bb146b649f631fa1dd1fbfa4480184ad83",
+        "afc664b82ba0bf2f04e6bbde2a06b69f7c464090fc8ddd12c4274c6756389fe8",
+        "f0df49f5f2d9ca9cbaa81563f3b46a89cc74f61b56897024a5b0c76b5ca832d4",
+        "218ba7ec775ab70bcea7888c3028552fbb8af86cbb65eb0840e6a720cdf49423",
+        "7f0a02c6ed6ae35f164ccdf0d81b08024a36c111738e9c14547ea4b45c54176c",
+        "344f182e51bcb5da031f48f2f3d92244c89c0939cd0f95be210457b5e8958862",
+        "d1f8524281499fe9ade6183f3b56f8dbf612c6c0d2e39692b3f4a2d7de40efb6",
+        "d8f12a675e9c3190c34e0dbafadd3cb8ff1d169a250f11dda0ab2adeed1ba907",
+        "fef5b41537bf62bb025c8311230021da9847415b6c96e8f9e90dce150dfb9540",
+        "e255aaa7757a64f10f1565b0991f4183becc2473ee00b5f89df2a3acfeb7b87a",
+        "d57565dce136ea451cf3c344f73c31d57fb195f6651306fb8772db64b887efa0"
+      ]
+    },
+    {
+      "id": "kit-focus",
+      "path_pattern": "assets/kit/Focus_NN.png",
+      "frames": 12,
+      "fps": 14,
+      "loop": true,
+      "unique_frames": 7,
+      "alpha_bounds": [
+        [
+          42,
+          33,
+          132,
+          157
+        ],
+        [
+          42,
+          33,
+          132,
+          157
+        ],
+        [
+          42,
+          33,
+          132,
+          157
+        ],
+        [
+          42,
+          33,
+          132,
+          157
+        ],
+        [
+          42,
+          33,
+          132,
+          157
+        ],
+        [
+          42,
+          33,
+          132,
+          157
+        ],
+        [
+          42,
+          33,
+          132,
+          157
+        ],
+        [
+          42,
+          33,
+          132,
+          157
+        ],
+        [
+          42,
+          33,
+          132,
+          157
+        ],
+        [
+          42,
+          33,
+          132,
+          157
+        ],
+        [
+          42,
+          33,
+          132,
+          157
+        ],
+        [
+          42,
+          33,
+          132,
+          157
+        ]
+      ],
+      "sha256": [
+        "5ff797d25f7c346c359557657edee22e9b727f2a21b5d0bef6a182fa615551d3",
+        "a6be3ae6a436730f6b28a59bc9ffc32b3f187ea153d952948f6fb506d5b382f2",
+        "b4184dc22d170b276201efda43c95ffb341b27c6352275206cd4e56ae6703ede",
+        "34f4eb69b2995aac5f3407665bd7f1511e1ce7787aa8634b2a58f7a57e13bbab",
+        "ece9c68d7ef1881090e24a61a09d1cfa1fdede4093bbbbd02d03032399fda1e6",
+        "dd7ab4e627cf62ae8bc3bfc14ed830b1d095bd3c8a53fbc4b7febda9228bdf9f",
+        "04f05a6d01623af2d0c4dc4b88c2d198d0e122be5a9b22a657495a6fe150ea76",
+        "dd7ab4e627cf62ae8bc3bfc14ed830b1d095bd3c8a53fbc4b7febda9228bdf9f",
+        "ece9c68d7ef1881090e24a61a09d1cfa1fdede4093bbbbd02d03032399fda1e6",
+        "34f4eb69b2995aac5f3407665bd7f1511e1ce7787aa8634b2a58f7a57e13bbab",
+        "b4184dc22d170b276201efda43c95ffb341b27c6352275206cd4e56ae6703ede",
+        "a6be3ae6a436730f6b28a59bc9ffc32b3f187ea153d952948f6fb506d5b382f2"
+      ]
+    },
+    {
+      "id": "kit-grin",
+      "path_pattern": "assets/kit/Grin_NN.png",
+      "frames": 12,
+      "fps": 14,
+      "loop": true,
+      "unique_frames": 12,
+      "alpha_bounds": [
+        [
+          47,
+          29,
+          142,
+          157
+        ],
+        [
+          49,
+          30,
+          141,
+          157
+        ],
+        [
+          50,
+          30,
+          141,
+          157
+        ],
+        [
+          48,
+          31,
+          140,
+          157
+        ],
+        [
+          48,
+          32,
+          140,
+          157
+        ],
+        [
+          48,
+          32,
+          140,
+          157
+        ],
+        [
+          49,
+          32,
+          140,
+          157
+        ],
+        [
+          50,
+          31,
+          141,
+          157
+        ],
+        [
+          51,
+          31,
+          141,
+          157
+        ],
+        [
+          50,
+          30,
+          141,
+          157
+        ],
+        [
+          49,
+          30,
+          141,
+          157
+        ],
+        [
+          48,
+          30,
+          142,
+          157
+        ]
+      ],
+      "sha256": [
+        "f015f1dbe6e887bf110097390b5169cfe621d9dac44a8a7e7cd6256afffe7438",
+        "d2b4ed0e60f047e6a42dd5f20818873603aaf6e968d97fde63bbf08a5ad7c78b",
+        "c6486a2ce51a5e51131ca44c0a67404bbc0de7696fb4efb917dcc90b33413d8c",
+        "79049f6f8c5e7d73321e601cf3abf2ed32df6ace358e1de3024bf102421e65f8",
+        "71288dc57c367700ca01920cebf820b6e4453e15e72b76081aa90a868103b030",
+        "3b05bf26cfabfcd791260d2a1ce3e27de387f6b785d84764843b178fb3001b5b",
+        "344a85a33d2ec693d7207678542d279ffba6876e88602311cf391b826ffe2e4a",
+        "1a2c68c526dc358d05e9d10b14527e5812a8108fea8959c25e18a161d8cf421d",
+        "161e3c9fd4b1d3b2dd044b1aefbf8daeb75c9cb8a41e112250a6232ca771c782",
+        "1eb037872c4cc90da5499583d1376ba5f1982758911ec911164063475379f43a",
+        "13d81589e3205be57bee6b6d88344c8d578ef60a78caf3d8938320d49587cf9c",
+        "dd2f450c5269a3d7d00252402d8505836f5140bc46d27fbb3c1c6111091359a9"
+      ]
+    },
+    {
+      "id": "kit-shock",
+      "path_pattern": "assets/kit/Shock_NN.png",
+      "frames": 8,
+      "fps": 14,
+      "loop": false,
+      "unique_frames": 8,
+      "alpha_bounds": [
+        [
+          47,
+          29,
+          142,
+          157
+        ],
+        [
+          43,
+          32,
+          145,
+          157
+        ],
+        [
+          42,
+          34,
+          145,
+          157
+        ],
+        [
+          43,
+          30,
+          144,
+          157
+        ],
+        [
+          44,
+          30,
+          144,
+          157
+        ],
+        [
+          45,
+          30,
+          143,
+          157
+        ],
+        [
+          46,
+          30,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ]
+      ],
+      "sha256": [
+        "43b65598582c4dfd8587e02d62f017bb0c895618ea1e12ce77f35228bcdfb080",
+        "6921a8749a1fcfa68a1b9abbea509148dbd815df350d30872c4a6f8bd75ec77a",
+        "99cf5610a1fcbb203338999db8f13f5e116ac58863dd18d8e7bfdb8601824803",
+        "150487184cf1fa1583f8bdb06869b58de09983c61465ad54a5925ee6c9541f87",
+        "c34741638e82b4daa01fb1029e99c2030b136166ee7375fa080a9a6c055dd3e0",
+        "f71eeab393d9318158c4fedd7037347cfa65535c8c0a8895d19f17b6f2ce7d5c",
+        "7f4e2e2bc3f00d60026cba019af79f804de3618274a53de3a9c5065fe34ea7f7",
+        "325053a57a5205f6b25e257d4731bacf943c6634057bb611141d6ebba11a35d0"
+      ]
+    },
+    {
+      "id": "kit-worried",
+      "path_pattern": "assets/kit/Worried_NN.png",
+      "frames": 12,
+      "fps": 14,
+      "loop": true,
+      "unique_frames": 12,
+      "alpha_bounds": [
+        [
+          47,
+          29,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ],
+        [
+          47,
+          31,
+          142,
+          157
+        ],
+        [
+          47,
+          31,
+          142,
+          157
+        ],
+        [
+          47,
+          31,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ],
+        [
+          47,
+          30,
+          142,
+          157
+        ]
+      ],
+      "sha256": [
+        "a7da9f75ad26828422b3a32c836223e1a8d93abf189063e5cf6ff02726698d39",
+        "e4045c06c664c0947773293b3efd0508fda0b1d7a64550e183cfcc509f78045c",
+        "278bb8be682ecb97d639c57b6b7ccdfa168a8eb040f7a2d38829250bf7ece566",
+        "dd5525d86bdcedd5b595e25d78c8384e8fd17382515c68556794e4e376ada525",
+        "dba7bea8311f7d98824381899d909521f9c69e464d21f2a11e18b7d79354b841",
+        "1373ed7df71bc556ddb32653d5b733a8cc6181b679ad08b34b97cffb08ebe2a9",
+        "e4fcd4d47e2527682b9adc573b2c3f77f5e8dc79a63892d8c1c5b93f85aeef4c",
+        "d51164133ee1e104cfd43dd5c4d45fa48056fa17a3b2e9934196437f08e892d0",
+        "7aaec15f84435ac7750db8bef32d8dfbd1c4fe644491f15baeb4c52759e6a5a3",
+        "0335f673bb842b6c455bc01d42e073afe19ec09809a6de27df3f56764ea45d65",
+        "e784fdf6d40542a12ee5f18e942c9a27605bbec339fd3751f9f53cd95734786a",
+        "14410079e1865fe2d98d6fd5bc7b42a9c7115ee0b0bb262cdb3369ee802f18e7"
+      ]
+    },
+    {
+      "id": "kit-cheer",
+      "path_pattern": "assets/kit/Cheer_NN.png",
+      "frames": 16,
+      "fps": 14,
+      "loop": true,
+      "unique_frames": 16,
+      "alpha_bounds": [
+        [
+          47,
+          29,
+          151,
+          157
+        ],
+        [
+          48,
+          30,
+          150,
+          157
+        ],
+        [
+          48,
+          31,
+          151,
+          157
+        ],
+        [
+          49,
+          32,
+          153,
+          158
+        ],
+        [
+          48,
+          33,
+          152,
+          158
+        ],
+        [
+          46,
+          33,
+          150,
+          158
+        ],
+        [
+          45,
+          32,
+          148,
+          157
+        ],
+        [
+          45,
+          32,
+          149,
+          157
+        ],
+        [
+          47,
+          33,
+          151,
+          158
+        ],
+        [
+          48,
+          33,
+          154,
+          158
+        ],
+        [
+          49,
+          33,
+          154,
+          158
+        ],
+        [
+          47,
+          33,
+          153,
+          158
+        ],
+        [
+          45,
+          32,
+          150,
+          158
+        ],
+        [
+          45,
+          31,
+          149,
+          157
+        ],
+        [
+          46,
+          30,
+          150,
+          157
+        ],
+        [
+          47,
+          30,
+          151,
+          157
+        ]
+      ],
+      "sha256": [
+        "1b31443283cdc71b9e27def4a99df3556a481f980626d9c232adebd3345199f3",
+        "fe2835857483ed26edcbdb1fd4a1fa7663cfb65bee89cab35654972b0e07914d",
+        "3686b8efadd7e694b8e146757ae2a681eb280c4d9600853b03710d03bbabe703",
+        "b6ca3772128d73ac0d87323e0e86998b4e95c2fd819d3d9a95010f9916150d24",
+        "45d05234a2e2f2ed744312da4a79dccb83acc3dc8da452258150549cf6aad9d0",
+        "fea01ef6156bfee0a69a3c01ab40489c1d25f204c55652efdd5816887ac18c07",
+        "6e3f507e8e12f2aa06e9281af23a6db18399ba0a5be27f982571641ffe93aad9",
+        "e725a78d540e37b010f3db983b98673cd7696570fbb7ad93457c67645d7f0edf",
+        "619d7ba6a0d80df38a497f310a2f236ed2b4c138188c1e43b2406a403a105e63",
+        "c34d2bfd220cfccf91a811aa5db9566ef5c32347d02692940d414955463c3957",
+        "25c441145a511f2d31adfad0e89a95a286f5b4c460edf6f867f3d8f71d4bcb5b",
+        "339d5945755745a5d7b379bdb5c11fed4394d487503c1f4212acf51f2f258dd5",
+        "9ba2f93385b330d4d324331dc0e7f68331979c8ffdd822368b272312fe4a9815",
+        "715c6d08ac8f72eac04e90424ea7fcc28c209aa08170881c441bb94e47d491e9",
+        "d4bb9b5962e2cd6ae7353004cb0e6e2eadd46d720ddb946e9134ee5d123aac26",
+        "5ba4662a2b890b0fe171672fc57c5212694ba221192b03dd9c6ea05b768f89ad"
+      ]
+    },
+    {
+      "id": "kit-hurt",
+      "path_pattern": "assets/kit/Hurt_NN.png",
+      "frames": 8,
+      "fps": 14,
+      "loop": false,
+      "unique_frames": 8,
+      "alpha_bounds": [
+        [
+          42,
+          32,
+          132,
+          157
+        ],
+        [
+          43,
+          31,
+          132,
+          157
+        ],
+        [
+          43,
+          31,
+          132,
+          157
+        ],
+        [
+          43,
+          31,
+          132,
+          157
+        ],
+        [
+          43,
+          31,
+          132,
+          157
+        ],
+        [
+          43,
+          32,
+          132,
+          157
+        ],
+        [
+          42,
+          32,
+          132,
+          157
+        ],
+        [
+          42,
+          32,
+          132,
+          157
+        ]
+      ],
+      "sha256": [
+        "e0645ebf4db11588c67386b566af7c898e861a1d62c80295f7840307c22f6233",
+        "b905e97a888bb534227efd679f2501e1d21082d05ba7661470015cdc2daf326f",
+        "9cd3e3ebe1afa97684681bbca3a2a6e16f150b3326d9aa62f997ba900780c52c",
+        "b1e376392d149e1bf7a836d96ec0fcd5c09489bb6541b2eba62dc69e1f12f146",
+        "a60ea35a746e555cf79ee6d2b6bbf1440cefb6d1bbe8dc781160bebf51816faf",
+        "be29d2de1f96d24c7dc3f462b756808e8fb9291f7d72bc3df69288798e205a88",
+        "488d267844957e79df4af57e2faceb1f570f004a86943df9543701c1bfa27eca",
+        "aab8e9544e26bc129b3fdeb96d2e2ca6462e9bf89ac4f69f181660dd84fde4b7"
+      ]
+    },
+    {
+      "id": "kit-laugh",
+      "path_pattern": "assets/kit/Laugh_NN.png",
+      "frames": 16,
+      "fps": 14,
+      "loop": true,
+      "unique_frames": 16,
+      "alpha_bounds": [
+        [
+          47,
+          29,
+          151,
+          157
+        ],
+        [
+          48,
+          30,
+          150,
+          157
+        ],
+        [
+          48,
+          31,
+          151,
+          157
+        ],
+        [
+          49,
+          32,
+          153,
+          158
+        ],
+        [
+          48,
+          33,
+          152,
+          158
+        ],
+        [
+          46,
+          33,
+          150,
+          158
+        ],
+        [
+          45,
+          32,
+          148,
+          157
+        ],
+        [
+          45,
+          32,
+          149,
+          157
+        ],
+        [
+          47,
+          33,
+          151,
+          158
+        ],
+        [
+          48,
+          33,
+          154,
+          158
+        ],
+        [
+          49,
+          33,
+          154,
+          158
+        ],
+        [
+          47,
+          33,
+          153,
+          158
+        ],
+        [
+          45,
+          32,
+          150,
+          158
+        ],
+        [
+          45,
+          31,
+          149,
+          157
+        ],
+        [
+          46,
+          30,
+          150,
+          157
+        ],
+        [
+          47,
+          30,
+          151,
+          157
+        ]
+      ],
+      "sha256": [
+        "549cc256d5529076ef30b912054cebc22e17d75866b6702b051354b360204f2e",
+        "23fca45f7155483d425c92c35d0783c967a3963b959aa3f48d61a83fc216a20f",
+        "0f6c03df9b18e01cc7a9dba3fd54b812a54d393ee5df2643ce36f5fc5c249dd6",
+        "0d54d964b00555942a749ec3efe8b31b42d58f673adb7c81164d39eb95693f30",
+        "aa161f678504b86db188331221a51c23eda9b8ef3f277128b6c9bf1c298bcb8c",
+        "72a6271f97ac8426d70e4d7ebb571a84cea0f665af8ee3c2f606395d4aa780c6",
+        "ea561e0eb15989ca8580bf34fc26224a03f80b09d2f1d37506a5f5a16e0fc7f1",
+        "7538fb386f30966221eefbf09ec6167d94124676fbee5f5ff41202f32b57ef94",
+        "fb8796dac0a9f3b4b1176b622ef3266823408e4cc77b9de6298d3f01234b982c",
+        "a54b062dfdc546a1f65ebeb71e96ea293d59f60bd423b1005140578fe184858d",
+        "85b80399aacc7f7f0fda389e26e194261f7e028762f127404c7100543878a813",
+        "777204fb84ddeb77c781251e7f5b7797cf080d40a4386700b4c0b98c71047023",
+        "d71be558d593d3e0015e22ac60ea51a44df33a8c4520c37e792498fd9a270318",
+        "4357c32c30815c1374f5e6d6c506c6599886df82b54f9e5967e2c686c3d6204b",
+        "1786885f739290087b83dd8fc808b9d664862b2e495a9d3fbfc58975604e79b7",
+        "a29ab34bf7c6a23988a7c2e9b1a5ce5b3988965c578e4636e91fb3536ce29e2b"
+      ]
+    }
+  ]
+}

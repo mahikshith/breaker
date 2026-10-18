@@ -4,8 +4,8 @@ This one file contains everything another assistant needs to design for, or take
 
 - **Game:** BREACH, a premium portrait brick breaker for iOS and Android. Tagline: "Break in. Break out."
 - **Owner:** mykee (GitHub `mahikshith`).
-- **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `wip/polish-pass` is the working branch.
-- **Assembled at:** repo commit `9afc258`.
+- **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `coding/mobile-preview` is this working branch.
+- **Assembled at:** repo commit `9c74978`.
 
 ## How to read this file
 
@@ -33,6 +33,8 @@ Companion file: `docs/BREACH-blender-scripts.md` has every Blender and art scrip
 *Source: `docs/handoff/04-chatgpt-design-brief.md`*
 
 ## BREACH: design brief for ChatGPT (the design partner)
+
+**Current working agreement (2026-10-18):** Phase 1 design/build and layout-design options for the existing Invasion and Vault levels proceed with parallel helpers and separate file ownership. For each design track, show 2–3 image options and wait for the owner's pick before building. Playtest implemented changes at both phone sizes and show screenshots; wait for the owner's OK before committing or pushing. This agreement supersedes the original role split and sequential-preparation instructions below.
 
 **Who this is for:** ChatGPT (or any assistant) doing the *design* work on BREACH: story scripts, dialogue, character design, concept art, UI/UX mock-ups, level layouts and balance tables.
 
@@ -274,7 +276,9 @@ When you spec a screen, give every element its position and size in world units 
 
 ### 6. Design tasks, in order (Phase 1 of STORY_PLAN.md)
 
-The owner approved Phase 1 with the recommended defaults: the names Kit, Lumi, Zorvax, Gnash and Brickhaven; Kit as an underdog courtyard kid; the current ads plus $2.99 model. Do these tasks one at a time and get the owner's OK on each.
+The owner approved Phase 1 with the names Kit, Lumi, Zorvax, Gnash and Brickhaven and the current ads plus $2.99 model. Kit's original courtyard-kid appearance was rejected; the current direction is an underdog knight with a medieval shield. Parallel character and existing-level preparation is approved under the working agreement above; each design and completed implementation still needs the owner's OK.
+
+**Current gate:** selected A / left Kit face orb, 12-second expressive body windows, charged Ward, first-use lesson, variable venom and the simple head-down tunnel entrance are integrated with Knight 2 and the harder mixed Vault. Final simulated phone/control/venom checks pass, with complete rescue runs on both phone sizes. Await the owner's screenshot OK before commit/push. The old creature set is archived; replacement boards now use distinct anatomy. The owner selected Brum for the first real model/expression/motion proof; no new encounter is built. The direct-rescue A and central/standing-body Kit layouts remain superseded. Doc 01 holds evidence and current decisions; later systems remain planned.
 
 #### Task 1: Prince Kit character design
 
@@ -284,7 +288,7 @@ Deliverables:
    - silhouette notes and personality in 3 words;
    - outfit parts with a hex colour for each;
    - hair;
-   - his signature prop, the old courtyard paddle (a battered wooden-and-chrome bat or shield with a stitched grip, which becomes the game paddle).
+   - his signature prop, a broad medieval shield with a clear heraldic outline, thickness and a rear grip; no bat-like handle.
 2. A **turnaround** concept image (front, ¾, side, back) using the style block.
 3. An **expression sheet** of 8 faces, each mapped to a game moment:
    - determined (serve);
@@ -295,8 +299,8 @@ Deliverables:
    - cheer (win);
    - hurt (hit);
    - laugh (titan).
-4. **Build notes for Claude:** how to make Kit from `kk_Knight.glb`.
-   - Which armour pieces to remove, which to keep, and what to add (a scarf, a patched tunic).
+4. **Build notes:** how to make Kit from `kk_Knight.glb`.
+   - Which armour pieces and shield to keep, how the selected hair or open helmet is constructed, and which small costume details to simplify at native size.
    - The face rig must match Lumi's.
    - Which KayKit animation to use for each moment.
 5. Kit must read clearly as different from Lumi at 42 units tall: a different silhouette and a different dominant colour. Keep yellow minimal.
@@ -379,7 +383,7 @@ The owner uploads these files into the Claude Project thread, and Claude builds 
 | Code repo | https://github.com/mahikshith/breaker (`main` is stable). Plain JS on Canvas 2D, bundled by esbuild into one HTML file. |
 | Story and roadmap | `docs/STORY_PLAN.md`; the live editable copy is a Claude Doc in the owner's Claude account |
 | Handoff docs | `docs/handoff/01`–`05` (this file is 04; 05 is the steering prompts). Single upload files: `docs/BREACH-ChatGPT-handoff.md` and `docs/BREACH-blender-scripts.md`, rebuilt with `python3 tools/make_handoff.py`. |
-| Art scripts | `art/*.py`, Blender `bpy` 5.2.2 run headless with Python 3.11. `art/princess.py` (character + face rig), `art/snake.py` (serpent heads), `art/render_vault_assets.py`, `art/render_invasion_assets.py` (plates, bricks, sprites). |
+| Art scripts | `art/*.py`, Blender `bpy` 5.2.2 run headless with Python 3.13. `art/princess.py` (character + face rig), `art/snake.py` (serpent heads), `art/render_vault_assets.py`, `art/render_invasion_assets.py` (plates, bricks, sprites). |
 | Packed art | `tools/pack_art.py` → `src/vault-art.js` (WebP data URIs) |
 | Playtests | Playwright + Chromium scripts in `tools/playtest/`, at iOS and Android sizes |
 | 3D models | KayKit Adventurers (CC0) in `assets/models/` |
@@ -429,7 +433,7 @@ Read handoff docs 01–03 first; they hold the details. Then:
 1. **Set up:**
    - `git clone https://github.com/mahikshith/breaker`;
    - Node 22, then `npm install`;
-   - Python 3.11, then `pip install bpy==5.2.2 pillow numpy`;
+   - Python 3.13, then `pip install bpy==5.2.2 pillow numpy`;
    - Playwright with Chromium.
 2. **Set the repo identity before any commit:**
    ```
@@ -707,7 +711,7 @@ Building is where most of the usage goes: rendering, coding, playtesting and fix
 1. **Design** in the ChatGPT project, then download the packaged files (section 7).
 2. **Put them in the repo** under `design/phase1/`. Either upload them on github.com (Add file → Upload files), or give them to Codex and ask it to add them.
 3. **Build:** open Codex and give it the prompt below. Use the Codex app, or the CLI in a local clone (`git clone https://github.com/mahikshith/breaker`).
-   - Blender rendering needs Python 3.11 and `pip install bpy==5.2.2`.
+   - Blender rendering needs Python 3.13 and `pip install bpy==5.2.2`.
    - A local clone on your computer is the safest place to run Blender. Cloud Codex may work too if its environment can install bpy, so test it with one small render first.
 4. **Review** the screenshots it shows you. Merge only when you're happy.
 5. **Don't run Codex and Claude on the repo at the same time.** If you do bring Claude back, say so, and Claude pulls the latest `main` first.
@@ -716,10 +720,10 @@ Building is where most of the usage goes: rendering, coding, playtesting and fix
 
 One-time setup on your computer:
 
-1. Install Git, Node.js 22 and Python 3.11. bpy 5.2 needs exactly Python 3.11.
+1. Install Git, Node.js 22 and Python 3.13. bpy 5.2.2 needs Python 3.13.
 2. Open Codex: in the ChatGPT desktop app, switch to the **Codex** view from the top-left menu (or use the CLI, `npm install -g @openai/codex`). Create a Codex project as **Local**, not Cloud, so it runs on your computer where Blender can run. A Codex project is a code folder, separate from a ChatGPT Project; the GitHub repo connects the two.
 3. Run `git clone https://github.com/mahikshith/breaker` and open the folder in Codex. Codex reads `AGENTS.md` automatically.
-4. Tell Codex: "Set up this repo exactly as AGENTS.md says (npm install, a Python 3.11 venv with bpy 5.2.2, pillow, numpy, Playwright), then run npm run build and npm test."
+4. Tell Codex: "Set up this repo exactly as AGENTS.md says (npm install, a Python 3.13 venv with bpy 5.2.2, pillow, numpy, Playwright), then run npm run build and npm test."
 5. Tell Codex: "Render one test frame with `python3 art/princess.py out/test Idle:1` and show me the image." If you see the princess, Codex can drive Blender.
 
 For each task:
@@ -736,7 +740,7 @@ fully, especially Parts E-G, and docs/BREACH-blender-scripts.md. Work only on a 
 named codex/<task>. Never commit to main.
 Set the git identity first: git config user.name mahikshith; git config user.email mahikshith97@gmail.com.
 Never add AI attribution to commits or files.
-Render with Blender as a Python module (pip install bpy==5.2.2, Python 3.11), headless, reusing the existing
+Render with Blender as a Python module (pip install bpy==5.2.2, Python 3.13), headless, reusing the existing
 material/light rig from art/render_vault_assets.py and the face rig approach from art/princess.py.
 Strip PNG metadata before committing (command in Part F section 3), run python3 tools/pack_art.py and
 npm run build, then show me the rendered sheet images before committing.
@@ -757,6 +761,8 @@ Task: <paste the locked design file from design/phase1/>
 ## BREACH Story Mode and Next Level Plan
 
 Oct 18, 2026 · Live version: https://claude.ai/code/artifact/5278a4c8-b669-4235-972f-7814c32382d9
+
+**Current direction (2026-10-18):** Phase 1 is approved. Selected A / left Kit face orb, 12-second expressive body windows, charged partition Ward, first-use lesson, variable venom spray and the simple head-down tunnel entrance are integrated with Knight 2/B and the harder mixed Vault. Simulated phone/control/venom checks pass; complete rescue runs succeeded on both phone sizes, with human difficulty tuning still open. Await the owner's screenshot OK before commit/push. The rejected creature set is archived. New anatomy boards separate rooted, long-arm, four-paw/tail, wing/fan-tail and fin/jaw shapes; Brum is selected for the first real model/expression/motion proof, not a new completed encounter. Later chapter/progression systems below remain plans. Doc 01 records the detailed current decisions and evidence.
 
 ### The pitch
 
@@ -1375,7 +1381,71 @@ Each workstream is sized for one subagent with a clear contract and a test.
 
 Read all three handoff docs before touching code: this one (status, rules, TODO with agreed designs), `02-architecture-and-pipeline.md` and `03-environment-skills-ux.md`. Keep them updated at the end of every session. Everything here reflects the repo as of branch `wip/polish-pass` (based on `main` @ b5df0eb, 2026-10-18).
 
+**Current work on this branch:** `coding/mobile-preview` is the explicitly authorized Android test checkpoint. It freezes the reviewed pre-Brum build (Windows SHA256 `3A6B8A8C5368364AFCFCE6BBF7B1994D4598C121C90B45B72FE5BD7E45285EC1`), with an offline Android wrapper and GitHub Actions pipeline. Brum and the new cast/capture/space revisions remain in the separate `codex/phase1-kit` workspace. See `docs/MOBILE_PREVIEW.md` for the precise scope and install instructions. The owner requested the `coding/` branch prefix for this checkpoint, overriding the usual `codex/` convention here. `main` is unchanged.
+
 ### Progress log (newest first)
+
+- **2026-10-18 (Android checkpoint authorized on a new branch).**
+  - The owner explicitly requested a new `coding/` branch, a push to GitHub, a triggered CI pipeline and an APK artifact of the reviewed work before Brum was selected, while design continues in parallel. This authorization applies to the checkpoint, not the unfinished revisions.
+  - Reconstructed and rebuilt the exact tested pre-Brum source: Windows HTML SHA256 `3A6B8A8C5368364AFCFCE6BBF7B1994D4598C121C90B45B72FE5BD7E45285EC1`; all 21 unit tests pass. A packaging hash guard normalizes line endings for Linux CI.
+  - Added a small portrait Android WebView app, bundled OFL fonts, no network permission, Android instrumentation smoke test, and branch-scoped GitHub Actions web/Android jobs. APK and native screenshots are published only after their required checks pass. CI results and artifact links must be recorded after the run, not assumed from the local build.
+  - Known visual revisions: the owner now prefers the face icon at all times, rejects the old connecting cast trail, and requests a readable snake capture. This frozen preview retains the earlier animations by request; new options are being reviewed separately. Physical-phone feel/performance and human balance remain to be tested by the owner.
+
+- **2026-10-18 (A / left face orb integrated and tested; Brum proof selected; uncommitted).**
+  - The owner selected the left face-orb board. Packed the eight existing 288-pixel face portraits and integrated a 52-CSS-pixel left orb, circular charge and 12-second expressive body windows. A valid timed Ward spends the existing Vault charge once; Invasion retains centre-return Titan. Paddle and Kit pointer IDs are independent.
+  - Added the simple streaming top-tunnel entrance, masked hidden tail, real hit-triggered fury and variable spray, protected cage scope, real partition melt/collapse and actual guarded survival. A first eligible earned-full-charge warning pauses the world for a contextual tap lesson; only Kit's presentation clock advances, and the real charged cast resumes play/persists acknowledgement.
+  - Independent checks found and fixed post-loss venom melting and held intro-skip release launching the serve. Tested build: `3A6B8A8C5368364AFCFCE6BBF7B1994D4598C121C90B45B72FE5BD7E45285EC1`, 2225.7 KB; all 21 unit tests pass.
+  - **Final phone checks:** `out/kit-orb-final-qa/report.json` covers both levels, eight real face/body crops, touch/Focus, two-finger Kit/paddle ownership, charge preservation, Invasion Titan, presence expiry, loss/continue and seeded completion. Independent corner/cancel/out-and-back/ward-feedback checks pass in `out/kit-orb-independent/report.json`. Native venom checks in `out/venom-coach-final/report.json` cover ten full/empty/missed/late/drag outcomes, hidden/body/FIRE contacts, cage frame/18 bars, zero opening rage, terminal immutability, held pointer/Space skip and the first-use coach (five seconds frozen world, live Kit clock, real tap/resume/acknowledgement). Layout and iOS/Android polish regressions pass with no page errors. The exact build hash is unchanged after these runs.
+  - **Recovery and difficulty:** the six baseline bots all lost after Vault charge became defensive. Broader aiming found a real iOS rescue at 30.04 seconds. A strategic Android run at 43.8167 seconds broke 121 bricks, used ten legally replenished Focus catches and collected SPLIT/FIRE/LASER/WIDE/SHIELD/SLOW, without grid/life/charge cheats. Its decisions are in `out/vault-strategic-android/report.json`. These prove recoverability, not tuned human difficulty; physical phones/Safari remain unchecked. Do not reuse the old three-win/three-loss result for these rules.
+  - **Review media:** `out/final-review/phone-review.png` compares actual iPhone serve/tunnel and Android guarded impact; `out/kit-ability/kit-ward-motion.gif` shows actual channel, short Cheer/live response and return to face after 12 seconds. The animation uses an explicitly staged charged/two-hit fixture, not an unseeded earned run. A localhost copy of the exact build is `out/venom-prototype/game.html`.
+  - **Brum selected:** new cast anatomy boards are `img/cast-v2-anatomy-a.png` and `img/cast-v2-anatomy-b.png`, documented in `03-cast-restart.md`. Mosskeeper has short root-feet, Vesper four paws/tail, Rook wings/fan tail and Latch fins/tail/jaw; Fen/Brum retain justified long arms. The owner selected **Brum** for the first actual model/expression/motion proof. Keep the verified Yeti rig/anatomy, prove continuous face and distinct neutral/welcome/protective states plus actual motion at native size before a full family. No new encounter or completed cast set is implied.
+  - Commit/push still wait for the owner's OK after final screenshots. No later story/progression system is silently included.
+
+- **2026-10-18 (Kit ward / variable venom direction; prototype only).**
+  - The owner gave Kit a concrete defensive purpose: when his shield bar is full, he can empower threatened partition bricks so venom cannot open a shortcut to the cage. Prepare a first-use player demonstration showing charge, warning, shield cast and the defended outcome; show an empty-charge or missed-defence outcome too.
+  - The latest layout request supersedes the standing-body/bar study too: show Kit's face inside a circular charge orb at the bottom left or right. On becoming powered, show his fullbody and real expressions/motion for about 10–15 seconds; the prototype starts at 12 seconds. He channels shield power on a valid charged tap, then braces/reacts and recedes. If the fullbody has receded before a later cast, it can appear for that cast; do not refresh the display every frame or consume an unused charge when he recedes. The display duration does not extend the ward beyond its volley. Use a shorter display only if the longer one obstructs play. The orb is the deliberate minimum-52-CSS-pixel control; there is no permanent fullbody avatar, horizontal charge bar or redundant centre button. Compare left/right placement with the same timed ward. Keep the central thumb-drag lane, lives/AIM and safe inset clear. Win/loss menu expressions are also desired in later result-screen work. Automatic defence remains only an unselected alternative.
+  - This supersedes the earlier offensive powered-return versus aimed-attack comparison as the current design focus. Start the proposal from the existing 12-brick charge, with one visible resource; explicitly resolve its relationship to Titan rather than silently adding a second meter or free double spending. The proposed Vault charge serves the ward, while Invasion retains Titan. No permanent hero-level system is approved by this brainstorm.
+  - The owner rejected the straight-line venom presentation. Use a changing directional spray with irregular strands, droplets, spread and impact splashes. The effect must still identify the threatened stone and leave the ball readable. Stronger appearance does not establish safe route balance.
+  - The serpent must visibly crawl from a simple top tunnel, head facing down as it emerges, before following its normal route. Do not add an entrance meter or reconstruct the level for this. Do not open with a pre-filled static coil or venom attack. Venom requires two separate actual player-ball impacts after entry. Earlier effect boards used a staged two-hit setup near the top; they were not a proposed opening attack and are superseded by the combined entrance/ward demo. Verify continuous entry and body occupancy in the isolated proof.
+  - These are isolated design/demo changes. The tested main build still has reaction-only Kit, the original Titan core and no venom or ward mechanic. New image/rule picks precede production; commit and push still require the owner's screenshot OK.
+  - **Cast anatomy correction:** after seeing the source-backed Castle Oddities / Starbound Runaways boards, the owner objected that nearly every creature inherited the same long arms. Long arms make sense for Brum/Yeti and Fen/woodland courier; this is not a production selection. Redesign the others around distinct anatomy, tails/wings/root structures, motion and powers instead of the shared Big biped template. Those boards need revision before a new cast pick. Keep sources feasible without making source convenience the design.
+
+- **2026-10-18 (finished Kit/mixed Vault; cast rejected; venom proposed; uncommitted).**
+  - **Kit:** completed selected Knight 2/B with 100 real rig frames across eight expressions, continuous face, open helmet and hand-mounted medieval shield. Finished turnaround, eight face portraits, contact sheet, animated preview, source and manifest are under `assets/kit/`, `art/kit.py` and `design/phase1/01-kit-character.md`. Integrated the native-size hero above the control grip with reactions to serve/Focus/combo/loss/danger/win/hit/titan. Source and native/motion proofs passed independent review.
+  - **Mixed Vault:** 219 brick objects / 245 HP / 19 deliberate power targets; defended aiming-side changes and two optional eight-brick hanging caches. Jade serpent starts at 12 cells, grows to 20 and takes an initial 39-step path. Its actual idle attack/loss times are 54.292/58.975 s. FIRE/TITAN pierce breakables but bounce from declared granite/bars; solid-corner handling and aim flags were corrected without changing Invasion armour piercing.
+  - **Final verification:** build and all ten unit tests pass. Both phone sizes passed Kit touch/control/reaction checks (46 captures, all eight animated rows, no overlaps/errors) and the mixed Vault suite (six complete seeded rallies: three earned wins, three serpent losses; both caches, power combinations, no initial unsupported bricks/free breach, valid path, intro and settled-star result captures). Reports: `out/kit-final-qa/` and `out/vault-final-qa/`. Tested build SHA256: `00A6756BDF0A3B8D0EE61AD6EC00ED6A5D3DE2D0A23A2383B9FA173634301BDB`. Chromium phone emulation does not establish physical-device/Safari feel or human difficulty balance.
+  - **Existing regression suites:** `layout.mjs` and both iOS/Android `polish.mjs` runs also pass against the same frozen build with no page errors; captures are in `out/final-layout/`, `out/final-polish-ios/` and `out/final-polish-android/`.
+  - **Creature rejection:** the owner rejected the six Ember/Mortar/Polaris source proof images, especially the last pair, and requested the entire set be scratched and redesigned. No full batch shipped. Their source/assets/preview harness are removed from active paths and preserved in ignored `out/rejected-cast-20261018/`; `02-menagerie-cast.md` is withdrawn history. Knight 2 was outside this rejection. Prepare two genuinely new source-feasible cast directions in `03-cast-restart.md`; wait for a new image pick before production.
+  - **Venom proposal:** the owner suggested two ball hits provoke a furious serpent into melting black partitions with venom breath. Prepare two isolated effect options with real jade art/crumble reuse. Proposed safeguards: distinct impacts, visible wind-up, one exposed partition target, protected cage frame/bars, recovery/cooldown and measured route/collapse changes. No venom/rage mechanic is in the tested build; image/rule choice comes first.
+  - **Kit gameplay-purpose question:** the owner asked why Kit is standing in the UI and proposed earning power/levels through brick hits, then launching an attack or boosting the ball. Current Kit is only a reaction avatar; his special ability is not implemented. Prepare two concrete ability previews: reuse the existing charge/Titan cycle as a visible Shield Slam on a clean return, or spend earned charge with a deliberate aimed special. Make cause/effect, input, animation, snake impact and venom-rage interaction explicit. Do not add XP/store/chapter systems from this brainstorm without a separate decision.
+  - **Gates:** no commit or push has occurred. Await the owner's OK for the finished Kit/mixed-level screenshots. New cast, venom and Kit-ability options need their own picks; later story tasks remain pending.
+
+- **2026-10-18 (Knight 2 selected; level challenge and cast expansion; uncommitted).**
+  - Build replacement Knight 2/B with a continuous expressive face, open helmet, cobalt armour/cape and a broad medieval shield with a rear grip. The owner explicitly wants a polished finished asset and real animation. First inspect actual Blender proofs beside Lumi, then finish the eight clip families and phone-size integration. No replacement render is approved merely by matching its concept image.
+  - The owner initially picked level A, then explicitly rejected its direct rescue route. That pick is revoked; do not integrate the old Open Gate maps. Level 2 must progress beyond Level 1: more bricks, tougher non-direct gates, angled shots, deliberate power-up bricks, a differently coloured longer serpent and a longer measured serpent path. Present two revised image options before integrating a layout. Challenge must come from readable choices, rewards and timing, not just extra HP.
+  - The owner also authorized a broader castle/space cast so later levels do not repeat Lumi and Gnash as their entire premise. Two image families were presented in `design/phase1/02-menagerie-cast.md`; **B/Castle to Cosmos was selected**: Ember, the brick golem and the magnetic manta. Build those expressive, animated asset families in parallel with Kit. The alternative space wardens remain unselected references. New asset production does not approve every later chapter system or enemy mechanic.
+  - Parallel ownership: character production, revised level options, and new cast concepts. The lead integrates the selected Kit and reviews proofs. All commits/pushes still wait for the owner's OK after screenshots.
+  - Two revised level boards were shown: V2-A/Bastion Switchback and V2-B/Twin Keeps. The owner selected **a mix of both**. Build A's defended turns and long jade-serpent detour with B's optional flank and hanging reward cache. Both shown options explicitly included granite/cage blocking FIRE and TITAN while breakable bricks still pierce; implement that declared per-grid rule and preserve it in the aim predictor. Re-measure the combined map rather than borrowing the separate proposals' balance results.
+  - Knight source proofs now pass continuous plain-skin cheek/jaw, open helmet, distinct expressions, shield grip/face clearance during sampled Cheer/Hurt/Focus motion, and native scale beside Lumi. The full animation batch is in progress. This is internal source QA; final phone screenshots still require the owner's review.
+
+- **2026-10-18 (design restart and parallel level design; uncommitted).**
+  - The owner initially selected the teal courtyard concept, then rejected its Blender implementation: unreadable expressions, malformed hair, a face that looked patched on, and a prop resembling a table-tennis bat. That selection is revoked. The replacement direction is a knight with a proper medieval shield.
+  - Removed the rejected character, shared-face refactoring, runtime integration and related tests from the active tree. The discarded work is preserved only in ignored `out/rejected-kit-20261018/`. The original game rebuilds and all five original tests pass. Setup fixes remain. No commits or pushes were made.
+  - The owner explicitly requested parallel work: separate character-concept, level-design and independent-reference-review tracks. Prepare image options for both existing levels while character work proceeds; keep each track's files separate. This supersedes the earlier restriction on preparing only one task at a time.
+  - **Gates:** show 2–3 image options for each design track and wait for the owner's pick before production changes. Playtest implemented changes at both phone sizes and show screenshots. Commit and push only after the owner's OK.
+  - **Quality target:** follow the existing Lumi, serpent and robot art: coherent silhouette, uninterrupted facial surface, large readable eye/lid/brow/mouth changes, consistent light and stable animation anchors. Concept polish alone does not prove a Blender implementation is ready.
+  - **Replacement character options:** `design/phase1/01-kit-character.md` and `img/01-kit-v2-1.png` through `01-kit-v2-3.png`. The new options are 1/A teal bareheaded, 2/B cobalt open helmet, and 3/C indigo wayfarer. Recommend 2/B for its clear laugh/worry contrast and credible Knight source mesh. No replacement is selected. First prove the selected face, shield grip, proportions and real animation beside Lumi before the full render batch; review criteria are in `design/phase1/00-quality-target.md`.
+  - **Level options:** `design/phase1/level-layout-options.md` and `img/level-layout-a.png`, `img/level-layout-b.png`. A/Open Gate gives a clear opening target and central rescue shaft; B/Twin Fronts rewards angled shots into two flanks. Both are isolated candidate renders using the existing game art; active gameplay sources are unchanged. Recommend A for the first playtest.
+  - **Level preflight:** iPhone 393 × 852 and Android 412 × 915 captures use the required fonts and safe insets. Cage preservation, no initial breach, supported starting bricks, legal march bounds and five serve contacts per level/device passed. An untouched serpent attacks at about 25.2 s; a four-hit possible rescue route proves reachability only. Sustained rallies, power-up outcomes and difficulty balance remain unvalidated. These are layout proposals, not completed production playtests.
+  - **Next at that checkpoint:** wait for replacement picks. Superseded by the newer entry: Knight 2/B selected; direct-rescue A rejected; harder levels and broader cast requested. Nothing has been committed or pushed.
+
+- **2026-10-18 (local setup and Phase 1, Task 1 concepts; uncommitted).**
+  - Re-cloned the latest repo into `C:\Users\mahik\Music\Breach\breaker`; the initial checkout is preserved as `breaker-initial-clone`. Set the required commit identity and created `codex/phase1-kit`.
+  - Installed Node 22.23.3 and Python 3.11.16 with owner approval. bpy 5.2.2 actually requires Python 3.13, so art uses a separate environment based on the existing Blender 5.2.2 / Python 3.13.13 installation. Corrected the incompatible setup instructions; local activation commands are in doc 03.
+  - Rendered `python3 art/princess.py out/test Idle:1` successfully. Made the output path absolute because Blender resolved the relative render path outside the checkout on Windows. Verified the 168 × 168 RGBA image, stripped its PNG metadata, and made `out/test/princess-preview.png` for review.
+  - `npm run build` and all five unit tests pass with Node 22. Baseline `layout.mjs` plus `polish.mjs` at iPhone 393 × 852 and Android 412 × 915 report no errors; screenshots are in `out/baseline/`. Planck's Node >=24 engine warning remains documented in doc 03.
+  - The first character concepts and rejected build are archived under ignored `out/rejected-kit-20261018/`; they are not approved assets.
+  - **Next:** follow the restart entry above. Review replacement knight and level-layout images, then build only the selected options.
 
 - **2026-10-18 (round 3, merged to `main`).** Owner feedback: remove distractions so the focus is the snake, the princess, the gameplay and the power-ups.
   - **Removed:** torchlight, dust motes, the window bars across Saturn, and the WIDE/TINY HUD chips.
@@ -1427,7 +1497,7 @@ Read all three handoff docs before touching code: this one (status, rules, TODO 
 - **Quality bar:** the owner (mykee) wants a premium, inventive, addictive iOS/Android game, and nothing that looks "vibe-coded".
   - Favourite references: BALL x PIT, and Arkanoid crossed with Space Invaders.
   - Rejected in the past: pixel art, wisps, jittery foxes, ball-chain snake bodies, rounded blob heads, and uniform faces. Expressions must "say a lot".
-- **Scope right now:** make the two existing levels perfect. Future ideas are noted in section 9 but must **not** be built yet. The structure only needs to stay extensible for them.
+- **Scope right now:** approved Phase 1 of `docs/STORY_PLAN.md`, finished Knight 2/B and mixed Vault review, replacement cast concepts after the rejected set, and isolated venom-effect and Kit-ability proposals. Independent work may run in parallel; concept-pick and post-playtest approval gates still apply. Later chapter systems still need their own implementation decision.
 
 ---
 
@@ -1824,10 +1894,14 @@ Commit as mahikshith (no AI attribution) and merge `wip/polish-pass` into `main`
 
 This document is the "how it is built" reference. For current status and the task list, see `01-status-and-next-steps.md`. For tools, connections, skills, memory and UX rules, see `03-environment-skills-ux.md`.
 
+### Android preview checkpoint
+
+`coding/mobile-preview` packages the frozen pre-Brum milestone. `android/` is a native Java WebView shell, not a game-engine rewrite. `tools/prepare-android.mjs` validates the reviewed bundle and copies it plus OFL fonts to ignored Android assets. `.github/workflows/mobile-preview.yml` runs the unit/browser suites, Android lint and an offline emulator smoke test, then publishes APK/test evidence. See `docs/MOBILE_PREVIEW.md`. Ongoing character/capture/space revisions are excluded from this branch.
+
 ### 1. Aim and goal
 
 - **Product:** BREACH, a premium brick breaker for iOS and Android, portrait only. The tagline is "Break in. Break out."
-- **Current goal:** two polished levels that feel inventive, urgent and addictive.
+- **Current goal:** deliver selected Knight 2, the mixed harder Vault, left face-orb Ward, variable venom spray and streaming tunnel entrance, then continue Phase 1 after screenshot approval. The cast needs a new pick from the distinct-anatomy boards; none of those creatures is a finished production asset.
   - **Invasion:** Arkanoid crossed with Space Invaders.
   - **The Vault:** a rescue race against a serpent.
 - **Later:** a story mode and unlockables, planned in `docs/STORY_PLAN.md`. Nothing for those is built yet.
@@ -1851,15 +1925,17 @@ src/main.js ─ scenes: menu → level → results/continue
   ├─ src/invasion.js  class Invasion extends Arena  (Level 1)
   ├─ src/vault.js     class Vault extends Arena     (Level 2) + drawPrincessIcon() for the menu card
   ├─ src/physics.js   makeGrid, makeBall, stepBall (substepped circle vs grid/walls/paddle), floodEmpty
+  ├─ src/kit.js       Kit reactions, 12-second presence, face-orb layout and deliberate-tap checks
+  ├─ src/serpent.js   distinct-hit accounting, protected cage scope, useful venom targets, entry/recoil and ward deadlines
   ├─ src/debris.js    class Debris (planck.js): shatter (Voronoi rigid frags), drop (whole rigid brick),
   │                   crumble (non-physics fade for single bricks), statics, kinematic paddle, poke, killY
   ├─ src/gfx.js       SPR sprite registry + loadImg/artLoaded/ready, cached() offscreen canvases, brick() fallback,
-  │                   drawBall, FX particles (shards, dust, rings, pops), text(), POWER table, capsule()
+  │                   drawBall, drawKit/drawKitFace, FX particles (shards, dust, rings, pops), text(), POWER table, capsule()
   ├─ src/audio.js     WebAudio synth sfx (no audio files)
   ├─ src/characters.js  code-drawn fallbacks (invader, mothership, serpent)
   ├─ src/prefs.js     store.get/set (localStorage with in-memory fallback)
   ├─ src/monetize.js  continue offers: MODE, PRICE, AD_CONTINUES, continueOffer(), watchAd(), buyFullGame()
-  └─ src/vault-art.js GENERATED by tools/pack_art.py: export const ART = { sprites, plate, bars, princess, snake, invPlate }
+  └─ src/vault-art.js GENERATED by tools/pack_art.py: export const ART = { sprites, plate, bars, princess, kit, snake, snakeJade, invPlate }
 ```
 
 #### Key conventions
@@ -1878,6 +1954,8 @@ src/main.js ─ scenes: menu → level → results/continue
   - the control deck starts at `paddle.y + 34`.
 - **Grid cells:** a `Uint8Array` of kinds and a parallel `hp` array.
   - The Vault adds `bid` (cell → brick id) because its bricks span 2 cells.
+  - The Vault declares `unpierceable = [GRANITE, BARS]`. FIRE/TITAN bounce from those kinds and pierce ordinary bricks. Other levels keep their original piercing behaviour. Solid-corner normals ignore neighbouring pierced cells.
+  - Aim preview carries the caught ball's titan flag and current FIRE state and retains `unpierceable` when cloning the grid.
 - **Fallbacks:** every rendered sprite has a code-drawn fallback, checked with `ready(spr)`.
 - **Debris:** planck uses 16 world units = 1 m, gravity 34 m/s², and `MAX_PIECES` 140.
 
@@ -1890,7 +1968,7 @@ src/main.js ─ scenes: menu → level → results/continue
   - they fire with a 0.45 s angry windup, and the shooter is biased toward the paddle;
   - per-cell mood timers drive the face: `angry`, `laugh`, `shock`, `dizzy`, `hurt`, or the `march0/1` cycle;
   - a killed robot drops as a rigid body (`meta.robot`); catching it scores +120.
-- **Boss:** 30 HP, an elliptical hitbox (44 × 18 plus the ball radius), bombs, and a mood pair `[name, t]`.
+- **Boss:** 36 HP, an elliptical hitbox (44 × 18 plus the ball radius), bombs, and a mood pair `[name, t]`.
 - **Visuals:**
   - background is the `invPlate` render, `drawHazard()` draws the hazard line, the HUD is the FORMATION or MOTHERSHIP bar;
   - sprites: `inv_bot_<white|pink|yellow|blue>_<expr>`, `inv_mothership_<smug|angry|hurt|panic|dizzy>`, `inv_mothership_lights_0/1`, `inv_bolt`, `inv_bomb`, `inv_brick_c_<row>_<dmg>`, `inv_brick_a_<dmg>`, `inv_brick_p_0`.
@@ -1899,20 +1977,36 @@ src/main.js ─ scenes: menu → level → results/continue
 
 - **Grid:** 20 × 20 cells of 16 units, origin (20, 96). The ASCII `LAYOUT` is in the file. Glazed bricks are 2 cells wide in running bond.
 - **Brick kinds:** SUN, CORAL, VIOLET, TEAL, BLUE, GOLD (gem, drops a power-up), GRANITE (indestructible anchor), BARS (cage).
+- **Selected mixed layout:** 219 brick objects, 245 normal-hit HP and 19 deliberate gem targets. Staggered granite requires aiming-side changes. The left SPLIT support and right FIRE support each release eight hanging bricks; collapsed gems do not automatically issue powers.
 - **Serpent state:** `{cells, hist, chew, chewing, prog, stun, dir, look, faceLeft, path, open, hits, flinch, mood, moodT, alpha, fleeT}`.
   - It plans with Dijkstra (`snakePlan`), with cost equal to chew seconds (`CHEW`) and granite blocked.
   - `expression()` chooses the head face.
   - The body is drawn by `drawSnakeBody()`, a Catmull-Rom tapered ribbon with belly, diamonds and gloss bands.
-  - The head is the `SNAKE` sheet (cell 176, unit 44, `expr` and `dir` maps), drawn at 1.45× and rotated within ±0.95 rad.
+  - The head uses `ART.snakeJade` (cell 176, unit 44, `expr` and `dir` maps), drawn at 1.45×. Entry permits the full down-facing angle before joining normal turning. The body uses matching jade/ivory/mint colours; the original purple family is preserved.
+  - Twelve segments stream down through a dark top tunnel; tail segments stay hidden above the grid and are excluded from ball/laser/debris contacts. Normal movement begins immediately after entry, with growth up to 20 cells. The untouched initial route is 40 steps / cost 65.45998. Measured idle attack/loss are 55.0833/59.7667 seconds after active handover; cinematic time is additional.
+  - Two separate incoming ball contact episodes queue fury; lingering overlap and simultaneous volley contacts cannot instantly fill both hits. Head hits retain their existing stun/knockback; body hits retain flinch/chew setback. Those reactions finish before a 1.4-second marked wind-up, organic spray and 1.2-second recovery. No opening attack occurs without hits.
+  - Venom chooses one exposed useful granite partition within 68 units, protecting the cage roof/frame/bars. Failed defence can melt the real brick and trigger support collapse; guarded defence preserves that target for this volley. The spray has irregular pulsing streams, droplets and splashes. Fury waits while moving if no useful target is available. World mutation stops after a loss.
+  - First eligible full-charge warning pauses world time for the contextual Ward lesson. Kit's presentation clock keeps animating. A valid charged cast acknowledges `wardCoachAck` and resumes the real volley, with no practice currency or free charge. Intro-skip touches/Space are consumed through release.
 - **Collapse:** a flood fill from anchors (granite, bars, the edge columns, the top row). Unanchored bricks are converted into `debris.drop` rigid bodies.
 - **Phases:** `intro` (camera zoom), then `rescue`, then `escape` (princess runs the breach path), then `frenzy` (12 balls for 7 s), then won. Losing goes to `caught`.
 - **Princess:** `PRINCESS` sheet (cell 168, unit 56, feet 4, `anims {name: {row, n}}`), played at 14 fps by `play(anim, loop)` and `updatePrincess()`.
-- **Lighting:** `drawLights()` adds the lantern and torch flicker with additive glow. Anchors come from the Blender render: lantern at (196, 158), torches at (40, 527) and (320, 527).
+- **Background:** calm dark castle plate; torches and lantern effects were removed in the earlier polish pass.
+
+#### Prince Kit
+
+- `art/kit.py` builds selected Knight 2 from `kk_Knight.glb`: continuous cheek/jaw skin, open silver helmet, cobalt costume, broad shield fitted behind the hand and a surface-fitted face rig.
+- 100 frames across Idle, Focus, Grin, Shock, Worried, Cheer, Hurt and Laugh. 168 × 168 RGBA, 56-unit cell, roughly 42-unit character, feet margin 4, 14 fps. Shock/Hurt hold their final frame; the other clips loop.
+- `tools/pack_art.py` validates clips against `assets/kit/meta.json` and packs `ART.kit`, including eight 288-pixel portraits in `faces` (columns match the animation row indices). `drawKit()` selects body frames; `drawKitFace()` selects portraits.
+- Selected UI A is a 52 CSS pixel left face orb with circular charge. A full charge opens one 12-second expressive body window, fitted within the same corner footprint. A later cast can reopen a receded body; an active window does not continually refresh. Receding consumes no unused charge. Kit's presentation clock also runs during the paused first-use lesson.
+- Vault reserves the existing 12-brick charge for Ward. During the marked warning, a deliberate orb tap starts a 0.18-second shield transfer and spends once; protection lasts for the volley, not the 12-second character display. Invasion retains centre-return Titan; its orb gives the corresponding hint. Hero levels, store and chapter progression are still plans.
+- The native input layer owns paddle and Kit pointer IDs independently: crossing drags, out-and-back gestures and cancellation cannot cast, and a second-finger orb tap preserves the paddle drag. Orb and complete grip envelope have 8 CSS pixel separation on both requested phone sizes.
+- Source proofs, eight portraits, a rendered turnaround and an animated preview are documented in `design/phase1/01-kit-character.md` and its manifest. Rejected creature production is archived outside active assets in ignored `out/rejected-cast-20261018/`.
 
 ### 3. Art pipeline (Blender, `art/`)
 
 **Setup:**
-- `python3 -m pip install bpy==5.2.2`, which needs Python 3.11 and runs headless.
+- `python3 -m pip install bpy==5.2.2 pillow numpy`, which needs Python 3.13 and runs headless. The previous Python 3.11 instruction was incompatible with this pinned release.
+- `art/princess.py` resolves its output directory to an absolute path before passing it to Blender, so relative command-line outputs stay inside the caller's working directory on Windows.
 - Cycles on CPU. Set threads to 2 if running two jobs in parallel on 4 cores.
 - Colour management: AgX, look "Medium High Contrast". Orthographic camera; key area light top-left.
 
@@ -1923,8 +2017,10 @@ src/main.js ─ scenes: menu → level → results/continue
 | `python3 art/render_vault_assets.py all` | Vault plate, bars and sprites (args `all\|plate\|bars\|sprites\|post`, plus `--fast`) |
 | `python3 art/render_invasion_assets.py all` | Invasion plate, bricks, ship and bots (`all\|plate\|static\|ship\|bots\|sprites\|post`) |
 | `python3 art/princess.py assets/princess Idle:16 Interact:12 Blocking:8 Cheer:16 Running_A:12 Jump_Full_Short:14 Scared:8` | Princess frames; add `--face` for 4× face close-ups and `--samples N` to set samples |
+| `python3 art/kit.py assets/kit Idle:16 Focus:12 Grin:12 Shock:8 Worried:12 Cheer:16 Hurt:8 Laugh:16` | Selected Knight 2's 100 real animation frames; `--face`, `--yaw`, `--samples`, `--threads` support proof renders |
 | `python3 art/snake.py assets/snake [expr ...] --dirs r,l --samples N --px N` | Serpent head expressions |
-| `python3 tools/pack_art.py` | Packs everything into `src/vault-art.js` as WebP data URIs (quality about 86–90); output is about 0.9 MB |
+| `python3 art/snake.py assets/snake-jade --palette jade --dirs r,l --samples 64 --px 4 --threads 2` | Matching jade head family, preserving original purple assets |
+| `python3 tools/pack_art.py` | Packs active rendered families into `src/vault-art.js` as WebP data URIs (quality about 86–90); current registry about 1.91 MB |
 | `npm run build` | Builds `dist/breach.html` and `dist/breach-artifact.html` |
 
 #### Output conventions
@@ -1941,7 +2037,9 @@ src/main.js ─ scenes: menu → level → results/continue
   | `assets/vault/` | `atlas.json`, `plate`, `bars`, `brick_<y\|c\|v\|t\|b>_<1\|2>_<dmg>`, `brick_gold_1_0`, `brick_granite_*`, `ball`, `ball_fire`, `ball_titan` (new), `paddle_l/m/r`, `cap_<split\|fire\|wide\|focus\|burst\|laser\|shield\|slow\|shrink>`, `lantern`, `torch_flame` |
   | `assets/invasion/` | `atlas.json` plus the sprites listed above |
   | `assets/princess/` | `<Anim>_NN.png` frames (168 px cells after packing) |
+  | `assets/kit/` | 100 `<Clip>_NN.png` frames, `meta.json`, portraits, expression/turnaround/contact sheets and animated preview |
   | `assets/snake/` | `head_<expr>_<r\|l>.png` and `meta.json` |
+  | `assets/snake-jade/` | 26 jade head renders and matching palette metadata |
   | `assets/models/` | KayKit CC0 GLBs (Knight, Mage, Rogue); the princess is built from Rogue |
 
 #### Character rules
@@ -1971,9 +2069,13 @@ Then run `pack_art.py` and the build again.
 
 ### 4. Build, test, publish
 
-- **Build:** `npm install`, then `npm run build`. The bundler is esbuild (`tools/build.mjs`), output is a single minified IIFE, about 1.2 MB.
-- **Unit tests:** `npm test` runs the physics tests in `tests/physics.test.js`.
+- **Build:** `npm install`, then `npm run build`. The bundler is esbuild (`tools/build.mjs`), output is a single minified IIFE, currently about 2.23 MB including Kit body/face atlases and the jade head family.
+- **Unit tests:** `npm test` runs 21 tests across physics, Kit presentation/input rules and serpent contact/target/entry/ward rules.
 - **Playtests:**
+  - `node tools/playtest/kit.mjs out/kit-orb-final-qa`: both phone sizes, eight face/body reactions, touch/Focus/secondary-finger input, Invasion Titan/Vault charge reservation, presence expiry, loss/continue and win paths.
+  - `node tools/playtest/venom.mjs out/venom-coach-final`: real orb input, full/empty/missed/late/cancel outcomes, hit accounting, hidden tail, protected cage, first-use pause/resume, terminal immutability and held intro-skip regressions.
+  - `node tools/playtest/vault-v2.mjs out/vault-ward-final`: mixed-layout support/path/cache/power checks, complete seeded rallies with legal Ward casts, idle loss, streaming intro and result captures. A bot win proves reachability, not human difficulty balance.
+  - `node tools/playtest/layout.mjs <out>` and `node tools/playtest/polish.mjs <out> ios|android`: existing layout/polish regression suites.
   - Playwright with Chromium: `node tools/playtest/vault.mjs <outDir> ios|android` and `node tools/playtest/l1.mjs <outDir>`.
   - Both need `<outDir>/shots/` to exist. They drive the game through `window.__breach` (a simple autopilot bot sets `level.ptr`).
   - Device sizes: iPhone 393 × 852 with `?safe=59,34`; Android 412 × 915 with `?safe=32,24`; device scale factor 2.
@@ -2008,8 +2110,10 @@ This document covers where everything lives and how the work has been done. Any 
   - never ask for, or paste, the owner's token.
 - **Show drafts as you go.** The owner wants to see draft images whenever a piece is finished, especially UX screens, characters and assets. Post screenshots or sheets for iOS and Android sizes.
 - **Product feedback rules:** premium, inventive, urgent, addictive; never "vibe-coded"; expressions must say a lot; not too much yellow; keep the playful font and colours.
-- **Scope:** the two levels are polished. Story mode, unlockables and new creatures are planned in `docs/STORY_PLAN.md` and wait for the owner's approval, one phase at a time.
-- **Work style:** the owner likes subtasks run in parallel (for example, one helper rendering art while code is written), and progress shown with images.
+- **Scope:** Phase 1 is approved. Selected A / left Kit face orb, 12-second expressive body windows, charged Ward, first-use lesson, variable venom and the simple head-down tunnel entrance are integrated with Knight 2 and the mixed Vault. Final simulated phone/control/venom checks pass; complete rescue runs succeeded on both phone sizes. Physical-device/Safari feel and human balance remain unchecked. The cast was revised for distinct anatomy; the owner selected Brum for the first real model/expression/motion proof. No new cast encounter or later progression system is built. Independent preparation may run in parallel, with image picks before production and screenshot OK before commit/push. Nothing has been committed or pushed. Doc 01 holds the detailed current decisions and evidence.
+- **Work style:** the owner explicitly requests multiple parallel helpers with separate file ownership and independent review. Show progress with images. Parallel preparation must not bypass the concept-pick or commit/push approval gates.
+
+The owner authorized a separate `coding/mobile-preview` branch and GitHub Actions APK checkpoint after the earlier screenshot gate. The current branch freezes the pre-Brum runtime, with offline fonts and a native Android test shell. This explicit request overrides the usual branch prefix for this checkpoint. Later visual revisions remain on `codex/phase1-kit`; do not merge this checkpoint to `main` without a separate instruction.
 
 ### 2. Where things live (connections and locations)
 
@@ -2038,10 +2142,30 @@ This document covers where everything lives and how the work has been done. Any 
 | Tool | Version / use |
 |---|---|
 | Node | 22, plus esbuild 0.28 (bundler) and planck 1.5 (Box2D debris physics) |
-| Python | 3.11, with bpy 5.2.2 (Blender as a Python module, Cycles CPU) for all art, and Pillow for post-processing and packing (WebP) |
+| Python | 3.13 for bpy 5.2.2 (Blender as a Python module, Cycles CPU), Pillow and numpy. Python 3.11 cannot install the pinned bpy release. |
 | Playwright + Chromium | Automated playtests and screenshots at phone sizes |
 | git / GitHub | Version control. Commits use the owner's identity. |
 | claude.ai Artifact | Hosting the playable build for the owner |
+
+#### Local Windows setup (2026-10-18)
+
+- Fresh checkout: `C:\Users\mahik\Music\Breach\breaker`, starting at `9c74978`, branch `codex/phase1-kit`. The initial checkout is preserved beside it as `breaker-initial-clone`.
+- Git 2.55.0, Node 22.23.3 and Python 3.11.16 are installed. The existing Node 24 and other Python versions remain available.
+- Art uses a separate Python 3.13.13 environment based on the installed Blender 5.2.2 runtime. bpy 5.2.2 requires Python 3.13 ([package metadata](https://pypi.org/project/bpy/5.2.2/)); Python 3.11 remains available for other tooling.
+- Playwright and Chromium are installed outside the repo. No game dependencies were added or changed.
+- Planck 1.5.0 declares Node >=24. Node 22 emits an engine warning, but the build, all five unit tests, and the baseline layout/polish checks on both phone sizes pass. Keep this warning visible when diagnosing future Node failures.
+
+For a PowerShell session using the installed tools:
+
+```powershell
+$taskTools = Join-Path $env:LOCALAPPDATA 'Programs\breach-tools'
+$env:Path = (Join-Path $taskTools 'node-v22.23.3-win-x64') + ';' + $env:Path
+Set-Alias python3 (Join-Path $taskTools 'python313\Scripts\python.exe')
+$env:PW_MODULE = ([Uri](Join-Path $taskTools 'playtest\node_modules\playwright\index.mjs')).AbsoluteUri
+$env:PYTHONUTF8 = '1'
+```
+
+`PYTHONUTF8` lets the handoff generator read and write the Unicode Markdown correctly on Windows. Baseline screenshots are under `out/baseline/`.
 
 #### Game-dev skills
 
@@ -2115,14 +2239,66 @@ These skill guides were saved in the project at `/mnt/project-files/skills/gamed
 
 # Part H: Repository file map
 
-These are all tracked files, except individual render frames, which are counted instead:
+These are tracked and non-ignored working files, except individual render frames, which are counted instead:
 
 ```
 assets/princess: 110 PNG renders
+assets/kit: 111 PNG renders
 assets/snake: 26 PNG renders
+assets/snake-jade: 26 PNG renders
 assets/vault: 53 PNG renders
 assets/invasion: 78 PNG renders
 
+.github/workflows/mobile-preview.yml
+android/.gitignore
+android/app/build.gradle
+android/app/src/androidTest/java/com/mahikshith/breach/preview/MobileSmokeTest.java
+android/app/src/main/AndroidManifest.xml
+android/app/src/main/java/com/mahikshith/breach/preview/MainActivity.java
+android/build.gradle
+android/gradle.properties
+android/settings.gradle
+art/kit.py
+assets/fonts/LilitaOne-OFL.txt
+assets/fonts/LilitaOne-Regular.ttf
+assets/fonts/Rubik-OFL.txt
+assets/fonts/Rubik.ttf
+assets/kit/meta.json
+assets/kit/preview.gif
+assets/snake-jade/README.md
+assets/snake-jade/meta.json
+design/phase1/00-quality-target.md
+design/phase1/01-kit-character.md
+design/phase1/02-menagerie-cast.md
+design/phase1/03-cast-restart.md
+design/phase1/img/01-kit-v2-1.png
+design/phase1/img/01-kit-v2-2.png
+design/phase1/img/01-kit-v2-3.png
+design/phase1/img/cast-v2-anatomy-a.png
+design/phase1/img/cast-v2-anatomy-b.png
+design/phase1/img/kit-ability-ward-left.png
+design/phase1/img/kit-ability-ward-right.png
+design/phase1/img/level-layout-a.png
+design/phase1/img/level-layout-b.png
+design/phase1/img/level-layout-mixed.png
+design/phase1/img/level-layout-v2-a.png
+design/phase1/img/level-layout-v2-b.png
+design/phase1/img/serpent-entry-native.gif
+design/phase1/img/venom-spray-ward-preview.gif
+design/phase1/kit-ability-options.md
+design/phase1/kit-asset-manifest.json
+design/phase1/level-layout-options.md
+design/phase1/snake-entrance.md
+design/phase1/venom-options.md
+docs/MOBILE_PREVIEW.md
+src/kit.js
+src/serpent.js
+tests/kit.test.js
+tests/serpent.test.js
+tools/playtest/kit.mjs
+tools/playtest/vault-v2.mjs
+tools/playtest/venom.mjs
+tools/prepare-android.mjs
 .gitignore
 AGENTS.md
 README.md
@@ -2178,6 +2354,50 @@ docs/screens/10-vault-results.png
 index.html
 package-lock.json
 package.json
+skills/gamedev/LICENSE
+skills/gamedev/NOTICE
+skills/gamedev/README.md
+skills/gamedev/audio-design/SKILL.md
+skills/gamedev/audio-design/references/adaptive-music.md
+skills/gamedev/create-game-assets/SKILL.md
+skills/gamedev/create-game-assets/agents/openai.yaml
+skills/gamedev/create-game-assets/assets/art-direction-brief.md
+skills/gamedev/create-game-assets/assets/asset-manifest.json
+skills/gamedev/create-game-assets/references/art-direction.md
+skills/gamedev/create-game-assets/references/provenance.md
+skills/gamedev/create-game-assets/references/raster-pipeline.md
+skills/gamedev/create-game-assets/references/three-d-pipeline.md
+skills/gamedev/create-game-assets/scripts/asset_report.py
+skills/gamedev/create-game-assets/scripts/build_preview_sheet.py
+skills/gamedev/create-game-assets/scripts/requirements.txt
+skills/gamedev/game-feel/SKILL.md
+skills/gamedev/game-feel/references/feedback-recipes.md
+skills/gamedev/game-ui-ux/SKILL.md
+skills/gamedev/game-ui-ux/references/layout-and-flow.md
+skills/gamedev/input-systems/SKILL.md
+skills/gamedev/input-systems/references/buffering-and-accessibility.md
+skills/gamedev/level-design/SKILL.md
+skills/gamedev/level-design/references/pacing-and-flow.md
+skills/gamedev/performance-optimization/SKILL.md
+skills/gamedev/performance-optimization/references/profiling-and-budgets.md
+skills/gamedev/phaser-arcade-physics/SKILL.md
+skills/gamedev/phaser-arcade-physics/references/bodies-and-collision.md
+skills/gamedev/phaser-core/SKILL.md
+skills/gamedev/phaser-core/references/scene-flow.md
+skills/gamedev/physics-tuning/SKILL.md
+skills/gamedev/physics-tuning/references/timestep-and-ccd.md
+skills/gamedev/pixijs-rendering/SKILL.md
+skills/gamedev/pixijs-rendering/references/assets-and-display.md
+skills/gamedev/procedural-gen/SKILL.md
+skills/gamedev/procedural-gen/references/dungeon-generation.md
+skills/gamedev/procedural-gen/references/noise.md
+skills/gamedev/prototype-fast/SKILL.md
+skills/gamedev/puzzle/SKILL.md
+skills/gamedev/puzzle/references/board-and-resolution.md
+skills/gamedev/shader-programming/SKILL.md
+skills/gamedev/shader-programming/references/effects.md
+skills/ponytail/LICENSE
+skills/ponytail/ponytail/SKILL.md
 src/arena.js
 src/audio.js
 src/characters.js

@@ -25,7 +25,7 @@ THREADS = 0
 if '--threads' in argv:
     i = argv.index('--threads'); THREADS = int(argv[i + 1]); del argv[i:i + 2]
 argv = [a for a in argv if a != '--face']
-OUT = argv[0] if argv else os.path.join(HERE, 'out', 'princess')
+OUT = os.path.abspath(argv[0]) if argv else os.path.join(HERE, 'out', 'princess')
 ANIMS = [a.split(':') for a in argv[1:]] or [['Idle', '12']]
 PX = 3            # pixels per game unit
 BOX = 56          # sprite cell in game units (square); character ~42 units tall

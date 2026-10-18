@@ -1,5 +1,7 @@
 # BREACH: design brief for ChatGPT (the design partner)
 
+**Current working agreement (2026-10-18):** Phase 1 design/build and layout-design options for the existing Invasion and Vault levels proceed with parallel helpers and separate file ownership. For each design track, show 2–3 image options and wait for the owner's pick before building. Playtest implemented changes at both phone sizes and show screenshots; wait for the owner's OK before committing or pushing. This agreement supersedes the original role split and sequential-preparation instructions below.
+
 **Who this is for:** ChatGPT (or any assistant) doing the *design* work on BREACH: story scripts, dialogue, character design, concept art, UI/UX mock-ups, level layouts and balance tables.
 
 **Who builds it:** Claude, in the owner's Claude Project, does the *execution*: code, Blender renders, playtests, commits. You hand designs over; Claude turns them into the game.
@@ -240,7 +242,9 @@ When you spec a screen, give every element its position and size in world units 
 
 ## 6. Design tasks, in order (Phase 1 of STORY_PLAN.md)
 
-The owner approved Phase 1 with the recommended defaults: the names Kit, Lumi, Zorvax, Gnash and Brickhaven; Kit as an underdog courtyard kid; the current ads plus $2.99 model. Do these tasks one at a time and get the owner's OK on each.
+The owner approved Phase 1 with the names Kit, Lumi, Zorvax, Gnash and Brickhaven and the current ads plus $2.99 model. Kit's original courtyard-kid appearance was rejected; the current direction is an underdog knight with a medieval shield. Parallel character and existing-level preparation is approved under the working agreement above; each design and completed implementation still needs the owner's OK.
+
+**Current gate:** selected A / left Kit face orb, 12-second expressive body windows, charged Ward, first-use lesson, variable venom and the simple head-down tunnel entrance are integrated with Knight 2 and the harder mixed Vault. Final simulated phone/control/venom checks pass, with complete rescue runs on both phone sizes. Await the owner's screenshot OK before commit/push. The old creature set is archived; replacement boards now use distinct anatomy. The owner selected Brum for the first real model/expression/motion proof; no new encounter is built. The direct-rescue A and central/standing-body Kit layouts remain superseded. Doc 01 holds evidence and current decisions; later systems remain planned.
 
 ### Task 1: Prince Kit character design
 
@@ -250,7 +254,7 @@ Deliverables:
    - silhouette notes and personality in 3 words;
    - outfit parts with a hex colour for each;
    - hair;
-   - his signature prop, the old courtyard paddle (a battered wooden-and-chrome bat or shield with a stitched grip, which becomes the game paddle).
+   - his signature prop, a broad medieval shield with a clear heraldic outline, thickness and a rear grip; no bat-like handle.
 2. A **turnaround** concept image (front, ¾, side, back) using the style block.
 3. An **expression sheet** of 8 faces, each mapped to a game moment:
    - determined (serve);
@@ -261,8 +265,8 @@ Deliverables:
    - cheer (win);
    - hurt (hit);
    - laugh (titan).
-4. **Build notes for Claude:** how to make Kit from `kk_Knight.glb`.
-   - Which armour pieces to remove, which to keep, and what to add (a scarf, a patched tunic).
+4. **Build notes:** how to make Kit from `kk_Knight.glb`.
+   - Which armour pieces and shield to keep, how the selected hair or open helmet is constructed, and which small costume details to simplify at native size.
    - The face rig must match Lumi's.
    - Which KayKit animation to use for each moment.
 5. Kit must read clearly as different from Lumi at 42 units tall: a different silhouette and a different dominant colour. Keep yellow minimal.
@@ -345,7 +349,7 @@ The owner uploads these files into the Claude Project thread, and Claude builds 
 | Code repo | https://github.com/mahikshith/breaker (`main` is stable). Plain JS on Canvas 2D, bundled by esbuild into one HTML file. |
 | Story and roadmap | `docs/STORY_PLAN.md`; the live editable copy is a Claude Doc in the owner's Claude account |
 | Handoff docs | `docs/handoff/01`–`05` (this file is 04; 05 is the steering prompts). Single upload files: `docs/BREACH-ChatGPT-handoff.md` and `docs/BREACH-blender-scripts.md`, rebuilt with `python3 tools/make_handoff.py`. |
-| Art scripts | `art/*.py`, Blender `bpy` 5.2.2 run headless with Python 3.11. `art/princess.py` (character + face rig), `art/snake.py` (serpent heads), `art/render_vault_assets.py`, `art/render_invasion_assets.py` (plates, bricks, sprites). |
+| Art scripts | `art/*.py`, Blender `bpy` 5.2.2 run headless with Python 3.13. `art/princess.py` (character + face rig), `art/snake.py` (serpent heads), `art/render_vault_assets.py`, `art/render_invasion_assets.py` (plates, bricks, sprites). |
 | Packed art | `tools/pack_art.py` → `src/vault-art.js` (WebP data URIs) |
 | Playtests | Playwright + Chromium scripts in `tools/playtest/`, at iOS and Android sizes |
 | 3D models | KayKit Adventurers (CC0) in `assets/models/` |
@@ -395,7 +399,7 @@ Read handoff docs 01–03 first; they hold the details. Then:
 1. **Set up:**
    - `git clone https://github.com/mahikshith/breaker`;
    - Node 22, then `npm install`;
-   - Python 3.11, then `pip install bpy==5.2.2 pillow numpy`;
+   - Python 3.13, then `pip install bpy==5.2.2 pillow numpy`;
    - Playwright with Chromium.
 2. **Set the repo identity before any commit:**
    ```

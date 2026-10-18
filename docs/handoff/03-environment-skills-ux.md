@@ -17,8 +17,10 @@ This document covers where everything lives and how the work has been done. Any 
   - never ask for, or paste, the owner's token.
 - **Show drafts as you go.** The owner wants to see draft images whenever a piece is finished, especially UX screens, characters and assets. Post screenshots or sheets for iOS and Android sizes.
 - **Product feedback rules:** premium, inventive, urgent, addictive; never "vibe-coded"; expressions must say a lot; not too much yellow; keep the playful font and colours.
-- **Scope:** the two levels are polished. Story mode, unlockables and new creatures are planned in `docs/STORY_PLAN.md` and wait for the owner's approval, one phase at a time.
-- **Work style:** the owner likes subtasks run in parallel (for example, one helper rendering art while code is written), and progress shown with images.
+- **Scope:** Phase 1 is approved. Selected A / left Kit face orb, 12-second expressive body windows, charged Ward, first-use lesson, variable venom and the simple head-down tunnel entrance are integrated with Knight 2 and the mixed Vault. Final simulated phone/control/venom checks pass; complete rescue runs succeeded on both phone sizes. Physical-device/Safari feel and human balance remain unchecked. The cast was revised for distinct anatomy; the owner selected Brum for the first real model/expression/motion proof. No new cast encounter or later progression system is built. Independent preparation may run in parallel, with image picks before production and screenshot OK before commit/push. Nothing has been committed or pushed. Doc 01 holds the detailed current decisions and evidence.
+- **Work style:** the owner explicitly requests multiple parallel helpers with separate file ownership and independent review. Show progress with images. Parallel preparation must not bypass the concept-pick or commit/push approval gates.
+
+The owner authorized a separate `coding/mobile-preview` branch and GitHub Actions APK checkpoint after the earlier screenshot gate. The current branch freezes the pre-Brum runtime, with offline fonts and a native Android test shell. This explicit request overrides the usual branch prefix for this checkpoint. Later visual revisions remain on `codex/phase1-kit`; do not merge this checkpoint to `main` without a separate instruction.
 
 ## 2. Where things live (connections and locations)
 
@@ -47,10 +49,30 @@ This document covers where everything lives and how the work has been done. Any 
 | Tool | Version / use |
 |---|---|
 | Node | 22, plus esbuild 0.28 (bundler) and planck 1.5 (Box2D debris physics) |
-| Python | 3.11, with bpy 5.2.2 (Blender as a Python module, Cycles CPU) for all art, and Pillow for post-processing and packing (WebP) |
+| Python | 3.13 for bpy 5.2.2 (Blender as a Python module, Cycles CPU), Pillow and numpy. Python 3.11 cannot install the pinned bpy release. |
 | Playwright + Chromium | Automated playtests and screenshots at phone sizes |
 | git / GitHub | Version control. Commits use the owner's identity. |
 | claude.ai Artifact | Hosting the playable build for the owner |
+
+### Local Windows setup (2026-10-18)
+
+- Fresh checkout: `C:\Users\mahik\Music\Breach\breaker`, starting at `9c74978`, branch `codex/phase1-kit`. The initial checkout is preserved beside it as `breaker-initial-clone`.
+- Git 2.55.0, Node 22.23.3 and Python 3.11.16 are installed. The existing Node 24 and other Python versions remain available.
+- Art uses a separate Python 3.13.13 environment based on the installed Blender 5.2.2 runtime. bpy 5.2.2 requires Python 3.13 ([package metadata](https://pypi.org/project/bpy/5.2.2/)); Python 3.11 remains available for other tooling.
+- Playwright and Chromium are installed outside the repo. No game dependencies were added or changed.
+- Planck 1.5.0 declares Node >=24. Node 22 emits an engine warning, but the build, all five unit tests, and the baseline layout/polish checks on both phone sizes pass. Keep this warning visible when diagnosing future Node failures.
+
+For a PowerShell session using the installed tools:
+
+```powershell
+$taskTools = Join-Path $env:LOCALAPPDATA 'Programs\breach-tools'
+$env:Path = (Join-Path $taskTools 'node-v22.23.3-win-x64') + ';' + $env:Path
+Set-Alias python3 (Join-Path $taskTools 'python313\Scripts\python.exe')
+$env:PW_MODULE = ([Uri](Join-Path $taskTools 'playtest\node_modules\playwright\index.mjs')).AbsoluteUri
+$env:PYTHONUTF8 = '1'
+```
+
+`PYTHONUTF8` lets the handoff generator read and write the Unicode Markdown correctly on Windows. Baseline screenshots are under `out/baseline/`.
 
 ### Game-dev skills
 

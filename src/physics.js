@@ -49,6 +49,7 @@ export function collideGrid(b, G, onHit) {
   const c0 = Math.floor((b.x - b.r - G.ox) / G.cw), c1 = Math.floor((b.x + b.r - G.ox) / G.cw);
   const r0 = Math.floor((b.y - b.r - G.oy) / G.ch), r1 = Math.floor((b.y + b.r - G.oy) / G.ch);
   let nx = 0, ny = 0, pen = 0;
+  const piercing = b.fire || b.titan > 0;
   hitBuf.length = 0;
   for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
     if (!cellAt(G, c, r)) continue;
@@ -57,13 +58,15 @@ export function collideGrid(b, G, onHit) {
     let dx = b.x - px, dy = b.y - py;
     const d = Math.hypot(dx, dy);
     if (d >= b.r) continue;
-    if (b.fire || b.titan > 0) { hitBuf.push(c, r); continue; } // fire and titan balls plough straight through
+    if (piercing && !G.unpierceable?.includes(cellAt(G, c, r))) { hitBuf.push(c, r); continue; }
     if (d === 0) { dx = -b.vx; dy = -b.vy; }
     else if (dx && dy) {
       // Corner contact. If the neighbour along one axis is solid this is really a flat face
       // made of many small bricks, so bounce off the face instead of the seam ("ghost edge").
       const sx = Math.sign(dx), sy = Math.sign(dy);
-      if (cellAt(G, c + sx, r)) dx = 0; else if (cellAt(G, c, r + sy)) dy = 0;
+      const alongX = cellAt(G, c + sx, r), alongY = cellAt(G, c, r + sy);
+      if (alongX && (!piercing || G.unpierceable?.includes(alongX))) dx = 0;
+      else if (alongY && (!piercing || G.unpierceable?.includes(alongY))) dy = 0;
     }
     const m = Math.hypot(dx, dy) || 1;
     nx += dx / m; ny += dy / m;

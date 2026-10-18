@@ -10,6 +10,19 @@ export const artLoaded = () => Promise.all(pending);   // resolves once every re
 export const SPR = {};
 for (const [k, s] of Object.entries(ART?.sprites || {})) SPR[k] = { img: loadImg(s.url), ...s };
 export const ready = s => !!(s && s.img.complete && s.img.naturalWidth);
+const KIT = ART?.kit ? { ...ART.kit, img: loadImg(ART.kit.url) } : null;
+const KIT_FACES = KIT?.faces ? { ...KIT.faces, img: loadImg(KIT.faces.url) } : null;
+export function drawKitFace(g, x, y, size, clip = 'Idle') {
+  if (!ready(KIT_FACES)) return;
+  const c = KIT_FACES.cell, col = (KIT.anims[clip] || KIT.anims.Idle).row;
+  g.drawImage(KIT_FACES.img, col * c, 0, c, c, x - size / 2, y - size / 2, size, size);
+}
+export function drawKit(g, x, feetY, clip, t, scale = 1) {
+  if (!ready(KIT)) return;
+  const a = KIT.anims[clip] || KIT.anims.Idle, cell = KIT.cell, u = KIT.unit * scale;
+  const frame = Math.max(0, Math.floor(t * a.fps)), f = a.loop ? frame % a.n : Math.min(frame, a.n - 1);
+  g.drawImage(KIT.img, f * cell, a.row * cell, cell, cell, x - u / 2, feetY - u + KIT.feet * scale, u, u);
+}
 let DPR = 1;
 export const setDPR = d => { DPR = d; cache.clear(); };
 
