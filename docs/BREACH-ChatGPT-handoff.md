@@ -5,7 +5,7 @@ This one file contains everything another assistant needs to design for, or take
 - **Game:** BREACH, a premium portrait brick breaker for iOS and Android. Tagline: "Break in. Break out."
 - **Owner:** mykee (GitHub `mahikshith`).
 - **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `wip/polish-pass` is the working branch.
-- **Assembled at:** repo commit `e0287d9`.
+- **Assembled at:** repo commit `e0a05a7`.
 
 ## How to read this file
 
@@ -412,7 +412,13 @@ Mostly no, and that is fine for design. The options, as of October 2026 (as far 
   - They let ChatGPT call remote MCP servers by URL (Plus and Pro, beta).
   - A Blender on the owner's computer would need to be exposed through a tunnel first. That's not worth the setup for design work.
 
-**Recommendation:** ChatGPT designs, and Claude builds. That keeps one builder on the code and art pipeline, so nothing drifts or breaks.
+**Recommendation (owner's goal: save Claude usage):**
+
+- The ChatGPT project designs.
+- Codex builds, guided by `AGENTS.md` in the repo and Part B, section 8.
+- Claude is used only for reviews or hard problems.
+
+Keep one builder on the repo at a time.
 
 ---
 
@@ -692,9 +698,21 @@ Then bring the file and images to the Claude Project thread and say **"build Tas
 
 ---
 
-### 8. Optional: using Codex for Blender work
+### 8. Codex as the builder (saves the most Claude usage)
 
-Only use Codex for Blender work if you want ChatGPT's side to render art too. The recommendation is to let Claude render, so there is one consistent pipeline. If you do use Codex, run it on your computer in a clone of the repo, on its own branch, and never at the same time as Claude. Starter prompt:
+Building is where most of the usage goes: rendering, coding, playtesting and fixing. To save Claude usage, let **Codex** build, and use Claude only for reviews or hard problems.
+
+**How the pieces connect:** through the GitHub repo. Codex works on the repo directly and reads `AGENTS.md` at its root automatically. That file points it to every handoff doc and rule. ChatGPT Projects and Codex don't need to talk to each other: the design files go into the repo, and Codex builds from there.
+
+1. **Design** in the ChatGPT project, then download the packaged files (section 7).
+2. **Put them in the repo** under `design/phase1/`. Either upload them on github.com (Add file → Upload files), or give them to Codex and ask it to add them.
+3. **Build:** open Codex and give it the prompt below. Use the Codex app, or the CLI in a local clone (`git clone https://github.com/mahikshith/breaker`).
+   - Blender rendering needs Python 3.11 and `pip install bpy==5.2.2`.
+   - A local clone on your computer is the safest place to run Blender. Cloud Codex may work too if its environment can install bpy, so test it with one small render first.
+4. **Review** the screenshots it shows you. Merge only when you're happy.
+5. **Don't run Codex and Claude on the repo at the same time.** If you do bring Claude back, say so, and Claude pulls the latest `main` first.
+
+Codex starter prompt:
 
 ```
 You are working in the BREACH repo (github.com/mahikshith/breaker). Read docs/BREACH-ChatGPT-handoff.md
@@ -708,6 +726,8 @@ Strip PNG metadata before committing (command in Part F section 3), run python3 
 npm run build, then show me the rendered sheet images before committing.
 Task: <paste the locked design file from design/phase1/>
 ```
+
+**Steering Codex:** the drift prompts in section 4 work for Codex too. Also ask it to "show me the rendered sheet and in-game screenshots at iPhone and Android sizes before committing" after every asset.
 
 **Watching Blender live:** the Blender MCP add-on lets an AI app drive a Blender window you can watch. It works with Claude Desktop, Claude Code, Cursor and VS Code, and with Codex through its MCP config; Part A, section 9 has the details. It's optional and not needed for the plan above.
 
@@ -1364,7 +1384,7 @@ Read all three handoff docs before touching code: this one (status, rules, TODO 
 - **2026-10-18 (ChatGPT split):** the owner approved Phase 1 with the recommended defaults. Design work (story scripts, character design, concept art, UI specs) moves to the owner's ChatGPT Pro project; Claude keeps execution.
   - The brief is `docs/handoff/04-chatgpt-design-brief.md`. The owner's steering prompts (ChatGPT project instructions, task prompts, corrections, checklists) are in `docs/handoff/05-chatgpt-steering-prompts.md`. Every art script, in full, is in `docs/BREACH-blender-scripts.md`.
   - The single file to upload to ChatGPT is `docs/BREACH-ChatGPT-handoff.md`: the brief, story plan, game plan, docs 01–03 and a file map. Rebuild it after editing any of those docs: `python3 tools/make_handoff.py`.
-  - ChatGPT returns `design/phase1/*.md` and images; the owner uploads them to the Claude thread for building.
+  - ChatGPT returns `design/phase1/*.md` and images. To save Claude usage, the owner may have **Codex** build them, guided by `AGENTS.md` at the repo root. Claude is then used only for reviews. Whoever builds pulls `main` first; only one builder works at a time.
 
 - **2026-10-18 (story plan):** owner asked for a dedicated story mode, a prince, locked weapons, a store with skins, and more power-ups (multi-ball multiplier, paddle bullets), backed by research into addictive games.
   - Plan drafted, not built: `docs/STORY_PLAN.md` (live, editable copy: https://claude.ai/code/artifact/5278a4c8-b669-4235-972f-7814c32382d9; also `/mnt/project-files/breaker/plan/STORY_PLAN.md`).
@@ -2113,6 +2133,7 @@ assets/snake/meta.json
 assets/vault/atlas.json
 assets/vault/plate.jpg
 docs/BREACH-ChatGPT-handoff.md
+docs/BREACH-blender-scripts.md
 docs/GAME_PLAN.md
 docs/STORY_PLAN.md
 docs/drafts/breach.png
@@ -2125,6 +2146,7 @@ docs/handoff/01-status-and-next-steps.md
 docs/handoff/02-architecture-and-pipeline.md
 docs/handoff/03-environment-skills-ux.md
 docs/handoff/04-chatgpt-design-brief.md
+docs/handoff/05-chatgpt-steering-prompts.md
 docs/reference/invasion-v2-android.png
 docs/reference/robot-expressions-ingame.png
 docs/reference/snake-v2-sheet.png

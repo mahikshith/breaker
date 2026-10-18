@@ -378,7 +378,13 @@ Mostly no, and that is fine for design. The options, as of October 2026 (as far 
   - They let ChatGPT call remote MCP servers by URL (Plus and Pro, beta).
   - A Blender on the owner's computer would need to be exposed through a tunnel first. That's not worth the setup for design work.
 
-**Recommendation:** ChatGPT designs, and Claude builds. That keeps one builder on the code and art pipeline, so nothing drifts or breaks.
+**Recommendation (owner's goal: save Claude usage):**
+
+- The ChatGPT project designs.
+- Codex builds, guided by `AGENTS.md` in the repo and Part B, section 8.
+- Claude is used only for reviews or hard problems.
+
+Keep one builder on the repo at a time.
 
 ---
 

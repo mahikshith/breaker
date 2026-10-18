@@ -215,9 +215,21 @@ Then bring the file and images to the Claude Project thread and say **"build Tas
 
 ---
 
-## 8. Optional: using Codex for Blender work
+## 8. Codex as the builder (saves the most Claude usage)
 
-Only use Codex for Blender work if you want ChatGPT's side to render art too. The recommendation is to let Claude render, so there is one consistent pipeline. If you do use Codex, run it on your computer in a clone of the repo, on its own branch, and never at the same time as Claude. Starter prompt:
+Building is where most of the usage goes: rendering, coding, playtesting and fixing. To save Claude usage, let **Codex** build, and use Claude only for reviews or hard problems.
+
+**How the pieces connect:** through the GitHub repo. Codex works on the repo directly and reads `AGENTS.md` at its root automatically. That file points it to every handoff doc and rule. ChatGPT Projects and Codex don't need to talk to each other: the design files go into the repo, and Codex builds from there.
+
+1. **Design** in the ChatGPT project, then download the packaged files (section 7).
+2. **Put them in the repo** under `design/phase1/`. Either upload them on github.com (Add file → Upload files), or give them to Codex and ask it to add them.
+3. **Build:** open Codex and give it the prompt below. Use the Codex app, or the CLI in a local clone (`git clone https://github.com/mahikshith/breaker`).
+   - Blender rendering needs Python 3.11 and `pip install bpy==5.2.2`.
+   - A local clone on your computer is the safest place to run Blender. Cloud Codex may work too if its environment can install bpy, so test it with one small render first.
+4. **Review** the screenshots it shows you. Merge only when you're happy.
+5. **Don't run Codex and Claude on the repo at the same time.** If you do bring Claude back, say so, and Claude pulls the latest `main` first.
+
+Codex starter prompt:
 
 ```
 You are working in the BREACH repo (github.com/mahikshith/breaker). Read docs/BREACH-ChatGPT-handoff.md
@@ -231,5 +243,7 @@ Strip PNG metadata before committing (command in Part F section 3), run python3 
 npm run build, then show me the rendered sheet images before committing.
 Task: <paste the locked design file from design/phase1/>
 ```
+
+**Steering Codex:** the drift prompts in section 4 work for Codex too. Also ask it to "show me the rendered sheet and in-game screenshots at iPhone and Android sizes before committing" after every asset.
 
 **Watching Blender live:** the Blender MCP add-on lets an AI app drive a Blender window you can watch. It works with Claude Desktop, Claude Code, Cursor and VS Code, and with Codex through its MCP config; Part A, section 9 has the details. It's optional and not needed for the plan above.
