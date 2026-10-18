@@ -13,6 +13,9 @@ const LEVELS = [
 ];
 const W = 360;
 let H = 740, scale = 1, FH = 740, inT = 0, inB = 0; // FH: full canvas height; H: playable height inside the safe area
+// Levels are laid out with room for a HUD at the top; LIFT slides the whole level up under a slim HUD bar so the
+// play reaches right up to the status bar (the level is built LIFT taller so its bottom still meets the screen's)
+const LIFT = 34;
 const cv = document.getElementById('game'), g = cv.getContext('2d');
 
 let best = store.get('best') || [0, 0];
@@ -39,11 +42,11 @@ function resize() {
   setDPR(scale * dpr);
   g.setTransform(scale * dpr, 0, 0, scale * dpr, 0, 0);
   previews = [];
-  if (level && (level.W !== W || level.H !== H)) start(levelIdx); // geometry depends on H
+  if (level && (level.W !== W || level.H !== H + LIFT)) start(levelIdx); // geometry depends on H
 }
 
 function start(i) {
-  levelIdx = i; level = LEVELS[i].make(W, H); scene = 'level'; resultT = 0;
+  levelIdx = i; level = LEVELS[i].make(W, H + LIFT); level.hudY = LIFT; level.inB = inB; scene = 'level'; resultT = 0;
   cont = { used: 0, declined: false, ad: null, toast: null };
 }
 
@@ -54,9 +57,9 @@ cv.addEventListener('pointerdown', e => {
   const [x, y] = toWorld(e);
   const b = buttons.find(b => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h);
   if (b) { sfx.paddle(); b.fn(); return; }
-  if (scene === 'level' && level.state === 'play') level.pointerDown(x, y);
+  if (scene === 'level' && level.state === 'play') level.pointerDown(x, y + LIFT);
 });
-cv.addEventListener('pointermove', e => { if (scene === 'level') { const [x, y] = toWorld(e); level.pointerMove(x, y); } });
+cv.addEventListener('pointermove', e => { if (scene === 'level') { const [x, y] = toWorld(e); level.pointerMove(x, y + LIFT); } });
 const up = () => { if (scene === 'level') level.pointerUp(); };
 cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
 addEventListener('keydown', e => {
@@ -288,13 +291,14 @@ function draw() {
   g.save(); g.clearRect(0, 0, W, FH);
   // extend the scene's top and bottom pixel rows under the notch and home indicator
   const bg = scene === 'menu' ? menuBg() : level.background(), k = bg.height / H;
-  if (inT && scene !== 'menu' && level.drawTopInset) { g.save(); g.translate(0, inT); level.drawTopInset(g, inT + 1); g.restore(); }
-  else if (inT) g.drawImage(bg, 0, 0, bg.width, k, 0, 0, W, inT + 1);
+  const top = scene === 'menu' ? inT : inT - LIFT;   // screen space above the level's y = 0
+  if (top > 0 && scene !== 'menu' && level.drawTopInset) { g.save(); g.translate(0, top); level.drawTopInset(g, top + 1); g.restore(); }
+  else if (top > 0) g.drawImage(bg, 0, 0, bg.width, k, 0, 0, W, top + 1);
   if (inB) g.drawImage(bg, 0, bg.height - k, bg.width, k, 0, FH - inB - 1, W, inB + 1);
   g.translate(0, inT);
   if (scene === 'menu') drawMenu();
   else {
-    level.draw(g);
+    g.save(); g.translate(0, -LIFT); level.draw(g); g.restore();
     if (level.state === 'play') pauseButton();
     else drawResults();
     drawToast();
@@ -302,7 +306,7 @@ function draw() {
   g.restore();
 }
 function pauseButton() { // top-left, away from the thumb that steers the paddle; 44pt touch target
-  const x = 10, y = 14, s = 30;
+  const x = 10, y = 4, s = 30;
   buttons.push({ x: x - 7, y: y - 7, w: s + 14, h: s + 14, fn: () => { scene = 'menu'; } });
   g.fillStyle = 'rgba(0,0,0,0.35)'; rrect(g, x + 2, y + 3, s, s, 10); g.fill();
   const gr = g.createLinearGradient(0, y, 0, y + s); gr.addColorStop(0, '#5d6688'); gr.addColorStop(1, '#2c3250');

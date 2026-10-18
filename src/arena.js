@@ -26,6 +26,7 @@ export class Arena {
     this.score = 0; this.combo = 0; this.bestCombo = 0; this.lives = 3; this.focus = 2; this.focusMax = 3; this.focusFill = 0;
     this.trauma = 0; this.hitStop = 0; this.timeScale = 1; this.fireT = 0; this.slowT = 0; this.shield = 0; this.shieldT = 0;
     this.state = 'play'; this.t = 0; this.bricksBroken = 0; this.breaks = [];
+    this.hudY = 0; this.inB = 0; // set by main: where the top HUD bar sits, and the home-indicator strip below H
     this.ptr = { down: false, x: W / 2, y: 0, stillT: 0, lastX: W / 2 };
     this.keys = {};
     this.aim = null; // { ball, angle, serve, t }
@@ -244,7 +245,7 @@ export class Arena {
     const { W, H } = this, y = this.deckY, p = this.paddle;
     const dg = g.createLinearGradient(0, y, 0, y + 40);
     dg.addColorStop(0, 'rgba(4,5,14,0.5)'); dg.addColorStop(1, 'rgba(4,5,14,0.78)');
-    g.fillStyle = dg; g.fillRect(0, y, W, H - y);
+    g.fillStyle = dg; g.fillRect(0, y, W, H + this.inB + 2 - y);
     g.fillStyle = 'rgba(255,255,255,0.1)'; g.fillRect(0, y, W, 1);
     // the drain: a faint red line the ball must never cross
     g.fillStyle = 'rgba(255,77,94,0.18)'; g.fillRect(this.left, this.drainY, this.right - this.left, 1);
@@ -377,7 +378,7 @@ export class Arena {
     g.globalAlpha = 1;
   }
   drawHUDBase(g) {
-    const y = this.H - 30;
+    const y = this.H - 22;
     // lives as little steel balls
     for (let i = 0; i < 3; i++) drawBall(g, { x: 24 + i * 16, y, r: 5, vx: 0, vy: 0 }, i < this.lives ? 1 : 0.18);
     // active power timers
@@ -396,8 +397,9 @@ export class Arena {
       if (full) { const gr = g.createLinearGradient(0, y - 5, 0, y + 5); gr.addColorStop(0, '#f1d6ff'); gr.addColorStop(1, '#9b4fd1'); g.fillStyle = gr; rrect(g, x, y - 5, 18, 10, 5); g.fill(); }
       else if (i === this.focus) { g.fillStyle = 'rgba(196,107,240,0.5)'; rrect(g, x, y - 5, 18 * this.focusFill / 14, 10, 5); g.fill(); }
     }
-    text(g, this.score.toLocaleString(), this.W - 14, 24, 22, '#fff', 'right', NUM);
-    if (this.combo >= 5) text(g, `COMBO ×${this.combo}`, this.W - 14, 64, 12, '#ffd36b', 'right');
+    const hy = this.hudY;
+    text(g, this.score.toLocaleString(), this.W - 12, hy + 18, 22, '#fff', 'right', NUM);
+    if (this.combo >= 5) text(g, `COMBO ×${this.combo}`, this.W - 12, hy + 42, 12, '#ffd36b', 'right');
     if (this.aim?.serve && this.t < 20) text(g, 'Slide to aim · lift to launch', this.W / 2, this.paddle.y + 22, 12, 'rgba(255,255,255,0.85)', 'center');
   }
 }

@@ -17,7 +17,7 @@ const HP = { [SUN]: 1, [CORAL]: 1, [VIOLET]: 2, [TEAL]: 2, [BLUE]: 1, [GOLD]: 1 
 const CHEW = { [EMPTY]: 0.32, [BARS]: 0.32, [SUN]: 2.1, [CORAL]: 2.1, [VIOLET]: 3.45, [TEAL]: 3.45, [BLUE]: 2.1, [GOLD]: 2.1 }; // serpent seconds per cell
 const POCKET = { c0: 7, c1: 12, r0: 3, r1: 5 };
 const PR_X = OX + 10 * CELL, FLOOR_Y = OY + 6 * CELL; // the princess's spot in the cage
-const DROPS = ['split', 'laser', 'wide', 'shrink', 'focus', 'fire', 'shield', 'burst', 'slow', 'split', 'shrink'];
+const DROPS = ['wide', 'split', 'laser', 'shrink', 'fire', 'shield', 'wide', 'burst', 'slow', 'focus', 'split'];
 const LAYOUT = [
   'tttttttttttttttt....',
   'tttttttttttttttt....',
@@ -716,8 +716,8 @@ export class Vault extends Arena {
     g.globalAlpha = 1;
   }
   drawHUD(g) {
-    const W = this.W, y = 44, x1 = W - 150;
-    text(g, 'SERPENT', 52, 24, 13, '#d9b8f0');
+    const W = this.W, y = this.hudY + 27, x1 = W - 150;
+    text(g, 'SERPENT', 52, this.hudY + 10, 13, '#d9b8f0');
     g.fillStyle = 'rgba(0,0,0,0.45)'; rrect(g, 52, y - 6, x1 - 52, 12, 6); g.fill();
     const d = this.phase === 'rescue' ? this.danger || 0 : this.phase === 'caught' ? 1 : 0;
     const col = d > 0.75 ? '#ff4d5e' : d > 0.45 ? '#ffb347' : '#7bd88f';

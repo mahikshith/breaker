@@ -12,7 +12,7 @@ const COLS = 11, ROWS = 9, CW = 28, CH = 18;
 const EMPTY = 0, CANDY = 1, ARMOR = 2, POWERB = 3, BOT = 4;
 const ROW_COLORS = ['#ff5d8f', '#ff8a3d', '#ffd23f', '#5ccf6a', '#2ec4b6', '#3fa8f5', '#7b6cf6', '#c46bf0', '#ff5d8f'];
 const HP = { [CANDY]: 1, [ARMOR]: 3, [POWERB]: 1, [BOT]: 2 };
-const DROPS = ['split', 'laser', 'burst', 'shrink', 'wide', 'fire', 'laser', 'shield', 'focus', 'slow', 'shrink'];
+const DROPS = ['wide', 'laser', 'split', 'shrink', 'burst', 'wide', 'fire', 'shield', 'laser', 'focus', 'slow', 'wide'];
 // 'c' candy, 'a' armor, 'p' power, 'b' robot, '.' empty
 const LAYOUT = [
   '..bbbbbbb..',
@@ -375,16 +375,16 @@ export class Invasion extends Arena {
     const W = this.W;
     if (this.phase === 'formation') {
       const n = this.alive();
-      text(g, 'FORMATION', 52, 24, 13, '#ffb3c8');
-      const x1 = W - 150, y = 44, f = n / this.total;
+      text(g, 'FORMATION', 52, this.hudY + 10, 13, '#ffb3c8');
+      const x1 = W - 150, y = this.hudY + 27, f = n / this.total;
       g.fillStyle = 'rgba(0,0,0,0.45)'; rrect(g, 52, y - 6, x1 - 52, 12, 6); g.fill();
       const mg = g.createLinearGradient(0, y - 6, 0, y + 6); mg.addColorStop(0, '#ffa3bf'); mg.addColorStop(1, '#c2305e');
       g.fillStyle = mg; rrect(g, 52, y - 6, Math.max(12, (x1 - 52) * f), 12, 6); g.fill();
       g.fillStyle = 'rgba(255,255,255,0.35)'; rrect(g, 56, y - 4, Math.max(4, (x1 - 60) * f), 3, 1.5); g.fill();
       text(g, `${n} left`, x1 + 8, y, 12, '#fff');
     } else if (this.boss) {
-      text(g, 'MOTHERSHIP', 52, 24, 13, '#ffb3c8');
-      const x1 = W - 150, y = 44, f = Math.max(0, this.boss.hp / BOSS_HP);
+      text(g, 'MOTHERSHIP', 52, this.hudY + 10, 13, '#ffb3c8');
+      const x1 = W - 150, y = this.hudY + 27, f = Math.max(0, this.boss.hp / BOSS_HP);
       g.fillStyle = 'rgba(0,0,0,0.45)'; rrect(g, 52, y - 6, x1 - 52, 12, 6); g.fill();
       const mg = g.createLinearGradient(0, y - 6, 0, y + 6); mg.addColorStop(0, '#ffe08a'); mg.addColorStop(1, '#e0602a');
       g.fillStyle = mg; rrect(g, 52, y - 6, Math.max(12, (x1 - 52) * f), 12, 6); g.fill();
@@ -454,10 +454,12 @@ export class Invasion extends Arena {
   calm(g) {
     const { W, H } = this;
     g.save();
-    g.globalCompositeOperation = 'saturation'; g.fillStyle = 'rgba(128,128,128,0.38)'; g.fillRect(-1, -60, W + 2, H + 60);
-    g.globalCompositeOperation = 'source-over'; g.fillStyle = 'rgba(6,8,20,0.4)'; g.fillRect(-1, -60, W + 2, H + 60);
-    const pg = g.createRadialGradient(262, 350, 20, 262, 350, 150); // the ringed planet is the loudest thing in the window
-    pg.addColorStop(0, 'rgba(6,8,20,0.45)'); pg.addColorStop(1, 'rgba(6,8,20,0)'); g.fillStyle = pg; g.fillRect(100, 190, 260, 320);
+    g.globalCompositeOperation = 'saturation'; g.fillStyle = 'rgba(128,128,128,0.5)'; g.fillRect(-1, -60, W + 2, H + 60);
+    g.globalCompositeOperation = 'source-over'; g.fillStyle = 'rgba(6,8,20,0.46)'; g.fillRect(-1, -60, W + 2, H + 60);
+    // the ringed planet and the nebula are the loudest things in the window: sink them well behind the play
+    const pg = g.createRadialGradient(262, 330, 30, 262, 330, 190);
+    pg.addColorStop(0, 'rgba(6,8,20,0.7)'); pg.addColorStop(0.6, 'rgba(6,8,20,0.5)'); pg.addColorStop(1, 'rgba(6,8,20,0)'); g.fillStyle = pg; g.fillRect(60, 130, 300, 400);
+    g.fillStyle = 'rgba(6,8,20,0.22)'; g.fillRect(14, 70, W - 28, 380);
     const lg = g.createLinearGradient(0, 420, 0, 520); lg.addColorStop(0, 'rgba(6,8,20,0)'); lg.addColorStop(1, 'rgba(6,8,20,0.42)');
     g.fillStyle = lg; g.fillRect(0, 420, W, H - 420);
     g.restore();
