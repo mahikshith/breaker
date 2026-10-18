@@ -5,6 +5,8 @@ import android.os.SystemClock;
 import android.os.ParcelFileDescriptor;
 import android.os.Build;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.util.Log;
 import androidx.test.core.app.ActivityScenario;
@@ -97,6 +99,21 @@ public class MobileSmokeTest {
             if (Build.VERSION.SDK_INT >= 30) {
                 window[0] = activity.getWindowManager().getCurrentWindowMetrics().getBounds().width();
                 window[1] = activity.getWindowManager().getCurrentWindowMetrics().getBounds().height();
+            }
+            for (View ancestor = activity.game; ancestor != null;
+                    ancestor = ancestor.getParent() instanceof View ? (View) ancestor.getParent() : null) {
+                int[] at = new int[2]; ancestor.getLocationOnScreen(at);
+                ViewGroup.LayoutParams layout = ancestor.getLayoutParams();
+                String margins = "";
+                if (layout instanceof ViewGroup.MarginLayoutParams) {
+                    ViewGroup.MarginLayoutParams m = (ViewGroup.MarginLayoutParams) layout;
+                    margins = ", margins=" + m.leftMargin + "," + m.topMargin + "," + m.rightMargin + "," + m.bottomMargin;
+                }
+                Log.i("BreachSmoke", phase + ": " + ancestor.getClass().getSimpleName()
+                    + " at=" + at[0] + "," + at[1] + " size=" + ancestor.getWidth() + "x" + ancestor.getHeight()
+                    + " fits=" + ancestor.getFitsSystemWindows() + " padding=" + ancestor.getPaddingLeft()
+                    + "," + ancestor.getPaddingTop() + "," + ancestor.getPaddingRight() + "," + ancestor.getPaddingBottom()
+                    + " ui=0x" + Integer.toHexString(ancestor.getSystemUiVisibility()) + margins);
             }
         });
         assertEquals(phase + ": canvas starts at screen left", 0, position[0]);

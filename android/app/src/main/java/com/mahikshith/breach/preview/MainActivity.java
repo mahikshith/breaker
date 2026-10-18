@@ -83,6 +83,12 @@ public class MainActivity extends Activity {
 
     private void fullscreen() {
         if (Build.VERSION.SDK_INT >= 30) {
+            if (Build.VERSION.SDK_INT == 35) {
+                // Keep Android 15's preserved-decor compatibility applier from fitting content.
+                View decor = getWindow().getDecorView();
+                decor.setSystemUiVisibility(decor.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+            }
             getWindow().setDecorFitsSystemWindows(false);
             WindowManager.LayoutParams attributes = getWindow().getAttributes();
             attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS;
