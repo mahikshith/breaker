@@ -1,0 +1,206 @@
+{
+  "source": "art/starflight-arsenal/source.png",
+  "sourceSHA256": "05d3b21215bc2d0d2a1cdc948d7872b403c19f172b9eabe8748c5370509aafc9",
+  "sprites": {
+    "laser": {
+      "path": "assets/starflight-arsenal/laser.png",
+      "size": [
+        192,
+        192
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceCrop": [
+        31,
+        77,
+        456,
+        376
+      ],
+      "sha256": "ff43623d991bfcfed30f2323417c982f5cdd1ead6d6a3b793401422a62d91a0b"
+    },
+    "hyper": {
+      "path": "assets/starflight-arsenal/hyper.png",
+      "size": [
+        192,
+        192
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceCrop": [
+        452,
+        54,
+        835,
+        374
+      ],
+      "sha256": "e79faab05825788c1428a73020c5de11dad6db567a6320243ef57ccf87e1777e"
+    },
+    "seeker": {
+      "path": "assets/starflight-arsenal/seeker.png",
+      "size": [
+        192,
+        192
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceCrop": [
+        864,
+        49,
+        1238,
+        409
+      ],
+      "sha256": "734bfe689de4072de7fccff78b9c1144e8655a723434e7c56bce8f52ecdd2e8f"
+    },
+    "spiral": {
+      "path": "assets/starflight-arsenal/spiral.png",
+      "size": [
+        192,
+        192
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceCrop": [
+        34,
+        415,
+        464,
+        773
+      ],
+      "sha256": "6cc07b908d124850958ca3b80411ea5f240cfa5fb2bbb390c857ad20d5d1b4a4",
+      "forwardAngle": 2.4
+    },
+    "drones": {
+      "path": "assets/starflight-arsenal/drones.png",
+      "size": [
+        192,
+        192
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceCrop": [
+        438,
+        432,
+        833,
+        792
+      ],
+      "sha256": "39360de7e2eb88b9a00398543efb3577b9afa023983f28f68715cdfa89fc6ff0"
+    },
+    "nova": {
+      "path": "assets/starflight-arsenal/nova.png",
+      "size": [
+        192,
+        192
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceCrop": [
+        856,
+        428,
+        1237,
+        796
+      ],
+      "sha256": "e17997780f99c6fa88d8164680afac3a5c40ddbe4d2c77b9b98029936af306e6"
+    },
+    "stasis": {
+      "path": "assets/starflight-arsenal/stasis.png",
+      "size": [
+        192,
+        192
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceCrop": [
+        33,
+        786,
+        424,
+        1211
+      ],
+      "sha256": "4d3b124967e9b041913d0c5bebca4e99cf3fe3df68c482ef1e57dfbfceb18306"
+    },
+    "repair": {
+      "path": "assets/starflight-arsenal/repair.png",
+      "size": [
+        192,
+        192
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceCrop": [
+        517,
+        814,
+        738,
+        1193
+      ],
+      "sha256": "917534edf9f7b52f5bdc04c94526ab94bd302540e7be6aa8ec4f6ed17b1725d0"
+    },
+    "shield": {
+      "path": "assets/starflight-arsenal/shield.png",
+      "size": [
+        192,
+        192
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceCrop": [
+        834,
+        829,
+        1237,
+        1186
+      ],
+      "sha256": "1f89600c808eff548b5697136b4b002162ed8578558ce6ed2a101ebb5cd0e8bd"
+    },
+    "missile": {
+      "path": "assets/starflight-arsenal/missile.png",
+      "size": [
+        192,
+        192
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceCrop": [
+        864,
+        49,
+        1134,
+        362
+      ],
+      "sha256": "e492fe693c4acf170e7973b1e5e68f68a75e2771ee5797873cee4a25164fc501",
+      "forwardAngle": -0.9
+    },
+    "drone": {
+      "path": "assets/starflight-arsenal/drone.png",
+      "size": [
+        192,
+        192
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceCrop": [
+        587,
+        432,
+        833,
+        659
+      ],
+      "sha256": "d8e85a535f8699edea0a42e6035fd592f607c1ab5e62643d44aeb0133dfe3c3e"
+    }
+  }
+}

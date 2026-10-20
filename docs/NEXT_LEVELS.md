@@ -1,5 +1,13 @@
 # Next levels: reserved space ideas and a new princess encounter
 
+## 2026-10-20: direct-flight continuation
+
+The owner has now authorized a fast scrolling starship combat prototype, then requested a proper campaign plan first. [Starflight: Last Light](STARFLIGHT_PROTOTYPE.md) is implemented separately at `prototypes/starflight/`: direct movement, automatic twin fire, seven earned reactor choices, varied ship families, asteroids/gravity and escalating repeat cycles. Its current story framing follows the freed crew's evacuation through Carrier Reach, Relay Drift and Forge Belt. It is not included in the pinned five-chapter APK. [The campaign production plan](STARFLIGHT_CAMPAIGN.md) now governs future combat-first authored chapters; those are not implemented by the combat loop.
+
+The earlier proposals below remain reserved. Starflight does not claim to implement Relay Escort B or Orbital Switch B. Their breaker controls and ball rules apply to those future breaker encounters; Starflight uses the new direct-flight contract documented in [STARFLIGHT_COMBAT.md](STARFLIGHT_COMBAT.md).
+
+The next implementation is the plan's first complete combat slice: authored attack roles, useful weapon tradeoffs, destructible enemy capabilities and differentiated wreck motion. Rescue is an occasional optional objective, not a required chapter-to-upgrade formula. The revised combat lab has more silhouettes and a bounded power budget, but needs human difficulty feedback. A complete campaign also needs checkpoint/save behavior and a deliberate Android packaging pass.
+
 Updated 2026-10-19. This document separates the current five-level runtime from future proposals. Values labelled provisional are starting points, not balance results. The owner delegates design decisions and authorizes implementation/commit/push. The **Brum/Yeti-related Frost Warden princess encounter is integrated at stable slot4**, with complete dedicated rendered art, strong-arm physical defence destruction and separate Easy/Medium/Hard behavior. Local phone-size checks are described below; CI and APK delivery status belong to [MOBILE_PREVIEW.md](MOBILE_PREVIEW.md). Earlier crab/bat/boar adversary ideas remain deferred alternatives.
 
 ## 1. What exists, and what remains a proposal

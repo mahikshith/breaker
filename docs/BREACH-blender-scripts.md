@@ -499,11 +499,14 @@ SOURCES = [
     ('concepts', 'design/phase1/img'),
     ('sources', 'art/space'),
     ('sources', 'art/frost-warden'),
+    ('sources', 'art/starflight'),
+    ('sources', 'art/starflight-v2'),
+    ('sources', 'art/starflight-arsenal'),
     ('assets', 'design/phase1/weapon-vfx-v2'),
     ('assets', 'design/phase1/weapon-vfx-v3'),
     *[('assets', 'assets/' + name) for name in (
         'space-a', 'space-b', 'space-c', 'space-common', 'space-companions', 'circuit-companions',
-        'relay-circuit', 'orbital-forge', 'frost-warden', 'kit', 'kit-cast', 'snake-jade')],
+        'relay-circuit', 'orbital-forge', 'frost-warden', 'kit', 'kit-cast', 'snake-jade', 'starflight', 'starflight-v2', 'starflight-arsenal')],
     *[('renders', 'out/' + name) for name in (
         'brum-proof', 'kit-proof', 'kit-cast-proof', 'cast',
         'rejected-cast-20261018', 'rejected-kit-20261018')],

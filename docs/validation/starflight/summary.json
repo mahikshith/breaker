@@ -1,0 +1,105 @@
+{
+  "status": "Final smaller-ship browser checkpoint passes",
+  "reports": [
+    {
+      "path": "out/starflight-review/v2-edge-final/report.json",
+      "sha256": "1b3dda546f2f8e6bf0af72604f3b000eba0a4e464af3b0bba9d5787a615ddf8a"
+    },
+    {
+      "path": "out/starflight-review/v2-edge-real-clock/report.json",
+      "sha256": "b14c6260a88d5a67b3b305cc36d86403f012c3e833e6b7343297690cc259a410"
+    }
+  ],
+  "test": {
+    "path": "tools/playtest/starflight.mjs",
+    "sha256": "fe3f4f7b4ccaf1b8b61b2c3c50cfdfe086e8bac5521ec6c873ead09bfe75c1d8"
+  },
+  "phoneCases": 6,
+  "stagedPowerActivations": 42,
+  "frozenRuntimeArtEntries": 42,
+  "actualOpaqueSweepSamples": 360,
+  "minimumOpaqueOrbGapWorld": 1.3831878207194563,
+  "ordinaryFirstSector": [
+    {
+      "device": "ios",
+      "worldHeight": 612.824427480916,
+      "time": 66.04999999999863,
+      "hp": 2,
+      "casts": [],
+      "maxCharge": 100
+    },
+    {
+      "device": "android",
+      "worldHeight": 671.9417475728155,
+      "time": 65.04999999999784,
+      "hp": 4,
+      "casts": [],
+      "maxCharge": 100
+    }
+  ],
+  "normalRAF": [
+    {
+      "device": "ios",
+      "difficulty": "easy",
+      "wallSeconds": 10.4875,
+      "gameSeconds": 10.450000000000044,
+      "state": "play",
+      "mode": "play",
+      "hp": 5,
+      "kills": 3,
+      "score": 448,
+      "shots": 9,
+      "frameSamples": 619,
+      "hostFrameMilliseconds": {
+        "p50": 16.699999999999818,
+        "p95": 16.900000000000546,
+        "max": 49.899999999999636
+      },
+      "errors": [],
+      "failed": []
+    },
+    {
+      "device": "android",
+      "difficulty": "easy",
+      "wallSeconds": 10.435799999952316,
+      "gameSeconds": 10.433333333333378,
+      "state": "play",
+      "mode": "play",
+      "hp": 5,
+      "kills": 3,
+      "score": 445,
+      "shots": 10,
+      "frameSamples": 625,
+      "hostFrameMilliseconds": {
+        "p50": 16.699999999999818,
+        "p95": 16.800000000000182,
+        "max": 17.199999999999818
+      },
+      "errors": [],
+      "failed": []
+    }
+  ],
+  "sourceHashes": {
+    "prototypes/starflight/index.html": "e7f32c39f0f6c83b0bd96c01dd84d32ad971495e678f2a4fdcd83f2828167ca1",
+    "prototypes/starflight/main.js": "228bdbf4250dbc1bccd47fa3ac24b1d39393e117b9f28bc993cca82ea9357108",
+    "prototypes/starflight/render-effects.js": "8145bd15ac1ec85da774ccd799b5b5f7a4f73d21819885d27b270273fbdbcdb6",
+    "src/starflight/geometry.js": "d73c3f3c62b960749f0fd1aaa014aed70af5e82efec70e7e85ce9e39a5b924da",
+    "src/starflight/model.js": "6aa76b7b6d7c54e91c369bcf845f418f7ec56e3f57499d226e2cb0276921cf4a"
+  },
+  "visualReview": [
+    "Both phone arsenal/full orb, closest-left and right-edge frames inspected",
+    "Actual new beetle/frigate/crescent plus asteroid/wormhole in explicitly staged later-sector frames inspected",
+    "Ordinary combat/boss screenshots inspected; full silhouette no longer clipped at right edge"
+  ],
+  "limits": [
+    "Browser phone dimensions are not native phone or device-performance evidence",
+    "All42 power activations use labelled full-charge fixtures",
+    "Later-sector mixed fleet/field images use labelled spawn fixtures",
+    "Ordinary runs prove one Easy sector on each phone with a coarse automated touch policy, not all3 sectors or human difficulty balance",
+    "Campaign plan remains a separate proposal, not implemented"
+  ],
+  "preservedIssues": [
+    "Earlier boot timeouts were deterministic harness rAF polling; fixed with50ms wait polling",
+    "Earlier wing/orb0.69u overlap and right-edge clipping found and corrected before this receipt"
+  ]
+}

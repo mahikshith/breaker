@@ -4,8 +4,8 @@ This one file contains everything another assistant needs to design for, or take
 
 - **Game:** BREACH, a premium portrait brick breaker for iOS and Android. Tagline: "Break in. Break out."
 - **Owner:** mykee (GitHub `mahikshith`).
-- **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `codex/space-combat-apk` is this working branch.
-- **Assembled at:** repo commit `f2c5b78`.
+- **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `codex/starship-run-prototype` is this working branch.
+- **Assembled at:** repo commit `1a8bdac`.
 
 ## How to read this file
 
@@ -15,6 +15,10 @@ This one file contains everything another assistant needs to design for, or take
 | Part | Contents | Source file in the repo |
 |---|---|---|
 | M | Current continuation memory | `docs/CONTINUE_HERE.md` |
+| S | Starflight prototype and story | `docs/STARFLIGHT_PROTOTYPE.md` |
+| T | Starflight combat contract | `docs/STARFLIGHT_COMBAT.md` |
+| U | Starflight artwork pipeline | `docs/STARFLIGHT_ART.md` |
+| V | Starflight campaign production plan | `docs/STARFLIGHT_CAMPAIGN.md` |
 | N | Space combat implementation details | `docs/SPACE_COMBAT_HANDOFF.md` |
 | O | Frost Warden encounter and physics | `docs/BRUM_LEVEL_PLAN.md` |
 | P | Next encounters and physics proposals | `docs/NEXT_LEVELS.md` |
@@ -39,7 +43,9 @@ Companion file: `docs/BREACH-blender-scripts.md` has every Blender and art scrip
 
 ## Continue here
 
-Last updated 2026-10-20. Active branch: `codex/space-combat-apk`.
+Last updated 2026-10-20. Active branch: `codex/starship-run-prototype`. The completed five-chapter APK branch is `codex/space-combat-apk` and has been incorporated here.
+
+Latest steering: **combat-first campaign design**, using reference research and design judgment. The owner explicitly clarified that rescue-to-module progression was an example, not a required loop. Prioritise distinct enemy movement/destruction, weapon tradeoffs, smaller Android assets and pressure/recovery pacing; use rescue only where it improves an encounter. Start with `docs/STARFLIGHT_CAMPAIGN.md`; it separates proposed chapter production from the implemented combat lab. The current browser prototype at `prototypes/starflight/` has direct flight, seven bounded reactor powers, a single circular ship icon/chooser, smaller shared visual/collision geometry, multiple enemy families, destructible asteroids and bounded gravity pockets. Read `docs/STARFLIGHT_PROTOTYPE.md`, `docs/STARFLIGHT_COMBAT.md` and `docs/STARFLIGHT_ART.md` for exact scope and validation. It is NOT inside the five-chapter APK, has no physical rescue/attachment campaign yet, and its Hard balance remains provisional.
 
 The owner approved both heavy and salvo fire, differentiated ship colours, alternating/paired/rest batteries, stronger player shots, Circuit Vesper/Latch, a better power menu, difficulty tuning and a new APK through CI. The five-chapter release is complete: CI 39399653237 passes web, native compilation/lint and Android 15 touch/fullscreen/lifecycle instrumentation. The downloaded APK is verified at 9,596,473 bytes, SHA256 B44BC99FE10468DEF35E89F32B85900F8AAD3C16BB92C6C1040A04D850E7BA8E. Download and scope: `docs/MOBILE_PREVIEW.md`; permanent evidence: `docs/validation/space-combat/native-release.json`. Physical handset performance and human difficulty remain device testing.
 
@@ -51,9 +57,473 @@ The owner approved both heavy and salvo fire, differentiated ship colours, alter
 
 Save slots remain Carrier 0 / Vault 1 / Circuit 2 / Forge 3; Frost Warden appends slot 4. Do not move Vault progress into a space slot. Nix/Tick belong to Carrier; Vesper/Latch to Circuit; Forge currently has neutral ship arsenal. Nova/Pin, Escort Run and Orbital Switch remain future proposals. The owner delegated design decisions and authorized a fifth Frost Warden princess encounter using the Yeti rig, preserving Brum as a hero. See `docs/BRUM_LEVEL_PLAN.md` for the implemented geometry, measured collision, pacing, powers and phone evidence.
 
-Final canonical browser SHA256: `B06CDD969BCF5C420A74B3CF37A3EAC45FE3D46EABB2926F5E5D2B8A42E01770`. Offline Android HTML: `4071ACEE8BE6AB862A3CD9A0CE35680B99090B9E254D7B858F699668D949B90A`. `config/mobile-preview.json` pins the source bundle; `tools/prepare-android.mjs` refuses a mismatch. Current sources pass 231 unit tests. Detailed receipts and selected phone captures are versioned in `docs/validation/space-combat/`.
+Final canonical browser SHA256: `B06CDD969BCF5C420A74B3CF37A3EAC45FE3D46EABB2926F5E5D2B8A42E01770`. Offline Android HTML: `4071ACEE8BE6AB862A3CD9A0CE35680B99090B9E254D7B858F699668D949B90A`. `config/mobile-preview.json` pins the source bundle; `tools/prepare-android.mjs` refuses a mismatch. The release checkpoint passes 231 unit tests; the current branch passes 266, including 35 Starflight tests. Detailed receipts and selected phone captures are versioned in `docs/validation/space-combat/`.
 
 User emphasis: retain reference art quality in runtime, meaningful pressure with readable dodges, ordinary-ball progress, useful bounded powers, distinct level objectives, full-screen safe mobile layout and detailed reproducible handoffs. Enemy space shots must never destroy the player's bricks. Avoid a mandatory precision puzzle when the ball cannot be directly aimed at every contact.
+
+
+---
+
+# Part S: Starflight prototype and story
+
+*Source: `docs/STARFLIGHT_PROTOTYPE.md`*
+
+## Starflight: Last Light
+
+Updated 2026-10-20. Working branch: `codex/starship-run-prototype`.
+
+The owner authorized a fast starship-versus-starship prototype with direct flight, scrolling environments, powerful readable weapons, new extracted artwork and parallel implementation. Design decisions, committing and pushing are delegated. This is a separate browser experiment; it does not silently replace the five existing chapters or enter their reviewed APK.
+
+After playing it, the owner requested a single circular reactor, a lower/smaller hero, more enemy families, meaningful weapon variety, stronger resistance, no dotted aim paths, asteroids and gravity hazards. Those changes form the current combat checkpoint. The later request is **campaign design first**: [STARFLIGHT_CAMPAIGN.md](STARFLIGHT_CAMPAIGN.md) plans combat-first authored chapters and equipment choices. The owner clarified that rescue-earned progression was an example, not a required formula. Those campaign systems are proposed, not implemented by this combat checkpoint.
+
+### Play and controls
+
+Serve the repository root with `python -m http.server 4193 --bind 127.0.0.1`, then open `http://127.0.0.1:4193/prototypes/starflight/`. The previous chapters remain at `/dist/breach.html`. This development server must remain running.
+
+Drag anywhere on the battlefield to steer relative to the ship's current position. It never snaps beneath the finger. Twin cannons fire automatically. Arrow keys or WASD steer on desktop. Tap the single lower-left ship/reactor icon or press E to open the seven-weapon arsenal. The ring displays earned charge. Choosing a weapon spends one full charge; keys 1–7 match the card numbers. The chooser freezes combat and cancels held input. Closing it resumes deliberately; it cannot become a free hidden slow-motion effect. Pause includes Resume, Retry, sound and briefing. Losing offers a fresh retry. Backgrounding pauses the simulation and requires Resume.
+
+The small white ship core is the vulnerable hitbox. Wings are forgiving. Enemy hulls, including the guardian's wings, accept ordinary fire. Weapon trails and glow are visual; swept collision follows the payload. Every enemy barrel and engine uses measured anchors from its actual sprite. Left, right and paired volleys use local charging muzzle light before launch, with no dotted aiming paths. The hero begins at 90% of the combat field. A swept control-reserve circle measured from the actual reactor prevents the ship hiding behind that button while leaving the central/right lower flight lane available.
+
+Shared display widths are now player 52, scout/interceptor 40, gunship/frigate 74 and guardian 196 world units. Model geometry and rendering shrink together. The top HUD is reserved; combat is clipped below it, and only one guardian HP bar is drawn. Rotation into a short landscape viewport pauses with a portrait prompt. Resize rebases player history while paused, preventing a fictitious swept collision on Resume.
+
+### Story and distinct sectors
+
+The crew has escaped Carrier Breakout. Their convoy cannot leave the system while three blockade transmitters remain active. The player pilots its escort and opens the evacuation corridor.
+
+1. **Carrier Reach:** crossing scouts and banking gunships establish movement and interception; the Blockade Commander uses a narrow spread.
+2. **Relay Drift:** opposing lanes and angled approaches make lateral positioning matter; the Relay Hunter aims at the pilot's locked warning position.
+3. **Forge Belt:** denser mixed formations and the Forge Dreadnought's wider fan demand route selection and saved reactor charge.
+
+Each sector currently has seven scheduled formations, a guardian at 45 seconds, then an eight-second danger-free convoy jump after the guardian falls. There are no numbered wave labels. Hostile shots clear at victory, the ship repairs one hull point on entering the next sector, and the environment changes tint. After three sectors, another cycle increases pressure. This is a playable endurance loop, not three finished campaign episodes. New beetle interceptors and missile frigates join the first sector from its later formations; the later sectors use the crescent guardian and different patterns. The convoy is narrative context and jump messaging, not a simulated escort object.
+
+### Weapons, physics and balance
+
+Seven reactor choices provide different roles: piercing Lance, guided Seekers, weaving Serpent shots, orbiting Wingmen, a radial Nova, five-barrel Hyper and Stasis. All consume a full charge and have bounded durations/counts. Productive ordinary damage banks reactor credits; they fill at capped Easy/Medium/Hard rates of 3.3/3/2.7 points per active second. Powered hits cannot refill their replacement. Repair, shield, rapid-fire and charge pickups use equipment artwork rather than plus/minus tokens. Exact durations and damage belong to the combat contract.
+
+Destructible drifting asteroids offer temporary cover and can be shot apart. Warned gravity pockets pull within a bounded radius; they do not teleport or instantly kill. The new missile frigate has six measured tubes; its launch pattern uses real tube origins. Broad hull damage remains available, including on the new crescent's physical lobes, while its open notch remains empty.
+
+Easy/Medium/Hard vary hull, projectile speed, warning duration, guardian health and shot limits. See [the combat contract](STARFLIGHT_COMBAT.md) for exact values, collision equations, update rules, seeds and measured routes. Simulation uses a fixed frame accumulator and substeps, relative swept collision, bounded object lifetimes and capped counts. New physics is isolated from the existing breaker model.
+
+Successful model-assisted routes prove reachability, not human difficulty. Human phone feedback should tune warning lead time, projectile density and charge cadence before adding more content. Preserve fair dodge gaps and ordinary-fire viability instead of making payment necessary to win. There is no ad, purchase, token economy or persistence in this prototype.
+
+### Art and implementation
+
+- `prototypes/starflight/`: HTML, mobile HUD, inputs, Canvas rendering and house audio.
+- `src/starflight/model.js`: deterministic movement, collisions, waves, enemies, powers and progression.
+- `src/starflight/geometry.js`: actual sprite dimensions, UV emitters and compound hulls.
+- `art/starflight/`, `art/starflight-v2/`, `art/starflight-arsenal/`: permanent ship/environment/VFX/equipment sources, briefs, extraction scripts and proof.
+- Matching folders under `assets/`: runtime sprites and manifests. [Art handoff](STARFLIGHT_ART.md) records source hashes, alpha, sizing and provenance.
+- `prototypes/starflight/render-effects.js`: textured payloads, local cannon charging, asteroid/gravity and actual orbiting drone rendering.
+- `tests/starflight.test.js`: collision, progression, power budget, timing and manifest agreement.
+- `tools/playtest/starflight.mjs`: phone browser input and capture evidence.
+
+The six VFX cells are extracted by `art/starflight/extract_weapons.py`; projectile contact pivots are measured inside their transparent frames. The arsenal extractor isolates connected silhouettes, including separated paired missiles/drones, instead of blindly clipping a uniform grid. Existing Lilita One/Rubik and `src/audio.js` are reused. No additional runtime dependency was introduced.
+
+The environment scrolls a dark seamless nebula with quiet parallax. Cyan player fire, coral enemy rounds and violet Hyper remain readable. Effects use extracted raster glow, missiles, drones, muzzle and explosion artwork; engine plumes and local cannon charging use lightweight Canvas primitives. These are animated sprites and transforms, not new fully rigged 3D ship models. Per-class physical wreck breakup remains a campaign production task; the prototype has a common explosion family and cosmetic asteroid fragments.
+
+High-level pacing references: [Sky Force Reloaded](https://www.idreams.pl/en/our-products/show/product/77-Sky-Force-Reloaded) and [Phoenix 2](https://firigames.com/phoenix2). The campaign document expands this with the owner's Gradius/Life Force/Galaga/TwinBee references, primary-source links and limits of the research. No artwork or layouts are copied.
+
+### Integration gates
+
+Keep this experiment outside the pinned five-chapter Android bundle until its own browser review is complete. Packaging it later requires a deliberate entry-point/build change, offline asset embedding, revised bundle pin, native instrumentation and a new APK. Do not label the earlier APK as containing Starflight.
+
+Before adding more sectors: follow the ordered campaign plan, build its first complete combat-and-weapon-choice slice, play on physical phones and measure long-run performance/difficulty. The campaign needs save/checkpoint rules and story transitions. Portrait is the intended layout. Do not treat old larger-ship or three-power validation receipts as current evidence.
+
+### Current verification
+
+The complete branch passes 266 unit tests. Final source-sealed phone-browser evidence, staged power images, ordinary first-sector routes and normal-clock smoke are preserved in [validation/starflight](validation/starflight/README.md). Six mode/phone cases and 42 ability activations pass; actual alpha checks verify reactor and screen-edge clearance. These certify the browser combat lab, not future chapters, human balance or native device performance.
+
+
+---
+
+# Part T: Starflight combat contract
+
+*Source: `docs/STARFLIGHT_COMBAT.md`*
+
+## Starflight combat prototype
+
+This is the standalone direct-flight shooter model on `codex/starship-run-prototype`. It is separate from the five BREACH breaker chapters and their delivered APK. `src/starflight/model.js` contains no DOM, renderer, asset or package dependency. The prototype interface and final art integration are separate work; the model-only checks below do not establish a new APK, human difficulty or physical-phone performance.
+
+The player escorts an evacuation route through three guarded jump gates. Dragging steers the ship directly through the lower 65% of the portrait field. The ship fires automatically. The current revision adds seven earned weapon choices, slow banked reactor charging, new physical ship families and missile roles, destructible moving asteroids and temporary gravity fields. Defeating a gate guardian earns an eight-second danger-free jump, one point of repair and the next distinct formation. Three sectors loop indefinitely with modest per-cycle resistance/speed growth. There is no paid-power requirement or resource shop in this model.
+
+### Interface and coordinates
+
+```js
+import { Starflight } from './starflight/model.js';
+const game = new Starflight({ width: 360, height: 780, difficulty: 'medium', seed: 1 });
+game.setTarget(worldX, worldY); // Also starts movement; finite coordinates only.
+game.setMoving(false);        // Release: inertia damps; firing continues.
+game.setControlReserve({ x: orbWorldX, y: orbWorldY, r: orbClearance });
+game.activate('laser');       // stasis/hyper/seeker/spiral/drones/nova also supported.
+game.pause(true);             // Every simulation clock freezes.
+game.update(1 / 120);         // Caller owns fixed-step accumulation.
+```
+
+Restart by constructing a fresh model. The constructor rejects invalid or smaller-than-260×360 fields, so the actual guardian fits; an unknown difficulty uses Medium. All distances use the supplied logical canvas dimensions. The model does not resize a live encounter. Player starts at `.90×height` and targets clamp to `x=PLAYER_EDGE..width−PLAYER_EDGE`, `y=.35×height..height−38`. Shared `geometry.js` exports `PLAYER_EDGE=SHIPS.player.width*.52`, currently27.04u: this keeps the banked opaque wings inside the screen, exceeding their measured25.996u horizontal extent. Current position, boundary velocity and reactor-target feasibility all use that same player-only edge; enemy positions retain their own limits. The renderer reserves roughly 36 CSS pixels below its playfield and owns the single lower-left reactor control; the model owns neither HUD strip nor menu. Display the small central 7u player collision core instead of implying that transparent fins are vulnerable.
+
+`controlReserve` is optional in the constructor and can be refreshed with `setControlReserve({x,y,r})`; `null` or no argument clears it. It is a circular ship-centre exclusion measured from the actual DOM reactor, not a second hostile hitbox. Convert the control centre to world coordinates using the rendered world origin/scale; include the control's half-width plus roughly24 CSS pixels of ship-hull clearance in `r`. The setter clones finite positive-radius input, returns false without replacing a valid reservation for malformed input, and never changes the ship's current position. Root UI owns measuring this after launch/resize. The model does not infer DOM safe areas.
+
+| Field | Renderer contract |
+|---|---|
+| `player` | `x,y,px,py,vx,vy,r=7,hp,maxHP,invuln,angle,targetX,targetY,moving`; angle is a visual bank tilt. |
+| `enemies` | `id,kind,ship,role,x,y,px,py,vx,vy,r,hp,maxHP,angle,hurt,bornAt,variant,warning`; physical classes remain `scout`, `gunship`, `boss`; `ship` selects scout/gunship/boss/beetle/frigate/crescent; variant is sector 1–3. |
+| `enemy.warning` | Null or `{kind,age,life,sources:[{port,from:{x,y},angle,angles}],targetX,targetY}`. Draw every actual source. Top-level `from/angle/angles` remain first-source compatibility aliases. |
+| `warnings` | Current enemy warning references for one overlay pass; draw once, not again if the ship renderer already draws it. |
+| `shots` | `id,x,y,px,py,vx,vy,r,side,kind,damage,age,powered,pierce,heading,speed,from,owner,port`; `hit` is an internal Set of already-hit target IDs. Homing shots add `turnRate,homingTime,targetId`; spiral adds `wavePhase`. Derive rotation from the actual changing `atan2(vy,vx)`. |
+| `hazards` | Moving `asteroid` objects: `id,x,y,px,py,vx,vy,r,hp,maxHP,angle,spin,hurt`; r is the solid body's radius, excluding image padding. |
+| `fields` | `{id,kind:'gravity',visual:'wormhole',x,y,r,coreR,age,warning:2,life:7,strength:360}`; forces are model-owned, with no teleport or direct core damage. |
+| `drones` | `{id,x,y,px,py,r:6,hp:2,maxHP:2,age,angle,fireAt}`; zero-HP drones are not rendered and are removed on the next update. |
+| `pickups` | `id,x,y,r,kind,age`; kinds are `repair`, `shield`, `rapid`, `charge`. |
+| `effects` | `{x,y,kind,age,life,seed}`. Kinds include `muzzle`, `enemyMuzzle`, `hit`, `explosion`, `shield`, `hurt`, `jump`, `pickup`, `rockHit`, `rockBreak` and ability IDs. Muzzles add `owner/port`; pickup adds `pickupKind`; rockBreak adds `size`. Drawing must not age or remove these. |
+| Progress | `time,sectorTime,sector,cycle,completedSectors,score,kills,rocksBroken,charge,chargeBank,weapon,jumpRemaining`. Sector is 1–3; cycle starts at zero. |
+| Status | `state='play'|'lost'`, `phase='combat'|'boss'|'jump'`, `paused` separately. `reason='Ship disabled'` on loss. |
+| Timers | `timers={laser,stasis,hyper,seeker,spiral,drones,nova,rapid,shield}`, plus `shieldCharges`; seconds, never wall-clock timestamps. |
+
+`width` and `height` are public, and the selected ID is `difficulty`. `rules` exposes the mode's fixed pressure data. The seeded random stream controls weave phase; the same seed and fixed inputs reproduce the same encounter. The model's substeps are at most 1/120s; one caller update is capped at .1s, and negative, zero, NaN and infinite deltas do nothing. A stalled frame therefore cannot teleport the ship or replay several seconds of enemy attacks.
+
+### Flight and physical damage
+
+Movement uses a damped positional spring: acceleration `140×target displacement−23×velocity`, speed capped at 480u/s. On release, velocity decays at `exp(−16×dt)`. Movement remains two-dimensional, with a small bank response to horizontal velocity. An interpolating renderer can use previous/current coordinates; interpolation must not write those positions back into the model.
+
+Targets covered by `controlReserve` project to the nearest sampled valid circle-edge target within the field. Actual movement uses a swept collision against that circle: inward velocity is removed and remaining motion slides tangentially. If a world-edge clamp would cut the tangent through the control, the ship stays at the contact it actually reached. A newly measured control that already overlaps the ship applies bounded outward acceleration, rather than ejecting it in one frame; the usual480u/s cap remains. Bottom central/right movement remains available. The actor's enemy hurt core remains7u and is not enlarged by this UI clearance.
+
+Projectiles and ships collide as swept circles in relative motion, including a target crossing a fast projectile. `src/starflight/geometry.js` is the shared rendering/physics source: `SHIPS` contains exact manifest UVs/aspects at widths52/40/74/196 for player/scout/gunship/boss; beetle/frigate/crescent keep widths40/74/196 with their own actual aspects and hardpoints. These are the smaller requested runtime sizes; full-resolution source sprites are preserved. `shipPoint(kind,x,y,angle,uv)` rotates hardpoints around the real canvas centre. `shipCircles` provides conservative compound hull bands fitted to delivered solid bounds. These approximate broad metal bodies, not pixel-perfect alpha; thin antennae remain decoration. The crescent's deep lower notch stays open around its real centre barrel. Outer wings and guns accept ordinary damage. `enemy.body/previousBody` are cached compound circles; `enemy.r` is a representative centre radius, not the whole hull.
+
+An ordinary player shot stops at the first physical ship or asteroid encountered, with one HP/charge credit even where one ship's compound parts overlap. A laser can pierce two different targets, once each. Hit effects appear at swept contact. Hostile shots can be absorbed by a nearer asteroid or real orbiting drone before reaching the player; enemy damage never grants player reactor credit. There are no invisible brick barriers, pixel-perfect weak points or required transformations. A body collision costs one player HP and damages an ordinary enemy/asteroid by three without energy credit. A continuous overlap is one body-contact episode, not damage repeated every frame.
+
+All hostile shots that touch the player are consumed, including hits during invulnerability. A real damaging hit gives 1.25s invulnerability, preventing simultaneous bullets from taking several HP. A shield pickup absorbs one contact and grants .35s protection. The player begins with 1.5s protection. The last legal boss hit clears the threat before an incoming same-step lethal shot; completed gates cannot be undone by a leftover projectile.
+
+### Weapons, earnings and limits
+
+| Weapon | Actual model behaviour |
+|---|---|
+| Twin auto-fire | Two r3.4 shots every .16s, 860u/s, damage 1 each. Always available while in combat. |
+| LASER | 4s of twin r5 projectiles, damage 2, up to two distinct targets per shot; .14s cadence. |
+| STASIS | 4.5s at .32× hostile-projectile translation and .45× asteroid drift. Enemy movement, warning duration, field lifetime and spawn clocks retain ordinary timing. |
+| HYPER | 2.5s of five r4 shots per fan from the actual twin ports, .10s cadence, offsets −.24,−.12,0,.12,.24rad; damage 1 each. |
+| SEEKER | 6s secondary battery: up to two guided r5 missiles every .85s, damage 3 each, max six live. Speed420u/s, capped2.8rad/s steering for at most4s; reacquires a live forward target if the old one is destroyed. Ordinary primary fire continues. |
+| SPIRAL | 5s of twin r4 weaving rounds every .12s, damage1.4. Actual headings oscillate ±.38rad at9rad/s in opposite phases; visual trails cannot substitute for their physical paths. |
+| DRONES | Two r6 orbiting defenders for6s; deploy over.25s to33u orbit, two projectile intercept HP each. Each fires one powered damage1 pulse every.6s. Destruction removes that drone; it does not respawn during the same activation. |
+| NOVA | Instant20-round radial damage3/r5 burst at470u/s, piercing up to two targets. Clears only hostile rounds within150u when cast. .65s presentation timer; no global damage or arbitrary boss HP deletion. |
+
+Every activated ability costs the entire100-charge meter and clears pending banked energy. Unknown choice, paused/lost/jump state, insufficient charge or same-active recast returns false and spends nothing. A paused UI chooser must unpause the model before applying a valid selection. A different ability can overlap only after another full meter has genuinely been earned. Hyper takes primary priority over Laser, then Spiral; other secondary abilities do not replace the ordinary primary. Unused timers are not deleted.
+
+Only productive ordinary damage banks .8 energy per actual ship/asteroid HP removed. An ordinary ship kill banks four more, or twelve for a guardian. Visible charge fills from that bank at most3.3/3/2.7 points per active combat second on Easy/Medium/Hard: theoretical minimum refill30.30/33.33/37.04s after enough energy has been earned. Empty bank produces no passive charge. Both visible-plus-pending capacity and visible meter cap at100; no overflow survives spending. Pause/jump/loss freeze filling. Floating-point completion snaps cleanly to100 so the UI cannot strand a full meter at99%.
+
+Destroyed targets, zero damage, body collisions, enemy fire and powered projectiles bank nothing. Seeker/Spiral/Drone/Nova rounds are explicitly powered. A charge pickup banks25 rather than bypassing the time limit. A powered kill that would have dropped charge instead drops Shield, preventing indirect self-refill through its own energy loot. Ordinary primary hits made while a defensive ability is active remain productive ordinary hits.
+
+Each fifth non-boss kill drops the next item in a fixed `repair→rapid→shield→charge` cycle, with at most eight live pickups. Repair adds one HP up to the mode maximum; rapid adds six seconds of .105s twin cadence, capped at twelve; shield grants one hit for ten seconds. Pickups drift at 75u/s and expire after fourteen seconds. Natural pickups can help an otherwise unactivated-ability route and must be disclosed in test reports.
+
+Total live projectiles from internal player/enemy emission are bounded at180; hostile volleys additionally obey the mode budget. Guided player missiles cap at six, drones at two, asteroids at six and gravity fields at one. A volley that would exceed its budget does not emit. At most two enemies charge concurrently. Effects cap at100. Gravity-bent projectile speed is bounded at1.35× its base speed. These are prototype budgets, not measured mobile-GPU limits.
+
+### Authored route and pressure
+
+Wave arrivals are at sector seconds `2,7,13,20,27,34,40`. Each wave contains three/four/five ships on Easy/Medium/Hard, with at most twelve regular ships present. The boss is introduced at 45s, so the first encounter cannot end before the guardian arrives. Existing surviving enemies remain physical during its entry.
+
+1. **Outer approach:** existing scouts/batteries at2/7s teach the direct-flight loop. From13s, later formations mix actual beetle interceptors and missile frigates so first-play variety appears before the first guardian. The first guardian retains its original identity.
+2. **Relay corridor:** beetles enter from alternating wings with deeper/faster weaving. Frigates send slower, bounded-turn guided rounds from actual launch tubes. The crescent guardian alternates targeted fans with three fixed-angle lane rays; a temporary gravity field appears at22s.
+3. **Reactor perimeter:** mixed missile-frigate/interceptor groups apply sustained resistance. The crescent uses separated outer fans with a real centre gap. Its field arrives at16s; this is a different pattern/timing, not only recolouring/HP.
+
+Warnings lock intended aim at their start and stay attached to each moving real muzzle. The UI uses physical muzzle charge/bloom, never dotted lines over the field. `sources[].angles` still defines actual launch directions for physics/QA. Beetles alternate their two real mandible guns. Existing gunships cycle left/right/paired fans; frigates cycle actual left/right/paired launch racks and all six measured tubes over successive volleys. Guided enemy missiles steer at most.9rad/s for1.8s, then remain ballistic; they are slower than basic rounds by35u/s and gain a longer charge tell. Guardians cycle left/right/paired/centre, with four total rays for paired fire rather than a continuous wall. Ships finish entry and blend into lateral motion before firing; scouts fire only above38%field height.
+
+Asteroids arrive at9,18,29,38s: two per arrival in sector1, three later, with live cap6. Their solid radii16/21/26u have mode-scaled HP, drift74/83/92u/s by sector and bounded sideways motion. They physically block both sides' shots; breaking one awards30score plus actual-damage score, increments `rocksBroken`, and does not masquerade as a ship kill or grant infinite loot.
+
+A field chooses a far candidate position with at least36u between the player's current core and its outer edge. Radius is at most80u, actual size visible in the renderer. Two seconds of warning precede a .4s force ramp, and the final .5s fades it out; total life7s. Bounded360u/s² pull falls to zero at the boundary and bends ships, shots and (more weakly) rocks. Player input/speed remains authoritative enough to escape. The core causes no direct damage, instant death, charge loss or forced teleport. Fields disappear on earned jump; pause freezes them.
+
+| Mode | Player HP | Ordinary enemy HP multiplier | Hostile speed | Basic tell | Recovery/cooldown | Guardian HP | Hostile shot cap |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Easy | 5 | 1.15 | 185u/s | 1.15s | 2.8s | 220 | 30 |
+| Medium | 4 | 1.5 | 220u/s | 1s | 2.4s | 280 | 38 |
+| Hard | 3 | 1.8 | 250u/s | .9s | 2.1s | 340 | 48 |
+
+Guardians and missile frigates add.3s to the tell; guardians use cooldown minus.6s, others plus.25s. Scout base HP is five, gunship fourteen, rounded up after mode/cycle scaling. Each complete three-sector cycle adds18%base resistance and8u/s hostile speed; scout descent adds5u/s. Interceptors additionally descend16u/s faster than ordinary scouts. This is an endless score chase, not a promise that an arbitrary later cycle remains equally forgiving.
+
+### Gate, loss, pause and retry
+
+On guardian HP zero: award the kill once, clear enemies/shots/warnings/rocks/fields, increment `completedSectors`, enter `jump` for eight seconds. Movement, existing drone orbits and surviving pickups can continue; new fire, bank filling and ability timers pause. At jump end—not its start—advance the sector, reset the authored schedule, repair one HP up to maximum and grant1.5s protection. Sector3 advances to sector1 with `cycle+1`.
+
+On player HP zero: state becomes `lost`, movement stops and subsequent `update` calls freeze. No automatic revive, paid continue or hidden stat reset exists. The outer UI owns the loss screen and creates a new model for Retry. Pause returns before movement, animation clocks, warnings, shots, charge, drops or phase clocks; the UI should also stop its held input and pause button gestures must not steer the ship.
+
+### Verification and current limits
+
+`node --test tests/starflight.test.js` currently passes35 focused checks: responsive bounded motion; actual new/old manifest anchors; broad hull/crescent-notch collision; swept fast/moving target hits and cover; contact episodes; all seven power limits; homing steering; physical weaving; drone interception; bounded Nova; no self-refill; bank timing; pause of active fields/drones/rocks; gravity warning/escape margin; hazard destruction; deterministic subdivision; difficulty data; phase/terminal precedence; and a first-gate route. Five newer checks verify smaller ship sizes, cloned/validated reservation input, swept control avoidance at613/656u heights, maximum movement distance, the bottom central/right lane, gradual recovery from a newly overlapping control and pause. The shared wing edge is checked at260/360/412u widths for target clamp, every movement sample, outward velocity cancellation and reservation feasibility. The Easy input-only route uses no activated ability, with natural pickups allowed.
+
+Final model/geometry checkpoint: `model.js` SHA256 `6AA76B7B6D7C54E91C369BCF845F418F7EC56E3F57499D226E2CB0276921CF4A`; `geometry.js` `D73C3F3C62B960749F0FD1AAA014AED70AF5E82EFEC70E7E85CE9E39A5B924DA`. Browser/native receipts must identify whether they include these smaller widths, wing clearance and actual DOM reservation. Earlier larger-ship runs do not automatically prove the final layout.
+
+The following bounded seed-7 assists are retained for calibration, **before the final smaller geometry/reservation revision**. They used120Hz simulation, visible forward-target tracking, simple near-future visible-shot/asteroid avoidance and only public `setTarget`, `activate` and `update`. They never wrote HP, positions, charge, timers or boss state. The powered policy selected successive earned `seeker,spiral,drones,nova,laser,stasis,hyper` choices. One attempt per mode/height/policy was made; natural pickups are disclosed:
+
+| World height / policy | Easy | Medium | Hard |
+|---|---|---|---|
+| 613u, no cast | Gate62.07s, HP2, repair | Lost58.97s; guardian110HP, repair+rapid | Lost52.16s; guardian258HP, repair |
+| 613u, earned choices | Gate62.07s, HP2, one Seeker; repair | Lost58.97s; guardian100HP, one Seeker; repair+rapid | Lost60.14s; guardian154HP, one Seeker; repair |
+| 656u, no cast | Gate62.27s, HP2, no pickups | Gate67.78s, HP1, repair | Lost60.28s; guardian156HP, no pickups |
+| 656u, earned choices | Gate62.27s, HP2, one Seeker, no pickups | Gate67.15s, HP2, one Seeker; repair | Lost57.74s; guardian183HP, one Seeker, no pickups |
+
+First earned readiness was32.66–32.86s Easy,35.54–35.65s Medium and39.67–39.71s Hard. This is the slow banked economy, replacing earlier rapid refills. These logical heights approximate the actual shorter phone fields; a default780u simulation alone is insufficient layout/balance evidence.
+
+One additional bounded left-wing aiming tactic, saving Laser until the guardian, preserved the same failed cases:613u Medium lost62.07s with17 guardianHP;613u Hard lost52.16s with191HP;656u Hard lost60.28s with85HP. Matching no-cast wing attempts also lost, with79/264/167HP remaining. No further parameter/seed search or silent balance change followed. These are limitations of the tested policy/current pressure, not proof that a human cannot win. Medium on the shorter field and Hard remain pending calibration and human attempts.
+
+Historical receipts at780u, before the late-sector1 family mix, also remain informative but superseded: no-cast first gates62.81/67.64/73.13s (Easy/Medium/Hard). Powered three-gate Easy completed203.47s/HP4/five casts; Medium218.69s/HP1/five casts; Hard lost188.13s in sector3 after two gates and four casts. These naturally collected pickups. Earlier three-choice economy/hardpoint receipts—first gates50.98/53.24/52.43s, powered50.25/50.41/49.40s, three gates165.04/165.18/167.79s—belong to the preceding weaker revision. Its10.51–16.30s recharge measurements are historical and do not describe the current bank. Centre-radius prototype receipts52.47/54.59/54.06s are older again.
+
+The guardian first appears at approximately45.01s; final geometry's route/pacing must be measured rather than inferred from those historical wins. Model assists do not establish human challenge, touchscreen feel, native frame rate, screenshot quality, a pickup-free ordinary-only route, or APK admission. Before prototype release, the renderer owner must verify actual ship pivots/hitboxes and DOM control clearance at393×852 and412×915; readable moving muzzle/shot continuity; touch cancellation; all seven choices; projectile/effect budgets; pause/Retry with no stale input; three-sector transitions; font/decode readiness and page errors. Retain unsuccessful attempts with successful receipts.
+
+
+---
+
+# Part U: Starflight artwork pipeline
+
+*Source: `docs/STARFLIGHT_ART.md`*
+
+## Starflight prototype artwork
+
+This new scrolling shooter family uses complete newly rendered starships, extracted from a coherent transparent sheet. It shares the glossy ceramic, machined dark metal, bevels and controlled emission of the approved space artwork. It contains no companions or princess imagery.
+
+Originals and the complete production prompt are retained in `art/starflight/ships-source-v1.png`, `background-source-v1.png` and `production.json`. The source ship sheet is 1254×1254 RGBA with genuine transparency; the environment source is 887×1774 RGB. The source originals remain unchanged.
+
+Run `python art/starflight/extract.py`, then `python art/starflight/proof.py`. Extraction labels actual connected alpha islands, retains bounded soft edges, isolates each sprite, and normalizes it without stretching. Runtime PNG metadata is empty, fully transparent RGB is zeroed, and every sprite has transparent outer padding. The background preserves the quiet dark centre; its top/bottom rows match exactly for vertical scrolling, with only 64-pixel edge bands normalized.
+
+The runtime contract is `assets/starflight/manifest.json`. `ships`, `effects` and `background` entries provide paths, sizes, source/runtime hashes and dimensions. Ship `pivot:[.5,.5]`, `muzzles` and `engines` are normalized coordinates relative to the complete sprite canvas. Draw a sprite at its centre, using its full canvas aspect ratio; do not crop around the glow a second time. The white marker dots in `art/starflight/native-extraction-proof.png` show authored muzzle origins; they are proof annotations rather than baked sprite pixels.
+
+| Sprite | Runtime pixels | Current world size | Direction |
+|---|---:|---:|---|
+| Player interceptor | 320×288 | 52×46.8 | Up |
+| Scout | 256×288 | 40×45 | Down |
+| Heavy gunship | 448×384 | 74×63.43 | Down |
+| Dreadnought | 768×576 | 196×147 | Down |
+
+`solidBounds` excludes faint outer glow and is a visual reference, not an automatically admitted damage shape. The gameplay model owns fair ship hit radii and projectile collision. Each muzzle is placed at its actual barrel tip. Enemy craft have one, two and three firing origins respectively; the player has two forward barrels. Separate cyan/coral pulse, impact and exhaust sprites are optional candidates; the dedicated weapon family may replace them. The exhaust includes a small nozzle collar and should sit behind the ship's existing rear hardware if used.
+
+`native-extraction-proof.png` and `asset-checks.json` show deterministic raster/anchor checks and phone-scale composition. They are staged asset proofs. Actual scrolling, firing, impact motion, collision, input, performance and device testing belong to the integrated prototype review.
+
+The integrated model and renderer share the sizes above through `src/starflight/geometry.js`; the earlier staged proof uses its original suggested sizes. Enemy compound hulls are explicitly authored, and player damage uses a forgiving seven-unit core.
+
+The dedicated weapon source is `art/starflight/weapons-source.png` (1536×1024 RGBA). Its exact prompt is retained in `weapons-prompt.md`. Run `python art/starflight/extract_weapons.py` to recreate six 256×256 padded alpha sprites under `assets/starflight/weapons/`. The manifest records source hash, source cell rectangles and measured projectile contact pivots. Runtime maps plasma to ordinary cyan fire, enemy to coral plasma, hyper to violet barrage, and the other cells to muzzle/explosion/stasis feedback. Lance uses a rotated Canvas streak aligned to physical velocity. All 19 new source/runtime PNGs passed decoding and empty-metadata checks on 2026-10-20.
+
+### Additional enemy and equipment families
+
+`art/starflight-v2/` retains the transparent source sheet, prompt, deterministic extraction, anchor checks and staged proof. `assets/starflight-v2/manifest.json` records the beetle, frigate, crescent guardian, asteroid, gravity and wormhole sprites. Nineteen authored hardpoints lie on solid source pixels. Current beetle/frigate/crescent widths are 40/74/196 world units; `src/starflight/geometry.js` is authoritative. Earlier manifest suggestions and staged proof scales are historical. The open crescent notch has a matching open compound collision hull.
+
+`art/starflight-arsenal/source.png`, `SOURCE.md` and `extract.py` preserve the equipment sheet and extraction. `assets/starflight-arsenal/` contains eleven 192×192 padded sprites: laser, hyper, seeker, spiral, drones, nova, stasis, repair, shield, missile and drone. The seven equipped powers use these actual icons in the circular reactor's chooser. Repair/shield artwork is preserved without implying an additional selectable ability. Manifests record orientation and source rectangles.
+
+All three source families and runtime assets are preserved in `artwork-library/`. The prototype currently uses textured projectiles and explosions with procedural motion. The campaign's differentiated per-role breakup sequences, physical rescue pods and permanent ship attachments remain planned work in `docs/STARFLIGHT_CAMPAIGN.md`.
+
+
+---
+
+# Part V: Starflight campaign production plan
+
+*Source: `docs/STARFLIGHT_CAMPAIGN.md`*
+
+## Starflight campaign: combat, consequence and mastery
+
+Updated 2026-10-20. **PROPOSED CAMPAIGN — design first; no campaign implementation, human balance certification or new APK is claimed.**
+
+The owner's latest correction supersedes the earlier rescue-to-module proposal. The references inform design judgment; they are not a progression template. This campaign centres on distinct enemy behaviour, authored terrain and formations, weapon tradeoffs, meaningful destruction of combat capabilities and replay mastery. Rescue is an occasional optional mission type. There is **no rescue requirement per chapter, six-specialist reward chain or mandatory permanent attachment system**.
+
+The current [combat lab](STARFLIGHT_PROTOTYPE.md) has direct flight, automatic twin fire, seven earned reactor choices, several actual ship families, asteroids and gravity. It remains a repeating three-sector endurance loop. Authored campaign objectives, ordinary loadouts, component-specific boss states, chapter saves and class-specific wreck sequences below are proposed. Its common explosion is a current limitation. Preserve the lab and the five-chapter breaker APK independently; neither implements this plan.
+
+### 1. Reference evidence and our conclusions
+
+Research on 2026-10-20 used publisher/developer descriptions and original manuals. It was **not hands-on play or measurement of reference-game timings/physics**. The applications below are our inferences, not claims that those games prove retention, addiction or a particular balance formula. Keep our story, art, audio, silhouettes and layouts original.
+
+| Primary evidence | Documented observation | Our application |
+|---|---|---|
+| [Konami: Gradius, Salamander and Life Force](https://www.konami.com/games/gradius/us/en/) | A fortress/core mission, different scrolling environments and a strategic power-up system; regional Life Force/Salamander versions differ. | Give the player a destination, different environmental problems and deliberate equipment choices. Do not copy stages or assume one version's rules apply to all. |
+| [Nintendo publisher description: Galaga](https://www.nintendo.com/us/store/products/arcade-archives-galaga-switch/), [Bandai Namco description](https://www.bandainamcoent.co.jp/cs/list/nm_psp/galaga.php) | Captured-fighter rescue produces linked fire; Bandai also describes Challenging Stages. | Contrasting pressure/release can matter. An occasional rescue can have a consequence; this does **not** prescribe a rescue or upgrade every chapter. |
+| [Nintendo: TwinBee](https://www.nintendo.com/en-gb/Games/Nintendo-3DS-download-software/3D-Classics-TwinBee-275152.html), [Nintendo-hosted manual](https://www.nintendo.co.jp/data/software/manual/man_sacj.pdf) | Visible changing bell rewards; different airborne/ground actions. | Readable weapon choices and enemy roles. Do not require tiny collectible juggling during phone crossfire. |
+| [Gun-Nac original publisher manual, archived scan](https://www.thegameisafootarcade.com/wp-content/uploads/2017/02/Gun-Nac-Game-Manual.pdf), printed pages 10–11 | Numbered weapons, Wings and inter-stage supply choices change equipment. This is an original Nexoft/ASCII manual hosted by an archive, **not a current official publisher site**. | Distinct firing behaviours and calm selection between engagements; no imported cash grind or shop dependency. |
+| [TimeSpace's Space Shooter X announcement](https://itch.io/t/2013327/space-shooter-x-release-announcement), [developer post](https://forum.gdevelop.io/t/space-shooter-x-now-on-itch-io-play-now-in-your-browser/38907) | A Web/Android shooter with enemies and asteroid avoidance; [another developer uses the same title](https://geymison.itch.io/spaceshooter-harushin). | **Exact SpaceShooterX identity unresolved.** These are candidates, not proof of the owner's intended app or its detailed mechanics. |
+| [Official Play listing: Space Shooter: Galaxy Attack](https://play.google.com/store/apps/details?hl=en&id=com.space.shooter.alien.galaxyattack) | The developer uses Premium/VIP wording and describes drag steering, equipment and bosses. | **Exact VIP identity unresolved.** Use readable direct flight and a clear arsenal, without copying monetisation or claiming this is the exact app. |
+
+### 2. Combat loop, story and replay
+
+**Proposed original story:** Admiral Veyr has turned the jump network into a blockade supplying an automated foundry. The escort must break its combat systems, cross industrial approaches and remove the command ship's control. The evacuation convoy supplies context, not a compulsory fragile escort in every level. Three offset crimson slashes on batteries, relay hulls and the capital ship foreshadow the same commander. Existing Nix, Tick, Vesper, Latch, Kit, Lumi, Brum and Frost Warden identities remain intact.
+
+Urgency is immediate and visible: an interceptor commits to a dive, a rack charges, a tug moves a rock into a passage, a shieldship rotates its protected face or a boss loses a gun and changes its attack. No invisible global deadline, forced grind or paid escape. Progress visibly removes a source, breaks a formation, changes a route or disables a capability.
+
+The main loop is **read → position → commit fire → create an opening → exploit → recover**. An optional gun is a safer target than rushing the core; leaving it alive can permit a quicker but riskier clear. Every chapter teaches, develops, twists and tests one positioning problem, with a quiet passage before its peak. Do not repeat the same kill group with a colour change and larger HP.
+
+Keep relative one-finger drag, automatic primary fire and one reactor orb. The seven-choice arsenal pauses deliberately and cancels held input. Ordinary loadouts change in the briefing or safe checkpoint, not through extra combat buttons. Pause, background, chooser and portrait correction freeze the simulation and require fresh input on return. Full opaque ship clearance includes screen edges and the reactor, not only its vulnerable core.
+
+Use one short chapter title, then physical landmarks and small objective icons. No WAVE N labels or repetitive results interrupting flight. Camera, scrolling and music bridge encounters through 3–5 s harmless passages. An empty sky or broken gun can be the reward; new equipment is not required. One repair at a chapter checkpoint is sufficient and cannot refill the reactor for free.
+
+#### A small ordinary weapon catalogue
+
+Choose **one firing preset**, not stacked permanent modules. Existing real twin-barrel anchors remain the shot sources. Physical muzzle inserts can be added only if needed for an admitted weapon state; attachment production is not a campaign dependency.
+
+| Preset | Proposed physical contract | Tradeoff | Availability |
+|---|---|---|---|
+| Needle | Existing twin damage 1 rounds every 0.16 s: ideal 12.5 HP/s before misses | Focused hull/gun damage; needs alignment with crossing fighters | First start |
+| Fan | Three damage 0.75 rounds every 0.18 s over approximately±0.17 rad: ideal 12.5 HP/s only if all connect | Broad crossing coverage; distant single-target damage drops as outer rounds miss | First start; actual alternating twin ports |
+| Rail | Two damage 2 rounds every 0.32 s, at most 2 different targets per round: ideal 12.5 HP/s on one target | Rewards aligning a formation; missed aim and fast reversals cost more | One ordinary chapter 2 clear; no rescue, rank, payment or repeated farming |
+
+These are campaign proposals. Equal theoretical DPS is not proof of equal feel. Needle must complete every chapter/mode. Rail cannot repeatedly hit one compound actor or pass invisible solid walls. There is no base damage/health upgrade ladder, six-module inventory or reward-per-level promise. Later chapters may award a route dossier, mastery mark or simply story completion.
+
+Keep all seven reactor choices as temporary tactics: Lance for alignment, Seekers for mobility, Spiral for coverage, Drones for interception, Nova for a local emergency, Hyper for a brief burst and Stasis for route management. Start from their real [combat contract](STARFLIGHT_COMBAT.md). Proposed campaign limit is one active choice, no duration stacking and one 100-credit meter/bank. Offensive specials replace ordinary preset output rather than multiply every barrel; Stasis allows ordinary fire and Drones still count as one ability.
+
+Retain earned ordinary-damage banking and the lab's fill baseline: minimum approximately 30.30/33.33/37.04 active seconds on Easy/Medium/Hard when enough credit exists. Powered damage/kills, wrecks and enemy damage earn none. Pause, menus and safe passages do not fill it. Specials cannot fund their own replacements. All critical paths remain possible without casting.
+
+#### Mastery and replay
+
+A first clear opens the next chapter. Optional records track clean positioning, clear time, capability-removal decisions and alternate routes; they grant no combat-stat advantage. Chapter 2 allows different disarm orders, chapter 3 has two routes that rejoin, and bosses allow safe disarm versus faster hull pressure. Challenge variants may change authored entry sides only after the base route works; they cannot randomise away its guarantee.
+
+Score each enemy/component once. A possible later score-only combo is 3 s between kills, capped×3 and reset on damage; defer it if it distracts from combat. It never changes energy, loot or difficulty. Compare weapons on the same seed/mode and retain failed attempts. Observe whether real players understand changed capabilities and voluntarily replay; do not claim this research has proved addiction or retention.
+
+### 3. Six authored chapters
+
+**Every number below is provisional.** Every objective has a Needle/no-reactor route. Start with 360 u width and an authored distance director at 32 u/s. Required actors hold in view. No forced 45 s boss wait, endless replacement wave or invulnerability timer manufactures length. Fast combat may shorten the climax.
+
+#### 1 — Breakwater: interdict
+
+Dark orbital wreck edge; destroy a command frigate directing the approach. **Win:** broad command hull disabled. **Fail:** player hull 0. Surviving scouts need not be killed.
+
+Approximately 2800 u: isolated curved interceptor → paired cross-entry → gunship holding one side → quiet wreck vista → command frigate with crossing escort. Teach leading a moving target, then committed-dive avoidance, then source suppression. Escort members form briefly and peel off rather than sharing one sine wave. Nobody fires before completing visible entry.
+
+Frigate starts near(180,0.24 H),74 u wide. Shared hull 90/110/130 HP; optional left/right rack pools 12/15/18 each. A rack hit reduces its pool and shared hull once; other opaque hull hits reduce shared hull. No double score/energy. Rack destruction cancels that future source, while launched rounds remain until success. Alternate fixed-aim fire with a short three-shot rack volley; Easy allows one charging source. The last legal hull hit clears harmful work and starts harmless sequential ammo cookoff.
+
+**Decision:** safely disarm or exploit a crossing opening for faster hull damage. Needle/Fan must both work at different effective positions. No rescue/module grant. **Target80–110s; intensity0.15→0.45→0.10→0.65→0, then4s quiet exit.**
+
+#### 2 — Relay Drift: sever coordination
+
+Offset station pylons; emitter ships coordinate a shield formation around a relay. **Win:** relay hull disabled. **Fail:** player hull 0. Killing emitters is a tactical choice, not a mandatory ordered lock.
+
+Approximately 3400 u: unprotected pair → turning shieldship → full formation. Three emitters have at least 44 u exposed width and 14/18/22 HP. They govern targeting coordination, shield rotation and paired fire respectively. Their destruction removes those behaviours permanently for this encounter. Relay hull 105/130/155 HP; frontal shield reduces damage to 50%, never 0. Flank or shield-disabled hits deal full damage. No symbol order or pinpoint weakpoint.
+
+Physical pylon routes remain at least 112 u; the central lane is always legal and one optional flank rejoins. A split shieldship creates a real low-pressure opening. Paired warnings remain attached to moving ports; stagger or cancel a volley if no safe route exists.
+
+**Decision:** remove shield coordination, suppress paired fire or accept longer frontal shooting to reduce movement. **Target100–135s; intensity0.20→0.55→0.15→0.75→0, then4s station coast.** One clear opens Rail as a sidegrade once, not a mandatory upgrade.
+
+#### 3 — Glassbelt: traverse
+
+Ferric asteroid channel with two authored routes. **Win:** cross the far gate after breaking its blocking rock OR disabling the tow reel moving it. **Fail:** player hull 0. No kill quota or compulsory civilian HP meter.
+
+Approximately 3400 u. Left route: more breakable cover and slow gunships. Right: open space with fast interceptors. Both remain 112 u wide throughout actual motion and rejoin before the gate. Teach one slow rock, develop shooting versus bypassing it, then combine one obstacle with a committed interceptor. A broad 36 u reel has 10/13/16 HP; destroying reel or tug stops the tow and cancels future pulls. Gate rock has 22/28/34 HP as an ordinary-fire fallback. Other rocks have 6/8/10 HP and radii 16/21/26; their fragments are harmless.
+
+At most one moving rock threatens the selected lane at once, with 1.5 s visible approach. A central quiet pocket separates the route tests. An **optional deferred** side alcove may later contain one stranded capsule for score/story acknowledgement. It grants no unique weapon, blocks no next chapter and creates no mainline failure; it is not first-slice work.
+
+**Decision:** cover and longer sightlines versus a faster exposed route; shoot terrain or preserve reactor. **Target90–120s; intensity0.15→0.50→0.15→0.70→0.**
+
+#### 4 — Fold Sea: outmanoeuvre
+
+Sparse gravity shoals and alternating shelter pockets. **Win:** disable both broad drive pods OR defeat the hunter's shared hull, then cross the clear gate. **Fail:** player hull 0.
+
+Approximately 3200 u: harmless gravity tell → beetle crossing its edge → crescent hunter. Fields retain 2 s warning, bounded force and no teleport/direct damage. The hunter visibly banks before changing glide direction, fires bounded-turn missiles and keeps its actual lower notch empty. Hull 120/150/180 HP; two drives 24/30/36 HP each. Drive hits reduce drive and hull once; all other opaque hull remains productive. One failed drive reduces lateral movement and removes its missile source; both cause controlled drift, not an additional full-HP cleanup.
+
+Fields alternate with attacks rather than covering every route. Required openings stay 112 u. After a committed missile salvo, cooling lasts 1.8/1.5/1.2 s before reposition. A field expires into a quiet pocket before the next peak.
+
+**Decision:** change the enemy's mobility, concentrate broad hull damage or save Stasis for bad positioning. **Target100–135s; intensity0.10→0.45→0.10→0.75→0, then5s open sky.** No equipment reward is required.
+
+#### 5 — Foundry Crown: dismantle
+
+Industrial trench opening onto a siege machine. **Win:** remove its armour banks, then destroy a genuinely external reactor. **Fail:** player hull 0. No captive/shuttle dependency.
+
+Approximately 3900 u: destructible wall bank → gun-versus-structure decision → dead-machine shadow → foundry. Two banks 28/34/40 HP each, external core 48/60/72 HP. Before exposure, other broad hull impacts route damage to the nearest surviving bank with clear local feedback. Bank loss removes its source and visibly folds/breaks metal clear, creating a route. Optional gun destruction suppresses future warnings, not already launched shots.
+
+Attack capability changes: alternating banks → one-bank aimed bursts → short reactor vent pulses. Do not merely accelerate one fan at HP thresholds. Actual raster topology decides exterior access: an enclosed lip cannot become an invisible passage. Deliver opened parts or use a genuinely exterior core. Collapse is harmless. Core exposure gives 1.5 s readable relief before its first warned vent.
+
+**Decision:** suppress a gun, concentrate bank damage or align Rail through different parts. **Target120–165s; intensity0.25→0.60→0.15→0.85→0.**
+
+#### 6 — Dawn Corridor: break command
+
+Final jump causeway and Veyr's capital ship. **Win:** shared command hull 0 OR both engines disabled, then accepted gate crossing. **Fail:** player hull 0. Evacuation is background consequence, not a surprise compulsory escort system.
+
+Approximately 4200 u, two defended crossings separated by a silent fleet vista. Capital shared hull 160/195/230 HP, engines 34/42/50 HP each. Broad metal always reduces hull; engine impacts also reduce that capability once. Engine loss removes a linked gun and visibly tilts the group. Both disabled produce wounded drift; hull 0 produces staged breakup. Either opens the gate with no fixed survival timer. Optional guns offer safety at a time cost.
+
+Combine known roles in authored pairs: shieldship+interceptor, then frigate+moving cover. Never combine mandatory gravity, fast rock and full-width fan. The capital alternates aimed racks with formation command and readable recovery. No invisible last-second phase. Accepted shutdown clears threats before 6 s ending flight. End the campaign instead of silently inflating HP and looping.
+
+**Decision:** broad engine disable, hull pressure or cautious disarm. **Target130–180s; intensity0.30→0.70→0.20→0.90→0.**
+
+Combined target: approximately 10–14 active minutes, plus optional exploration/pauses. These are pacing goals, not forced waits. Distinct verbs are interdict, sever, traverse, outmanoeuvre, dismantle and break command.
+
+### 4. Authoring, physics, difficulty and phone metrics
+
+Future encounter data contains ID, authored distance, prerequisites, actors, completion, relief and checkpoint. Required actors hold in view; optional escaped interceptors affect score only. No unlimited replacement spawns. Seed variation changes entry sides/cosmetics while preserving the critical path. Keep collision, progression and rendering separate.
+
+| Proposed mode | Hull | Ordinary enemy HP multiplier | Hostile speed ceiling | Basic muzzle tell | Hostile shot cap | Ships / charging sources / physical hazards |
+|---|---:|---:|---:|---:|---:|---|
+| Easy |6|1.00|175 u/s|1.30 s|22|4 /1 /2|
+| Medium |5|1.15|210 u/s|1.15 s|32|6 /2 /3|
+| Hard |4|1.30|240 u/s|1.00 s|42|8 /2 /4|
+
+Chapter-specific HP already includes mode scaling; do not multiply twice. Early beats stay below caps. Hard adds a learned role or shorter recovery, not hidden fire, smaller controls or removed ordinary damage. These differ from the lab and need new calibration.
+
+Use fixed steps and relative sweeps for fast rounds, moving guns, rocks and terrain. One round contacting compound parts earns one episode. A component/shared-hull hit may update both pools but earns energy once for configured shared damage, never their sum. Disabled metal is physical only where visible; opened parts use moved shapes. Render and collision share pose/UV metadata. Gravity changes actual velocity, which drives projectile rotation. Trails never collide.
+
+Warnings lock aim at their real moving ports. Prove a reachable safe interval across the entire volley for the full ship footprint; stagger or abort otherwise. Active-real clocks advance together; pause/chooser/background freeze them. Stasis changes declared translation, not warning/spawn timing. Final accepted objective damage wins before same-step fatal incoming damage.
+
+Keep current **52/40/74/196u player/scout/gunship/guardian widths** on 360 u; beetle/frigate/crescent use corresponding 40/74/196 u. Historical 65/49/88/236 source suggestions are not the baseline. Player 52×46.8 u keeps its visible 7 u hostile-shot core. Terrain uses a forgiving actual hull outline, not transparent padding; notches stay empty.
+
+At 393/412 CSS width,52 u is approximately 56.8/59.5 CSSpx. Allow a 68 u maximum future equipped footprint without requiring modules now. Mandatory openings are 112 u minimum with swept banking/edge/control proof. Keep at least 55% typical field calm; guardian art should occupy no more than roughly 36% combat height. Do not obscure the lower response lane with explosions.
+
+Derive height from real HUD/insets/control geometry: target at least 580/640 u at 393×852/412×915, then measure. Test 59/34 CSS and 32/24 CSS safe insets, zero insets and native transient bars. Reactor target is at least 48 CSSpx. Entire opaque ship clears screen edges/reactor by 8 CSSpx, not only its core; central/right low flight remains possible.
+
+At 180 u launch distance with radii 3.5+7,169.5 u travel takes approximately 0.97/0.81/0.71 s at proposed mode ceilings, plus warning. This stationary straight-line calculation is not dodge proof. Measure accelerated lateral response before accepting an 80 u correction; candidate 320 u/s requires about 0.35 s including acceleration. The current lab 480 u/s is unchanged by this proposal.
+
+Runtime derivative targets: player 192×172 px, scout 128 px, gunship 224 px, frigate 256 px, crescent 512 px, capital/foundry 640 px maximum width; most rounds 96–128 px, background 512×1024 px. Preserve aspect, originals, alpha and normalised UVs. Target≤24 MiB decoded RGBA chapter textures,≤48 MiB during transition; not whole-process memory. A 412×915 DPR 2 surface already costs about 5.75 MiB before copies. Start DPR 2, immutable decoding and chapter-exclusive eviction; avoid bundling every full texture as base 64. Compressed goals:≤4 MiB chapter additions,≤18 MiB shared campaign pack, measured after quality review.
+
+Cosmetic caps:6 wrecks,48 particles,2 large breakups. Reduce dead FX before live threat visibility. On physical mid-range Android target 60 fps; require sustained 30 fps, frame-time p 95<33 ms and no growing allocation over 10 minutes. Desktop/emulator success is not native performance proof.
+
+### 5. Differentiated destruction and source requirements
+
+The current common explosion does not implement these states. Deliver purpose-built layered sources; no rectangular photo quarters or one enlarged universal blast.
+
+| Role | Movement/counter | Death physics and source parts to produce |
+|---|---|---|
+| Interceptor | Curved entry, committed dive, banked exit; no unseen fire | Actual inherited velocity,0.65 s damped corkscrew, roughly 100° bounded spin. Three unequal chips. Left/neutral/right banks plus 3 wreck pieces. |
+| Missile frigate | Slow bank/hold; independently charged racks can be suppressed | Cancel unfired work; ammo cookoffs at 0/0.18/0.42 s during 1.2 s wreck. Open bay,3 rack layers, torn plate. No new damaging death missiles. |
+| Shieldship | Rotates protected face; broad flank and 50% frontal fallback | Shield collapse, unequal halves separate over 0.9 s with distinct angular momentum. Collar,2 broken halves, exposed centre. |
+| Crescent hunter | Reduced turning after drive loss, bounded missiles | Failed collar, controlled drift or 1 s unequal lobe breakup. Failed drives, damaged centre,2 lobe parts; notch stays empty. |
+| Asteroid | Consistent drift/spin; destroy or bypass | Four irregular rock pieces inherit velocity plus bounded outward impulse, damp over 0.7 s. No ship explosion. |
+| Foundry/capital | Group hover with real gun/engine capability loss | Local shutdown then 2.2 s staged breakup OR disabled drift. Damaged core,4 irregular hull sections, failed engines/guns. No opaque field-wide blast. |
+
+State: alive→destroying→harmlessWreck→removed. Award score/loot/energy once; dead wrecks stop HP contact immediately. Capture actual velocity/angle once and integrate at fixed steps, with renderer read-only. Destroyed gun warnings cancel; launched shots survive ordinary death. Mission success clears harmful work before its cinematic.
+
+**All routine fragments, cookoffs and collapses are harmless.** First slice has no collidable death debris. Any later falling slab is a separate authored hazard: visible body/sweep,1.2 s tell, radius≥12 u, max one, life 2.5 s; never inside the player/control or across the sole route. Its collision is not inherited accidentally from a dead sprite. Pause freezes wreck lifetimes.
+
+### 6. Exact asset checklist
+
+Reuse actual sources: **art/starflight/ships-source-v1.png**, **background-source-v1.png**, **weapons-source.png**; **art/starflight-v2/enemy-family-source-v1.png**; **art/starflight-arsenal/source.png**. Their matching runtime manifests hold real pivots/alpha/hardpoints. Existing ships/rocks/fields/rounds support blockout; a tint is not a new encounter or disabled capability.
+
+Proposed new source/runtime roots: **art/starflight-campaign/chNN/** and **assets/starflight-campaign/chNN/**. Preserve originals/prompts/extraction/hashes; empty runtime metadata, real alpha, glow padding, measured collisions/ports/masks and native motion proofs. Produce only an accepted slice's requirements.
+
+| Chapter | Reuse | New family checklist |
+|---|---|---|
+|1 Breakwater|Player, scout/beetle, gunship/frigate, shots/exhaust; existing nebula for blockout|interceptor-bank-L/N/R + wreck-0..2 (6); frigate-open-bay/rack-0..2/torn-plate (5); rack-disabled-L/R (2); quiet wreck-L/R (2); background/edge-tile (2). No tender, crew or module family.|
+|2 Relay Drift|Gunship/frigate/crescent materials and rounds|relay-hull/emitter/emitter-disabled (3); signal-link-active/off (2 FX); shieldship-hull/collar/broken-L/R/exposed-centre (5); pylon-L/R (2); background/edge-tile (2). Rail insert only if admitted hardware changes.|
+|3 Glassbelt|Rocks, interceptor/gunship and shared FX|tug-hull/reel/reel-broken/cable (4); rock-fragment-0..3 (4); gate-rock-intact/broken (2); route-L/R tiles (2); background (1). Deferred optional capsule/open/pilot (3) is separate and grants no required unlock.|
+|4 Fold Sea|Gravity/wormhole and crescent|failed-drive-L/R/damaged-centre/wreck-L/R (5); shelter-L/R landmarks (2); background/edge-tile (2). No research crew or stabiliser reward.|
+|5 Foundry Crown|Boss/crescent for blockout; gun/engine material and shared FX|base/bank-L/R/bank-broken-L/R/reactor-external/reactor-disabled/rear-mask (8); wreck-0..3/failed-engine/failed-gun-L/R (7); trench-L/R/background (3). Exterior-access proof before final hull.|
+|6 Dawn Corridor|Shared enemies/FX; convoy background reuse only after view/scale check|capital-hull/engine-L/R/disabled-hull/wreck-0..3 (8); command-core-intact/disabled (2); gate-L/R/open-rear-mask (3); background/edge-tile/safe-harbour (3). No sixth module or mandatory rescue launch.|
+
+Shared: one Veyr crest, three ordinary-loadout icons derived from weapon art, component-disabled glows. Reuse seven arsenal icons, Lilita One/Rubik and coherent house audio. New cues: gun-disable, armour-fold, frigate-cookoff, gate-open, command-shutdown; three adaptive music layers. No mandatory portrait roster is needed. Disabled hardware requires a readable real state, not a glow over an unchanged intact gun.
+
+### 7. Persistence and ordered implementation
+
+Separate proposed save namespace: **starflight.campaign.v1**. Store unlocked chapter/checkpoint, completion by difficulty, available/selected preset, preferences and optional mastery records. No rescue inventory or attachment tree. Do not remap breaker stars or turn lab endurance score into campaign completion. Rail unlock is idempotent; repeat clears award no stats/currency. Optional future rescue flags are separate story records.
+
+Success latches before incoming same-step loss and clears damaging work. Continue restores the safe checkpoint with chapter-entry hull, zero reactor, cleared volley and 3 s warning grace, retaining saved progression/preset access. Components restore the checkpoint's coherent snapshot, not mixed dead guns/resurrected hull. Retry reconstructs chapter entry, clearing temporary powers/charge/score/held input, retaining preferences/unlocks. Version and atomically validate saves. Reload cannot duplicate score or make removed guns fire. No required payment.
+
+#### First complete slice: combat before expansion
+
+1. **Metrics/contracts:** actual phone fields, opaque edge/reactor clearance, hardpoints, cadence and deterministic traces. Preserve lab. Future modules: campaign director, ordinary loadouts, chapter 1 data, campaign save; no new engine.
+2. **Chapter1 blockout:** curved interceptor, cross-entry, side gunship, quiet pocket and disarmable frigate. Prove broad Needle damage and meaningful rack suppression. No rescue/docking/module/escort system.
+3. **Weapon comparison:** Needle/Fan on the same seed; earned Lance/Drones/Nova as contrasting choices; state/budget/input checks for all seven. Log damage, misses, hull loss, target choices and failure; do not fit only a bot.
+4. **Asset order:** small runtime derivatives/anchors → interceptor bank/wreck family → real frigate open/disabled racks/recoil/cookoff → quiet wreck landmarks → Breakwater background and five shared sounds. No attachment/crew budget yet.
+5. **Full first-slice pass:** entry→charge→fire→hit→rack disabled→changed attack→distinct death→quiet exit; fixed wreck life, harmless debris and coherent Continue/Retry. Two phones/three modes with real touch, pause, background and arsenal. Review human feel before chapter 2.
+6. **Chapter2 then3:** formation dependencies/nonzero shield fallback, then divergent terrain routes. Rail comes from one mission milestone; rescue remains optional/deferred.
+7. **Chapter4 then5 then6:** gravity/hunter positioning, real bank/core topology, capital capability changes/alternate ending. Each adds a different combat question with recovery, not a recoloured schedule.
+8. **Optimise/package deliberately:** chapter stream/cache/evict, physical Android profile, explicit offline entry/font/asset pin and native CI. Current APKs do not acquire campaign content from this plan.
+
+#### Acceptance gates
+
+- **Simulation:** ordinary-only route through every objective; actual moving sweeps/apertures; component/shared damage credited once; no notch filler; pause all clocks; no catch-up attack; final-hit priority; dead warning cancellation and correct live-shot lifetime.
+- **Weapons/economy:** Needle always viable, Fan/Rail tradeoffs; correct cadence/ports/pierce, one reactor choice, no powered refill/overflow or permanent damage growth; fresh Retry/coherent Continue; no duplicate milestone/score.
+- **Earned routes:** both phone heights/all modes, ordinary input route plus earned-power route, exact seeds/actions/hashes; disclose natural pickups/assists/staging and preserve losses. Measure threat removal, dodge space and relief, not only the result screen.
+- **Input/art:** real relative touch, seven choices, pointer/key cancellation/repeat suppression, portrait/resize/background, safe-area variants, opaque edge/control clearance, full decode/fonts and zero errors. No shot hidden by glow/terrain, detached muzzle or rectangular breakup stamp.
+- **Destruction:** inherited role motion/lifetimes, harmless routine wrecks, no damage/charge farming, bounded FX; attached guns/engines until deliberate separation. Actual native motion for every role, not only enlarged stills.
+- **Human/performance:** physical Android response/heat/memory session; understandable Easy, recoverable Medium, counterable Hard. Ask what changed when a gun died and why a weapon was chosen. Observe voluntary replay without claiming proven addiction; automated wins do not certify balance.
+
+This revision supersedes the mandatory rescue/attachment scheme. Next is **one complete combat slice with weapon tradeoffs, disarmable opposition and satisfying differentiated destruction**. All future campaign work remains proposed until its own implementation/review receipts exist.
 
 
 ---
@@ -254,6 +724,14 @@ The earlier earned final screenshots were captured during star reveal; the expli
 *Source: `docs/NEXT_LEVELS.md`*
 
 ## Next levels: reserved space ideas and a new princess encounter
+
+### 2026-10-20: direct-flight continuation
+
+The owner has now authorized a fast scrolling starship combat prototype, then requested a proper campaign plan first. [Starflight: Last Light](STARFLIGHT_PROTOTYPE.md) is implemented separately at `prototypes/starflight/`: direct movement, automatic twin fire, seven earned reactor choices, varied ship families, asteroids/gravity and escalating repeat cycles. Its current story framing follows the freed crew's evacuation through Carrier Reach, Relay Drift and Forge Belt. It is not included in the pinned five-chapter APK. [The campaign production plan](STARFLIGHT_CAMPAIGN.md) now governs future combat-first authored chapters; those are not implemented by the combat loop.
+
+The earlier proposals below remain reserved. Starflight does not claim to implement Relay Escort B or Orbital Switch B. Their breaker controls and ball rules apply to those future breaker encounters; Starflight uses the new direct-flight contract documented in [STARFLIGHT_COMBAT.md](STARFLIGHT_COMBAT.md).
+
+The next implementation is the plan's first complete combat slice: authored attack roles, useful weapon tradeoffs, destructible enemy capabilities and differentiated wreck motion. Rescue is an occasional optional objective, not a required chapter-to-upgrade formula. The revised combat lab has more silhouettes and a bounded power budget, but needs human difficulty feedback. A complete campaign also needs checkpoint/save behavior and a deliberate Android packaging pass.
 
 Updated 2026-10-19. This document separates the current five-level runtime from future proposals. Values labelled provisional are starting points, not balance results. The owner delegates design decisions and authorizes implementation/commit/push. The **Brum/Yeti-related Frost Warden princess encounter is integrated at stable slot4**, with complete dedicated rendered art, strong-arm physical defence destruction and separate Easy/Medium/Hard behavior. Local phone-size checks are described below; CI and APK delivery status belong to [MOBILE_PREVIEW.md](MOBILE_PREVIEW.md). Earlier crab/bat/boar adversary ideas remain deferred alternatives.
 
@@ -1903,6 +2381,8 @@ Each workstream is sized for one subagent with a clear contract and a test.
 
 ## BREACH handoff 1/3: status and next steps
 
+**Starflight campaign design and combat lab (2026-10-20):** Latest owner steering is a dedicated combat-first story/level/asset plan before campaign production. The owner clarified that rescue-to-module progression was an example and explicitly rejected treating it as a fixed formula. Read `docs/STARFLIGHT_CAMPAIGN.md` for reference-informed enemy roles, weapon tradeoffs, distinct encounter objectives, pressure/recovery beats and exact asset production order. Rescue is optional and occasional. Its campaign features are proposals, not implemented encounters. The separate browser lab at `prototypes/starflight/` implements direct flight, smaller ships, seven bounded reactor powers, a single circular chooser, additional enemy families, asteroids and warned gravity. Current branch is `codex/starship-run-prototype`; the green five-chapter release branch is incorporated. The branch passes 266 units; its older Android payload remains byte-identical B06CDD. Thirty-nine new Starflight PNGs decode with empty metadata; artwork archive now verifies 918 unique records / 940 aliases / 320,069,413 bytes. Final phone-browser receipts belong in `docs/validation/starflight/`. The existing APK does not contain Starflight; native packaging, physical-phone performance and human Hard balance remain separate work.
+
 **Completed Android release (2026-10-20):** The five-chapter space/Vault/Frost preview is built, pushed and verified on `codex/space-combat-apk`. CI [39399653237](https://github.com/mahikshith/breaker/actions/runs/39399653237) passes 231 units, all canonical/offline phone suites, layout/polish, compilation/lint and complete Android 15 native touch/fullscreen/lifecycle checks. Downloaded APK: 9,596,473 bytes, SHA256 `B44BC99FE10468DEF35E89F32B85900F8AAD3C16BB92C6C1040A04D850E7BA8E`; payload B06CDD/4071ACEE and offline fonts/licenses are exact. Actual native screenshots were inspected, with the immediate recreated-Nix still explicitly timing-limited. Artifact, verification and remaining physical-phone/human-balance limits: `docs/MOBILE_PREVIEW.md` and `docs/validation/space-combat/native-release.json`. Earlier failed-run entries remain historical. No new prototype content is included in this APK.
 
 **Release investigation (2026-10-20):** The isolated `codex/space-combat-apk` worktree retains canonical B06CDD and offline 4071AC. Native run 39166153838 passed the repaired resume/input gates but lost its emulator later; an unbounded diagnostic then caused the job timeout. CI now bounds test/evidence commands, preserves failing exit codes and retains live/host diagnostics, with a software-renderer safeguard. The emulator exit cause is unproven. No gameplay change or new APK success is claimed; see `docs/MOBILE_PREVIEW.md` for precise evidence and the next native gate.
@@ -2921,13 +3401,6 @@ assets/snake-jade: 26 PNG renders
 assets/vault: 53 PNG renders
 assets/invasion: 78 PNG renders
 
-docs/validation/space-combat/apk-verification.json
-docs/validation/space-combat/ci-assets.json
-docs/validation/space-combat/native-emulator-disconnect.xml
-docs/validation/space-combat/native-emulator-timeout.json
-docs/validation/space-combat/native-manifest.json
-docs/validation/space-combat/native-pass.xml
-docs/validation/space-combat/native-release.json
 .gitattributes
 .github/workflows/mobile-preview.yml
 .gitignore
@@ -3081,6 +3554,28 @@ art/space/weapons-v2/seed-revision-1/reactor-charge-08.png
 art/space/weapons-v2/seed-revision-1/reactor-flight-08.png
 art/space/weapons-v2/validate.py
 art/space/weapons_v2.py
+art/starflight-arsenal/SOURCE.md
+art/starflight-arsenal/extract.py
+art/starflight-arsenal/source.png
+art/starflight-v2/SOURCE.md
+art/starflight-v2/asset-checks.json
+art/starflight-v2/enemy-family-source-v1.png
+art/starflight-v2/extract.py
+art/starflight-v2/native-checks.json
+art/starflight-v2/native-extraction-proof.png
+art/starflight-v2/production.json
+art/starflight-v2/prompt-v1.txt
+art/starflight-v2/proof.py
+art/starflight/asset-checks.json
+art/starflight/background-source-v1.png
+art/starflight/extract.py
+art/starflight/extract_weapons.py
+art/starflight/native-extraction-proof.png
+art/starflight/production.json
+art/starflight/proof.py
+art/starflight/ships-source-v1.png
+art/starflight/weapons-prompt.md
+art/starflight/weapons-source.png
 art/vault-grid.json
 art/vault_post.py
 art/vault_scene.py
@@ -3445,6 +3940,42 @@ artwork-library/assets/space-companions/tick_reach--e985ebb37b7d.png
 artwork-library/assets/space-companions/tick_retract--3b535c21df56.png
 artwork-library/assets/space-companions/tick_secured--0e87e5c8290e.png
 artwork-library/assets/space-companions/tick_turn--454fd3dce4b4.png
+artwork-library/assets/starflight-arsenal/drone--d8e85a535f86.png
+artwork-library/assets/starflight-arsenal/drones--39360de7e2eb.png
+artwork-library/assets/starflight-arsenal/hyper--e79faab05825.png
+artwork-library/assets/starflight-arsenal/laser--ff43623d991b.png
+artwork-library/assets/starflight-arsenal/manifest--02c25c6d1437.json
+artwork-library/assets/starflight-arsenal/missile--e492fe693c4a.png
+artwork-library/assets/starflight-arsenal/nova--e17997780f99.png
+artwork-library/assets/starflight-arsenal/repair--917534edf9f7.png
+artwork-library/assets/starflight-arsenal/seeker--734bfe689de4.png
+artwork-library/assets/starflight-arsenal/shield--1f89600c808e.png
+artwork-library/assets/starflight-arsenal/spiral--6cc07b908d12.png
+artwork-library/assets/starflight-arsenal/stasis--4d3b124967e9.png
+artwork-library/assets/starflight-v2/asteroid--ce56450e8fd4.png
+artwork-library/assets/starflight-v2/beetle--ec6d92ee04fa.png
+artwork-library/assets/starflight-v2/crescent--82764e48f114.png
+artwork-library/assets/starflight-v2/frigate--39b8f18aae4d.png
+artwork-library/assets/starflight-v2/gravity--b3e605414885.png
+artwork-library/assets/starflight-v2/manifest--54ee8471c06e.json
+artwork-library/assets/starflight-v2/wormhole--1871dc8594d6.png
+artwork-library/assets/starflight/background--192c9f540ae4.png
+artwork-library/assets/starflight/boss--e913edb3f140.png
+artwork-library/assets/starflight/enemyBolt--c50c4b8ac841.png
+artwork-library/assets/starflight/exhaust--252f648d53c3.png
+artwork-library/assets/starflight/gunship--2869c962612a.png
+artwork-library/assets/starflight/impact--241edd763031.png
+artwork-library/assets/starflight/manifest--f4160cdaeef7.json
+artwork-library/assets/starflight/player--ad4c0f3c8024.png
+artwork-library/assets/starflight/playerBolt--bb10f150b860.png
+artwork-library/assets/starflight/scout--bbaacd73fa98.png
+artwork-library/assets/starflight/weapons/enemy--ead0fd9230cc.png
+artwork-library/assets/starflight/weapons/explosion--9d4349c550d1.png
+artwork-library/assets/starflight/weapons/hyper--84ca75357a42.png
+artwork-library/assets/starflight/weapons/manifest--bef45a3dfc3a.json
+artwork-library/assets/starflight/weapons/muzzle--1bbbfb1e754a.png
+artwork-library/assets/starflight/weapons/plasma--a2eccb22f9a4.png
+artwork-library/assets/starflight/weapons/stasis--a257f356e0a5.png
 artwork-library/assets/weapon-vfx-v2/asset-report--4d0a510d7149.json
 artwork-library/assets/weapon-vfx-v2/frames/helix-charge/helix-charge-00--f4e71fcaacba.png
 artwork-library/assets/weapon-vfx-v2/frames/helix-charge/helix-charge-01--4f049c9b81e4.png
@@ -3949,6 +4480,13 @@ artwork-library/sources/space/weapons-v2/rejected-draft-01/helix-impact-04--909a
 artwork-library/sources/space/weapons-v2/rejected-draft-01/reactor-charge-08--bb1a81497622.png
 artwork-library/sources/space/weapons-v2/rejected-draft-01/reactor-flight-08--4631e5d863ba.png
 artwork-library/sources/space/weapons-v2/rejected-draft-01/reactor-impact-04--7e1f42866a00.png
+artwork-library/sources/starflight-arsenal/source--05d3b21215bc.png
+artwork-library/sources/starflight-v2/enemy-family-source-v1--87ab2adfeb5e.png
+artwork-library/sources/starflight-v2/native-extraction-proof--44de464d918f.png
+artwork-library/sources/starflight/background-source-v1--c0227809c33e.png
+artwork-library/sources/starflight/native-extraction-proof--11bf88dc03a3.png
+artwork-library/sources/starflight/ships-source-v1--47ae97122b73.png
+artwork-library/sources/starflight/weapons-source--aae9897b3521.png
 assets/circuit-companions/latch.png
 assets/circuit-companions/latch_00.png
 assets/circuit-companions/latch_01.png
@@ -4159,6 +4697,42 @@ assets/space-companions/tick_reach.png
 assets/space-companions/tick_retract.png
 assets/space-companions/tick_secured.png
 assets/space-companions/tick_turn.png
+assets/starflight-arsenal/drone.png
+assets/starflight-arsenal/drones.png
+assets/starflight-arsenal/hyper.png
+assets/starflight-arsenal/laser.png
+assets/starflight-arsenal/manifest.json
+assets/starflight-arsenal/missile.png
+assets/starflight-arsenal/nova.png
+assets/starflight-arsenal/repair.png
+assets/starflight-arsenal/seeker.png
+assets/starflight-arsenal/shield.png
+assets/starflight-arsenal/spiral.png
+assets/starflight-arsenal/stasis.png
+assets/starflight-v2/asteroid.png
+assets/starflight-v2/beetle.png
+assets/starflight-v2/crescent.png
+assets/starflight-v2/frigate.png
+assets/starflight-v2/gravity.png
+assets/starflight-v2/manifest.json
+assets/starflight-v2/wormhole.png
+assets/starflight/background.png
+assets/starflight/boss.png
+assets/starflight/enemyBolt.png
+assets/starflight/exhaust.png
+assets/starflight/gunship.png
+assets/starflight/impact.png
+assets/starflight/manifest.json
+assets/starflight/player.png
+assets/starflight/playerBolt.png
+assets/starflight/scout.png
+assets/starflight/weapons/enemy.png
+assets/starflight/weapons/explosion.png
+assets/starflight/weapons/hyper.png
+assets/starflight/weapons/manifest.json
+assets/starflight/weapons/muzzle.png
+assets/starflight/weapons/plasma.png
+assets/starflight/weapons/stasis.png
 assets/vault/atlas.json
 assets/vault/plate.jpg
 config/mobile-preview.json
@@ -4344,6 +4918,10 @@ docs/GAME_PLAN.md
 docs/MOBILE_PREVIEW.md
 docs/NEXT_LEVELS.md
 docs/SPACE_COMBAT_HANDOFF.md
+docs/STARFLIGHT_ART.md
+docs/STARFLIGHT_CAMPAIGN.md
+docs/STARFLIGHT_COMBAT.md
+docs/STARFLIGHT_PROTOTYPE.md
 docs/STORY_PLAN.md
 docs/drafts/breach.png
 docs/drafts/forge.png
@@ -4368,15 +4946,22 @@ docs/screens/07-vault-focus-aim.png
 docs/screens/08-vault-breach.png
 docs/screens/10-vault-results.png
 docs/validation/space-combat/README.md
+docs/validation/space-combat/apk-verification.json
 docs/validation/space-combat/bounded-balance.json
 docs/validation/space-combat/carrier-easy-routes.json
+docs/validation/space-combat/ci-assets.json
 docs/validation/space-combat/circuit-browser-routes.json
 docs/validation/space-combat/frost-earned-routes.json
 docs/validation/space-combat/frost-offline-controls.json
 docs/validation/space-combat/frost-phone-controls.json
 docs/validation/space-combat/frost-review.md
 docs/validation/space-combat/lf-build.json
+docs/validation/space-combat/native-emulator-disconnect.xml
+docs/validation/space-combat/native-emulator-timeout.json
 docs/validation/space-combat/native-initial-failure.xml
+docs/validation/space-combat/native-manifest.json
+docs/validation/space-combat/native-pass.xml
+docs/validation/space-combat/native-release.json
 docs/validation/space-combat/native-resume-failure.xml
 docs/validation/space-combat/native-resume-witness.json
 docs/validation/space-combat/phone-controls-pre-menu-crop.json
@@ -4386,9 +4971,22 @@ docs/validation/space-combat/screenshots/ios-frost.png
 docs/validation/space-combat/screenshots/ios-menu.png
 docs/validation/space-combat/space-offline-controls.json
 docs/validation/space-combat/weapon-vfx.json
+docs/validation/starflight/README.md
+docs/validation/starflight/android-reactor-clearance.png
+docs/validation/starflight/android-reactor-left-sweep.png
+docs/validation/starflight/android-varied-field-staged.png
+docs/validation/starflight/browser-report.json
+docs/validation/starflight/ios-arsenal-full-staged.png
+docs/validation/starflight/ios-earned-boss.png
+docs/validation/starflight/real-clock-report.json
+docs/validation/starflight/summary.json
 index.html
 package-lock.json
 package.json
+prototypes/starflight/index.html
+prototypes/starflight/main.js
+prototypes/starflight/render-effects.js
+prototypes/starflight/style.css
 skills/gamedev/LICENSE
 skills/gamedev/NOTICE
 skills/gamedev/README.md
@@ -4454,6 +5052,8 @@ src/serpent.js
 src/skiff.js
 src/space-companions.js
 src/space-weapons.js
+src/starflight/geometry.js
+src/starflight/model.js
 src/vault-art.js
 src/vault.js
 tests/arena.test.js
@@ -4486,6 +5086,7 @@ tests/serpent.test.js
 tests/space-plasma-integration.test.js
 tests/space-powers.test.js
 tests/space-weapons.test.js
+tests/starflight.test.js
 tools/archive_artwork.py
 tools/build.mjs
 tools/carrier-difficulty-preview/build.mjs
@@ -4526,6 +5127,7 @@ tools/playtest/layout.mjs
 tools/playtest/mobile-ui.mjs
 tools/playtest/polish.mjs
 tools/playtest/space-selected.mjs
+tools/playtest/starflight.mjs
 tools/playtest/vault-v2.mjs
 tools/playtest/vault.mjs
 tools/playtest/venom.mjs

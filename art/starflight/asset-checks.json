@@ -1,0 +1,95 @@
+{
+  "scope": "Native-size extracted raster proof; staged composition, not actual gameplay or collision proof",
+  "manifestSHA256": "f4160cdaeef735fa8632521f7aef8e007d0a5797720539e83e13250545c81c69",
+  "assets": [
+    {
+      "id": "player",
+      "size": [
+        320,
+        288
+      ],
+      "sha256": "ad4c0f3c8024b3dd011f643c81993244b928481bf07280946a232c0edfd1151a",
+      "transparentEdges": true,
+      "metadataEmpty": true,
+      "muzzles": [
+        [
+          0.348125,
+          0.22790556900726391
+        ],
+        [
+          0.655625,
+          0.22790556900726391
+        ]
+      ]
+    },
+    {
+      "id": "scout",
+      "size": [
+        256,
+        288
+      ],
+      "sha256": "bbaacd73fa98a8883ba219ba21505f94ab208949cdeea8305cf7005b1b3b42b7",
+      "transparentEdges": true,
+      "metadataEmpty": true,
+      "muzzles": [
+        [
+          0.4964041095890411,
+          0.8497560060060061
+        ]
+      ]
+    },
+    {
+      "id": "gunship",
+      "size": [
+        448,
+        384
+      ],
+      "sha256": "2869c962612a3f8f34facf40171c96fd0a8d3654b0d91f6cb4dc8978e8fb294b",
+      "transparentEdges": true,
+      "metadataEmpty": true,
+      "muzzles": [
+        [
+          0.1818783068783069,
+          0.8836416292974589
+        ],
+        [
+          0.8043650793650794,
+          0.8876588191330343
+        ]
+      ]
+    },
+    {
+      "id": "boss",
+      "size": [
+        768,
+        576
+      ],
+      "sha256": "e913edb3f140504d6e849da72f52c6c969147c50bc6938112a57510e56442c12",
+      "transparentEdges": true,
+      "metadataEmpty": true,
+      "muzzles": [
+        [
+          0.3651215553789083,
+          0.8878250591016549
+        ],
+        [
+          0.5052745760466348,
+          0.9340425531914893
+        ],
+        [
+          0.6363854663487016,
+          0.8878250591016549
+        ]
+      ]
+    }
+  ],
+  "background": {
+    "size": [
+      768,
+      1536
+    ],
+    "centreMeanRGB": 5.051077819956616,
+    "centreP95RGB": 12.0,
+    "verticalEdgeMaxRGBDifference": 0
+  }
+}

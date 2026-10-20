@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-20",
+  "productionMode": "built-in image tool; transparent family source, deterministic Pillow extraction",
+  "source": {
+    "path": "art/starflight-v2/enemy-family-source-v1.png",
+    "sha256": "87ab2adfeb5e2a4b51d89f7420f37ab26d3e04b33e4f3851e3b83b9dbce2d2d0",
+    "size": [
+      1254,
+      1254
+    ],
+    "mode": "RGBA"
+  },
+  "prompt": {
+    "path": "art/starflight-v2/prompt-v1.txt",
+    "sha256": "fcd7f3843401ec8f5fd2011e254d17253ce324eeb42dfc6bfa11ea5a091767a1"
+  },
+  "styleReferences": [
+    {
+      "path": "assets/starflight/boss.png",
+      "sha256": "e913edb3f140504d6e849da72f52c6c969147c50bc6938112a57510e56442c12"
+    },
+    {
+      "path": "assets/starflight/gunship.png",
+      "sha256": "2869c962612a3f8f34facf40171c96fd0a8d3654b0d91f6cb4dc8978e8fb294b"
+    }
+  ],
+  "manifest": {
+    "path": "assets/starflight-v2/manifest.json",
+    "sha256": "54ee8471c06e7955dc2077173149624d012ee0737040fad71511940bb40c3fcb"
+  },
+  "limits": [
+    "Staged source/native art proof only; no gameplay or balance admission",
+    "Actual collision contours must preserve crescent open notch",
+    "No companion selection or new companion assets",
+    "No existing source/runtime assets replaced"
+  ]
+}

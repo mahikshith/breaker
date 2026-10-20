@@ -2840,6 +2840,294 @@
       ]
     },
     {
+      "archive": "assets/starflight-arsenal/drone--d8e85a535f86.png",
+      "sha256": "d8e85a535f8699edea0a42e6035fd592f607c1ab5e62643d44aeb0133dfe3c3e",
+      "bytes": 38364,
+      "sources": [
+        "assets/starflight-arsenal/drone.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight-arsenal/drones--39360de7e2eb.png",
+      "sha256": "39360de7e2eb88b9a00398543efb3577b9afa023983f28f68715cdfa89fc6ff0",
+      "bytes": 35376,
+      "sources": [
+        "assets/starflight-arsenal/drones.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight-arsenal/hyper--e79faab05825.png",
+      "sha256": "e79faab05825788c1428a73020c5de11dad6db567a6320243ef57ccf87e1777e",
+      "bytes": 44132,
+      "sources": [
+        "assets/starflight-arsenal/hyper.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight-arsenal/laser--ff43623d991b.png",
+      "sha256": "ff43623d991bfcfed30f2323417c982f5cdd1ead6d6a3b793401422a62d91a0b",
+      "bytes": 33030,
+      "sources": [
+        "assets/starflight-arsenal/laser.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight-arsenal/manifest--02c25c6d1437.json",
+      "sha256": "02c25c6d1437365ddab6539d48a6fa9042a4618c6bc6cf502ac4330ec9fbd806",
+      "bytes": 4183,
+      "sources": [
+        "assets/starflight-arsenal/manifest.json"
+      ]
+    },
+    {
+      "archive": "assets/starflight-arsenal/missile--e492fe693c4a.png",
+      "sha256": "e492fe693c4acf170e7973b1e5e68f68a75e2771ee5797873cee4a25164fc501",
+      "bytes": 28578,
+      "sources": [
+        "assets/starflight-arsenal/missile.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight-arsenal/nova--e17997780f99.png",
+      "sha256": "e17997780f99c6fa88d8164680afac3a5c40ddbe4d2c77b9b98029936af306e6",
+      "bytes": 56238,
+      "sources": [
+        "assets/starflight-arsenal/nova.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight-arsenal/repair--917534edf9f7.png",
+      "sha256": "917534edf9f7b52f5bdc04c94526ab94bd302540e7be6aa8ec4f6ed17b1725d0",
+      "bytes": 36185,
+      "sources": [
+        "assets/starflight-arsenal/repair.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight-arsenal/seeker--734bfe689de4.png",
+      "sha256": "734bfe689de4072de7fccff78b9c1144e8655a723434e7c56bce8f52ecdd2e8f",
+      "bytes": 39185,
+      "sources": [
+        "assets/starflight-arsenal/seeker.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight-arsenal/shield--1f89600c808e.png",
+      "sha256": "1f89600c808eff548b5697136b4b002162ed8578558ce6ed2a101ebb5cd0e8bd",
+      "bytes": 50653,
+      "sources": [
+        "assets/starflight-arsenal/shield.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight-arsenal/spiral--6cc07b908d12.png",
+      "sha256": "6cc07b908d124850958ca3b80411ea5f240cfa5fb2bbb390c857ad20d5d1b4a4",
+      "bytes": 29131,
+      "sources": [
+        "assets/starflight-arsenal/spiral.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight-arsenal/stasis--4d3b124967e9.png",
+      "sha256": "4d3b124967e9b041913d0c5bebca4e99cf3fe3df68c482ef1e57dfbfceb18306",
+      "bytes": 42531,
+      "sources": [
+        "assets/starflight-arsenal/stasis.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight-v2/asteroid--ce56450e8fd4.png",
+      "sha256": "ce56450e8fd4ea36ea1707ea73bff33bed2cb606f279d320a23c0d0030730346",
+      "bytes": 263130,
+      "sources": [
+        "assets/starflight-v2/asteroid.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight-v2/beetle--ec6d92ee04fa.png",
+      "sha256": "ec6d92ee04fa75c5c993c5d7e74a035f04b119846586dbcf1f170d5b3796f843",
+      "bytes": 138163,
+      "sources": [
+        "assets/starflight-v2/beetle.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight-v2/crescent--82764e48f114.png",
+      "sha256": "82764e48f11428ffb321e35498030af46d1d39d7c307d2fb98e0c621c0eb018c",
+      "bytes": 535768,
+      "sources": [
+        "assets/starflight-v2/crescent.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight-v2/frigate--39b8f18aae4d.png",
+      "sha256": "39b8f18aae4d4eedf5838a156ca4e97c87712d76ae13a53eacdef6424aac4f3f",
+      "bytes": 225969,
+      "sources": [
+        "assets/starflight-v2/frigate.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight-v2/gravity--b3e605414885.png",
+      "sha256": "b3e6054148856222ed9470ea7fbca52de1ac5fe6a1bf679ea636d139de157921",
+      "bytes": 409758,
+      "sources": [
+        "assets/starflight-v2/gravity.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight-v2/manifest--54ee8471c06e.json",
+      "sha256": "54ee8471c06e7955dc2077173149624d012ee0737040fad71511940bb40c3fcb",
+      "bytes": 7596,
+      "sources": [
+        "assets/starflight-v2/manifest.json"
+      ]
+    },
+    {
+      "archive": "assets/starflight-v2/wormhole--1871dc8594d6.png",
+      "sha256": "1871dc8594d6a8800c91867dd94ced50e83544f540f6c2e27c2b6d60cb17ebd4",
+      "bytes": 406396,
+      "sources": [
+        "assets/starflight-v2/wormhole.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight/background--192c9f540ae4.png",
+      "sha256": "192c9f540ae4646991a5913322c52db0aa9f16dffc66b152bed1e2a4f25f6ea0",
+      "bytes": 1416381,
+      "sources": [
+        "assets/starflight/background.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight/boss--e913edb3f140.png",
+      "sha256": "e913edb3f140504d6e849da72f52c6c969147c50bc6938112a57510e56442c12",
+      "bytes": 608060,
+      "sources": [
+        "assets/starflight/boss.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight/enemyBolt--c50c4b8ac841.png",
+      "sha256": "c50c4b8ac841b526f369a0524104690e85d021e5f26ed82bf6029110f86753c8",
+      "bytes": 12490,
+      "sources": [
+        "assets/starflight/enemyBolt.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight/exhaust--252f648d53c3.png",
+      "sha256": "252f648d53c366ac4a8455cae25b7079e233b1c61c4f81b8522acd0c4688334e",
+      "bytes": 31740,
+      "sources": [
+        "assets/starflight/exhaust.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight/gunship--2869c962612a.png",
+      "sha256": "2869c962612a3f8f34facf40171c96fd0a8d3654b0d91f6cb4dc8978e8fb294b",
+      "bytes": 237728,
+      "sources": [
+        "assets/starflight/gunship.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight/impact--241edd763031.png",
+      "sha256": "241edd7630312faeffa5e0cbfb4d1b9c791f897cc583a6a35b0404b33b6c79ae",
+      "bytes": 109015,
+      "sources": [
+        "assets/starflight/impact.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight/manifest--f4160cdaeef7.json",
+      "sha256": "f4160cdaeef735fa8632521f7aef8e007d0a5797720539e83e13250545c81c69",
+      "bytes": 8504,
+      "sources": [
+        "assets/starflight/manifest.json"
+      ]
+    },
+    {
+      "archive": "assets/starflight/player--ad4c0f3c8024.png",
+      "sha256": "ad4c0f3c8024b3dd011f643c81993244b928481bf07280946a232c0edfd1151a",
+      "bytes": 109559,
+      "sources": [
+        "assets/starflight/player.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight/playerBolt--bb10f150b860.png",
+      "sha256": "bb10f150b860ad6ca241b4e3eeca391297b2f5f5d8d2e1b1a3c5219baba56bba",
+      "bytes": 5454,
+      "sources": [
+        "assets/starflight/playerBolt.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight/scout--bbaacd73fa98.png",
+      "sha256": "bbaacd73fa98a8883ba219ba21505f94ab208949cdeea8305cf7005b1b3b42b7",
+      "bytes": 75710,
+      "sources": [
+        "assets/starflight/scout.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight/weapons/enemy--ead0fd9230cc.png",
+      "sha256": "ead0fd9230cca1474474f9583b83b43e700f106c46fa9307f9f3b0d1a1ab3ec3",
+      "bytes": 49242,
+      "sources": [
+        "assets/starflight/weapons/enemy.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight/weapons/explosion--9d4349c550d1.png",
+      "sha256": "9d4349c550d164a79dc2114606ecfb0e392c22cc324db19c369c5a90e21efc6a",
+      "bytes": 111849,
+      "sources": [
+        "assets/starflight/weapons/explosion.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight/weapons/hyper--84ca75357a42.png",
+      "sha256": "84ca75357a429e8242171a504ec7fef1b2c5e80065c06eeb8e9d26dbd46ea034",
+      "bytes": 65049,
+      "sources": [
+        "assets/starflight/weapons/hyper.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight/weapons/manifest--bef45a3dfc3a.json",
+      "sha256": "bef45a3dfc3a92bf96779f57c2c7204caf793c08dec48470a482b3e647c80365",
+      "bytes": 1453,
+      "sources": [
+        "assets/starflight/weapons/manifest.json"
+      ]
+    },
+    {
+      "archive": "assets/starflight/weapons/muzzle--1bbbfb1e754a.png",
+      "sha256": "1bbbfb1e754adf9363e0deed7e3d5635ba4f99c8385124ee07a8e451bd07614e",
+      "bytes": 79675,
+      "sources": [
+        "assets/starflight/weapons/muzzle.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight/weapons/plasma--a2eccb22f9a4.png",
+      "sha256": "a2eccb22f9a4d304cab4126774b184d205d489af0bbe211b3c2226abd0046fdf",
+      "bytes": 42013,
+      "sources": [
+        "assets/starflight/weapons/plasma.png"
+      ]
+    },
+    {
+      "archive": "assets/starflight/weapons/stasis--a257f356e0a5.png",
+      "sha256": "a257f356e0a549b1fec844bd6abb250cbfc28509a930bcac383acedae74530c3",
+      "bytes": 107564,
+      "sources": [
+        "assets/starflight/weapons/stasis.png"
+      ]
+    },
+    {
       "archive": "assets/weapon-vfx-v2/asset-report--4d0a510d7149.json",
       "sha256": "4d0a510d71499e6981c587ada1785fb46ed2f94b91a94800734e69dde9bb40f9",
       "bytes": 14828,
@@ -7021,6 +7309,62 @@
       "sources": [
         "art/space/weapons-v2/rejected-draft-01/reactor-impact-04.png",
         "design/phase1/weapon-vfx-v2/proof/reactor-impact-04.png"
+      ]
+    },
+    {
+      "archive": "sources/starflight-arsenal/source--05d3b21215bc.png",
+      "sha256": "05d3b21215bc2d0d2a1cdc948d7872b403c19f172b9eabe8748c5370509aafc9",
+      "bytes": 2074333,
+      "sources": [
+        "art/starflight-arsenal/source.png"
+      ]
+    },
+    {
+      "archive": "sources/starflight-v2/enemy-family-source-v1--87ab2adfeb5e.png",
+      "sha256": "87ab2adfeb5e2a4b51d89f7420f37ab26d3e04b33e4f3851e3b83b9dbce2d2d0",
+      "bytes": 2607461,
+      "sources": [
+        "art/starflight-v2/enemy-family-source-v1.png"
+      ]
+    },
+    {
+      "archive": "sources/starflight-v2/native-extraction-proof--44de464d918f.png",
+      "sha256": "44de464d918f7c0484495f6cb6895c85d04dea782a7e09367c06766636ffc0de",
+      "bytes": 1056604,
+      "sources": [
+        "art/starflight-v2/native-extraction-proof.png"
+      ]
+    },
+    {
+      "archive": "sources/starflight/background-source-v1--c0227809c33e.png",
+      "sha256": "c0227809c33ede959ab738f6ac1a234374fb58aa51bc622f42c4dd4020e61826",
+      "bytes": 1894010,
+      "sources": [
+        "art/starflight/background-source-v1.png"
+      ]
+    },
+    {
+      "archive": "sources/starflight/native-extraction-proof--11bf88dc03a3.png",
+      "sha256": "11bf88dc03a348e67cc6bfc1a77b52161d1e1a60991853e7b0368d748cba4f08",
+      "bytes": 1031552,
+      "sources": [
+        "art/starflight/native-extraction-proof.png"
+      ]
+    },
+    {
+      "archive": "sources/starflight/ships-source-v1--47ae97122b73.png",
+      "sha256": "47ae97122b73e03c306782b44016a72b71ce115117aeec0405798d9f3a7fcb9e",
+      "bytes": 1816533,
+      "sources": [
+        "art/starflight/ships-source-v1.png"
+      ]
+    },
+    {
+      "archive": "sources/starflight/weapons-source--aae9897b3521.png",
+      "sha256": "aae9897b3521b26fbe788b9b622b9e03c9fb588a9e8186e0bf77733423cfdfb4",
+      "bytes": 2314802,
+      "sources": [
+        "art/starflight/weapons-source.png"
       ]
     }
   ]

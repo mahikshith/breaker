@@ -8,3 +8,11 @@ assets/** -text
 art/brum.py -text
 art/frost_warden.py -text
 art/frost-warden/** -text
+art/starflight/** -text
+art/starflight-v2/** -text
+art/starflight-arsenal/** -text
+# Preserve the exact source hashes sealed by the standalone phone review.
+src/starflight/** -text
+prototypes/starflight/** -text
+tools/playtest/starflight.mjs -text
+docs/validation/starflight/** -text

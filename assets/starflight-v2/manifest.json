@@ -1,0 +1,333 @@
+{
+  "version": 1,
+  "status": "New sprite family; runtime admission and gameplay QA are separate",
+  "source": "art/starflight-v2/enemy-family-source-v1.png",
+  "sourceSHA256": "87ab2adfeb5e2a4b51d89f7420f37ab26d3e04b33e4f3851e3b83b9dbce2d2d0",
+  "pivotConvention": "Normalized centre of full padded runtime canvas; anchors use that same UV space",
+  "filter": "linear",
+  "ships": {
+    "beetle": {
+      "path": "assets/starflight-v2/beetle.png",
+      "size": [
+        320,
+        288
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        49,
+        44.1
+      ],
+      "facing": "down",
+      "role": "Armoured interceptor; paired downward barrel tips",
+      "sourceCrop": [
+        132,
+        16,
+        585,
+        400
+      ],
+      "sourceSHA256": "87ab2adfeb5e2a4b51d89f7420f37ab26d3e04b33e4f3851e3b83b9dbce2d2d0",
+      "sha256": "ec6d92ee04fa75c5c993c5d7e74a035f04b119846586dbcf1f170d5b3796f843",
+      "alphaBounds": [
+        16,
+        22,
+        304,
+        266
+      ],
+      "solidBounds": [
+        0.05625,
+        0.08680555555555555,
+        0.94375,
+        0.9166666666666666
+      ],
+      "muzzles": [
+        [
+          0.31026490066225165,
+          0.8838975694444444
+        ],
+        [
+          0.6917218543046357,
+          0.8883101851851852
+        ]
+      ],
+      "engines": [
+        [
+          0.39569536423841056,
+          0.12051504629629631
+        ],
+        [
+          0.6201986754966887,
+          0.12051504629629631
+        ]
+      ]
+    },
+    "frigate": {
+      "path": "assets/starflight-v2/frigate.png",
+      "size": [
+        448,
+        320
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        88,
+        62.857142857142854
+      ],
+      "facing": "down",
+      "role": "Broad missile frigate; two real three-tube launch racks",
+      "sourceCrop": [
+        632,
+        32,
+        1209,
+        398
+      ],
+      "sourceSHA256": "87ab2adfeb5e2a4b51d89f7420f37ab26d3e04b33e4f3851e3b83b9dbce2d2d0",
+      "sha256": "39b8f18aae4d4eedf5838a156ca4e97c87712d76ae13a53eacdef6424aac4f3f",
+      "alphaBounds": [
+        16,
+        28,
+        432,
+        292
+      ],
+      "solidBounds": [
+        0.04017857142857143,
+        0.09375,
+        0.9598214285714286,
+        0.9
+      ],
+      "muzzles": [
+        [
+          0.20147313691507798,
+          0.8065573770491803
+        ],
+        [
+          0.25136172319881156,
+          0.7930327868852459
+        ],
+        [
+          0.3028596187175043,
+          0.7817622950819672
+        ],
+        [
+          0.7051869274572915,
+          0.7817622950819672
+        ],
+        [
+          0.7550755137410251,
+          0.7952868852459016
+        ],
+        [
+          0.8065734092597178,
+          0.808811475409836
+        ]
+      ],
+      "engines": [
+        [
+          0.3157340925971775,
+          0.1461065573770492
+        ],
+        [
+          0.42999504827927704,
+          0.2024590163934426
+        ],
+        [
+          0.5764421886605595,
+          0.2069672131147541
+        ],
+        [
+          0.6955310720475365,
+          0.1461065573770492
+        ]
+      ],
+      "batteries": [
+        [
+          0.25136172319881156,
+          0.7930327868852459
+        ],
+        [
+          0.7550755137410251,
+          0.7952868852459016
+        ]
+      ]
+    },
+    "crescent": {
+      "path": "assets/starflight-v2/crescent.png",
+      "size": [
+        768,
+        544
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        236,
+        167.16666666666666
+      ],
+      "facing": "down",
+      "role": "Crescent siege cruiser; three real barrels and open forward notch",
+      "sourceCrop": [
+        53,
+        416,
+        678,
+        835
+      ],
+      "sourceSHA256": "87ab2adfeb5e2a4b51d89f7420f37ab26d3e04b33e4f3851e3b83b9dbce2d2d0",
+      "sha256": "82764e48f11428ffb321e35498030af46d1d39d7c307d2fb98e0c621c0eb018c",
+      "alphaBounds": [
+        16,
+        25,
+        752,
+        518
+      ],
+      "solidBounds": [
+        0.026041666666666668,
+        0.05330882352941176,
+        0.9752604166666666,
+        0.9448529411764706
+      ],
+      "muzzles": [
+        [
+          0.15883333333333333,
+          0.8981336866488839
+        ],
+        [
+          0.5023,
+          0.7013108942861155
+        ],
+        [
+          0.8457666666666667,
+          0.8981336866488839
+        ]
+      ],
+      "engines": [
+        [
+          0.38576666666666665,
+          0.10002807805699847
+        ],
+        [
+          0.6050333333333333,
+          0.10219096588516074
+        ]
+      ]
+    }
+  },
+  "environment": {
+    "asteroid": {
+      "path": "assets/starflight-v2/asteroid.png",
+      "size": [
+        384,
+        384
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        52,
+        52.0
+      ],
+      "facing": "radial",
+      "role": "Ferric physical asteroid; detached far chips excluded from main mass",
+      "sourceCrop": [
+        729,
+        400,
+        1177,
+        836
+      ],
+      "sourceSHA256": "87ab2adfeb5e2a4b51d89f7420f37ab26d3e04b33e4f3851e3b83b9dbce2d2d0",
+      "sha256": "ce56450e8fd4ea36ea1707ea73bff33bed2cb606f279d320a23c0d0030730346",
+      "alphaBounds": [
+        16,
+        20,
+        368,
+        363
+      ],
+      "solidBounds": [
+        0.049479166666666664,
+        0.057291666666666664,
+        0.953125,
+        0.9401041666666666
+      ]
+    },
+    "gravity": {
+      "path": "assets/starflight-v2/gravity.png",
+      "size": [
+        512,
+        448
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        160,
+        140.0
+      ],
+      "facing": "radial",
+      "role": "Gravity field source; soft volumetric image, no baked physical circle",
+      "sourceCrop": [
+        99,
+        789,
+        628,
+        1241
+      ],
+      "sourceSHA256": "87ab2adfeb5e2a4b51d89f7420f37ab26d3e04b33e4f3851e3b83b9dbce2d2d0",
+      "sha256": "b3e6054148856222ed9470ea7fbca52de1ac5fe6a1bf679ea636d139de157921",
+      "alphaBounds": [
+        16,
+        19,
+        496,
+        429
+      ],
+      "solidBounds": [
+        0.046875,
+        0.05580357142857143,
+        0.947265625,
+        0.9486607142857143
+      ]
+    },
+    "wormhole": {
+      "path": "assets/starflight-v2/wormhole.png",
+      "size": [
+        512,
+        448
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        160,
+        140.0
+      ],
+      "facing": "radial",
+      "role": "Folded dimensional tunnel source; visual effect, no implied teleport rule",
+      "sourceCrop": [
+        687,
+        810,
+        1174,
+        1244
+      ],
+      "sourceSHA256": "87ab2adfeb5e2a4b51d89f7420f37ab26d3e04b33e4f3851e3b83b9dbce2d2d0",
+      "sha256": "1871dc8594d6a8800c91867dd94ced50e83544f540f6c2e27c2b6d60cb17ebd4",
+      "alphaBounds": [
+        22,
+        16,
+        489,
+        432
+      ],
+      "solidBounds": [
+        0.05078125,
+        0.04241071428571429,
+        0.94921875,
+        0.9575892857142857
+      ]
+    }
+  },
+  "collisionNote": "solidBounds are measured alpha bounds, not a collider. Preserve the crescent notch; do not use a full bounding rectangle."
+}

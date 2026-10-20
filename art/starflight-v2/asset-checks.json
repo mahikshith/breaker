@@ -1,0 +1,50 @@
+{
+  "sourceSHA256": "87ab2adfeb5e2a4b51d89f7420f37ab26d3e04b33e4f3851e3b83b9dbce2d2d0",
+  "assets": {
+    "beetle": {
+      "bytes": 138163,
+      "metadata": {},
+      "edgeAlphaMax": 0,
+      "transparentFraction": 0.5033854166666667,
+      "decodedRGBABytes": 368640
+    },
+    "frigate": {
+      "bytes": 225969,
+      "metadata": {},
+      "edgeAlphaMax": 0,
+      "transparentFraction": 0.433154296875,
+      "decodedRGBABytes": 573440
+    },
+    "crescent": {
+      "bytes": 535768,
+      "metadata": {},
+      "edgeAlphaMax": 0,
+      "transparentFraction": 0.5262427236519608,
+      "decodedRGBABytes": 1671168
+    },
+    "asteroid": {
+      "bytes": 263130,
+      "metadata": {},
+      "edgeAlphaMax": 0,
+      "transparentFraction": 0.43585205078125,
+      "decodedRGBABytes": 589824
+    },
+    "gravity": {
+      "bytes": 409758,
+      "metadata": {},
+      "edgeAlphaMax": 0,
+      "transparentFraction": 0.3845302036830357,
+      "decodedRGBABytes": 917504
+    },
+    "wormhole": {
+      "bytes": 406396,
+      "metadata": {},
+      "edgeAlphaMax": 0,
+      "transparentFraction": 0.3815394810267857,
+      "decodedRGBABytes": 917504
+    }
+  },
+  "manifestSHA256": "54ee8471c06e7955dc2077173149624d012ee0737040fad71511940bb40c3fcb",
+  "totalBytes": 1979184,
+  "totalDecodedRGBABytes": 5038080
+}

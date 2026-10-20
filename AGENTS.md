@@ -15,6 +15,8 @@ BREACH is a premium portrait brick breaker for iOS and Android. It is plain JS o
 8. Current memory and detailed implementation: `docs/CONTINUE_HERE.md` and `docs/SPACE_COMBAT_HANDOFF.md`.
 9. Release status: `docs/MOBILE_PREVIEW.md`; future design proposals: `docs/NEXT_LEVELS.md`. Never treat a proposal or historical test result as a completed current feature.
 10. Frost Warden encounter, Yeti role distinction, physics and difficulty: `docs/BRUM_LEVEL_PLAN.md`.
+11. New direct-flight experiment: `docs/STARFLIGHT_PROTOTYPE.md`, `docs/STARFLIGHT_COMBAT.md` and `docs/STARFLIGHT_ART.md`. This browser prototype is separate from the five-chapter Android release.
+12. Latest campaign-design-first request: `docs/STARFLIGHT_CAMPAIGN.md`. Use the latest combat-first revision: the owner offered rescue/module progression as an example, not a requirement. Proposed authored chapters and equipment systems need their own implementation receipts; the combat prototype does not implement that campaign.
 
 ## Skills (read the matching SKILL.md before that kind of work)
 

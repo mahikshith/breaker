@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#060b16">
+<title>BREACH · Starflight</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<main id="flight" aria-label="Starflight battlefield">
+  <canvas id="game" aria-label="Drag to fly your starship. Weapons fire automatically."></canvas>
+  <header id="hud" hidden>
+    <button id="pause" class="icon-button" aria-label="Pause mission"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="M5 3h3v14H5zm7 0h3v14h-3z"/></svg></button>
+    <div class="telemetry"><span id="sector-label">CARRIER REACH</span><div id="hull" aria-label="Hull integrity"></div></div>
+    <div class="score"><small>SCORE</small><strong id="score">0</strong></div>
+  </header>
+  <div id="boss-hud" hidden><span id="boss-name">BLOCKADE COMMANDER</span><div><i id="boss-health"></i></div></div>
+  <div id="transmission" role="status" aria-live="polite"></div>
+  <nav id="arsenal" aria-label="Ship reactor" hidden>
+    <button id="reactor" aria-label="Open arsenal, reactor empty" aria-expanded="false" aria-controls="power-panel">
+      <svg class="charge-ring" viewBox="0 0 80 80" aria-hidden="true"><circle class="track" cx="40" cy="40" r="35"/><circle id="energy-fill" cx="40" cy="40" r="35" pathLength="100"/></svg>
+      <img src="../../assets/starflight/player.png" alt=""><span id="energy-value">0%</span>
+    </button>
+    <span id="energy-label">REACTOR</span>
+  </nav>
+  <section id="power-panel" role="dialog" aria-label="Choose one reactor weapon" hidden>
+    <div class="power-heading"><div><small>SHIP ARSENAL</small><h2>Choose your edge.</h2></div><button id="close-powers" aria-label="Close arsenal">×</button></div>
+    <div class="weapons">
+      <button data-power="laser"><img src="../../assets/starflight-arsenal/laser.png" alt=""><strong>Lance</strong><small>Piercing cannon</small><kbd>1</kbd></button>
+      <button data-power="seeker"><img src="../../assets/starflight-arsenal/seeker.png" alt=""><strong>Seekers</strong><small>Guided missiles</small><kbd>2</kbd></button>
+      <button data-power="spiral"><img src="../../assets/starflight-arsenal/spiral.png" alt=""><strong>Serpent</strong><small>Weaving barrage</small><kbd>3</kbd></button>
+      <button data-power="drones"><img src="../../assets/starflight-arsenal/drones.png" alt=""><strong>Wingmen</strong><small>Orbiting defence</small><kbd>4</kbd></button>
+      <button data-power="nova"><img src="../../assets/starflight-arsenal/nova.png" alt=""><strong>Nova</strong><small>Radial shockwave</small><kbd>5</kbd></button>
+      <button data-power="hyper"><img src="../../assets/starflight-arsenal/hyper.png" alt=""><strong>Hyper</strong><small>Five-barrel storm</small><kbd>6</kbd></button>
+      <button data-power="stasis"><img src="../../assets/starflight-arsenal/stasis.png" alt=""><strong>Stasis</strong><small>Slows hostile fire</small><kbd>7</kbd></button>
+    </div>
+    <p id="power-help">One full reactor charge · flight paused</p>
+  </section>
+  <section id="menu" class="overlay">
+    <div class="brief">
+      <p class="eyebrow">BREACH / FLIGHT OPERATIONS</p>
+      <h1>LAST<br><em>LIGHT.</em></h1>
+      <p class="lede">The crew is free.<br>The way home isn't.</p>
+      <p class="mission">Pilot the escort. Break three blockades.<br>Keep the evacuation route open.</p>
+      <div class="difficulty" role="group" aria-label="Difficulty">
+        <button data-mode="easy">Easy</button><button data-mode="medium" aria-pressed="true">Medium</button><button data-mode="hard">Hard</button>
+      </div>
+      <button id="launch" class="primary" disabled>PREPARING FLIGHT</button>
+      <p class="hint">Drag to fly · tap the reactor for weapons<br><span>Arrow keys / WASD · 1–7 weapons · E arsenal</span></p>
+      <a class="previous" href="../../dist/breach.html">Previous chapters ↗</a>
+    </div>
+  </section>
+  <section id="pause-panel" class="overlay dim" hidden>
+    <div class="dialog"><p class="eyebrow">FLIGHT SUSPENDED</p><h2>Take a breath.</h2><button id="resume" class="primary">RESUME</button><button id="retry">Retry mission</button><button id="sound" aria-pressed="false">Sound: on</button><button id="return">Flight briefing</button></div>
+  </section>
+  <section id="result" class="overlay dim" hidden>
+    <div class="dialog"><p class="eyebrow">SIGNAL LOST</p><h2>One more run.</h2><p id="result-stats"></p><button id="again" class="primary">RETRY MISSION</button><button id="briefing">Flight briefing</button></div>
+  </section>
+  <div id="loading-error" role="alert" hidden></div>
+  <section id="orientation" role="status"><h2>Rotate to fly.</h2><p>This mission uses portrait controls.</p></section>
+</main>
+<script type="module" src="./main.js"></script>
+</body>
+</html>

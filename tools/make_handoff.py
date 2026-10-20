@@ -5,6 +5,10 @@
 import subprocess
 
 PARTS = [('M', 'Current continuation memory', 'docs/CONTINUE_HERE.md'),
+         ('S', 'Starflight prototype and story', 'docs/STARFLIGHT_PROTOTYPE.md'),
+         ('T', 'Starflight combat contract', 'docs/STARFLIGHT_COMBAT.md'),
+         ('U', 'Starflight artwork pipeline', 'docs/STARFLIGHT_ART.md'),
+         ('V', 'Starflight campaign production plan', 'docs/STARFLIGHT_CAMPAIGN.md'),
          ('N', 'Space combat implementation details', 'docs/SPACE_COMBAT_HANDOFF.md'),
          ('O', 'Frost Warden encounter and physics', 'docs/BRUM_LEVEL_PLAN.md'),
          ('P', 'Next encounters and physics proposals', 'docs/NEXT_LEVELS.md'),

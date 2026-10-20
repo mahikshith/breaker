@@ -1,0 +1,393 @@
+{
+  "version": 1,
+  "status": "New shooter prototype raster family; actual gameplay/native review required",
+  "source": "art/starflight/ships-source-v1.png",
+  "sourceSHA256": "47ae97122b73e03c306782b44016a72b71ce115117aeec0405798d9f3a7fcb9e",
+  "pivotConvention": "normalized centre of runtime canvas; anchors normalized to same canvas",
+  "filter": "linear",
+  "ships": {
+    "player": {
+      "path": "assets/starflight/player.png",
+      "size": [
+        320,
+        288
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        54,
+        48.6
+      ],
+      "facing": "up",
+      "sourceCrop": [
+        77,
+        7,
+        557,
+        420
+      ],
+      "sourceSHA256": "47ae97122b73e03c306782b44016a72b71ce115117aeec0405798d9f3a7fcb9e",
+      "sha256": "ad4c0f3c8024b3dd011f643c81993244b928481bf07280946a232c0edfd1151a",
+      "solidBounds": [
+        0.05625,
+        0.10416666666666667,
+        0.94375,
+        0.8923611111111112
+      ],
+      "alphaBounds": [
+        16,
+        20,
+        304,
+        268
+      ],
+      "muzzles": [
+        [
+          0.348125,
+          0.22790556900726391
+        ],
+        [
+          0.655625,
+          0.22790556900726391
+        ]
+      ],
+      "engines": [
+        [
+          0.31437499999999996,
+          0.842984934086629
+        ],
+        [
+          0.665,
+          0.842984934086629
+        ]
+      ]
+    },
+    "scout": {
+      "path": "assets/starflight/scout.png",
+      "size": [
+        256,
+        288
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        36,
+        40.5
+      ],
+      "facing": "down",
+      "sourceCrop": [
+        756,
+        63,
+        1121,
+        433
+      ],
+      "sourceSHA256": "47ae97122b73e03c306782b44016a72b71ce115117aeec0405798d9f3a7fcb9e",
+      "sha256": "bbaacd73fa98a8883ba219ba21505f94ab208949cdeea8305cf7005b1b3b42b7",
+      "solidBounds": [
+        0.0703125,
+        0.11458333333333333,
+        0.9296875,
+        0.8715277777777778
+      ],
+      "alphaBounds": [
+        16,
+        30,
+        240,
+        257
+      ],
+      "muzzles": [
+        [
+          0.4964041095890411,
+          0.8497560060060061
+        ]
+      ],
+      "engines": [
+        [
+          0.36695205479452053,
+          0.14677177177177178
+        ],
+        [
+          0.6258561643835616,
+          0.14677177177177178
+        ]
+      ]
+    },
+    "gunship": {
+      "path": "assets/starflight/gunship.png",
+      "size": [
+        448,
+        384
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        72,
+        61.714285714285715
+      ],
+      "facing": "down",
+      "sourceCrop": [
+        46,
+        449,
+        586,
+        895
+      ],
+      "sourceSHA256": "47ae97122b73e03c306782b44016a72b71ce115117aeec0405798d9f3a7fcb9e",
+      "sha256": "2869c962612a3f8f34facf40171c96fd0a8d3654b0d91f6cb4dc8978e8fb294b",
+      "solidBounds": [
+        0.04017857142857143,
+        0.057291666666666664,
+        0.9575892857142857,
+        0.9192708333333334
+      ],
+      "alphaBounds": [
+        16,
+        20,
+        432,
+        364
+      ],
+      "muzzles": [
+        [
+          0.1818783068783069,
+          0.8836416292974589
+        ],
+        [
+          0.8043650793650794,
+          0.8876588191330343
+        ]
+      ],
+      "engines": [
+        [
+          0.32976190476190476,
+          0.11836696562032885
+        ],
+        [
+          0.6650793650793652,
+          0.1203755605381166
+        ]
+      ]
+    },
+    "boss": {
+      "path": "assets/starflight/boss.png",
+      "size": [
+        768,
+        576
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        248,
+        186.0
+      ],
+      "facing": "down",
+      "sourceCrop": [
+        617,
+        439,
+        1246,
+        909
+      ],
+      "sourceSHA256": "47ae97122b73e03c306782b44016a72b71ce115117aeec0405798d9f3a7fcb9e",
+      "sha256": "e913edb3f140504d6e849da72f52c6c969147c50bc6938112a57510e56442c12",
+      "solidBounds": [
+        0.03125,
+        0.050347222222222224,
+        0.96875,
+        0.9548611111111112
+      ],
+      "alphaBounds": [
+        20,
+        16,
+        748,
+        560
+      ],
+      "muzzles": [
+        [
+          0.3651215553789083,
+          0.8878250591016549
+        ],
+        [
+          0.5052745760466348,
+          0.9340425531914893
+        ],
+        [
+          0.6363854663487016,
+          0.8878250591016549
+        ]
+      ],
+      "engines": [
+        [
+          0.3847128378378379,
+          0.08002364066193854
+        ],
+        [
+          0.6303573794382618,
+          0.08002364066193854
+        ]
+      ]
+    }
+  },
+  "effects": {
+    "playerBolt": {
+      "path": "assets/starflight/playerBolt.png",
+      "size": [
+        64,
+        192
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        7,
+        21.0
+      ],
+      "facing": "up",
+      "sourceCrop": [
+        135,
+        928,
+        242,
+        1226
+      ],
+      "sourceSHA256": "47ae97122b73e03c306782b44016a72b71ce115117aeec0405798d9f3a7fcb9e",
+      "sha256": "bb10f150b860ad6ca241b4e3eeca391297b2f5f5d8d2e1b1a3c5219baba56bba",
+      "solidBounds": [
+        0.359375,
+        0.3020833333333333,
+        0.65625,
+        0.6822916666666666
+      ],
+      "alphaBounds": [
+        16,
+        51,
+        48,
+        140
+      ]
+    },
+    "enemyBolt": {
+      "path": "assets/starflight/enemyBolt.png",
+      "size": [
+        80,
+        224
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        12,
+        33.6
+      ],
+      "facing": "down",
+      "sourceCrop": [
+        396,
+        915,
+        523,
+        1243
+      ],
+      "sourceSHA256": "47ae97122b73e03c306782b44016a72b71ce115117aeec0405798d9f3a7fcb9e",
+      "sha256": "c50c4b8ac841b526f369a0524104690e85d021e5f26ed82bf6029110f86753c8",
+      "solidBounds": [
+        0.3,
+        0.29017857142857145,
+        0.7,
+        0.7410714285714286
+      ],
+      "alphaBounds": [
+        16,
+        50,
+        64,
+        174
+      ]
+    },
+    "impact": {
+      "path": "assets/starflight/impact.png",
+      "size": [
+        256,
+        256
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        48,
+        48.0
+      ],
+      "facing": "radial",
+      "sourceCrop": [
+        639,
+        927,
+        937,
+        1224
+      ],
+      "sourceSHA256": "47ae97122b73e03c306782b44016a72b71ce115117aeec0405798d9f3a7fcb9e",
+      "sha256": "241edd7630312faeffa5e0cbfb4d1b9c791f897cc583a6a35b0404b33b6c79ae",
+      "solidBounds": [
+        0.0859375,
+        0.09375,
+        0.9140625,
+        0.90234375
+      ],
+      "alphaBounds": [
+        16,
+        16,
+        240,
+        239
+      ]
+    },
+    "exhaust": {
+      "path": "assets/starflight/exhaust.png",
+      "size": [
+        128,
+        224
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "display": [
+        14,
+        24.5
+      ],
+      "facing": "down",
+      "sourceCrop": [
+        1013,
+        935,
+        1176,
+        1237
+      ],
+      "sourceSHA256": "47ae97122b73e03c306782b44016a72b71ce115117aeec0405798d9f3a7fcb9e",
+      "sha256": "252f648d53c366ac4a8455cae25b7079e233b1c61c4f81b8522acd0c4688334e",
+      "solidBounds": [
+        0.2265625,
+        0.125,
+        0.78125,
+        0.8125
+      ],
+      "alphaBounds": [
+        16,
+        23,
+        112,
+        201
+      ]
+    }
+  },
+  "background": {
+    "path": "assets/starflight/background.png",
+    "size": [
+      768,
+      1536
+    ],
+    "source": "art/starflight/background-source-v1.png",
+    "sourceSHA256": "c0227809c33ede959ab738f6ac1a234374fb58aa51bc622f42c4dd4020e61826",
+    "sha256": "192c9f540ae4646991a5913322c52db0aa9f16dffc66b152bed1e2a4f25f6ea0",
+    "scroll": "Top and bottom rows match exactly. Repeat vertically at any slow scroll rate. Only64px edge bands blend toward a shared row; the central1408px remain unchanged after resizing.",
+    "edgeBandPixels": 64,
+    "verticalEdgeMaxRGBDifference": 0
+  }
+}
