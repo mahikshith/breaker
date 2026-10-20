@@ -1,0 +1,368 @@
+{
+  "traces": [
+    {
+      "i": 0,
+      "mode": "pause"
+    },
+    {
+      "i": 1,
+      "mode": "pause"
+    },
+    {
+      "i": 2,
+      "mode": "pause"
+    },
+    {
+      "i": 3,
+      "mode": "pause"
+    },
+    {
+      "i": 4,
+      "mode": "pause"
+    },
+    {
+      "i": 5,
+      "mode": "pause"
+    }
+  ],
+  "events": [
+    {
+      "kind": "pointerdown",
+      "id": 4,
+      "primary": true,
+      "target": "game",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerup",
+      "id": 4,
+      "primary": true,
+      "target": "game",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerdown",
+      "id": 5,
+      "primary": true,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerup",
+      "id": 5,
+      "primary": true,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "click",
+      "id": 5,
+      "primary": false,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerdown",
+      "id": 6,
+      "primary": true,
+      "target": "resume",
+      "mode": "pause"
+    },
+    {
+      "kind": "pointerup",
+      "id": 6,
+      "primary": true,
+      "target": "resume",
+      "mode": "pause"
+    },
+    {
+      "kind": "click",
+      "id": 6,
+      "primary": false,
+      "target": "resume",
+      "mode": "pause"
+    },
+    {
+      "kind": "pointerdown",
+      "id": 7,
+      "primary": true,
+      "target": "game",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerup",
+      "id": 7,
+      "primary": true,
+      "target": "game",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerdown",
+      "id": 8,
+      "primary": true,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerup",
+      "id": 8,
+      "primary": true,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "click",
+      "id": 8,
+      "primary": false,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerdown",
+      "id": 9,
+      "primary": true,
+      "target": "resume",
+      "mode": "pause"
+    },
+    {
+      "kind": "pointerup",
+      "id": 9,
+      "primary": true,
+      "target": "resume",
+      "mode": "pause"
+    },
+    {
+      "kind": "click",
+      "id": 9,
+      "primary": false,
+      "target": "resume",
+      "mode": "pause"
+    },
+    {
+      "kind": "pointerdown",
+      "id": 10,
+      "primary": true,
+      "target": "game",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerup",
+      "id": 10,
+      "primary": true,
+      "target": "game",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerdown",
+      "id": 11,
+      "primary": true,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerup",
+      "id": 11,
+      "primary": true,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "click",
+      "id": 11,
+      "primary": false,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerdown",
+      "id": 12,
+      "primary": true,
+      "target": "resume",
+      "mode": "pause"
+    },
+    {
+      "kind": "pointerup",
+      "id": 12,
+      "primary": true,
+      "target": "resume",
+      "mode": "pause"
+    },
+    {
+      "kind": "click",
+      "id": 12,
+      "primary": false,
+      "target": "resume",
+      "mode": "pause"
+    },
+    {
+      "kind": "pointerdown",
+      "id": 13,
+      "primary": true,
+      "target": "game",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerup",
+      "id": 13,
+      "primary": true,
+      "target": "game",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerdown",
+      "id": 14,
+      "primary": true,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerup",
+      "id": 14,
+      "primary": true,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "click",
+      "id": 14,
+      "primary": false,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerdown",
+      "id": 15,
+      "primary": true,
+      "target": "resume",
+      "mode": "pause"
+    },
+    {
+      "kind": "pointerup",
+      "id": 15,
+      "primary": true,
+      "target": "resume",
+      "mode": "pause"
+    },
+    {
+      "kind": "click",
+      "id": 15,
+      "primary": false,
+      "target": "resume",
+      "mode": "pause"
+    },
+    {
+      "kind": "pointerdown",
+      "id": 16,
+      "primary": true,
+      "target": "game",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerup",
+      "id": 16,
+      "primary": true,
+      "target": "game",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerdown",
+      "id": 17,
+      "primary": true,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerup",
+      "id": 17,
+      "primary": true,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "click",
+      "id": 17,
+      "primary": false,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerdown",
+      "id": 18,
+      "primary": true,
+      "target": "resume",
+      "mode": "pause"
+    },
+    {
+      "kind": "pointerup",
+      "id": 18,
+      "primary": true,
+      "target": "resume",
+      "mode": "pause"
+    },
+    {
+      "kind": "click",
+      "id": 18,
+      "primary": false,
+      "target": "resume",
+      "mode": "pause"
+    },
+    {
+      "kind": "pointerdown",
+      "id": 19,
+      "primary": true,
+      "target": "game",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerup",
+      "id": 19,
+      "primary": true,
+      "target": "game",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerdown",
+      "id": 20,
+      "primary": true,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerup",
+      "id": 20,
+      "primary": true,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "click",
+      "id": 20,
+      "primary": false,
+      "target": "svg",
+      "mode": "play"
+    },
+    {
+      "kind": "pointerdown",
+      "id": 21,
+      "primary": true,
+      "target": "resume",
+      "mode": "pause"
+    },
+    {
+      "kind": "pointerup",
+      "id": 21,
+      "primary": true,
+      "target": "resume",
+      "mode": "pause"
+    },
+    {
+      "kind": "click",
+      "id": 21,
+      "primary": false,
+      "target": "resume",
+      "mode": "pause"
+    }
+  ],
+  "errors": [],
+  "network": []
+}

@@ -1,0 +1,7 @@
+{
+  "path": "prototypes/fantasy/render.js",
+  "before": "7b0e8d83a9cdb395bd0e215474ae58bf33d5d8f64886c37a87b656ede7c16a6c",
+  "after": "c81ab0f764609c939902e43d95c57d07dc5002d70d8116f6e6ee512bafe6a020",
+  "change": "Removed one redundant final blank line after completed browser seals. Runtime source is otherwise byte-identical.",
+  "identicalExcludingTrailingWhitespace": true
+}

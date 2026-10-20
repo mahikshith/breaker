@@ -1,0 +1,18 @@
+{
+  "scope": "Palette-only native capture refresh. Model and controls unchanged from completed six-case/earned receipt; does not claim another gameplay completion.",
+  "source": "46f6297072baf87b7c8d2e88875b3e1e4a7e99ec90a48f0ab3f5cf4be7ac65cf",
+  "render": "50dc1c8db12568d8c247d7e58c8770d43471a114517c7c0d49f9f51705e14f67",
+  "main": "ac70a63919de44d0d441f4555254d16181c234dcb4587a9ed92a725875ad4199",
+  "cases": [
+    {
+      "device": "ios",
+      "errors": [],
+      "bricks": 30
+    },
+    {
+      "device": "android",
+      "errors": [],
+      "bricks": 30
+    }
+  ]
+}

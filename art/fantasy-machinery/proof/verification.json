@@ -1,0 +1,322 @@
+{
+  "manifestSHA256": "b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13",
+  "selectedSources": 6,
+  "runtimePNGs": 29,
+  "files": {
+    "assets/fantasy-machinery/korr.png": {
+      "sha256": "e1f2ab4f5b5856c3c8562965bf4f3fa5bf11c6ee1b64a8c4b05dab379a7e7932",
+      "bytes": 961401,
+      "size": [
+        2048,
+        448
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/korr-idle.png": {
+      "sha256": "30e5da9d16d77937415b57c138b9e0c04c80da9d794b029ff215e398acb51fe4",
+      "bytes": 240852,
+      "size": [
+        512,
+        448
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/korr-windup.png": {
+      "sha256": "47c5e0598e4d4a6a09b73cfac57cb083fab846f99d9afe4c631a5292b730f0fa",
+      "bytes": 228578,
+      "size": [
+        512,
+        448
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/korr-release.png": {
+      "sha256": "eedd6b91a8d63d32c8e6456d9be97c4e16a8fddbffbae3262a24d090fcb049d0",
+      "bytes": 244416,
+      "size": [
+        512,
+        448
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/korr-stagger.png": {
+      "sha256": "a1743526bfaab5995dac29726d4b9b144086da936afab30dc1de016ce3daa8d1",
+      "bytes": 247862,
+      "size": [
+        512,
+        448
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/bell.png": {
+      "sha256": "f9ee6022f523dd6bfd92c8cbaec6f00a0a643fb26ab2ea04dd744c89313c8723",
+      "bytes": 85615,
+      "size": [
+        256,
+        256
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/ramp.png": {
+      "sha256": "d37022aa5f8ee4989727b6be1be7677af1c6f621d62f9829777b06c1697c9fda",
+      "bytes": 77579,
+      "size": [
+        512,
+        128
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/lift.png": {
+      "sha256": "b5c33657067673a42e6f6b75fa70dc0999bb70f99a0a7386c66c8f5639292069",
+      "bytes": 160530,
+      "size": [
+        384,
+        384
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/ratchet.png": {
+      "sha256": "0578c721ec5db079aa96eabf0fa3164c0a709eaffebaeaa4b7bf8173ec0d037b",
+      "bytes": 247824,
+      "size": [
+        384,
+        416
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/plinth.png": {
+      "sha256": "d9e3877ba5fa844813180aa343569da22a104826a3526d725452da0a27c3e989",
+      "bytes": 309882,
+      "size": [
+        768,
+        288
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/hopperStudy.png": {
+      "sha256": "bbc2d0f6d68002f741538b61178d3e8c030ff08503b94ef6c021cb298a1e67da",
+      "bytes": 278765,
+      "size": [
+        416,
+        432
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/releaseLever.png": {
+      "sha256": "a4a0add6dcb119f2ba43eea36155ae576940a4fead50b6de3884660971356b4b",
+      "bytes": 97709,
+      "size": [
+        384,
+        416
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/leverMount.png": {
+      "sha256": "9076a3a8c9ba77f0542af0ba730b3fcac532a79a4baf6f5ad9b71884994c8f88",
+      "bytes": 33747,
+      "size": [
+        384,
+        416
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/bellCradle.png": {
+      "sha256": "20cfb11d5e7c3595a4d52608e380e412da8796bae9a4943056aaa5151db44ab2",
+      "bytes": 437138,
+      "size": [
+        768,
+        576
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/bellforge-background.png": {
+      "sha256": "6189c80623faef82ee8bd7ba507b5380831d69fca0478518f96865d9644a2af2",
+      "bytes": 1067416,
+      "size": [
+        631,
+        1240
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/nerraBody.png": {
+      "sha256": "ef5644f573d6aebd83aa12080e42857123f0b35c328c0ad415a0e0c7775cee26",
+      "bytes": 537223,
+      "size": [
+        640,
+        576
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/crusherClaw.png": {
+      "sha256": "3ce2ce1fea400e7affe050363858f497e6527bb81e4f220d3094d7a9db8f2829",
+      "bytes": 229185,
+      "size": [
+        448,
+        416
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/gateClaw.png": {
+      "sha256": "eca4a8c12a9f320924c8b969ce70d0648c92fcaefef7444efea5674adc5d4da1",
+      "bytes": 177199,
+      "size": [
+        384,
+        416
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/wheel.png": {
+      "sha256": "1ca697216202ab97a24d2d05f0ff627f2403aca9890acaa2122a6291aff62207",
+      "bytes": 283303,
+      "size": [
+        384,
+        416
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/raft.png": {
+      "sha256": "6382b59723891f273b45b8049e6bc7830e29a72f01eda7e184bfec6d1a73d625",
+      "bytes": 267383,
+      "size": [
+        640,
+        256
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/gate.png": {
+      "sha256": "04cab2d6c478aad12857f634b1bc3de34dae2342bb71b4125a229338ac2f9edc",
+      "bytes": 239373,
+      "size": [
+        352,
+        416
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/counterweight.png": {
+      "sha256": "07fb3238f63e90620e5a2c05a2ac618e967faac19d5edb001b2975e6f580f295",
+      "bytes": 179938,
+      "size": [
+        320,
+        352
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/brick-coral.png": {
+      "sha256": "ccbed3518f64f3294b6f00878bf2eb0a2440824633fb62af063282a3244f495b",
+      "bytes": 57897,
+      "size": [
+        304,
+        176
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/brick-sage.png": {
+      "sha256": "4f7b5b5a1aa0dac23f5f503d74bb1a00a3e39bb8c0f783008e4a8c831c453bf1",
+      "bytes": 58743,
+      "size": [
+        304,
+        176
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/brick-ivory.png": {
+      "sha256": "ccd4cc382b0f7b141d7ab56402a0f004cbf5733e88c4bd6abdc72dd79335f54b",
+      "bytes": 50855,
+      "size": [
+        304,
+        176
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/sluiceWall.png": {
+      "sha256": "9603f5603b9a3c0cdef37557aa1c6b7728659a4f0497cca5e5706844426b8323",
+      "bytes": 662376,
+      "size": [
+        1024,
+        448
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/refugeBalcony.png": {
+      "sha256": "df3dca5a324254baf52e638dd4268a9bb77e90dea07f8c247309e518bea4edca",
+      "bytes": 232265,
+      "size": [
+        416,
+        384
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/gateFrame.png": {
+      "sha256": "87dbdf9ca72795366a1794bbcb36dc86e8399c591ac99d2d7db72a312e788a86",
+      "bytes": 211863,
+      "size": [
+        352,
+        544
+      ],
+      "metadata": {}
+    },
+    "assets/fantasy-machinery/tidewheel-background.png": {
+      "sha256": "c11ddbb3f2f583576e9b03436c4aad132018f70576f4cc84c68e8651520de7da",
+      "bytes": 1102812,
+      "size": [
+        632,
+        1240
+      ],
+      "metadata": {}
+    }
+  },
+  "geometry": {
+    "korr-idle": {
+      "disks": 49,
+      "allDisksOpaque": true,
+      "normal6uCoverage": 1.0,
+      "maximumOpaqueGap": 5.759309328715214
+    },
+    "korr-windup": {
+      "disks": 48,
+      "allDisksOpaque": true,
+      "normal6uCoverage": 1.0,
+      "maximumOpaqueGap": 4.496200978460841
+    },
+    "korr-release": {
+      "disks": 51,
+      "allDisksOpaque": true,
+      "normal6uCoverage": 1.0,
+      "maximumOpaqueGap": 4.55786136983302
+    },
+    "korr-stagger": {
+      "disks": 49,
+      "allDisksOpaque": true,
+      "normal6uCoverage": 1.0,
+      "maximumOpaqueGap": 4.3715136946309805
+    },
+    "nerraBody-": {
+      "disks": 80,
+      "allDisksOpaque": true,
+      "normal6uCoverage": 0.9978733006148812,
+      "maximumOpaqueGap": 9.74723811558545
+    },
+    "crusherClaw-": {
+      "disks": 63,
+      "allDisksOpaque": true,
+      "normal6uCoverage": 1.0,
+      "maximumOpaqueGap": 1.99892220598709
+    },
+    "gateClaw-": {
+      "disks": 64,
+      "allDisksOpaque": true,
+      "normal6uCoverage": 1.0,
+      "maximumOpaqueGap": 2.0795461030352715
+    }
+  },
+  "trueAlphaHoles": {
+    "sluiceWall": 0,
+    "gateFrame": 0
+  },
+  "bellInitialClearance": 14.66524526100431,
+  "limits": [
+    "Keyed raster poses, not a skeletal rig",
+    "Rear-stage rack; full straight vertical aperture is not proved",
+    "Staged native art proof is not earned gameplay or human balance approval"
+  ]
+}

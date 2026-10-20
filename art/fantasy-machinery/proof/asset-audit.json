@@ -1,0 +1,380 @@
+{
+  "assets": {
+    "bell.png": {
+      "sha256": "f9ee6022f523dd6bfd92c8cbaec6f00a0a643fb26ab2ea04dd744c89313c8723",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 85615,
+      "decodedBytes": 262144,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "bellCradle.png": {
+      "sha256": "20cfb11d5e7c3595a4d52608e380e412da8796bae9a4943056aaa5151db44ab2",
+      "size": [
+        768,
+        576
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 437138,
+      "decodedBytes": 1769472,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "bellforge-background.png": {
+      "sha256": "6189c80623faef82ee8bd7ba507b5380831d69fca0478518f96865d9644a2af2",
+      "size": [
+        631,
+        1240
+      ],
+      "mode": "RGB",
+      "metadata": {},
+      "bytes": 1067416,
+      "decodedBytes": 2347320
+    },
+    "brick-coral.png": {
+      "sha256": "ccbed3518f64f3294b6f00878bf2eb0a2440824633fb62af063282a3244f495b",
+      "size": [
+        304,
+        176
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 57897,
+      "decodedBytes": 214016,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "brick-ivory.png": {
+      "sha256": "ccd4cc382b0f7b141d7ab56402a0f004cbf5733e88c4bd6abdc72dd79335f54b",
+      "size": [
+        304,
+        176
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 50855,
+      "decodedBytes": 214016,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "brick-sage.png": {
+      "sha256": "4f7b5b5a1aa0dac23f5f503d74bb1a00a3e39bb8c0f783008e4a8c831c453bf1",
+      "size": [
+        304,
+        176
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 58743,
+      "decodedBytes": 214016,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "counterweight.png": {
+      "sha256": "07fb3238f63e90620e5a2c05a2ac618e967faac19d5edb001b2975e6f580f295",
+      "size": [
+        320,
+        352
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 179938,
+      "decodedBytes": 450560,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "crusherClaw.png": {
+      "sha256": "3ce2ce1fea400e7affe050363858f497e6527bb81e4f220d3094d7a9db8f2829",
+      "size": [
+        448,
+        416
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 229185,
+      "decodedBytes": 745472,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "gate.png": {
+      "sha256": "04cab2d6c478aad12857f634b1bc3de34dae2342bb71b4125a229338ac2f9edc",
+      "size": [
+        352,
+        416
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 239373,
+      "decodedBytes": 585728,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "gateClaw.png": {
+      "sha256": "eca4a8c12a9f320924c8b969ce70d0648c92fcaefef7444efea5674adc5d4da1",
+      "size": [
+        384,
+        416
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 177199,
+      "decodedBytes": 638976,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "gateFrame.png": {
+      "sha256": "87dbdf9ca72795366a1794bbcb36dc86e8399c591ac99d2d7db72a312e788a86",
+      "size": [
+        352,
+        544
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 211863,
+      "decodedBytes": 765952,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "hopperStudy.png": {
+      "sha256": "bbc2d0f6d68002f741538b61178d3e8c030ff08503b94ef6c021cb298a1e67da",
+      "size": [
+        416,
+        432
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 278765,
+      "decodedBytes": 718848,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "korr-idle.png": {
+      "sha256": "30e5da9d16d77937415b57c138b9e0c04c80da9d794b029ff215e398acb51fe4",
+      "size": [
+        512,
+        448
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 240852,
+      "decodedBytes": 917504,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "korr-release.png": {
+      "sha256": "eedd6b91a8d63d32c8e6456d9be97c4e16a8fddbffbae3262a24d090fcb049d0",
+      "size": [
+        512,
+        448
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 244416,
+      "decodedBytes": 917504,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "korr-stagger.png": {
+      "sha256": "a1743526bfaab5995dac29726d4b9b144086da936afab30dc1de016ce3daa8d1",
+      "size": [
+        512,
+        448
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 247862,
+      "decodedBytes": 917504,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "korr-windup.png": {
+      "sha256": "47c5e0598e4d4a6a09b73cfac57cb083fab846f99d9afe4c631a5292b730f0fa",
+      "size": [
+        512,
+        448
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 228578,
+      "decodedBytes": 917504,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "korr.png": {
+      "sha256": "e1f2ab4f5b5856c3c8562965bf4f3fa5bf11c6ee1b64a8c4b05dab379a7e7932",
+      "size": [
+        2048,
+        448
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 961401,
+      "decodedBytes": 3670016,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "leverMount.png": {
+      "sha256": "9076a3a8c9ba77f0542af0ba730b3fcac532a79a4baf6f5ad9b71884994c8f88",
+      "size": [
+        384,
+        416
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 33747,
+      "decodedBytes": 638976,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "lift.png": {
+      "sha256": "b5c33657067673a42e6f6b75fa70dc0999bb70f99a0a7386c66c8f5639292069",
+      "size": [
+        384,
+        384
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 160530,
+      "decodedBytes": 589824,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "nerraBody.png": {
+      "sha256": "ef5644f573d6aebd83aa12080e42857123f0b35c328c0ad415a0e0c7775cee26",
+      "size": [
+        640,
+        576
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 537223,
+      "decodedBytes": 1474560,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "plinth.png": {
+      "sha256": "d9e3877ba5fa844813180aa343569da22a104826a3526d725452da0a27c3e989",
+      "size": [
+        768,
+        288
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 309882,
+      "decodedBytes": 884736,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "raft.png": {
+      "sha256": "6382b59723891f273b45b8049e6bc7830e29a72f01eda7e184bfec6d1a73d625",
+      "size": [
+        640,
+        256
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 267383,
+      "decodedBytes": 655360,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "ramp.png": {
+      "sha256": "d37022aa5f8ee4989727b6be1be7677af1c6f621d62f9829777b06c1697c9fda",
+      "size": [
+        512,
+        128
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 77579,
+      "decodedBytes": 262144,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "ratchet.png": {
+      "sha256": "0578c721ec5db079aa96eabf0fa3164c0a709eaffebaeaa4b7bf8173ec0d037b",
+      "size": [
+        384,
+        416
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 247824,
+      "decodedBytes": 638976,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "refugeBalcony.png": {
+      "sha256": "df3dca5a324254baf52e638dd4268a9bb77e90dea07f8c247309e518bea4edca",
+      "size": [
+        416,
+        384
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 232265,
+      "decodedBytes": 638976,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "releaseLever.png": {
+      "sha256": "a4a0add6dcb119f2ba43eea36155ae576940a4fead50b6de3884660971356b4b",
+      "size": [
+        384,
+        416
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 97709,
+      "decodedBytes": 638976,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "sluiceWall.png": {
+      "sha256": "9603f5603b9a3c0cdef37557aa1c6b7728659a4f0497cca5e5706844426b8323",
+      "size": [
+        1024,
+        448
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 662376,
+      "decodedBytes": 1835008,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    },
+    "tidewheel-background.png": {
+      "sha256": "c11ddbb3f2f583576e9b03436c4aad132018f70576f4cc84c68e8651520de7da",
+      "size": [
+        632,
+        1240
+      ],
+      "mode": "RGB",
+      "metadata": {},
+      "bytes": 1102812,
+      "decodedBytes": 2351040
+    },
+    "wheel.png": {
+      "sha256": "1ca697216202ab97a24d2d05f0ff627f2403aca9890acaa2122a6291aff62207",
+      "size": [
+        384,
+        416
+      ],
+      "mode": "RGBA",
+      "metadata": {},
+      "bytes": 283303,
+      "decodedBytes": 638976,
+      "edgeAlphaMax": 0,
+      "hiddenRGBNonzero": 0
+    }
+  },
+  "encodedBytes": 9009729,
+  "decodedBytes": 27514104,
+  "scope": "Source/native staged art fixtures; actual gameplay QA is separate."
+}

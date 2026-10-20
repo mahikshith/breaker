@@ -1,0 +1,44 @@
+{
+  "korr-idle": {
+    "disks": 49,
+    "opaqueCoverage": 0.9212761047652014,
+    "normal6uCoverage": 1.0,
+    "maxGap": 5.759309328715214
+  },
+  "korr-windup": {
+    "disks": 48,
+    "opaqueCoverage": 0.910100165903676,
+    "normal6uCoverage": 1.0,
+    "maxGap": 4.496200978460841
+  },
+  "korr-release": {
+    "disks": 51,
+    "opaqueCoverage": 0.91677471636953,
+    "normal6uCoverage": 1.0,
+    "maxGap": 4.55786136983302
+  },
+  "korr-stagger": {
+    "disks": 49,
+    "opaqueCoverage": 0.9152924819656064,
+    "normal6uCoverage": 1.0,
+    "maxGap": 4.3715136946309805
+  },
+  "nerraBody-": {
+    "disks": 80,
+    "opaqueCoverage": 0.8330456365995375,
+    "normal6uCoverage": 0.9978733006148812,
+    "maxGap": 9.74723811558545
+  },
+  "crusherClaw-": {
+    "disks": 63,
+    "opaqueCoverage": 0.9234180609882131,
+    "normal6uCoverage": 1.0,
+    "maxGap": 1.99892220598709
+  },
+  "gateClaw-": {
+    "disks": 64,
+    "opaqueCoverage": 0.8968515899208969,
+    "normal6uCoverage": 1.0,
+    "maxGap": 2.0795461030352715
+  }
+}

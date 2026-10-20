@@ -1,0 +1,90 @@
+{
+  "scope": "Bounded real requestAnimationFrame,4 gameplay seconds per desktop Chromium phone viewport, DPR2. Callback CPU/submission cost and browser cadence only; no physical-phone/GPU completion/memory/frame-rate guarantee. No concurrent benchmark load is intended.",
+  "before": {
+    "src/fantasy/tidewheel.js": "c216f74972ae53d65d762969284d215561e84b5f64a144bf0da101122183dbf1",
+    "src/fantasy/tidewheel-v2-geometry.js": "be9dbe700427fd3e5c89d72dbee0328105d2c0fe54732d88ee17cfd7174d7cd8",
+    "prototypes/fantasy/main.js": "d38c814b22c15ef54a68250190061fb05df661fd3103180451a8061cc57fafa6",
+    "prototypes/fantasy/render.js": "7b0e8d83a9cdb395bd0e215474ae58bf33d5d8f64886c37a87b656ede7c16a6c",
+    "assets/fantasy-machinery/manifest.json": "b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13"
+  },
+  "phones": [
+    {
+      "device": "ios",
+      "viewport": {
+        "width": 393,
+        "height": 852
+      },
+      "stats": {
+        "callbackCPUms": {
+          "n": 239,
+          "min": 1.399999976158142,
+          "median": 2.8000000715255737,
+          "p95": 5.299999952316284,
+          "p99": 10.5,
+          "max": 15.799999952316284,
+          "mean": 3.14016736451552
+        },
+        "RAFIntervalMs": {
+          "n": 238,
+          "min": 16.199999999999818,
+          "median": 16.699999999999818,
+          "p95": 16.899999999999864,
+          "p99": 17.199999999999818,
+          "max": 33.30000000000007,
+          "mean": 16.736134453781492
+        }
+      },
+      "gameTime": 4.1166000000000365,
+      "targets": 222,
+      "actorDisks": 190,
+      "phase": "play",
+      "state": "play",
+      "errors": []
+    },
+    {
+      "device": "android",
+      "viewport": {
+        "width": 412,
+        "height": 915
+      },
+      "stats": {
+        "callbackCPUms": {
+          "n": 240,
+          "min": 1.3000000715255737,
+          "median": 4,
+          "p95": 7.5,
+          "p99": 13,
+          "max": 19.100000023841858,
+          "mean": 4.325833329061667
+        },
+        "RAFIntervalMs": {
+          "n": 239,
+          "min": 16.199999999999818,
+          "median": 16.699999999999818,
+          "p95": 17,
+          "p99": 17.199999999999818,
+          "max": 17.200000000000273,
+          "mean": 16.667782426778214
+        }
+      },
+      "gameTime": 4.0836000000000165,
+      "targets": 219,
+      "actorDisks": 190,
+      "phase": "play",
+      "state": "play",
+      "errors": []
+    }
+  ],
+  "after": {
+    "src/fantasy/tidewheel.js": "c216f74972ae53d65d762969284d215561e84b5f64a144bf0da101122183dbf1",
+    "src/fantasy/tidewheel-v2-geometry.js": "be9dbe700427fd3e5c89d72dbee0328105d2c0fe54732d88ee17cfd7174d7cd8",
+    "prototypes/fantasy/main.js": "d38c814b22c15ef54a68250190061fb05df661fd3103180451a8061cc57fafa6",
+    "prototypes/fantasy/render.js": "7b0e8d83a9cdb395bd0e215474ae58bf33d5d8f64886c37a87b656ede7c16a6c",
+    "assets/fantasy-machinery/manifest.json": "b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13"
+  },
+  "stable": true,
+  "rawReceipt": {
+    "path": "out/fantasy-review/tide-final-profile/report.json",
+    "sha256": "7288506e54089f5f026fc32899c021fcf2877c5c20e1c8a460cde641b440026a"
+  }
+}

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101622">
+<title>BREACH · The Lost Keeps</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<main id="encounter">
+  <canvas id="game" aria-label="Drag to move the paddle. Tap to launch."></canvas>
+  <header id="hud" hidden><button id="pause" aria-label="Pause">Ⅱ</button><span id="lives" aria-label="Three lives">♥ ♥ ♥</span><span id="score">0</span></header>
+  <button id="kit" aria-label="Kit's power, charging" hidden><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="35"/><circle id="charge" cx="40" cy="40" r="35" pathLength="100"/></svg><img src="../../assets/kit/faces/Focus_face_00.png" alt=""></button>
+  <p id="cue" role="status"></p>
+  <section id="menu" class="overlay"><div class="card">
+    <p class="eyebrow">BREACH / THE LOST KEEPS</p><h1 id="title">Bellforge<br>Run</h1><p id="story"></p>
+    <nav class="levels"><a href="?level=bellforge">Bellforge Run</a><a href="?level=tidewheel">Tidewheel Citadel</a></nav>
+    <div class="modes" role="group" aria-label="Difficulty"><button data-mode="easy" aria-pressed="true">Easy</button><button data-mode="medium" aria-pressed="false">Medium</button><button data-mode="hard" aria-pressed="false">Hard</button></div>
+    <button id="start" class="primary" disabled>Preparing the keep…</button><p class="help">Drag to move · tap to launch<br>Kit charges as you strike.</p>
+  </div></section>
+  <section id="paused" class="overlay shade" hidden><div class="card"><p class="eyebrow">THE KEEP CAN WAIT</p><h2>Take a breath.</h2><button id="resume" class="primary">Resume</button><button id="retry">Retry encounter</button><button id="sound">Sound: on</button><button id="home">Choose a keep</button></div></section>
+  <section id="power" class="overlay shade" hidden><div class="card"><p class="eyebrow">KIT'S DEFENCE</p><h2 id="power-title"></h2><p id="power-copy"></p><button id="cast" class="primary"></button><button id="close-power">Return</button></div></section>
+  <section id="result" class="overlay shade" hidden><div class="card"><p id="result-label" class="eyebrow"></p><h2 id="result-title"></h2><p id="result-copy"></p><button id="continue" class="primary">Continue once</button><button id="again">Retry encounter</button><button id="back">Choose a keep</button></div></section>
+  <p id="error" role="alert" hidden></p>
+</main>
+<script type="module" src="./main.js"></script>
+</body>
+</html>

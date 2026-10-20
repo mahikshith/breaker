@@ -119,9 +119,9 @@ export function drawDrones(ctx, images, game) {
     stamp(ctx, images.drone, drone.x, drone.y, size, size, -Math.PI / 2 + bank, alpha);
     const fired = .6 - (drone.fireAt - game.time);
     if (fired >= 0 && fired < .11) {
-      const muzzleY = drone.y - 7, a = (1 - fired / .11) * alpha;
-      stamp(ctx, images.muzzle, drone.x, muzzleY, 16, 16, 0, a * .65);
-      bloom(ctx, drone.x, muzzleY, 6, '#a5f8ff', a * .6);
+      const muzzle=drone.muzzle||{x:drone.x,y:drone.y-7},a=(1-fired/.11)*alpha;
+      stamp(ctx, images.muzzle, muzzle.x, muzzle.y, 16, 16, 0, a * .65);
+      bloom(ctx, muzzle.x, muzzle.y, 6, '#a5f8ff', a * .6);
     }
     if (drone.hp < drone.maxHP) bloom(ctx, drone.x, drone.y + 3, 4, '#ffb994', alpha * .35);
   }

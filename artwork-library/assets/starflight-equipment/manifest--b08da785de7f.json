@@ -1,0 +1,146 @@
+{
+  "version": 1,
+  "source": "art/starflight-equipment/source-v1.png",
+  "sourceSHA256": "92b62ad01ffc94f79a39458e80b4be9301986d2dc82c95b3c73e50995dc045d9",
+  "facing": "up",
+  "filter": "linear",
+  "parts": {
+    "guided": {
+      "path": "assets/starflight-equipment/guided.png",
+      "size": [
+        128,
+        256
+      ],
+      "display": [
+        17,
+        34
+      ],
+      "pivot": [
+        0.49609375,
+        0.0703125
+      ],
+      "sourceRegion": [
+        0,
+        0,
+        627,
+        655
+      ],
+      "sourceCrop": [
+        217,
+        92,
+        462,
+        641
+      ],
+      "alphaBounds": [
+        12,
+        12,
+        116,
+        244
+      ],
+      "sha256": "48d631f219c05e87ea76cc7cfb986a49293d3201414d8a1df0e189b5a39cb619"
+    },
+    "ricochet": {
+      "path": "assets/starflight-equipment/ricochet.png",
+      "size": [
+        128,
+        256
+      ],
+      "display": [
+        21,
+        42
+      ],
+      "pivot": [
+        0.4921875,
+        0.07421875
+      ],
+      "sourceRegion": [
+        627,
+        0,
+        1254,
+        700
+      ],
+      "sourceCrop": [
+        160,
+        25,
+        459,
+        684
+      ],
+      "alphaBounds": [
+        12,
+        13,
+        116,
+        242
+      ],
+      "sha256": "c9d89d07fc8cf64bfa6ca0353c91c2468bbc6bdca1c1e6c3991e0eff7c7d7802"
+    },
+    "shield": {
+      "path": "assets/starflight-equipment/shield.png",
+      "size": [
+        256,
+        256
+      ],
+      "display": [
+        79,
+        79
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceRegion": [
+        0,
+        655,
+        627,
+        1254
+      ],
+      "sourceCrop": [
+        89,
+        16,
+        592,
+        520
+      ],
+      "alphaBounds": [
+        12,
+        12,
+        244,
+        244
+      ],
+      "sha256": "42b8391921c3247ff5ba70eb509e307084fedd499d32564ba444c272ca63de56"
+    },
+    "capsule": {
+      "path": "assets/starflight-equipment/capsule.png",
+      "size": [
+        192,
+        192
+      ],
+      "display": [
+        30,
+        30
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "sourceRegion": [
+        627,
+        700,
+        1254,
+        1254
+      ],
+      "sourceCrop": [
+        97,
+        23,
+        530,
+        439
+      ],
+      "alphaBounds": [
+        12,
+        15,
+        180,
+        176
+      ],
+      "sha256": "f55df7cc3aa327ba21da21bb8a64dd910f2aa0243eb1681c67a403433d156733"
+    }
+  },
+  "limits": "Missile pivot is the nose contact point; rear body and glow are cosmetic. Shield is rendered on the ship only while actual shield charges exist. Capsule frame is equipment housing, not attraction radius."
+}

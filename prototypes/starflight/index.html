@@ -24,12 +24,14 @@
     </button>
     <span id="energy-label">REACTOR</span>
   </nav>
-  <section id="power-panel" role="dialog" aria-label="Choose one reactor weapon" hidden>
-    <div class="power-heading"><div><small>SHIP ARSENAL</small><h2>Choose your edge.</h2></div><button id="close-powers" aria-label="Close arsenal">×</button></div>
+  <section id="power-panel" role="dialog" aria-modal="true" aria-label="Choose a ship weapon" hidden>
+    <div class="power-heading"><div><small>FLIGHT SYSTEMS / ARMAMENT</small><h2>Weapon bay</h2></div><button id="close-powers" aria-label="Close arsenal">×</button></div>
     <div class="weapons">
+      <button data-power="storm" data-mission><img src="../../assets/starflight-storm/storm-icon.png" alt=""><strong>Stormwing</strong><small>Detach · sweep · return</small><kbd>8</kbd></button>
+      <button data-power="ricochet" data-mission><img src="../../assets/starflight-equipment/ricochet.png" alt=""><strong>Ricochet</strong><small>Wall-bouncing lance</small><kbd>9</kbd></button>
       <button data-power="laser"><img src="../../assets/starflight-arsenal/laser.png" alt=""><strong>Lance</strong><small>Piercing cannon</small><kbd>1</kbd></button>
       <button data-power="seeker"><img src="../../assets/starflight-arsenal/seeker.png" alt=""><strong>Seekers</strong><small>Guided missiles</small><kbd>2</kbd></button>
-      <button data-power="spiral"><img src="../../assets/starflight-arsenal/spiral.png" alt=""><strong>Serpent</strong><small>Weaving barrage</small><kbd>3</kbd></button>
+      <button data-power="spiral"><img src="../../assets/starflight-equipment/guided.png" alt=""><strong>Trident</strong><small>Three guided missiles</small><kbd>3</kbd></button>
       <button data-power="drones"><img src="../../assets/starflight-arsenal/drones.png" alt=""><strong>Wingmen</strong><small>Orbiting defence</small><kbd>4</kbd></button>
       <button data-power="nova"><img src="../../assets/starflight-arsenal/nova.png" alt=""><strong>Nova</strong><small>Radial shockwave</small><kbd>5</kbd></button>
       <button data-power="hyper"><img src="../../assets/starflight-arsenal/hyper.png" alt=""><strong>Hyper</strong><small>Five-barrel storm</small><kbd>6</kbd></button>
@@ -41,13 +43,13 @@
     <div class="brief">
       <p class="eyebrow">BREACH / FLIGHT OPERATIONS</p>
       <h1>LAST<br><em>LIGHT.</em></h1>
-      <p class="lede">The crew is free.<br>The way home isn't.</p>
-      <p class="mission">Pilot the escort. Break three blockades.<br>Keep the evacuation route open.</p>
+      <p class="lede">One gate. A stranded fleet.<br>You open the way.</p>
+      <p class="mission">Break the patrol. Silence the batteries.<br>Bring down Veyr's command ship.</p>
       <div class="difficulty" role="group" aria-label="Difficulty">
         <button data-mode="easy">Easy</button><button data-mode="medium" aria-pressed="true">Medium</button><button data-mode="hard">Hard</button>
       </div>
       <button id="launch" class="primary" disabled>PREPARING FLIGHT</button>
-      <p class="hint">Drag to fly · tap the reactor for weapons<br><span>Arrow keys / WASD · 1–7 weapons · E arsenal</span></p>
+      <p class="hint">Drag to fly · collect weapons · tap the ship icon<br><span>Arrow keys / WASD · 1–9 weapons · E arsenal</span></p>
       <a class="previous" href="../../dist/breach.html">Previous chapters ↗</a>
     </div>
   </section>
@@ -55,7 +57,7 @@
     <div class="dialog"><p class="eyebrow">FLIGHT SUSPENDED</p><h2>Take a breath.</h2><button id="resume" class="primary">RESUME</button><button id="retry">Retry mission</button><button id="sound" aria-pressed="false">Sound: on</button><button id="return">Flight briefing</button></div>
   </section>
   <section id="result" class="overlay dim" hidden>
-    <div class="dialog"><p class="eyebrow">SIGNAL LOST</p><h2>One more run.</h2><p id="result-stats"></p><button id="again" class="primary">RETRY MISSION</button><button id="briefing">Flight briefing</button></div>
+    <div class="dialog"><p id="result-label" class="eyebrow">SIGNAL LOST</p><h2 id="result-title">One more run.</h2><p id="result-stats"></p><button id="again" class="primary">RETRY MISSION</button><button id="briefing">Flight briefing</button></div>
   </section>
   <div id="loading-error" role="alert" hidden></div>
   <section id="orientation" role="status"><h2>Rotate to fly.</h2><p>This mission uses portrait controls.</p></section>

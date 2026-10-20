@@ -5,6 +5,13 @@
 import subprocess
 
 PARTS = [('M', 'Current continuation memory', 'docs/CONTINUE_HERE.md'),
+         ('Q', 'Approved new keep references', 'design/phase1/princess-two-levels.md'),
+         ('Y', 'Bellforge machinery and encounter', 'docs/BELLFORGE_PHYSICS.md'),
+         ('Z', 'Tidewheel machinery and encounter', 'docs/TIDEWHEEL_PHYSICS.md'),
+         ('AA', 'Keep artwork production and measured geometry', 'art/fantasy-machinery/SOURCE.md'),
+         ('AB', 'Nerra chain-pull artwork and anatomy', 'art/fantasy-machinery/NERRA_V2.md'),
+         ('W', 'Gatebreak mission implementation', 'docs/STARFLIGHT_MISSION.md'),
+         ('X', 'Distinct future flight powers', 'docs/STARFLIGHT_POWER_EXPLORATION.md'),
          ('S', 'Starflight prototype and story', 'docs/STARFLIGHT_PROTOTYPE.md'),
          ('T', 'Starflight combat contract', 'docs/STARFLIGHT_COMBAT.md'),
          ('U', 'Starflight artwork pipeline', 'docs/STARFLIGHT_ART.md'),
@@ -23,6 +30,11 @@ PARTS = [('M', 'Current continuation memory', 'docs/CONTINUE_HERE.md'),
 
 # Companion file: every art script in full, so another assistant sees exactly how the art is built.
 SCRIPTS = [
+    ('art/fantasy-machinery/extract.py', 'Keep machinery extraction', 'Extracts separate characters, ramps, gates, raft frames, architecture and bricks from preserved source sheets, normalizes pivots and strips image metadata.', 'python art/fantasy-machinery/extract.py', 'assets/fantasy-machinery/'),
+    ('art/fantasy-machinery/measure.py', 'Keep collision measurement', 'Measures conservative opaque circle unions for Korr poses and the original Nerra parts; the frozen manifest records source-to-world transforms.', 'python art/fantasy-machinery/measure.py', 'assets/fantasy-machinery/manifest.json and art/fantasy-machinery/proof/'),
+    ('art/fantasy-machinery/extract-nerra-v2.py', 'Smaller chain-pulling Nerra', 'Normalizes four supporting-foot poses, exact shoulder sockets, chain-holding claw and repeatable chain links in an independent versioned manifest.', 'python art/fantasy-machinery/extract-nerra-v2.py', 'assets/fantasy-machinery/nerra-v2-manifest.json and art/fantasy-machinery/nerra-v2-data.mjs'),
+    ('art/fantasy-machinery/verify.py', 'Frozen keep art verification', 'Verifies source/runtime hashes, opaque collision proxies, transparent holes, metadata and release aperture limits.', 'python art/fantasy-machinery/verify.py', 'Verification output; no asset mutation'),
+    ('art/fantasy-machinery/extract-water-shot.py', 'Tidewheel water projectile', 'Normalizes the dimensional water shot around its measured front-core pivot; preserves the source, strips metadata and records the soft foam collision approximation.', 'python art/fantasy-machinery/extract-water-shot.py', 'assets/fantasy-machinery/water-shot.png and water-shot-manifest.json'),
     ('art/frost_warden.py', 'Frost Warden runtime family', 'Separate hostile Yeti palette and seven real rig clips. Retains Brum ally source, measures projected hand and torso collision anchors, and renders 28 poses for the fifth princess encounter.', 'python art/frost_warden.py art/frost-warden/renders --samples 16 --threads 4 --yaw 65', 'art/frost-warden/renders/ and assets/frost-warden/ after packing'),
     ('art/frost-warden/pack.py', 'Frost atlas normalization', 'Normalizes rendered poses to 256x228 with fixed pivots, strips PNG metadata, preserves actual measured anchors and records source/runtime hashes.', 'python art/frost-warden/pack.py', 'assets/frost-warden/warden.png and manifest.json'),
     ('art/space/weapons_v2.py', 'Rejected historical study', 'Dimensional dark-metal charge clips and preserved flight/impact drafts for the replacement ship weapon review. Only charge atlases are complete; current single-frame payloads and Canvas motion remain outside gameplay. See design/phase1/weapon-vfx-v2-review.md and its asset report.', 'python art/space/weapons-v2/validate.py', 'design/phase1/weapon-vfx-v2/; saved scenes in art/space/weapons-v2/'),

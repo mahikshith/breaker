@@ -1,0 +1,65 @@
+{
+  "neutralRGBAErrorMax": 0,
+  "manifestSHA256": "f790294c4b77c56080238d8087a30a084f086d2694cc6c2d46aaacc2dd620074",
+  "parts": {
+    "body": {
+      "size": [
+        320,
+        288
+      ],
+      "bytes": 37877,
+      "decodedRGBABytes": 368640,
+      "metadataEmpty": true,
+      "clearEdges": true
+    },
+    "wing-left": {
+      "size": [
+        320,
+        288
+      ],
+      "bytes": 39790,
+      "decodedRGBABytes": 368640,
+      "metadataEmpty": true,
+      "clearEdges": true,
+      "tipUVAlpha": 250,
+      "engineUVAlpha": 253,
+      "attachmentUVAlpha": 252
+    },
+    "wing-right": {
+      "size": [
+        320,
+        288
+      ],
+      "bytes": 39612,
+      "decodedRGBABytes": 368640,
+      "metadataEmpty": true,
+      "clearEdges": true,
+      "tipUVAlpha": 248,
+      "engineUVAlpha": 253,
+      "attachmentUVAlpha": 253
+    },
+    "storm-icon": {
+      "size": [
+        256,
+        192
+      ],
+      "bytes": 53484,
+      "decodedRGBABytes": 196608,
+      "metadataEmpty": true,
+      "clearEdges": true
+    },
+    "ricochet": {
+      "size": [
+        128,
+        256
+      ],
+      "bytes": 33622,
+      "decodedRGBABytes": 131072,
+      "metadataEmpty": true,
+      "clearEdges": true,
+      "engineUVAlpha": 252
+    }
+  },
+  "runtimePNGBytes": 204385,
+  "decodedRGBABytes": 1433600
+}

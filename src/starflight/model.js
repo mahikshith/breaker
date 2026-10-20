@@ -350,6 +350,7 @@ export class Starflight {
       r, side, kind, damage, age: 0, powered, pierce, hit: new Set(), heading: angle, baseHeading: angle, speed };
     this.shots.push(shot); return shot;
   }
+  playerShotRadius() { return this.player.r; }
   moveShots(dt) {
     for (const s of this.shots) {
       s.px = s.x; s.py = s.y; s.age += dt;
@@ -389,7 +390,7 @@ export class Starflight {
     }
     const p = this.player;
     for (const s of this.shots.filter(s => s.side === 'enemy')) {
-      const hits = [{ type: 'player', t: sweptCircle(s.px, s.py, s.x, s.y, p.px, p.py, p.x, p.y, s.r + p.r) }]
+      const hits = [{ type: 'player', t: sweptCircle(s.px, s.py, s.x, s.y, p.px, p.py, p.x, p.y, s.r + this.playerShotRadius()) }]
         .concat(this.hazards.filter(h => h.hp > 0).map(h => ({ type: 'hazard', h, t: sweptCircle(s.px, s.py, s.x, s.y, h.px, h.py, h.x, h.y, s.r + h.r) })))
         .concat(this.drones.filter(d => d.hp > 0).map(d => ({ type: 'drone', d, t: sweptCircle(s.px, s.py, s.x, s.y, d.px, d.py, d.x, d.y, s.r + d.r) })))
         .filter(h => h.t !== null).sort((a, b) => a.t - b.t);

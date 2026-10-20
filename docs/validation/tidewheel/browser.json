@@ -1,0 +1,4005 @@
+{
+  "scope": "Actual browser/CDP touch phone viewports, not physical handsets. Staged resources/terminal poses are labelled separately from legal input-only earned routes.",
+  "before": {
+    "assets/fantasy-machinery/bell.png": "f9ee6022f523dd6bfd92c8cbaec6f00a0a643fb26ab2ea04dd744c89313c8723",
+    "assets/fantasy-machinery/bellCradle.png": "20cfb11d5e7c3595a4d52608e380e412da8796bae9a4943056aaa5151db44ab2",
+    "assets/fantasy-machinery/bellforge-background.png": "6189c80623faef82ee8bd7ba507b5380831d69fca0478518f96865d9644a2af2",
+    "assets/fantasy-machinery/brick-coral.png": "ccbed3518f64f3294b6f00878bf2eb0a2440824633fb62af063282a3244f495b",
+    "assets/fantasy-machinery/brick-ivory.png": "ccd4cc382b0f7b141d7ab56402a0f004cbf5733e88c4bd6abdc72dd79335f54b",
+    "assets/fantasy-machinery/brick-sage.png": "4f7b5b5a1aa0dac23f5f503d74bb1a00a3e39bb8c0f783008e4a8c831c453bf1",
+    "assets/fantasy-machinery/chain-v2.png": "b9f662acef63c1fe087192ec3155b314e0914c84d944204093d085b915069b8f",
+    "assets/fantasy-machinery/counterweight.png": "07fb3238f63e90620e5a2c05a2ac618e967faac19d5edb001b2975e6f580f295",
+    "assets/fantasy-machinery/crusherClaw.png": "3ce2ce1fea400e7affe050363858f497e6527bb81e4f220d3094d7a9db8f2829",
+    "assets/fantasy-machinery/gate.png": "04cab2d6c478aad12857f634b1bc3de34dae2342bb71b4125a229338ac2f9edc",
+    "assets/fantasy-machinery/gateClaw.png": "eca4a8c12a9f320924c8b969ce70d0648c92fcaefef7444efea5674adc5d4da1",
+    "assets/fantasy-machinery/gateClawV2.png": "8233aae478bd83fb7426c6206141745508b0171f2f01ecef3a0e33786119234a",
+    "assets/fantasy-machinery/gateFrame.png": "87dbdf9ca72795366a1794bbcb36dc86e8399c591ac99d2d7db72a312e788a86",
+    "assets/fantasy-machinery/hopperStudy.png": "bbc2d0f6d68002f741538b61178d3e8c030ff08503b94ef6c021cb298a1e67da",
+    "assets/fantasy-machinery/korr-idle.png": "30e5da9d16d77937415b57c138b9e0c04c80da9d794b029ff215e398acb51fe4",
+    "assets/fantasy-machinery/korr-release.png": "eedd6b91a8d63d32c8e6456d9be97c4e16a8fddbffbae3262a24d090fcb049d0",
+    "assets/fantasy-machinery/korr-stagger.png": "a1743526bfaab5995dac29726d4b9b144086da936afab30dc1de016ce3daa8d1",
+    "assets/fantasy-machinery/korr-windup.png": "47c5e0598e4d4a6a09b73cfac57cb083fab846f99d9afe4c631a5292b730f0fa",
+    "assets/fantasy-machinery/korr.png": "e1f2ab4f5b5856c3c8562965bf4f3fa5bf11c6ee1b64a8c4b05dab379a7e7932",
+    "assets/fantasy-machinery/leverMount.png": "9076a3a8c9ba77f0542af0ba730b3fcac532a79a4baf6f5ad9b71884994c8f88",
+    "assets/fantasy-machinery/lift.png": "b5c33657067673a42e6f6b75fa70dc0999bb70f99a0a7386c66c8f5639292069",
+    "assets/fantasy-machinery/manifest.json": "b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13",
+    "assets/fantasy-machinery/nerra-v2-hurt.png": "6098a9d7f4bda52b45da0c6816bbd08b32ed277a4bd47234d4e597b2fe20af14",
+    "assets/fantasy-machinery/nerra-v2-idle.png": "3909b5ddfb3b0f0b1ef8c9865492328a523c6f2e0a718b0d20be63898ad6d9a0",
+    "assets/fantasy-machinery/nerra-v2-manifest.json": "defc7d7d75af13b50560cbabd79d5115cbeeafa997d9abc5452f5c5e0418fc69",
+    "assets/fantasy-machinery/nerra-v2-pull.png": "d5a5cbf8e51bd39cdd8916996bd7d8b359213f732090175b618f0e22d15da383",
+    "assets/fantasy-machinery/nerra-v2-step.png": "19bcf7cd5881716d250b9288f8924ba48e55991c34b2484d79979eb2bb4529d0",
+    "assets/fantasy-machinery/nerra-v2.png": "0ef6a3017d29a8477a2fddb91cb0413da3dc3c0d94c741879dce36e243542ffd",
+    "assets/fantasy-machinery/nerraBody.png": "ef5644f573d6aebd83aa12080e42857123f0b35c328c0ad415a0e0c7775cee26",
+    "assets/fantasy-machinery/plinth.png": "d9e3877ba5fa844813180aa343569da22a104826a3526d725452da0a27c3e989",
+    "assets/fantasy-machinery/raft.png": "6382b59723891f273b45b8049e6bc7830e29a72f01eda7e184bfec6d1a73d625",
+    "assets/fantasy-machinery/ramp.png": "d37022aa5f8ee4989727b6be1be7677af1c6f621d62f9829777b06c1697c9fda",
+    "assets/fantasy-machinery/ratchet.png": "0578c721ec5db079aa96eabf0fa3164c0a709eaffebaeaa4b7bf8173ec0d037b",
+    "assets/fantasy-machinery/refugeBalcony.png": "df3dca5a324254baf52e638dd4268a9bb77e90dea07f8c247309e518bea4edca",
+    "assets/fantasy-machinery/releaseLever.png": "a4a0add6dcb119f2ba43eea36155ae576940a4fead50b6de3884660971356b4b",
+    "assets/fantasy-machinery/sluiceWall.png": "9603f5603b9a3c0cdef37557aa1c6b7728659a4f0497cca5e5706844426b8323",
+    "assets/fantasy-machinery/tidewheel-background.png": "c11ddbb3f2f583576e9b03436c4aad132018f70576f4cc84c68e8651520de7da",
+    "assets/fantasy-machinery/water-shot-manifest.json": "44172b349146ac438006989327ddfcd8da2d4db0c81b73e03fb68e5450f8010f",
+    "assets/fantasy-machinery/water-shot.png": "e9a23f6276be299e8224f3505598ff7826d738369dcd0f855b594a64c39c05ff",
+    "assets/fantasy-machinery/wheel.png": "1ca697216202ab97a24d2d05f0ff627f2403aca9890acaa2122a6291aff62207",
+    "prototypes/fantasy/index.html": "277356aa3a61eaf59f642222b34901da886c9cc0c041af98c73efb804dabb756",
+    "prototypes/fantasy/main.js": "d38c814b22c15ef54a68250190061fb05df661fd3103180451a8061cc57fafa6",
+    "prototypes/fantasy/render.js": "7b0e8d83a9cdb395bd0e215474ae58bf33d5d8f64886c37a87b656ede7c16a6c",
+    "prototypes/fantasy/style.css": "891ae56b71793d043587498302d36d52d3591adf9352272bee7981fe26a84a13",
+    "src/fantasy/bellforge.js": "46f6297072baf87b7c8d2e88875b3e1e4a7e99ec90a48f0ab3f5cf4be7ac65cf",
+    "src/fantasy/tidewheel-geometry.js": "cd13451c66777da58709bf2eff095ccce2bc243c0a812981020759d2341dbe3d",
+    "src/fantasy/tidewheel-v2-geometry.js": "be9dbe700427fd3e5c89d72dbee0328105d2c0fe54732d88ee17cfd7174d7cd8",
+    "src/fantasy/tidewheel.js": "c216f74972ae53d65d762969284d215561e84b5f64a144bf0da101122183dbf1"
+  },
+  "cases": [
+    {
+      "level": "tidewheel",
+      "device": "ios",
+      "mode": "easy",
+      "initial": {
+        "game": "Tidewheel",
+        "hp": 24,
+        "lives": 3,
+        "time": 0.049999999999999996,
+        "phase": "serve",
+        "paddle": {
+          "x": 180,
+          "px": 180,
+          "y": 665.0381679389313,
+          "w": 100,
+          "h": 14,
+          "targetX": 180
+        },
+        "width": 360,
+        "height": 780.4580152671756,
+        "images": [
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/korr.png",
+            "w": 2048,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bell.png",
+            "w": 256,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/ramp.png",
+            "w": 512,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/lift.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/ratchet.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/plinth.png",
+            "w": 768,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/hopperStudy.png",
+            "w": 416,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/releaseLever.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/leverMount.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bellCradle.png",
+            "w": 768,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bellforge-background.png",
+            "w": 631,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/nerraBody.png",
+            "w": 640,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/crusherClaw.png",
+            "w": 448,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateClaw.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/wheel.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/raft.png",
+            "w": 640,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gate.png",
+            "w": 352,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/counterweight.png",
+            "w": 320,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/sluiceWall.png",
+            "w": 1024,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/refugeBalcony.png",
+            "w": 416,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateFrame.png",
+            "w": 352,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/tidewheel-background.png",
+            "w": 632,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/nerra-v2.png",
+            "w": 2560,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateClawV2.png",
+            "w": 448,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/chain-v2.png",
+            "w": 128,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/water-shot.png",
+            "w": 192,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-coral.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-sage.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-ivory.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/ball.png",
+            "w": 60,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_l.png",
+            "w": 48,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_m.png",
+            "w": 150,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_r.png",
+            "w": 48,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_t_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_t_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_v_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_gold_1_0.png",
+            "w": 72,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/cap_shield.png",
+            "w": 144,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_12.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_13.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_14.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_15.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_12.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_13.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_14.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_15.png",
+            "w": 168,
+            "complete": true
+          }
+        ]
+      },
+      "launched": {
+        "phase": "play",
+        "paddle": {
+          "x": 223.96946564885496,
+          "px": 223.96946564885496,
+          "y": 665.0381679389313,
+          "w": 100,
+          "h": 14,
+          "targetX": 223.96946564885496
+        },
+        "balls": [
+          {
+            "x": 223.96946564885496,
+            "y": 644.2881679389315,
+            "vx": 2.112515728529184e-14,
+            "vy": -345,
+            "caught": false
+          }
+        ]
+      },
+      "cast": {
+        "charge": 0,
+        "anchor": true,
+        "guard": false,
+        "state": "play"
+      },
+      "retry": {
+        "hp": 24,
+        "lives": 3,
+        "time": 0.01666666666666697,
+        "score": 0,
+        "charge": 0,
+        "phase": "serve"
+      },
+      "continued": {
+        "hp": 19,
+        "brick": 0,
+        "state": "play",
+        "continued": true
+      },
+      "errors": [],
+      "network": []
+    },
+    {
+      "level": "tidewheel",
+      "device": "ios",
+      "mode": "medium",
+      "initial": {
+        "game": "Tidewheel",
+        "hp": 32,
+        "lives": 3,
+        "time": 0.049999999999999996,
+        "phase": "serve",
+        "paddle": {
+          "x": 180,
+          "px": 180,
+          "y": 665.0381679389313,
+          "w": 100,
+          "h": 14,
+          "targetX": 180
+        },
+        "width": 360,
+        "height": 780.4580152671756,
+        "images": [
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/korr.png",
+            "w": 2048,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bell.png",
+            "w": 256,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/ramp.png",
+            "w": 512,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/lift.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/ratchet.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/plinth.png",
+            "w": 768,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/hopperStudy.png",
+            "w": 416,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/releaseLever.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/leverMount.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bellCradle.png",
+            "w": 768,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bellforge-background.png",
+            "w": 631,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/nerraBody.png",
+            "w": 640,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/crusherClaw.png",
+            "w": 448,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateClaw.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/wheel.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/raft.png",
+            "w": 640,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gate.png",
+            "w": 352,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/counterweight.png",
+            "w": 320,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/sluiceWall.png",
+            "w": 1024,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/refugeBalcony.png",
+            "w": 416,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateFrame.png",
+            "w": 352,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/tidewheel-background.png",
+            "w": 632,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/nerra-v2.png",
+            "w": 2560,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateClawV2.png",
+            "w": 448,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/chain-v2.png",
+            "w": 128,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/water-shot.png",
+            "w": 192,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-coral.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-sage.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-ivory.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/ball.png",
+            "w": 60,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_l.png",
+            "w": 48,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_m.png",
+            "w": 150,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_r.png",
+            "w": 48,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_t_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_t_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_v_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_gold_1_0.png",
+            "w": 72,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/cap_shield.png",
+            "w": 144,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_12.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_13.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_14.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_15.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_12.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_13.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_14.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_15.png",
+            "w": 168,
+            "complete": true
+          }
+        ]
+      },
+      "launched": {
+        "phase": "play",
+        "paddle": {
+          "x": 223.96946564885496,
+          "px": 223.96946564885496,
+          "y": 665.0381679389313,
+          "w": 100,
+          "h": 14,
+          "targetX": 223.96946564885496
+        },
+        "balls": [
+          {
+            "x": 223.96946564885496,
+            "y": 644.2881679389315,
+            "vx": 2.112515728529184e-14,
+            "vy": -345,
+            "caught": false
+          }
+        ]
+      },
+      "cast": {
+        "charge": 0,
+        "anchor": true,
+        "guard": false,
+        "state": "play"
+      },
+      "retry": {
+        "hp": 32,
+        "lives": 3,
+        "time": 0.01666666666666697,
+        "score": 0,
+        "charge": 0,
+        "phase": "serve"
+      },
+      "continued": {
+        "hp": 27,
+        "brick": 0,
+        "state": "play",
+        "continued": true
+      },
+      "errors": [],
+      "network": []
+    },
+    {
+      "level": "tidewheel",
+      "device": "ios",
+      "mode": "hard",
+      "initial": {
+        "game": "Tidewheel",
+        "hp": 40,
+        "lives": 3,
+        "time": 0.049999999999999996,
+        "phase": "serve",
+        "paddle": {
+          "x": 180,
+          "px": 180,
+          "y": 665.0381679389313,
+          "w": 100,
+          "h": 14,
+          "targetX": 180
+        },
+        "width": 360,
+        "height": 780.4580152671756,
+        "images": [
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/korr.png",
+            "w": 2048,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bell.png",
+            "w": 256,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/ramp.png",
+            "w": 512,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/lift.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/ratchet.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/plinth.png",
+            "w": 768,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/hopperStudy.png",
+            "w": 416,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/releaseLever.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/leverMount.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bellCradle.png",
+            "w": 768,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bellforge-background.png",
+            "w": 631,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/nerraBody.png",
+            "w": 640,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/crusherClaw.png",
+            "w": 448,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateClaw.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/wheel.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/raft.png",
+            "w": 640,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gate.png",
+            "w": 352,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/counterweight.png",
+            "w": 320,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/sluiceWall.png",
+            "w": 1024,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/refugeBalcony.png",
+            "w": 416,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateFrame.png",
+            "w": 352,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/tidewheel-background.png",
+            "w": 632,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/nerra-v2.png",
+            "w": 2560,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateClawV2.png",
+            "w": 448,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/chain-v2.png",
+            "w": 128,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/water-shot.png",
+            "w": 192,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-coral.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-sage.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-ivory.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/ball.png",
+            "w": 60,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_l.png",
+            "w": 48,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_m.png",
+            "w": 150,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_r.png",
+            "w": 48,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_t_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_t_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_v_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_gold_1_0.png",
+            "w": 72,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/cap_shield.png",
+            "w": 144,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_12.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_13.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_14.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_15.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_12.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_13.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_14.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_15.png",
+            "w": 168,
+            "complete": true
+          }
+        ]
+      },
+      "launched": {
+        "phase": "play",
+        "paddle": {
+          "x": 223.96946564885496,
+          "px": 223.96946564885496,
+          "y": 665.0381679389313,
+          "w": 100,
+          "h": 14,
+          "targetX": 223.96946564885496
+        },
+        "balls": [
+          {
+            "x": 223.96946564885496,
+            "y": 644.2881679389313,
+            "vx": 2.112515728529184e-14,
+            "vy": -345,
+            "caught": false
+          }
+        ]
+      },
+      "cast": {
+        "charge": 0,
+        "anchor": true,
+        "guard": false,
+        "state": "play"
+      },
+      "retry": {
+        "hp": 40,
+        "lives": 3,
+        "time": 0.01666666666666697,
+        "score": 0,
+        "charge": 0,
+        "phase": "serve"
+      },
+      "continued": {
+        "hp": 35,
+        "brick": 0,
+        "state": "play",
+        "continued": true
+      },
+      "errors": [],
+      "network": []
+    },
+    {
+      "level": "tidewheel",
+      "device": "android",
+      "mode": "easy",
+      "initial": {
+        "game": "Tidewheel",
+        "hp": 24,
+        "lives": 3,
+        "time": 0.049999999999999996,
+        "phase": "serve",
+        "paddle": {
+          "x": 180,
+          "px": 180,
+          "y": 689.4174757281553,
+          "w": 100,
+          "h": 14,
+          "targetX": 180
+        },
+        "width": 360,
+        "height": 799.5145631067961,
+        "images": [
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/korr.png",
+            "w": 2048,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bell.png",
+            "w": 256,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/ramp.png",
+            "w": 512,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/lift.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/ratchet.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/plinth.png",
+            "w": 768,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/hopperStudy.png",
+            "w": 416,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/releaseLever.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/leverMount.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bellCradle.png",
+            "w": 768,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bellforge-background.png",
+            "w": 631,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/nerraBody.png",
+            "w": 640,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/crusherClaw.png",
+            "w": 448,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateClaw.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/wheel.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/raft.png",
+            "w": 640,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gate.png",
+            "w": 352,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/counterweight.png",
+            "w": 320,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/sluiceWall.png",
+            "w": 1024,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/refugeBalcony.png",
+            "w": 416,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateFrame.png",
+            "w": 352,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/tidewheel-background.png",
+            "w": 632,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/nerra-v2.png",
+            "w": 2560,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateClawV2.png",
+            "w": 448,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/chain-v2.png",
+            "w": 128,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/water-shot.png",
+            "w": 192,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-coral.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-sage.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-ivory.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/ball.png",
+            "w": 60,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_l.png",
+            "w": 48,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_m.png",
+            "w": 150,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_r.png",
+            "w": 48,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_t_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_t_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_v_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_gold_1_0.png",
+            "w": 72,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/cap_shield.png",
+            "w": 144,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_12.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_13.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_14.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_15.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_12.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_13.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_14.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_15.png",
+            "w": 168,
+            "complete": true
+          }
+        ]
+      },
+      "launched": {
+        "phase": "play",
+        "paddle": {
+          "x": 221.94174757281553,
+          "px": 221.94174757281553,
+          "y": 689.4174757281553,
+          "w": 100,
+          "h": 14,
+          "targetX": 221.94174757281553
+        },
+        "balls": [
+          {
+            "x": 221.94174757281553,
+            "y": 668.6674757281554,
+            "vx": 2.112515728529184e-14,
+            "vy": -345,
+            "caught": false
+          }
+        ]
+      },
+      "cast": {
+        "charge": 0,
+        "anchor": true,
+        "guard": false,
+        "state": "play"
+      },
+      "retry": {
+        "hp": 24,
+        "lives": 3,
+        "time": 0.01666666666666697,
+        "score": 0,
+        "charge": 0,
+        "phase": "serve"
+      },
+      "continued": {
+        "hp": 19,
+        "brick": 0,
+        "state": "play",
+        "continued": true
+      },
+      "errors": [],
+      "network": []
+    },
+    {
+      "level": "tidewheel",
+      "device": "android",
+      "mode": "medium",
+      "initial": {
+        "game": "Tidewheel",
+        "hp": 32,
+        "lives": 3,
+        "time": 0.049999999999999996,
+        "phase": "serve",
+        "paddle": {
+          "x": 180,
+          "px": 180,
+          "y": 689.4174757281553,
+          "w": 100,
+          "h": 14,
+          "targetX": 180
+        },
+        "width": 360,
+        "height": 799.5145631067961,
+        "images": [
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/korr.png",
+            "w": 2048,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bell.png",
+            "w": 256,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/ramp.png",
+            "w": 512,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/lift.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/ratchet.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/plinth.png",
+            "w": 768,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/hopperStudy.png",
+            "w": 416,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/releaseLever.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/leverMount.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bellCradle.png",
+            "w": 768,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bellforge-background.png",
+            "w": 631,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/nerraBody.png",
+            "w": 640,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/crusherClaw.png",
+            "w": 448,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateClaw.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/wheel.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/raft.png",
+            "w": 640,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gate.png",
+            "w": 352,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/counterweight.png",
+            "w": 320,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/sluiceWall.png",
+            "w": 1024,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/refugeBalcony.png",
+            "w": 416,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateFrame.png",
+            "w": 352,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/tidewheel-background.png",
+            "w": 632,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/nerra-v2.png",
+            "w": 2560,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateClawV2.png",
+            "w": 448,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/chain-v2.png",
+            "w": 128,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/water-shot.png",
+            "w": 192,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-coral.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-sage.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-ivory.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/ball.png",
+            "w": 60,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_l.png",
+            "w": 48,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_m.png",
+            "w": 150,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_r.png",
+            "w": 48,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_t_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_t_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_v_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_gold_1_0.png",
+            "w": 72,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/cap_shield.png",
+            "w": 144,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_12.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_13.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_14.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_15.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_12.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_13.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_14.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_15.png",
+            "w": 168,
+            "complete": true
+          }
+        ]
+      },
+      "launched": {
+        "phase": "play",
+        "paddle": {
+          "x": 221.94174757281553,
+          "px": 221.94174757281553,
+          "y": 689.4174757281553,
+          "w": 100,
+          "h": 14,
+          "targetX": 221.94174757281553
+        },
+        "balls": [
+          {
+            "x": 221.94174757281553,
+            "y": 668.6674757281553,
+            "vx": 2.112515728529184e-14,
+            "vy": -345,
+            "caught": false
+          }
+        ]
+      },
+      "cast": {
+        "charge": 0,
+        "anchor": true,
+        "guard": false,
+        "state": "play"
+      },
+      "retry": {
+        "hp": 32,
+        "lives": 3,
+        "time": 0.01666666666666697,
+        "score": 0,
+        "charge": 0,
+        "phase": "serve"
+      },
+      "continued": {
+        "hp": 27,
+        "brick": 0,
+        "state": "play",
+        "continued": true
+      },
+      "errors": [],
+      "network": []
+    },
+    {
+      "level": "tidewheel",
+      "device": "android",
+      "mode": "hard",
+      "initial": {
+        "game": "Tidewheel",
+        "hp": 40,
+        "lives": 3,
+        "time": 0.049999999999999996,
+        "phase": "serve",
+        "paddle": {
+          "x": 180,
+          "px": 180,
+          "y": 689.4174757281553,
+          "w": 100,
+          "h": 14,
+          "targetX": 180
+        },
+        "width": 360,
+        "height": 799.5145631067961,
+        "images": [
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/korr.png",
+            "w": 2048,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bell.png",
+            "w": 256,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/ramp.png",
+            "w": 512,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/lift.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/ratchet.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/plinth.png",
+            "w": 768,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/hopperStudy.png",
+            "w": 416,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/releaseLever.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/leverMount.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bellCradle.png",
+            "w": 768,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/bellforge-background.png",
+            "w": 631,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/nerraBody.png",
+            "w": 640,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/crusherClaw.png",
+            "w": 448,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateClaw.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/wheel.png",
+            "w": 384,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/raft.png",
+            "w": 640,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gate.png",
+            "w": 352,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/counterweight.png",
+            "w": 320,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/sluiceWall.png",
+            "w": 1024,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/refugeBalcony.png",
+            "w": 416,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateFrame.png",
+            "w": 352,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/tidewheel-background.png",
+            "w": 632,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/nerra-v2.png",
+            "w": 2560,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/gateClawV2.png",
+            "w": 448,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/chain-v2.png",
+            "w": 128,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/water-shot.png",
+            "w": 192,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-coral.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-sage.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/fantasy-machinery/brick-ivory.png",
+            "w": 304,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/ball.png",
+            "w": 60,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_l.png",
+            "w": 48,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_m.png",
+            "w": 150,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/paddle_r.png",
+            "w": 48,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_t_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_t_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_v_2_0.png",
+            "w": 120,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/brick_gold_1_0.png",
+            "w": 72,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/vault/cap_shield.png",
+            "w": 144,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_12.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_13.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_14.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Idle_15.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Nervous_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_00.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_01.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_02.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_03.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_04.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_05.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_06.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_07.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_08.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_09.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_10.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_11.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_12.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_13.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_14.png",
+            "w": 168,
+            "complete": true
+          },
+          {
+            "src": "http://127.0.0.1:4194/assets/princess/Cheer_15.png",
+            "w": 168,
+            "complete": true
+          }
+        ]
+      },
+      "launched": {
+        "phase": "play",
+        "paddle": {
+          "x": 221.94174757281553,
+          "px": 221.94174757281553,
+          "y": 689.4174757281553,
+          "w": 100,
+          "h": 14,
+          "targetX": 221.94174757281553
+        },
+        "balls": [
+          {
+            "x": 221.94174757281553,
+            "y": 668.6674757281553,
+            "vx": 2.112515728529184e-14,
+            "vy": -345,
+            "caught": false
+          }
+        ]
+      },
+      "cast": {
+        "charge": 0,
+        "anchor": true,
+        "guard": false,
+        "state": "play"
+      },
+      "retry": {
+        "hp": 40,
+        "lives": 3,
+        "time": 0.01666666666666697,
+        "score": 0,
+        "charge": 0,
+        "phase": "serve"
+      },
+      "continued": {
+        "hp": 35,
+        "brick": 0,
+        "state": "play",
+        "continued": true
+      },
+      "errors": [],
+      "network": []
+    }
+  ],
+  "earned": [
+    {
+      "level": "tidewheel",
+      "device": "ios",
+      "policy": "ordinary",
+      "scope": "One bounded ordinary public-touch policy, quantized predictive paddle placement and fixed-lane water dodge. No power/Continue or HP/resource/actor/progression writes.",
+      "casts": [],
+      "stop": "won",
+      "history": [
+        {
+          "x": 184,
+          "time": 0.03333333333333576,
+          "state": "play",
+          "phase": "play",
+          "hp": 24,
+          "lives": 3,
+          "score": 0,
+          "charge": 0,
+          "ready": false,
+          "water": 418,
+          "remainingBricks": 24
+        },
+        {
+          "x": 216,
+          "time": 5.033333333333696,
+          "state": "play",
+          "phase": "play",
+          "hp": 19,
+          "lives": 3,
+          "score": 275,
+          "charge": 20.814814814815787,
+          "ready": false,
+          "water": 418,
+          "remainingBricks": 23
+        },
+        {
+          "x": 344,
+          "time": 10.033333333334477,
+          "state": "play",
+          "phase": "play",
+          "hp": 15,
+          "lives": 3,
+          "score": 725,
+          "charge": 48.59259259259436,
+          "ready": false,
+          "water": 418,
+          "remainingBricks": 13
+        },
+        {
+          "x": 152,
+          "time": 15.033333333335259,
+          "state": "play",
+          "phase": "play",
+          "hp": 12,
+          "lives": 3,
+          "score": 1100,
+          "charge": 76.37037037037292,
+          "ready": false,
+          "water": 400,
+          "remainingBricks": 7
+        },
+        {
+          "x": 200,
+          "time": 20.03333333333524,
+          "state": "play",
+          "phase": "play",
+          "hp": 9,
+          "lives": 3,
+          "score": 1325,
+          "charge": 99.99999999999662,
+          "ready": false,
+          "water": 400,
+          "remainingBricks": 4
+        },
+        {
+          "x": 312,
+          "time": 25.033333333334955,
+          "state": "play",
+          "phase": "play",
+          "hp": 4,
+          "lives": 3,
+          "score": 1705,
+          "charge": 100,
+          "ready": true,
+          "water": 370,
+          "remainingBricks": 0
+        },
+        {
+          "x": 176,
+          "time": 30.03333333333467,
+          "state": "play",
+          "phase": "play",
+          "hp": 3,
+          "lives": 3,
+          "score": 1770,
+          "charge": 100,
+          "ready": false,
+          "water": 370,
+          "remainingBricks": 0
+        },
+        {
+          "x": 216,
+          "time": 35.0333333333318,
+          "state": "play",
+          "phase": "rescue",
+          "hp": 0,
+          "lives": 3,
+          "score": 1920,
+          "charge": 100,
+          "ready": false,
+          "water": 483,
+          "remainingBricks": 0
+        },
+        {
+          "x": 216,
+          "time": 35.19999999999831,
+          "state": "won",
+          "phase": "complete",
+          "hp": 0,
+          "lives": 3,
+          "score": 1920,
+          "charge": 100,
+          "ready": false,
+          "water": 483,
+          "remainingBricks": 0
+        }
+      ],
+      "final": {
+        "state": "won",
+        "phase": "complete",
+        "time": 35.19999999999831,
+        "hp": 0,
+        "lives": 3,
+        "score": 1920,
+        "charge": 100,
+        "water": 483
+      },
+      "combat": true,
+      "errors": []
+    },
+    {
+      "level": "tidewheel",
+      "device": "ios",
+      "policy": "signature",
+      "scope": "Same public touch policy with signature activated only through actual UI after genuinely earning charge. No Continue or HP/resource/actor/progression writes.",
+      "casts": [],
+      "stop": "won",
+      "history": [
+        {
+          "x": 184,
+          "time": 0.03333333333332849,
+          "state": "play",
+          "phase": "play",
+          "hp": 24,
+          "lives": 3,
+          "score": 0,
+          "charge": 0,
+          "ready": false,
+          "water": 418,
+          "remainingBricks": 24
+        },
+        {
+          "x": 64,
+          "time": 5.033333333332642,
+          "state": "play",
+          "phase": "play",
+          "hp": 20,
+          "lives": 3,
+          "score": 250,
+          "charge": 17.49999999999923,
+          "ready": false,
+          "water": 418,
+          "remainingBricks": 22
+        },
+        {
+          "x": 184,
+          "time": 10.033333333332358,
+          "state": "play",
+          "phase": "play",
+          "hp": 16,
+          "lives": 3,
+          "score": 525,
+          "charge": 45.27777777777353,
+          "ready": false,
+          "water": 418,
+          "remainingBricks": 22
+        },
+        {
+          "x": 216,
+          "time": 15.033333333332333,
+          "state": "play",
+          "phase": "play",
+          "hp": 5,
+          "lives": 3,
+          "score": 1075,
+          "charge": 73.05555555554817,
+          "ready": false,
+          "water": 400,
+          "remainingBricks": 22
+        },
+        {
+          "x": 264,
+          "time": 20.033333333333115,
+          "state": "play",
+          "phase": "rescue",
+          "hp": 0,
+          "lives": 3,
+          "score": 1325,
+          "charge": 87.55555555554858,
+          "ready": false,
+          "water": 483,
+          "remainingBricks": 22
+        },
+        {
+          "x": 264,
+          "time": 20.143333333333132,
+          "state": "won",
+          "phase": "complete",
+          "hp": 0,
+          "lives": 3,
+          "score": 1325,
+          "charge": 87.55555555554858,
+          "ready": false,
+          "water": 483,
+          "remainingBricks": 22
+        }
+      ],
+      "final": {
+        "state": "won",
+        "phase": "complete",
+        "time": 20.143333333333132,
+        "hp": 0,
+        "lives": 3,
+        "score": 1325,
+        "charge": 87.55555555554858,
+        "water": 483
+      },
+      "combat": false,
+      "errors": []
+    },
+    {
+      "level": "tidewheel",
+      "device": "android",
+      "policy": "ordinary",
+      "scope": "One bounded ordinary public-touch policy, quantized predictive paddle placement and fixed-lane water dodge. No power/Continue or HP/resource/actor/progression writes.",
+      "casts": [],
+      "stop": "won",
+      "history": [
+        {
+          "x": 184,
+          "time": 0.03333333333333211,
+          "state": "play",
+          "phase": "play",
+          "hp": 24,
+          "lives": 3,
+          "score": 0,
+          "charge": 0,
+          "ready": false,
+          "water": 418,
+          "remainingBricks": 24
+        },
+        {
+          "x": 144,
+          "time": 5.033333333333619,
+          "state": "play",
+          "phase": "play",
+          "hp": 19,
+          "lives": 3,
+          "score": 425,
+          "charge": 20.462962962963925,
+          "ready": false,
+          "water": 418,
+          "remainingBricks": 17
+        },
+        {
+          "x": 64,
+          "time": 10.0333333333344,
+          "state": "play",
+          "phase": "play",
+          "hp": 13,
+          "lives": 3,
+          "score": 875,
+          "charge": 48.240740740742496,
+          "ready": false,
+          "water": 418,
+          "remainingBricks": 11
+        },
+        {
+          "x": 288,
+          "time": 15.033333333335182,
+          "state": "play",
+          "phase": "play",
+          "hp": 10,
+          "lives": 3,
+          "score": 1040,
+          "charge": 76.01851851852106,
+          "ready": false,
+          "water": 400,
+          "remainingBricks": 11
+        },
+        {
+          "x": 128,
+          "time": 20.03333333333535,
+          "state": "play",
+          "phase": "play",
+          "hp": 7,
+          "lives": 3,
+          "score": 1315,
+          "charge": 100,
+          "ready": true,
+          "water": 400,
+          "remainingBricks": 6
+        },
+        {
+          "x": 24,
+          "time": 25.033333333335065,
+          "state": "play",
+          "phase": "play",
+          "hp": 6,
+          "lives": 3,
+          "score": 1390,
+          "charge": 100,
+          "ready": true,
+          "water": 370,
+          "remainingBricks": 5
+        },
+        {
+          "x": 240,
+          "time": 30.03333333333478,
+          "state": "play",
+          "phase": "play",
+          "hp": 5,
+          "lives": 2,
+          "score": 1495,
+          "charge": 100,
+          "ready": false,
+          "water": 370,
+          "remainingBricks": 4
+        },
+        {
+          "x": 264,
+          "time": 35.03333333333191,
+          "state": "play",
+          "phase": "play",
+          "hp": 2,
+          "lives": 2,
+          "score": 1745,
+          "charge": 100,
+          "ready": true,
+          "water": 394,
+          "remainingBricks": 3
+        },
+        {
+          "x": 216,
+          "time": 40.03333333332736,
+          "state": "play",
+          "phase": "play",
+          "hp": 2,
+          "lives": 2,
+          "score": 1760,
+          "charge": 100,
+          "ready": false,
+          "water": 364,
+          "remainingBricks": 3
+        },
+        {
+          "x": 72,
+          "time": 45.033333333322815,
+          "state": "play",
+          "phase": "rescue",
+          "hp": 0,
+          "lives": 2,
+          "score": 1885,
+          "charge": 100,
+          "ready": false,
+          "water": 483,
+          "remainingBricks": 2
+        },
+        {
+          "x": 72,
+          "time": 45.07083333332278,
+          "state": "won",
+          "phase": "complete",
+          "hp": 0,
+          "lives": 2,
+          "score": 1885,
+          "charge": 100,
+          "ready": false,
+          "water": 483,
+          "remainingBricks": 2
+        }
+      ],
+      "final": {
+        "state": "won",
+        "phase": "complete",
+        "time": 45.07083333332278,
+        "hp": 0,
+        "lives": 2,
+        "score": 1885,
+        "charge": 100,
+        "water": 483
+      },
+      "combat": true,
+      "errors": []
+    },
+    {
+      "level": "tidewheel",
+      "device": "android",
+      "policy": "signature",
+      "scope": "Same public touch policy with signature activated only through actual UI after genuinely earning charge. No Continue or HP/resource/actor/progression writes.",
+      "casts": [
+        {
+          "time": 21.23333333333614,
+          "before": 100,
+          "after": {
+            "charge": 0,
+            "anchor": true,
+            "guard": false
+          }
+        },
+        {
+          "time": 44.850000000020195,
+          "before": 100,
+          "after": {
+            "charge": 0,
+            "anchor": true,
+            "guard": false
+          }
+        }
+      ],
+      "stop": "won",
+      "history": [
+        {
+          "x": 184,
+          "time": 0.03333333333332849,
+          "state": "play",
+          "phase": "play",
+          "hp": 24,
+          "lives": 3,
+          "score": 0,
+          "charge": 0,
+          "ready": false,
+          "water": 418,
+          "remainingBricks": 24
+        },
+        {
+          "x": 208,
+          "time": 5.033333333332818,
+          "state": "play",
+          "phase": "play",
+          "hp": 23,
+          "lives": 3,
+          "score": 100,
+          "charge": 16.666666666666817,
+          "ready": false,
+          "water": 418,
+          "remainingBricks": 22
+        },
+        {
+          "x": 232,
+          "time": 10.03333333333439,
+          "state": "play",
+          "phase": "play",
+          "hp": 21,
+          "lives": 3,
+          "score": 375,
+          "charge": 38.037037037043056,
+          "ready": false,
+          "water": 418,
+          "remainingBricks": 18
+        },
+        {
+          "x": 40,
+          "time": 15.033333333335172,
+          "state": "play",
+          "phase": "play",
+          "hp": 19,
+          "lives": 3,
+          "score": 700,
+          "charge": 65.81481481483158,
+          "ready": false,
+          "water": 400,
+          "remainingBricks": 9
+        },
+        {
+          "x": 216,
+          "time": 20.033333333335953,
+          "state": "play",
+          "phase": "play",
+          "hp": 19,
+          "lives": 3,
+          "score": 700,
+          "charge": 93.59259259261015,
+          "ready": false,
+          "water": 400,
+          "remainingBricks": 9
+        },
+        {
+          "x": 168,
+          "time": 25.050000000003404,
+          "state": "play",
+          "phase": "play",
+          "hp": 17,
+          "lives": 3,
+          "score": 905,
+          "charge": 19.870370370375994,
+          "ready": false,
+          "water": 394,
+          "remainingBricks": 6
+        },
+        {
+          "x": 200,
+          "time": 30.050000000004186,
+          "state": "play",
+          "phase": "play",
+          "hp": 16,
+          "lives": 2,
+          "score": 1045,
+          "charge": 47.648148148162896,
+          "ready": false,
+          "water": 394,
+          "remainingBricks": 3
+        },
+        {
+          "x": 320,
+          "time": 35.05000000000822,
+          "state": "play",
+          "phase": "play",
+          "hp": 13,
+          "lives": 2,
+          "score": 1245,
+          "charge": 75.42592592594774,
+          "ready": false,
+          "water": 394,
+          "remainingBricks": 1
+        },
+        {
+          "x": 208,
+          "time": 40.05000000001433,
+          "state": "play",
+          "phase": "play",
+          "hp": 13,
+          "lives": 2,
+          "score": 1245,
+          "charge": 88.88888888888701,
+          "ready": false,
+          "water": 364,
+          "remainingBricks": 1
+        },
+        {
+          "x": 272,
+          "time": 45.06666666668713,
+          "state": "play",
+          "phase": "play",
+          "hp": 9,
+          "lives": 2,
+          "score": 1445,
+          "charge": 0,
+          "ready": false,
+          "water": 368.3333333333331,
+          "remainingBricks": 1
+        },
+        {
+          "x": 168,
+          "time": 50.06666666669324,
+          "state": "play",
+          "phase": "play",
+          "hp": 9,
+          "lives": 2,
+          "score": 1445,
+          "charge": 0,
+          "ready": false,
+          "water": 388,
+          "remainingBricks": 1
+        },
+        {
+          "x": 272,
+          "time": 55.06666666669935,
+          "state": "play",
+          "phase": "play",
+          "hp": 6,
+          "lives": 2,
+          "score": 1595,
+          "charge": 14.574074074075227,
+          "ready": false,
+          "water": 358,
+          "remainingBricks": 1
+        },
+        {
+          "x": 336,
+          "time": 60.06666666670546,
+          "state": "play",
+          "phase": "play",
+          "hp": 4,
+          "lives": 1,
+          "score": 1710,
+          "charge": 29.907407407408904,
+          "ready": false,
+          "water": 358,
+          "remainingBricks": 1
+        },
+        {
+          "x": 184,
+          "time": 65.0666666667093,
+          "state": "play",
+          "phase": "play",
+          "hp": 4,
+          "lives": 1,
+          "score": 1710,
+          "charge": 33.33333333333265,
+          "ready": false,
+          "water": 328,
+          "remainingBricks": 1
+        },
+        {
+          "x": 112,
+          "time": 70.06666666670475,
+          "state": "play",
+          "phase": "play",
+          "hp": 2,
+          "lives": 1,
+          "score": 1885,
+          "charge": 44.44444444444515,
+          "ready": false,
+          "water": 346.79999999999893,
+          "remainingBricks": 1
+        },
+        {
+          "x": 64,
+          "time": 75.0666666667002,
+          "state": "play",
+          "phase": "rescue",
+          "hp": 0,
+          "lives": 1,
+          "score": 1985,
+          "charge": 50.00000000000155,
+          "ready": false,
+          "water": 476.0416666666059,
+          "remainingBricks": 1
+        },
+        {
+          "x": 64,
+          "time": 75.66250000003299,
+          "state": "won",
+          "phase": "complete",
+          "hp": 0,
+          "lives": 1,
+          "score": 1985,
+          "charge": 50.00000000000155,
+          "ready": false,
+          "water": 483,
+          "remainingBricks": 1
+        }
+      ],
+      "final": {
+        "state": "won",
+        "phase": "complete",
+        "time": 75.66250000003299,
+        "hp": 0,
+        "lives": 1,
+        "score": 1985,
+        "charge": 50.00000000000155,
+        "water": 483
+      },
+      "combat": true,
+      "errors": []
+    }
+  ],
+  "complete": true,
+  "machinery": [
+    {
+      "device": "ios",
+      "scope": "Explicit staged mechanism state, then actual public touch dodge. No earned-play claim.",
+      "warning": {
+        "stage": "pullWindup",
+        "chain": {
+          "hand": {
+            "x": 300.1327543645212,
+            "y": 246.55503865189976
+          },
+          "pulley": {
+            "x": 310,
+            "y": 244
+          },
+          "pull": 0,
+          "wheelAngle": 0
+        },
+        "claws": [
+          {
+            "root": {
+              "x": 159.52322268907562,
+              "y": 171.3956513761468
+            },
+            "angle": 0.4031250000000116,
+            "grip": {
+              "x": 159.52322268907562,
+              "y": 171.3956513761468
+            }
+          },
+          {
+            "root": {
+              "x": 243.44444117647058,
+              "y": 178.78386697247706
+            },
+            "angle": 0.12,
+            "grip": {
+              "x": 299.1502812135107,
+              "y": 229.8177365684556
+            }
+          }
+        ],
+        "water": {
+          "y": 418,
+          "target": 418,
+          "initial": 418,
+          "limit": 122,
+          "current": 0
+        },
+        "lumi": {
+          "x": 308,
+          "y": 75,
+          "baseY": 75,
+          "targetY": 75,
+          "steps": 0
+        }
+      },
+      "pull": {
+        "stage": "pull",
+        "chain": {
+          "hand": {
+            "x": 329.96291719347414,
+            "y": 196.70173153841995
+          },
+          "pulley": {
+            "x": 310,
+            "y": 244
+          },
+          "pull": 1,
+          "wheelAngle": -0.65
+        },
+        "water": {
+          "y": 396.88333333333196,
+          "target": 388,
+          "initial": 418,
+          "limit": 128,
+          "current": -13.438650984501374
+        },
+        "lumi": {
+          "x": 308,
+          "y": 81,
+          "baseY": 75,
+          "targetY": 81,
+          "steps": 1
+        }
+      },
+      "pulseWarn": {
+        "from": {
+          "x": 336,
+          "y": 460.03816793893134
+        },
+        "source": {
+          "x": 336,
+          "y": 460.03816793893134
+        },
+        "target": {
+          "x": 180,
+          "y": 665.0381679389313
+        },
+        "targetX": 180,
+        "angle": 2.2212848995055468,
+        "age": 0.6666666666666449,
+        "life": 1.5
+      },
+      "launched": {
+        "pulses": [
+          {
+            "id": 2,
+            "x": 295.6283147793383,
+            "y": 513.0907030045438,
+            "px": 296.1329608445966,
+            "py": 512.4275463162237,
+            "vx": -121.11505566198697,
+            "vy": 159.1576051968419,
+            "r": 10,
+            "age": 0.3333333333333216,
+            "life": 3,
+            "from": {
+              "x": 336,
+              "y": 460.03816793893134
+            },
+            "dealt": false
+          }
+        ],
+        "bricks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "lives": 3
+      },
+      "impact": {
+        "lives": 2,
+        "phase": "serve",
+        "bricks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "dodge": {
+        "lives": 2,
+        "paddle": 62.00000093183445
+      }
+    },
+    {
+      "device": "android",
+      "scope": "Explicit staged mechanism state, then actual public touch dodge. No earned-play claim.",
+      "warning": {
+        "stage": "pullWindup",
+        "chain": {
+          "hand": {
+            "x": 300.1327543645212,
+            "y": 246.55503865189976
+          },
+          "pulley": {
+            "x": 310,
+            "y": 244
+          },
+          "pull": 0,
+          "wheelAngle": 0
+        },
+        "claws": [
+          {
+            "root": {
+              "x": 159.52322268907562,
+              "y": 171.3956513761468
+            },
+            "angle": 0.4031250000000116,
+            "grip": {
+              "x": 159.52322268907562,
+              "y": 171.3956513761468
+            }
+          },
+          {
+            "root": {
+              "x": 243.44444117647058,
+              "y": 178.78386697247706
+            },
+            "angle": 0.12,
+            "grip": {
+              "x": 299.1502812135107,
+              "y": 229.8177365684556
+            }
+          }
+        ],
+        "water": {
+          "y": 418,
+          "target": 418,
+          "initial": 418,
+          "limit": 122,
+          "current": 0
+        },
+        "lumi": {
+          "x": 308,
+          "y": 75,
+          "baseY": 75,
+          "targetY": 75,
+          "steps": 0
+        }
+      },
+      "pull": {
+        "stage": "pull",
+        "chain": {
+          "hand": {
+            "x": 329.96291719347414,
+            "y": 196.70173153841995
+          },
+          "pulley": {
+            "x": 310,
+            "y": 244
+          },
+          "pull": 1,
+          "wheelAngle": -0.65
+        },
+        "water": {
+          "y": 396.90666666666186,
+          "target": 388,
+          "initial": 418,
+          "limit": 128,
+          "current": -13.434742728678518
+        },
+        "lumi": {
+          "x": 308,
+          "y": 81,
+          "baseY": 75,
+          "targetY": 81,
+          "steps": 1
+        }
+      },
+      "pulseWarn": {
+        "from": {
+          "x": 336,
+          "y": 484.4174757281553
+        },
+        "source": {
+          "x": 336,
+          "y": 484.4174757281553
+        },
+        "target": {
+          "x": 180,
+          "y": 689.4174757281553
+        },
+        "targetX": 180,
+        "angle": 2.2212848995055468,
+        "age": 0.6666666666666449,
+        "life": 1.5
+      },
+      "launched": {
+        "pulses": [
+          {
+            "id": 2,
+            "x": 295.6283147793383,
+            "y": 537.4700107937657,
+            "px": 296.1329608445966,
+            "py": 536.8068541054456,
+            "vx": -121.11505566198697,
+            "vy": 159.1576051968419,
+            "r": 10,
+            "age": 0.3333333333333216,
+            "life": 3,
+            "from": {
+              "x": 336,
+              "y": 484.4174757281553
+            },
+            "dealt": false
+          }
+        ],
+        "bricks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "lives": 3
+      },
+      "impact": {
+        "lives": 2,
+        "phase": "serve",
+        "bricks": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "dodge": {
+        "lives": 2,
+        "paddle": 62.00000281472808
+      }
+    }
+  ],
+  "after": {
+    "assets/fantasy-machinery/bell.png": "f9ee6022f523dd6bfd92c8cbaec6f00a0a643fb26ab2ea04dd744c89313c8723",
+    "assets/fantasy-machinery/bellCradle.png": "20cfb11d5e7c3595a4d52608e380e412da8796bae9a4943056aaa5151db44ab2",
+    "assets/fantasy-machinery/bellforge-background.png": "6189c80623faef82ee8bd7ba507b5380831d69fca0478518f96865d9644a2af2",
+    "assets/fantasy-machinery/brick-coral.png": "ccbed3518f64f3294b6f00878bf2eb0a2440824633fb62af063282a3244f495b",
+    "assets/fantasy-machinery/brick-ivory.png": "ccd4cc382b0f7b141d7ab56402a0f004cbf5733e88c4bd6abdc72dd79335f54b",
+    "assets/fantasy-machinery/brick-sage.png": "4f7b5b5a1aa0dac23f5f503d74bb1a00a3e39bb8c0f783008e4a8c831c453bf1",
+    "assets/fantasy-machinery/chain-v2.png": "b9f662acef63c1fe087192ec3155b314e0914c84d944204093d085b915069b8f",
+    "assets/fantasy-machinery/counterweight.png": "07fb3238f63e90620e5a2c05a2ac618e967faac19d5edb001b2975e6f580f295",
+    "assets/fantasy-machinery/crusherClaw.png": "3ce2ce1fea400e7affe050363858f497e6527bb81e4f220d3094d7a9db8f2829",
+    "assets/fantasy-machinery/gate.png": "04cab2d6c478aad12857f634b1bc3de34dae2342bb71b4125a229338ac2f9edc",
+    "assets/fantasy-machinery/gateClaw.png": "eca4a8c12a9f320924c8b969ce70d0648c92fcaefef7444efea5674adc5d4da1",
+    "assets/fantasy-machinery/gateClawV2.png": "8233aae478bd83fb7426c6206141745508b0171f2f01ecef3a0e33786119234a",
+    "assets/fantasy-machinery/gateFrame.png": "87dbdf9ca72795366a1794bbcb36dc86e8399c591ac99d2d7db72a312e788a86",
+    "assets/fantasy-machinery/hopperStudy.png": "bbc2d0f6d68002f741538b61178d3e8c030ff08503b94ef6c021cb298a1e67da",
+    "assets/fantasy-machinery/korr-idle.png": "30e5da9d16d77937415b57c138b9e0c04c80da9d794b029ff215e398acb51fe4",
+    "assets/fantasy-machinery/korr-release.png": "eedd6b91a8d63d32c8e6456d9be97c4e16a8fddbffbae3262a24d090fcb049d0",
+    "assets/fantasy-machinery/korr-stagger.png": "a1743526bfaab5995dac29726d4b9b144086da936afab30dc1de016ce3daa8d1",
+    "assets/fantasy-machinery/korr-windup.png": "47c5e0598e4d4a6a09b73cfac57cb083fab846f99d9afe4c631a5292b730f0fa",
+    "assets/fantasy-machinery/korr.png": "e1f2ab4f5b5856c3c8562965bf4f3fa5bf11c6ee1b64a8c4b05dab379a7e7932",
+    "assets/fantasy-machinery/leverMount.png": "9076a3a8c9ba77f0542af0ba730b3fcac532a79a4baf6f5ad9b71884994c8f88",
+    "assets/fantasy-machinery/lift.png": "b5c33657067673a42e6f6b75fa70dc0999bb70f99a0a7386c66c8f5639292069",
+    "assets/fantasy-machinery/manifest.json": "b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13",
+    "assets/fantasy-machinery/nerra-v2-hurt.png": "6098a9d7f4bda52b45da0c6816bbd08b32ed277a4bd47234d4e597b2fe20af14",
+    "assets/fantasy-machinery/nerra-v2-idle.png": "3909b5ddfb3b0f0b1ef8c9865492328a523c6f2e0a718b0d20be63898ad6d9a0",
+    "assets/fantasy-machinery/nerra-v2-manifest.json": "defc7d7d75af13b50560cbabd79d5115cbeeafa997d9abc5452f5c5e0418fc69",
+    "assets/fantasy-machinery/nerra-v2-pull.png": "d5a5cbf8e51bd39cdd8916996bd7d8b359213f732090175b618f0e22d15da383",
+    "assets/fantasy-machinery/nerra-v2-step.png": "19bcf7cd5881716d250b9288f8924ba48e55991c34b2484d79979eb2bb4529d0",
+    "assets/fantasy-machinery/nerra-v2.png": "0ef6a3017d29a8477a2fddb91cb0413da3dc3c0d94c741879dce36e243542ffd",
+    "assets/fantasy-machinery/nerraBody.png": "ef5644f573d6aebd83aa12080e42857123f0b35c328c0ad415a0e0c7775cee26",
+    "assets/fantasy-machinery/plinth.png": "d9e3877ba5fa844813180aa343569da22a104826a3526d725452da0a27c3e989",
+    "assets/fantasy-machinery/raft.png": "6382b59723891f273b45b8049e6bc7830e29a72f01eda7e184bfec6d1a73d625",
+    "assets/fantasy-machinery/ramp.png": "d37022aa5f8ee4989727b6be1be7677af1c6f621d62f9829777b06c1697c9fda",
+    "assets/fantasy-machinery/ratchet.png": "0578c721ec5db079aa96eabf0fa3164c0a709eaffebaeaa4b7bf8173ec0d037b",
+    "assets/fantasy-machinery/refugeBalcony.png": "df3dca5a324254baf52e638dd4268a9bb77e90dea07f8c247309e518bea4edca",
+    "assets/fantasy-machinery/releaseLever.png": "a4a0add6dcb119f2ba43eea36155ae576940a4fead50b6de3884660971356b4b",
+    "assets/fantasy-machinery/sluiceWall.png": "9603f5603b9a3c0cdef37557aa1c6b7728659a4f0497cca5e5706844426b8323",
+    "assets/fantasy-machinery/tidewheel-background.png": "c11ddbb3f2f583576e9b03436c4aad132018f70576f4cc84c68e8651520de7da",
+    "assets/fantasy-machinery/water-shot-manifest.json": "44172b349146ac438006989327ddfcd8da2d4db0c81b73e03fb68e5450f8010f",
+    "assets/fantasy-machinery/water-shot.png": "e9a23f6276be299e8224f3505598ff7826d738369dcd0f855b594a64c39c05ff",
+    "assets/fantasy-machinery/wheel.png": "1ca697216202ab97a24d2d05f0ff627f2403aca9890acaa2122a6291aff62207",
+    "prototypes/fantasy/index.html": "277356aa3a61eaf59f642222b34901da886c9cc0c041af98c73efb804dabb756",
+    "prototypes/fantasy/main.js": "d38c814b22c15ef54a68250190061fb05df661fd3103180451a8061cc57fafa6",
+    "prototypes/fantasy/render.js": "7b0e8d83a9cdb395bd0e215474ae58bf33d5d8f64886c37a87b656ede7c16a6c",
+    "prototypes/fantasy/style.css": "891ae56b71793d043587498302d36d52d3591adf9352272bee7981fe26a84a13",
+    "src/fantasy/bellforge.js": "46f6297072baf87b7c8d2e88875b3e1e4a7e99ec90a48f0ab3f5cf4be7ac65cf",
+    "src/fantasy/tidewheel-geometry.js": "cd13451c66777da58709bf2eff095ccce2bc243c0a812981020759d2341dbe3d",
+    "src/fantasy/tidewheel-v2-geometry.js": "be9dbe700427fd3e5c89d72dbee0328105d2c0fe54732d88ee17cfd7174d7cd8",
+    "src/fantasy/tidewheel.js": "c216f74972ae53d65d762969284d215561e84b5f64a144bf0da101122183dbf1"
+  },
+  "stable": true
+}

@@ -1,0 +1,239 @@
+{
+  "version": 1,
+  "status": "Five-object detached-wing family; runtime motion/physics admission separate",
+  "reference": "art/starflight-storm/player-reference.png",
+  "referenceSHA256": "ad4c0f3c8024b3dd011f643c81993244b928481bf07280946a232c0edfd1151a",
+  "source": "art/starflight-storm/source-v1.png",
+  "sourceSHA256": "8f9638ebe79a7f2b5fc5b548fd9518b16d0848722e37bdef6056482fb2693415",
+  "filter": "linear",
+  "facing": "up",
+  "sharedCanvas": [
+    320,
+    288
+  ],
+  "heroDisplay": [
+    52,
+    46.8
+  ],
+  "pivotConvention": "Full canvas normalized UV. Wing pose coordinates represent the actual inner armour attachment, not image centre.",
+  "neutralAssembly": "Body at player centre. Wing pose = body centre + rotated neutralOffset; draw each wing with its own pivot. Neutral composite is pixel-exact to the existing player.",
+  "parts": {
+    "body": {
+      "path": "assets/starflight-storm/body.png",
+      "size": [
+        320,
+        288
+      ],
+      "display": [
+        52,
+        46.8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "neutralOffset": [
+        0.0,
+        0.0
+      ],
+      "alphaBounds": [
+        122,
+        20,
+        198,
+        259
+      ],
+      "sha256": "ffae2e0e4759c2c4752fb40ee2b3a9e5870ae356258201702a8750812ece50fd",
+      "source": "art/starflight-storm/player-reference.png",
+      "sourceSHA256": "ad4c0f3c8024b3dd011f643c81993244b928481bf07280946a232c0edfd1151a",
+      "sockets": {
+        "left": [
+          0.409375,
+          0.5694444444444444
+        ],
+        "right": [
+          0.590625,
+          0.5694444444444444
+        ]
+      }
+    },
+    "wing-left": {
+      "path": "assets/starflight-storm/wing-left.png",
+      "size": [
+        320,
+        288
+      ],
+      "display": [
+        52,
+        46.8
+      ],
+      "pivot": [
+        0.40625,
+        0.5694444444444444
+      ],
+      "neutralOffset": [
+        -4.875,
+        3.2499999999999987
+      ],
+      "alphaBounds": [
+        16,
+        49,
+        138,
+        268
+      ],
+      "sha256": "ce7e3271c1b93b2a0959da646d1c5075c5b75c5eeccf7f518b05893d107a324b",
+      "source": "art/starflight-storm/player-reference.png",
+      "sourceSHA256": "ad4c0f3c8024b3dd011f643c81993244b928481bf07280946a232c0edfd1151a",
+      "attachmentUV": [
+        0.40625,
+        0.5694444444444444
+      ],
+      "tipUV": [
+        0.348125,
+        0.22790556900726391
+      ],
+      "muzzleUV": [
+        0.348125,
+        0.22790556900726391
+      ],
+      "engineUV": [
+        0.314375,
+        0.842984934086629
+      ],
+      "tipOffset": [
+        -3.022499999999999,
+        -15.984019370460048
+      ],
+      "engineOffset": [
+        -4.777499999999999,
+        12.801694915254238
+      ]
+    },
+    "wing-right": {
+      "path": "assets/starflight-storm/wing-right.png",
+      "size": [
+        320,
+        288
+      ],
+      "display": [
+        52,
+        46.8
+      ],
+      "pivot": [
+        0.59375,
+        0.5694444444444444
+      ],
+      "neutralOffset": [
+        4.875,
+        3.2499999999999987
+      ],
+      "alphaBounds": [
+        183,
+        49,
+        304,
+        268
+      ],
+      "sha256": "98d1fcd23decb452b8412573666553ffbaf4f9cbef7a007508bdfdca1a02ec73",
+      "source": "art/starflight-storm/player-reference.png",
+      "sourceSHA256": "ad4c0f3c8024b3dd011f643c81993244b928481bf07280946a232c0edfd1151a",
+      "attachmentUV": [
+        0.59375,
+        0.5694444444444444
+      ],
+      "tipUV": [
+        0.655625,
+        0.22790556900726391
+      ],
+      "muzzleUV": [
+        0.655625,
+        0.22790556900726391
+      ],
+      "engineUV": [
+        0.665,
+        0.842984934086629
+      ],
+      "tipOffset": [
+        3.2175000000000007,
+        -15.984019370460048
+      ],
+      "engineOffset": [
+        3.705000000000002,
+        12.801694915254238
+      ]
+    },
+    "storm-icon": {
+      "path": "assets/starflight-storm/storm-icon.png",
+      "size": [
+        256,
+        192
+      ],
+      "display": [
+        60,
+        45.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "alphaBounds": [
+        16,
+        33,
+        240,
+        159
+      ],
+      "sha256": "5f8a30e302b57f413b8a7ac453ead0728fe439745bd5c1ec8e65eff47a8cf424",
+      "source": "art/starflight-storm/source-v1.png",
+      "sourceSHA256": "8f9638ebe79a7f2b5fc5b548fd9518b16d0848722e37bdef6056482fb2693415",
+      "sourceCrop": [
+        30,
+        745,
+        834,
+        1197
+      ]
+    },
+    "ricochet": {
+      "path": "assets/starflight-storm/ricochet.png",
+      "size": [
+        128,
+        256
+      ],
+      "display": [
+        12,
+        24.0
+      ],
+      "pivot": [
+        0.5016816143497758,
+        0.49494485294117646
+      ],
+      "alphaBounds": [
+        16,
+        18,
+        112,
+        238
+      ],
+      "sha256": "91d625b148e7ccfa70935de5252a0b899828bf44227ea925d7d4594f3a10fd68",
+      "source": "art/starflight-storm/source-v1.png",
+      "sourceSHA256": "8f9638ebe79a7f2b5fc5b548fd9518b16d0848722e37bdef6056482fb2693415",
+      "sourceCrop": [
+        886,
+        728,
+        1109,
+        1238
+      ],
+      "noseUV": [
+        0.5050448430493273,
+        0.09727328431372549
+      ],
+      "engineUV": [
+        0.5016816143497758,
+        0.6971507352941176
+      ],
+      "facing": "up"
+    }
+  },
+  "limits": [
+    "Flight layers preserve the exact existing hero pixels instead of admitting the wider generated exploded proportions.",
+    "Generated exposed socket studies remain retained in source-v1; they are not baked into neutral flight layers.",
+    "No generic drone substitution. Each wing owns its original gun, nozzle and swept surface.",
+    "Storm-icon is a menu raster, not a field-wide lightning or damage collider."
+  ]
+}

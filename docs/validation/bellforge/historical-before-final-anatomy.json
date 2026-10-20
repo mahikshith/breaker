@@ -1,0 +1,183 @@
+{
+  "scope": "Deterministic model-assisted public-input routes; no resource, target, ball, position or life writes. Not native/human balance proof.",
+  "source": "dd7f3822069763c313089a42f0c4d0602040c9c6d92642a6bcaafb7bc6bc5244",
+  "policy": "c8e5410f4831ec832b3773fb73c36516161c9cf8e5a10664a22a705f4d1b92e1",
+  "runs": [
+    {
+      "height": 700,
+      "mode": "easy",
+      "powers": false,
+      "state": "won",
+      "time": 64.70000000002332,
+      "hp": 0,
+      "lives": 3,
+      "steps": 4,
+      "charge": 100,
+      "casts": [],
+      "firstReady": 60.88333333335482,
+      "score": 790
+    },
+    {
+      "height": 700,
+      "mode": "medium",
+      "powers": false,
+      "state": "won",
+      "time": 60.58333333335458,
+      "hp": 0,
+      "lives": 3,
+      "steps": 1,
+      "charge": 100,
+      "casts": [],
+      "firstReady": 47.433333333344116,
+      "score": 1030
+    },
+    {
+      "height": 700,
+      "mode": "hard",
+      "powers": false,
+      "state": "won",
+      "time": 75.58333333334676,
+      "hp": 0,
+      "lives": 3,
+      "steps": 1,
+      "charge": 88.46153846153311,
+      "casts": [],
+      "firstReady": null,
+      "score": 1230
+    },
+    {
+      "height": 760,
+      "mode": "easy",
+      "powers": false,
+      "state": "won",
+      "time": 76.27916666667946,
+      "hp": 0,
+      "lives": 3,
+      "steps": 6,
+      "charge": 100,
+      "casts": [],
+      "firstReady": 30.349999999998598,
+      "score": 860
+    },
+    {
+      "height": 760,
+      "mode": "medium",
+      "powers": false,
+      "state": "won",
+      "time": 94.86249999999589,
+      "hp": 0,
+      "lives": 3,
+      "steps": 3,
+      "charge": 100,
+      "casts": [],
+      "firstReady": 37.3583333333361,
+      "score": 1070
+    },
+    {
+      "height": 760,
+      "mode": "hard",
+      "powers": false,
+      "state": "lost",
+      "time": 45.300000000009085,
+      "hp": 23,
+      "lives": 3,
+      "steps": 5,
+      "charge": 79.47115384615194,
+      "casts": [],
+      "firstReady": null,
+      "score": 645
+    },
+    {
+      "height": 700,
+      "mode": "easy",
+      "powers": true,
+      "state": "won",
+      "time": 64.70000000002332,
+      "hp": 0,
+      "lives": 3,
+      "steps": 4,
+      "charge": 0,
+      "casts": [
+        60.88333333335482
+      ],
+      "firstReady": 60.88333333335482,
+      "score": 790
+    },
+    {
+      "height": 700,
+      "mode": "medium",
+      "powers": true,
+      "state": "won",
+      "time": 60.58333333335458,
+      "hp": 0,
+      "lives": 3,
+      "steps": 1,
+      "charge": 0,
+      "casts": [
+        53.22500000001539
+      ],
+      "firstReady": 47.433333333344116,
+      "score": 1030
+    },
+    {
+      "height": 700,
+      "mode": "hard",
+      "powers": true,
+      "state": "won",
+      "time": 75.58333333334676,
+      "hp": 0,
+      "lives": 3,
+      "steps": 1,
+      "charge": 88.46153846153311,
+      "casts": [],
+      "firstReady": null,
+      "score": 1230
+    },
+    {
+      "height": 760,
+      "mode": "easy",
+      "powers": true,
+      "state": "won",
+      "time": 56.37083333335123,
+      "hp": 0,
+      "lives": 3,
+      "steps": 3,
+      "charge": 22.22222222222266,
+      "casts": [
+        30.724999999998577
+      ],
+      "firstReady": 30.349999999998598,
+      "score": 830
+    },
+    {
+      "height": 760,
+      "mode": "medium",
+      "powers": true,
+      "state": "won",
+      "time": 94.86249999999589,
+      "hp": 0,
+      "lives": 3,
+      "steps": 3,
+      "charge": 18.181818181818453,
+      "casts": [
+        37.3583333333361
+      ],
+      "firstReady": 37.3583333333361,
+      "score": 1070
+    },
+    {
+      "height": 760,
+      "mode": "hard",
+      "powers": true,
+      "state": "lost",
+      "time": 45.300000000009085,
+      "hp": 23,
+      "lives": 3,
+      "steps": 5,
+      "charge": 79.47115384615194,
+      "casts": [],
+      "firstReady": null,
+      "score": 645
+    }
+  ]
+}

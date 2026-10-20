@@ -5,7 +5,7 @@ This one file contains everything another assistant needs to design for, or take
 - **Game:** BREACH, a premium portrait brick breaker for iOS and Android. Tagline: "Break in. Break out."
 - **Owner:** mykee (GitHub `mahikshith`).
 - **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `codex/starship-run-prototype` is this working branch.
-- **Assembled at:** repo commit `1a8bdac`.
+- **Assembled at:** repo commit `117fd51`.
 
 ## How to read this file
 
@@ -15,6 +15,13 @@ This one file contains everything another assistant needs to design for, or take
 | Part | Contents | Source file in the repo |
 |---|---|---|
 | M | Current continuation memory | `docs/CONTINUE_HERE.md` |
+| Q | Approved new keep references | `design/phase1/princess-two-levels.md` |
+| Y | Bellforge machinery and encounter | `docs/BELLFORGE_PHYSICS.md` |
+| Z | Tidewheel machinery and encounter | `docs/TIDEWHEEL_PHYSICS.md` |
+| AA | Keep artwork production and measured geometry | `art/fantasy-machinery/SOURCE.md` |
+| AB | Nerra chain-pull artwork and anatomy | `art/fantasy-machinery/NERRA_V2.md` |
+| W | Gatebreak mission implementation | `docs/STARFLIGHT_MISSION.md` |
+| X | Distinct future flight powers | `docs/STARFLIGHT_POWER_EXPLORATION.md` |
 | S | Starflight prototype and story | `docs/STARFLIGHT_PROTOTYPE.md` |
 | T | Starflight combat contract | `docs/STARFLIGHT_COMBAT.md` |
 | U | Starflight artwork pipeline | `docs/STARFLIGHT_ART.md` |
@@ -45,7 +52,9 @@ Companion file: `docs/BREACH-blender-scripts.md` has every Blender and art scrip
 
 Last updated 2026-10-20. Active branch: `codex/starship-run-prototype`. The completed five-chapter APK branch is `codex/space-combat-apk` and has been incorporated here.
 
-Latest steering: **combat-first campaign design**, using reference research and design judgment. The owner explicitly clarified that rescue-to-module progression was an example, not a required loop. Prioritise distinct enemy movement/destruction, weapon tradeoffs, smaller Android assets and pressure/recovery pacing; use rescue only where it improves an encounter. Start with `docs/STARFLIGHT_CAMPAIGN.md`; it separates proposed chapter production from the implemented combat lab. The current browser prototype at `prototypes/starflight/` has direct flight, seven bounded reactor powers, a single circular ship icon/chooser, smaller shared visual/collision geometry, multiple enemy families, destructible asteroids and bounded gravity pockets. Read `docs/STARFLIGHT_PROTOTYPE.md`, `docs/STARFLIGHT_COMBAT.md` and `docs/STARFLIGHT_ART.md` for exact scope and validation. It is NOT inside the five-chapter APK, has no physical rescue/attachment campaign yet, and its Hard balance remains provisional.
+Latest steering: enjoyable, readable combat with memorable powers; enemies must not disappear and award progress for doing nothing. The default browser now runs **Gatebreak**, a finite mission with returning fighter roles, three blockade batteries, a command ship that loses firing capability, earned weapon capsules, recovery pockets and a final fleet departure. Read `docs/STARFLIGHT_MISSION.md` first. Stormwing is exclusively thunder from separation through return; no friendly bullets may appear until attachment. Ricochet uses actual repeated wall reflections. Nine choices use a paused weapon bay; stock spends before reactor charge. Preview: `http://127.0.0.1:4194/prototypes/starflight/`. The previous repeating lab is retained at `?lab=1`. The owner approved both Bellforge Run and Tidewheel Citadel boards and asked for faithful moving implementations. Their original boards are preserved in `design/phase1/princess-two-levels.md`. Both now have standalone moving browser encounters: `http://127.0.0.1:4194/prototypes/fantasy/?level=bellforge` and `?level=tidewheel`. Read `docs/BELLFORGE_PHYSICS.md` and `docs/TIDEWHEEL_PHYSICS.md` for current rules, source hashes and phone-size receipts. Bellforge has 30 phone-layout bricks, extended ramps, rolling bells and a lowering lift. Tidewheel has 24 raft bricks, a smaller crab supported by a broad sluice wall, physical chain pulls, anger, a lowering refuge, bounded currents and a warned water attack. Two-hit central raft braces open broad ball lanes. These previews use four keyed character poses plus independently moving machinery; they are not full skeletal animation or part of the APK.
+
+`docs/STARFLIGHT_CAMPAIGN.md` remains a broader proposed campaign, not an implemented six-chapter game. Rescue-to-module progression was an example, not a required formula. Gatebreak is NOT inside the five-chapter APK; chapter saves, a physical rescue/attachment campaign and physical-phone balance remain future work.
 
 The owner approved both heavy and salvo fire, differentiated ship colours, alternating/paired/rest batteries, stronger player shots, Circuit Vesper/Latch, a better power menu, difficulty tuning and a new APK through CI. The five-chapter release is complete: CI 39399653237 passes web, native compilation/lint and Android 15 touch/fullscreen/lifecycle instrumentation. The downloaded APK is verified at 9,596,473 bytes, SHA256 B44BC99FE10468DEF35E89F32B85900F8AAD3C16BB92C6C1040A04D850E7BA8E. Download and scope: `docs/MOBILE_PREVIEW.md`; permanent evidence: `docs/validation/space-combat/native-release.json`. Physical handset performance and human difficulty remain device testing.
 
@@ -57,9 +66,651 @@ The owner approved both heavy and salvo fire, differentiated ship colours, alter
 
 Save slots remain Carrier 0 / Vault 1 / Circuit 2 / Forge 3; Frost Warden appends slot 4. Do not move Vault progress into a space slot. Nix/Tick belong to Carrier; Vesper/Latch to Circuit; Forge currently has neutral ship arsenal. Nova/Pin, Escort Run and Orbital Switch remain future proposals. The owner delegated design decisions and authorized a fifth Frost Warden princess encounter using the Yeti rig, preserving Brum as a hero. See `docs/BRUM_LEVEL_PLAN.md` for the implemented geometry, measured collision, pacing, powers and phone evidence.
 
-Final canonical browser SHA256: `B06CDD969BCF5C420A74B3CF37A3EAC45FE3D46EABB2926F5E5D2B8A42E01770`. Offline Android HTML: `4071ACEE8BE6AB862A3CD9A0CE35680B99090B9E254D7B858F699668D949B90A`. `config/mobile-preview.json` pins the source bundle; `tools/prepare-android.mjs` refuses a mismatch. The release checkpoint passes 231 unit tests; the current branch passes 266, including 35 Starflight tests. Detailed receipts and selected phone captures are versioned in `docs/validation/space-combat/`.
+Final canonical browser SHA256: `B06CDD969BCF5C420A74B3CF37A3EAC45FE3D46EABB2926F5E5D2B8A42E01770`. Offline Android HTML: `4071ACEE8BE6AB862A3CD9A0CE35680B99090B9E254D7B858F699668D949B90A`. `config/mobile-preview.json` pins the source bundle; `tools/prepare-android.mjs` refuses a mismatch. The release checkpoint passes 231 unit tests. Historical release receipts are in `docs/validation/space-combat/`; current Gatebreak verification belongs in `docs/validation/starflight-mission/`.
 
 User emphasis: retain reference art quality in runtime, meaningful pressure with readable dodges, ordinary-ball progress, useful bounded powers, distinct level objectives, full-screen safe mobile layout and detailed reproducible handoffs. Enemy space shots must never destroy the player's bricks. Avoid a mandatory precision puzzle when the ball cannot be directly aimed at every contact.
+
+
+---
+
+# Part Q: Approved new keep references
+
+*Source: `design/phase1/princess-two-levels.md`*
+
+## Two new princess encounters
+
+Status: both visual boards approved by the owner, 2026-10-20. Preserve their character identities, materials and atmosphere. Separate moving machinery, collision models and browser encounters are in production; approval of a board is not evidence of completed animation or playable balance. The existing snake Vault and Frost Warden remain separate encounters; Brum remains an ally. No new chapter number is assigned by this proposal.
+
+### Latest owner revision and implementation pointers
+
+The owner subsequently requested broader supports, more bricks, a smaller grounded crab, a real chain in its claw, lateral movement, hurt/anger responses and a distinct attack. These requirements supersede the preliminary counts and claw-on-wheel proposal below. Bellforge now has 30 coloured cells on both phone layouts and extended rolling ramps; Tidewheel has 24 cells on two moving rafts. The crab hauls a chain around a lower hoist, with warned stronger pulls after repeated hits and a separate interceptable water projectile. Keep the ordinary ball in the readable 2D foreground; buoyant rafts and bounded currents supply the water interaction. A parabolic aiming system is not implemented.
+
+The authoritative numerical contracts, actual geometry, reproduction commands and evidence are [Bellforge physics](../../docs/BELLFORGE_PHYSICS.md) and [Tidewheel physics](../../docs/TIDEWHEEL_PHYSICS.md). Current browser entry points are `prototypes/fantasy/?level=bellforge` and `prototypes/fantasy/?level=tidewheel`. They are standalone previews, not new slots in the five-chapter APK. The remainder of this document preserves the approved visual direction and original design proposal; use the implementation documents when their measurements differ.
+
+| Board | Main physical play | New villain | Kit signature |
+| --- | --- | --- | --- |
+| [A — Bellforge Run](img/princess-bellforge-a-v1.png) | Rolling iron bells, hinged ramps and momentum reversal | Korr, a four-legged armoured boar | Echo Guard redirects one live bell |
+| [B — Tidewheel Citadel](img/princess-tidewheel-b-v1.png) | Buoyant brick rafts, counterweights and sluice flow | Nerra, a castle-shell crab with two different claws | Undertow Anchor reverses a surge |
+
+Both preserve the actual blonde/pink/crowned Lumi and navy-armoured Kit reference identities. The lower-left control remains Kit's face orb. Large Kit poses on the right are presentation studies, not a full body under the paddle. Villains have their own anatomy and motion: Korr's short hoofed legs, tusks and heavy snout; Nerra's shell, stalk eyes, crusher claw, gate claw and articulated walking legs. There is no new ape, snake recolour or Yeti variant.
+
+### Common controls and fairness contract
+
+Keep one-finger paddle movement and the existing ball/aim language. Use the current 360-unit world, ordinary radius6, nominal speed345 and100×14 paddle as the first blockout baseline. No mode changes input sensitivity or secretly changes collision size. Equal36×18 coloured bricks give broad productive contacts; grey decoration must not become invisible blockers. Keep at least42-unit flank paths and32-unit gaps at every extreme moving pose. Those dimensions must admit the full normal and cosmic ball diameter with clearance, not only their centres.
+
+Keep the lowest brick/physical obstacle at least210 units above the paddle on the shorter phone layout, plus the existing126CSS-pixel lower control reservation. At345u/s that is roughly0.61s of straight downward travel, or0.48s at the1.28 rally cap; these are travel estimates, not measured human reaction. Both393×852 and412×915 require an actual layout pass. The boards are art/composition studies rather than literal phone measurements; their HUD, type, object counts and perspective are not automatic runtime specifications. Use Lilita One/Rubik in production.
+
+Broad villain body contacts always reduce HP, including during preparation/recovery. There is no compulsory tiny weak point, ordered symbol, narrow opening, purchased item or timed invulnerability wait. Environmental counters provide faster, more satisfying damage. A safe opening demonstrates each hazard before it can harm Lumi. Pause, background suspension, aim/serve and Continue must have explicit clocks: first serve starts pressure; replacement serves auto-launch after3 active seconds; Focus/SLOW do not freeze enemy threat time; true pause and the power picker do.
+
+For these proposals, each Kit signature uses one existing orb resource, with provisional18/22/26 productive ordinary-hit credits banked at no more than one credit per active second. No second meter or free double spend. Enemy destruction, arrows and active cosmic contacts cannot recharge their own power. This is a proposed per-level charging contract, not a change to existing Vault/Frost rules. Usual pickups can remain optional. Saturated/unavailable casts keep charge.
+
+### A — Bellforge Run
+
+**Story and objective.** Korr has jammed Lumi's bell-lift above the foundry. Defeat his broad armoured body, stop the winch and open a bridge so Lumi can leave. The rear plinth/arches are clearly recessed scenery; only the foreground ramps, weights, bricks and measured actor silhouettes collide. The board's dramatic background bell is scenery unless explicitly admitted as a physical asset.
+
+**Physical loop.** Korr lifts a hoof to cock a visible bell hopper; a1.3s minimum snort/lever tell previews the chosen ramp. A radius14 iron bell rolls through short, visibly hinged ramp sections under bounded gravity, angular motion and actual contact normals. Author its full route to a counterweight dock beside the lift; do not teleport between ramp endpoints. Ramp pins are broad optional30×18 breakable housings: breaking one rotates its connected ramp smoothly to its stop and opens a return lane. Both poses remain collidable. The safe teaching bell falls into an empty catch tray without moving Lumi.
+
+A normal ball contact deals one bell HP and imparts a capped physical impulse. A bell has2HP: the first contact can slow/reverse it; a second shatters it. A returning bell that reaches Korr's broad shoulder deals4HP and staggers him for1.5s. Side/body hits by ordinary balls still deal1HP throughout. Broken bell fragments are visual, give no charge/drop farming and never damage Lumi or the paddle.
+
+**Stakes.** A bell that physically reaches the dock turns the visible ratchet one tooth, lowering Lumi's lift by12u. Each mode starts with enough visible travel above a guarded danger stop for the misses below. The final approach gets a distinct ratchet clang, trembling chain and Lumi's worried face. Failure stops the lift and fades before any injury. The dock cannot double-trigger while a bell overlaps it. Lost player balls retain the usual life cost; a rescue failure and last-life miss resolve only once.
+
+**Echo Guard.** On a charged tap during a live bell warning/route, Kit forms one solid shield deflector in its visibly previewed catch lane for3s. One bell makes real swept contact, rebounds up the open return ramp and can strike Korr; the shield then retracts. No long light trail, remote instant boss damage or invisible catch volume. A tap with no eligible bell holds charge. Normal ball defence remains sufficient.
+
+| Provisional mode | Korr HP | Bell interval after first harmful release | Active bells | Lift mistakes allowed |
+| --- | ---: | ---: | ---: | ---: |
+| Easy | 24 | 10s | 1 | 8 |
+| Medium | 32 | 8.5s | 1 | 6 |
+| Hard | 40 | 7.5s | 2, staggered by≥3s | 5 |
+
+First harmful release is no earlier than12s after launch. No overlapping same-lane warnings. After a successful reversal give a1.5s stagger/breather before preparing another bell. Last boss HP loss immediately latches safe rescue; subsequent ball drain or bell arrival cannot revoke it during the bridge/lift animation. Continue retains boss/ramp progress, restores two ratchet teeth up to the starting allowance, clears live bells and grants at least3s warning grace; it does not resurrect the boss or duplicate rewards.
+
+### B — Tidewheel Citadel
+
+**Story and objective.** Nerra holds the castle's sluices shut while Lumi shelters on a high refuge balcony. Defeat the crab and empty the basin. Lumi then opens the final manual gate, giving her an active rescue beat. This encounter has no cage or marching protector posts.
+
+**Physical loop.** Two buoyant raft frames each carry a3×3 array of equal breakable bricks. Initial centres are approximately(94,300) and(266,300); each raft's full collision hull, brick cells and ropes must move together. Author bounded bobbing/tilt (≤8°) and horizontal drift so the minimum flank/gap contract survives all poses. Independent broad counterweight housings take2 ordinary hits and open their connected sluice for4s, draining24u of water. They are optional shortcuts: all ordinary shell/claw impacts still reduce Nerra HP.
+
+Nerra's gate-handling claw pulls back for1.5s, water visibly gathers, then a low surge travels across the basin. A warned surge raises the waterline by24u and pushes raft mass; it is not an instant wall deletion. Water starts at y420 and failure is reaching Lumi's safe line at y190, leaving230u of initial headroom. Water affects raft buoyancy and applies a bounded, smoothly ramped horizontal current of at most25u/s to the ball; it never changes ball collision radius, reverses vertical velocity without contact, teleports the ball or hides it behind foam. Player balls and actors remain in the foreground. Refraction/foam stay faint around the bright ball. Prototype this simplified height/current system before any fluid effect production.
+
+Two normal ball contacts on the preparing gate claw cancel that surge, but hitting its large shell is always productive damage. One claw can attack at a time; no simultaneous hidden surge. For teaching, the first pulse is contained below a harmless marked ledge. A released counterweight and active surge use swept tests against visible geometry; no unconnected rope or silent collider remains after destruction.
+
+**Undertow Anchor.** A charged tap deploys a tangible anchor on the local sluice wheel, connected by a short visible chain. It reverses that wheel for4s, cancels the next preparing surge and drains one24u step. This is one local physical tool, not a beam from the corner portrait, a global time freeze or repeated free healing. While no gate/pulse is eligible, charge is retained.
+
+| Provisional mode | Nerra HP | Harmful surge interval | Current cap | Warning |
+| --- | ---: | ---: | ---: | ---: |
+| Easy | 24 | 11s | 15u/s | 1.8s |
+| Medium | 32 | 9.5s | 20u/s | 1.6s |
+| Hard | 40 | 8s | 25u/s | 1.5s |
+
+First harmful surge is no earlier than12s. A cancelled surge grants2s of calm water. Last32u of headroom triggers a visible waterline/face warning, not a new opaque HUD panel. Defeat latches success before any same-tick surge/life loss, opens both gates and freezes damage during Lumi's escape. Continue preserves boss damage and broken housings, lowers water48u, clears the active pulse and grants3s grace; it never rebuilds already broken score bricks or duplicates drops.
+
+### Production and test gates
+
+These values are starting hypotheses, not bot/human balance claims. Make one bounded ordinary-ball blockout for each before dressing the full level. Test whole-ball access around every moving ramp/raft pose; compound actor once-per-contact damage; angular/rising-water motion against the same drawn geometry; earliest swept contacts; no enemy-farmed charge; normal-ball wins with no optional power; earned signature before the encounter ends; no timing stall exploit; same-tick victory precedence; pause/Continue/save state and native touch/readability on both phone sizes. Preserve failures and adjust tuning from evidence.
+
+Korr needs idle/snort/hoof lever/roll release/shoulder stagger/hurt/disabled clips, readable face expressions, separate bell/pivoted-ramp/lift-ratchet/bridge assets and real articulated hoof anchors. Nerra needs idle/claw grip/windup/surge/recoil/hurt/retreat clips, shell/claw/leg collision poses, separate raft/rope/counterweight/gate/water layers and measured joint anchors. Both reuse existing Lumi/Kit rigs and expression quality, but require finished source-faithful assets and in-engine comparison; these boards are not sprite sheets or finished models.
+
+### Reference research and preservation
+
+Nintendo describes the original arcade game as climbing through a construction site to rescue Lady while dealing with obstacles, barrels and the hammer. The useful abstraction is a visible goal above readable moving hazards—not Nintendo's characters or exact map. [Official Arcade Archives DONKEY KONG](https://www.nintendo.com/us/store/products/arcade-archives-donkey-kong-switch/).
+
+Nintendo's Returns HD tips describe jumping, rolling, ground pounding, grasping objects and riding hazards, with a more forgiving mode offering additional health/recovery. Those are references for physical cause/effect, variety and explicit assistance; the bell momentum, sluice/raft rules, villains and Kit signatures here are original design proposals. [Official Returns HD controls/tips](https://www.nintendo.com/us/whatsnew/get-tips-to-start-your-barrel-blasting-adventure/).
+
+Original local references: `assets/princess/Idle_00.png`, `assets/kit/Idle_00.png`, `assets/kit/faces/Idle_face_00.png`, `assets/vault/brick_b_1_0.png`. Both1536×1024 RGB boards were made with the built-in image tool and have empty PNG metadata. Prompts and reference paths: `princess-two-levels-prompts.json`. Image SHA256: A `53ef9248cd4bdc24dc8378c3ac014cd82491bff3869c7bbad0ea309a40a8aba5`; B `c2b5b6b26c8555374fe4dda98fde9d6764967e4b6667884f0aba064d8b2a7351`. Runtime, APK, shared handoffs and archive catalogue are untouched by this design task.
+
+
+---
+
+# Part Y: Bellforge machinery and encounter
+
+*Source: `docs/BELLFORGE_PHYSICS.md`*
+
+## Bellforge Run: physical encounter contract
+
+Implemented as a standalone, DOM-free model in `src/fantasy/bellforge.js` on 2026-10-20. The shared browser at `prototypes/fantasy/?level=bellforge` supplies the actual art, touch controls and presentation. This is separate from the five-chapter Android release and from Starflight. APK status remains in `MOBILE_PREVIEW.md`.
+
+Korr is the ruby/plum armoured boar selected in `design/phase1/img/princess-bellforge-a-v1.png`. He operates the bell hopper and ratchet lowering Lumi's lift. Defeating his broad physical body stops the winch and permits her escape. Brum remains an ally; no selected character was recast.
+
+### Shared model interface
+
+```js
+new Bellforge({
+  width: 360, height: 700, difficulty: 'easy',
+  paddleY: 610, geometry: {},
+});
+game.setTarget(worldX);
+game.launch(-Math.PI / 2); // absolute upward angle in radians
+game.canActivate('echo', { ignorePause: true }); // menu eligibility only
+game.activate('echo'); // strict: cannot cast while paused
+game.pause(true);
+game.update(seconds);
+game.continue(); // once per encounter, after a loss
+// Retry constructs a new Bellforge with the same level/mode/aspect.
+```
+
+Authored world width is360 units. Heights700/760 are model route fixtures; the browser measures its portrait aspect and reserves126CSS pixels beneath the paddle. The constructor also accepts a wider logical field, but requires width≥360, height≥700 and580≤paddleY≤height−30. The default paddle is at height−90; production callers explicitly pass their control reservation.
+
+| Field | Coordinates / meaning |
+| --- | --- |
+| `paddle` | Centre `x`, previous `px`, top `y`, width100, height14, `targetX`, actual `vx` |
+| `balls` | `id,x,y,px,py,vx,vy,r:6,caught,dead,contacts:Set`; one normal ball in this encounter |
+| `bricks` | Top-left `x,y,w,h,hp,maxHP,colour`; six rows of equal36×18 colour cells; optional30×18 two-hit `type:'pin'` with `rampId` |
+| `ramps` | Fixed actual `pivot`, local `contactOffset`, length, angle/previousAngle/targetAngle, `omega`, thickness8, actual top-face endpoints `a,b` |
+| `bells` | Mass centre `x,y`, previous `px,py`, velocity, radius14, HP2, spin/angle, `teaching,returning,dead,docked,rampId` |
+| `villain` | HP, maxHP, stage/stageAt/stageTime/until; world-space compound `body`; render foot at(88,161), visual centre(88,105) |
+| `lumi` | Lift location, `baseY:105,targetY,steps,allowance,escape,worried`; y moves at≤30u/s |
+| `dock` | Bell-only trigger rectangle(294,312,36,28); no invisible player-ball wall |
+| `guard` | Actual deflecting segment `a,b`, remaining/age/used; null while absent |
+| `effects` | World centre, kind, age/life; bounded80 entries; brick-break adds colour,w,h,vx,vy |
+| `state` | `play`, `lost`, `won` |
+| `phase` | `serve`, `play`, safe `rescue`, or final safe `breach` descent |
+| Other | Active threat `time`, lives3, score, charge0–100, pending raw `chargeBank`, `continued` |
+
+All positions and colliders are model coordinates, independent of Canvas scale. Exports `rampPose` and `sweepMovingSegment` are pure helpers. `BELLFORGE_MODES` contains the mode hypotheses below. Unknown mode falls back to Medium.
+
+### Motion and collision
+
+`update` rejects nonfinite/nonpositive delta and bounds one call to0.1s, divided into≤1/240s steps. The caller should pass regular animation deltas rather than expecting a multi-second call to catch up. True pause freezes every field, warning, credit, effect and physical body. The model has no renderer or DOM dependency.
+
+A first ball reversal before a same-substep dock arrival replays only the remaining bell motion and supersedes that predicted arrival; a later hit cannot erase an already physical ratchet contact. Static rectangle and compound-circle queries reuse `sweepTarget`/`overlapsTarget` from `carrier-physics.js`. Rotating ramps use conservative advancement against an angular capsule, bounded by projectile travel plus the rotating arm's maximum travel. Each reflected remainder queries only the remaining portion of the ramp/bell/paddle movement; it does not replay the complete angular step. Contact response uses the actual angular surface velocity. A bell preserves gravity-driven momentum with low ramp restitution; a player ball preserves its established arcade speed after angular reflection. Normal speed starts345u/s and paddle rallies cap at1.28×; the vertical component cannot settle below22% of total speed.
+
+Korr's four physical poses use49/48/51/49 conservative alpha-inscribed circles (idle/windup/release/stagger), measured at3pixels/unit from the retained raster. They include broad head/torso/snout and separate hooves, leaving leg gaps empty. All sectors share one target identity, so overlap cannot double-damage the same contact. Normal body hits always deal1HP in every attack/recovery stage. `geometry.korrBody` can supply fixed world-space shapes; `geometry.korrBodies` supplies per-pose local `[x,y,r]` triples relative to the supporting foot. The compiled defaults match the manifest's measured `korr.collisions`.
+
+The full Korr atlas canvas is170.667×149.333u at its actual supporting-foot pivot, not136×112 stretched artwork. The latter numbers describe the approximate opaque footprint. A substantial support at y161 is scenery behind the separate rolling lane. Bells emerge from the exposed hopper outlet at(164,147), outside the old incorrect birth point inside Korr's body.
+
+Initial top-face surfaces:
+
+| Ramp | Contact start | Length | Angle | Broken-pin stop |
+| --- | --- | ---: | ---: | ---: |
+| 0 | (123,172) | 72 | .19rad | −.32rad |
+| 1 | (174,240) | 78 | .17rad | −.32rad |
+| 2 | (245,307) | 68 | −.12rad | −.32rad |
+
+The source's measured top face is displaced from the hinge. `contactOffset/length` equals(.07088607594936712,−.08144244921989992), derived from manifest contactA/B and hinge. The model rotates around the actual hinge; the renderer maps contactA/B to `a/b`. The hinge therefore remains fixed instead of orbiting around an arbitrary image-box edge. Pin destruction approaches the stop at≤.85rad/s. Geometry overrides may supply ramps with actual `x,y` hinge coordinates or `contactStart`, plus a local `contactOffset`.
+
+All mixed start/stop combinations retain≥32u of clear passage between physical ramp capsules and≥42u side clearance. The current phone layouts contain30 full colour bricks across six rows (formerly22 in four). The first two upper-right column pairs stay empty for the visible bell route/ratchet, and the broad middle opening remains. A conservative keepout omits cells overlapping pins, either ramp stop or the ratchet on a shorter synthetic field; the700u fixture has25 colour bricks. Both actual phone aspects retain the same30-cell plan. Colour-cluster spacing is breakable geometry rather than a claimed open passage. The lowest colour surface ends210u above the paddle. Bell-only dock/catch triggers do not become invisible player-ball blockers.
+
+### Bell loop and readable stakes
+
+Korr's sequence is idle→windup≥1.3s→release.45s→recover.85s→idle. A returning bell causes1.5s stagger and cancels a pending release. The first teaching windup starts1.5 active seconds after launch; its actual rolling bell touches all three authored surfaces and enters the empty catch without lowering Lumi. First harmful release is no earlier than12 active seconds. Active counts and warning stages prevent overlapping same-lane windups; Hard's releases are naturally separated by≥7.5s, exceeding the3s stagger requirement.
+
+Bell gravity is220u/s² with a360u/s speed cap. Spin tracks actual horizontal rolling motion. Balls and bells use relative swept contacts. First ordinary hit removes one bell HP and imparts a150–290u/s capped impulse. A second separated contact shatters it; remaining overlap cannot farm HP. Fragments are presentation only. A returned bell physically reaching Korr's compound shoulder deals4HP and staggers; it cannot deal damage remotely. Bells that miss the ratchet fall to a harmless catch at y365 rather than reaching the paddle.
+
+A physical dock arrival increments the ratchet exactly once and changes `lumi.targetY` by12u. The lift moves continuously at≤30u/s; the final two remaining teeth set her worried expression. A final dock latches `breach`, clears further hazards, and finishes the bounded descent before `lost`. There is no injury animation. A last legal Korr hit is resolved before pending dock/life losses, latches safe rescue immediately, clears threats and finishes a1.8s escape before `won`.
+
+| Mode | Korr HP | Harmful release interval | Max active bells | Lift teeth | Echo credits |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Easy | 24 | 10s | 1 | 8 | 18 |
+| Medium | 32 | 8.5s | 1 | 6 | 22 |
+| Hard | 40 | 7.5s | 2 | 5 | 26 |
+
+These remain starting balance hypotheses. The ordinary route never requires a tiny weak point, pin destruction, Echo or payment.
+
+### Echo Guard and recovery
+
+Every genuinely damaged ordinary brick/pin HP banks one credit, bounded by the remaining meter capacity. The meter drains that bank at no more than one credit per active second. Destroyed targets, Korr, bells, enemy/foreign objects, arrows and active cosmic contacts cannot refill replacements. There is no passive energy or second resource. With the finite authored grid, Echo cannot be spammed indefinitely.
+
+A full charged tap during a harmful windup or early live bell route deploys the real segment(187,205)→(217,175) for3s, with a.12s visible deployment. One actual swept contact rebounds the bell up the open return lane and retracts the guard over.35s. The projectile still has to reach Korr. No eligible bell or saturated guard retains the charge. `canActivate(...,{ignorePause:true})` is only a safe menu predicate; `activate` still rejects pause.
+
+Initial serve auto-launches at8s; replacement caught serves auto-launch at3s while active threat time keeps running. Continue is once only, preserves Korr/pin/ramp/score/credit progress, restores two ratchet teeth and at least two lives, clears live bells/guard and gives≥3s before another windup. It cannot resurrect a defeated boss or repeat rewards. Retry is a fresh constructor, with no held input owned by the model.
+
+### Validation and limits
+
+`tests/bellforge.test.js` covers world metrics, ramp clearance, fast/static and angular-tip CCD, actual raster hinge/anatomy mapping, the full teaching/harmful route, pin rotation, physical bell momentum and damage episodes, banked charge exclusions, pause/delta/serve timing, physical Echo, animated ratchet/fragment metadata, last-hit precedence, Continue and ordinary public-input Easy wins at both model heights.
+
+Ignored deterministic receipts are under `out/bellforge-proof/`; browser receipts/screenshots are under `out/fantasy-bellforge-browser/`. The model-assisted policy reads geometry to forecast paddle angles and changes gameplay only through `launch`, `setTarget`, `update` and optional legitimate `activate`. This establishes an earned route, not human difficulty, touch skill, device performance or production admission. Historical route failures are retained with their exact pre-correction geometry and must not be presented as current pass results.
+
+The art family currently contains four authored keyed Korr raster poses, not a full skeletal hoof/walk animation. The shared renderer supplies actual hopper/platform/ratchet layers, Lumi/Kit expressions, brass contact fragments and phone UI; their separate browser receipts determine visual admission. No new APK or campaign slot is implied by this standalone module.
+
+#### Current measured checkpoint
+
+Final model SHA256: `46F6297072BAF87B7C8D2E88875B3E1E4A7E99EC90A48F0AB3F5CF4BE7AC65CF`. Focused tests:19pass; test-file SHA256 `69DDB9CC7124EA73E7A4B13EEC27C46B8C74D45078685482DEF481770498F5C8`. Actual frozen art manifest: `B810545F1C1CABBE6252FBAE0ECE8B4CCC1637946FD4BCA35D97C3A09D41FF13`.
+
+One bounded deterministic policy run per mode/height/ordinary-or-Echo variant, all with three lives and no Continue:
+
+| World height | Mode | Ordinary win | Optional earned Echo run | First cast |
+| ---: | --- | ---: | ---: | ---: |
+| 700 | Easy | 41.95s | 34.93s | 30.72s |
+| 700 | Medium | 64.01s | 64.01s | 31.07s |
+| 700 | Hard | 71.94s | 71.94s | 52.29s |
+| 760 | Easy | 36.01s | 36.01s | 21.13s |
+| 760 | Medium | 72.69s | 72.69s | 27.72s |
+| 760 | Hard | 98.26s | 98.26s | 40.73s |
+
+These are read-only-forecast assisted model routes, not human balance. An eligible cast can miss a bell already diverted by a broken pin; identical completion times do not prove added damage. No ordinary completion depends on the optional ability. Full outcomes/resources/provenance are in `out/bellforge-proof/model-routes.json`; prior geometry results, including failures, remain in its `history/` folder.
+
+Actual browser page checks at393×852 and412×915 passed all six mode/device combinations: real touch drag/launch, first Pause tap after drag, complete pause and Kit-chooser freeze, Resume, fresh same-mode Retry, real Kit menu eligibility/consumption and return to menu. The Kit UI fixture explicitly stages full charge; it is separate from earned routes. Final cases use fresh Chromium and retain strict readiness; the helper now polls explicitly at50ms while animation frames are captured. Historical readiness timeouts are not labelled as gameplay failures.
+
+Earned browser Easy rescues use only `launch`, `setTarget`, `update` and read-only geometry: iOS56.7625s, three lives/four teeth; Android61.6833s, three lives/five teeth. Neither casts Echo nor uses Continue. Both show the actual windup, keyed release, rolling bell, ratchet, rescue and result. All cases have zero page/HTTP errors. Logical fields are780.458/799.515 high, with paddles665.038/689.417 and30 colour bricks. Permanent receipts, selected native PNGs and SHA256SUMS are in [validation/bellforge](validation/bellforge/README.md); full local gallery is `out/fantasy-bellforge-browser/`. The cyan palette refresh is identified separately and does not acquire an unearned mechanical completion claim. Native video and any later Nerra-only art/loading changes have separate root review receipts.
+
+The final shared-loader/input refresh passed all six phone/mode UI cases with zero errors; Main changed during that run, so its receipt explicitly retains both hashes rather than claiming a fixed-source seal. A later renderer-only refresh sealed current Main/render/model and both manifests unchanged at both phone sizes. The Bellforge paddle's image centre now uses its physical top plus half-height, aligning the visible metal with the caught ball. Those final openings are `validation/bellforge/*-opening-final.png`; this visual refresh does not repeat or replace the earlier earned routes.
+
+The repeatable browser harness and read-only forecast policy are maintained in `tools/playtest/bellforge.mjs` and `tools/playtest/bellforge-policy.mjs`; neither imports an ignored output file. Run `node tools/playtest/bellforge.mjs` against the repository static server, or append `--ui-only` for controls/readiness. `tools/playtest/fantasy-visual.mjs` captures the two source-aligned phone openings and staged Tidewheel poses. `BASE_URL`, `PW_MODULE`, `BROWSER_EXECUTABLE` and `OUT_DIR` are optional environment overrides; exact commands and proof scopes are in the validation README.
+
+
+---
+
+# Part Z: Tidewheel machinery and encounter
+
+*Source: `docs/TIDEWHEEL_PHYSICS.md`*
+
+## Tidewheel Citadel — physical encounter contract
+
+Current implementation work, 20 October 2026. This separate browser encounter is not in the five-chapter Android APK. The earlier 216u Nerra, eighteen-brick and B810 anatomy receipts are historical checkpoints; they do not validate this smaller, patrolling, twenty-four-brick version. Final v2 art/route/browser receipts are recorded below only after completion.
+
+### Objective and layout
+
+Keep the ordinary ball alive and defeat Nerra before rising water reaches Lumi's balcony foundation. Any separate ordinary ball contact with the visible shell or either claw damages Nerra; there is no colour order, precision symbol gate or invulnerable pose. The optional gate locks drain water when broken. Kit's earned Anchor clamps the hoist, cancels one attack and drains water.
+
+World width is 360u. The paddle remains at the shared lower phone location supplied by the client; its model width/height are 100×14u and ordinary ball radius/speed are 6u/345u/s. Walls occupy x≤12 and x≥348; the upper ball boundary is y67. The 390u scenic rear wall extends beyond the viewport. It supports a smaller Nerra at feet y232; the wall and balcony scenery sit in a rear depth layer and do not pretend to be foreground ball obstacles.
+
+Two physical rafts, centred at x102 and x258, carry twelve equal 34×18u bricks each. Local columns begin at −54/−17/+20 and rows at −51/−30/−9/+12. Bricks have 3u gaps. The front face spans local y34..48, rather than a rectangle behind the whole bank. Each visible central 70u brace (x−35..35) has2HP; its first hit cracks it and its second breaks it, opening a broad lower entry. Each real brace hit awards15score and one ordinary charge credit. The two side endcaps remain solid and grant no rewards. Rear support planks remain scenery after the foreground brace breaks. Collision and source-art masking use those exact bounds and follow raft translation/tilt. A thirty-brick layout was rejected because its extra upper row consumed the short-phone clearance beneath the claws.
+
+This breakable brace corrects an observed playability defect: a plain centre-catch policy at H780/initial angle−.22 could rebound below an inert deck for25.75s without any productive contact. Intentional bank-shot policies already won, but that did not excuse the empty-feedback loop. The new brace gives genuine damage/crack feedback on that first underside contact; no hidden brick damage or automatic aim correction is used.
+
+Raft initial height is min(380,paddleY−265), with a mechanical tether stop exactly 20u higher. Buoyancy seeks waterY−38 within that range, with a spring16/damping7, vertical speed capped28u/s, lateral drift±1.5u and tilt±.08rad. The renderer draws the stops and ropes. Final full-pose clearance measurements must include both tilt extremes, both tether extremes and Nerra's ±12u patrol.
+
+### Anatomy and moving contact
+
+The v2 body is 190.08×171.072u, with idle/step/hurt/pull raster keyposes sharing a supporting-foot pivot. Each pose owns its measured head, shell, legs and feet stencil and two shoulder sockets. Right claw geometry owns a real grip and a separate free-chain end. The left crusher reuses the original raster at explicit .88 scale. Decorative chain links are not hidden ball colliders.
+
+The runtime imports `src/fantasy/tidewheel-v2-geometry.js`; the browser and Node model use this same data. The generated data SHA is BA6E1BDAB8034A9E9F6835A8DB20879738FC2824E07F278EA76ECEF194ED0F23; its exact equality with the final manifest DEFC7D7D75AF13B50560CBABD79D5115CBEEAFA997D9ABC5452F5C5E0418FC69 is tested. Each body pose has90 opaque disks; the .88-scaled left crusher has63 and the new right gripper37, for190 actor disks. Body keyposes are discrete artwork; patrol translation is swept, while unrelated stencil indices are never interpolated across empty space. Claws rotate rigidly about their measured moving shoulder roots, and each local disk is swept using its actual transformed previous/current centre.
+
+Ball simulation uses bounded 240Hz substeps and swept circles against the moving bricks, deck, gates and anatomy. Shell and both claws share one compound `nerra` contact episode, cleared only after the ball leaves the union by 2u. A .1s minimum interval additionally prevents a concave seam from farming damage. A later genuinely separate contact remains productive. Normal reflection resolves in the moving target's frame, then restores the ordinary ball speed and at least75u/s vertical travel.
+
+### Pressure, reaction and counterplay
+
+The initial caught ball does not advance machinery or launch an attack. First launch schedules the initial pull twelve active gameplay seconds later. Replacement serves launch after three seconds. True pause freezes the world, the warning and the earned charge clock.
+
+| Rule | Easy | Medium | Hard |
+|---|---:|---:|---:|
+| Nerra HP | 24 | 32 | 40 |
+| Pull warning | 2.00s | 1.80s | 1.65s |
+| Normal water rise | 18u | 22u | 26u |
+| Enraged water rise, maximum per pull | 30u | 36u | 42u |
+| Normal idle gap after pull recovery | 11s | 9.5s | 8s |
+| Water-current acceleration cap | 15u/s² | 20u/s² | 25u/s² |
+| Water-pulse warning | 1.50s | 1.40s | 1.30s |
+| Water-pulse speed | 200u/s | 230u/s | 260u/s |
+| Pulse gap after firing | 18s | 16s | 14s |
+| Minimum productive charge time | 18s | 22s | 26s |
+
+These are implementation values, not human balance certification. Pull and pulse attacks share one state machine, so warnings do not overlap. The first normal pull teaches the mechanism before anger can strengthen it.
+
+Every productive shell/claw contact causes a .4s hurt response and briefly stops the lateral patrol. The warning/attack clock continues, so repeated hits cannot freeze an attack forever. Three productive contacts bank anger. After the first pull, this can bring the next pull forward to a three-second idle warning opportunity. A normal pull has a full warning, then a one-second physical action and1.2s recovery. During warning the left crusher rises from−.12 to+.5rad; during action it drops back to−.12. The right gripping claw starts at+.12 and hauls upward to−.55rad over .55s. The real chain runs from its measured free end to the lower hoist wheel at(310,244), then onward in the scenic mechanism. The wheel turns with that pull.
+
+Two distinct contacts on the active claw during a warning cancel it. Broad body damage is always legal but does not silently count as that directed interruption. Anchor accepts either warning, either active attack, or a still-live water pulse. Its full charge is consumed once, its bank is cleared, the attack is cancelled, water target drains24u and the visible clamp remains four seconds. An idle tap is rejected without spending. `canActivate('anchor',{ignorePause:true})` is a presentation query; `activate` itself never casts while paused.
+
+The chain-hung refuge starts at baseY75 and an enraged pull lowers it by 6u, up to three steps/18u total (targetY93). It animates at at most20u/s. The visible flood limit is always `lumi.y+REFUGE_LIP_OFFSET`, initially122 and at most140. The exported offset47 matches the actual lower edge of the cropped hanging platform to within.1u; removed wall corbels no longer define an invisible failure line. The cropped platform stays visibly clear of the hauling claw. Raising the platform adds40u of flood headroom relative to the earlier baseY115 version, and matching its actual cropped edge adds another18u; earlier receipts are labelled by their source hashes. Water rises at at most28u/s and drains at at most20u/s. Neither a target change nor a refuge step teleports the encounter into failure.
+
+The separate pulse begins at a visible lower side outlet, x24 or336/y=paddleY−205, and locks the current paddle lane when its warning begins. It does not follow a later drag. Exactly one r10 water projectile is fired, with a maximum three-second lifetime. Both ball and moving paddle interception are swept in relative motion. A ball deflects it into a short harmless .45s splash, without free damage/charge. A paddle hit costs one life, clears the attack and makes a fresh serve with at least three seconds of threat grace. Enemy water never damages or rewards the bricks. There is no forced loss from being underwater and no unannounced ball-speed reduction; the bounded current is lateral acceleration, not a new aiming axis.
+
+### Win, loss and reset ownership
+
+The actual final legal Nerra contact immediately enters `rescue`, clears water projectiles and warnings, and opens both gate locks. That owns the same tick over flood, pulse or ball-miss failure. A2.5s harmless rescue drains water and lifts Lumi before `won`.
+
+Flood failure is tested against the current visible foundation. Out of balls or an actual pulse hit can exhaust lives. Terminal `update` is inert. One Continue preserves Nerra HP, cleared bricks, brace damage/openings, broken gates, refuge steps and earned resources. It clears threats, restores at least40u of visible flood headroom (normally48u drain), creates a caught ball and six seconds of warning grace; the replacement ball auto-launches after three seconds. Retry is a fresh model and resets all progress.
+
+Renderer contract: `villain.stage` is idle/pullWindup/pull/recover/pulseWindup/pulse/defeated; `pose` is idle/step/hurt/pull; `footX/footY`, `frame`, `anger`, `enraged`, `stunUntil`, `hp/maxHP` are public. Each claw exposes root/previousRoot/angle/previousAngle/scale/mirror/partKey/grip. `chain` exposes hand/pulley/pull/wheelAngle. `pulseWarning` exposes source/from/fixed target/targetX/angle/age/life; `pulses` expose x/y/px/py/r/vx/vy/age/life/dealt/reflected/harmless. `lumi` exposes baseY/targetY/y/steps, and `water.limit` is dynamic. The real dimensional water raster is32×48u, rotated around its measured opaque core; its circle remainsr10. Transparent tail/glints add no extra collision area.
+
+### Verification status
+
+The focused suite has 29 tests, including the exact historical concave seam, inert endcap reflection, actual two-hit brace opening without reward duplication, early centre-catch feedback, exact v2 data admission, all four body poses and short-phone r6 clearance, actual platform-crop/flood-contact equality, real last-hit precedence, warned fixed lanes, swept moving-ball interception, one-life pulse cleanup, one-spend Anchor and Continue headroom/progress.
+
+Pre-brace checkpoints are retained under `out/tidewheel-review/v2-final-routes` and `out/fantasy-review/tide-v2-final`; their successful aimed routes did not resolve the later centre-catch finding. The A3EC post-brace/pre-refuge checkpoint is under `out/tidewheel-review/v2-braces-routes` and `out/fantasy-review/tide-v2-braces-final`. The44AE raised-platform/pre-lip checkpoint is under `out/tidewheel-review/v2-refuge-final-routes` and `out/fantasy-review/tide-v2-refuge-final`. The final mechanical model is C216F74972AE53D65D762969284D215561E84B5F64A144BF0DA101122183DBF1; generated geometry is BE9DBE700427FD3E5C89D72DBEE0328105D2C0FE54732D88EE17CFD7174D7CD8.
+
+The final fixed27 ordinary model routes at H700/780/800 produced 20 wins and 7 losses: Easy9/9, Medium5/9, Hard6/9. Each run uses only public launch/setTarget/update, three predetermined initial angles, coarse quantized prediction and fixed-lane pulse dodging; it never writes HP/resources/actors/progression. Losses remain in the receipt. Opening-only centre-catch checks on the final model give first productive contact in 0.58–1.34s across all nine fixed openings; the former H780−.22 idle loop now hits a real brace in .6875s. This establishes recoverability and prompt feedback, not human balance or passive-win claims.
+
+The final full browser fixture run at 393×852/412×915 passed all six mode/viewport controls cases, both staged mechanism sequences and four bounded Easy public-touch routes. Ordinary wins were35.20s/3lives on iPhone viewport and45.07s/2lives on Android viewport. The signature-enabled iPhone policy finished in20.14s/3lives before any Anchor was earned/cast; the Android policy won in75.66s/1life with two genuinely earned Anchor casts. Do not label the zero-cast iPhone run as power-assisted. These are coarse assisted browser controls, not physical-device/human play. The final run has zero page/HTTP/network errors and an unchanged all-source/art seal. Earlier renderer-crossed receipts remain historical.
+
+Permanent compact receipts and four selected full-phone PNGs are in `docs/validation/tidewheel/`. `browser.json` SHA 0451299D2A33E50A9501DCB48F9786EB286D6BA54DB5149DA98437D521279BDD records real primary/secondary touch pause after drag, Resume without a ghost click, blur freeze, held-Space rejection, actual Kit cast from a labelled charge fixture, Retry, Continue preservation, fixed-lane water dodge and legal earned routes. `routes.json` retains every bounded win/loss; `centre-catch.json` proves opening feedback; `geometry.json` records 2304 conservative pose/raft fixtures with no actor/brick overlap even after expanding anatomy by the ordinary ball's6u radius. Minimum outer/central lanes are 28.97/33.93u; the lowest deck-to-paddle gap is 212.84u (about.58s at345u/s after allowing the ball radius and paddle half-height).
+
+The four-second desktop Chromium readback at190 actor disks measured callback CPU medians 2.8/4.0ms and p95 5.3/7.5ms at the two viewports. A single33.3ms RAF interval appeared in the first viewport; the second maximum was17.2ms. These bounded initial-play samples are not worst-case attack, physical-phone, GPU-completion or sustained60fps guarantees. They do not justify a speculative collision rewrite.
+
+Reproduction from a fresh checkout (Node22; browser commands require Playwright's module and Chromium executable in `PW_MODULE`/`PW_CHROMIUM`):
+
+```powershell
+node --test tests/tidewheel.test.js tests/tidewheel-attacks.test.js tests/tidewheel-seams.test.js
+node tools/playtest/tidewheel-geometry.mjs out/tidewheel-geometry
+node tools/playtest/tidewheel-centre-catch.mjs out/tidewheel-centre-catch
+node tools/playtest/tidewheel-routes.mjs out/tidewheel-routes
+node tools/playtest/tidewheel.mjs out/tidewheel-phones http://127.0.0.1:4194/prototypes/fantasy/ --earned
+node tools/playtest/tidewheel-profile.mjs out/tidewheel-profile
+```
+
+Serve the repository root before browser checks. `--probe` is a single iPhone/Easy case. Routes use a fixed coarse prediction policy, not HP/resource/actor writes; staged mechanism/resources/terminal fixtures are labelled separately. Profile telemetry measures desktop Chromium callback CPU/submission and requestAnimationFrame cadence, not physical-phone GPU completion or sustained handset performance.
+
+
+---
+
+# Part AA: Keep artwork production and measured geometry
+
+*Source: `art/fantasy-machinery/SOURCE.md`*
+
+## Bellforge and Tidewheel production layers
+
+The owner approved `design/phase1/img/princess-bellforge-a-v1.png` and `design/phase1/img/princess-tidewheel-b-v1.png` as the visual references. These files contain independent new raster layers derived from those references. The full boards are never used as gameplay backgrounds or actor rectangles. Existing Lumi and Kit assets remain separate.
+
+The permanent source PNGs are in `source/`. Prompts are preserved in `prompts.json`, `production-prompts.json`, `final-prompts.json` and `grounding-prompts.json`. Raw source PNGs are retained byte-for-byte; their RGB under transparent pixels may contain an unused matte. Runtime PNGs clear all hidden RGB and alpha below3, contain no metadata, and have zero alpha on every outside edge.
+
+Selected sources:
+
+| Source | SHA256 | Purpose |
+|---|---|---|
+| bellforge-sheet-v2.png | 2688aec368b6f562069536ad334c1c2d6934d1b76bba199e8686dcec8453e855 | Four Korr key poses, bell, ramp, lift, ratchet |
+| tidewheel-sheet-v1.png | 2fa3bcd1f1bec04cbab1dd582ca9788d331507597239010ebb24bd6a1a350179 | Nerra body, separate claws, wheel, raft, gate, weight |
+| background-pair-v2.png | 8074e80015b505fb7507f18e19d4b3729911e52019f81672ff116f12755c9143 | Quiet static architectural plates, no gameplay objects |
+| tidewheel-bricks-v1.png | c8061573b71f6ab633709ba4bad2e4037edb78979e1225de6152076c0bf1fbad | Equal coral, sage and ivory ceramic tiles |
+| grounding-sheet-v1.png | 033a7daf69b1df7ddcce34455854e96d95e13cbbdbadb17f40db85b20cb50187 | Forge plinth, lever, sluice masonry, balcony, gate frame |
+| bell-cradle-v1.png | 340d04e3bf4e3fae9cbcbd1a86b4b226a4be90a1b121b2d453f1f74447d49747 | Open-front rear-stage bell release rack |
+
+`bellforge-sheet-v1.png` is preserved history: the rightmost release tusk clipped its edge. Version2 repairs the framing. `background-pair-v1.png` retained decorative bells that could be mistaken for gameplay objects; version2 removes them. The narrow-mouth hopper in the grounding source is a study only and is not suitable for a28u bell passing through its small outlet.
+
+Rebuild from the repository root with the configured Python containing Pillow and NumPy:
+
+```text
+python art/fantasy-machinery/extract.py
+python art/fantasy-machinery/measure.py
+python art/fantasy-machinery/proof.py
+python art/fantasy-machinery/verify.py
+```
+
+The extraction selects actual connected components, preserves soft alpha, normalizes deterministic pivots, and records source-to-cell transforms and hashes in `assets/fantasy-machinery/manifest.json`. Korr's four512×448 cells share one scale of3px/world unit and one supporting-foot baseline. The release hoof extends ahead of the supporting plane, so aligning each pose's bounding-box bottom would be wrong.
+
+Korr is four raster key poses—idle, windup, release and stagger—not a skeletal rig or a complete interpolated walk animation. Nerra is a body with eight short legs and two independent short-arm claw layers. Its sockets, claw roots and geometry use the same normalized UVs and world units. Mirror the crusher at its root, then rotate the whole anatomical part. Do not stretch the body/claws independently to arbitrary rectangles or fill the open pincer gaps.
+
+`measure.py` records conservative opaque-inscribed circle unions, relative to each part pivot. Additional small disks cover visible hooves, tusks, walking legs and pincer tips. They are measured collision proxies, not skeletal joints. The proof folder includes their overlays and coverage receipt; small banner/spike tips can remain decorative. Physics admission must consume the same per-pose transform as the renderer.
+
+Grounding is a rear-stage composition. The forge plinth top anchors support Korr's feet; Tidewheel's substantial sluice wall supports Nerra with open arches behind the foreground ball. These scenery layers do not imply a full-width foreground collision wall. The separate release lever arm rotates about its brass bearing while its mounting foot stays fixed. Balcony `deck` supports Lumi; the front railing may be redrawn with an occlusion mask after her legs.
+
+The bell rack's `outlet` maps to the actual release point. At authored116×87u canvas scale its initial aperture clearance is14.665u for the14u bell. Its lower side feet narrow a purely vertical image-plane sweep, so it is a rear-stage release rack: the bell emits forward into the foreground rolling lane. This is not evidence of a clear28u-wide vertical tube through the entire sprite. Keep the rack behind the bell/lane and do not add invisible rack collision.
+
+The wheel is an oblique rendered face. Bounded rocking or an affine rotation within its own projected face is appropriate; rotating its full thick three-quarter raster through360degrees would not be a true3D wheel animation. Its axle anchor is offset from its overall image centre intentionally.
+
+`proof/ios-assembly.png`, `android-assembly.png`, `parts-contact.png` and `keypose-assembly.gif` are explicitly staged art fixtures. They verify independent layers, fixed pivots, material consistency and native-size legibility. They are not earned gameplay, balance, collision-solver, device-performance or complete level-animation proofs. Actual browser scene integration and phone playtests are a separate receipt.
+
+The frozen manifest is `b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13`. Its final Korr disk counts are49/48/51/49 for idle/windup/release/stagger. Nerra body/crusher/gate-claw counts are80/63/64. `verify.py` checks every disk against the actual opaque raster, all referenced hashes, alpha edges, hidden RGB, metadata, two real architecture holes and the initial bell aperture. Normal6u radius reaches all four Korr and both claw silhouettes and99.787% of Nerra's opaque pixels; the residual tiny castle/banner tips are decorative. It is a conservative union, so a ball can enter thin decorative alpha before reaching a disk.
+
+The frozen B810 checkpoint contains29PNGs,9,009,729encodedbytes and27,514,104decodedbytes including the four individually preserved Korr frames and the unused narrow-mouth hopper study. A renderer needs the atlas rather than also loading its four duplicate frame PNGs. Its eight source PNGs have empty metadata and are below20MB each. No environment or actor is a full-board crop.
+
+The owner's later smaller Nerra/chain-pull revision is a separate preserved override. See `NERRA_V2.md`; it does not rewrite B810 or its earlier geometry receipt.
+
+The current water attack uses the independent `water-shot-manifest.json` and `water-shot.png` under `assets/fantasy-machinery/`. Reproduce extraction with `python art/fantasy-machinery/extract-water-shot.py`; the source and prompt are preserved alongside the other sheets. Its 32×48u image faces downward and rotates around the measured front-core pivot to follow actual projectile velocity. The physical circle has radius10; 97.35% of that disk overlaps visible water at alpha≥40, with a9.136u strictly inscribed core. Soft foam and the long spray tail are decorative, not extra damage. `proof/water-shot-native.png` is a staged size/collider study, not a gameplay result.
+
+
+---
+
+# Part AB: Nerra chain-pull artwork and anatomy
+
+*Source: `art/fantasy-machinery/NERRA_V2.md`*
+
+## Smaller Nerra and mechanical chain pull
+
+The owner requested a smaller Nerra, a wider substantial support wall, a chain-holding right claw that operates the sluice hoist, more readable motion/expression, and more bricks. This family supplies the new art/anatomy; raft layout and gameplay timing remain the model owner's work.
+
+The source keeps Nerra's approved coral/oxblood shell, barnacles, grey ruined castle, small red flags, short teal-iris eye stalks, cream underside, eight short legs and black pearl joints. Four distinct body key poses are idle, lateral step, hit-stunned and angry chain pull. These are raster key poses, not a complete skeletal rig. The right pincer visibly clamps a real steel link. Its free dangling tail was separated during extraction; runtime chain routing owns the extended free chain.
+
+Permanent sources and prompt records:
+
+- `source/nerra-motion-v1.png`: first six-object source, retained as history because the outer legs were crowded/clipped.
+- `source/nerra-motion-v2.png`: repaired two-column/three-row source, complete six independent components. SHA256 `afecbfb234c1c4cddf331f6cfac44a6bea6fe2bc2ed22e9bdb47452fb2e3b876`.
+- `nerra-v2-prompts.json`: original production request and targeted framing repair.
+
+The override manifest is `assets/fantasy-machinery/nerra-v2-manifest.json`, SHA256 `defc7d7d75af13b50560cbabd79d5115cbeeafa997d9abc5452f5c5e0418fc69`. The original manifest remains `b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13` unchanged. Geometry module `nerra-v2-data.mjs` is `ba6e1bdab8034a9e9f6835a8db20879738fc2824e07f278ea76ecef194ed0f23`.
+
+The override's canonical asset keys are `nerraBody`, `gateClawV2` and `chain`. Body atlas cells are640×576, four columns; the full cell is190.08×171.072world units. All poses share one source scale and supporting-foot pivot `[0.5,0.9375]`; anchor it at the actual foot position, currently `(180,232)`. They must not be scaled by0.88 again. Pose-specific `frameRect`, `footUV`, socket UVs, foot-local sockets and circle unions are included. The old separate crusher remains at explicit0.88scale with the original mirror convention.
+
+The new right claw uses96×96world units and normalized pivot `[0.14074550128534705,0.23272729833258227]`. `chainGrip` is local `[61.41461623209696,43.99819738621001]` at the clamped link; the visible extension anchor `chainEnd` is `[64.39368343738525,60.49752140603875]`. The remaining source-held link and the routed chain should overlap naturally. Draw the free chain behind the pincer, not over its closed jaw. The split's lower metal cut is hidden by that real link connection; it is not a standalone end cap.
+
+The separate chain strip is24×108world units at its full padded canvas size. Its metallic gauge matches the heavy held link. Use the measured `tileTop`/`tileBottom` subsection in short overlapping routed segments; compressing all seven links into a short line or stretching it into a flat bar loses the intended weight and link geometry. Chain is rear-stage mechanical presentation, not an extra damaging ball collider.
+
+Right-arm rotation from `+0.12` to `-0.55` raises the actual grip. A taut hauling route therefore runs from the grip to the lower wall-mounted hoist near `(310,244)`, then onward to the sluice/pulley. Routing directly to a pulley above the grip would shorten that free chain leg as the hand rises. The model and renderer must share the actual route, haul amount and warning state; art supplies no independent timer or hidden force.
+
+The measured conservative circle unions are90 per body pose and37 on the new right claw. Every disk is inside actual alpha>=128. Decorative routed chain has no collision. Across all four poses and authored arm-angle ranges, the opaque local assembly extents relative to feet are `[-128.968906,-146.421,159.967229,21.226855]`. At footY232, the deepest limb is253.226855; a brick top at or below285.226855 retains32world units of visible gap. With footX180 and patrol±12, the assembly stays withinX39.031..351.967. These are actual alpha extents, not just the disk bounds.
+
+Rebuild and verify from the repository root:
+
+```text
+python art/fantasy-machinery/extract-nerra-v2.py
+python art/fantasy-machinery/proof-nerra-v2.py
+```
+
+`proof/nerra-v2/verification.json` verifies source/runtime hashes, exact equality between manifest and importable geometry data, empty metadata, transparent image edges, cleared hidden RGB and all opaque-inscribed body/claw disks. The seven runtime PNGs total4,192,937encodedbytes and12,894,208decodedRGBAbytes including four individually preserved frames. Loading the atlas alone for those frames saves5,898,240decodedbytes. All source/runtime files are below20MB individually.
+
+`native-poses.png`, `ios-idle/step/hurt/pull.png`, `android-pull.png` and `keyposes.gif` are labelled staged art assemblies. They show the actual raster family at phone size with attached claws, grounded feet, a larger masonry support and a textured chain. They are not earned gameplay, human difficulty approval, native-device performance or a finished full-rig animation claim. Final actual-browser integration and playtest evidence are separate.
+
+
+---
+
+# Part W: Gatebreak mission implementation
+
+*Source: `docs/STARFLIGHT_MISSION.md`*
+
+## Gatebreak: authored Starflight mission
+
+Implementation checkpoint2026-10-20. This is a separate finite mission layered over the preserved Starflight combat lab. `src/starflight/mission.js` exports `StarflightMission extends Starflight`; geometry and ordinary lab behaviour remain unchanged. The one approved base extension is `playerShotRadius()`, returning the normal7u core by default and sampled separately for each hostile projectile. The mission overrides it for a real charged shield. The prototype entry chooses mission versus lab. This document records implemented model behaviour and bounded model checks, not a delivered Android build, measured physical-phone performance or the entire proposed campaign.
+
+The player opens an evacuation route through a visible gate blockade. Patrols teach direct flight, returning interceptors prevent empty fly-pasts, wreck corridors offer destructible cover/supplies, missile leaders and gate batteries lose firing capability under damage, and the command ship's defeat opens the route. The ending is finite. Enemy survival or running out a clock never awards completion.
+
+### Public contract
+
+```js
+import { StarflightMission, MISSION_POWERS, STORM_WINGS, wingPoint, droneMuzzle } from './starflight/mission.js';
+const game = new StarflightMission({ width:360, height:613, difficulty:'easy', seed:7 });
+game.setControlReserve(actualReactorCircle); // Same measured control contract as the lab.
+game.resize(360, newWorldHeight);            // Rebase the live mission before remeasuring its control.
+game.setTarget(x, y);
+game.update(1 / 120);
+game.canActivate('storm');
+game.canActivate('storm', { ignorePause:true }); // Read-only paused chooser eligibility.
+game.activate('storm');                        // Always enforces the actual pause state.
+```
+
+Inherited fields remain renderer-compatible: player, enemies, shots, effects, pickups, hazards, drones, fields, timers, charge, chargeBank, score, time and difficulty. Movement, small player hurt core,27.04u wing-clearance edge, real hardpoints, relative swept ordinary shots and banked reactor economy remain intact. Restart constructs a fresh mission; it does not retain stocks, damage, clocks, held input or objective progress.
+
+| Field | Meaning |
+|---|---|
+| `mission` | `{id:'gatebreak',beat,title,objective,group,progress,required,elapsed,restRemaining,kills,suppliesEarned}`. Group is−1 before first entry, then0–9; it is an internal authoring index, not HUD “Wave N”. |
+| `mission.beat` | `approach`, `debris`, `battery`, `command`, `extraction`, `complete`. Use title/objective for the actual situation. |
+| `phase` | `combat`, `boss`, `jump`, `complete`. `jump` is the harmless final extraction, not another endurance sector. |
+| `state` | `play`, `lost`, `won`. Both lost and won freeze later updates. |
+| `world.gate` | `{x,y,r,open,locked}`. Locked from mission start; command defeat unlocks it, extraction increases opening, victory sets open1. |
+| `world.blockade` | `{remaining,batteries,disabled}`. Starts with three required batteries; actual battery identities are recorded at their encounter and permanently disabled on defeat. |
+| `world.routeProgress` | Normalised authored-group/combat progress. It is a visual route cue, not a countdown or a collision wall. |
+| `requiredEnemies` | Set of actual current required identities; only their accepted destruction advances the group. |
+| `completedEnemies` | Archive of defeated required identities; no respawning or erasure. |
+| `stocks` | All nine power IDs, integer0 or1 each, total at most3 through earned collection. |
+| `storm` | Null or actual detached-wing motion/band state described below. |
+| `combination` | Null or `{stage,ids,x,y,at,progress,sourcePoses,heavyId}`. Stages `warning/dock/merged/cancelled`; source poses are actual parent transforms. |
+| `enemy.objectiveIds` | Original required identities represented by the current actor; a combined heavy retains both parent IDs. |
+| `mission.events` | Bounded last12 records `{kind,at,ids,x,y,...}` for combine warning, docking, interruption and completed assembly. |
+
+The model has no DOM, image decoding, audio or browser clock dependency. The caller retains fixed-step accumulation, native safe-area measurement, paused chooser handling and gesture cancellation. `canActivate(...,{ignorePause:true})` must only enable a paused menu; `activate` still rejects until the caller resumes. It does not provide a paused gameplay bypass.
+
+Use `resize(width,height)`, not direct height mutation. It validates at least260×360 and rebases player targets, enemies/committed dive targets, real compound current/previous poses, warnings, projectile origins/history, pickups, hazards, drones, fields, effects, detached wings/band and docking state. Time, HP, stocks, bank and original required identities persist. Recompute the actual DOM control reservation afterward. This prevents a portrait shrink from putting an alive required scout beyond the inherited removal boundary and permanently blocking the mission.
+
+### Finite authored encounters
+
+The first patrol enters after.8s. Subsequent groups require every current required enemy to be defeated. A cleared group earns2.2s relief: hostile shots, leftover rocks and warnings clear; the player can move/collect earned supplies, while combat resource/ability clocks and new fire pause. Storm is the deliberate exception: any detached wings make a harmless.8s return to the current moving sockets during relief; its duration decreases and clears when reassembled. Its band cannot damage or generate charge/supplies in this return. A cleared Ricochet projectile is discarded without refund; its remaining anti-recast timer freezes during relief and resumes in the next encounter. These short rests are not survival gates, arbitrary invulnerability phases or a substitute for combat length.
+
+| Internal group | Visible situation | Finite actors | Consequence |
+|---:|---|---|---|
+|0|The blocked gate|Two scouts|Learn a committed dive and ordinary fire. Second ordinary destruction can earn Storm.|
+|1|Interceptors regroup|Four beetles|Crossing flanks return to fight instead of vanishing.|
+|2|Missile escort|Two scouts, two missile frigates|Hold-position launchers require alignment, not merely waiting for a fly-past.|
+|3|The crossing screen|Three beetles, two scouts|Combine fixed flanks with committed player-lane dives.|
+|4|Wreck corridor|Two beetles, one frigate, three optional rocks|Destructible moving cover; ordinary rock destruction can earn a manual power.|
+|5|Armed recovery tugs|Two beetles, two original gunships, two rocks|Distinct broad dual-gun bodies hold the route.|
+|6|Recovery pocket|Two frigates, one beetle, three rocks|A second short terrain decision before the blockade.|
+|7|Interdiction leaders|Two scouts, two heavier frigates|Damaging a rack removes its actual weapon sources.|
+|8|Gate batteries|Three heavy frigate batteries|Destroy all three required blockade identities.|
+|9|Command ship|One crescent command ship|Broad ordinary damage, progressive rack loss, then gate opening/extraction.|
+
+At most five required enemies are alive at once; no infinite replacement spawns exist. Rocks are optional physical cover/supplies, not required identities. Enemy-caused rock destruction therefore cannot clear a mission gate. Optional rocks do not secretly block the ordinary victory route.
+
+Two original scouts that remain at least65%healthy and unhit for10s can rally to combine once per group. The visible1.2s warning cancels their pending charges; already launched rounds remain. They then physically converge at an upper22%field docking point using their normal bounded motion. After at least1.8s docking and actual proximity, one gunship assembles with **sum of remaining parent HP plus8/10/12 armour** on Easy/Medium/Hard. It has real paired gunship barrels/fans and2s startup recovery. There is no full-health reset, repeated assembly loop, new body around the hero or free kill/score/loot/charge on merging.
+
+Both original required IDs remain outstanding until the heavy is defeated: its `objectiveIds` carries them, and death awards both objective credits exactly once. The heavy is one actual ship kill. A legal parent hit/kill is processed before assembly at the end of the tick; a missing parent cancels the attempt. `comboSpent` prevents another attempt in the same group. Active early combat can prevent fusion entirely; waiting does not defeat those required identities.
+
+The approximately150–210s pacing is a target for the full sequence, not a forced completion timer. Earlier smaller sequences completed approximately105s, then144–145s in bounded assists; those drafts are superseded. The final authored roles/cadence are measured below. Do not lengthen a future revision merely to hit a clock if the encounter stops being enjoyable.
+
+### Enemy movement, attacks and capability loss
+
+Ships have smooth entry, bounded acceleration/speed and wrapped shortest-angle turns. Required actors remain in view after entry. No teleport/wrap, offscreen firing or invisible replacement credits exist.
+
+- **Scout:** rally, snapshot the player's lane, hold a.65s commitment, dive to55%field height, bank around a side and return to rally. The snapshot does not chase subsequent player motion. Flight stages are `entry/rally/commit/dive/return`, with `commitX/commitY` retained for inspection.
+- **Beetle:** bank across a fixed opposing flank, regroup at the upper hold, then reverse. Its path is not the scout's player-lane dive. Stages are `entry/cross/regroup`.
+- **Gunship/frigate:** hold their authored upper firing lane with modest drift. Their broad hulls remain vulnerable. They do not sweep past the player and disappear.
+- **Command:** a broad slowly translating crescent, using its actual muzzle family and physically empty notch. Its movement is bounded by the rendered width.
+
+Velocities cap68u/s command,80u/s gunships and132u/s small ships; turns cap2.8rad/s. Warnings lock aim once, remain on the actual moving barrel and cancel if the source leaves the visible combat region or a small craft turns away. Source coordinates are rechecked before launch. Early teaching allows one charging enemy, later groups at most two. No dotted warning path is required by the model; render the charged muzzle.
+
+Missile racks use bounded-turn existing missiles; other sources use committed aim or finite fans. A gunship at half HP loses its real right rack (`disabledPorts`), cancels pending charge and provides1.8s recovery. It switches away from full missile capability to a smaller fan. The command loses right outer port at half HP and both outer ports at quarter HP, leaving its centre source. Already launched rounds remain real; destroying a source cancels future work, not every projectile in flight. Broad shared hull damage remains productive throughout—no mandatory pixel weak point, immunity wait or HP refill.
+
+| Mode | Player hull | Hostile speed | Basic tell | Recovery | Hostile cap | Scout / beetle / frigate / leader / battery / command HP |
+|---|---:|---:|---:|---:|---:|---|
+|Easy|6|175u/s|1.4s|3.6s|18|12 /15 /36 /48 /64 /360|
+|Medium|5|205u/s|1.2s|3.1s|24|14 /18 /44 /58 /78 /440|
+|Hard|4|235u/s|1.05s|2.7s|30|17 /21 /52 /68 /92 /520|
+
+Missiles add.3s warning. Damaged sources add.7s recovery. Original gunships use the frigate resistance column. These values are applied once, not multiplied again by the lab HP factor. The mission does not increase resistance forever or loop after victory.
+
+### Earned supplies and nine manual powers
+
+`MISSION_POWERS` contains the original seven compatibility IDs plus `storm` and `ricochet`. Durations remain Laser4s, Stasis4.5s, Hyper2.5s, Seeker6s, `spiral`5s, Drones6s and Nova.65s. **In the mission, `spiral` now means Trident guided salvos, not the lab's weaving projectile.** The lab keeps its original Spiral. Ordinary damage still banks reactor energy, drained at the lab's mode rate; powered damage cannot refill its own replacement.
+
+`activate(id)` spends an earned stock first. This preserves existing reactor charge/bank. With no stock, it spends the full100-charge reactor and clears pending bank. It rejects an active same-power recast, unknown ID, paused/lost/won/extraction state, relief or insufficient resource. Different powers can overlap only using separately earned bounded resources, **except exclusive Stormwing**: any other active manual power blocks Storm, and detached Storm blocks every other manual cast. Rejected choices leave stocks, charge, bank and active durations unchanged. The paused eligibility query applies the same exclusivity. No capsule activates itself or erases another running power.
+
+Laser and Hyper are also mutually exclusive so one primary cannot silently consume the other's useful duration. Seeker/Trident are independent secondary batteries; drones remain independent defenders. Payload eligibility requires real free slots before spending: one Ricochet, three Trident, two Seeker, normal primary capacity, and all20 Nova rounds after its bounded nearby-hostile clear. A full projectile budget cannot consume a stock and emit nothing. Same-active reactivation is rejected rather than extending timers without an explicit limit.
+
+| Choice | Mission launch/motion/collision/expiry |
+|---|---|
+|Laser|Twin real barrel origins, r5 damage2/pierce2;4s primary, each target once per shot.|
+|Hyper|Five real-port fan rounds/r4 damage1 at.10s cadence;2.5s primary; no Laser suppression.|
+|Seekers|Two focused missiles per.85s, max6 live; real twin origins,420u/s,2.8rad/s guidance for4s, damage3.|
+|Trident (`spiral`)|Three forward-fan r4.8 missiles from real alternating ports;540u/s,damage2.5, max9live. Each burst acquires distinct living forward targets where available; unavailable slots remain ballistic. Steering caps2.2rad/s for3.2s; each missile expires3.6s after launch. The rack waits at least.9s between bursts, quantised to primary firing updates. Ordinary primary continues.|
+|Drones|Two r6 defenders,6s; real optic UV(.72,.55) at24u is local(+5.28,+1.20), rotated by `−π/2+sin(angle)*.12`. `droneMuzzle(d)` and `d.muzzle` match shot birth/from and banked direction. Orbit, two intercept HP and.6s powered pulses remain bounded.|
+|Stasis|4.5s of actual enemy-projectile translation at.32× and rock drift at.45×; no slowed warning/spawn/mission clock.|
+|Nova|20 real radial damage3/r5 projectiles, each piercing two identities; clears hostile rounds only within150u at cast. .65s presentation, no direct boss-HP deletion.|
+|Stormwing|Thunder-only crossed-target sweep and safe return described below; exclusive with all other manual powers.|
+|Ricochet|Real nose launch, bounded reflected piecewise collision and history described below.|
+
+Drop eligibility counts productive **ordinary-player** enemy/rock destruction once. Powered kills, enemy shots, body-contact damage, zero damage and a repeated dead target do not earn these drops. Rules:
+
+1. The second and third eligible destructions, then multiples of three, offer a manual power capsule. First ordinary rock also offers one if the budget permits. Support cadence takes precedence at multiples of four.
+2. Power sequence is `Storm→Ricochet→Seeker→Spiral→Drones→Laser→Hyper→Stasis→Nova`, skipping a power already stocked or already on the field. The first eligible capsule is therefore Storm, the next is Ricochet. They are physical pickups and can be missed; guaranteed eligibility does not teleport a stock into inventory.
+3. Every fourth eligible destruction offers one support pickup: Repair if hurt, otherwise Shield. No unavailable weapon capsule turns into an extra heal. Support field cap2; shield is one contact for12s, with no stacked shield HP.
+4. Total field cap6, power capsule cap2. Stored stock cap1 per ID and3 total. An unavailable capsule remains uncollected until room exists or its22s lifetime expires. It never silently replaces a different power.
+5. Pickups have **no attraction/magnet**. They inherit at most22u/s sideways momentum from the defeated object, damp at.4/s, begin falling50–80u/s and accelerate6u/s² up to100u/s. Visible fall and22s lifetime allow intentional interception; passing out of the field can still miss a reward without failing the mission. Collection uses the actual swept item12u/player7u contact only, with no extra7u reach. They score50 on collection. Support restores at most one hull or one shield; there is no passive regeneration.
+
+A charged Shield has an actual31u hostile-projectile interception radius matching its visible armour. The ordinary hurt core and all body contacts stay7u. After one shield is consumed, the next projectile in the **same tick** immediately uses7u; it cannot be absorbed by a vanished outer shield. The brief hit grace remains. The shield impact effect uses the swept contact point rather than the hero centre.
+
+These finite stocks make the new weapons available early without converting every kill into permanent safety. Actual pickup route matters. An automated route may miss the first Storm and collect the later Ricochet; do not report missed capsules as free starting equipment.
+
+### Storm: real wing lightning sweep
+
+`STORM_WINGS` matches `assets/starflight-storm/manifest.json`. Each raster remains52×46.8u on a shared320×288 canvas, but **model wing coordinates are actual inner attachment pivots**, not full image centres:
+
+| Wing | Pivot UV | Neutral offset from rotated body | Tip/muzzle offset from rotated wing |
+|---|---|---|---|
+|Left|[.40625,.56944444]|[−4.875,+3.25]|[−3.0225,−15.98401937]|
+|Right|[.59375,.56944444]|[+4.875,+3.25]|[+3.2175,−15.98401937]|
+
+`wingPoint(pose,offset)` performs the shared rotation/translation. The left/right partial rasters plus central body reproduce the original neutral ship. Draw with each part's own pivot. Drawing a wing at its model attachment with centre pivot would detach the gun from its real source.
+
+`storm={age,life:5.15,stage,origin,wings,band,hit}`. Each wing has `side,x,y,px,py,angle,tip`. Split lasts.45s, an upward sweep3.9s, return.8s. The wings spread toward attachment x30 andwidth−30, lifting42u to clear the reactor/exhaust lane, then rise to y45. The central body and its7u hurt core remain under control. **Thunder is the only friendly attack throughout split, sweep and return.** Activation clears existing friendly projectiles while retaining hostile shots; primary fire (including Hyper/Laser/Spiral), Seekers and drones cannot emit while detached. Any late friendly projectile is also discarded before motion/collision. The wing tip metadata anchors lightning, not simultaneous cannon bullets.
+
+Manual-power exclusivity prevents stocks being spent on suppressed attacks or active paid-for timers silently expiring. A Rapid pickup's remaining duration pauses while detached and resumes after attachment; Shield remains active useful protection. The existing earned reactor bank may still fill during combat; thunder damage itself earns no new credit. On reattachment the primary delay resets to.16s and Seeker delay to.85s, preventing a negative cooldown or queued catch-up burst. Enemy fire and ordinary fire outside Storm are unchanged. A relief return follows the same no-bullet rule.
+
+`band={x1,x2,y,px1,px2,py,r:8,active}` uses the **same actual tip endpoints** that draw lightning. It is a real moving horizontal capsule. Continuous strip and end-cap tests sweep against moving target hull circles/rocks. One upward pass destroys each physically crossed ordinary enemy/asteroid by removing its remaining HP, including Hard beetles and batteries; targets outside the crossed band remain untouched. Command damage is bounded80 per pass, approximately15–22% of its mode hull. The pass grants no energy/drop replacement, cannot repeatedly farm overlap and cannot erase a full guardian. Split and return are harmless.
+
+Return targets the player's **current rotated sockets**, even after movement, rather than the original launch point. The two wings return individually and reconnect; null storm means draw the normal assembled hero. Command defeat forces a harmless return during extraction. Renderer effects may branch/flicker within the band but cannot imply a larger collider.
+
+### Ricochet: physical reflected missile
+
+One activation launches one powered r6 missile at740u/s from the real rotated central nose UV[.5,20/288], with `shot.from`, seeded ±.66rad around the player's upward bank. It lasts at most5.2s and8 wall reflections. Its collider reflects at x10..width−10 and y14..height−38; there is no screen teleport. Current `vx/vy` owns its nose orientation. The renderer anchors the actual projectile nose/core at its physical x/y, not the middle of a long decorative trail.
+
+The shot retains `kind:'ricochet',life,bounces,maxBounces,hitTimes,damageByTarget,touching,segments,trail`. Each step's segment is `{x1,y1,x2,y2,t0,t1}`. Both enemy compound shapes and moving rocks use the segment's actual time fraction. Collision tests follow **each reflected leg**; the diagonal between the frame's starting/ending point is not a valid hit path.
+
+Damage is3 per contact episode, requiring exit and at least.24s before another hit on that identity. Total per-activation damage caps18 per ordinary target and24 command. A stationary overlap cannot repeatedly farm. The projectile is powered, so it earns no replacement energy/loot. Trail is actual reflected history, at most80 points `{x,y,age}` and.55s old; renderers may soften it without inventing a smooth arc through walls.
+
+### Terminal behaviour, effects and verification
+
+Command HP0 immediately clears threats and sets `phase='jump'`, `mission.beat='extraction'`, gate unlocked. The3s harmless extraction allows an opening-gate presentation, then sets `state='won'`, `phase='complete'`, routeProgress1. No next sector or surprise cleanup spawns. The accepted final hit wins before same-tick lethal hostile fire. Loss remains hull0. Pause freezes encounter clocks, moving wings, lightning damage, ricochet legs/trail, warnings, pickups and extraction. A paused chooser must not leak time.
+
+Kills emit harmless `wreck` effects with `ship,role,angle,vx,vy`; these are inherited pose/momentum for the renderer, not new damaging enemy bodies. Explosion/wreck visuals do not award additional score/energy. Root renderer owns differentiated cosmetic breakup using actual ship imagery.
+
+`node --test tests/starflight-mission.test.js` passes28 focused checks. They cover mission/identity gating, passive blocked fusion, scout commitment, source-derived wing tips/return and thunder-only combat, actual crossed Hard hulls/rocks, nine-power resources/pause/expiry, real piecewise Ricochet/exit episodes, exact nonmagnetic pickup contact, guided distinct-target Trident/turn/cooldown/caps, fusion HP/identity/no-reward conservation and same-tick interruption, resize recovery from the formerly broken1000→360u portrait shrink, real drone birth/optic, true one-charge31u shield fallback, terminal ordering and both-height ordinary-input victory. Combined with the lab's35 checks,63 pass. Direct staged damage/resource setup in unit fixtures is not an earned gameplay claim.
+
+Current checkpointE4768589 received one fixed seed7 public-input model assist per mode/height/policy, with no parameter search or resource/position writes. The same visible-target/nearby-drop steering and simple hostile crossing avoidance as the historical runs below was used; ordinary runs never activated a power. Natural contact-collected supplies remain allowed:
+
+| Mode | Ordinary only:613u /656u | Earned powers:613u /656u |
+|---|---|---|
+|Easy|Won158.33s/167.31s, hull5/6|Won141.04s/152.26s, hull6/6|
+|Medium|Won181.82s/187.30s, hull2/4|Won169.73s/158.10s, hull4/3|
+|Hard|Won211.92s/213.89s, hull3/4|Won188.77s/185.70s, hull2/4|
+
+Trident stocks were actually used in powered routes; first Ricochet stock casts were14.28/14.62s Easy,19.37/18.07s Medium and23.73/24.08s Hard. Active aiming prevented fusion in these runs; the separate passive comparison did fuse once without clearing a required identity. Model assists do not establish human challenge or browser/native rendering performance. Independent QA owns the final actual control, render and earned-browser receipts.
+
+Historical fixed seed7 model-only input assists on checkpoint85B7068F used120Hz, forward visible-target tracking, simple visible-shot crossing avoidance and nearby physical-pickup steering. They preceded the harmless Storm return, thunder-only/exclusivity, stronger clearing band, nonmagnetic pickups, Trident and scout combination. These older timings must not be relabelled as a re-run of the current checkpoint. They called only public `setTarget`, optional `activate`, and `update`; they did not write position, hull, charge, stocks, timers or objectives. Natural Repair/Shield/manual stocks were allowed and therefore these were not pickup-free routes:
+
+| Mode | No activated power:613u /656u | Earned stocks/reactor:613u /656u |
+|---|---|---|
+|Easy|Won162.02s/162.99s, hull6/6|Won158.30s/153.42s, hull6/6|
+|Medium|Won182.30s/183.94s, hull3/5|Won168.22s/169.38s, hull2/4|
+|Hard|Won210.78s/212.74s, hull4/4|Won190.93s/192.61s, hull2/4|
+
+The assist's first reactor readiness was38.75–38.78s Easy,41.77–41.81s Medium and45.48–45.52s Hard. Its earliest collected/cast capsule was Ricochet12.83–13.19s Easy; it missed the first Storm. Powered runs legitimately used8/7,9/10 and9/9 casts respectively, from distinct stocks/reactor fills. These positive model results do not establish human difficulty, touchscreen enjoyment, actual browser rendering, physical-phone frame rate or APK admission. Independent browser controls/ordinary/powered/passive receipts must identify the final source and manifest; human play remains the next calibration step.
+
+The base hook source/geometry hashes are `462E12C1C2FF3613F6E32749C43D65C9813CC89551DEAF167C601B832DDB82DB` / `D73C3F3C62B960749F0FD1AAA014AED70AF5E82EFEC70E7E85CE9E39A5B924DA`. Mission checkpoint is `E47685894361547E25121D04182CF3C9EC2EC9615419294C6BA3A87FA520F79F`; mission tests `FFBCCC31B6830CA4FAED6E2FA22A583CA852EAB0CABFDC22F644C6C3F3D8EB40`. Storm art manifest is `assets/starflight-storm/manifest.json`, finalf790294c…20074. Root owns final rendered-build hashes and browser/release receipts.
+
+
+### Final independent browser recheck — 2026-10-20
+
+Permanent receipts: `docs/validation/starflight-mission/QA.md` and `report.json` (SHA256 DCEA4F377A4C567515E94D74D44D94588B7B0D33C47FEA4577548835F3926E21). Six phone/mode UI cases and eight bounded Easy routes passed on stable source. All 748 newborn projectiles matched their actual launch origins. Nine powers, occupied Storm sweep/return, physical capsule collection, shield interception/depletion, paused clocks, held-touch resize and Retry passed with no page, HTTP or request errors.
+
+Ordinary-control Easy routes won at 211.26s iOS and 197.37s Android, each with 4/6 hull and zero activated powers. Earned-stock routes won at 162.06s/172.81s with 11/12 casts and actual pickup collection; no resource or actor writes. Passive routes remained unfinished at 240s; idle routes lost. These are scripted browser witnesses, not human balance or physical-handset certification. Files containing `staged` are explicitly seeded effect checks, not earned play.
+
+
+---
+
+# Part X: Distinct future flight powers
+
+*Source: `docs/STARFLIGHT_POWER_EXPLORATION.md`*
+
+## Next flight powers: spectacle with a decision
+
+Design proposals, 2026-10-20. These are not additional selectable powers in Gatebreak. The current playable nine remain documented in `STARFLIGHT_MISSION.md`. Do not count a concept or an image as a finished mechanic.
+
+The owner asks for ideas beyond their Stormwing and Ricochet suggestions. A new power must change how the player handles a situation, have a recognisable silhouette at phone size, and finish with a clear recovery. More bullets with a different colour is not sufficient. Retain the glossy white ceramic, machined metal, violet reactor and controlled cyan emission of the current ship.
+
+### Prism Bastion
+
+Three curved armour petals unfold from the ship into a forward crescent. Incoming hostile rounds stop against those real plates and become visible luminous slugs in six recessed chambers. At the end of the capture window the plates rotate into a forward barrel crown and release the stored energy as a staggered counter-volley, then fold flush.
+
+- Role: deliberately intercept a threatening volley and turn defence into offence.
+- Initial prototype budget: 1.8 seconds capture, six caught rounds maximum, 0.6 seconds counter-fire, 0.5 seconds reassembly. No collection behind the ship and no whole-screen bullet deletion.
+- The shields use three explicit swept capsule colliders matching visible plates. The vulnerable core remains exposed from the rear; an empty capture still gives a minimum three-shot return, so choosing it during a lull does not waste the entire charge.
+- Each caught projectile is consumed once. Counter-fire is powered damage and earns no charge or drops. Reject overlapping transformation powers without spending resources.
+- Visual sequence: mechanical deployment, impact ripples travelling along ceramic, chamber-by-chamber charge, a short staggered recoil, and physical closure. Never draw a permanent translucent bubble over the battlefield.
+- Required proof: front/rear collision distinction, six-round cap, empty cast, interrupted victory, moving-bank attachment, shot-clear ownership, pause and both phone safe areas.
+
+### Comet Loom
+
+A rotating nose assembly winds three luminous tethers around nearby destructible asteroids. Their fragments become three visibly separate, molten-rimmed projectiles travelling in forward curved lanes. They smash through a formation and shed harmless grit rather than becoming another rapid-fire weapon.
+
+- Role: exploit a dangerous debris corridor; choose between destroying cover normally for supplies or converting it into an immediate attack.
+- Initial prototype budget: one cast claims at most three rocks within 140 world units, or fabricates one smaller ceramic comet if none are available. No invisible rocks or enemy bodies are pulled in.
+- Claimed rocks stop using their old colliders immediately; one ownership record prevents duplicate loot/destruction. Comets use actual curved swept segments and can hit a target once. Boss damage has a per-cast cap.
+- The gathering stage lasts 0.7 seconds, followed by three timed launches over 0.9 seconds. The player's movement remains responsive; enemy tells stay visible. It cannot capture hostile projectiles.
+- Visual sequence: a short solid-looking nose spindle opens, rubble breaks along its actual silhouette, controlled filaments braid behind three hot cores, and a heavy forward release recoils the assembly. Decorative fragments never hurt the player.
+- Required proof: empty terrain fallback, rock claim concurrency, curved collision, boss budget, no self-refill, no hidden force outside the shown reach, restart and terminal cleanup.
+
+### Production order
+
+Prototype Prism Bastion first because it adds a distinct defensive decision to the current offensive arsenal. Validate the collision/ownership budgets with simple placeholders, then produce a transparent assembly sheet with measured hinges, chambers and muzzle points. Inspect the assembled result at 393×852 and 412×915 before final effects. Comet Loom follows only after its terrain interaction adds a useful choice in playtests.
+
+Neither proposal justifies making the ordinary route unwinnable. Easy keeps readable tells and recovery; Hard combines established threats and asks for better timing. Human play determines whether the result feels exciting, not an automated completion time alone.
 
 
 ---
@@ -71,6 +722,16 @@ User emphasis: retain reference art quality in runtime, meaningful pressure with
 ## Starflight: Last Light
 
 Updated 2026-10-20. Working branch: `codex/starship-run-prototype`.
+
+### Current default: Gatebreak
+
+The default route now loads `StarflightMission` from `src/starflight/mission.js`. Read [the mission contract](STARFLIGHT_MISSION.md) for current rules and receipts. The previous seven-power repeating lab described below remains available at `?lab=1`; those historical sector timings do not describe Gatebreak.
+
+Serve the repo and open `http://127.0.0.1:4194/prototypes/starflight/`. Nine weapon cards now include Stormwing (key 8) and Ricochet (key 9). Ordinary damage/destructions earn supplies; stored capsules spend before full reactor charge. Destroy required patrols, silence the batteries and defeat Veyr to open the gate. Enemy groups return rather than escaping to advance a timer. Brief relief windows separate encounters. Pause, Retry, the paused weapon bay, secondary-thumb buttons and both phone safe areas remain available. Nova has shot-following plasma petals and an iris pulse; Stasis uses a rotating ship emitter. Cosmetic effects do not enlarge damage shapes.
+
+Gatebreak is a browser mission, not a new APK or the entire proposed campaign.
+
+### Historical endurance lab
 
 The owner authorized a fast starship-versus-starship prototype with direct flight, scrolling environments, powerful readable weapons, new extracted artwork and parallel implementation. Design decisions, committing and pushing are delegated. This is a separate browser experiment; it does not silently replace the five existing chapters or enter their reviewed APK.
 
@@ -307,6 +968,16 @@ The dedicated weapon source is `art/starflight/weapons-source.png` (1536×1024 R
 
 All three source families and runtime assets are preserved in `artwork-library/`. The prototype currently uses textured projectiles and explosions with procedural motion. The campaign's differentiated per-role breakup sequences, physical rescue pods and permanent ship attachments remain planned work in `docs/STARFLIGHT_CAMPAIGN.md`.
 
+### Stormwing and Ricochet
+
+`art/starflight-storm/` preserves the exploded design study, exact original player reference, prompts, extraction script, assembly and native-size proofs. The wider study is not substituted for the approved ship: the production body and left/right wings are isolated from the original hero and reconstruct its RGBA pixels exactly. `assets/starflight-storm/manifest.json` records five stripped transparent PNGs (204,385 bytes; 1,433,600 decoded bytes), source hashes and measured anchors. Its SHA256 is `f790294c4b77c56080238d8087a30a084f086d2694cc6c2d46aaacc2dd620074`.
+
+Wing positions are inner attachment pivots, not sprite centres. At a 52×46.8 world draw size the neutral offsets are left [-4.875,3.25], right [4.875,3.25]. `STORM_WINGS` in `mission.js` defines the exact pivot, muzzle-tip and engine offsets; both collision and drawing use `wingPoint`. The thunder joins the measured tips through separation, sweeps as the moving damage band, then turns off while the wings return to the current rotating ship sockets. Ricochet is a real extracted missile with a short trail, not a continuous screen-wide beam. New Nova petals follow its actual radial projectiles. Wreck rendering inherits ship drift and uses delayed heavy cook-offs; these are sprite transforms, not newly fractured or rigged hull assets.
+
+
+### Rechecked equipment family
+`art/starflight-equipment/source-v1.png`, PROMPT.md and extract.py preserve the original sheet and deterministic extraction. `assets/starflight-equipment/manifest.json` records measured nose pivots and source/runtime hashes. Guided and Ricochet projectiles launch from actual rotating ship sockets. Shield transparent centre surrounds the ship; its visible outer31u ring matches hostile-projectile interception. Four PNGs have zero-alpha edges, no metadata and no hidden RGB. The permanent archive preserves these and the original Storm split-wing family.
+
 
 ---
 
@@ -317,6 +988,8 @@ All three source families and runtime assets are preserved in `artwork-library/`
 ## Starflight campaign: combat, consequence and mastery
 
 Updated 2026-10-20. **PROPOSED CAMPAIGN — design first; no campaign implementation, human balance certification or new APK is claimed.**
+
+Implementation checkpoint: [Gatebreak](STARFLIGHT_MISSION.md) is now a separate finite browser mission using returning patrols, productive hull damage, capability loss, earned supplies and a final gate departure. It does not implement the six proposed chapters, persistent equipment or chapter saves below. The original endurance lab survives at `?lab=1`. Latest owner priority is enjoyable, readable pressure and spectacular but bounded powers; Stormwing must suppress all friendly gunfire until its wings reattach.
 
 The owner's latest correction supersedes the earlier rescue-to-module proposal. The references inform design judgment; they are not a progression template. This campaign centres on distinct enemy behaviour, authored terrain and formations, weapon tradeoffs, meaningful destruction of combat capabilities and replay mastery. Rescue is an occasional optional mission type. There is **no rescue requirement per chapter, six-specialist reward chain or mandatory permanent attachment system**.
 
@@ -2381,6 +3054,10 @@ Each workstream is sized for one subagent with a clear contract and a test.
 
 ## BREACH handoff 1/3: status and next steps
 
+**Grounded keep encounters (2026-10-20):** The owner approved Bellforge Run and Tidewheel Citadel, then requested extended supports, more bricks and a smaller crab that hauls a chain, becomes angry, attacks and threatens Lumi through rising water. Both standalone browser encounters now use actual separate scenery, keyed actor poses, moving machinery and swept ball collision. Bellforge has 30 phone-layout bricks and extended physical rolling ramps. Tidewheel has 24 raft bricks, a broad supporting sluice wall, a measured chain grip, lateral patrol, ordinary-hit stun/anger, warned stronger pulls, a descending refuge and an interceptable water shot. A reproduced 26-second centre-catch dead period led to two-hit central raft braces that visibly crack and open a broad lower entry. Numerical rules and final evidence are in `docs/BELLFORGE_PHYSICS.md`, `docs/TIDEWHEEL_PHYSICS.md` and their `docs/validation/` folders. Browser tests are not physical-device or human enjoyment certification. All342 unit tests and the canonical build pass; the released bundle stays B06CDD. Both previews, like Gatebreak, remain outside the five-chapter APK. The artwork archive verifies1,006 records/1,030 aliases/381,626,616bytes. Owner authorization permits design decisions, commit and push on the branch; no main merge.
+
+**Gatebreak recheck and approved keeps (2026-10-20):** The owner clarified RECHECK, not reject. The mission now has nonmagnetic falling capsules, measured Ricochet/Trident launch points, visible shield interception, thunder-only Stormwing and physically combining ignored scouts. Final independent browser evidence is in `docs/validation/starflight-mission/`; all six phone/mode UI cases and eight bounded Easy routes passed on stable source. Ordinary Easy runs took197–211s; earned powers162–173s. Human enjoyment and physical-device performance remain unverified. Both Bellforge Run and Tidewheel Citadel reference boards are now approved and preserved; moving machinery and independent physics are being developed in a separate browser prototype. No new APK inclusion is claimed.
+
 **Starflight campaign design and combat lab (2026-10-20):** Latest owner steering is a dedicated combat-first story/level/asset plan before campaign production. The owner clarified that rescue-to-module progression was an example and explicitly rejected treating it as a fixed formula. Read `docs/STARFLIGHT_CAMPAIGN.md` for reference-informed enemy roles, weapon tradeoffs, distinct encounter objectives, pressure/recovery beats and exact asset production order. Rescue is optional and occasional. Its campaign features are proposals, not implemented encounters. The separate browser lab at `prototypes/starflight/` implements direct flight, smaller ships, seven bounded reactor powers, a single circular chooser, additional enemy families, asteroids and warned gravity. Current branch is `codex/starship-run-prototype`; the green five-chapter release branch is incorporated. The branch passes 266 units; its older Android payload remains byte-identical B06CDD. Thirty-nine new Starflight PNGs decode with empty metadata; artwork archive now verifies 918 unique records / 940 aliases / 320,069,413 bytes. Final phone-browser receipts belong in `docs/validation/starflight/`. The existing APK does not contain Starflight; native packaging, physical-phone performance and human Hard balance remain separate work.
 
 **Completed Android release (2026-10-20):** The five-chapter space/Vault/Frost preview is built, pushed and verified on `codex/space-combat-apk`. CI [39399653237](https://github.com/mahikshith/breaker/actions/runs/39399653237) passes 231 units, all canonical/offline phone suites, layout/polish, compilation/lint and complete Android 15 native touch/fullscreen/lifecycle checks. Downloaded APK: 9,596,473 bytes, SHA256 `B44BC99FE10468DEF35E89F32B85900F8AAD3C16BB92C6C1040A04D850E7BA8E`; payload B06CDD/4071ACEE and offline fonts/licenses are exact. Actual native screenshots were inspected, with the immediate recreated-Nix still explicitly timing-limited. Artifact, verification and remaining physical-phone/human-balance limits: `docs/MOBILE_PREVIEW.md` and `docs/validation/space-combat/native-release.json`. Earlier failed-run entries remain historical. No new prototype content is included in this APK.
@@ -3417,6 +4094,61 @@ android/gradle.properties
 android/settings.gradle
 art/brum.py
 art/char_preview.py
+art/fantasy-machinery/NERRA_V2.md
+art/fantasy-machinery/SOURCE.md
+art/fantasy-machinery/WATER_SHOT.md
+art/fantasy-machinery/extract-nerra-v2.py
+art/fantasy-machinery/extract-water-shot.py
+art/fantasy-machinery/extract.py
+art/fantasy-machinery/final-prompts.json
+art/fantasy-machinery/grounding-prompts.json
+art/fantasy-machinery/measure.py
+art/fantasy-machinery/nerra-v2-data.mjs
+art/fantasy-machinery/nerra-v2-prompts.json
+art/fantasy-machinery/production-prompts.json
+art/fantasy-machinery/prompts.json
+art/fantasy-machinery/proof-nerra-v2.py
+art/fantasy-machinery/proof.py
+art/fantasy-machinery/proof/android-assembly.png
+art/fantasy-machinery/proof/asset-audit.json
+art/fantasy-machinery/proof/collision-coverage.json
+art/fantasy-machinery/proof/collision-measurements.json
+art/fantasy-machinery/proof/crusherClaw-collision.png
+art/fantasy-machinery/proof/gateClaw-collision.png
+art/fantasy-machinery/proof/grounding-source-composite.png
+art/fantasy-machinery/proof/ios-assembly.png
+art/fantasy-machinery/proof/keypose-assembly.gif
+art/fantasy-machinery/proof/korr-idle-collision.png
+art/fantasy-machinery/proof/korr-release-collision.png
+art/fantasy-machinery/proof/korr-stagger-collision.png
+art/fantasy-machinery/proof/korr-windup-collision.png
+art/fantasy-machinery/proof/measure-log.json
+art/fantasy-machinery/proof/nerra-v2/android-pull.png
+art/fantasy-machinery/proof/nerra-v2/ios-hurt.png
+art/fantasy-machinery/proof/nerra-v2/ios-idle.png
+art/fantasy-machinery/proof/nerra-v2/ios-pull.png
+art/fantasy-machinery/proof/nerra-v2/ios-step.png
+art/fantasy-machinery/proof/nerra-v2/keyposes.gif
+art/fantasy-machinery/proof/nerra-v2/native-poses.png
+art/fantasy-machinery/proof/nerra-v2/old-balcony-overlap.json
+art/fantasy-machinery/proof/nerra-v2/verification.json
+art/fantasy-machinery/proof/nerraBody-collision.png
+art/fantasy-machinery/proof/parts-contact.png
+art/fantasy-machinery/proof/verification.json
+art/fantasy-machinery/proof/water-shot-native.png
+art/fantasy-machinery/source/background-pair-v1.png
+art/fantasy-machinery/source/background-pair-v2.png
+art/fantasy-machinery/source/bell-cradle-v1.png
+art/fantasy-machinery/source/bellforge-sheet-v1.png
+art/fantasy-machinery/source/bellforge-sheet-v2.png
+art/fantasy-machinery/source/grounding-sheet-v1.png
+art/fantasy-machinery/source/nerra-motion-v1.png
+art/fantasy-machinery/source/nerra-motion-v2.png
+art/fantasy-machinery/source/tidewheel-bricks-v1.png
+art/fantasy-machinery/source/tidewheel-sheet-v1.png
+art/fantasy-machinery/source/water-shot-v1.png
+art/fantasy-machinery/verify.py
+art/fantasy-machinery/water-shot-prompt.json
 art/frost-warden/SOURCE.md
 art/frost-warden/pack.py
 art/frost-warden/proof.py
@@ -3557,6 +4289,20 @@ art/space/weapons_v2.py
 art/starflight-arsenal/SOURCE.md
 art/starflight-arsenal/extract.py
 art/starflight-arsenal/source.png
+art/starflight-equipment/PROMPT.md
+art/starflight-equipment/extract.py
+art/starflight-equipment/source-v1.png
+art/starflight-storm/SOURCE.md
+art/starflight-storm/assembled.png
+art/starflight-storm/assembly-proof.png
+art/starflight-storm/checks.json
+art/starflight-storm/extract.py
+art/starflight-storm/native-proof.png
+art/starflight-storm/player-reference.png
+art/starflight-storm/production.json
+art/starflight-storm/prompt-v1.txt
+art/starflight-storm/proof.py
+art/starflight-storm/source-v1.png
 art/starflight-v2/SOURCE.md
 art/starflight-v2/asset-checks.json
 art/starflight-v2/enemy-family-source-v1.png
@@ -3606,6 +4352,46 @@ artwork-library/assets/circuit-companions/vesper_05--9e30f9316c1d.png
 artwork-library/assets/circuit-companions/vesper_06--c648158a0c02.png
 artwork-library/assets/circuit-companions/vesper_07--93660dd68257.png
 artwork-library/assets/circuit-companions/vesper_08--ef3fdd37caef.png
+artwork-library/assets/fantasy-machinery/bell--f9ee6022f523.png
+artwork-library/assets/fantasy-machinery/bellCradle--20cfb11d5e7c.png
+artwork-library/assets/fantasy-machinery/bellforge-background--6189c80623fa.png
+artwork-library/assets/fantasy-machinery/brick-coral--ccbed3518f64.png
+artwork-library/assets/fantasy-machinery/brick-ivory--ccd4cc382b0f.png
+artwork-library/assets/fantasy-machinery/brick-sage--4f7b5b5a1aa0.png
+artwork-library/assets/fantasy-machinery/chain-v2--b9f662acef63.png
+artwork-library/assets/fantasy-machinery/counterweight--07fb3238f63e.png
+artwork-library/assets/fantasy-machinery/crusherClaw--3ce2ce1fea40.png
+artwork-library/assets/fantasy-machinery/gate--04cab2d6c478.png
+artwork-library/assets/fantasy-machinery/gateClaw--eca4a8c12a9f.png
+artwork-library/assets/fantasy-machinery/gateClawV2--8233aae478bd.png
+artwork-library/assets/fantasy-machinery/gateFrame--87dbdf9ca727.png
+artwork-library/assets/fantasy-machinery/hopperStudy--bbc2d0f6d680.png
+artwork-library/assets/fantasy-machinery/korr--e1f2ab4f5b58.png
+artwork-library/assets/fantasy-machinery/korr-idle--30e5da9d16d7.png
+artwork-library/assets/fantasy-machinery/korr-release--eedd6b91a8d6.png
+artwork-library/assets/fantasy-machinery/korr-stagger--a1743526bfaa.png
+artwork-library/assets/fantasy-machinery/korr-windup--47c5e0598e4d.png
+artwork-library/assets/fantasy-machinery/leverMount--9076a3a8c9ba.png
+artwork-library/assets/fantasy-machinery/lift--b5c336570676.png
+artwork-library/assets/fantasy-machinery/manifest--b810545f1c1c.json
+artwork-library/assets/fantasy-machinery/nerra-v2--0ef6a3017d29.png
+artwork-library/assets/fantasy-machinery/nerra-v2-hurt--6098a9d7f4bd.png
+artwork-library/assets/fantasy-machinery/nerra-v2-idle--3909b5ddfb3b.png
+artwork-library/assets/fantasy-machinery/nerra-v2-manifest--defc7d7d75af.json
+artwork-library/assets/fantasy-machinery/nerra-v2-pull--d5a5cbf8e51b.png
+artwork-library/assets/fantasy-machinery/nerra-v2-step--19bcf7cd5881.png
+artwork-library/assets/fantasy-machinery/nerraBody--ef5644f573d6.png
+artwork-library/assets/fantasy-machinery/plinth--d9e3877ba5fa.png
+artwork-library/assets/fantasy-machinery/raft--6382b5972389.png
+artwork-library/assets/fantasy-machinery/ramp--d37022aa5f8e.png
+artwork-library/assets/fantasy-machinery/ratchet--0578c721ec5d.png
+artwork-library/assets/fantasy-machinery/refugeBalcony--df3dca5a3242.png
+artwork-library/assets/fantasy-machinery/releaseLever--a4a0add6dcb1.png
+artwork-library/assets/fantasy-machinery/sluiceWall--9603f5603b9a.png
+artwork-library/assets/fantasy-machinery/tidewheel-background--c11ddbb3f2f5.png
+artwork-library/assets/fantasy-machinery/water-shot--e9a23f6276be.png
+artwork-library/assets/fantasy-machinery/water-shot-manifest--44172b349146.json
+artwork-library/assets/fantasy-machinery/wheel--1ca697216202.png
 artwork-library/assets/frost-warden/hurt_00--b3d34c0b08f6.png
 artwork-library/assets/frost-warden/hurt_01--51fe5e686d49.png
 artwork-library/assets/frost-warden/hurt_02--ce91e4c79429.png
@@ -3952,6 +4738,17 @@ artwork-library/assets/starflight-arsenal/seeker--734bfe689de4.png
 artwork-library/assets/starflight-arsenal/shield--1f89600c808e.png
 artwork-library/assets/starflight-arsenal/spiral--6cc07b908d12.png
 artwork-library/assets/starflight-arsenal/stasis--4d3b124967e9.png
+artwork-library/assets/starflight-equipment/capsule--f55df7cc3aa3.png
+artwork-library/assets/starflight-equipment/guided--48d631f219c0.png
+artwork-library/assets/starflight-equipment/manifest--b08da785de7f.json
+artwork-library/assets/starflight-equipment/ricochet--c9d89d07fc8c.png
+artwork-library/assets/starflight-equipment/shield--42b8391921c3.png
+artwork-library/assets/starflight-storm/body--ffae2e0e4759.png
+artwork-library/assets/starflight-storm/manifest--f790294c4b77.json
+artwork-library/assets/starflight-storm/ricochet--91d625b148e7.png
+artwork-library/assets/starflight-storm/storm-icon--5f8a30e302b5.png
+artwork-library/assets/starflight-storm/wing-left--ce7e3271c1b9.png
+artwork-library/assets/starflight-storm/wing-right--98d1fcd23dec.png
 artwork-library/assets/starflight-v2/asteroid--ce56450e8fd4.png
 artwork-library/assets/starflight-v2/beetle--ec6d92ee04fa.png
 artwork-library/assets/starflight-v2/crescent--82764e48f114.png
@@ -4085,6 +4882,8 @@ artwork-library/concepts/img/mobile-layout-b-invasion--40bb2ffc5f9a.png
 artwork-library/concepts/img/orbital-variety-study-v1--65f7f6113ca9.png
 artwork-library/concepts/img/orbital-variety-study-v2--f2a92d5ee619.png
 artwork-library/concepts/img/orbital-variety-study-v3--278a52aac8f5.png
+artwork-library/concepts/img/princess-bellforge-a-v1--53ef9248cd4b.png
+artwork-library/concepts/img/princess-tidewheel-b-v1--c2b5b6b26c85.png
 artwork-library/concepts/img/relay-variety-study-v1--cd1c2769e7bf.png
 artwork-library/concepts/img/relay-variety-study-v2--4f7960833b2e.png
 artwork-library/concepts/img/relay-variety-study-v3--98c5c46cd080.png
@@ -4401,6 +5200,37 @@ artwork-library/renders/rejected-kit-20261018/design/phase1/img/01-kit-character
 artwork-library/renders/rejected-kit-20261018/design/phase1/img/01-kit-character-3--f42d5724d155.png
 artwork-library/renders/rejected-kit-20261018/design/phase1/img/01-kit-character-4--3e2fcf91a070.png
 artwork-library/renders/rejected-kit-20261018/design/phase1/img/01-kit-character-5--1e29405b38f6.png
+artwork-library/sources/fantasy-machinery/proof/android-assembly--e8b2612b653e.png
+artwork-library/sources/fantasy-machinery/proof/crusherClaw-collision--e00060eb3718.png
+artwork-library/sources/fantasy-machinery/proof/gateClaw-collision--cb06931927a6.png
+artwork-library/sources/fantasy-machinery/proof/grounding-source-composite--ba5d16712b83.png
+artwork-library/sources/fantasy-machinery/proof/ios-assembly--36c9a1c42214.png
+artwork-library/sources/fantasy-machinery/proof/keypose-assembly--f09e0b203e82.gif
+artwork-library/sources/fantasy-machinery/proof/korr-idle-collision--84664ea09ecb.png
+artwork-library/sources/fantasy-machinery/proof/korr-release-collision--1b8e6565a92c.png
+artwork-library/sources/fantasy-machinery/proof/korr-stagger-collision--82bebafcbb85.png
+artwork-library/sources/fantasy-machinery/proof/korr-windup-collision--70fbd4c26357.png
+artwork-library/sources/fantasy-machinery/proof/nerra-v2/android-pull--34e0eb5311df.png
+artwork-library/sources/fantasy-machinery/proof/nerra-v2/ios-hurt--9174cd18911c.png
+artwork-library/sources/fantasy-machinery/proof/nerra-v2/ios-idle--e7ec8920c93c.png
+artwork-library/sources/fantasy-machinery/proof/nerra-v2/ios-pull--d920642e6612.png
+artwork-library/sources/fantasy-machinery/proof/nerra-v2/ios-step--330ec816eadf.png
+artwork-library/sources/fantasy-machinery/proof/nerra-v2/keyposes--cf5aafa39019.gif
+artwork-library/sources/fantasy-machinery/proof/nerra-v2/native-poses--e1c6dce1f25e.png
+artwork-library/sources/fantasy-machinery/proof/nerraBody-collision--f2a3360e37fd.png
+artwork-library/sources/fantasy-machinery/proof/parts-contact--32182804136d.png
+artwork-library/sources/fantasy-machinery/proof/water-shot-native--c468062241e2.png
+artwork-library/sources/fantasy-machinery/source/background-pair-v1--4ca8531182c0.png
+artwork-library/sources/fantasy-machinery/source/background-pair-v2--8074e80015b5.png
+artwork-library/sources/fantasy-machinery/source/bell-cradle-v1--340d04e3bf4e.png
+artwork-library/sources/fantasy-machinery/source/bellforge-sheet-v1--c220fe54d83e.png
+artwork-library/sources/fantasy-machinery/source/bellforge-sheet-v2--2688aec368b6.png
+artwork-library/sources/fantasy-machinery/source/grounding-sheet-v1--033a7daf69b1.png
+artwork-library/sources/fantasy-machinery/source/nerra-motion-v1--207638df8b6c.png
+artwork-library/sources/fantasy-machinery/source/nerra-motion-v2--afecbfb234c1.png
+artwork-library/sources/fantasy-machinery/source/tidewheel-bricks-v1--c8061573b71f.png
+artwork-library/sources/fantasy-machinery/source/tidewheel-sheet-v1--2fa3bcd1f1be.png
+artwork-library/sources/fantasy-machinery/source/water-shot-v1--5339f2742b54.png
 artwork-library/sources/frost-warden/renders/hurt_00--1b2857004e02.png
 artwork-library/sources/frost-warden/renders/hurt_01--b34407fdb681.png
 artwork-library/sources/frost-warden/renders/hurt_02--20dff0cf4608.png
@@ -4481,6 +5311,10 @@ artwork-library/sources/space/weapons-v2/rejected-draft-01/reactor-charge-08--bb
 artwork-library/sources/space/weapons-v2/rejected-draft-01/reactor-flight-08--4631e5d863ba.png
 artwork-library/sources/space/weapons-v2/rejected-draft-01/reactor-impact-04--7e1f42866a00.png
 artwork-library/sources/starflight-arsenal/source--05d3b21215bc.png
+artwork-library/sources/starflight-equipment/source-v1--92b62ad01ffc.png
+artwork-library/sources/starflight-storm/assembly-proof--b3924b6b2468.png
+artwork-library/sources/starflight-storm/native-proof--a42d715de6f8.png
+artwork-library/sources/starflight-storm/source-v1--8f9638ebe79a.png
 artwork-library/sources/starflight-v2/enemy-family-source-v1--87ab2adfeb5e.png
 artwork-library/sources/starflight-v2/native-extraction-proof--44de464d918f.png
 artwork-library/sources/starflight/background-source-v1--c0227809c33e.png
@@ -4507,6 +5341,46 @@ assets/circuit-companions/vesper_05.png
 assets/circuit-companions/vesper_06.png
 assets/circuit-companions/vesper_07.png
 assets/circuit-companions/vesper_08.png
+assets/fantasy-machinery/bell.png
+assets/fantasy-machinery/bellCradle.png
+assets/fantasy-machinery/bellforge-background.png
+assets/fantasy-machinery/brick-coral.png
+assets/fantasy-machinery/brick-ivory.png
+assets/fantasy-machinery/brick-sage.png
+assets/fantasy-machinery/chain-v2.png
+assets/fantasy-machinery/counterweight.png
+assets/fantasy-machinery/crusherClaw.png
+assets/fantasy-machinery/gate.png
+assets/fantasy-machinery/gateClaw.png
+assets/fantasy-machinery/gateClawV2.png
+assets/fantasy-machinery/gateFrame.png
+assets/fantasy-machinery/hopperStudy.png
+assets/fantasy-machinery/korr-idle.png
+assets/fantasy-machinery/korr-release.png
+assets/fantasy-machinery/korr-stagger.png
+assets/fantasy-machinery/korr-windup.png
+assets/fantasy-machinery/korr.png
+assets/fantasy-machinery/leverMount.png
+assets/fantasy-machinery/lift.png
+assets/fantasy-machinery/manifest.json
+assets/fantasy-machinery/nerra-v2-hurt.png
+assets/fantasy-machinery/nerra-v2-idle.png
+assets/fantasy-machinery/nerra-v2-manifest.json
+assets/fantasy-machinery/nerra-v2-pull.png
+assets/fantasy-machinery/nerra-v2-step.png
+assets/fantasy-machinery/nerra-v2.png
+assets/fantasy-machinery/nerraBody.png
+assets/fantasy-machinery/plinth.png
+assets/fantasy-machinery/raft.png
+assets/fantasy-machinery/ramp.png
+assets/fantasy-machinery/ratchet.png
+assets/fantasy-machinery/refugeBalcony.png
+assets/fantasy-machinery/releaseLever.png
+assets/fantasy-machinery/sluiceWall.png
+assets/fantasy-machinery/tidewheel-background.png
+assets/fantasy-machinery/water-shot-manifest.json
+assets/fantasy-machinery/water-shot.png
+assets/fantasy-machinery/wheel.png
 assets/fonts/LilitaOne-OFL.txt
 assets/fonts/LilitaOne-Regular.ttf
 assets/fonts/Rubik-OFL.txt
@@ -4709,6 +5583,17 @@ assets/starflight-arsenal/seeker.png
 assets/starflight-arsenal/shield.png
 assets/starflight-arsenal/spiral.png
 assets/starflight-arsenal/stasis.png
+assets/starflight-equipment/capsule.png
+assets/starflight-equipment/guided.png
+assets/starflight-equipment/manifest.json
+assets/starflight-equipment/ricochet.png
+assets/starflight-equipment/shield.png
+assets/starflight-storm/body.png
+assets/starflight-storm/manifest.json
+assets/starflight-storm/ricochet.png
+assets/starflight-storm/storm-icon.png
+assets/starflight-storm/wing-left.png
+assets/starflight-storm/wing-right.png
 assets/starflight-v2/asteroid.png
 assets/starflight-v2/beetle.png
 assets/starflight-v2/crescent.png
@@ -4784,6 +5669,8 @@ design/phase1/img/mobile-layout-b.png
 design/phase1/img/orbital-variety-study-v1.png
 design/phase1/img/orbital-variety-study-v2.png
 design/phase1/img/orbital-variety-study-v3.png
+design/phase1/img/princess-bellforge-a-v1.png
+design/phase1/img/princess-tidewheel-b-v1.png
 design/phase1/img/relay-variety-study-v1.png
 design/phase1/img/relay-variety-study-v2.png
 design/phase1/img/relay-variety-study-v3.png
@@ -4806,6 +5693,8 @@ design/phase1/mobile-layout-options.md
 design/phase1/orbital-forge.md
 design/phase1/orbital-gameplay-variety.md
 design/phase1/orbital-level3.md
+design/phase1/princess-two-levels-prompts.json
+design/phase1/princess-two-levels.md
 design/phase1/relay-circuit.md
 design/phase1/relay-gameplay-variety.md
 design/phase1/relay-gameplay.md
@@ -4910,6 +5799,7 @@ design/phase1/weapon-vfx-v3/review/history/skiff-before-friendly-firepower.png
 design/phase1/weapon-vfx-v3/review/skiff-contact.png
 design/phase1/weapon-vfx-v3/review/skiff-report.json
 docs/ARTWORK_LIBRARY.md
+docs/BELLFORGE_PHYSICS.md
 docs/BREACH-ChatGPT-handoff.md
 docs/BREACH-blender-scripts.md
 docs/BRUM_LEVEL_PLAN.md
@@ -4921,8 +5811,11 @@ docs/SPACE_COMBAT_HANDOFF.md
 docs/STARFLIGHT_ART.md
 docs/STARFLIGHT_CAMPAIGN.md
 docs/STARFLIGHT_COMBAT.md
+docs/STARFLIGHT_MISSION.md
+docs/STARFLIGHT_POWER_EXPLORATION.md
 docs/STARFLIGHT_PROTOTYPE.md
 docs/STORY_PLAN.md
+docs/TIDEWHEEL_PHYSICS.md
 docs/drafts/breach.png
 docs/drafts/forge.png
 docs/drafts/rescue.png
@@ -4945,6 +5838,30 @@ docs/screens/04-invasion-mothership.png
 docs/screens/07-vault-focus-aim.png
 docs/screens/08-vault-breach.png
 docs/screens/10-vault-results.png
+docs/validation/bellforge/README.md
+docs/validation/bellforge/SHA256SUMS
+docs/validation/bellforge/android-earned-result.png
+docs/validation/bellforge/android-opening-final.png
+docs/validation/bellforge/android-rolling.png
+docs/validation/bellforge/historical-before-final-anatomy.json
+docs/validation/bellforge/ios-echo-staged.png
+docs/validation/bellforge/ios-opening-final.png
+docs/validation/bellforge/ios-opening.png
+docs/validation/bellforge/model-routes.json
+docs/validation/bellforge/palette-refresh.json
+docs/validation/bellforge/phone-report.json
+docs/validation/bellforge/shared-refresh-notes.json
+docs/validation/bellforge/shared-ui-report.json
+docs/validation/bellforge/visual-source-refresh.json
+docs/validation/fantasy-preview/README.md
+docs/validation/fantasy-preview/all-tests.txt
+docs/validation/fantasy-preview/art-audit.json
+docs/validation/fantasy-preview/bellforge-live.png
+docs/validation/fantasy-preview/bellforge-live.webm
+docs/validation/fantasy-preview/motion-report.json
+docs/validation/fantasy-preview/post-review-whitespace.json
+docs/validation/fantasy-preview/tidewheel-live.png
+docs/validation/fantasy-preview/tidewheel-live.webm
 docs/validation/space-combat/README.md
 docs/validation/space-combat/apk-verification.json
 docs/validation/space-combat/bounded-balance.json
@@ -4971,6 +5888,15 @@ docs/validation/space-combat/screenshots/ios-frost.png
 docs/validation/space-combat/screenshots/ios-menu.png
 docs/validation/space-combat/space-offline-controls.json
 docs/validation/space-combat/weapon-vfx.json
+docs/validation/starflight-mission/QA.md
+docs/validation/starflight-mission/android-easy-power-spiral-staged.png
+docs/validation/starflight-mission/android-easy-ricochet-staged.png
+docs/validation/starflight-mission/android-supplies-earned-combat.png
+docs/validation/starflight-mission/first-pause.json
+docs/validation/starflight-mission/ios-easy-shield-incoming-staged.png
+docs/validation/starflight-mission/ios-easy-storm-occupied-sweep-staged.png
+docs/validation/starflight-mission/ios-supplies-earned-combat.png
+docs/validation/starflight-mission/report.json
 docs/validation/starflight/README.md
 docs/validation/starflight/android-reactor-clearance.png
 docs/validation/starflight/android-reactor-left-sweep.png
@@ -4980,11 +5906,29 @@ docs/validation/starflight/ios-arsenal-full-staged.png
 docs/validation/starflight/ios-earned-boss.png
 docs/validation/starflight/real-clock-report.json
 docs/validation/starflight/summary.json
+docs/validation/tidewheel/QA.md
+docs/validation/tidewheel/README.md
+docs/validation/tidewheel/SHA256SUMS
+docs/validation/tidewheel/android-chain-pull-staged.png
+docs/validation/tidewheel/android-earned-ordinary-combat.png
+docs/validation/tidewheel/browser.json
+docs/validation/tidewheel/centre-catch.json
+docs/validation/tidewheel/geometry.json
+docs/validation/tidewheel/ios-opening.png
+docs/validation/tidewheel/ios-water-pulse-staged.png
+docs/validation/tidewheel/profile.json
+docs/validation/tidewheel/routes.json
+docs/validation/tidewheel/seal.json
 index.html
 package-lock.json
 package.json
+prototypes/fantasy/index.html
+prototypes/fantasy/main.js
+prototypes/fantasy/render.js
+prototypes/fantasy/style.css
 prototypes/starflight/index.html
 prototypes/starflight/main.js
+prototypes/starflight/mission-render.js
 prototypes/starflight/render-effects.js
 prototypes/starflight/style.css
 skills/gamedev/LICENSE
@@ -5038,6 +5982,10 @@ src/carrier.js
 src/characters.js
 src/debris.js
 src/difficulty.js
+src/fantasy/bellforge.js
+src/fantasy/tidewheel-geometry.js
+src/fantasy/tidewheel-v2-geometry.js
+src/fantasy/tidewheel.js
 src/frost.js
 src/gfx.js
 src/invasion.js
@@ -5053,11 +6001,13 @@ src/skiff.js
 src/space-companions.js
 src/space-weapons.js
 src/starflight/geometry.js
+src/starflight/mission.js
 src/starflight/model.js
 src/vault-art.js
 src/vault.js
 tests/arena.test.js
 tests/art-cache.test.js
+tests/bellforge.test.js
 tests/boarding-review.test.js
 tests/boarding.test.js
 tests/carrier-hybrid.test.js
@@ -5086,7 +6036,11 @@ tests/serpent.test.js
 tests/space-plasma-integration.test.js
 tests/space-powers.test.js
 tests/space-weapons.test.js
+tests/starflight-mission.test.js
 tests/starflight.test.js
+tests/tidewheel-attacks.test.js
+tests/tidewheel-seams.test.js
+tests/tidewheel.test.js
 tools/archive_artwork.py
 tools/build.mjs
 tools/carrier-difficulty-preview/build.mjs
@@ -5115,11 +6069,15 @@ tools/orbital-preview/prepare_art.py
 tools/orbital-preview/prepare_reference.py
 tools/orbital-preview/render-proof.mjs
 tools/pack_art.py
+tools/playtest/bellforge-policy.mjs
+tools/playtest/bellforge.mjs
 tools/playtest/boarding.mjs
 tools/playtest/capture.mjs
 tools/playtest/carrier.mjs
 tools/playtest/combat-balance.mjs
 tools/playtest/combat.mjs
+tools/playtest/fantasy-motion.mjs
+tools/playtest/fantasy-visual.mjs
 tools/playtest/frost.mjs
 tools/playtest/kit.mjs
 tools/playtest/l1.mjs
@@ -5127,7 +6085,13 @@ tools/playtest/layout.mjs
 tools/playtest/mobile-ui.mjs
 tools/playtest/polish.mjs
 tools/playtest/space-selected.mjs
+tools/playtest/starflight-mission.mjs
 tools/playtest/starflight.mjs
+tools/playtest/tidewheel-centre-catch.mjs
+tools/playtest/tidewheel-geometry.mjs
+tools/playtest/tidewheel-profile.mjs
+tools/playtest/tidewheel-routes.mjs
+tools/playtest/tidewheel.mjs
 tools/playtest/vault-v2.mjs
 tools/playtest/vault.mjs
 tools/playtest/venom.mjs

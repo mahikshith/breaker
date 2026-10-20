@@ -2,6 +2,16 @@
 
 Updated 2026-10-20. Working branch: `codex/starship-run-prototype`.
 
+## Current default: Gatebreak
+
+The default route now loads `StarflightMission` from `src/starflight/mission.js`. Read [the mission contract](STARFLIGHT_MISSION.md) for current rules and receipts. The previous seven-power repeating lab described below remains available at `?lab=1`; those historical sector timings do not describe Gatebreak.
+
+Serve the repo and open `http://127.0.0.1:4194/prototypes/starflight/`. Nine weapon cards now include Stormwing (key 8) and Ricochet (key 9). Ordinary damage/destructions earn supplies; stored capsules spend before full reactor charge. Destroy required patrols, silence the batteries and defeat Veyr to open the gate. Enemy groups return rather than escaping to advance a timer. Brief relief windows separate encounters. Pause, Retry, the paused weapon bay, secondary-thumb buttons and both phone safe areas remain available. Nova has shot-following plasma petals and an iris pulse; Stasis uses a rotating ship emitter. Cosmetic effects do not enlarge damage shapes.
+
+Gatebreak is a browser mission, not a new APK or the entire proposed campaign.
+
+## Historical endurance lab
+
 The owner authorized a fast starship-versus-starship prototype with direct flight, scrolling environments, powerful readable weapons, new extracted artwork and parallel implementation. Design decisions, committing and pushing are delegated. This is a separate browser experiment; it does not silently replace the five existing chapters or enter their reviewed APK.
 
 After playing it, the owner requested a single circular reactor, a lower/smaller hero, more enemy families, meaningful weapon variety, stronger resistance, no dotted aim paths, asteroids and gravity hazards. Those changes form the current combat checkpoint. The later request is **campaign design first**: [STARFLIGHT_CAMPAIGN.md](STARFLIGHT_CAMPAIGN.md) plans combat-first authored chapters and equipment choices. The owner clarified that rescue-earned progression was an example, not a required formula. Those campaign systems are proposed, not implemented by this combat checkpoint.

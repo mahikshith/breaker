@@ -1,0 +1,46 @@
+{
+  "method": "Real-time browser with public launch/setTarget assistance. No state, resources or clock writes. Not physical-handset or human balance evidence.",
+  "before": {
+    "prototypes/fantasy/main.js": "d38c814b22c15ef54a68250190061fb05df661fd3103180451a8061cc57fafa6",
+    "prototypes/fantasy/render.js": "7b0e8d83a9cdb395bd0e215474ae58bf33d5d8f64886c37a87b656ede7c16a6c",
+    "src/fantasy/bellforge.js": "46f6297072baf87b7c8d2e88875b3e1e4a7e99ec90a48f0ab3f5cf4be7ac65cf",
+    "src/fantasy/tidewheel.js": "c216f74972ae53d65d762969284d215561e84b5f64a144bf0da101122183dbf1",
+    "assets/fantasy-machinery/manifest.json": "b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13",
+    "assets/fantasy-machinery/nerra-v2-manifest.json": "defc7d7d75af13b50560cbabd79d5115cbeeafa997d9abc5452f5c5e0418fc69",
+    "assets/fantasy-machinery/water-shot-manifest.json": "44172b349146ac438006989327ddfcd8da2d4db0c81b73e03fb68e5450f8010f"
+  },
+  "after": {
+    "prototypes/fantasy/main.js": "d38c814b22c15ef54a68250190061fb05df661fd3103180451a8061cc57fafa6",
+    "prototypes/fantasy/render.js": "7b0e8d83a9cdb395bd0e215474ae58bf33d5d8f64886c37a87b656ede7c16a6c",
+    "src/fantasy/bellforge.js": "46f6297072baf87b7c8d2e88875b3e1e4a7e99ec90a48f0ab3f5cf4be7ac65cf",
+    "src/fantasy/tidewheel.js": "c216f74972ae53d65d762969284d215561e84b5f64a144bf0da101122183dbf1",
+    "assets/fantasy-machinery/manifest.json": "b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13",
+    "assets/fantasy-machinery/nerra-v2-manifest.json": "defc7d7d75af13b50560cbabd79d5115cbeeafa997d9abc5452f5c5e0418fc69",
+    "assets/fantasy-machinery/water-shot-manifest.json": "44172b349146ac438006989327ddfcd8da2d4db0c81b73e03fb68e5450f8010f"
+  },
+  "sourceStable": true,
+  "cases": [
+    {
+      "level": "bellforge",
+      "errors": [],
+      "state": {
+        "state": "play",
+        "time": 21.14969999999942,
+        "hp": 17,
+        "lives": 3,
+        "score": 305
+      }
+    },
+    {
+      "level": "tidewheel",
+      "errors": [],
+      "state": {
+        "state": "play",
+        "time": 34.182700000000914,
+        "hp": 21,
+        "lives": 2,
+        "score": 755
+      }
+    }
+  ]
+}

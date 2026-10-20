@@ -1,0 +1,34 @@
+{
+  "scope": "Final lip47/post-brace model, complete browser controls/staged mechanisms, four legal Easy routes and measured artwork. Native phone viewports, not physical handsets/APK/human balance. Historical rejected checkpoints remain under ignored out paths documented in TIDEWHEEL_PHYSICS.",
+  "files": {
+    "src/fantasy/tidewheel.js": "c216f74972ae53d65d762969284d215561e84b5f64a144bf0da101122183dbf1",
+    "src/fantasy/tidewheel-v2-geometry.js": "be9dbe700427fd3e5c89d72dbee0328105d2c0fe54732d88ee17cfd7174d7cd8",
+    "assets/fantasy-machinery/nerra-v2-manifest.json": "defc7d7d75af13b50560cbabd79d5115cbeeafa997d9abc5452f5c5e0418fc69",
+    "art/fantasy-machinery/nerra-v2-data.mjs": "ba6e1bdab8034a9e9f6835a8db20879738fc2824e07f278ea76ecef194ed0f23",
+    "assets/fantasy-machinery/water-shot-manifest.json": "44172b349146ac438006989327ddfcd8da2d4db0c81b73e03fb68e5450f8010f",
+    "assets/fantasy-machinery/water-shot.png": "e9a23f6276be299e8224f3505598ff7826d738369dcd0f855b594a64c39c05ff",
+    "prototypes/fantasy/main.js": "d38c814b22c15ef54a68250190061fb05df661fd3103180451a8061cc57fafa6",
+    "prototypes/fantasy/render.js": "7b0e8d83a9cdb395bd0e215474ae58bf33d5d8f64886c37a87b656ede7c16a6c",
+    "tools/playtest/tidewheel.mjs": "228c552cb43c901fe3b75c8ed5dc5ae3c7503498d594a8d8a809b400c2102266",
+    "tools/playtest/tidewheel-routes.mjs": "1eee2fb2ad2a50ec3610a6c4013fdb9bbe9eed20e0b67663c6056a3f36ab9027",
+    "tools/playtest/tidewheel-centre-catch.mjs": "30ebb1d72df49e0d31dffd2adb3d0b83e90caa4085aa309a4a85097a199542f2",
+    "tools/playtest/tidewheel-geometry.mjs": "fe36587aefc2b469c52c3082af61aa595697f31848655020faf2fa9ec41a74ac",
+    "tools/playtest/tidewheel-profile.mjs": "3ec8595740817f0b7bdb488ed701c26827f8436376007329c092a3b308b30274"
+  },
+  "receipts": {
+    "browser.json": "0451299d2a33e50a9501dcb48f9786eb286d6ba54db5149da98437d521279bdd",
+    "centre-catch.json": "e7c45d631527ac0f437d44dee37d645f4445719b5f4185fc22524d60171810ce",
+    "geometry.json": "299911aa2318557621c4974788b3d0d796c60f9c740c3dae1439dc241e379ebc",
+    "profile.json": "4cde2d1874297dc0c90e246ae39a6243e83d2b01960bc52d91135be4f1890af9",
+    "routes.json": "8dd15e947e442181a3ee65d5f7b4c3cc922fa252822a837ef52dd4fa4e200c3d"
+  },
+  "images": {
+    "android-chain-pull-staged.png": "ab15cf5e5512787d3cb324983c241dc071e988371d58084848895c613da4337d",
+    "android-earned-ordinary-combat.png": "5b90a035e0d422bae79b3ead4d8eaccf3cbd3d9852d31a9d17864db613cfddf3",
+    "ios-opening.png": "cae8a6737e0db5ab61286b9ed5e47b4ee864e247b1acb7af3f19b62fba27fcee",
+    "ios-water-pulse-staged.png": "25f48070622a17d8b05616cc970da16603bafed7e26de0f9e7a16eb09e32edf7"
+  },
+  "notes": {
+    "QA.md": "6562283d1a331ca3eaa8456e3da3c3638e7382a317c5958d5e2989ab36dd235d"
+  }
+}

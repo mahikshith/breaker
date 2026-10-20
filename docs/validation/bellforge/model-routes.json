@@ -1,0 +1,187 @@
+{
+  "scope": "Deterministic model-assisted public-input routes; no resource, target, ball, position or life writes. Not native/human balance proof.",
+  "source": "46f6297072baf87b7c8d2e88875b3e1e4a7e99ec90a48f0ab3f5cf4be7ac65cf",
+  "policy": "c8e5410f4831ec832b3773fb73c36516161c9cf8e5a10664a22a705f4d1b92e1",
+  "runs": [
+    {
+      "height": 700,
+      "mode": "easy",
+      "powers": false,
+      "state": "won",
+      "time": 41.94583333333975,
+      "hp": 0,
+      "lives": 3,
+      "steps": 0,
+      "charge": 100,
+      "casts": [],
+      "firstReady": 25.533333333332205,
+      "score": 880
+    },
+    {
+      "height": 700,
+      "mode": "medium",
+      "powers": false,
+      "state": "won",
+      "time": 64.00833333335729,
+      "hp": 0,
+      "lives": 3,
+      "steps": 0,
+      "charge": 100,
+      "casts": [],
+      "firstReady": 31.066666666665224,
+      "score": 1090
+    },
+    {
+      "height": 700,
+      "mode": "hard",
+      "powers": false,
+      "state": "won",
+      "time": 71.9416666666834,
+      "hp": 0,
+      "lives": 3,
+      "steps": 0,
+      "charge": 100,
+      "casts": [],
+      "firstReady": 51.33333333334722,
+      "score": 1290
+    },
+    {
+      "height": 760,
+      "mode": "easy",
+      "powers": false,
+      "state": "won",
+      "time": 36.008333333335024,
+      "hp": 0,
+      "lives": 3,
+      "steps": 0,
+      "charge": 100,
+      "casts": [],
+      "firstReady": 21.133333333332455,
+      "score": 830
+    },
+    {
+      "height": 760,
+      "mode": "medium",
+      "powers": false,
+      "state": "won",
+      "time": 72.69166666668272,
+      "hp": 0,
+      "lives": 3,
+      "steps": 0,
+      "charge": 100,
+      "casts": [],
+      "firstReady": 25.39999999999888,
+      "score": 1160
+    },
+    {
+      "height": 760,
+      "mode": "hard",
+      "powers": false,
+      "state": "won",
+      "time": 98.25833333332614,
+      "hp": 0,
+      "lives": 3,
+      "steps": 0,
+      "charge": 100,
+      "casts": [],
+      "firstReady": 39.98333333333819,
+      "score": 1340
+    },
+    {
+      "height": 700,
+      "mode": "easy",
+      "powers": true,
+      "state": "won",
+      "time": 34.92500000000083,
+      "hp": 0,
+      "lives": 3,
+      "steps": 0,
+      "charge": 0,
+      "casts": [
+        30.724999999998577
+      ],
+      "firstReady": 25.533333333332205,
+      "score": 830
+    },
+    {
+      "height": 700,
+      "mode": "medium",
+      "powers": true,
+      "state": "won",
+      "time": 64.00833333335729,
+      "hp": 0,
+      "lives": 3,
+      "steps": 0,
+      "charge": 22.7272727272731,
+      "casts": [
+        31.066666666665224
+      ],
+      "firstReady": 31.066666666665224,
+      "score": 1090
+    },
+    {
+      "height": 700,
+      "mode": "hard",
+      "powers": true,
+      "state": "won",
+      "time": 71.9416666666834,
+      "hp": 0,
+      "lives": 3,
+      "steps": 0,
+      "charge": 11.538461538461544,
+      "casts": [
+        52.291666666681316
+      ],
+      "firstReady": 51.33333333334722,
+      "score": 1290
+    },
+    {
+      "height": 760,
+      "mode": "easy",
+      "powers": true,
+      "state": "won",
+      "time": 36.008333333335024,
+      "hp": 0,
+      "lives": 3,
+      "steps": 0,
+      "charge": 22.222222222222662,
+      "casts": [
+        21.133333333332455
+      ],
+      "firstReady": 21.133333333332455,
+      "score": 830
+    },
+    {
+      "height": 760,
+      "mode": "medium",
+      "powers": true,
+      "state": "won",
+      "time": 72.69166666668272,
+      "hp": 0,
+      "lives": 3,
+      "steps": 0,
+      "charge": 63.63636363635901,
+      "casts": [
+        27.724999999998747
+      ],
+      "firstReady": 25.39999999999888,
+      "score": 1160
+    },
+    {
+      "height": 760,
+      "mode": "hard",
+      "powers": true,
+      "state": "won",
+      "time": 98.25833333332614,
+      "hp": 0,
+      "lives": 3,
+      "steps": 0,
+      "charge": 23.076923076923403,
+      "casts": [
+        40.725000000005444
+      ],
+      "firstReady": 39.98333333333819,
+      "score": 1340
+    }
+  ]
+}

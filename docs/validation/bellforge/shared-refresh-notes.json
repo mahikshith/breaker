@@ -1,0 +1,15 @@
+{
+  "scope": "Latest shared UI run followed by final renderer-only native refresh. This record deliberately keeps earned gameplay evidence in phone-report.json separate.",
+  "sharedUIRawReportSHA256": "d1be1edb9bad93e273c05b5027f2b2fd9ffe9fde4e8358c826944c7813f1d97e",
+  "sourceChangedDuringSharedUIRun": [
+    "prototypes/fantasy/main.js"
+  ],
+  "sourceChangeNote": "The six UI cases passed, but Main changed from BABF2A85…13FB9C3 to D38C814B…7FAFA6 during that run. This is not an identical-source before/after seal. The later two-phone visual refresh seals final current Main/render/model/secondary manifest unchanged; it does not repeat an earned route.",
+  "visualRefreshReportSHA256": "3ce9eb0366e70c1ddb9e81dd1d4f8a0481cff6a74de8441027b4fd8165001048",
+  "visualReviewer": "Native Bellforge paddle/ball contact aligned at both sizes. Tidewheel raft frontal face source rows130..232 map exactly to model local34..48. Baked Nerra body/claw geometry equals new manifest, all four socket poses zero error. No additional material integration blocker found in bounded read/capture review.",
+  "maintainedScripts": [
+    "tools/playtest/bellforge.mjs",
+    "tools/playtest/bellforge-policy.mjs",
+    "tools/playtest/fantasy-visual.mjs"
+  ]
+}

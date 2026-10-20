@@ -17,6 +17,10 @@ BREACH is a premium portrait brick breaker for iOS and Android. It is plain JS o
 10. Frost Warden encounter, Yeti role distinction, physics and difficulty: `docs/BRUM_LEVEL_PLAN.md`.
 11. New direct-flight experiment: `docs/STARFLIGHT_PROTOTYPE.md`, `docs/STARFLIGHT_COMBAT.md` and `docs/STARFLIGHT_ART.md`. This browser prototype is separate from the five-chapter Android release.
 12. Latest campaign-design-first request: `docs/STARFLIGHT_CAMPAIGN.md`. Use the latest combat-first revision: the owner offered rescue/module progression as an example, not a requirement. Proposed authored chapters and equipment systems need their own implementation receipts; the combat prototype does not implement that campaign.
+13. Current default flight mission: `docs/STARFLIGHT_MISSION.md`. Gatebreak is a finite encounter with returning enemies, earned weapon capsules, Stormwing and Ricochet. The older repeating lab is preserved at `?lab=1`. This standalone mission is not the complete proposed campaign or part of the Android release.
+14. Additional flight power proposals: `docs/STARFLIGHT_POWER_EXPLORATION.md`. Prism Bastion and Comet Loom are production plans, not selectable powers yet.
+
+15. Approved new princess visual references and physical design: `design/phase1/princess-two-levels.md`. Read `docs/BELLFORGE_PHYSICS.md` and `docs/TIDEWHEEL_PHYSICS.md` for the actual standalone browser encounters, current rules and validation limits. Retain the original boards and measure collision against the actual moving assets. These encounters are separate from the released Android package.
 
 ## Skills (read the matching SKILL.md before that kind of work)
 

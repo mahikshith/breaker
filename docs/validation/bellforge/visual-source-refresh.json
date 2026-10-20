@@ -1,0 +1,120 @@
+{
+  "scope": "Renderer-only source refresh after Bellforge paddle centre and Tidewheel raft front depth alignment. Fresh browser, real source art, two phone sizes. No repeated earned-completion or balance claim. Tidewheel pose captures are explicitly staged visual fixtures.",
+  "before": {
+    "src/fantasy/bellforge.js": "46f6297072baf87b7c8d2e88875b3e1e4a7e99ec90a48f0ab3f5cf4be7ac65cf",
+    "src/fantasy/tidewheel.js": "24b3e66026df9c5ada00631c909a2998d64a774e757184238bf522b8f4482316",
+    "src/fantasy/tidewheel-v2-geometry.js": "be9dbe700427fd3e5c89d72dbee0328105d2c0fe54732d88ee17cfd7174d7cd8",
+    "prototypes/fantasy/main.js": "d38c814b22c15ef54a68250190061fb05df661fd3103180451a8061cc57fafa6",
+    "prototypes/fantasy/render.js": "c4571282fd1d0570b92596ffdc3822e33d7dd23d02960d717d406aabfd4365d9",
+    "prototypes/fantasy/style.css": "891ae56b71793d043587498302d36d52d3591adf9352272bee7981fe26a84a13",
+    "assets/fantasy-machinery/manifest.json": "b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13",
+    "assets/fantasy-machinery/nerra-v2-manifest.json": "defc7d7d75af13b50560cbabd79d5115cbeeafa997d9abc5452f5c5e0418fc69"
+  },
+  "cases": [
+    {
+      "device": "ios",
+      "level": "bellforge",
+      "native": {
+        "paddle": {
+          "x": 180,
+          "px": 180,
+          "y": 665.0381679389313,
+          "w": 100,
+          "h": 14,
+          "targetX": 180,
+          "vx": 0
+        },
+        "ball": {
+          "x": 180,
+          "y": 657.0381679389313,
+          "r": 6
+        },
+        "height": 780.4580152671756,
+        "bricks": 33
+      },
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "ios",
+      "level": "tidewheel",
+      "native": {
+        "paddle": {
+          "x": 180,
+          "px": 180,
+          "y": 665.0381679389313,
+          "w": 100,
+          "h": 14,
+          "targetX": 180
+        },
+        "ball": {
+          "x": 180,
+          "y": 650.0381679389313,
+          "r": 6
+        },
+        "height": 780.4580152671756,
+        "bricks": 24
+      },
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "android",
+      "level": "bellforge",
+      "native": {
+        "paddle": {
+          "x": 180,
+          "px": 180,
+          "y": 689.4174757281553,
+          "w": 100,
+          "h": 14,
+          "targetX": 180,
+          "vx": 0
+        },
+        "ball": {
+          "x": 180,
+          "y": 681.4174757281553,
+          "r": 6
+        },
+        "height": 799.5145631067961,
+        "bricks": 33
+      },
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "android",
+      "level": "tidewheel",
+      "native": {
+        "paddle": {
+          "x": 180,
+          "px": 180,
+          "y": 689.4174757281553,
+          "w": 100,
+          "h": 14,
+          "targetX": 180
+        },
+        "ball": {
+          "x": 180,
+          "y": 674.4174757281553,
+          "r": 6
+        },
+        "height": 799.5145631067961,
+        "bricks": 24
+      },
+      "errors": [],
+      "http": []
+    }
+  ],
+  "complete": true,
+  "after": {
+    "src/fantasy/bellforge.js": "46f6297072baf87b7c8d2e88875b3e1e4a7e99ec90a48f0ab3f5cf4be7ac65cf",
+    "src/fantasy/tidewheel.js": "24b3e66026df9c5ada00631c909a2998d64a774e757184238bf522b8f4482316",
+    "src/fantasy/tidewheel-v2-geometry.js": "be9dbe700427fd3e5c89d72dbee0328105d2c0fe54732d88ee17cfd7174d7cd8",
+    "prototypes/fantasy/main.js": "d38c814b22c15ef54a68250190061fb05df661fd3103180451a8061cc57fafa6",
+    "prototypes/fantasy/render.js": "c4571282fd1d0570b92596ffdc3822e33d7dd23d02960d717d406aabfd4365d9",
+    "prototypes/fantasy/style.css": "891ae56b71793d043587498302d36d52d3591adf9352272bee7981fe26a84a13",
+    "assets/fantasy-machinery/manifest.json": "b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13",
+    "assets/fantasy-machinery/nerra-v2-manifest.json": "defc7d7d75af13b50560cbabd79d5115cbeeafa997d9abc5452f5c5e0418fc69"
+  }
+}

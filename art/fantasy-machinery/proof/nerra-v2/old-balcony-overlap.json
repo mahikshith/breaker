@@ -1,0 +1,20 @@
+{
+  "scope": "Historical old corbel overlap; corrected platform is a later renderer/model receipt",
+  "image": "out/fantasy-review/tide-v2-final/android-tidewheel-05-chain-pull-refuge-lowering-staged.png",
+  "clawRoot": [
+    243.44444117647055,
+    178.78386697247703
+  ],
+  "clawAngle": -0.55,
+  "balconyDeck": [
+    308,
+    154
+  ],
+  "overlapBBoxWorld": [
+    273.5,
+    156.5,
+    329.75,
+    192.0
+  ],
+  "overlapOpaqueAreaWorldSquared": 1231.75
+}

@@ -2,6 +2,8 @@
 
 Updated 2026-10-20. **PROPOSED CAMPAIGN — design first; no campaign implementation, human balance certification or new APK is claimed.**
 
+Implementation checkpoint: [Gatebreak](STARFLIGHT_MISSION.md) is now a separate finite browser mission using returning patrols, productive hull damage, capability loss, earned supplies and a final gate departure. It does not implement the six proposed chapters, persistent equipment or chapter saves below. The original endurance lab survives at `?lab=1`. Latest owner priority is enjoyable, readable pressure and spectacular but bounded powers; Stormwing must suppress all friendly gunfire until its wings reattach.
+
 The owner's latest correction supersedes the earlier rescue-to-module proposal. The references inform design judgment; they are not a progression template. This campaign centres on distinct enemy behaviour, authored terrain and formations, weapon tradeoffs, meaningful destruction of combat capabilities and replay mastery. Rescue is an occasional optional mission type. There is **no rescue requirement per chapter, six-specialist reward chain or mandatory permanent attachment system**.
 
 The current [combat lab](STARFLIGHT_PROTOTYPE.md) has direct flight, automatic twin fire, seven earned reactor choices, several actual ship families, asteroids and gravity. It remains a repeating three-sector endurance loop. Authored campaign objectives, ordinary loadouts, component-specific boss states, chapter saves and class-specific wreck sequences below are proposed. Its common explosion is a current limitation. Preserve the lab and the five-chapter breaker APK independently; neither implements this plan.

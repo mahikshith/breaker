@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "path": "assets/fantasy-machinery/water-shot.png",
+  "size": [
+    192,
+    288
+  ],
+  "unit": [
+    32,
+    48
+  ],
+  "pivot": [
+    0.5208333333333334,
+    0.6701388888888888
+  ],
+  "anchors": {
+    "core": [
+      0.5208333333333334,
+      0.6701388888888888
+    ],
+    "nose": [
+      0.512270942408377,
+      0.9565042611352307
+    ],
+    "tail": [
+      0.6206642670157069,
+      0.051013024602026044
+    ]
+  },
+  "collision": {
+    "type": "circle",
+    "r": 10
+  },
+  "visibleCore": {
+    "alphaThreshold": 40,
+    "inscribedRadius": 9.13631338244383,
+    "r10VisibleFraction": 0.9735140402161396
+  },
+  "source": "art/fantasy-machinery/source/water-shot-v1.png",
+  "sourceCrop": [
+    130,
+    62,
+    894,
+    1444
+  ],
+  "sourceSHA256": "5339f2742b5445b9c325ce6eddf735355153c6385b80765d21d0d023ac8724d0",
+  "sha256": "e9a23f6276be299e8224f3505598ff7826d738369dcd0f855b594a64c39c05ff",
+  "alphaBounds": [
+    21,
+    8,
+    171,
+    280
+  ],
+  "audit": {
+    "bytes": 65997,
+    "size": [
+      192,
+      288
+    ],
+    "mode": "RGBA",
+    "metadata": {},
+    "edgeAlphaMax": 0,
+    "transparentFraction": 0.6625614872685185
+  },
+  "facing": "down",
+  "note": "Independent dimensional translucent pressured-water raster. Pivot is measured frontmass centre; foam/spray outside collision circle are presentation. Root owns real velocity rotation and physical projectile."
+}

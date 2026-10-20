@@ -1,0 +1,918 @@
+{
+  "pngCount": 182,
+  "allDecode": true,
+  "emptyMetadata": true,
+  "under20MiB": true,
+  "files": [
+    {
+      "path": "art/fantasy-machinery/proof/android-assembly.png",
+      "bytes": 1450253,
+      "sha256": "e8b2612b653eed66bea7f80cf7cb24d444437603413aebf460d898f07b9ccd11"
+    },
+    {
+      "path": "art/fantasy-machinery/proof/crusherClaw-collision.png",
+      "bytes": 214749,
+      "sha256": "e00060eb37182b4ab7d8667a68c96d687e048709366585c62df47f9562a8d5ff"
+    },
+    {
+      "path": "art/fantasy-machinery/proof/gateClaw-collision.png",
+      "bytes": 164796,
+      "sha256": "cb06931927a61af7d77255b72c439d8a260654b839ecc77991ef594d86cb32da"
+    },
+    {
+      "path": "art/fantasy-machinery/proof/grounding-source-composite.png",
+      "bytes": 1389514,
+      "sha256": "ba5d16712b834812bf9b9c8e6ba7077421191a16e79da5be6ee0ebeb6b10ee7e"
+    },
+    {
+      "path": "art/fantasy-machinery/proof/ios-assembly.png",
+      "bytes": 1299879,
+      "sha256": "36c9a1c42214519dcdc11fa7d6902bdcb1844dc2bd074dc850e336580ede1b55"
+    },
+    {
+      "path": "art/fantasy-machinery/proof/korr-idle-collision.png",
+      "bytes": 227716,
+      "sha256": "84664ea09ecb5a5ad89f5c8698642d09a9671251a9f826a3e7ecfa33ea7b6de7"
+    },
+    {
+      "path": "art/fantasy-machinery/proof/korr-release-collision.png",
+      "bytes": 231434,
+      "sha256": "1b8e6565a92c0ebe0f0e659be18a8dfe80998d2b7bd6720bb4052acc12654571"
+    },
+    {
+      "path": "art/fantasy-machinery/proof/korr-stagger-collision.png",
+      "bytes": 233933,
+      "sha256": "82bebafcbb859fefbd11d6cdfe15574f818af53e683d1ab6a6dc80fa3c4e1079"
+    },
+    {
+      "path": "art/fantasy-machinery/proof/korr-windup-collision.png",
+      "bytes": 215365,
+      "sha256": "70fbd4c2635742c29cbac0d31fb3665a6d8ccc8bc2a1b7071814bb14ae8da45a"
+    },
+    {
+      "path": "art/fantasy-machinery/proof/nerra-v2/android-pull.png",
+      "bytes": 761607,
+      "sha256": "34e0eb5311df70be0bc849b120ad1c40e7185b91f472dc77c7bfc9e1d33e88b4"
+    },
+    {
+      "path": "art/fantasy-machinery/proof/nerra-v2/ios-hurt.png",
+      "bytes": 684983,
+      "sha256": "9174cd18911c0e4afbf53cced7a25917707731761b3730697e9cce16197dd37f"
+    },
+    {
+      "path": "art/fantasy-machinery/proof/nerra-v2/ios-idle.png",
+      "bytes": 684511,
+      "sha256": "e7ec8920c93c2472bcf725a3b066687c2a75fae557fb25bf6f689254d8d7572c"
+    },
+    {
+      "path": "art/fantasy-machinery/proof/nerra-v2/ios-pull.png",
+      "bytes": 684066,
+      "sha256": "d920642e6612ad95660b735ac3ebc4411b64e0f947cfe2f49109712ce2877c61"
+    },
+    {
+      "path": "art/fantasy-machinery/proof/nerra-v2/ios-step.png",
+      "bytes": 684236,
+      "sha256": "330ec816eadfea592baa34a97e1273a6be0377cc6b942d245aab8fbec8a3c481"
+    },
+    {
+      "path": "art/fantasy-machinery/proof/nerra-v2/native-poses.png",
+      "bytes": 949989,
+      "sha256": "e1c6dce1f25e585cde2c8090491ccef094366bd61612ac93982b209955e6ac3d"
+    },
+    {
+      "path": "art/fantasy-machinery/proof/nerraBody-collision.png",
+      "bytes": 500373,
+      "sha256": "f2a3360e37fd4638a8bcb1f44c839a1e2fd028a93757a00b085e806e260a38c4"
+    },
+    {
+      "path": "art/fantasy-machinery/proof/parts-contact.png",
+      "bytes": 1651376,
+      "sha256": "32182804136d9eb87e8098db3457c8252632396cc53f9fa0d4c52ff287f34586"
+    },
+    {
+      "path": "art/fantasy-machinery/proof/water-shot-native.png",
+      "bytes": 66366,
+      "sha256": "c468062241e21cba83379f1a1f30392428ccc75281cfb7a35fb86ea022e5376e"
+    },
+    {
+      "path": "art/fantasy-machinery/source/background-pair-v1.png",
+      "bytes": 2505391,
+      "sha256": "4ca8531182c003da9b4db147ad9dbbfb8c05cd4580ab3e16ff9a74e81e05c039"
+    },
+    {
+      "path": "art/fantasy-machinery/source/background-pair-v2.png",
+      "bytes": 2169514,
+      "sha256": "8074e80015b505fb7507f18e19d4b3729911e52019f81672ff116f12755c9143"
+    },
+    {
+      "path": "art/fantasy-machinery/source/bell-cradle-v1.png",
+      "bytes": 1582977,
+      "sha256": "340d04e3bf4e3fae9cbcbd1a86b4b226a4be90a1b121b2d453f1f74447d49747"
+    },
+    {
+      "path": "art/fantasy-machinery/source/bellforge-sheet-v1.png",
+      "bytes": 1773850,
+      "sha256": "c220fe54d83ea8f25068d4a577d5d5a4818c434615bdf3f1b1d2fd737afe2a90"
+    },
+    {
+      "path": "art/fantasy-machinery/source/bellforge-sheet-v2.png",
+      "bytes": 1578493,
+      "sha256": "2688aec368b6f562069536ad334c1c2d6934d1b76bba199e8686dcec8453e855"
+    },
+    {
+      "path": "art/fantasy-machinery/source/grounding-sheet-v1.png",
+      "bytes": 2479679,
+      "sha256": "033a7daf69b1df7ddcce34455854e96d95e13cbbdbadb17f40db85b20cb50187"
+    },
+    {
+      "path": "art/fantasy-machinery/source/nerra-motion-v1.png",
+      "bytes": 2014147,
+      "sha256": "207638df8b6c3c2d3ac0ba9238371649f24b01e856508221084fade8266835a7"
+    },
+    {
+      "path": "art/fantasy-machinery/source/nerra-motion-v2.png",
+      "bytes": 2587502,
+      "sha256": "afecbfb234c1c4cddf331f6cfac44a6bea6fe2bc2ed22e9bdb47452fb2e3b876"
+    },
+    {
+      "path": "art/fantasy-machinery/source/tidewheel-bricks-v1.png",
+      "bytes": 1005259,
+      "sha256": "c8061573b71f6ab633709ba4bad2e4037edb78979e1225de6152076c0bf1fbad"
+    },
+    {
+      "path": "art/fantasy-machinery/source/tidewheel-sheet-v1.png",
+      "bytes": 1863393,
+      "sha256": "2fa3bcd1f1bec04cbab1dd582ca9788d331507597239010ebb24bd6a1a350179"
+    },
+    {
+      "path": "art/fantasy-machinery/source/water-shot-v1.png",
+      "bytes": 2085144,
+      "sha256": "5339f2742b5445b9c325ce6eddf735355153c6385b80765d21d0d023ac8724d0"
+    },
+    {
+      "path": "art/starflight-equipment/source-v1.png",
+      "bytes": 1175239,
+      "sha256": "92b62ad01ffc94f79a39458e80b4be9301986d2dc82c95b3c73e50995dc045d9"
+    },
+    {
+      "path": "art/starflight-storm/assembled.png",
+      "bytes": 109559,
+      "sha256": "ad4c0f3c8024b3dd011f643c81993244b928481bf07280946a232c0edfd1151a"
+    },
+    {
+      "path": "art/starflight-storm/assembly-proof.png",
+      "bytes": 121319,
+      "sha256": "b3924b6b246805ab69454f6a18315a6261a87b48da50bb2a6aa05bae164d4f32"
+    },
+    {
+      "path": "art/starflight-storm/native-proof.png",
+      "bytes": 906136,
+      "sha256": "a42d715de6f8a6f52b946489c77940a9c66af3224b91701a572d91895a5e8d70"
+    },
+    {
+      "path": "art/starflight-storm/player-reference.png",
+      "bytes": 109559,
+      "sha256": "ad4c0f3c8024b3dd011f643c81993244b928481bf07280946a232c0edfd1151a"
+    },
+    {
+      "path": "art/starflight-storm/source-v1.png",
+      "bytes": 1556254,
+      "sha256": "8f9638ebe79a7f2b5fc5b548fd9518b16d0848722e37bdef6056482fb2693415"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/bell--f9ee6022f523.png",
+      "bytes": 85615,
+      "sha256": "f9ee6022f523dd6bfd92c8cbaec6f00a0a643fb26ab2ea04dd744c89313c8723"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/bellCradle--20cfb11d5e7c.png",
+      "bytes": 437138,
+      "sha256": "20cfb11d5e7c3595a4d52608e380e412da8796bae9a4943056aaa5151db44ab2"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/bellforge-background--6189c80623fa.png",
+      "bytes": 1067416,
+      "sha256": "6189c80623faef82ee8bd7ba507b5380831d69fca0478518f96865d9644a2af2"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/brick-coral--ccbed3518f64.png",
+      "bytes": 57897,
+      "sha256": "ccbed3518f64f3294b6f00878bf2eb0a2440824633fb62af063282a3244f495b"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/brick-ivory--ccd4cc382b0f.png",
+      "bytes": 50855,
+      "sha256": "ccd4cc382b0f7b141d7ab56402a0f004cbf5733e88c4bd6abdc72dd79335f54b"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/brick-sage--4f7b5b5a1aa0.png",
+      "bytes": 58743,
+      "sha256": "4f7b5b5a1aa0dac23f5f503d74bb1a00a3e39bb8c0f783008e4a8c831c453bf1"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/chain-v2--b9f662acef63.png",
+      "bytes": 97672,
+      "sha256": "b9f662acef63c1fe087192ec3155b314e0914c84d944204093d085b915069b8f"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/counterweight--07fb3238f63e.png",
+      "bytes": 179938,
+      "sha256": "07fb3238f63e90620e5a2c05a2ac618e967faac19d5edb001b2975e6f580f295"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/crusherClaw--3ce2ce1fea40.png",
+      "bytes": 229185,
+      "sha256": "3ce2ce1fea400e7affe050363858f497e6527bb81e4f220d3094d7a9db8f2829"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/gate--04cab2d6c478.png",
+      "bytes": 239373,
+      "sha256": "04cab2d6c478aad12857f634b1bc3de34dae2342bb71b4125a229338ac2f9edc"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/gateClaw--eca4a8c12a9f.png",
+      "bytes": 177199,
+      "sha256": "eca4a8c12a9f320924c8b969ce70d0648c92fcaefef7444efea5674adc5d4da1"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/gateClawV2--8233aae478bd.png",
+      "bytes": 218149,
+      "sha256": "8233aae478bd83fb7426c6206141745508b0171f2f01ecef3a0e33786119234a"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/gateFrame--87dbdf9ca727.png",
+      "bytes": 211863,
+      "sha256": "87dbdf9ca72795366a1794bbcb36dc86e8399c591ac99d2d7db72a312e788a86"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/hopperStudy--bbc2d0f6d680.png",
+      "bytes": 278765,
+      "sha256": "bbc2d0f6d68002f741538b61178d3e8c030ff08503b94ef6c021cb298a1e67da"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/korr--e1f2ab4f5b58.png",
+      "bytes": 961401,
+      "sha256": "e1f2ab4f5b5856c3c8562965bf4f3fa5bf11c6ee1b64a8c4b05dab379a7e7932"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/korr-idle--30e5da9d16d7.png",
+      "bytes": 240852,
+      "sha256": "30e5da9d16d77937415b57c138b9e0c04c80da9d794b029ff215e398acb51fe4"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/korr-release--eedd6b91a8d6.png",
+      "bytes": 244416,
+      "sha256": "eedd6b91a8d63d32c8e6456d9be97c4e16a8fddbffbae3262a24d090fcb049d0"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/korr-stagger--a1743526bfaa.png",
+      "bytes": 247862,
+      "sha256": "a1743526bfaab5995dac29726d4b9b144086da936afab30dc1de016ce3daa8d1"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/korr-windup--47c5e0598e4d.png",
+      "bytes": 228578,
+      "sha256": "47c5e0598e4d4a6a09b73cfac57cb083fab846f99d9afe4c631a5292b730f0fa"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/leverMount--9076a3a8c9ba.png",
+      "bytes": 33747,
+      "sha256": "9076a3a8c9ba77f0542af0ba730b3fcac532a79a4baf6f5ad9b71884994c8f88"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/lift--b5c336570676.png",
+      "bytes": 160530,
+      "sha256": "b5c33657067673a42e6f6b75fa70dc0999bb70f99a0a7386c66c8f5639292069"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/nerra-v2--0ef6a3017d29.png",
+      "bytes": 1935266,
+      "sha256": "0ef6a3017d29a8477a2fddb91cb0413da3dc3c0d94c741879dce36e243542ffd"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/nerra-v2-hurt--6098a9d7f4bd.png",
+      "bytes": 492247,
+      "sha256": "6098a9d7f4bda52b45da0c6816bbd08b32ed277a4bd47234d4e597b2fe20af14"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/nerra-v2-idle--3909b5ddfb3b.png",
+      "bytes": 483136,
+      "sha256": "3909b5ddfb3b0f0b1ef8c9865492328a523c6f2e0a718b0d20be63898ad6d9a0"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/nerra-v2-pull--d5a5cbf8e51b.png",
+      "bytes": 490025,
+      "sha256": "d5a5cbf8e51bd39cdd8916996bd7d8b359213f732090175b618f0e22d15da383"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/nerra-v2-step--19bcf7cd5881.png",
+      "bytes": 476442,
+      "sha256": "19bcf7cd5881716d250b9288f8924ba48e55991c34b2484d79979eb2bb4529d0"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/nerraBody--ef5644f573d6.png",
+      "bytes": 537223,
+      "sha256": "ef5644f573d6aebd83aa12080e42857123f0b35c328c0ad415a0e0c7775cee26"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/plinth--d9e3877ba5fa.png",
+      "bytes": 309882,
+      "sha256": "d9e3877ba5fa844813180aa343569da22a104826a3526d725452da0a27c3e989"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/raft--6382b5972389.png",
+      "bytes": 267383,
+      "sha256": "6382b59723891f273b45b8049e6bc7830e29a72f01eda7e184bfec6d1a73d625"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/ramp--d37022aa5f8e.png",
+      "bytes": 77579,
+      "sha256": "d37022aa5f8ee4989727b6be1be7677af1c6f621d62f9829777b06c1697c9fda"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/ratchet--0578c721ec5d.png",
+      "bytes": 247824,
+      "sha256": "0578c721ec5db079aa96eabf0fa3164c0a709eaffebaeaa4b7bf8173ec0d037b"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/refugeBalcony--df3dca5a3242.png",
+      "bytes": 232265,
+      "sha256": "df3dca5a324254baf52e638dd4268a9bb77e90dea07f8c247309e518bea4edca"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/releaseLever--a4a0add6dcb1.png",
+      "bytes": 97709,
+      "sha256": "a4a0add6dcb119f2ba43eea36155ae576940a4fead50b6de3884660971356b4b"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/sluiceWall--9603f5603b9a.png",
+      "bytes": 662376,
+      "sha256": "9603f5603b9a3c0cdef37557aa1c6b7728659a4f0497cca5e5706844426b8323"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/tidewheel-background--c11ddbb3f2f5.png",
+      "bytes": 1102812,
+      "sha256": "c11ddbb3f2f583576e9b03436c4aad132018f70576f4cc84c68e8651520de7da"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/water-shot--e9a23f6276be.png",
+      "bytes": 65997,
+      "sha256": "e9a23f6276be299e8224f3505598ff7826d738369dcd0f855b594a64c39c05ff"
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/wheel--1ca697216202.png",
+      "bytes": 283303,
+      "sha256": "1ca697216202ab97a24d2d05f0ff627f2403aca9890acaa2122a6291aff62207"
+    },
+    {
+      "path": "artwork-library/assets/starflight-equipment/capsule--f55df7cc3aa3.png",
+      "bytes": 56856,
+      "sha256": "f55df7cc3aa327ba21da21bb8a64dd910f2aa0243eb1681c67a403433d156733"
+    },
+    {
+      "path": "artwork-library/assets/starflight-equipment/guided--48d631f219c0.png",
+      "bytes": 36808,
+      "sha256": "48d631f219c05e87ea76cc7cfb986a49293d3201414d8a1df0e189b5a39cb619"
+    },
+    {
+      "path": "artwork-library/assets/starflight-equipment/ricochet--c9d89d07fc8c.png",
+      "bytes": 33359,
+      "sha256": "c9d89d07fc8cf64bfa6ca0353c91c2468bbc6bdca1c1e6c3991e0eff7c7d7802"
+    },
+    {
+      "path": "artwork-library/assets/starflight-equipment/shield--42b8391921c3.png",
+      "bytes": 91111,
+      "sha256": "42b8391921c3247ff5ba70eb509e307084fedd499d32564ba444c272ca63de56"
+    },
+    {
+      "path": "artwork-library/assets/starflight-storm/body--ffae2e0e4759.png",
+      "bytes": 37877,
+      "sha256": "ffae2e0e4759c2c4752fb40ee2b3a9e5870ae356258201702a8750812ece50fd"
+    },
+    {
+      "path": "artwork-library/assets/starflight-storm/ricochet--91d625b148e7.png",
+      "bytes": 33622,
+      "sha256": "91d625b148e7ccfa70935de5252a0b899828bf44227ea925d7d4594f3a10fd68"
+    },
+    {
+      "path": "artwork-library/assets/starflight-storm/storm-icon--5f8a30e302b5.png",
+      "bytes": 53484,
+      "sha256": "5f8a30e302b57f413b8a7ac453ead0728fe439745bd5c1ec8e65eff47a8cf424"
+    },
+    {
+      "path": "artwork-library/assets/starflight-storm/wing-left--ce7e3271c1b9.png",
+      "bytes": 39790,
+      "sha256": "ce7e3271c1b93b2a0959da646d1c5075c5b75c5eeccf7f518b05893d107a324b"
+    },
+    {
+      "path": "artwork-library/assets/starflight-storm/wing-right--98d1fcd23dec.png",
+      "bytes": 39612,
+      "sha256": "98d1fcd23decb452b8412573666553ffbaf4f9cbef7a007508bdfdca1a02ec73"
+    },
+    {
+      "path": "artwork-library/concepts/img/princess-bellforge-a-v1--53ef9248cd4b.png",
+      "bytes": 2595972,
+      "sha256": "53ef9248cd4bdc24dc8378c3ac014cd82491bff3869c7bbad0ea309a40a8aba5"
+    },
+    {
+      "path": "artwork-library/concepts/img/princess-tidewheel-b-v1--c2b5b6b26c85.png",
+      "bytes": 3442852,
+      "sha256": "c2b5b6b26c8555374fe4dda98fde9d6764967e4b6667884f0aba064d8b2a7351"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/android-assembly--e8b2612b653e.png",
+      "bytes": 1450253,
+      "sha256": "e8b2612b653eed66bea7f80cf7cb24d444437603413aebf460d898f07b9ccd11"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/crusherClaw-collision--e00060eb3718.png",
+      "bytes": 214749,
+      "sha256": "e00060eb37182b4ab7d8667a68c96d687e048709366585c62df47f9562a8d5ff"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/gateClaw-collision--cb06931927a6.png",
+      "bytes": 164796,
+      "sha256": "cb06931927a61af7d77255b72c439d8a260654b839ecc77991ef594d86cb32da"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/grounding-source-composite--ba5d16712b83.png",
+      "bytes": 1389514,
+      "sha256": "ba5d16712b834812bf9b9c8e6ba7077421191a16e79da5be6ee0ebeb6b10ee7e"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/ios-assembly--36c9a1c42214.png",
+      "bytes": 1299879,
+      "sha256": "36c9a1c42214519dcdc11fa7d6902bdcb1844dc2bd074dc850e336580ede1b55"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/korr-idle-collision--84664ea09ecb.png",
+      "bytes": 227716,
+      "sha256": "84664ea09ecb5a5ad89f5c8698642d09a9671251a9f826a3e7ecfa33ea7b6de7"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/korr-release-collision--1b8e6565a92c.png",
+      "bytes": 231434,
+      "sha256": "1b8e6565a92c0ebe0f0e659be18a8dfe80998d2b7bd6720bb4052acc12654571"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/korr-stagger-collision--82bebafcbb85.png",
+      "bytes": 233933,
+      "sha256": "82bebafcbb859fefbd11d6cdfe15574f818af53e683d1ab6a6dc80fa3c4e1079"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/korr-windup-collision--70fbd4c26357.png",
+      "bytes": 215365,
+      "sha256": "70fbd4c2635742c29cbac0d31fb3665a6d8ccc8bc2a1b7071814bb14ae8da45a"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/nerra-v2/android-pull--34e0eb5311df.png",
+      "bytes": 761607,
+      "sha256": "34e0eb5311df70be0bc849b120ad1c40e7185b91f472dc77c7bfc9e1d33e88b4"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/nerra-v2/ios-hurt--9174cd18911c.png",
+      "bytes": 684983,
+      "sha256": "9174cd18911c0e4afbf53cced7a25917707731761b3730697e9cce16197dd37f"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/nerra-v2/ios-idle--e7ec8920c93c.png",
+      "bytes": 684511,
+      "sha256": "e7ec8920c93c2472bcf725a3b066687c2a75fae557fb25bf6f689254d8d7572c"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/nerra-v2/ios-pull--d920642e6612.png",
+      "bytes": 684066,
+      "sha256": "d920642e6612ad95660b735ac3ebc4411b64e0f947cfe2f49109712ce2877c61"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/nerra-v2/ios-step--330ec816eadf.png",
+      "bytes": 684236,
+      "sha256": "330ec816eadfea592baa34a97e1273a6be0377cc6b942d245aab8fbec8a3c481"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/nerra-v2/native-poses--e1c6dce1f25e.png",
+      "bytes": 949989,
+      "sha256": "e1c6dce1f25e585cde2c8090491ccef094366bd61612ac93982b209955e6ac3d"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/nerraBody-collision--f2a3360e37fd.png",
+      "bytes": 500373,
+      "sha256": "f2a3360e37fd4638a8bcb1f44c839a1e2fd028a93757a00b085e806e260a38c4"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/parts-contact--32182804136d.png",
+      "bytes": 1651376,
+      "sha256": "32182804136d9eb87e8098db3457c8252632396cc53f9fa0d4c52ff287f34586"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/water-shot-native--c468062241e2.png",
+      "bytes": 66366,
+      "sha256": "c468062241e21cba83379f1a1f30392428ccc75281cfb7a35fb86ea022e5376e"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/source/background-pair-v1--4ca8531182c0.png",
+      "bytes": 2505391,
+      "sha256": "4ca8531182c003da9b4db147ad9dbbfb8c05cd4580ab3e16ff9a74e81e05c039"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/source/background-pair-v2--8074e80015b5.png",
+      "bytes": 2169514,
+      "sha256": "8074e80015b505fb7507f18e19d4b3729911e52019f81672ff116f12755c9143"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/source/bell-cradle-v1--340d04e3bf4e.png",
+      "bytes": 1582977,
+      "sha256": "340d04e3bf4e3fae9cbcbd1a86b4b226a4be90a1b121b2d453f1f74447d49747"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/source/bellforge-sheet-v1--c220fe54d83e.png",
+      "bytes": 1773850,
+      "sha256": "c220fe54d83ea8f25068d4a577d5d5a4818c434615bdf3f1b1d2fd737afe2a90"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/source/bellforge-sheet-v2--2688aec368b6.png",
+      "bytes": 1578493,
+      "sha256": "2688aec368b6f562069536ad334c1c2d6934d1b76bba199e8686dcec8453e855"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/source/grounding-sheet-v1--033a7daf69b1.png",
+      "bytes": 2479679,
+      "sha256": "033a7daf69b1df7ddcce34455854e96d95e13cbbdbadb17f40db85b20cb50187"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/source/nerra-motion-v1--207638df8b6c.png",
+      "bytes": 2014147,
+      "sha256": "207638df8b6c3c2d3ac0ba9238371649f24b01e856508221084fade8266835a7"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/source/nerra-motion-v2--afecbfb234c1.png",
+      "bytes": 2587502,
+      "sha256": "afecbfb234c1c4cddf331f6cfac44a6bea6fe2bc2ed22e9bdb47452fb2e3b876"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/source/tidewheel-bricks-v1--c8061573b71f.png",
+      "bytes": 1005259,
+      "sha256": "c8061573b71f6ab633709ba4bad2e4037edb78979e1225de6152076c0bf1fbad"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/source/tidewheel-sheet-v1--2fa3bcd1f1be.png",
+      "bytes": 1863393,
+      "sha256": "2fa3bcd1f1bec04cbab1dd582ca9788d331507597239010ebb24bd6a1a350179"
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/source/water-shot-v1--5339f2742b54.png",
+      "bytes": 2085144,
+      "sha256": "5339f2742b5445b9c325ce6eddf735355153c6385b80765d21d0d023ac8724d0"
+    },
+    {
+      "path": "artwork-library/sources/starflight-equipment/source-v1--92b62ad01ffc.png",
+      "bytes": 1175239,
+      "sha256": "92b62ad01ffc94f79a39458e80b4be9301986d2dc82c95b3c73e50995dc045d9"
+    },
+    {
+      "path": "artwork-library/sources/starflight-storm/assembly-proof--b3924b6b2468.png",
+      "bytes": 121319,
+      "sha256": "b3924b6b246805ab69454f6a18315a6261a87b48da50bb2a6aa05bae164d4f32"
+    },
+    {
+      "path": "artwork-library/sources/starflight-storm/native-proof--a42d715de6f8.png",
+      "bytes": 906136,
+      "sha256": "a42d715de6f8a6f52b946489c77940a9c66af3224b91701a572d91895a5e8d70"
+    },
+    {
+      "path": "artwork-library/sources/starflight-storm/source-v1--8f9638ebe79a.png",
+      "bytes": 1556254,
+      "sha256": "8f9638ebe79a7f2b5fc5b548fd9518b16d0848722e37bdef6056482fb2693415"
+    },
+    {
+      "path": "assets/fantasy-machinery/bell.png",
+      "bytes": 85615,
+      "sha256": "f9ee6022f523dd6bfd92c8cbaec6f00a0a643fb26ab2ea04dd744c89313c8723"
+    },
+    {
+      "path": "assets/fantasy-machinery/bellCradle.png",
+      "bytes": 437138,
+      "sha256": "20cfb11d5e7c3595a4d52608e380e412da8796bae9a4943056aaa5151db44ab2"
+    },
+    {
+      "path": "assets/fantasy-machinery/bellforge-background.png",
+      "bytes": 1067416,
+      "sha256": "6189c80623faef82ee8bd7ba507b5380831d69fca0478518f96865d9644a2af2"
+    },
+    {
+      "path": "assets/fantasy-machinery/brick-coral.png",
+      "bytes": 57897,
+      "sha256": "ccbed3518f64f3294b6f00878bf2eb0a2440824633fb62af063282a3244f495b"
+    },
+    {
+      "path": "assets/fantasy-machinery/brick-ivory.png",
+      "bytes": 50855,
+      "sha256": "ccd4cc382b0f7b141d7ab56402a0f004cbf5733e88c4bd6abdc72dd79335f54b"
+    },
+    {
+      "path": "assets/fantasy-machinery/brick-sage.png",
+      "bytes": 58743,
+      "sha256": "4f7b5b5a1aa0dac23f5f503d74bb1a00a3e39bb8c0f783008e4a8c831c453bf1"
+    },
+    {
+      "path": "assets/fantasy-machinery/chain-v2.png",
+      "bytes": 97672,
+      "sha256": "b9f662acef63c1fe087192ec3155b314e0914c84d944204093d085b915069b8f"
+    },
+    {
+      "path": "assets/fantasy-machinery/counterweight.png",
+      "bytes": 179938,
+      "sha256": "07fb3238f63e90620e5a2c05a2ac618e967faac19d5edb001b2975e6f580f295"
+    },
+    {
+      "path": "assets/fantasy-machinery/crusherClaw.png",
+      "bytes": 229185,
+      "sha256": "3ce2ce1fea400e7affe050363858f497e6527bb81e4f220d3094d7a9db8f2829"
+    },
+    {
+      "path": "assets/fantasy-machinery/gate.png",
+      "bytes": 239373,
+      "sha256": "04cab2d6c478aad12857f634b1bc3de34dae2342bb71b4125a229338ac2f9edc"
+    },
+    {
+      "path": "assets/fantasy-machinery/gateClaw.png",
+      "bytes": 177199,
+      "sha256": "eca4a8c12a9f320924c8b969ce70d0648c92fcaefef7444efea5674adc5d4da1"
+    },
+    {
+      "path": "assets/fantasy-machinery/gateClawV2.png",
+      "bytes": 218149,
+      "sha256": "8233aae478bd83fb7426c6206141745508b0171f2f01ecef3a0e33786119234a"
+    },
+    {
+      "path": "assets/fantasy-machinery/gateFrame.png",
+      "bytes": 211863,
+      "sha256": "87dbdf9ca72795366a1794bbcb36dc86e8399c591ac99d2d7db72a312e788a86"
+    },
+    {
+      "path": "assets/fantasy-machinery/hopperStudy.png",
+      "bytes": 278765,
+      "sha256": "bbc2d0f6d68002f741538b61178d3e8c030ff08503b94ef6c021cb298a1e67da"
+    },
+    {
+      "path": "assets/fantasy-machinery/korr-idle.png",
+      "bytes": 240852,
+      "sha256": "30e5da9d16d77937415b57c138b9e0c04c80da9d794b029ff215e398acb51fe4"
+    },
+    {
+      "path": "assets/fantasy-machinery/korr-release.png",
+      "bytes": 244416,
+      "sha256": "eedd6b91a8d63d32c8e6456d9be97c4e16a8fddbffbae3262a24d090fcb049d0"
+    },
+    {
+      "path": "assets/fantasy-machinery/korr-stagger.png",
+      "bytes": 247862,
+      "sha256": "a1743526bfaab5995dac29726d4b9b144086da936afab30dc1de016ce3daa8d1"
+    },
+    {
+      "path": "assets/fantasy-machinery/korr-windup.png",
+      "bytes": 228578,
+      "sha256": "47c5e0598e4d4a6a09b73cfac57cb083fab846f99d9afe4c631a5292b730f0fa"
+    },
+    {
+      "path": "assets/fantasy-machinery/korr.png",
+      "bytes": 961401,
+      "sha256": "e1f2ab4f5b5856c3c8562965bf4f3fa5bf11c6ee1b64a8c4b05dab379a7e7932"
+    },
+    {
+      "path": "assets/fantasy-machinery/leverMount.png",
+      "bytes": 33747,
+      "sha256": "9076a3a8c9ba77f0542af0ba730b3fcac532a79a4baf6f5ad9b71884994c8f88"
+    },
+    {
+      "path": "assets/fantasy-machinery/lift.png",
+      "bytes": 160530,
+      "sha256": "b5c33657067673a42e6f6b75fa70dc0999bb70f99a0a7386c66c8f5639292069"
+    },
+    {
+      "path": "assets/fantasy-machinery/nerra-v2-hurt.png",
+      "bytes": 492247,
+      "sha256": "6098a9d7f4bda52b45da0c6816bbd08b32ed277a4bd47234d4e597b2fe20af14"
+    },
+    {
+      "path": "assets/fantasy-machinery/nerra-v2-idle.png",
+      "bytes": 483136,
+      "sha256": "3909b5ddfb3b0f0b1ef8c9865492328a523c6f2e0a718b0d20be63898ad6d9a0"
+    },
+    {
+      "path": "assets/fantasy-machinery/nerra-v2-pull.png",
+      "bytes": 490025,
+      "sha256": "d5a5cbf8e51bd39cdd8916996bd7d8b359213f732090175b618f0e22d15da383"
+    },
+    {
+      "path": "assets/fantasy-machinery/nerra-v2-step.png",
+      "bytes": 476442,
+      "sha256": "19bcf7cd5881716d250b9288f8924ba48e55991c34b2484d79979eb2bb4529d0"
+    },
+    {
+      "path": "assets/fantasy-machinery/nerra-v2.png",
+      "bytes": 1935266,
+      "sha256": "0ef6a3017d29a8477a2fddb91cb0413da3dc3c0d94c741879dce36e243542ffd"
+    },
+    {
+      "path": "assets/fantasy-machinery/nerraBody.png",
+      "bytes": 537223,
+      "sha256": "ef5644f573d6aebd83aa12080e42857123f0b35c328c0ad415a0e0c7775cee26"
+    },
+    {
+      "path": "assets/fantasy-machinery/plinth.png",
+      "bytes": 309882,
+      "sha256": "d9e3877ba5fa844813180aa343569da22a104826a3526d725452da0a27c3e989"
+    },
+    {
+      "path": "assets/fantasy-machinery/raft.png",
+      "bytes": 267383,
+      "sha256": "6382b59723891f273b45b8049e6bc7830e29a72f01eda7e184bfec6d1a73d625"
+    },
+    {
+      "path": "assets/fantasy-machinery/ramp.png",
+      "bytes": 77579,
+      "sha256": "d37022aa5f8ee4989727b6be1be7677af1c6f621d62f9829777b06c1697c9fda"
+    },
+    {
+      "path": "assets/fantasy-machinery/ratchet.png",
+      "bytes": 247824,
+      "sha256": "0578c721ec5db079aa96eabf0fa3164c0a709eaffebaeaa4b7bf8173ec0d037b"
+    },
+    {
+      "path": "assets/fantasy-machinery/refugeBalcony.png",
+      "bytes": 232265,
+      "sha256": "df3dca5a324254baf52e638dd4268a9bb77e90dea07f8c247309e518bea4edca"
+    },
+    {
+      "path": "assets/fantasy-machinery/releaseLever.png",
+      "bytes": 97709,
+      "sha256": "a4a0add6dcb119f2ba43eea36155ae576940a4fead50b6de3884660971356b4b"
+    },
+    {
+      "path": "assets/fantasy-machinery/sluiceWall.png",
+      "bytes": 662376,
+      "sha256": "9603f5603b9a3c0cdef37557aa1c6b7728659a4f0497cca5e5706844426b8323"
+    },
+    {
+      "path": "assets/fantasy-machinery/tidewheel-background.png",
+      "bytes": 1102812,
+      "sha256": "c11ddbb3f2f583576e9b03436c4aad132018f70576f4cc84c68e8651520de7da"
+    },
+    {
+      "path": "assets/fantasy-machinery/water-shot.png",
+      "bytes": 65997,
+      "sha256": "e9a23f6276be299e8224f3505598ff7826d738369dcd0f855b594a64c39c05ff"
+    },
+    {
+      "path": "assets/fantasy-machinery/wheel.png",
+      "bytes": 283303,
+      "sha256": "1ca697216202ab97a24d2d05f0ff627f2403aca9890acaa2122a6291aff62207"
+    },
+    {
+      "path": "assets/starflight-equipment/capsule.png",
+      "bytes": 56856,
+      "sha256": "f55df7cc3aa327ba21da21bb8a64dd910f2aa0243eb1681c67a403433d156733"
+    },
+    {
+      "path": "assets/starflight-equipment/guided.png",
+      "bytes": 36808,
+      "sha256": "48d631f219c05e87ea76cc7cfb986a49293d3201414d8a1df0e189b5a39cb619"
+    },
+    {
+      "path": "assets/starflight-equipment/ricochet.png",
+      "bytes": 33359,
+      "sha256": "c9d89d07fc8cf64bfa6ca0353c91c2468bbc6bdca1c1e6c3991e0eff7c7d7802"
+    },
+    {
+      "path": "assets/starflight-equipment/shield.png",
+      "bytes": 91111,
+      "sha256": "42b8391921c3247ff5ba70eb509e307084fedd499d32564ba444c272ca63de56"
+    },
+    {
+      "path": "assets/starflight-storm/body.png",
+      "bytes": 37877,
+      "sha256": "ffae2e0e4759c2c4752fb40ee2b3a9e5870ae356258201702a8750812ece50fd"
+    },
+    {
+      "path": "assets/starflight-storm/ricochet.png",
+      "bytes": 33622,
+      "sha256": "91d625b148e7ccfa70935de5252a0b899828bf44227ea925d7d4594f3a10fd68"
+    },
+    {
+      "path": "assets/starflight-storm/storm-icon.png",
+      "bytes": 53484,
+      "sha256": "5f8a30e302b57f413b8a7ac453ead0728fe439745bd5c1ec8e65eff47a8cf424"
+    },
+    {
+      "path": "assets/starflight-storm/wing-left.png",
+      "bytes": 39790,
+      "sha256": "ce7e3271c1b93b2a0959da646d1c5075c5b75c5eeccf7f518b05893d107a324b"
+    },
+    {
+      "path": "assets/starflight-storm/wing-right.png",
+      "bytes": 39612,
+      "sha256": "98d1fcd23decb452b8412573666553ffbaf4f9cbef7a007508bdfdca1a02ec73"
+    },
+    {
+      "path": "design/phase1/img/princess-bellforge-a-v1.png",
+      "bytes": 2595972,
+      "sha256": "53ef9248cd4bdc24dc8378c3ac014cd82491bff3869c7bbad0ea309a40a8aba5"
+    },
+    {
+      "path": "design/phase1/img/princess-tidewheel-b-v1.png",
+      "bytes": 3442852,
+      "sha256": "c2b5b6b26c8555374fe4dda98fde9d6764967e4b6667884f0aba064d8b2a7351"
+    },
+    {
+      "path": "docs/validation/bellforge/android-earned-result.png",
+      "bytes": 334565,
+      "sha256": "5b998d4c16b1dc3875e0998975f07d062b011bd29b4698ac6a5c8055c73e9068"
+    },
+    {
+      "path": "docs/validation/bellforge/android-opening-final.png",
+      "bytes": 1786700,
+      "sha256": "b718323a63c58e7eb5e1e5f3d122ba0891a7bbc2bfce64c8594a2f85cde12eda"
+    },
+    {
+      "path": "docs/validation/bellforge/android-rolling.png",
+      "bytes": 1787033,
+      "sha256": "9b663534c30caadcdd3037e5a36a03401a97a848ed16c2b1500396eab13359ba"
+    },
+    {
+      "path": "docs/validation/bellforge/ios-echo-staged.png",
+      "bytes": 1627157,
+      "sha256": "e94738079ad9a8dd90caf5a670fbe1078dab727668e7e29b700606362e15a6a5"
+    },
+    {
+      "path": "docs/validation/bellforge/ios-opening-final.png",
+      "bytes": 1634677,
+      "sha256": "e6bb66c79dc04d8aaf0b1839cddccc8df687e0b0dbd84a93734204e84a34b295"
+    },
+    {
+      "path": "docs/validation/bellforge/ios-opening.png",
+      "bytes": 1634746,
+      "sha256": "766647712bff97cea07ba6eca45f93ffb78df0845c1254d104a68088037612a0"
+    },
+    {
+      "path": "docs/validation/fantasy-preview/bellforge-live.png",
+      "bytes": 525392,
+      "sha256": "80a14b40142193205297b2fad844be5f139e716e6832fad3a5fecf67337e615e"
+    },
+    {
+      "path": "docs/validation/fantasy-preview/tidewheel-live.png",
+      "bytes": 586312,
+      "sha256": "47f472aaf12cd4c3b5ac2ce90d339a998d900e9686895da2f8b4cc141debd0ca"
+    },
+    {
+      "path": "docs/validation/starflight-mission/android-easy-power-spiral-staged.png",
+      "bytes": 1606921,
+      "sha256": "1a72d4aa352cda9787153b21d4d03a3a50d8493dc9b34ec18716b837e53e5d67"
+    },
+    {
+      "path": "docs/validation/starflight-mission/android-easy-ricochet-staged.png",
+      "bytes": 1620588,
+      "sha256": "cbd30728b11b5460ed77f42e12b3eed4e02d8eb14d557763516357180de6fbf5"
+    },
+    {
+      "path": "docs/validation/starflight-mission/android-supplies-earned-combat.png",
+      "bytes": 1691800,
+      "sha256": "667a09c3acca613e1393bc1a87b9c0c252d3255cb4e13bb6e305dcc9da27bb88"
+    },
+    {
+      "path": "docs/validation/starflight-mission/ios-easy-shield-incoming-staged.png",
+      "bytes": 1455774,
+      "sha256": "e59c53412d459ce6d0fa5cddedc8462cc28b37d6aab7c0bd5e52806c80e73136"
+    },
+    {
+      "path": "docs/validation/starflight-mission/ios-easy-storm-occupied-sweep-staged.png",
+      "bytes": 1426413,
+      "sha256": "be783646d788a40cf139537128d22412245554e51203ce66fa09aceb952e85f6"
+    },
+    {
+      "path": "docs/validation/starflight-mission/ios-supplies-earned-combat.png",
+      "bytes": 1555765,
+      "sha256": "2773b7733065cddf58f4cd42fac09eb1b0556931bee5f120189e6b8769f536ec"
+    },
+    {
+      "path": "docs/validation/tidewheel/android-chain-pull-staged.png",
+      "bytes": 2163745,
+      "sha256": "ab15cf5e5512787d3cb324983c241dc071e988371d58084848895c613da4337d"
+    },
+    {
+      "path": "docs/validation/tidewheel/android-earned-ordinary-combat.png",
+      "bytes": 2163057,
+      "sha256": "5b90a035e0d422bae79b3ead4d8eaccf3cbd3d9852d31a9d17864db613cfddf3"
+    },
+    {
+      "path": "docs/validation/tidewheel/ios-opening.png",
+      "bytes": 1948986,
+      "sha256": "cae8a6737e0db5ab61286b9ed5e47b4ee864e247b1acb7af3f19b62fba27fcee"
+    },
+    {
+      "path": "docs/validation/tidewheel/ios-water-pulse-staged.png",
+      "bytes": 1955255,
+      "sha256": "25f48070622a17d8b05616cc970da16603bafed7e26de0f9e7a16eb09e32edf7"
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "scope": "Public launch/setTarget/update only, centre catches without intentional rebound aiming or powers. Nine fixed Easy cases. No HP/resource/actor/progression writes. Not human balance proof.",
+  "bound": 2,
+  "before": "c216f74972ae53d65d762969284d215561e84b5f64a144bf0da101122183dbf1",
+  "rows": [
+    {
+      "height": 700,
+      "angle": -0.22,
+      "first": 0.5833333333333325,
+      "firstBoss": null,
+      "state": "play",
+      "time": 1.9999999999999942,
+      "hp": 24,
+      "lives": 3,
+      "bricks": 0,
+      "braceHP": [
+        0,
+        2
+      ]
+    },
+    {
+      "height": 700,
+      "angle": 0,
+      "first": 1.0791666666666642,
+      "firstBoss": 1.0791666666666642,
+      "state": "play",
+      "time": 1.9999999999999942,
+      "hp": 20,
+      "lives": 3,
+      "bricks": 4,
+      "braceHP": [
+        2,
+        2
+      ]
+    },
+    {
+      "height": 700,
+      "angle": 0.22,
+      "first": 0.5874999999999991,
+      "firstBoss": null,
+      "state": "play",
+      "time": 1.9999999999999942,
+      "hp": 24,
+      "lives": 3,
+      "bricks": 0,
+      "braceHP": [
+        2,
+        0
+      ]
+    },
+    {
+      "height": 780,
+      "angle": -0.22,
+      "first": 0.6874999999999988,
+      "firstBoss": null,
+      "state": "play",
+      "time": 1.9999999999999942,
+      "hp": 24,
+      "lives": 3,
+      "bricks": 0,
+      "braceHP": [
+        1,
+        2
+      ]
+    },
+    {
+      "height": 780,
+      "angle": 0,
+      "first": 1.3124999999999967,
+      "firstBoss": 1.3124999999999967,
+      "state": "play",
+      "time": 1.9999999999999942,
+      "hp": 22,
+      "lives": 3,
+      "bricks": 0,
+      "braceHP": [
+        2,
+        2
+      ]
+    },
+    {
+      "height": 780,
+      "angle": 0.22,
+      "first": 0.6916666666666654,
+      "firstBoss": null,
+      "state": "play",
+      "time": 1.9999999999999942,
+      "hp": 24,
+      "lives": 3,
+      "bricks": 0,
+      "braceHP": [
+        2,
+        1
+      ]
+    },
+    {
+      "height": 800,
+      "angle": -0.22,
+      "first": 0.7458333333333319,
+      "firstBoss": null,
+      "state": "play",
+      "time": 1.9999999999999942,
+      "hp": 24,
+      "lives": 3,
+      "bricks": 0,
+      "braceHP": [
+        1,
+        2
+      ]
+    },
+    {
+      "height": 800,
+      "angle": 0,
+      "first": 1.3416666666666632,
+      "firstBoss": 1.3416666666666632,
+      "state": "play",
+      "time": 1.9999999999999942,
+      "hp": 23,
+      "lives": 3,
+      "bricks": 1,
+      "braceHP": [
+        2,
+        2
+      ]
+    },
+    {
+      "height": 800,
+      "angle": 0.22,
+      "first": 0.7499999999999986,
+      "firstBoss": null,
+      "state": "play",
+      "time": 1.9999999999999942,
+      "hp": 24,
+      "lives": 3,
+      "bricks": 0,
+      "braceHP": [
+        2,
+        1
+      ]
+    }
+  ],
+  "after": "c216f74972ae53d65d762969284d215561e84b5f64a144bf0da101122183dbf1",
+  "stable": true
+}

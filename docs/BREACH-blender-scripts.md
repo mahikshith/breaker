@@ -13,6 +13,11 @@ Design rule for anything new: reuse these materials, this light rig and this fac
 
 | Script | Status | What it does | Run | Output |
 |---|---|---|---|---|
+| `art/fantasy-machinery/extract.py` | Keep machinery extraction | Extracts separate characters, ramps, gates, raft frames, architecture and bricks from preserved source sheets, normalizes pivots and strips image metadata. | `python art/fantasy-machinery/extract.py` | assets/fantasy-machinery/ |
+| `art/fantasy-machinery/measure.py` | Keep collision measurement | Measures conservative opaque circle unions for Korr poses and the original Nerra parts; the frozen manifest records source-to-world transforms. | `python art/fantasy-machinery/measure.py` | assets/fantasy-machinery/manifest.json and art/fantasy-machinery/proof/ |
+| `art/fantasy-machinery/extract-nerra-v2.py` | Smaller chain-pulling Nerra | Normalizes four supporting-foot poses, exact shoulder sockets, chain-holding claw and repeatable chain links in an independent versioned manifest. | `python art/fantasy-machinery/extract-nerra-v2.py` | assets/fantasy-machinery/nerra-v2-manifest.json and art/fantasy-machinery/nerra-v2-data.mjs |
+| `art/fantasy-machinery/verify.py` | Frozen keep art verification | Verifies source/runtime hashes, opaque collision proxies, transparent holes, metadata and release aperture limits. | `python art/fantasy-machinery/verify.py` | Verification output; no asset mutation |
+| `art/fantasy-machinery/extract-water-shot.py` | Tidewheel water projectile | Normalizes the dimensional water shot around its measured front-core pivot; preserves the source, strips metadata and records the soft foam collision approximation. | `python art/fantasy-machinery/extract-water-shot.py` | assets/fantasy-machinery/water-shot.png and water-shot-manifest.json |
 | `art/frost_warden.py` | Frost Warden runtime family | Separate hostile Yeti palette and seven real rig clips. Retains Brum ally source, measures projected hand and torso collision anchors, and renders 28 poses for the fifth princess encounter. | `python art/frost_warden.py art/frost-warden/renders --samples 16 --threads 4 --yaw 65` | art/frost-warden/renders/ and assets/frost-warden/ after packing |
 | `art/frost-warden/pack.py` | Frost atlas normalization | Normalizes rendered poses to 256x228 with fixed pivots, strips PNG metadata, preserves actual measured anchors and records source/runtime hashes. | `python art/frost-warden/pack.py` | assets/frost-warden/warden.png and manifest.json |
 | `art/space/weapons_v2.py` | Rejected historical study | Dimensional dark-metal charge clips and preserved flight/impact drafts for the replacement ship weapon review. Only charge atlases are complete; current single-frame payloads and Canvas motion remain outside gameplay. See design/phase1/weapon-vfx-v2-review.md and its asset report. | `python art/space/weapons-v2/validate.py` | design/phase1/weapon-vfx-v2/; saved scenes in art/space/weapons-v2/ |
@@ -36,6 +41,563 @@ Design rule for anything new: reuse these materials, this light rig and this fac
 | `art/vault_scene.py` | Look test (history) | First top-down look test built from art/vault-grid.json. | `python3 art/vault_scene.py [out.png] [scale]` | art/out/ |
 | `art/vault-grid.json` | Data | Grid used by the early look tests. | `-` | - |
 | `tools/pack_art.py` | Production | Packs all rendered PNGs into src/vault-art.js as WebP data URIs (3 px per game unit for sprites) so the game ships as one HTML file. Run after any render, then npm run build. | `python3 tools/pack_art.py` | src/vault-art.js |
+
+
+---
+
+## `art/fantasy-machinery/extract.py`
+
+Extracts separate characters, ramps, gates, raft frames, architecture and bricks from preserved source sheets, normalizes pivots and strips image metadata.
+
+```python
+from pathlib import Path
+from collections import defaultdict
+import hashlib
+import json
+import math
+import numpy as np
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
+
+ROOT = Path(__file__).resolve().parents[2]
+SOURCE = Path(__file__).parent
+OUT = ROOT / 'assets/fantasy-machinery'
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def components(alpha, threshold=24):
+    parent, runs, previous = [], [], []
+    def find(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+    for y, row in enumerate(alpha):
+        diff = np.diff(np.r_[False, row > threshold, False].astype(np.int8))
+        current = []
+        for left, right in zip(np.where(diff == 1)[0], np.where(diff == -1)[0]):
+            hits = [i for a, b, i in previous if left <= b and right >= a]
+            if hits:
+                label = find(hits[0])
+                for hit in hits[1:]:
+                    parent[find(hit)] = label
+            else:
+                label = len(parent)
+                parent.append(label)
+            current.append((int(left), int(right), label))
+            runs.append((y, int(left), int(right), label))
+        previous = current
+    groups = defaultdict(list)
+    for y, left, right, label in runs:
+        groups[find(label)].append((y, left, right))
+    return sorted(groups.values(), key=lambda r: sum(b-a for y, a, b in r), reverse=True)
+
+
+def isolate(im, rows):
+    seed = Image.new('L', im.size)
+    draw = ImageDraw.Draw(seed)
+    for y, left, right in rows:
+        draw.line((left, y, right-1, y), fill=255)
+    support = seed.filter(ImageFilter.MaxFilter(15)).filter(ImageFilter.GaussianBlur(1))
+    a = np.array(im)
+    a[:, :, 3] = (a[:, :, 3].astype(np.uint16)*np.array(support)//255).astype(np.uint8)
+    a[a[:, :, 3] < 3] = 0
+    return Image.fromarray(a)
+
+
+def clean(im):
+    a = np.array(im.convert('RGBA'))
+    a[a[:, :, 3] < 3] = 0
+    return Image.fromarray(a)
+
+
+def fit(im, size, padding=16):
+    box = im.getchannel('A').getbbox()
+    crop = im.crop(box)
+    scale = min((size[0]-2*padding)/crop.width, (size[1]-2*padding)/crop.height)
+    dims = [round(crop.width*scale), round(crop.height*scale)]
+    fitted = crop.resize(dims, Image.Resampling.LANCZOS)
+    x, y = (size[0]-dims[0])//2, (size[1]-dims[1])//2
+    canvas = Image.new('RGBA', size)
+    canvas.alpha_composite(fitted, (x, y))
+    def uv(point):
+        return [(x+(point[0]-box[0])*dims[0]/crop.width)/size[0],
+                (y+(point[1]-box[1])*dims[1]/crop.height)/size[1]]
+    return clean(canvas), list(box), uv
+
+
+def audit(path, transparent=True):
+    im = Image.open(path)
+    assert not im.info, (path, im.info)
+    result = {'bytes': path.stat().st_size, 'size': list(im.size), 'mode': im.mode, 'metadata': {}}
+    if transparent:
+        a = np.array(im)
+        assert im.mode == 'RGBA'
+        edge = int(max(a[0, :, 3].max(), a[-1, :, 3].max(), a[:, 0, 3].max(), a[:, -1, 3].max()))
+        assert edge == 0, (path, edge)
+        assert not a[a[:, :, 3] == 0, :3].any(), path
+        result.update(edgeAlphaMax=edge, transparentFraction=float(np.mean(a[:, :, 3] == 0)))
+    return result
+
+
+def entry(name, im, unit, pivot, source, source_crop, anchors=None, **other):
+    path = OUT/(name+'.png')
+    im = clean(im)
+    im.save(path)
+    solid = im.getchannel('A').point(lambda v: 255 if v >= 128 else 0).getbbox()
+    return {'path': path.relative_to(ROOT).as_posix(), 'size': list(im.size), 'unit': unit,
+            'pivot': pivot, 'alphaBounds': list(im.getchannel('A').getbbox()), 'solidBounds': list(solid),
+            'source': source.relative_to(ROOT).as_posix(), 'sourceCrop': source_crop,
+            'sourceSHA256': sha(source), 'sha256': sha(path), 'anchors': anchors or {},
+            'audit': audit(path), **other}
+
+
+def main():
+    OUT.mkdir(parents=True, exist_ok=True)
+    sources = {k: SOURCE/'source'/v for k, v in {
+        'bellforge': 'bellforge-sheet-v2.png', 'tidewheel': 'tidewheel-sheet-v1.png',
+        'background': 'background-pair-v2.png', 'bricks': 'tidewheel-bricks-v1.png',
+        'grounding': 'grounding-sheet-v1.png', 'cradle': 'bell-cradle-v1.png'}.items()}
+    images = {k: Image.open(v).convert('RGBA') for k, v in sources.items() if k != 'background'}
+    groups = {k: components(np.array(v.getchannel('A'))) for k, v in images.items()}
+    manifest = {'version': 1, 'status': 'Approved visual references; independent production layers, native gameplay admission pending',
+        'pivotConvention': 'Normalized UV of full padded image/cell. Anchors share that UV. unit gives full canvas world width/height; never stretch a character non-uniformly.',
+        'collisionNote': 'alpha/solid bounds are measurements, not full rectangle colliders; holes and disconnected anatomy remain empty.',
+        'filter': 'linear', 'bellforge': {}, 'tidewheel': {}, 'sources': {k: {'path': v.relative_to(ROOT).as_posix(), 'sha256': sha(v)} for k, v in sources.items()}}
+
+    # Four authored key poses, one common pixel scale and planted-foot baseline.
+    # Release front hoof extends lower than the supporting feet; do not align its bounding-box bottom.
+    cell, baseline = [512, 448], 396
+    pose_specs = [('idle', 1, 242, 483), ('windup', 3, 633.5, 482),
+                  ('release', 2, 1043, 475), ('stagger', 0, 226.5, 840)]
+    atlas = Image.new('RGBA', (cell[0]*4, cell[1]))
+    frames = []
+    for index, (name, group, cx, fy) in enumerate(pose_specs):
+        isolated = isolate(images['bellforge'], groups['bellforge'][group])
+        box = isolated.getchannel('A').getbbox()
+        canvas = Image.new('RGBA', cell)
+        canvas.alpha_composite(isolated.crop(box), (round(256-cx+box[0]), round(baseline-fy+box[1])))
+        canvas = clean(canvas)
+        atlas.alpha_composite(canvas, (index*cell[0], 0))
+        path = OUT/('korr-'+name+'.png')
+        canvas.save(path)
+        frames.append({'name': name, 'index': index, 'sourceCrop': list(box), 'sourceFeet': [cx, fy],
+                       'sourceToCell': [1, 256-cx, baseline-fy], 'alphaBounds': list(canvas.getchannel('A').getbbox()),
+                       'path': path.relative_to(ROOT).as_posix(), 'sha256': sha(path), 'audit': audit(path)})
+    manifest['bellforge']['korr'] = entry('korr', atlas, [512/3, 448/3], [.5, baseline/448],
+        sources['bellforge'], [v['sourceCrop'] for v in frames], cell=cell, columns=4, rows=1,
+        clips={v['name']: {'start': i, 'n': 1, 'fps': 1} for i, v in enumerate(frames)}, frames=frames,
+        animationNote='Four keyed raster poses, not a skeletal rig or smooth full walk cycle. Shared scale 3px/world unit and supporting-foot baseline; release hoof extends in front of support plane.')
+
+    specs = [
+        ('bellforge', 'bell', 6, [256, 256], [32, 32], [594, 706], {'loop': [625, 581], 'mass': [594, 706], 'rimLeft': [460, 755], 'rimRight': [721, 790]}, {'physicalRadius': 14, 'note': '14u dome circle; top loop is decorative. Pivot at dome mass, not bounding-box centre.'}),
+        ('bellforge', 'ramp', 7, [512, 128], [128, 32], [791, 718], {'hinge': [791, 718], 'axisEnd': [1202, 712], 'contactA': [819, 686], 'contactB': [1214, 686]}, {'note': 'Map the measured contact anchors to physics ramp endpoints; preserve cap/hinge aspect. Pin sits below the top face.'}),
+        ('bellforge', 'lift', 5, [384, 384], [76.8, 76.8], [258, 1060], {'deck': [258, 1050], 'chainLeft': [159, 897], 'chainRight': [365, 897], 'feet': [258, 1060]}, {'note': 'Empty open railing; deck plane anchor supports Lumi, finial is presentation.'}),
+        ('bellforge', 'ratchet', 4, [384, 416], [64, 69.333333], [691, 1005], {'axle': [691, 1005], 'base': [652, 1180]}, {'note': 'Static mounting base baked with wheel; rotate only wheel via masked/cropped layer if animated.'}),
+        ('tidewheel', 'nerraBody', 0, [640, 576], [216, 194.4], [307, 294], {'socketCrusher': [225, 349], 'socketGate': [510, 350], 'feet': [307, 516], 'face': [421, 338]}, {'note': 'Body plus eight short legs, no large claws; use exact socket anchors for separate front claws.'}),
+        ('tidewheel', 'crusherClaw', 4, [448, 416], [116, 107.714286], [575, 211], {'root': [575, 211], 'mass': [795, 366], 'tip': [945, 504]}, {'mirrorX': True, 'note': 'Mirror horizontally at its root for left/front socket; angle then applies to the whole anatomical part.'}),
+        ('tidewheel', 'gateClaw', 6, [384, 416], [89.538462, 97], [946, 208], {'root': [946, 208], 'mass': [1103, 363], 'tip': [1201, 507]}, {'mirrorX': False, 'note': 'Right gate-handling short arm; root is real rear ball, not claw centre.'}),
+        ('tidewheel', 'wheel', 1, [384, 416], [72, 78], [265, 742], {'axle': [265, 742], 'rimTop': [199, 578]}, {'note': 'Actual source wheel face is oblique; use affine rotation in its own plane or bounded rocking, not unexamined full-screen 2D spin.'}),
+        ('tidewheel', 'raft', 2, [640, 256], [128, 51.2], [650, 767], {'deck': [650, 767], 'deckLeft': [452, 734], 'deckRight': [846, 734], 'ropeLeft': [406, 819], 'ropeRight': [892, 822]}, {'note': 'Empty deck, no baked bricks. Full width128u; map measured deck span for real code-placed cells.'}),
+        ('tidewheel', 'gate', 3, [352, 416], [70.4, 83.2], [1088, 720], {'rope': [1089, 568], 'panelCentre': [1088, 748], 'panelTopLeft': [961, 618], 'panelBottomRight': [1227, 878]}, {'note': 'Opaque physical panel; do not draw balls through its visible area.'}),
+        ('tidewheel', 'counterweight', 5, [320, 352], [48, 52.8], [183, 1082], {'rope': [179, 963], 'mass': [183, 1082]}, {'note': 'Stone/metal body; top eye remains transparent inside.'}),
+    ]
+    for family, name, group, size, unit, pivot, anchors, other in specs:
+        sprite, box, uv = fit(isolate(images[family], groups[family][group]), size)
+        manifest[family][name] = entry(name, sprite, unit, uv(pivot), sources[family], box,
+                                      {k: uv(v) for k, v in anchors.items()}, **other)
+
+    brick_groups = sorted(groups['bricks'][:3], key=lambda rows: min(a for y,a,b in rows))
+    manifest['tidewheel']['bricks'] = {}
+    for name, rows in zip(['coral', 'sage', 'ivory'], brick_groups):
+        isolated = isolate(images['bricks'], rows)
+        box = isolated.getchannel('A').getbbox()
+        # All three physical tiles share exact 34:18 exterior sizing. Fixed ceramic
+        # tiles permit this small aspect normalization; articulated characters do not.
+        crop = isolated.crop(box).resize((272, 144), Image.Resampling.LANCZOS)
+        sprite = Image.new('RGBA', (304, 176))
+        sprite.alpha_composite(crop, (16, 16))
+        manifest['tidewheel']['bricks'][name] = entry('brick-'+name, sprite, [38, 22], [.5,.5], sources['bricks'], list(box),
+            {'contactTopLeft': [16/304,16/176], 'contactBottomRight': [288/304,160/176]},
+            physicalSize=[34,18], note='Equal-sized glossy ceramic tile. Draw contact anchors to real34x18u brick; source aspect normalized consistently across the family.')
+
+    grounded = [
+        ('bellforge','plinth',1,[768,288],[168,63],[416,236],{'topLeft':[90,236],'topRight':[741,236],'stand':[416,236]},'Rear-stage load-bearing dais. Supporting feet sit on measured top plane; not a foreground full-width blocker.'),
+        ('bellforge','hopperStudy',2,[416,432],[52,54],[1105,409],{'mount':[1018,441],'outlet':[1105,409]},'Historical narrow-mouth hopper study, NOT admitted for28u bells; use open bellCradle instead.'),
+        ('tidewheel','sluiceWall',0,[1024,448],[350,153.125],[432,649],{'topLeft':[76,649],'topRight':[787,649],'stand':[432,649],'wheelMount':[760,678]},'Rear-stage masonry support and three true-alpha arch outlets. No full-width foreground collision barrier.'),
+        ('tidewheel','refugeBalcony',3,[416,384],[83.2,76.8],[1046,751],{'deck':[1046,751],'wallMount':[904,657],'dangerLip':[1046,787]},'Lumi feet align to actual deck. Front railing may be occlusion-masked after Lumi; not a new cage.'),
+        ('tidewheel','gateFrame',4,[352,544],[44,68],[1378,766],{'openingTopLeft':[1306,615],'openingBottomRight':[1448,919],'chain':[1378,519]},'Empty true-alpha aperture. Map opening corners to actual gatepanel; frame is rear-stage hardware, not an invisible full rectangle.'),
+    ]
+    for family,name,group,size,unit,pivot,anchors,note in grounded:
+        sprite,box,uv=fit(isolate(images['grounding'],groups['grounding'][group]),size)
+        manifest[family][name]=entry(name,sprite,unit,uv(pivot),sources['grounding'],box,{k:uv(v) for k,v in anchors.items()},note=note)
+
+    # The lever's metal bearing foot stays fixed; the arm rotates about its actual
+    # brass bearing. Both layers preserve identical source transform/pivot.
+    lever=isolate(images['grounding'],groups['grounding'][5])
+    lever_sprite,box,uv=fit(lever,[384,416])
+    # Shared fitted plane at the underside of the large bearing, above the stand.
+    cut=round(uv([1395,399])[1]*lever_sprite.height)
+    arm=np.array(lever_sprite);arm[cut:,:,:]=0
+    mount=np.array(lever_sprite);mount[:cut,:,:]=0
+    for name,pixels in [('releaseLever',arm),('leverMount',mount)]:
+        manifest['bellforge'][name]=entry(name,Image.fromarray(pixels),[38.4,41.6],uv([1395,345]),sources['grounding'],box,
+            {'pivot':uv([1395,345]),'grip':uv([1240,144]),'stand':uv([1395,447])},note='Source-aligned arm/base split at bearing underside. Rotate releaseLever only; leverMount remains fixed.')
+
+    cradle=images['cradle'];sprite,box,uv=fit(cradle,[768,576])
+    source_open=[cradle.width*.54,cradle.height*.50]
+    manifest['bellforge']['bellCradle']=entry('bellCradle',sprite,[116,87],uv(source_open),sources['cradle'],box,
+        {'outlet':uv(source_open),'leftBearing':uv([cradle.width*.30,cradle.height*.24]),'rightBearing':uv([cradle.width*.83,cradle.height*.25])},
+        note='Open-front release rack, not a narrow tube. Outlet is inside true-alpha opening, mapped to actualbell birth(164,147). Bell exits downfield without passing visible metal; source3D perspective remains baked.')
+
+    # Remove the single separator pixel strip; no full concept board enters gameplay.
+    pair = Image.open(sources['background']).convert('RGB')
+    w, h = pair.size
+    for family, box in [('bellforge', [0, 0, w//2-3, h]), ('tidewheel', [w//2+3, 0, w, h])]:
+        image = pair.crop(box)
+        path = OUT/(family+'-background.png')
+        image.save(path)
+        manifest[family]['background'] = {'path': path.relative_to(ROOT).as_posix(), 'size': list(image.size),
+            'source': sources['background'].relative_to(ROOT).as_posix(), 'sourceCrop': box,
+            'sourceSHA256': sha(sources['background']), 'sha256': sha(path), 'audit': audit(path, False),
+            'role': 'Static quiet architectural plate only. No character, brick, bell, wheel, raft, UI or collision geometry.'}
+    path = OUT/'manifest.json'
+    path.write_text(json.dumps(manifest, indent=2)+'\n', encoding='utf-8')
+    print(json.dumps({'manifest': str(path), 'sha256': sha(path), 'parts': len(specs)+3}, indent=2))
+
+
+if __name__ == '__main__':
+    main()
+```
+
+
+---
+
+## `art/fantasy-machinery/measure.py`
+
+Measures conservative opaque circle unions for Korr poses and the original Nerra parts; the frozen manifest records source-to-world transforms.
+
+```python
+from pathlib import Path
+import json
+import math
+import numpy as np
+from PIL import Image, ImageDraw
+
+ROOT = Path(__file__).resolve().parents[2]
+OUT = ROOT/'assets/fantasy-machinery'
+PROOF = Path(__file__).parent/'proof'
+
+
+def circles(image, count=16, min_radius=5, step=6):
+    opaque = np.array(image.getchannel('A')) >= 128
+    inside = opaque.copy()
+    inside[1:-1, 1:-1] &= opaque[:-2, 1:-1] & opaque[2:, 1:-1] & opaque[1:-1, :-2] & opaque[1:-1, 2:]
+    by, bx = np.where(opaque & ~inside)
+    candidates = []
+    for y in range(step//2, image.height, step):
+        for x in range(step//2, image.width, step):
+            if not opaque[y, x]:
+                continue
+            radius = math.sqrt(float(np.min((bx-x)**2+(by-y)**2))) - 1
+            if radius >= min_radius:
+                candidates.append((radius, x, y))
+    candidates.sort(reverse=True)
+    chosen = []
+    for radius, x, y in candidates:
+        # Keep broad original-mass disks and a modest overlap, no transparent gaps.
+        if all(math.hypot(x-cx, y-cy) > max(cr, radius)*.70 for cr, cx, cy in chosen):
+            chosen.append((radius, x, y))
+            if len(chosen) >= count:
+                break
+    # Largest masses alone miss narrow tusks, walking legs and jaw tips. Re-arm
+    # those with truly inscribed small disks, not a bounding box across gaps.
+    for _ in range(80-len(chosen)):
+        best, best_gap = None, 2.0
+        for radius,x,y in candidates:
+            gap=min(math.hypot(x-cx,y-cy)-cr for cr,cx,cy in chosen)
+            if gap>best_gap:
+                best,best_gap=(radius,x,y),gap
+        if best is None:
+            break
+        chosen.append(best)
+    return chosen
+
+
+def geometry(image, unit, pivot, count=16, minimum=5, step=6):
+    sx, sy = unit[0]/image.width, unit[1]/image.height
+    assert abs(sx-sy) < .00001
+    shapes = []
+    for r, x, y in circles(image, count, minimum, step):
+        shapes.append({'type': 'circle', 'x': round((x/image.width-pivot[0])*unit[0], 5),
+                       'y': round((y/image.height-pivot[1])*unit[1], 5), 'r': round(r*sx, 5)})
+    return shapes
+
+
+def draw_shapes(im, shapes, unit, pivot):
+    result = Image.new('RGBA', im.size, '#151b23')
+    result.alpha_composite(im)
+    d = ImageDraw.Draw(result)
+    scale = im.width/unit[0]
+    for i, s in enumerate(shapes):
+        x=(s['x']/unit[0]+pivot[0])*im.width
+        y=(s['y']/unit[1]+pivot[1])*im.height
+        r=s['r']*scale
+        d.ellipse((x-r,y-r,x+r,y+r),outline='#64ffb0',width=2)
+        d.text((x,y),str(i),fill='white')
+    return result
+
+
+def main():
+    PROOF.mkdir(parents=True, exist_ok=True)
+    m=json.loads((OUT/'manifest.json').read_text())
+    data={'contract': 'Each disk fully inscribed in alpha>=128, relative to normalized pivot at declared unit scale. Conservative union, never fills leg/jaw gaps. Shapes are not a traced rig.', 'bellforge':{},'tidewheel':{}}
+    korr=m['bellforge']['korr']
+    for f in korr['frames']:
+        im=Image.open(ROOT/f['path']).convert('RGBA')
+        shapes=geometry(im,korr['unit'],korr['pivot'],22,5,6)
+        data['bellforge'][f['name']]=shapes
+        f['collision'] = shapes
+        draw_shapes(im,shapes,korr['unit'],korr['pivot']).save(PROOF/('korr-'+f['name']+'-collision.png'))
+    for name,count,minimum in [('nerraBody',25,5),('crusherClaw',12,4),('gateClaw',14,3)]:
+        e=m['tidewheel'][name];im=Image.open(ROOT/e['path']).convert('RGBA')
+        shapes=geometry(im,e['unit'],e['pivot'],count,minimum,5)
+        data['tidewheel'][name]=shapes
+        e['collision'] = shapes
+        draw_shapes(im,shapes,e['unit'],e['pivot']).save(PROOF/(name+'-collision.png'))
+    (PROOF/'collision-measurements.json').write_text(json.dumps(data,indent=2)+'\n')
+    korr['collisions'] = data['bellforge']
+    m['collisionConvention'] = data['contract']
+    (OUT/'manifest.json').write_text(json.dumps(m,indent=2)+'\n', encoding='utf-8')
+    print(json.dumps(data))
+
+
+if __name__=='__main__':
+    main()
+```
+
+
+---
+
+## `art/fantasy-machinery/extract-nerra-v2.py`
+
+Normalizes four supporting-foot poses, exact shoulder sockets, chain-holding claw and repeatable chain links in an independent versioned manifest.
+
+```python
+from pathlib import Path
+import importlib.util
+import hashlib,json,math
+import numpy as np
+from PIL import Image,ImageDraw
+
+ROOT=Path(__file__).resolve().parents[2]
+SOURCE=Path(__file__).parent
+OUT=ROOT/'assets/fantasy-machinery'
+spec=importlib.util.spec_from_file_location('family_extract',SOURCE/'extract.py')
+family=importlib.util.module_from_spec(spec);spec.loader.exec_module(family)
+
+
+def disks(im,unit,pivot,limit=90):
+    opaque=np.array(im.getchannel('A'))>=128
+    inside=opaque.copy();inside[1:-1,1:-1]&=opaque[:-2,1:-1]&opaque[2:,1:-1]&opaque[1:-1,:-2]&opaque[1:-1,2:]
+    by,bx=np.where(opaque&~inside);candidates=[]
+    for y in range(3,im.height,6):
+        for x in range(3,im.width,6):
+            if not opaque[y,x]:continue
+            r=math.sqrt(float(np.min((bx-x)**2+(by-y)**2)))-1
+            if r>=3:candidates.append((r,x,y))
+    a=np.array(candidates);rs,xs,ys=a[:,0],a[:,1],a[:,2]
+    selected=[];gaps=np.full(len(rs),10000.)
+    # Broad masses first, then ensure visible narrow anatomy is represented.
+    for i in np.argsort(rs)[::-1]:
+        r,x,y=a[i]
+        if all(math.hypot(x-cx,y-cy)>max(r,cr)*.7 for cr,cx,cy in selected):
+            selected.append((r,x,y));gaps=np.minimum(gaps,np.hypot(xs-x,ys-y)-r)
+            if len(selected)>=20:break
+    while len(selected)<limit:
+        i=int(gaps.argmax())
+        if gaps[i]<=2:break
+        r,x,y=a[i];selected.append((r,x,y));gaps=np.minimum(gaps,np.hypot(xs-x,ys-y)-r)
+    return [{'type':'circle','x':round((x/im.width-pivot[0])*unit[0],6),'y':round((y/im.height-pivot[1])*unit[1],6),'r':round(r*unit[0]/im.width,6)} for r,x,y in selected]
+
+
+def main():
+    source=SOURCE/'source/nerra-motion-v2.png';im=Image.open(source).convert('RGBA')
+    groups=family.components(np.array(im.getchannel('A')))
+    cell=[640,576];unit=[190.08,171.072];pivot=[.5,540/576];scale=1.13
+    atlas=Image.new('RGBA',(cell[0]*4,cell[1]));poses={};frames=[]
+    specs=[('idle',2,[274,498],{'crusher':[213,321],'gate':[451,326]}),
+           ('step',3,[769,498],{'crusher':[718,321],'gate':[953,326]}),
+           ('hurt',0,[274,989],{'crusher':[208,815],'gate':[454,830]}),
+           ('pull',1,[779,985],{'crusher':[718,804],'gate':[968,826]})]
+    for i,(name,group,foot,sockets) in enumerate(specs):
+        isolated=family.isolate(im,groups[group]);box=isolated.getchannel('A').getbbox();crop=isolated.crop(box)
+        dims=[round(crop.width*scale),round(crop.height*scale)];crop=crop.resize(dims,Image.Resampling.LANCZOS)
+        dx=round(320+(box[0]-foot[0])*scale);dy=round(540+(box[1]-foot[1])*scale)
+        frame=Image.new('RGBA',cell);frame.alpha_composite(crop,(dx,dy));frame=family.clean(frame)
+        path=OUT/('nerra-v2-'+name+'.png');frame.save(path);family.audit(path)
+        def uv(point):return [(dx+(point[0]-box[0])*dims[0]/(box[2]-box[0]))/cell[0],(dy+(point[1]-box[1])*dims[1]/(box[3]-box[1]))/cell[1]]
+        socket_uvs={k:uv(v) for k,v in sockets.items()}
+        local={k:{'x':(v[0]-pivot[0])*unit[0],'y':(v[1]-pivot[1])*unit[1]} for k,v in socket_uvs.items()}
+        shapes=disks(frame,unit,pivot)
+        atlas.alpha_composite(frame,(i*cell[0],0))
+        poses[name]={'frame':i,'frameRect':[i*cell[0],0,*cell],'footUV':pivot,'sockets':local,'socketUVs':socket_uvs,'circles':shapes,'alphaBounds':list(frame.getchannel('A').getbbox()),'sourceCrop':list(box),'sourceFoot':foot,'sourceToCell':[scale,320-foot[0]*scale,540-foot[1]*scale],'path':path.relative_to(ROOT).as_posix(),'sha256':family.sha(path)}
+        frames.append({'name':name,**poses[name]})
+    atlas_path=OUT/'nerra-v2.png';atlas.save(atlas_path);family.audit(atlas_path)
+    body={'path':atlas_path.relative_to(ROOT).as_posix(),'sha256':family.sha(atlas_path),'size':list(atlas.size),'cell':cell,'columns':4,'rows':1,'unit':unit,'pivot':pivot,'clips':{name:{'start':i,'n':1,'fps':1} for i,(name,*_) in enumerate(specs)},'poses':poses,'frames':frames}
+
+    # Keep one clamped link, remove the lower dangling tail as a separate layer;
+    # the runtime chain route, not the entire claw rotation, owns free links.
+    isolated=family.isolate(im,groups[4]);cut=1328
+    pixels=np.array(isolated);pixels[cut:,:,:]=0;isolated=Image.fromarray(pixels)
+    claw,box,uv=family.fit(isolated,[448,448])
+    cunit=[96,96];cpivot=uv([181,1058]);anchors={k:uv(v) for k,v in {'root':[181,1058],'chainGrip':[449,1250],'chainEnd':[462,1322],'mass':[360,1199]}.items()}
+    claw_entry=family.entry('gateClawV2',claw,cunit,cpivot,source,box,anchors,
+        note='Rightpincer closes around a real held chainlink. Free dangling links extracted from source; draw actualchain route from chainEnd. No decorativechain collision.')
+    collision_im=claw.copy();c=np.array(collision_im);tail_y=round(uv([462,1316])[1]*claw.height);c[tail_y:,:,:]=0
+    claw_entry['collision']=disks(Image.fromarray(c),cunit,cpivot,70)
+    claw_entry['grip']={'x':(anchors['chainGrip'][0]-cpivot[0])*cunit[0],'y':(anchors['chainGrip'][1]-cpivot[1])*cunit[1]}
+    claw_entry['chainEnd']={'x':(anchors['chainEnd'][0]-cpivot[0])*cunit[0],'y':(anchors['chainEnd'][1]-cpivot[1])*cunit[1]}
+
+    chain,box,uv=family.fit(family.isolate(im,groups[5]),[128,576])
+    chain_entry=family.entry('chain-v2',chain,[24,108],[.5,.5],source,box,
+        {k:uv(v) for k,v in {'top':[795,1044],'bottom':[795,1492],'tileTop':[795,1144],'tileBottom':[795,1267]}.items()},
+        note='Rendered interlocking steel links. Route in short overlapped segments between measured endpoints; do not stretch into one flat bar or give thisdecorativechain damage collision.')
+    previous=json.loads((OUT/'manifest.json').read_text())
+    left=previous['tidewheel']['crusherClaw'];claws=[{'side':-1,'partKey':'crusherClaw','scale':.88,'mirror':True,'circles':left['collision'],'grip':{'x':0,'y':0}},
+        {'side':1,'partKey':'gateClawV2','scale':1,'mirror':False,'circles':claw_entry['collision'],'grip':claw_entry['grip'],'chainEnd':claw_entry['chainEnd']}]
+    geometry={'unit':unit,'pivot':pivot,'poses':poses,'claws':claws,'sourceSHA256':family.sha(source)}
+    manifest={'version':2,'status':'New smaller Nerra mechanical chainpull family; independentnative/runtimeadmissionpending','source':source.relative_to(ROOT).as_posix(),'sourceSHA256':family.sha(source),'baseManifest':{'path':'assets/fantasy-machinery/manifest.json','sha256':family.sha(OUT/'manifest.json')},'nerraBody':body,'gateClawV2':claw_entry,'chain':chain_entry,'geometry':geometry,'animationNote':'Four consistent rasterkeyposes with source-measured sockets; not a fullskeletalrig. Renderer owns rigidclaw rotation, realchainrouting and modelpatrol.'}
+    path=OUT/'nerra-v2-manifest.json';path.write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
+    module=SOURCE/'nerra-v2-data.mjs';module.write_text('// Source-relative measured anatomy; units already include the smaller body size.\nexport default '+json.dumps(geometry,separators=(',',':'))+';\n',encoding='utf-8')
+    print(json.dumps({'manifestSHA256':family.sha(path),'sourceSHA256':family.sha(source),'moduleSHA256':family.sha(module),'poseCounts':{k:len(v['circles']) for k,v in poses.items()},'clawCircles':len(claw_entry['collision']),'grip':claw_entry['grip'],'chainEnd':claw_entry['chainEnd']}))
+
+
+if __name__=='__main__':main()
+```
+
+
+---
+
+## `art/fantasy-machinery/verify.py`
+
+Verifies source/runtime hashes, opaque collision proxies, transparent holes, metadata and release aperture limits.
+
+```python
+from pathlib import Path
+import hashlib,json,math
+import numpy as np
+from PIL import Image
+
+ROOT=Path(__file__).resolve().parents[2]
+SOURCE=Path(__file__).parent
+MANIFEST=ROOT/'assets/fantasy-machinery/manifest.json'
+
+
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+
+
+def main():
+    m=json.loads(MANIFEST.read_text());checks={};shapes={}
+    for key,e in m['sources'].items():
+        p=ROOT/e['path'];assert sha(p)==e['sha256'];assert not Image.open(p).info
+    def visit(value):
+        if isinstance(value,list):
+            for v in value:visit(v)
+        elif isinstance(value,dict):
+            if 'path' in value and 'sha256' in value and value['path'].endswith('.png'):
+                p=ROOT/value['path'];assert sha(p)==value['sha256'],p
+                im=Image.open(p);assert not im.info,p
+                if im.mode=='RGBA':
+                    a=np.array(im);assert not a[0,:,3].any() and not a[-1,:,3].any() and not a[:,0,3].any() and not a[:,-1,3].any(),p
+                    assert not a[a[:,:,3]==0,:3].any(),p
+                checks[value['path']]={'sha256':sha(p),'bytes':p.stat().st_size,'size':list(im.size),'metadata':{}}
+            for key,v in value.items():
+                if key!='sources':visit(v)
+    visit(m)
+    for family,name in [('bellforge','korr'),('tidewheel','nerraBody'),('tidewheel','crusherClaw'),('tidewheel','gateClaw')]:
+        e=m[family][name]
+        for f in e['frames'] if name=='korr' else [e]:
+            im=Image.open(ROOT/f['path']);a=np.array(im.getchannel('A'));u=e['unit'];p=e['pivot'];g=f['collision']
+            for circle in g:
+                x=(circle['x']/u[0]+p[0])*im.width;y=(circle['y']/u[1]+p[1])*im.height;r=circle['r']*im.width/u[0]
+                left,right=max(0,math.floor(x-r)),min(im.width,math.ceil(x+r)+1)
+                top,bottom=max(0,math.floor(y-r)),min(im.height,math.ceil(y+r)+1)
+                yy,xx=np.mgrid[top:bottom,left:right];mask=(xx-x)**2+(yy-y)**2<=r*r
+                assert not np.any(a[top:bottom,left:right][mask]<128),(name,circle)
+            yy,xx=np.where(a>=128);xw=(xx/im.width-p[0])*u[0];yw=(yy/im.height-p[1])*u[1];gap=np.full(len(xx),1000.)
+            for c in g:gap=np.minimum(gap,np.maximum(0,np.hypot(xw-c['x'],yw-c['y'])-c['r']))
+            shapes[name+'-'+f.get('name','')]=dict(disks=len(g),allDisksOpaque=True,normal6uCoverage=float(np.mean(gap<6)),maximumOpaqueGap=float(gap.max()))
+    # These openings are real transparent holes, not painted dark pixels.
+    holes={}
+    for name,uv in [('sluiceWall',[.21,.65]),('gateFrame',[.49,.70])]:
+        e=m['tidewheel'][name];im=Image.open(ROOT/e['path']);alpha=im.getchannel('A').getpixel((round(uv[0]*im.width),round(uv[1]*im.height)))
+        assert alpha==0,(name,alpha);holes[name]=0
+    e=m['bellforge']['bellCradle'];im=Image.open(ROOT/e['path']);a=np.array(im.getchannel('A'));yy,xx=np.where(a>=128);x,y=e['pivot'][0]*im.width,e['pivot'][1]*im.height
+    clearance=float(np.sqrt(((xx-x)**2+(yy-y)**2).min())*e['unit'][0]/im.width)
+    assert clearance>=14
+    report={'manifestSHA256':sha(MANIFEST),'selectedSources':len(m['sources']),'runtimePNGs':len(checks),'files':checks,'geometry':shapes,'trueAlphaHoles':holes,'bellInitialClearance':clearance,'limits':['Keyed raster poses, not a skeletal rig','Rear-stage rack; full straight vertical aperture is not proved','Staged native art proof is not earned gameplay or human balance approval']}
+    (SOURCE/'proof/verification.json').write_text(json.dumps(report,indent=2)+'\n')
+    print(json.dumps({k:v for k,v in report.items() if k not in ['files','geometry']},indent=2))
+
+
+if __name__=='__main__':main()
+```
+
+
+---
+
+## `art/fantasy-machinery/extract-water-shot.py`
+
+Normalizes the dimensional water shot around its measured front-core pivot; preserves the source, strips metadata and records the soft foam collision approximation.
+
+```python
+from pathlib import Path
+import importlib.util
+import hashlib,json,math
+import numpy as np
+from PIL import Image,ImageDraw
+
+ROOT=Path(__file__).resolve().parents[2];SOURCE=Path(__file__).parent;OUT=ROOT/'assets/fantasy-machinery'
+spec=importlib.util.spec_from_file_location('family',SOURCE/'extract.py');f=importlib.util.module_from_spec(spec);spec.loader.exec_module(f)
+
+
+def main():
+    source=SOURCE/'source/water-shot-v1.png';im=Image.open(source).convert('RGBA')
+    # Remove unused ultra-soft ambient matte, retain real liquid and spray.
+    groups=f.components(np.array(im.getchannel('A')),64)
+    rows=[row for group in groups if sum(b-a for y,a,b in group)>=16 for row in group]
+    sprite,box,uv=f.fit(f.isolate(im,rows),[192,288],8)
+    # Search only the leading fluid mass, retaining the authored downward nose.
+    a=np.array(sprite.getchannel('A'));solid=a>=40;inside=solid.copy();inside[1:-1,1:-1]&=solid[:-2,1:-1]&solid[2:,1:-1]&solid[1:-1,:-2]&solid[1:-1,2:]
+    by,bx=np.where(solid&~inside);best=None
+    for y in range(170,235):
+        for x in range(70,125):
+            if not solid[y,x]:continue
+            r=math.sqrt(float(np.min((bx-x)**2+(by-y)**2)))
+            score=r-.02*math.hypot(x-96,y-210)
+            if best is None or score>best[0]:best=(score,x,y,r)
+    _,x,y,r=best;pivot=[x/192,y/288]
+    path=OUT/'water-shot.png';sprite.save(path);audit=f.audit(path)
+    yy,xx=np.mgrid[:288,:192];core=(xx-x)**2+(yy-y)**2<=60**2
+    e={'version':1,'path':path.relative_to(ROOT).as_posix(),'size':[192,288],'unit':[32,48],
+       'pivot':pivot,'anchors':{'core':pivot,'nose':uv([524,1421]),'tail':uv([630,96])},
+       'collision':{'type':'circle','r':10},'visibleCore':{'alphaThreshold':40,'inscribedRadius':r/6,'r10VisibleFraction':float(np.mean(a[core]>=40))},
+       'source':source.relative_to(ROOT).as_posix(),'sourceCrop':box,'sourceSHA256':f.sha(source),'sha256':f.sha(path),
+       'alphaBounds':list(sprite.getchannel('A').getbbox()),'audit':audit,'facing':'down',
+       'note':'Independent dimensional translucent pressured-water raster. Pivot is measured frontmass centre; foam/spray outside collision circle are presentation. Root owns real velocity rotation and physical projectile.'}
+    m=OUT/'water-shot-manifest.json';m.write_text(json.dumps(e,indent=2)+'\n',encoding='utf-8')
+    proof=Image.new('RGB',(640,300),'#102131');d=ImageDraw.Draw(proof);large=sprite.copy();proof.paste(large,(10,5),large);d.ellipse((10+x-60,5+y-60,10+x+60,5+y+60),outline='#ffb95a',width=2)
+    for i,scale in enumerate([1,393/360,412/360]):
+        thumb=sprite.resize((round(32*scale),round(48*scale)),Image.Resampling.LANCZOS);px=260+i*100;proof.paste(thumb,(px,80),thumb);d.text((px-15,140),['32x48u','iOSnative','Androidnative'][i],fill='white')
+    d.text((15,292),'Orange = physicalr10 | staged art sizes, not earnedgameplay',fill='white');proof.save(SOURCE/'proof/water-shot-native.png')
+    print(json.dumps({'manifestSHA256':f.sha(m),'path':str(path),'pivot':pivot,'visibleCore':e['visibleCore'],'sourceSHA256':e['sourceSHA256'],'runtimeSHA256':e['sha256']}))
+
+
+if __name__=='__main__':main()
+```
 
 
 ---
@@ -502,11 +1064,14 @@ SOURCES = [
     ('sources', 'art/starflight'),
     ('sources', 'art/starflight-v2'),
     ('sources', 'art/starflight-arsenal'),
+    ('sources', 'art/starflight-storm'),
+    ('sources', 'art/starflight-equipment'),
+    ('sources', 'art/fantasy-machinery'),
     ('assets', 'design/phase1/weapon-vfx-v2'),
     ('assets', 'design/phase1/weapon-vfx-v3'),
     *[('assets', 'assets/' + name) for name in (
         'space-a', 'space-b', 'space-c', 'space-common', 'space-companions', 'circuit-companions',
-        'relay-circuit', 'orbital-forge', 'frost-warden', 'kit', 'kit-cast', 'snake-jade', 'starflight', 'starflight-v2', 'starflight-arsenal')],
+        'relay-circuit', 'orbital-forge', 'frost-warden', 'kit', 'kit-cast', 'snake-jade', 'starflight', 'starflight-v2', 'starflight-arsenal', 'starflight-storm', 'starflight-equipment', 'fantasy-machinery')],
     *[('renders', 'out/' + name) for name in (
         'brum-proof', 'kit-proof', 'kit-cast-proof', 'cast',
         'rejected-cast-20261018', 'rejected-kit-20261018')],

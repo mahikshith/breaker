@@ -1,0 +1,201 @@
+{
+  "manifestSHA256": "defc7d7d75af13b50560cbabd79d5115cbeeafa997d9abc5452f5c5e0418fc69",
+  "baseManifestSHA256": "b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13",
+  "sourceSHA256": "afecbfb234c1c4cddf331f6cfac44a6bea6fe2bc2ed22e9bdb47452fb2e3b876",
+  "geometryModuleSHA256": "ba6e1bdab8034a9e9f6835a8db20879738fc2824e07f278ea76ecef194ed0f23",
+  "poses": {
+    "idle": {
+      "circles": 90,
+      "allDisksOpaque": true,
+      "normal6uCoverage": 1.0,
+      "maximumGap": 5.520348844042108,
+      "localOpaqueBounds": [
+        -80.784,
+        -144.342,
+        79.893,
+        0.0
+      ],
+      "sockets": {
+        "crusher": {
+          "x": -20.312217391304355,
+          "y": -59.27710344827587
+        },
+        "gate": {
+          "x": 59.59369565217393,
+          "y": -57.597517241379315
+        }
+      }
+    },
+    "step": {
+      "circles": 90,
+      "allDisksOpaque": true,
+      "normal6uCoverage": 0.9999573225379677,
+      "maximumGap": 6.464717101689654,
+      "localOpaqueBounds": [
+        -79.299,
+        -144.342,
+        78.11099999999999,
+        0.2970000000000084
+      ],
+      "sockets": {
+        "crusher": {
+          "x": -17.081243697479007,
+          "y": -59.2610366972477
+        },
+        "gate": {
+          "x": 61.80470168067226,
+          "y": -57.581896788990825
+        }
+      }
+    },
+    "hurt": {
+      "circles": 90,
+      "allDisksOpaque": true,
+      "normal6uCoverage": 1.0,
+      "maximumGap": 5.289169657865378,
+      "localOpaqueBounds": [
+        -79.596,
+        -146.421,
+        79.893,
+        -0.2970000000000084
+      ],
+      "sockets": {
+        "crusher": {
+          "x": -22.040363825363833,
+          "y": -58.4189592760181
+        },
+        "gate": {
+          "x": 60.59108731808734,
+          "y": -53.38944570135746
+        }
+      }
+    },
+    "pull": {
+      "circles": 90,
+      "allDisksOpaque": true,
+      "normal6uCoverage": 1.0,
+      "maximumGap": 5.416080720560082,
+      "localOpaqueBounds": [
+        -79.00200000000001,
+        -144.342,
+        78.705,
+        0.0
+      ],
+      "sockets": {
+        "crusher": {
+          "x": -20.47677731092437,
+          "y": -60.60434862385321
+        },
+        "gate": {
+          "x": 63.44444117647058,
+          "y": -53.216133027522936
+        }
+      }
+    }
+  },
+  "limits": [
+    "Four raster key poses, not a skeletal rig",
+    "Staged source-size/phone art assembly, not earned gameplay",
+    "Chain is rear-stage mechanical presentation; model/renderer must share actualhaulroute"
+  ],
+  "maximumAllPoseOpaqueExtents": [
+    -128.9689056051027,
+    -146.421,
+    159.96722878500336,
+    21.226854559123865
+  ],
+  "maximumOpaqueYAtFoot232": 253.22685455912386,
+  "minimumBrickTopFor32Gap": 285.22685455912386,
+  "rightClaw": {
+    "circles": 37,
+    "allDisksOpaque": true,
+    "rootAlpha": 253,
+    "chainGrip": {
+      "x": 61.41461623209696,
+      "y": 43.99819738621001
+    },
+    "chainEnd": {
+      "x": 64.39368343738525,
+      "y": 60.49752140603875
+    },
+    "danglingChainCollision": false
+  },
+  "files": {
+    "assets/fantasy-machinery/nerra-v2-manifest.json": {
+      "sha256": "defc7d7d75af13b50560cbabd79d5115cbeeafa997d9abc5452f5c5e0418fc69",
+      "bytes": 188043
+    },
+    "assets/fantasy-machinery/nerra-v2.png": {
+      "sha256": "0ef6a3017d29a8477a2fddb91cb0413da3dc3c0d94c741879dce36e243542ffd",
+      "bytes": 1935266,
+      "size": [
+        2560,
+        576
+      ],
+      "metadata": {},
+      "edgeAlpha": 0
+    },
+    "assets/fantasy-machinery/gateClawV2.png": {
+      "sha256": "8233aae478bd83fb7426c6206141745508b0171f2f01ecef3a0e33786119234a",
+      "bytes": 218149,
+      "size": [
+        448,
+        448
+      ],
+      "metadata": {},
+      "edgeAlpha": 0
+    },
+    "assets/fantasy-machinery/chain-v2.png": {
+      "sha256": "b9f662acef63c1fe087192ec3155b314e0914c84d944204093d085b915069b8f",
+      "bytes": 97672,
+      "size": [
+        128,
+        576
+      ],
+      "metadata": {},
+      "edgeAlpha": 0
+    },
+    "assets/fantasy-machinery/nerra-v2-idle.png": {
+      "sha256": "3909b5ddfb3b0f0b1ef8c9865492328a523c6f2e0a718b0d20be63898ad6d9a0",
+      "bytes": 483136,
+      "size": [
+        640,
+        576
+      ],
+      "metadata": {},
+      "edgeAlpha": 0
+    },
+    "assets/fantasy-machinery/nerra-v2-step.png": {
+      "sha256": "19bcf7cd5881716d250b9288f8924ba48e55991c34b2484d79979eb2bb4529d0",
+      "bytes": 476442,
+      "size": [
+        640,
+        576
+      ],
+      "metadata": {},
+      "edgeAlpha": 0
+    },
+    "assets/fantasy-machinery/nerra-v2-hurt.png": {
+      "sha256": "6098a9d7f4bda52b45da0c6816bbd08b32ed277a4bd47234d4e597b2fe20af14",
+      "bytes": 492247,
+      "size": [
+        640,
+        576
+      ],
+      "metadata": {},
+      "edgeAlpha": 0
+    },
+    "assets/fantasy-machinery/nerra-v2-pull.png": {
+      "sha256": "d5a5cbf8e51bd39cdd8916996bd7d8b359213f732090175b618f0e22d15da383",
+      "bytes": 490025,
+      "size": [
+        640,
+        576
+      ],
+      "metadata": {},
+      "edgeAlpha": 0
+    }
+  },
+  "encodedPNGBytes": 4192937,
+  "decodedRGBABytes": 12894208
+}
