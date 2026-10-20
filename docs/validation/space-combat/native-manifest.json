@@ -1,0 +1,59 @@
+[
+  {
+    "tag": "manifest",
+    "attributes": {
+      "versionCode": 4,
+      "versionName": "0.4-space-combat-preview",
+      "compileSdkVersion": 35,
+      "compileSdkVersionCodename": "15",
+      "package": "com.mahikshith.breach.preview",
+      "platformBuildVersionCode": 35,
+      "platformBuildVersionName": 15
+    }
+  },
+  {
+    "tag": "uses-sdk",
+    "attributes": {
+      "minSdkVersion": 26,
+      "targetSdkVersion": 35
+    }
+  },
+  {
+    "tag": "application",
+    "attributes": {
+      "theme": 16974382,
+      "label": "BREACH Preview",
+      "icon": 2130771968,
+      "debuggable": true,
+      "allowBackup": false,
+      "supportsRtl": true,
+      "extractNativeLibs": false,
+      "usesCleartextTraffic": false
+    }
+  },
+  {
+    "tag": "activity",
+    "attributes": {
+      "name": "com.mahikshith.breach.preview.MainActivity",
+      "exported": true,
+      "screenOrientation": 1,
+      "configChanges": 1184
+    }
+  },
+  {
+    "tag": "intent-filter",
+    "attributes": {}
+  },
+  {
+    "tag": "action",
+    "attributes": {
+      "name": "android.intent.action.MAIN"
+    }
+  },
+  {
+    "tag": "category",
+    "attributes": {
+      "name": "android.intent.category.LAUNCHER"
+    }
+  }
+]

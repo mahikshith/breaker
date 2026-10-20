@@ -1,12 +1,12 @@
 # Continue here
 
-Last updated 2026-10-19. Active branch: `codex/space-combat-apk`.
+Last updated 2026-10-20. Active branch: `codex/space-combat-apk`.
 
-The owner approved both heavy and salvo fire, differentiated ship colours, alternating/paired/rest batteries, stronger player shots, Circuit Vesper/Latch, a better power menu, difficulty tuning and a new APK through CI. The five-chapter implementation is complete and locally verified. Native Android CI and artifact delivery are the remaining release gates; no successful new CI/APK should be assumed until `docs/MOBILE_PREVIEW.md` records it.
+The owner approved both heavy and salvo fire, differentiated ship colours, alternating/paired/rest batteries, stronger player shots, Circuit Vesper/Latch, a better power menu, difficulty tuning and a new APK through CI. The five-chapter release is complete: CI 39399653237 passes web, native compilation/lint and Android 15 touch/fullscreen/lifecycle instrumentation. The downloaded APK is verified at 9,596,473 bytes, SHA256 B44BC99FE10468DEF35E89F32B85900F8AAD3C16BB92C6C1040A04D850E7BA8E. Download and scope: `docs/MOBILE_PREVIEW.md`; permanent evidence: `docs/validation/space-combat/native-release.json`. Physical handset performance and human difficulty remain device testing.
 
 1. Read `docs/SPACE_COMBAT_HANDOFF.md`: exact current mechanics, resources, files, physics, controls and verification limits.
 2. Read `docs/MOBILE_PREVIEW.md`: package scope, release hashes, CI and installable artifact.
-3. Read `docs/NEXT_LEVELS.md`: proposed next encounters, including a new princess adversary. Escort and Switch proposals remain deferred; Frost Warden is now authorized for implementation.
+3. Read `docs/NEXT_LEVELS.md`: proposed next encounters, with future encounters clearly separated from the completed Frost Warden. Escort and Switch proposals remain deferred.
 4. Read `docs/ARTWORK_LIBRARY.md` and the permanent `artwork-library/` catalogue before remaking any asset.
 5. Then read the historical handoff set for the broader story and prior choices. Newest dated facts override historical review gates; do not erase earlier evidence.
 

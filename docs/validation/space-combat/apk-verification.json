@@ -1,0 +1,25 @@
+{
+  "apk": "BREACH-Space-combat.apk",
+  "bytes": 9596473,
+  "sha256": "b44bc99fe10468def35e89f32b85900f8aad3c16bb92c6c1040a04d850e7ba8e",
+  "canonicalHTML": "b06cdd969bcf5c420a74b3cf37a3eac45fe3d46eabb2926f5e5d2b8a42e01770",
+  "packagedHTML": "4071acee8be6ab862a3cd9a0ce35680b99090b9e254d7b858f699668d949b90a",
+  "zipIntegrity": true,
+  "exactReviewedPayload": true,
+  "fonts": {
+    "LilitaOne-Regular.ttf": "f5b641c45c69d772ee4eda687bc9fda411d5cad6b0b45371491da4580cbc8d59",
+    "Rubik.ttf": "1b3a7437ba2af80e465e773ed60c5036d1ba6ace492d89046dbcf18fb31e4e88",
+    "LilitaOne-OFL.txt": "b03c60af32c7bb99a7ae02e3af66a5a6e0632ec090007771de34c0c934f85137",
+    "Rubik-OFL.txt": "bb570b94e04c282dc257b4cc6b209e2cb27c6dbc5d2e2e66465fa9ce715734ea"
+  },
+  "android": {
+    "package": "com.mahikshith.breach.preview",
+    "versionCode": 4,
+    "versionName": "0.4-space-combat-preview",
+    "minSdk": 26,
+    "targetSdk": 35,
+    "debuggable": true,
+    "networkPermission": false,
+    "permissions": []
+  }
+}

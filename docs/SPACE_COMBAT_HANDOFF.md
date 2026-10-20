@@ -1,6 +1,9 @@
 # Space combat — implementation handoff
 
-Updated 2026-10-19. Branch `codex/space-combat-apk`. This document supersedes the old 4188/4189 approval gates for the selected cannon and Circuit companion work. The owner approved BOTH heavy/salvo patterns, distinct colours, left/right/paired/rest attacks, Vesper/Latch, stronger friendly fire, a redesigned power menu, difficulty tuning and an APK/CI push. Nova/Pin and the reserved Escort/Switch encounters are deferred. The later Frost Warden request is authorized and tracked separately in `docs/BRUM_LEVEL_PLAN.md`.
+Updated 2026-10-20. Branch `codex/space-combat-apk`. This document supersedes the old 4188/4189 approval gates for the selected cannon and Circuit companion work. The owner approved BOTH heavy/salvo patterns, distinct colours, left/right/paired/rest attacks, Vesper/Latch, stronger friendly fire, a redesigned power menu, difficulty tuning and an APK/CI push. Nova/Pin and the reserved Escort/Switch encounters are deferred. The later Frost Warden request is authorized and tracked separately in `docs/BRUM_LEVEL_PLAN.md`.
+
+Release completion: CI [39399653237](https://github.com/mahikshith/breaker/actions/runs/39399653237) passes both web and native jobs on `f2c5b78`. The APK is downloaded and checksum/payload/font/license/compiled-manifest verified: 9,596,473 bytes, SHA256 `B44BC99FE10468DEF35E89F32B85900F8AAD3C16BB92C6C1040A04D850E7BA8E`. Frozen game hashes remain B06CDD canonical / 4071ACEE offline. Native Android 15 touch, pause/resume, all five chapters, safe fullscreen and recreation pass, with actual screenshots reviewed. `docs/MOBILE_PREVIEW.md` links the artifact and records the immediate recreated-Nix still limitation. These are emulator/browser release checks, not physical-device or human-balance approval.
+
 
 ## Resume map
 

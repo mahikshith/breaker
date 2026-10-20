@@ -1,0 +1,314 @@
+{
+  "date": "2026-10-20",
+  "run": 39399653237,
+  "url": "https://github.com/mahikshith/breaker/actions/runs/39399653237",
+  "testedCommit": "f2c5b78bd53a78355b2df573d816ec410faef1a7",
+  "conclusion": "success",
+  "jobs": {
+    "web": "success",
+    "android": "success"
+  },
+  "web": {
+    "units": 231,
+    "failures": 0,
+    "canonicalAndOfflineSpaceCases": 36,
+    "canonicalAndOfflineFrostCases": 12,
+    "fiveChapterLayout": "both phone sizes passed",
+    "polish": "iOS and Android passed; no page errors"
+  },
+  "native": {
+    "device": "Android15 API35 Pixel6 x86_64 emulator",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "timeSeconds": 122.273,
+    "scope": "Real native touch aim/serve/drag; held touch pause/resume; stopped time preservation; transient bars; all five chapters; storage and Activity recreation. Squad schedule alone is staged for actual fighter launch. Not a human completion or physical-device performance test.",
+    "geometry": [
+      {
+        "phase": "menu",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 2400
+      },
+      {
+        "phase": "carrier",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 2400
+      },
+      {
+        "phase": "transient bars restored",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 2400
+      },
+      {
+        "phase": "resumed carrier",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 2400
+      },
+      {
+        "phase": "space level 2",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 2400
+      },
+      {
+        "phase": "space level 3",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 2400
+      },
+      {
+        "phase": "Frost Warden",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 2400
+      },
+      {
+        "phase": "vault",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 2400
+      },
+      {
+        "phase": "recreated menu",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 2400
+      }
+    ],
+    "nativeScreenshots": [
+      {
+        "name": "01-menu.png",
+        "bytes": 1846988,
+        "sha256": "9154dd8e41943bf89b5cc2190f523617a087419c8b9fca9e7d835d5126e80ccd",
+        "size": [
+          1080,
+          2400
+        ],
+        "viewed": true
+      },
+      {
+        "name": "02-carrier-touch-serve.png",
+        "bytes": 1839025,
+        "sha256": "13b7ebae307dc228836217be4f5f9c8d775d2ed30cce54d59a5d0aba81dd56a1",
+        "size": [
+          1080,
+          2400
+        ],
+        "viewed": true
+      },
+      {
+        "name": "02a-resumed-carrier.png",
+        "bytes": 975893,
+        "sha256": "f3d60782553ff57988d1bc950af5286f615bc4f2cc676d32b8eb6b7dc8557034",
+        "size": [
+          1080,
+          2400
+        ],
+        "viewed": true
+      },
+      {
+        "name": "03-carrier-fighter-launch.png",
+        "bytes": 1824690,
+        "sha256": "423820a2c69e6fe44b057594ac46f3682c7d6e5126a02a01a1a5ff968f9c4ea3",
+        "size": [
+          1080,
+          2400
+        ],
+        "viewed": true
+      },
+      {
+        "name": "03-frost-warden.png",
+        "bytes": 766698,
+        "sha256": "8af2630c4b32f289faa319cdb8dd4805a3afc5b9964f165ce2bbf0827ad08d24",
+        "size": [
+          1080,
+          2400
+        ],
+        "viewed": true
+      },
+      {
+        "name": "03-space-2.png",
+        "bytes": 2277251,
+        "sha256": "9c8c7b8e778e7e4f4104fbc01427e8c2797b5bac3f12f5fda9002cc8c5a3f82a",
+        "size": [
+          1080,
+          2400
+        ],
+        "viewed": true
+      },
+      {
+        "name": "03-space-3.png",
+        "bytes": 2536711,
+        "sha256": "cdc05ac44813967e86c4b159a923cc6f4ea259f959f9b2259a52615fb08d39a6",
+        "size": [
+          1080,
+          2400
+        ],
+        "viewed": true
+      },
+      {
+        "name": "04-vault-entry.png",
+        "bytes": 1215460,
+        "sha256": "64e3884d8b52196676009238b2cc7bcd625b50179f07c5321bcbbe2b817b0816",
+        "size": [
+          1080,
+          2400
+        ],
+        "viewed": true
+      },
+      {
+        "name": "05-restored-menu.png",
+        "bytes": 1848543,
+        "sha256": "01f8499bf4a6547c00148ab1e3d6ac8864e21be152c01c4bc662dc4bc7996d1e",
+        "size": [
+          1080,
+          2400
+        ],
+        "viewed": true
+      },
+      {
+        "name": "06-restored-carrier.png",
+        "bytes": 1852315,
+        "sha256": "83ae8fb97a26347f82ca513c7f1065532bd69308f749477e7004ca48044bd38e",
+        "size": [
+          1080,
+          2400
+        ],
+        "viewed": true
+      }
+    ],
+    "visualReview": "Actual menu, pause/resume, Carrier serve/fighter launch, Circuit, Forge, Frost, Vault and recreated menu/Carrier inspected. Materials, cast, lower paddle and full-window layout remain coherent.",
+    "recreatedImmediateStillLimit": "06-restored-carrier.png is an immediate post-recreation capture without the Nix icon. Initial and live 02/03 native images verify Nix. This still does not establish a persistent defect; no sustained post-recreation companion-readiness assertion is claimed.",
+    "lint": {
+      "errors": 0,
+      "warnings": [
+        {
+          "id": "OldTargetApi",
+          "message": "Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the `android.os.Build.VERSION_CODES` javadoc for details."
+        },
+        {
+          "id": "GradleDependency",
+          "message": "A newer version of androidx.test:core than 1.6.1 is available: 1.7.0"
+        },
+        {
+          "id": "GradleDependency",
+          "message": "A newer version of androidx.test.ext:junit than 1.2.1 is available: 1.3.0"
+        },
+        {
+          "id": "GradleDependency",
+          "message": "A newer version of androidx.test:runner than 1.6.2 is available: 1.7.0"
+        },
+        {
+          "id": "LockedOrientationActivity",
+          "message": "Expecting `android:screenOrientation=\"unspecified\"` or `\"fullSensor\"` for this activity so the user can use the application in any orientation and provide a great experience on Chrome OS devices"
+        },
+        {
+          "id": "DiscouragedApi",
+          "message": "Should not restrict activity to fixed orientation. This may not be suitable for different form factors, causing the app to be letterboxed."
+        },
+        {
+          "id": "SetJavaScriptEnabled",
+          "message": "Using `setJavaScriptEnabled` can introduce XSS vulnerabilities into your application, review carefully"
+        },
+        {
+          "id": "DataExtractionRules",
+          "message": "The attribute `android:allowBackup` is deprecated from Android 12 and higher and may be removed in future versions. Consider adding the attribute `android:dataExtractionRules` specifying an `@xml` resource which configures cloud backups and device transfers on Android 12 and higher."
+        },
+        {
+          "id": "IconLocation",
+          "message": "Found bitmap drawable `res/drawable/kit_face.png` in densityless folder"
+        }
+      ]
+    }
+  },
+  "apk": {
+    "apk": "BREACH-Space-combat.apk",
+    "bytes": 9596473,
+    "sha256": "b44bc99fe10468def35e89f32b85900f8aad3c16bb92c6c1040a04d850e7ba8e",
+    "canonicalHTML": "b06cdd969bcf5c420a74b3cf37a3eac45fe3d46eabb2926f5e5d2b8a42e01770",
+    "packagedHTML": "4071acee8be6ab862a3cd9a0ce35680b99090b9e254d7b858f699668d949b90a",
+    "zipIntegrity": true,
+    "exactReviewedPayload": true,
+    "fonts": {
+      "LilitaOne-Regular.ttf": "f5b641c45c69d772ee4eda687bc9fda411d5cad6b0b45371491da4580cbc8d59",
+      "Rubik.ttf": "1b3a7437ba2af80e465e773ed60c5036d1ba6ace492d89046dbcf18fb31e4e88",
+      "LilitaOne-OFL.txt": "b03c60af32c7bb99a7ae02e3af66a5a6e0632ec090007771de34c0c934f85137",
+      "Rubik-OFL.txt": "bb570b94e04c282dc257b4cc6b209e2cb27c6dbc5d2e2e66465fa9ce715734ea"
+    },
+    "android": {
+      "package": "com.mahikshith.breach.preview",
+      "versionCode": 4,
+      "versionName": "0.4-space-combat-preview",
+      "minSdk": 26,
+      "targetSdk": 35,
+      "debuggable": true,
+      "networkPermission": false,
+      "permissions": []
+    }
+  },
+  "artifacts": [
+    {
+      "id": 12254844344,
+      "name": "BREACH-space-combat-android-15",
+      "size_in_bytes": 9598259,
+      "digest": "sha256:dc8d718f191e94d189d8817d3e4546491847db20c696de964c5710237537d778",
+      "expires_at": "2026-11-19T09:34:38Z"
+    },
+    {
+      "id": 12254769401,
+      "name": "android-test-evidence-15",
+      "size_in_bytes": 21549273,
+      "digest": "sha256:7287407c6289ce8bd11ae54454051c4b54b8608194fc5a791877e4a5b0be001e",
+      "expires_at": "2026-11-19T09:34:40Z"
+    },
+    {
+      "id": 12254703378,
+      "name": "android-web-assets",
+      "size_in_bytes": 9207511,
+      "digest": "sha256:74a5ea4174c9c8ba38d878fd8b72cd4db447bca94b4208c8ac665092ed2ffa76",
+      "expires_at": "2026-10-21T09:29:37Z"
+    },
+    {
+      "id": 12254653342,
+      "name": "mobile-web-checks-15",
+      "size_in_bytes": 196248651,
+      "digest": "sha256:9f8cc42bbf2e20f7c5dfae9d64fd9bd0a8a245a9ee520b918bdd3ae6cd460299",
+      "expires_at": "2026-11-19T09:29:30Z"
+    }
+  ],
+  "frozenSourceHashes": {
+    "src/main.js": "c7a145a98f5e03c4c75fa9b767c4a0a1ca75840b79740623836a217e1c0fd1e7",
+    "src/arena.js": "9e70676cee22003cc6e0866fae9f1e624cd694e4361c375134ce3d72d3eef848",
+    "src/carrier.js": "1c7ef3d67ef374b2162071dd1fd02d2553f458c95d4d925d8718ee888ad9d601",
+    "src/relay.js": "609fa023734cbdeafb78934232e48bde45f019fe41a17b7bb74359d2ee3487f9",
+    "src/orbital.js": "640e72855a8440b04474d5bdb97e874c7f84208fbc48ce0b13c33f282a469651",
+    "src/vault.js": "f25d206307db4b9cb1366ab193d5a415ece6eed8393416ba333beee75c6095e6",
+    "src/frost.js": "cb2e93533cb50df44e75b76329bd21937e9e0c37d5cfe98d852a449627b7ecbb",
+    "android/app/src/main/java/com/mahikshith/breach/preview/MainActivity.java": "10c5303c297864af9deb894bf5950f768df1e3e7065ddaac7cc7fd2caf9f532f",
+    "android/app/src/androidTest/java/com/mahikshith/breach/preview/MobileSmokeTest.java": "c66f6fdbc14d122b0390cece1446d8eabd01e9f4e87e4df6f579c1786323e9e5",
+    "tools/test-android.sh": "638ea2aa02556b5849cfeda04410b4d87d8172ca683750802686f506b61a9b3e",
+    ".github/workflows/mobile-preview.yml": "64fb5c2cb84d45982ddd4eb9a7f6cd87fbc91bb55d646da2ca27ec75685518ea",
+    "dist/breach.html": "b06cdd969bcf5c420a74b3cf37a3eac45fe3d46eabb2926f5e5d2b8a42e01770",
+    "android/app/src/main/assets/breach.html": "4071acee8be6ab862a3cd9a0ce35680b99090b9e254d7b858f699668d949b90a"
+  },
+  "limitations": [
+    "Debug preview, not a store release.",
+    "Android15 emulator and Chromium phone geometries do not certify all Android8+ devices.",
+    "Physical-phone frame rate, long sessions, human difficulty and touch comfort remain device testing.",
+    "Ads and purchases are local simulations; manifest declares no permissions."
+  ],
+  "sourceHashScope": "Local release checkout byte hashes; Git can normalize line endings in Linux CI. The tested commit and final canonical/offline payload hashes are authoritative."
+}

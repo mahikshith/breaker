@@ -1,0 +1,79 @@
+{
+  "run": 39166153838,
+  "url": "https://github.com/mahikshith/breaker/actions/runs/39166153838",
+  "head": "7c91445615a789c03467e9b9d16b1b4b66aa5d7a",
+  "conclusion": "cancelled at 35-minute job limit",
+  "web": "passed complete canonical/offline phone suites",
+  "androidBuildLint": "passed",
+  "nativeProgress": [
+    "menu readiness and full-window focus/insets",
+    "transient bars restored",
+    "held touch paused and resumed with actual Resume",
+    "real pointer serve",
+    "actual three-fighter bay launch",
+    "Circuit full-window and shot"
+  ],
+  "deviceLogLastTimeUTC": "2026-10-18T21:21:48Z",
+  "disconnectReportedUTC": "2026-10-18T21:22:37Z",
+  "actualTestFailure": "Emulator-5554 disappeared before instrumentation completed; no application assertion or fatal exception established in retained device log.",
+  "timeoutCause": "Unbounded post-test adb logcat waited for a missing device until the job limit.",
+  "emulatorExitCause": "Not established by available evidence. Host memory/kernel and continuous device logs added for the next run.",
+  "repair": {
+    "commit": "f2c5b78bd53a78355b2df573d816ec410faef1a7",
+    "nativeAssertions": "all preserved",
+    "boundedTestMinutes": 12,
+    "boundedEvidenceSeconds": {
+      "devices": 15,
+      "screenshot": 15,
+      "window": 15,
+      "logcat": 15,
+      "pull": 30
+    },
+    "gradleWorkers": 2,
+    "gradleHeapMiB": 1024,
+    "emulator": "same Pixel6 Android15/software renderer; snapshots/Vulkan disabled"
+  },
+  "localShellCheck": {
+    "syntax": "passed",
+    "mockExitCases": [
+      {
+        "gradle": 0,
+        "pull": 0,
+        "actual": 0,
+        "expected": 0,
+        "stderr": ""
+      },
+      {
+        "gradle": 17,
+        "pull": 0,
+        "actual": 17,
+        "expected": 17,
+        "stderr": ""
+      },
+      {
+        "gradle": 0,
+        "pull": 9,
+        "actual": 1,
+        "expected": 1,
+        "stderr": ""
+      },
+      {
+        "gradle": 17,
+        "pull": 9,
+        "actual": 17,
+        "expected": 17,
+        "stderr": ""
+      },
+      {
+        "gradle": 124,
+        "pull": 0,
+        "actual": 124,
+        "expected": 124,
+        "stderr": ""
+      }
+    ],
+    "scope": "Shell syntax/exit preservation/timeout wrapper arguments; not native Android execution"
+  },
+  "canonicalHTML": "B06CDD969BCF5C420A74B3CF37A3EAC45FE3D46EABB2926F5E5D2B8A42E01770",
+  "offlineHTML": "4071ACEE8BE6AB862A3CD9A0CE35680B99090B9E254D7B858F699668D949B90A"
+}

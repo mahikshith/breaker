@@ -1,0 +1,35 @@
+{
+  "exactLocalMatch": true,
+  "files": [
+    {
+      "path": "breach.html",
+      "bytes": 12432271,
+      "sha256": "4071acee8be6ab862a3cd9a0ce35680b99090b9e254d7b858f699668d949b90a"
+    },
+    {
+      "path": "fonts/LilitaOne-OFL.txt",
+      "bytes": 4484,
+      "sha256": "b03c60af32c7bb99a7ae02e3af66a5a6e0632ec090007771de34c0c934f85137"
+    },
+    {
+      "path": "fonts/LilitaOne-Regular.ttf",
+      "bytes": 28092,
+      "sha256": "f5b641c45c69d772ee4eda687bc9fda411d5cad6b0b45371491da4580cbc8d59"
+    },
+    {
+      "path": "fonts/Rubik-OFL.txt",
+      "bytes": 4476,
+      "sha256": "bb570b94e04c282dc257b4cc6b209e2cb27c6dbc5d2e2e66465fa9ce715734ea"
+    },
+    {
+      "path": "fonts/Rubik.ttf",
+      "bytes": 359804,
+      "sha256": "1b3a7437ba2af80e465e773ed60c5036d1ba6ace492d89046dbcf18fb31e4e88"
+    },
+    {
+      "path": "preview.json",
+      "bytes": 922,
+      "sha256": "5c0da44b2eed4ccea7c52093cba6639e4bddde8a6b24ba27c6df57981a7aa4a8"
+    }
+  ]
+}

@@ -8,7 +8,7 @@ Space companions earn charge through ordinary productive hits over at least 24/3
 
 Frost Warden uses a separate 28-frame Yeti rig with measured fist/body collision, three defensive gate posts, broad ordinary-ball damage, Kit’s four castle powers and separate Easy/Medium/Hard timing. Brum remains an ally.
 
-The workflow builds and checks the exact bundle in `config/mobile-preview.json`, packages both OFL fonts offline, then runs Android compilation, lint and Android 15 emulator touch/fullscreen/lifecycle checks. The APK is only published after those checks pass. Final run and downloaded artifact verification are recorded below after completion.
+The workflow builds and checks the exact bundle in `config/mobile-preview.json`, packages both OFL fonts offline, then runs Android compilation, lint and Android 15 emulator touch/fullscreen/lifecycle checks. The APK is only published after those checks pass. The completed run and downloaded artifact verification are recorded below.
 
 Install the resulting `BREACH-Space-combat.apk` on Android 8.0 or later. It is a debug preview, not a store release. The app uses no network permission; ads and purchases remain local simulations. If Android reports a signature conflict with an earlier preview, removing that older app also removes its local progress.
 
@@ -23,7 +23,7 @@ Physical-phone frame rate, touch comfort and human difficulty remain for device 
 - The final offline Android payload also passes all 18 space/mode/phone cases with zero page errors.
 - Six ship/phone VFX fixtures verify warnings, heavy/salvo travel and contact without enemy brick destruction. Separate earned routes preserve wins and losses; Frost's powered Easy browser routes finish at 39.79/97.81 seconds.
 - A separate LF source copy produces the identical canonical HTML. Both fonts are embedded in the browser and copied unchanged into APK-local files.
-- Permanent receipts and selected images: `docs/validation/space-combat/`. The new native CI run and downloaded APK hash will be appended after their checks complete.
+- Permanent receipts and selected images: `docs/validation/space-combat/`. The passed native run and downloaded APK verification are recorded below.
 
 ## Native verification correction
 
@@ -33,3 +33,16 @@ Run [39164503538](https://github.com/mahikshith/breaker/actions/runs/39164503538
 
 
 Run [39166153838](https://github.com/mahikshith/breaker/actions/runs/39166153838) passed the full web job, Android compilation/lint, native menu/fullscreen, held-touch pause/resume, real serving, fighter launch and Circuit checks. The emulator then disconnected before instrumentation could complete; the retained device log contains no application assertion or fatal exception establishing why it exited. An unbounded post-failure `adb logcat` waited for the missing device until the 35-minute job timeout. The release repair bounds Gradle and all evidence commands, preserves the original test exit status, continuously saves device logs and records host memory/process/kernel diagnostics. Native tests use two Gradle workers and a 1 GB heap; the software-rendered emulator starts without snapshots or Vulkan, which this Canvas game does not require. These are infrastructure safeguards, not a claim that the emulator's precise failure cause is proven. Shell syntax and five mocked success/failure/timeout status cases pass; every native assertion and both frozen HTML hashes remain unchanged. The next native run still gates APK delivery.
+
+
+## Verified delivery — 2026-10-20
+
+[CI 39399653237](https://github.com/mahikshith/breaker/actions/runs/39399653237) passes on commit `f2c5b78bd53a78355b2df573d816ec410faef1a7`. Both jobs are green: 231 unit checks, canonical/offline browser suites (36 space and 12 Frost phone/mode cases), five-chapter layouts, both polish runs, Android compilation/lint, and complete offline Android 15 instrumentation. Native JUnit reports 1 test, 0 failures and 0 errors in 122.273 seconds. Lint has 0 errors and 9 retained warnings.
+
+Download [BREACH-space-combat-android-15](https://github.com/mahikshith/breaker/actions/runs/39399653237/artifacts/12254844344), unzip it, and install `BREACH-Space-combat.apk`. The downloaded APK is **9,596,473 bytes**, SHA256 **`B44BC99FE10468DEF35E89F32B85900F8AAD3C16BB92C6C1040A04D850E7BA8E`**. The artifact is retained until 2026-11-19. The local verified copy is `out/apk-delivery/39399653237/apk/BREACH-Space-combat.apk` in the release worktree.
+
+ZIP integrity and the published checksum pass. Embedded game bytes are exactly the frozen 4071ACEE offline payload; release metadata identifies the reviewed B06CDD canonical build. Both font files and both OFL licenses match their repository originals byte for byte. The compiled Android manifest confirms package `com.mahikshith.breach.preview`, version 4 / `0.4-space-combat-preview`, minimum API 26, target API 35, debug mode, backup disabled and no declared permissions, including no INTERNET permission.
+
+[Native evidence](https://github.com/mahikshith/breaker/actions/runs/39399653237/artifacts/12254769401) contains all 10 screenshots, JUnit, lint, live logcat and host diagnostics. Actual images were inspected for all five scenes, held-touch pause/resume, fighter launch and recreation. Nine native geometry phases show the WebView at `(0,0)` filling `1080×2400`, with focus, bar visibility and CSS safe-area assertions preserved. The immediate final recreated-Carrier still does not show Nix; initial/live native Carrier captures do. That single timing-limited still does not prove a persistent gameplay defect or a sustained post-recreation companion-readiness check. Physical handset performance and human balance remain outside this release proof.
+
+Permanent receipts: `docs/validation/space-combat/native-release.json`, `native-pass.xml`, `apk-verification.json`, `native-manifest.json` and `ci-assets.json`. Earlier failed runs and their repairs remain above as history; the game HTML was unchanged during the release infrastructure repair.

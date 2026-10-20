@@ -5,7 +5,7 @@ This one file contains everything another assistant needs to design for, or take
 - **Game:** BREACH, a premium portrait brick breaker for iOS and Android. Tagline: "Break in. Break out."
 - **Owner:** mykee (GitHub `mahikshith`).
 - **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `codex/space-combat-apk` is this working branch.
-- **Assembled at:** repo commit `7c91445`.
+- **Assembled at:** repo commit `f2c5b78`.
 
 ## How to read this file
 
@@ -39,13 +39,13 @@ Companion file: `docs/BREACH-blender-scripts.md` has every Blender and art scrip
 
 ## Continue here
 
-Last updated 2026-10-19. Active branch: `codex/space-combat-apk`.
+Last updated 2026-10-20. Active branch: `codex/space-combat-apk`.
 
-The owner approved both heavy and salvo fire, differentiated ship colours, alternating/paired/rest batteries, stronger player shots, Circuit Vesper/Latch, a better power menu, difficulty tuning and a new APK through CI. The five-chapter implementation is complete and locally verified. Native Android CI and artifact delivery are the remaining release gates; no successful new CI/APK should be assumed until `docs/MOBILE_PREVIEW.md` records it.
+The owner approved both heavy and salvo fire, differentiated ship colours, alternating/paired/rest batteries, stronger player shots, Circuit Vesper/Latch, a better power menu, difficulty tuning and a new APK through CI. The five-chapter release is complete: CI 39399653237 passes web, native compilation/lint and Android 15 touch/fullscreen/lifecycle instrumentation. The downloaded APK is verified at 9,596,473 bytes, SHA256 B44BC99FE10468DEF35E89F32B85900F8AAD3C16BB92C6C1040A04D850E7BA8E. Download and scope: `docs/MOBILE_PREVIEW.md`; permanent evidence: `docs/validation/space-combat/native-release.json`. Physical handset performance and human difficulty remain device testing.
 
 1. Read `docs/SPACE_COMBAT_HANDOFF.md`: exact current mechanics, resources, files, physics, controls and verification limits.
 2. Read `docs/MOBILE_PREVIEW.md`: package scope, release hashes, CI and installable artifact.
-3. Read `docs/NEXT_LEVELS.md`: proposed next encounters, including a new princess adversary. Escort and Switch proposals remain deferred; Frost Warden is now authorized for implementation.
+3. Read `docs/NEXT_LEVELS.md`: proposed next encounters, with future encounters clearly separated from the completed Frost Warden. Escort and Switch proposals remain deferred.
 4. Read `docs/ARTWORK_LIBRARY.md` and the permanent `artwork-library/` catalogue before remaking any asset.
 5. Then read the historical handoff set for the broader story and prior choices. Newest dated facts override historical review gates; do not erase earlier evidence.
 
@@ -64,7 +64,10 @@ User emphasis: retain reference art quality in runtime, meaningful pressure with
 
 ## Space combat — implementation handoff
 
-Updated 2026-10-19. Branch `codex/space-combat-apk`. This document supersedes the old 4188/4189 approval gates for the selected cannon and Circuit companion work. The owner approved BOTH heavy/salvo patterns, distinct colours, left/right/paired/rest attacks, Vesper/Latch, stronger friendly fire, a redesigned power menu, difficulty tuning and an APK/CI push. Nova/Pin and the reserved Escort/Switch encounters are deferred. The later Frost Warden request is authorized and tracked separately in `docs/BRUM_LEVEL_PLAN.md`.
+Updated 2026-10-20. Branch `codex/space-combat-apk`. This document supersedes the old 4188/4189 approval gates for the selected cannon and Circuit companion work. The owner approved BOTH heavy/salvo patterns, distinct colours, left/right/paired/rest attacks, Vesper/Latch, stronger friendly fire, a redesigned power menu, difficulty tuning and an APK/CI push. Nova/Pin and the reserved Escort/Switch encounters are deferred. The later Frost Warden request is authorized and tracked separately in `docs/BRUM_LEVEL_PLAN.md`.
+
+Release completion: CI [39399653237](https://github.com/mahikshith/breaker/actions/runs/39399653237) passes both web and native jobs on `f2c5b78`. The APK is downloaded and checksum/payload/font/license/compiled-manifest verified: 9,596,473 bytes, SHA256 `B44BC99FE10468DEF35E89F32B85900F8AAD3C16BB92C6C1040A04D850E7BA8E`. Frozen game hashes remain B06CDD canonical / 4071ACEE offline. Native Android 15 touch, pause/resume, all five chapters, safe fullscreen and recreation pass, with actual screenshots reviewed. `docs/MOBILE_PREVIEW.md` links the artifact and records the immediate recreated-Nix still limitation. These are emulator/browser release checks, not physical-device or human-balance approval.
+
 
 ### Resume map
 
@@ -449,7 +452,7 @@ Space companions earn charge through ordinary productive hits over at least 24/3
 
 Frost Warden uses a separate 28-frame Yeti rig with measured fist/body collision, three defensive gate posts, broad ordinary-ball damage, Kit’s four castle powers and separate Easy/Medium/Hard timing. Brum remains an ally.
 
-The workflow builds and checks the exact bundle in `config/mobile-preview.json`, packages both OFL fonts offline, then runs Android compilation, lint and Android 15 emulator touch/fullscreen/lifecycle checks. The APK is only published after those checks pass. Final run and downloaded artifact verification are recorded below after completion.
+The workflow builds and checks the exact bundle in `config/mobile-preview.json`, packages both OFL fonts offline, then runs Android compilation, lint and Android 15 emulator touch/fullscreen/lifecycle checks. The APK is only published after those checks pass. The completed run and downloaded artifact verification are recorded below.
 
 Install the resulting `BREACH-Space-combat.apk` on Android 8.0 or later. It is a debug preview, not a store release. The app uses no network permission; ads and purchases remain local simulations. If Android reports a signature conflict with an earlier preview, removing that older app also removes its local progress.
 
@@ -464,7 +467,7 @@ Physical-phone frame rate, touch comfort and human difficulty remain for device 
 - The final offline Android payload also passes all 18 space/mode/phone cases with zero page errors.
 - Six ship/phone VFX fixtures verify warnings, heavy/salvo travel and contact without enemy brick destruction. Separate earned routes preserve wins and losses; Frost's powered Easy browser routes finish at 39.79/97.81 seconds.
 - A separate LF source copy produces the identical canonical HTML. Both fonts are embedded in the browser and copied unchanged into APK-local files.
-- Permanent receipts and selected images: `docs/validation/space-combat/`. The new native CI run and downloaded APK hash will be appended after their checks complete.
+- Permanent receipts and selected images: `docs/validation/space-combat/`. The passed native run and downloaded APK verification are recorded below.
 
 ### Native verification correction
 
@@ -474,6 +477,19 @@ Run [39164503538](https://github.com/mahikshith/breaker/actions/runs/39164503538
 
 
 Run [39166153838](https://github.com/mahikshith/breaker/actions/runs/39166153838) passed the full web job, Android compilation/lint, native menu/fullscreen, held-touch pause/resume, real serving, fighter launch and Circuit checks. The emulator then disconnected before instrumentation could complete; the retained device log contains no application assertion or fatal exception establishing why it exited. An unbounded post-failure `adb logcat` waited for the missing device until the 35-minute job timeout. The release repair bounds Gradle and all evidence commands, preserves the original test exit status, continuously saves device logs and records host memory/process/kernel diagnostics. Native tests use two Gradle workers and a 1 GB heap; the software-rendered emulator starts without snapshots or Vulkan, which this Canvas game does not require. These are infrastructure safeguards, not a claim that the emulator's precise failure cause is proven. Shell syntax and five mocked success/failure/timeout status cases pass; every native assertion and both frozen HTML hashes remain unchanged. The next native run still gates APK delivery.
+
+
+### Verified delivery — 2026-10-20
+
+[CI 39399653237](https://github.com/mahikshith/breaker/actions/runs/39399653237) passes on commit `f2c5b78bd53a78355b2df573d816ec410faef1a7`. Both jobs are green: 231 unit checks, canonical/offline browser suites (36 space and 12 Frost phone/mode cases), five-chapter layouts, both polish runs, Android compilation/lint, and complete offline Android 15 instrumentation. Native JUnit reports 1 test, 0 failures and 0 errors in 122.273 seconds. Lint has 0 errors and 9 retained warnings.
+
+Download [BREACH-space-combat-android-15](https://github.com/mahikshith/breaker/actions/runs/39399653237/artifacts/12254844344), unzip it, and install `BREACH-Space-combat.apk`. The downloaded APK is **9,596,473 bytes**, SHA256 **`B44BC99FE10468DEF35E89F32B85900F8AAD3C16BB92C6C1040A04D850E7BA8E`**. The artifact is retained until 2026-11-19. The local verified copy is `out/apk-delivery/39399653237/apk/BREACH-Space-combat.apk` in the release worktree.
+
+ZIP integrity and the published checksum pass. Embedded game bytes are exactly the frozen 4071ACEE offline payload; release metadata identifies the reviewed B06CDD canonical build. Both font files and both OFL licenses match their repository originals byte for byte. The compiled Android manifest confirms package `com.mahikshith.breach.preview`, version 4 / `0.4-space-combat-preview`, minimum API 26, target API 35, debug mode, backup disabled and no declared permissions, including no INTERNET permission.
+
+[Native evidence](https://github.com/mahikshith/breaker/actions/runs/39399653237/artifacts/12254769401) contains all 10 screenshots, JUnit, lint, live logcat and host diagnostics. Actual images were inspected for all five scenes, held-touch pause/resume, fighter launch and recreation. Nine native geometry phases show the WebView at `(0,0)` filling `1080×2400`, with focus, bar visibility and CSS safe-area assertions preserved. The immediate final recreated-Carrier still does not show Nix; initial/live native Carrier captures do. That single timing-limited still does not prove a persistent gameplay defect or a sustained post-recreation companion-readiness check. Physical handset performance and human balance remain outside this release proof.
+
+Permanent receipts: `docs/validation/space-combat/native-release.json`, `native-pass.xml`, `apk-verification.json`, `native-manifest.json` and `ci-assets.json`. Earlier failed runs and their repairs remain above as history; the game HTML was unchanged during the release infrastructure repair.
 
 
 ---
@@ -1887,6 +1903,8 @@ Each workstream is sized for one subagent with a clear contract and a test.
 
 ## BREACH handoff 1/3: status and next steps
 
+**Completed Android release (2026-10-20):** The five-chapter space/Vault/Frost preview is built, pushed and verified on `codex/space-combat-apk`. CI [39399653237](https://github.com/mahikshith/breaker/actions/runs/39399653237) passes 231 units, all canonical/offline phone suites, layout/polish, compilation/lint and complete Android 15 native touch/fullscreen/lifecycle checks. Downloaded APK: 9,596,473 bytes, SHA256 `B44BC99FE10468DEF35E89F32B85900F8AAD3C16BB92C6C1040A04D850E7BA8E`; payload B06CDD/4071ACEE and offline fonts/licenses are exact. Actual native screenshots were inspected, with the immediate recreated-Nix still explicitly timing-limited. Artifact, verification and remaining physical-phone/human-balance limits: `docs/MOBILE_PREVIEW.md` and `docs/validation/space-combat/native-release.json`. Earlier failed-run entries remain historical. No new prototype content is included in this APK.
+
 **Release investigation (2026-10-20):** The isolated `codex/space-combat-apk` worktree retains canonical B06CDD and offline 4071AC. Native run 39166153838 passed the repaired resume/input gates but lost its emulator later; an unbounded diagnostic then caused the job timeout. CI now bounds test/evidence commands, preserves failing exit codes and retains live/host diagnostics, with a software-renderer safeguard. The emulator exit cause is unproven. No gameplay change or new APK success is claimed; see `docs/MOBILE_PREVIEW.md` for precise evidence and the next native gate.
 
 **Current implementation (2026-10-19):** The owner approved heavy rounds and three-shot salvos, per-ship colours, left/right/paired/rest batteries, stronger player fire, Vesper/Latch for Circuit, a new power chooser and difficulty tuning. These changes are implemented on `codex/space-combat-apk`. The owner subsequently delegated remaining design decisions and requested a new princess/Yeti encounter, full documentation, commit/push and an APK. Frost Warden is integrated and locally verified as the fifth chapter; Brum remains an ally. Read `docs/CONTINUE_HERE.md`, `docs/SPACE_COMBAT_HANDOFF.md`, `docs/BRUM_LEVEL_PLAN.md` and `docs/MOBILE_PREVIEW.md` for current mechanics and verified release status. Older review gates and localhost checkpoints below are historical. No new CI success is claimed until recorded in the release document.
@@ -2903,6 +2921,13 @@ assets/snake-jade: 26 PNG renders
 assets/vault: 53 PNG renders
 assets/invasion: 78 PNG renders
 
+docs/validation/space-combat/apk-verification.json
+docs/validation/space-combat/ci-assets.json
+docs/validation/space-combat/native-emulator-disconnect.xml
+docs/validation/space-combat/native-emulator-timeout.json
+docs/validation/space-combat/native-manifest.json
+docs/validation/space-combat/native-pass.xml
+docs/validation/space-combat/native-release.json
 .gitattributes
 .github/workflows/mobile-preview.yml
 .gitignore
