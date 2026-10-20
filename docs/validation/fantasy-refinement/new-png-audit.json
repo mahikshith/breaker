@@ -1,0 +1,472 @@
+{
+  "count": 93,
+  "allDecode": true,
+  "allMetadataEmpty": true,
+  "files": [
+    {
+      "path": "art/fantasy-machinery/proof/reactions/contact.png",
+      "sha256": "5d7718562e1c7323f2ef915b8f68aaca54ab5141fd9f20b9410ff78489238141",
+      "bytes": 763787
+    },
+    {
+      "path": "art/fantasy-machinery/proof/reactions/korr-dazed-ios.png",
+      "sha256": "2278680f91bf995aabd3f48f9b202726081c2adeb2b7c7a1b39d4a50463d4959",
+      "bytes": 609372
+    },
+    {
+      "path": "art/fantasy-machinery/proof/reactions/korr-defeat-ios.png",
+      "sha256": "b690c16b84ebd9241517acd2b7bade09a9d16bb0da5a2dabf59b1afad4abe37f",
+      "bytes": 606121
+    },
+    {
+      "path": "art/fantasy-machinery/proof/reactions/nerra-defeat-ios.png",
+      "sha256": "a69599855552955ded4c34c965ccc29a1d10a55c98ea85462b21d255c90451c0",
+      "bytes": 675339
+    },
+    {
+      "path": "art/fantasy-machinery/proof/reactions/nerra-fury-ios.png",
+      "sha256": "134338e2471b1c96b2e93fa662b9b114e9996b498294868cbc16e05d950928f2",
+      "bytes": 684991
+    },
+    {
+      "path": "art/fantasy-machinery/source/reactions-v1.png",
+      "sha256": "67cefe6a3b15f485a2985d899fba7132c9f18bfc8777054ab4e3bcdc009a4606",
+      "bytes": 2432734
+    },
+    {
+      "path": "art/snake-emerald/proof/anchors.png",
+      "sha256": "297e7be7221b9be730be3c6b7338646f9cf5494bee75a3842f240ac3bd55cbe8",
+      "bytes": 180511
+    },
+    {
+      "path": "art/snake-emerald/proof/contact.png",
+      "sha256": "aa0966b7710c14834f7a8a683eed1b6e8e55663d81eaaec9631874103d58a6e3",
+      "bytes": 206768
+    },
+    {
+      "path": "art/snake-emerald/source/heads-v1.png",
+      "sha256": "ce924290a0c5cc2670d492d40eb75f0fb8241aa686af220a5c291b60833d3952",
+      "bytes": 2297217
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/korr-dazed-v1--b471614a2428.png",
+      "sha256": "b471614a24286c3ec2bf8119b692d16459c536ef397f74039d39a3b613c7245d",
+      "bytes": 243338
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/korr-defeat-v1--d2a054abc055.png",
+      "sha256": "d2a054abc05565087d5ab8f6c087029e3cebe1fe45bf15dd7b85db566dea635a",
+      "bytes": 213918
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/nerra-dazed-v1--6f2c100dfa91.png",
+      "sha256": "6f2c100dfa914262c87616df859b78afe941f89466322a4887e5ac714e277d91",
+      "bytes": 461822
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/nerra-defeat-v1--49b8f352ee5f.png",
+      "sha256": "49b8f352ee5f7c719d93bec137ea6f07c2c9c2038c7ee5ab9ddcdcdd7e63ef5f",
+      "bytes": 460982
+    },
+    {
+      "path": "artwork-library/assets/fantasy-machinery/nerra-fury-v1--6678778a9157.png",
+      "sha256": "6678778a9157b34b2b43a037729267a2c8e655667e0c6be3be79edc8f1058f64",
+      "bytes": 519048
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_blink_l--9b2efbad5858.png",
+      "sha256": "9b2efbad58586ddbf8d2c64a75d16586e55a511567e52e32480bfe0df0f972b6",
+      "bytes": 20183
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_blink_r--a8727a03f39e.png",
+      "sha256": "a8727a03f39e41dbec77ccf88fa95810e95774512c3bd769ee493aa14e56a678",
+      "bytes": 20255
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_chew0_l--2d7998b103f3.png",
+      "sha256": "2d7998b103f3d5ff3bb3a73924fa662cd1ecba02d6b14218c42fad06c4a04b7d",
+      "bytes": 23013
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_chew0_r--ea6fa44e5829.png",
+      "sha256": "ea6fa44e58292c70ae528331c1796e1bc4cc34cdda922ee779b07b42482f5a2c",
+      "bytes": 23061
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_chew1_l--2146f18fc333.png",
+      "sha256": "2146f18fc333c58909a4ac44848364d0ce05cdcfea7085a24873de9779810fd9",
+      "bytes": 21160
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_chew1_r--fdc3334ef374.png",
+      "sha256": "fdc3334ef3746d12ca51d317823621bdcce13e73407034a6c418ce176a7298e7",
+      "bytes": 21234
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_dizzy_l--7ef9881e1613.png",
+      "sha256": "7ef9881e161328c8f88f27a38fdf60daaffd4b6fcda8b8f492fbc69d5c5ed3ad",
+      "bytes": 22728
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_dizzy_r--8cfbcb23aaf7.png",
+      "sha256": "8cfbcb23aaf76402bc233ffd7a4aa1df072c3bbe455f08723e80f5b1a6d1d57e",
+      "bytes": 22777
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_grin_l--27d566c7d398.png",
+      "sha256": "27d566c7d3980333ebb1c8d1189107f554657d708f32e39c823f419baa80130b",
+      "bytes": 22215
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_grin_r--c77de439f8ca.png",
+      "sha256": "c77de439f8ca3a4ed089ac6cb19640d4b45d01614338f11ef7415c752fede734",
+      "bytes": 22286
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_hiss_l--abad076ecf05.png",
+      "sha256": "abad076ecf058430a51b2cdb9e3bcf28d236f398e0e27338b6dbda98642d1697",
+      "bytes": 25491
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_hiss_r--e8621d8b20d2.png",
+      "sha256": "e8621d8b20d248c775fb4519c962360f4359a6eab63b015578f5765ff962f175",
+      "bytes": 25561
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_hunt_l--fdd74495ea84.png",
+      "sha256": "fdd74495ea8413732ad7401f6c34ab6d6f9670ca3bfdcd08a761f3f96aae4c14",
+      "bytes": 21085
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_hunt_r--338e214613fb.png",
+      "sha256": "338e214613fb93d179c264cc36824f5a095f4c15ca5f8dbb3906c89674ede8a7",
+      "bytes": 21208
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_idle_l--839ae0f9b8e8.png",
+      "sha256": "839ae0f9b8e8744283737178f1c61e4b6ea670ea12d01b0ef7baa4579ded4c8a",
+      "bytes": 20148
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_idle_r--b8bafff43894.png",
+      "sha256": "b8bafff43894f49b04d55a3d36650ac6746a350fab319b4f1ff3c4686ccb0de9",
+      "bytes": 20253
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_ouch_l--2237ccb3427c.png",
+      "sha256": "2237ccb3427c837055467e25c78071190327176f86e4e86f77eb4a0d3c9af7ca",
+      "bytes": 23325
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_ouch_r--2a3c05c963e3.png",
+      "sha256": "2a3c05c963e3a649eb31cd5c19300ed71762e3e6a1cdf18d0f4f0b7491047804",
+      "bytes": 23365
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_taste_l--171ad06df1a1.png",
+      "sha256": "171ad06df1a105ae687660acf7c6c878c1d8c1d07e5259370595cfd31bcf3bfe",
+      "bytes": 21252
+    },
+    {
+      "path": "artwork-library/assets/snake-emerald/head_taste_r--183617b5dab0.png",
+      "sha256": "183617b5dab0bf265ecb6627dfbc31b847d424aa70465f10b8bb2467eda17d89",
+      "bytes": 21303
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/reactions/contact--5d7718562e1c.png",
+      "sha256": "5d7718562e1c7323f2ef915b8f68aaca54ab5141fd9f20b9410ff78489238141",
+      "bytes": 763787
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/reactions/korr-dazed-ios--2278680f91bf.png",
+      "sha256": "2278680f91bf995aabd3f48f9b202726081c2adeb2b7c7a1b39d4a50463d4959",
+      "bytes": 609372
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/reactions/korr-defeat-ios--b690c16b84eb.png",
+      "sha256": "b690c16b84ebd9241517acd2b7bade09a9d16bb0da5a2dabf59b1afad4abe37f",
+      "bytes": 606121
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/reactions/nerra-defeat-ios--a69599855552.png",
+      "sha256": "a69599855552955ded4c34c965ccc29a1d10a55c98ea85462b21d255c90451c0",
+      "bytes": 675339
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/proof/reactions/nerra-fury-ios--134338e2471b.png",
+      "sha256": "134338e2471b1c96b2e93fa662b9b114e9996b498294868cbc16e05d950928f2",
+      "bytes": 684991
+    },
+    {
+      "path": "artwork-library/sources/fantasy-machinery/source/reactions-v1--67cefe6a3b15.png",
+      "sha256": "67cefe6a3b15f485a2985d899fba7132c9f18bfc8777054ab4e3bcdc009a4606",
+      "bytes": 2432734
+    },
+    {
+      "path": "artwork-library/sources/snake-emerald/proof/anchors--297e7be7221b.png",
+      "sha256": "297e7be7221b9be730be3c6b7338646f9cf5494bee75a3842f240ac3bd55cbe8",
+      "bytes": 180511
+    },
+    {
+      "path": "artwork-library/sources/snake-emerald/proof/contact--aa0966b7710c.png",
+      "sha256": "aa0966b7710c14834f7a8a683eed1b6e8e55663d81eaaec9631874103d58a6e3",
+      "bytes": 206768
+    },
+    {
+      "path": "artwork-library/sources/snake-emerald/source/heads-v1--ce924290a0c5.png",
+      "sha256": "ce924290a0c5cc2670d492d40eb75f0fb8241aa686af220a5c291b60833d3952",
+      "bytes": 2297217
+    },
+    {
+      "path": "assets/fantasy-machinery/korr-dazed-v1.png",
+      "sha256": "b471614a24286c3ec2bf8119b692d16459c536ef397f74039d39a3b613c7245d",
+      "bytes": 243338
+    },
+    {
+      "path": "assets/fantasy-machinery/korr-defeat-v1.png",
+      "sha256": "d2a054abc05565087d5ab8f6c087029e3cebe1fe45bf15dd7b85db566dea635a",
+      "bytes": 213918
+    },
+    {
+      "path": "assets/fantasy-machinery/nerra-dazed-v1.png",
+      "sha256": "6f2c100dfa914262c87616df859b78afe941f89466322a4887e5ac714e277d91",
+      "bytes": 461822
+    },
+    {
+      "path": "assets/fantasy-machinery/nerra-defeat-v1.png",
+      "sha256": "49b8f352ee5f7c719d93bec137ea6f07c2c9c2038c7ee5ab9ddcdcdd7e63ef5f",
+      "bytes": 460982
+    },
+    {
+      "path": "assets/fantasy-machinery/nerra-fury-v1.png",
+      "sha256": "6678778a9157b34b2b43a037729267a2c8e655667e0c6be3be79edc8f1058f64",
+      "bytes": 519048
+    },
+    {
+      "path": "assets/snake-emerald/head_blink_l.png",
+      "sha256": "9b2efbad58586ddbf8d2c64a75d16586e55a511567e52e32480bfe0df0f972b6",
+      "bytes": 20183
+    },
+    {
+      "path": "assets/snake-emerald/head_blink_r.png",
+      "sha256": "a8727a03f39e41dbec77ccf88fa95810e95774512c3bd769ee493aa14e56a678",
+      "bytes": 20255
+    },
+    {
+      "path": "assets/snake-emerald/head_chew0_l.png",
+      "sha256": "2d7998b103f3d5ff3bb3a73924fa662cd1ecba02d6b14218c42fad06c4a04b7d",
+      "bytes": 23013
+    },
+    {
+      "path": "assets/snake-emerald/head_chew0_r.png",
+      "sha256": "ea6fa44e58292c70ae528331c1796e1bc4cc34cdda922ee779b07b42482f5a2c",
+      "bytes": 23061
+    },
+    {
+      "path": "assets/snake-emerald/head_chew1_l.png",
+      "sha256": "2146f18fc333c58909a4ac44848364d0ce05cdcfea7085a24873de9779810fd9",
+      "bytes": 21160
+    },
+    {
+      "path": "assets/snake-emerald/head_chew1_r.png",
+      "sha256": "fdc3334ef3746d12ca51d317823621bdcce13e73407034a6c418ce176a7298e7",
+      "bytes": 21234
+    },
+    {
+      "path": "assets/snake-emerald/head_dizzy_l.png",
+      "sha256": "7ef9881e161328c8f88f27a38fdf60daaffd4b6fcda8b8f492fbc69d5c5ed3ad",
+      "bytes": 22728
+    },
+    {
+      "path": "assets/snake-emerald/head_dizzy_r.png",
+      "sha256": "8cfbcb23aaf76402bc233ffd7a4aa1df072c3bbe455f08723e80f5b1a6d1d57e",
+      "bytes": 22777
+    },
+    {
+      "path": "assets/snake-emerald/head_grin_l.png",
+      "sha256": "27d566c7d3980333ebb1c8d1189107f554657d708f32e39c823f419baa80130b",
+      "bytes": 22215
+    },
+    {
+      "path": "assets/snake-emerald/head_grin_r.png",
+      "sha256": "c77de439f8ca3a4ed089ac6cb19640d4b45d01614338f11ef7415c752fede734",
+      "bytes": 22286
+    },
+    {
+      "path": "assets/snake-emerald/head_hiss_l.png",
+      "sha256": "abad076ecf058430a51b2cdb9e3bcf28d236f398e0e27338b6dbda98642d1697",
+      "bytes": 25491
+    },
+    {
+      "path": "assets/snake-emerald/head_hiss_r.png",
+      "sha256": "e8621d8b20d248c775fb4519c962360f4359a6eab63b015578f5765ff962f175",
+      "bytes": 25561
+    },
+    {
+      "path": "assets/snake-emerald/head_hunt_l.png",
+      "sha256": "fdd74495ea8413732ad7401f6c34ab6d6f9670ca3bfdcd08a761f3f96aae4c14",
+      "bytes": 21085
+    },
+    {
+      "path": "assets/snake-emerald/head_hunt_r.png",
+      "sha256": "338e214613fb93d179c264cc36824f5a095f4c15ca5f8dbb3906c89674ede8a7",
+      "bytes": 21208
+    },
+    {
+      "path": "assets/snake-emerald/head_idle_l.png",
+      "sha256": "839ae0f9b8e8744283737178f1c61e4b6ea670ea12d01b0ef7baa4579ded4c8a",
+      "bytes": 20148
+    },
+    {
+      "path": "assets/snake-emerald/head_idle_r.png",
+      "sha256": "b8bafff43894f49b04d55a3d36650ac6746a350fab319b4f1ff3c4686ccb0de9",
+      "bytes": 20253
+    },
+    {
+      "path": "assets/snake-emerald/head_ouch_l.png",
+      "sha256": "2237ccb3427c837055467e25c78071190327176f86e4e86f77eb4a0d3c9af7ca",
+      "bytes": 23325
+    },
+    {
+      "path": "assets/snake-emerald/head_ouch_r.png",
+      "sha256": "2a3c05c963e3a649eb31cd5c19300ed71762e3e6a1cdf18d0f4f0b7491047804",
+      "bytes": 23365
+    },
+    {
+      "path": "assets/snake-emerald/head_shock_l.png",
+      "sha256": "839ae0f9b8e8744283737178f1c61e4b6ea670ea12d01b0ef7baa4579ded4c8a",
+      "bytes": 20148
+    },
+    {
+      "path": "assets/snake-emerald/head_shock_r.png",
+      "sha256": "b8bafff43894f49b04d55a3d36650ac6746a350fab319b4f1ff3c4686ccb0de9",
+      "bytes": 20253
+    },
+    {
+      "path": "assets/snake-emerald/head_snarl_l.png",
+      "sha256": "fdd74495ea8413732ad7401f6c34ab6d6f9670ca3bfdcd08a761f3f96aae4c14",
+      "bytes": 21085
+    },
+    {
+      "path": "assets/snake-emerald/head_snarl_r.png",
+      "sha256": "338e214613fb93d179c264cc36824f5a095f4c15ca5f8dbb3906c89674ede8a7",
+      "bytes": 21208
+    },
+    {
+      "path": "assets/snake-emerald/head_strike_l.png",
+      "sha256": "abad076ecf058430a51b2cdb9e3bcf28d236f398e0e27338b6dbda98642d1697",
+      "bytes": 25491
+    },
+    {
+      "path": "assets/snake-emerald/head_strike_r.png",
+      "sha256": "e8621d8b20d248c775fb4519c962360f4359a6eab63b015578f5765ff962f175",
+      "bytes": 25561
+    },
+    {
+      "path": "assets/snake-emerald/head_taste_l.png",
+      "sha256": "171ad06df1a105ae687660acf7c6c878c1d8c1d07e5259370595cfd31bcf3bfe",
+      "bytes": 21252
+    },
+    {
+      "path": "assets/snake-emerald/head_taste_r.png",
+      "sha256": "183617b5dab0bf265ecb6627dfbc31b847d424aa70465f10b8bb2467eda17d89",
+      "bytes": 21303
+    },
+    {
+      "path": "docs/validation/bellforge/android-dazed-final-staged.png",
+      "sha256": "b3cbb963cebb037029ba3713a0a5c471bd75ea82a411dc6577fc1f239939b4ca",
+      "bytes": 1767735
+    },
+    {
+      "path": "docs/validation/bellforge/android-defeat-intermediate-staged.png",
+      "sha256": "dfb46224dbe82ef3f99857f980c003ae74e67f66939691abbdbc5f98d4a595fe",
+      "bytes": 1778648
+    },
+    {
+      "path": "docs/validation/bellforge/android-escape-final-staged.png",
+      "sha256": "6a9c3c7bff15003d6e8e95e8731c501bafb52454309e8c182d15a61df95f83e1",
+      "bytes": 1766791
+    },
+    {
+      "path": "docs/validation/bellforge/ios-dazed-final-staged.png",
+      "sha256": "17f5749e938f7efd1bfdd186104c1a89f5dc56ebf5634fe7e479c4372312479a",
+      "bytes": 1615262
+    },
+    {
+      "path": "docs/validation/bellforge/ios-defeat-intermediate-staged.png",
+      "sha256": "8edf942b2a959559a7804157b6bf9503763a54fdc5a545ceff736214379e446b",
+      "bytes": 1624982
+    },
+    {
+      "path": "docs/validation/bellforge/ios-escape-final-staged.png",
+      "sha256": "2e34c37be7a3da02afb8f3cec0aa7dd42200aeac499ef9c5f658154e9577c555",
+      "bytes": 1614339
+    },
+    {
+      "path": "docs/validation/bellforge/short-desktop-intermediate.png",
+      "sha256": "3a5c843450d72203d7acc06738f7c65dd7ac2dbb226dbe14db21b0aa667f3a14",
+      "bytes": 531782
+    },
+    {
+      "path": "docs/validation/fantasy-refinement/android-capture-2.2-natural.png",
+      "sha256": "adbfbb31f0ed26bd72d07244baa88abb3a5e0ac2734c55f1cc245910a90e08aa",
+      "bytes": 1310826
+    },
+    {
+      "path": "docs/validation/fantasy-refinement/android-capture-3.17-natural.png",
+      "sha256": "aff5a37d8f183ac507c3c4446e1612ba5296439cf680e846479b09d017e07b01",
+      "bytes": 1299387
+    },
+    {
+      "path": "docs/validation/fantasy-refinement/android-claw-shot-staged.png",
+      "sha256": "fd70aa1a59992ed31480553760bea77eca90637dd114e76b83cc898d9e150e7d",
+      "bytes": 2156261
+    },
+    {
+      "path": "docs/validation/fantasy-refinement/android-starfire-staged.png",
+      "sha256": "619c875f139d94b8bf957c6ab27da022ed07f18e0bbac7a35ca2903353c22514",
+      "bytes": 2152401
+    },
+    {
+      "path": "docs/validation/fantasy-refinement/ios-capture-2.2-natural.png",
+      "sha256": "a64703acd958e0e1e21b0583dc703377f5763ff431ebd4127bfd70ff269bdde8",
+      "bytes": 1170882
+    },
+    {
+      "path": "docs/validation/fantasy-refinement/ios-capture-3-natural.png",
+      "sha256": "b5335880995abc79def82034146cdf6b699cc449bb6c84ed666cdc5f02d817e3",
+      "bytes": 1166640
+    },
+    {
+      "path": "docs/validation/fantasy-refinement/ios-capture-3.17-mirrored-staged.png",
+      "sha256": "f312ae3ac81cbb7fa70deae2977a7966c3fd8173c73d29d94a5b612effd4e30c",
+      "bytes": 1168153
+    },
+    {
+      "path": "docs/validation/fantasy-refinement/ios-capture-3.17-natural.png",
+      "sha256": "a5a500f8a36f7d3de87acaab33089cb9b15464c5a611684678732f4f54b150ce",
+      "bytes": 1169773
+    },
+    {
+      "path": "docs/validation/fantasy-refinement/ios-kit-menu-staged.png",
+      "sha256": "93b3bb691b0790c0dcfee6f250c9ec50bbef89065585f3169ab26f72403eb5c9",
+      "bytes": 391901
+    },
+    {
+      "path": "docs/validation/fantasy-refinement/ios-nerra-defeat-staged.png",
+      "sha256": "490f99aace18df903ea72beae42609ded041dfc798d0a6330e1f1a7535855618",
+      "bytes": 1931422
+    },
+    {
+      "path": "docs/validation/fantasy-refinement/ios-nerra-fury-staged.png",
+      "sha256": "50aa07c16d4efe98357dd98f9e507c3df0b7db6e1534513725d193d2c3dc85b1",
+      "bytes": 1965795
+    },
+    {
+      "path": "docs/validation/fantasy-refinement/ios-venom-breath-staged.png",
+      "sha256": "712f7ad806ffea87467d26754b6a6c20297e8f767f50d3bc51ebde3ce44f3e52",
+      "bytes": 1366349
+    }
+  ]
+}

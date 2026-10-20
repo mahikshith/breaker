@@ -1,0 +1,58 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import crypto from 'node:crypto';
+const {chromium}=await import(process.env.PW_MODULE||'playwright');
+const out=process.env.OUT_DIR||'out/tidewheel-powers-ui';fs.mkdirSync(out,{recursive:true});
+const files=['src/fantasy/tidewheel.js','src/fantasy/tidewheel-v2-geometry.js','src/fantasy/tidewheel-reaction-geometry.js','prototypes/fantasy/main.js','prototypes/fantasy/layout.js','prototypes/fantasy/render.js','prototypes/fantasy/style.css','prototypes/fantasy/index.html','assets/fantasy-machinery/reactions-manifest.json'];
+const reactions=JSON.parse(fs.readFileSync('assets/fantasy-machinery/reactions-manifest.json','utf8'));
+files.push(...['nerra','korr'].flatMap(f=>Object.values(reactions[f]).map(p=>p.path)));
+const seal=()=>Object.fromEntries(files.filter(f=>fs.existsSync(f)).map(f=>[f,crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex')]));
+const report={scope:'Real touch UI with explicitly staged full-charge, attack and terminal fixtures. These verify controls and presentation, not earned completion or human difficulty.',before:seal(),cases:[]};
+const browser=await chromium.launch({executablePath:process.env.BROWSER_EXECUTABLE,args:['--mute-audio']});
+for(const [width,height]of[[393,852],[412,915]]){
+  const page=await browser.newPage({viewport:{width,height},hasTouch:true,deviceScaleFactor:2}),errors=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  await page.addInitScript(()=>requestAnimationFrame=f=>{window.testFrame=f;return 1;});
+  await page.goto((process.env.BASE_URL||'http://127.0.0.1:4194')+'/prototypes/fantasy/?level=tidewheel');
+  await page.waitForFunction(()=>!document.getElementById('start').disabled&&window.testFrame,null,{polling:50});
+  await page.evaluate(()=>{let now=performance.now();window.advance=s=>{for(let t=0;t<s;t+=1/60)testFrame(now+=1000/60);};});
+  await page.locator('#start').tap();await page.evaluate(()=>advance(.02));
+  await page.locator('#kit').tap();
+  for(const id of['cast','volley','cosmic'])assert.equal(await page.locator('#'+id).isEnabled(),false);
+  await page.locator('#close-power').tap();
+  for(const[id,kind]of[['cast','anchor'],['volley','volley'],['cosmic','cosmic']]){
+    await page.locator('#pause').tap();await page.locator('#retry').tap();
+    await page.evaluate(()=>{fantasyGame.launch();fantasyGame.charge=100;advance(.02);});
+    await page.locator('#kit').tap();
+    await page.screenshot({path:`${out}/${width}-menu-staged.png`});
+    const before=await page.evaluate(()=>fantasyGame.time);await page.evaluate(()=>advance(.3));
+    assert.equal(await page.evaluate(()=>fantasyGame.time),before,'menu pauses mechanics');
+    assert.equal(await page.locator('#'+id).isEnabled(),true);await page.locator('#'+id).tap();
+    await page.evaluate(()=>advance(.2));
+    const state=await page.evaluate(k=>({timer:fantasyGame.powerTimers[k],charge:fantasyGame.charge,phase:fantasyGame.phase,paused:fantasyGame.paused}),kind);
+    assert.ok(state.timer>0);assert.equal(state.charge,0);assert.equal(state.paused,false);
+    await page.screenshot({path:`${out}/${width}-${kind}-staged.png`});
+    report.cases.push({width,height,kind,...state});
+  }
+  await page.locator('#pause').tap();await page.locator('#retry').tap();
+  await page.evaluate(()=>{const g=fantasyGame;g.launch();g.balls[0].caught=true;g.beginPulse();advance(.8);});
+  await page.screenshot({path:`${out}/${width}-claw-warning-staged.png`});
+  await page.evaluate(()=>advance(1));
+  const emission=await page.evaluate(()=>{const g=fantasyGame;return{from:g.villain.emission.from,pulses:g.pulses.map(p=>({x:p.x,y:p.y,from:p.from}))};});
+  assert.ok(emission.pulses.length>0);assert.deepEqual(emission.pulses[0].from,emission.from);
+  await page.screenshot({path:`${out}/${width}-claw-shot-staged.png`});
+  await page.evaluate(()=>{const g=fantasyGame;g.cancelSurge();g.villain.anger=3;g.teachingDone=true;g.startedAt=-10;g.beginPull();advance(2.5);});
+  assert.ok(await page.evaluate(()=>fantasyGame.chain.haul)>0);
+  await page.screenshot({path:`${out}/${width}-chain-haul-staged.png`});
+  await page.evaluate(()=>{const g=fantasyGame;g.villain.hp=1;g.hit({kind:'shell',id:'shell'},g.balls[0]);advance(1.4);});
+  assert.equal(await page.evaluate(()=>fantasyGame.phase),'rescue');
+  await page.screenshot({path:`${out}/${width}-defeat-staged.png`});
+  await page.evaluate(()=>advance(2.3));
+  assert.equal(await page.locator('#result').isVisible(),true);
+  assert.equal(await page.evaluate(()=>fantasyGame.state),'won');
+  report.cases.push({width,height,emission,chainHaul:true,defeat:true,errors});assert.deepEqual(errors,[]);
+  await page.close();
+}
+await browser.close();report.after=seal();assert.deepEqual(report.after,report.before,'sources unchanged during browser proof');
+fs.writeFileSync(out+'/report.json',JSON.stringify(report,null,2)+'\n');
+console.log(JSON.stringify({passed:report.cases.length,out}));

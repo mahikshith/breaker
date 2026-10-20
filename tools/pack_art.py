@@ -11,6 +11,8 @@ def uri(im, q=88, lossless=False):
     b = io.BytesIO(); im.save(b, 'WEBP', quality=q, method=6, lossless=lossless, exact=lossless); return 'data:image/webp;base64,' + base64.b64encode(b.getvalue()).decode()
 
 art = {'sprites': {}}
+with Image.open(A('fantasy-machinery', 'bellforge-background.png')) as keep:
+    art['keepBackdrop'] = uri(keep, 88)
 art['spaceWeapons'] = {}
 for name in ('shot', 'impact'):
     path = os.path.join(ROOT, 'design', 'phase1', 'weapon-vfx-v3', f'plasma-{name}-runtime.png')
@@ -80,16 +82,17 @@ if os.path.exists(cast_meta):
     art['kitCast'] = {'url': uri(sheet, 90), 'cell': cell, 'anims': clips, 'timing': timing}
 
 # serpent: one sheet of head sprites, a row per facing and a column per expression (art/snake.py)
-for key, directory in [('snake', 'snake'), ('snakeJade', 'snake-jade')]:
+for key, directory in [('snake', 'snake'), ('snakeJade', 'snake-jade'), ('snakeEmerald', 'snake-emerald')]:
     meta_path = A(directory, 'meta.json')
     if not os.path.exists(meta_path): continue
-    meta = json.load(open(meta_path)); px = meta['px']; cell = meta['box'] * px
+    meta = json.load(open(meta_path)); px = meta['px']; cell = int(meta.get('cell', round(meta['box'] * px)))
     exprs, dirs = meta['expressions'], meta['dirs']
     sheet = Image.new('RGBA', (len(exprs) * cell, len(dirs) * cell))
     for r, d in enumerate(dirs):
         for c, e in enumerate(exprs): sheet.paste(Image.open(A(directory, f'head_{e}_{d}.png')), (c * cell, r * cell))
-    art[key] = {'url': uri(sheet, 86), 'cell': cell, 'unit': meta['box'],
+    art[key] = {'url': uri(sheet, 94 if key == 'snakeEmerald' else 86), 'cell': cell, 'unit': meta['box'],
                 'expr': {e: i for i, e in enumerate(exprs)}, 'dir': {d: i for i, d in enumerate(dirs)}}
+    if 'mouths' in meta: art[key]['mouths'] = meta['mouths']
 
 # vault plate, bricks and props from the Blender pipeline (art/render_vault_assets.py), when present
 atlas = A('vault', 'atlas.json')

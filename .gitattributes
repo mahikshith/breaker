@@ -21,6 +21,7 @@ art/starflight-equipment/** -text
 tools/playtest/starflight-mission.mjs -text
 docs/validation/starflight-mission/** -text
 art/fantasy-machinery/** -text
+art/snake-emerald/** -text
 src/fantasy/** -text
 prototypes/fantasy/** -text
 tests/bellforge.test.js -text
@@ -32,3 +33,12 @@ tests/starflight-mission.test.js -text
 tools/playtest/bellforge*.mjs -text
 tools/playtest/tidewheel*.mjs -text
 tools/playtest/fantasy*.mjs -text
+tools/playtest/vault-visual.mjs -text
+tests/fantasy-layout.test.js -text
+docs/validation/fantasy-refinement/** -text
+src/vault.js -text
+tools/pack_art.py -text
+tools/playtest/snake-visual.mjs -text
+src/serpent-capture.js -text
+tests/serpent-capture.test.js -text
+tools/playtest/snake-*.mjs -text

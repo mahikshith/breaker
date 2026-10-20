@@ -48,7 +48,8 @@ test('the real clamped chain end hauls away from the lower wheel through the mea
   const distance=()=>Math.hypot(g.chain.hand.x-g.chain.pulley.x,g.chain.hand.y-g.chain.pulley.y);
   const before=distance();g.villain.stage='pull';g.villain.stageTime=.75;g.syncAnatomy();
   assert(distance()>before+25,'the free chain length increases instead of releasing slack');
-  assert.equal(g.claws.find(c=>c.side>0).angle,-.55);assert.equal(g.chain.wheelAngle,-.65);
+  assert.equal(g.claws.find(c=>c.side>0).angle,-.55);assert(g.chain.wheelAngle<-.5);
+  const turn=g.chain.wheelAngle;g.villain.stage='recover';g.villain.stageTime=1;g.syncAnatomy();assert.equal(g.chain.wheelAngle,turn,'ratchet does not unwind during recovery');
   assert(Math.hypot(g.chain.hand.x-g.claws[1].grip.x,g.chain.hand.y-g.claws[1].grip.y)>10,'chain starts at measured free end, not through the jaw');
 });
 
@@ -58,7 +59,7 @@ test('a fixed water warning leaves room to dodge and never follows a later paddl
     const w=structuredClone(g.pulseWarning),destination=x<180?298:62;
     g.setTarget(destination);advance(g,g.rules.pulseWarning+.03);
     assert.equal(g.pulses.length,1);const q=g.pulses[0];
-    assert.equal(w.targetX,x);assert.equal(q.from.x,w.from.x);
+    assert.equal(w.targetX,x);assert.deepEqual(q.from,g.villain.emission.from,'born at the actual fire-time claw');
     const at=q.from.x+(g.paddle.y-q.from.y)*q.vx/q.vy;
     assert(Math.abs(at-x)<1e-8,'aim stays at the warned lane');
     assert(Math.abs(g.paddle.x-at)>g.paddle.w/2+q.r);

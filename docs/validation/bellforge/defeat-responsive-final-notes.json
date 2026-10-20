@@ -1,0 +1,19 @@
+{
+  "status": "Final Bellforge two-phone staged reaction/escape presentation and real input review passed.",
+  "scope": "No earned-win claim: final HP is staged. Real launch/firstPause/freeze/Resume/Kit/Retry input checks precede the fixture. No physical-device or human-balance claim.",
+  "model": "a36418f1a40e5b95521065d27f80497c241bc30baa4e1789da3e9be7ce3693cf",
+  "runtime": {
+    "main": "728bbc49adb17a215f7febfea85488185927819ee1210acce5d1eaec89be7542",
+    "render": "57d691a16acd59680f60bbffe698110245f3220369a8a01fc744029cf0dd148e",
+    "style": "8bfdbb1340027000e093cdc75064941e5778113a7bb78e77cc38f735d28a17b6"
+  },
+  "reactionManifest": "11b2958079f617c556b8d8155195a156dc08f10fc69afe7f7e86f639a6317544",
+  "caseCount": 2,
+  "allPass": true,
+  "visualFindings": "Viewed both phone dazed and escape frames. New collapsed closed-eye Korr remains grounded on the plinth; daze stars are separated from the metal and face. Lumi and her lift rise smoothly together with chains following; no overlap or clipping blocker found. Latest frames are byte-identical to the four reviewed native PNGs.",
+  "harness": {
+    "path": "tools/playtest/bellforge-defeat.mjs",
+    "sha256": "0dd315de2383914cc1159bee5923879f3c2d40b8c380b4dacaf56615844aeb02"
+  },
+  "receiptSHA256": "b8ba837862f796b552778778c5a1d3e65b33a7db9c8c6c8758cdb51393cc30dc"
+}

@@ -1,0 +1,87 @@
+{
+  "scope": "Isolated desktop Chromium2x canvas body-only CPU command submission; no GPU/readback, fullframe, native-device or newhead-art admission. Sourcebaseline8286cee vs current; identical dependency/packedart bytes.",
+  "before": {
+    "dist": "e8204ad27eb8beaf521b9dee5de1dad9299fed7b955021edff6da12414f03abd",
+    "art": "b0d5bdfb4a74b9df96011a4cf397653751ef7841dbd042d4c59313bd0dd3f551",
+    "vault": "dfdd3130bda52cfba4e8146992b92f2d96496e740047e038567e4ed8565c0eee"
+  },
+  "versions": {
+    "baseline": {
+      "twelve": {
+        "segments": 12,
+        "calls": {
+          "stroke": 80,
+          "fill": 26,
+          "quadraticCurveTo": 0
+        },
+        "samples": 30,
+        "medianMs": 0.23999998569488526,
+        "p95Ms": 0.3799999952316284
+      },
+      "twenty": {
+        "segments": 20,
+        "calls": {
+          "stroke": 135,
+          "fill": 41,
+          "quadraticCurveTo": 0
+        },
+        "samples": 30,
+        "medianMs": 0.26000001430511477,
+        "p95Ms": 0.4400000095367432
+      },
+      "coil": {
+        "segments": 19,
+        "calls": {
+          "stroke": 184,
+          "fill": 54,
+          "quadraticCurveTo": 0
+        },
+        "samples": 30,
+        "medianMs": 0.3200000047683716,
+        "p95Ms": 0.43999998569488524
+      }
+    },
+    "current": {
+      "twelve": {
+        "segments": 12,
+        "calls": {
+          "stroke": 396,
+          "fill": 9,
+          "quadraticCurveTo": 336
+        },
+        "samples": 30,
+        "medianMs": 0.6799999952316285,
+        "p95Ms": 1.140000009536743
+      },
+      "twenty": {
+        "segments": 20,
+        "calls": {
+          "stroke": 670,
+          "fill": 9,
+          "quadraticCurveTo": 570
+        },
+        "samples": 30,
+        "medianMs": 0.8599999904632568,
+        "p95Ms": 1.1799999952316285
+      },
+      "coil": {
+        "segments": 19,
+        "calls": {
+          "stroke": 916,
+          "fill": 9,
+          "quadraticCurveTo": 780
+        },
+        "samples": 30,
+        "medianMs": 2.1,
+        "p95Ms": 3.1399999856948853
+      }
+    }
+  },
+  "after": {
+    "dist": "e8204ad27eb8beaf521b9dee5de1dad9299fed7b955021edff6da12414f03abd",
+    "art": "b0d5bdfb4a74b9df96011a4cf397653751ef7841dbd042d4c59313bd0dd3f551",
+    "vault": "dfdd3130bda52cfba4e8146992b92f2d96496e740047e038567e4ed8565c0eee"
+  },
+  "productionUntouched": true,
+  "artStable": true
+}

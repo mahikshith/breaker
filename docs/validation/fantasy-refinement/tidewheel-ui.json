@@ -1,0 +1,137 @@
+{
+  "scope": "Real touch UI with explicitly staged full-charge, attack and terminal fixtures. These verify controls and presentation, not earned completion or human difficulty.",
+  "before": {
+    "src/fantasy/tidewheel.js": "e2e14ed4bc09f91f6ddedf0a7ce030b6b1c578b51686a67b2d42cd83baef33b7",
+    "src/fantasy/tidewheel-v2-geometry.js": "be9dbe700427fd3e5c89d72dbee0328105d2c0fe54732d88ee17cfd7174d7cd8",
+    "src/fantasy/tidewheel-reaction-geometry.js": "36ee0a32fc06359e6e5d202244d27b8fdd8f40eef9cb0185946773c7f4a0cff7",
+    "prototypes/fantasy/main.js": "728bbc49adb17a215f7febfea85488185927819ee1210acce5d1eaec89be7542",
+    "prototypes/fantasy/layout.js": "963ad5bd785d403c3cda3fbe9f020a2a5c431dbbe2bec113e8f81f10b06764f0",
+    "prototypes/fantasy/render.js": "57d691a16acd59680f60bbffe698110245f3220369a8a01fc744029cf0dd148e",
+    "prototypes/fantasy/style.css": "8bfdbb1340027000e093cdc75064941e5778113a7bb78e77cc38f735d28a17b6",
+    "prototypes/fantasy/index.html": "75243a4e173e889853050d29c6827d246a671645c6cee08652b2f5027d2d06ee",
+    "assets/fantasy-machinery/reactions-manifest.json": "11b2958079f617c556b8d8155195a156dc08f10fc69afe7f7e86f639a6317544",
+    "assets/fantasy-machinery/nerra-fury-v1.png": "6678778a9157b34b2b43a037729267a2c8e655667e0c6be3be79edc8f1058f64",
+    "assets/fantasy-machinery/nerra-dazed-v1.png": "6f2c100dfa914262c87616df859b78afe941f89466322a4887e5ac714e277d91",
+    "assets/fantasy-machinery/nerra-defeat-v1.png": "49b8f352ee5f7c719d93bec137ea6f07c2c9c2038c7ee5ab9ddcdcdd7e63ef5f",
+    "assets/fantasy-machinery/korr-dazed-v1.png": "b471614a24286c3ec2bf8119b692d16459c536ef397f74039d39a3b613c7245d",
+    "assets/fantasy-machinery/korr-defeat-v1.png": "d2a054abc05565087d5ab8f6c087029e3cebe1fe45bf15dd7b85db566dea635a"
+  },
+  "cases": [
+    {
+      "width": 393,
+      "height": 852,
+      "kind": "anchor",
+      "timer": 7.783333333333346,
+      "charge": 0,
+      "phase": "play",
+      "paused": false
+    },
+    {
+      "width": 393,
+      "height": 852,
+      "kind": "volley",
+      "timer": 2.7833333333333283,
+      "charge": 0,
+      "phase": "play",
+      "paused": false
+    },
+    {
+      "width": 393,
+      "height": 852,
+      "kind": "cosmic",
+      "timer": 5.783333333333354,
+      "charge": 0,
+      "phase": "play",
+      "paused": false
+    },
+    {
+      "width": 393,
+      "height": 852,
+      "emission": {
+        "from": {
+          "x": 63.64309197404737,
+          "y": 223.8886661669307
+        },
+        "pulses": [
+          {
+            "x": 78.92771500198911,
+            "y": 281.9091823564108,
+            "from": {
+              "x": 63.64309197404737,
+              "y": 223.8886661669307
+            }
+          }
+        ]
+      },
+      "chainHaul": true,
+      "defeat": true,
+      "errors": []
+    },
+    {
+      "width": 412,
+      "height": 915,
+      "kind": "anchor",
+      "timer": 7.783333333333346,
+      "charge": 0,
+      "phase": "play",
+      "paused": false
+    },
+    {
+      "width": 412,
+      "height": 915,
+      "kind": "volley",
+      "timer": 2.7833333333333283,
+      "charge": 0,
+      "phase": "play",
+      "paused": false
+    },
+    {
+      "width": 412,
+      "height": 915,
+      "kind": "cosmic",
+      "timer": 5.783333333333357,
+      "charge": 0,
+      "phase": "play",
+      "paused": false
+    },
+    {
+      "width": 412,
+      "height": 915,
+      "emission": {
+        "from": {
+          "x": 63.64309197404737,
+          "y": 223.8886661669307
+        },
+        "pulses": [
+          {
+            "x": 78.17798700299454,
+            "y": 282.10152408077437,
+            "from": {
+              "x": 63.64309197404737,
+              "y": 223.8886661669307
+            }
+          }
+        ]
+      },
+      "chainHaul": true,
+      "defeat": true,
+      "errors": []
+    }
+  ],
+  "after": {
+    "src/fantasy/tidewheel.js": "e2e14ed4bc09f91f6ddedf0a7ce030b6b1c578b51686a67b2d42cd83baef33b7",
+    "src/fantasy/tidewheel-v2-geometry.js": "be9dbe700427fd3e5c89d72dbee0328105d2c0fe54732d88ee17cfd7174d7cd8",
+    "src/fantasy/tidewheel-reaction-geometry.js": "36ee0a32fc06359e6e5d202244d27b8fdd8f40eef9cb0185946773c7f4a0cff7",
+    "prototypes/fantasy/main.js": "728bbc49adb17a215f7febfea85488185927819ee1210acce5d1eaec89be7542",
+    "prototypes/fantasy/layout.js": "963ad5bd785d403c3cda3fbe9f020a2a5c431dbbe2bec113e8f81f10b06764f0",
+    "prototypes/fantasy/render.js": "57d691a16acd59680f60bbffe698110245f3220369a8a01fc744029cf0dd148e",
+    "prototypes/fantasy/style.css": "8bfdbb1340027000e093cdc75064941e5778113a7bb78e77cc38f735d28a17b6",
+    "prototypes/fantasy/index.html": "75243a4e173e889853050d29c6827d246a671645c6cee08652b2f5027d2d06ee",
+    "assets/fantasy-machinery/reactions-manifest.json": "11b2958079f617c556b8d8155195a156dc08f10fc69afe7f7e86f639a6317544",
+    "assets/fantasy-machinery/nerra-fury-v1.png": "6678778a9157b34b2b43a037729267a2c8e655667e0c6be3be79edc8f1058f64",
+    "assets/fantasy-machinery/nerra-dazed-v1.png": "6f2c100dfa914262c87616df859b78afe941f89466322a4887e5ac714e277d91",
+    "assets/fantasy-machinery/nerra-defeat-v1.png": "49b8f352ee5f7c719d93bec137ea6f07c2c9c2038c7ee5ab9ddcdcdd7e63ef5f",
+    "assets/fantasy-machinery/korr-dazed-v1.png": "b471614a24286c3ec2bf8119b692d16459c536ef397f74039d39a3b613c7245d",
+    "assets/fantasy-machinery/korr-defeat-v1.png": "d2a054abc05565087d5ab8f6c087029e3cebe1fe45bf15dd7b85db566dea635a"
+  }
+}

@@ -21,7 +21,11 @@
     <button id="start" class="primary" disabled>Preparing the keep…</button><p class="help">Drag to move · tap to launch<br>Kit charges as you strike.</p>
   </div></section>
   <section id="paused" class="overlay shade" hidden><div class="card"><p class="eyebrow">THE KEEP CAN WAIT</p><h2>Take a breath.</h2><button id="resume" class="primary">Resume</button><button id="retry">Retry encounter</button><button id="sound">Sound: on</button><button id="home">Choose a keep</button></div></section>
-  <section id="power" class="overlay shade" hidden><div class="card"><p class="eyebrow">KIT'S DEFENCE</p><h2 id="power-title"></h2><p id="power-copy"></p><button id="cast" class="primary"></button><button id="close-power">Return</button></div></section>
+  <section id="power" class="overlay shade" hidden><div class="card"><p class="eyebrow">KIT'S ARSENAL</p><h2 id="power-title"></h2><p id="power-copy"></p><div id="power-options">
+    <button id="cast" class="primary"></button>
+    <button id="volley" hidden><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 36V14m-5 7 5-9 5 9M25 36V8m-5 7 5-9 5 9M36 36V14m-5 7 5-9 5 9"/></svg><strong>Arrow Volley</strong><small>Clear a firing lane</small></button>
+    <button id="cosmic" hidden><img src="../../assets/vault/ball_titan.png" alt=""><strong>Starfire</strong><small>Pierce the cargo</small></button>
+  </div><p id="power-status" role="status"></p><button id="close-power">Return</button></div></section>
   <section id="result" class="overlay shade" hidden><div class="card"><p id="result-label" class="eyebrow"></p><h2 id="result-title"></h2><p id="result-copy"></p><button id="continue" class="primary">Continue once</button><button id="again">Retry encounter</button><button id="back">Choose a keep</button></div></section>
   <p id="error" role="alert" hidden></p>
 </main>

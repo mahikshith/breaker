@@ -142,7 +142,7 @@ test('difficulty does not scale ordinary stun or venom wind-up world seconds', (
   }
 });
 
-test('cage strikes, visible capture and final loss keep legacy attack timing in every mode', () => {
+test('cage strikes retain the save window while the committed wrap and laugh finish before loss in every mode', () => {
   for (const id of DIFFICULTY_IDS) {
     const l = vault(id); l.phase = 'rescue'; l.startAttack();
     assert.equal(l.timeScale, .6);
@@ -150,8 +150,12 @@ test('cage strikes, visible capture and final loss keep legacy attack timing in 
     l.updateSnake(.002); assert.equal(l.snake.attack.struck, 1); assert.equal(l.phase, 'rescue');
     l.updateSnake(.598); assert.equal(l.snake.attack.struck, 1);
     l.updateSnake(.002); assert.equal(l.snake.attack.struck, 2); assert.equal(l.phase, 'caught'); assert(l.capturePose());
+    const lives = l.lives; l.loseBall(); assert.equal(l.lives, lives); assert.equal(l.state, 'play', 'falling ball cannot interrupt committed capture');
     l.updateSnake(1.478); assert.equal(l.state, 'play');
+    l.updateSnake(.002); assert.equal(l.state, 'play', 'the previous result point now leaves time for laughter');
+    l.updateSnake(1.498); assert.equal(l.state, 'play');
     l.updateSnake(.002); assert.equal(l.state, 'lost'); assert.equal(l.reason, 'The serpent caught the princess');
+    const live = vault(id); live.phase = 'rescue'; const before = live.lives; live.loseBall(); assert.equal(live.lives, before - 1);
   }
 });
 

@@ -1,0 +1,196 @@
+{
+  "manifestSHA256": "d07cce6d9c7732be361cbe6b759831ad513597907871c318ad26815639aa704a",
+  "metaSHA256": "f8e9f9f937740e9096ba1c173de2ea378263572fed402c203a1bfad92ea12977",
+  "sourceSHA256": "ce924290a0c5cc2670d492d40eb75f0fb8241aa686af220a5c291b60833d3952",
+  "checks": [
+    {
+      "expression": "idle",
+      "direction": "r",
+      "hash": "b8bafff43894f49b04d55a3d36650ac6746a350fab319b4f1ff3c4686ccb0de9",
+      "centreAlpha": 251,
+      "mouthAlpha": 252
+    },
+    {
+      "expression": "idle",
+      "direction": "l",
+      "hash": "839ae0f9b8e8744283737178f1c61e4b6ea670ea12d01b0ef7baa4579ded4c8a",
+      "centreAlpha": 252,
+      "mouthAlpha": 252
+    },
+    {
+      "expression": "blink",
+      "direction": "r",
+      "hash": "a8727a03f39e41dbec77ccf88fa95810e95774512c3bd769ee493aa14e56a678",
+      "centreAlpha": 253,
+      "mouthAlpha": 252
+    },
+    {
+      "expression": "blink",
+      "direction": "l",
+      "hash": "9b2efbad58586ddbf8d2c64a75d16586e55a511567e52e32480bfe0df0f972b6",
+      "centreAlpha": 253,
+      "mouthAlpha": 252
+    },
+    {
+      "expression": "taste",
+      "direction": "r",
+      "hash": "183617b5dab0bf265ecb6627dfbc31b847d424aa70465f10b8bb2467eda17d89",
+      "centreAlpha": 252,
+      "mouthAlpha": 250
+    },
+    {
+      "expression": "taste",
+      "direction": "l",
+      "hash": "171ad06df1a105ae687660acf7c6c878c1d8c1d07e5259370595cfd31bcf3bfe",
+      "centreAlpha": 252,
+      "mouthAlpha": 251
+    },
+    {
+      "expression": "hunt",
+      "direction": "r",
+      "hash": "338e214613fb93d179c264cc36824f5a095f4c15ca5f8dbb3906c89674ede8a7",
+      "centreAlpha": 253,
+      "mouthAlpha": 250
+    },
+    {
+      "expression": "hunt",
+      "direction": "l",
+      "hash": "fdd74495ea8413732ad7401f6c34ab6d6f9670ca3bfdcd08a761f3f96aae4c14",
+      "centreAlpha": 253,
+      "mouthAlpha": 251
+    },
+    {
+      "expression": "chew0",
+      "direction": "r",
+      "hash": "ea6fa44e58292c70ae528331c1796e1bc4cc34cdda922ee779b07b42482f5a2c",
+      "centreAlpha": 253,
+      "mouthAlpha": 251
+    },
+    {
+      "expression": "chew0",
+      "direction": "l",
+      "hash": "2d7998b103f3d5ff3bb3a73924fa662cd1ecba02d6b14218c42fad06c4a04b7d",
+      "centreAlpha": 253,
+      "mouthAlpha": 252
+    },
+    {
+      "expression": "chew1",
+      "direction": "r",
+      "hash": "fdc3334ef3746d12ca51d317823621bdcce13e73407034a6c418ce176a7298e7",
+      "centreAlpha": 252,
+      "mouthAlpha": 252
+    },
+    {
+      "expression": "chew1",
+      "direction": "l",
+      "hash": "2146f18fc333c58909a4ac44848364d0ce05cdcfea7085a24873de9779810fd9",
+      "centreAlpha": 252,
+      "mouthAlpha": 251
+    },
+    {
+      "expression": "hiss",
+      "direction": "r",
+      "hash": "e8621d8b20d248c775fb4519c962360f4359a6eab63b015578f5765ff962f175",
+      "centreAlpha": 251,
+      "mouthAlpha": 253
+    },
+    {
+      "expression": "hiss",
+      "direction": "l",
+      "hash": "abad076ecf058430a51b2cdb9e3bcf28d236f398e0e27338b6dbda98642d1697",
+      "centreAlpha": 252,
+      "mouthAlpha": 253
+    },
+    {
+      "expression": "ouch",
+      "direction": "r",
+      "hash": "2a3c05c963e3a649eb31cd5c19300ed71762e3e6a1cdf18d0f4f0b7491047804",
+      "centreAlpha": 253,
+      "mouthAlpha": 250
+    },
+    {
+      "expression": "ouch",
+      "direction": "l",
+      "hash": "2237ccb3427c837055467e25c78071190327176f86e4e86f77eb4a0d3c9af7ca",
+      "centreAlpha": 253,
+      "mouthAlpha": 251
+    },
+    {
+      "expression": "dizzy",
+      "direction": "r",
+      "hash": "8cfbcb23aaf76402bc233ffd7a4aa1df072c3bbe455f08723e80f5b1a6d1d57e",
+      "centreAlpha": 251,
+      "mouthAlpha": 253
+    },
+    {
+      "expression": "dizzy",
+      "direction": "l",
+      "hash": "7ef9881e161328c8f88f27a38fdf60daaffd4b6fcda8b8f492fbc69d5c5ed3ad",
+      "centreAlpha": 252,
+      "mouthAlpha": 253
+    },
+    {
+      "expression": "shock",
+      "direction": "r",
+      "hash": "b8bafff43894f49b04d55a3d36650ac6746a350fab319b4f1ff3c4686ccb0de9",
+      "centreAlpha": 251,
+      "mouthAlpha": 252
+    },
+    {
+      "expression": "shock",
+      "direction": "l",
+      "hash": "839ae0f9b8e8744283737178f1c61e4b6ea670ea12d01b0ef7baa4579ded4c8a",
+      "centreAlpha": 252,
+      "mouthAlpha": 252
+    },
+    {
+      "expression": "snarl",
+      "direction": "r",
+      "hash": "338e214613fb93d179c264cc36824f5a095f4c15ca5f8dbb3906c89674ede8a7",
+      "centreAlpha": 253,
+      "mouthAlpha": 250
+    },
+    {
+      "expression": "snarl",
+      "direction": "l",
+      "hash": "fdd74495ea8413732ad7401f6c34ab6d6f9670ca3bfdcd08a761f3f96aae4c14",
+      "centreAlpha": 253,
+      "mouthAlpha": 251
+    },
+    {
+      "expression": "strike",
+      "direction": "r",
+      "hash": "e8621d8b20d248c775fb4519c962360f4359a6eab63b015578f5765ff962f175",
+      "centreAlpha": 251,
+      "mouthAlpha": 253
+    },
+    {
+      "expression": "strike",
+      "direction": "l",
+      "hash": "abad076ecf058430a51b2cdb9e3bcf28d236f398e0e27338b6dbda98642d1697",
+      "centreAlpha": 252,
+      "mouthAlpha": 253
+    },
+    {
+      "expression": "grin",
+      "direction": "r",
+      "hash": "c77de439f8ca3a4ed089ac6cb19640d4b45d01614338f11ef7415c752fede734",
+      "centreAlpha": 252,
+      "mouthAlpha": 251
+    },
+    {
+      "expression": "grin",
+      "direction": "l",
+      "hash": "27d566c7d3980333ebb1c8d1189107f554657d708f32e39c823f419baa80130b",
+      "centreAlpha": 252,
+      "mouthAlpha": 252
+    }
+  ],
+  "mirrorExact": true,
+  "aliasesExact": true,
+  "mouthsOnOpaqueHead": true,
+  "metadataEmpty": true,
+  "alphaEdgesZero": true,
+  "hiddenRGBZero": true,
+  "scope": "Source family, exact pixel mirroring, reference scale and mouth/core registration only. Integrated native motion, seam and venom alignment have separate runtime receipts."
+}

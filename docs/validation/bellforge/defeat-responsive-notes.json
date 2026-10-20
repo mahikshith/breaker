@@ -1,0 +1,21 @@
+{
+  "status": "Intermediate native presentation/controls checkpoint; newer reaction art and rescue-lift movement await refreshed review.",
+  "scope": "Six real-page launch/pause/Resume/Kit/Retry cases at phone/small/short/rotated viewports; two staged defeat timelines, not earned wins.",
+  "model": "A36418F1A40E5B95521065D27F80497C241BC30BAA4E1789DA3E9BE7CE3693CF",
+  "runtime": {
+    "main": "D6C6F1E9059609A098E181A6DA68DFD1BE2397C6E10FBDF78206E589E958123F",
+    "render": "7C4519AD7502C7A7ACB2D2EFF5C0428975B772B4A06A41B79F05E3366E13F0C7",
+    "style": "E06CBFA54078ABF629D65BB39C33BB3370B8EF77D4194FB9EBD78F7AFB4EA08E"
+  },
+  "findings": [
+    "No constructor failure at six tested aspects; lower control clears paddle.",
+    "Every case has identical before/after source stamps and zero page/HTTP errors.",
+    "Retained Korr stagger raster visibly compresses/leans and gains daze stars; dedicated reaction art is pending.",
+    "At this intermediate renderer lumi.escape is model-only and did not yet move the lift; corrected by parent after this receipt.",
+    "Unscaled large Pause panel overlaps Korr head at900x400; root notified for compact visual treatment."
+  ],
+  "harness": {
+    "path": "tools/playtest/bellforge-defeat.mjs",
+    "sha256": "61029d410ebb8996d8aab5dd68b9649d4fea45cbd7d25ecd9a7cfc3ecad8db0f"
+  }
+}

@@ -21,6 +21,7 @@ BREACH is a premium portrait brick breaker for iOS and Android. It is plain JS o
 14. Additional flight power proposals: `docs/STARFLIGHT_POWER_EXPLORATION.md`. Prism Bastion and Comet Loom are production plans, not selectable powers yet.
 
 15. Approved new princess visual references and physical design: `design/phase1/princess-two-levels.md`. Read `docs/BELLFORGE_PHYSICS.md` and `docs/TIDEWHEEL_PHYSICS.md` for the actual standalone browser encounters, current rules and validation limits. Retain the original boards and measure collision against the actual moving assets. These encounters are separate from the released Android package.
+16. Latest keep playtest fixes, reactions, powers and original Vault presentation: `docs/FANTASY_REFINEMENT.md`. Its current browser receipts supersede earlier layout/pose checks; the previously delivered APK remains a separate checkpoint.
 
 ## Skills (read the matching SKILL.md before that kind of work)
 

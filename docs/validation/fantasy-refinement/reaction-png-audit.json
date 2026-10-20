@@ -1,0 +1,56 @@
+[
+  {
+    "path": "assets/fantasy-machinery/korr-dazed-v1.png",
+    "sha256": "b471614a24286c3ec2bf8119b692d16459c536ef397f74039d39a3b613c7245d",
+    "size": [
+      512,
+      448
+    ],
+    "metadata": []
+  },
+  {
+    "path": "assets/fantasy-machinery/korr-defeat-v1.png",
+    "sha256": "d2a054abc05565087d5ab8f6c087029e3cebe1fe45bf15dd7b85db566dea635a",
+    "size": [
+      512,
+      448
+    ],
+    "metadata": []
+  },
+  {
+    "path": "assets/fantasy-machinery/nerra-dazed-v1.png",
+    "sha256": "6f2c100dfa914262c87616df859b78afe941f89466322a4887e5ac714e277d91",
+    "size": [
+      640,
+      576
+    ],
+    "metadata": []
+  },
+  {
+    "path": "assets/fantasy-machinery/nerra-defeat-v1.png",
+    "sha256": "49b8f352ee5f7c719d93bec137ea6f07c2c9c2038c7ee5ab9ddcdcdd7e63ef5f",
+    "size": [
+      640,
+      576
+    ],
+    "metadata": []
+  },
+  {
+    "path": "assets/fantasy-machinery/nerra-fury-v1.png",
+    "sha256": "6678778a9157b34b2b43a037729267a2c8e655667e0c6be3be79edc8f1058f64",
+    "size": [
+      640,
+      576
+    ],
+    "metadata": []
+  },
+  {
+    "path": "art/fantasy-machinery/source/reactions-v1.png",
+    "sha256": "67cefe6a3b15f485a2985d899fba7132c9f18bfc8777054ab4e3bcdc009a4606",
+    "size": [
+      1024,
+      1536
+    ],
+    "metadata": []
+  }
+]

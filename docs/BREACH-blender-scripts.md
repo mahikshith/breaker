@@ -18,6 +18,8 @@ Design rule for anything new: reuse these materials, this light rig and this fac
 | `art/fantasy-machinery/extract-nerra-v2.py` | Smaller chain-pulling Nerra | Normalizes four supporting-foot poses, exact shoulder sockets, chain-holding claw and repeatable chain links in an independent versioned manifest. | `python art/fantasy-machinery/extract-nerra-v2.py` | assets/fantasy-machinery/nerra-v2-manifest.json and art/fantasy-machinery/nerra-v2-data.mjs |
 | `art/fantasy-machinery/verify.py` | Frozen keep art verification | Verifies source/runtime hashes, opaque collision proxies, transparent holes, metadata and release aperture limits. | `python art/fantasy-machinery/verify.py` | Verification output; no asset mutation |
 | `art/fantasy-machinery/extract-water-shot.py` | Tidewheel water projectile | Normalizes the dimensional water shot around its measured front-core pivot; preserves the source, strips metadata and records the soft foam collision approximation. | `python art/fantasy-machinery/extract-water-shot.py` | assets/fantasy-machinery/water-shot.png and water-shot-manifest.json |
+| `art/fantasy-machinery/extract-reactions.py` | Keep reaction poses | Extracts separate fury, dazed and fainted poses with registered feet, shoulder sockets and measured live-fury geometry. | `python art/fantasy-machinery/extract-reactions.py` | assets/fantasy-machinery/reactions-manifest.json and reaction PNGs |
+| `art/snake-emerald/extract.py` | Emerald snake expressions | Normalizes ten authored expressions, mirrors the left row, maps legacy aliases and records measured mouth outlets while preserving the gameplay core. | `python art/snake-emerald/extract.py` | assets/snake-emerald/ and art/snake-emerald/proof/ |
 | `art/frost_warden.py` | Frost Warden runtime family | Separate hostile Yeti palette and seven real rig clips. Retains Brum ally source, measures projected hand and torso collision anchors, and renders 28 poses for the fifth princess encounter. | `python art/frost_warden.py art/frost-warden/renders --samples 16 --threads 4 --yaw 65` | art/frost-warden/renders/ and assets/frost-warden/ after packing |
 | `art/frost-warden/pack.py` | Frost atlas normalization | Normalizes rendered poses to 256x228 with fixed pivots, strips PNG metadata, preserves actual measured anchors and records source/runtime hashes. | `python art/frost-warden/pack.py` | assets/frost-warden/warden.png and manifest.json |
 | `art/space/weapons_v2.py` | Rejected historical study | Dimensional dark-metal charge clips and preserved flight/impact drafts for the replacement ship weapon review. Only charge atlases are complete; current single-frame payloads and Canvas motion remain outside gameplay. See design/phase1/weapon-vfx-v2-review.md and its asset report. | `python art/space/weapons-v2/validate.py` | design/phase1/weapon-vfx-v2/; saved scenes in art/space/weapons-v2/ |
@@ -602,6 +604,123 @@ if __name__=='__main__':main()
 
 ---
 
+## `art/fantasy-machinery/extract-reactions.py`
+
+Extracts separate fury, dazed and fainted poses with registered feet, shoulder sockets and measured live-fury geometry.
+
+```python
+from pathlib import Path
+import importlib.util
+import hashlib,json,math
+import numpy as np
+from PIL import Image,ImageDraw
+
+ROOT=Path(__file__).resolve().parents[2];SOURCE=Path(__file__).parent;OUT=ROOT/'assets/fantasy-machinery'
+def load(name,path):
+    s=importlib.util.spec_from_file_location(name,path);m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m
+f=load('reaction_family',SOURCE/'extract.py');v2=load('reaction_geometry',SOURCE/'extract-nerra-v2.py')
+
+
+def main():
+    source=SOURCE/'source/reactions-v1.png';im=Image.open(source).convert('RGBA');groups=f.components(np.array(im.getchannel('A')))
+    manifest={'version':1,'status':'Source-faithful reactionkeyposes; independentnative/runtimeadmissionpending','source':source.relative_to(ROOT).as_posix(),'sourceSHA256':f.sha(source),'nerra':{},'korr':{},'geometry':{},'note':'Nerra is BODYONLY. Independentlargeclaws stay separate and use measured sockets. Dazed/defeat are terminalvictorypresentation, no combatauthority. Keyedrasters, not a skeletalrig.'}
+    specs=[('nerra','fury',0,[269,515],1.13,{'crusher':[212,308],'gate':[460,341]},False),
+           ('nerra','dazed',2,[768,522],1.13,{'crusher':[697,340],'gate':[951,379]},True),
+           ('nerra','defeat',1,[265,1006],1.13,{'crusher':[207,911],'gate':[452,944]},True),
+           ('korr','dazed',3,[765,1004],.83,{},True),
+           ('korr','defeat',4,[283,1436],.83,{},True)]
+    for family,name,group,foot,scale,sockets,terminal in specs:
+        cell=[640,576] if family=='nerra' else [512,448]
+        unit=[190.08,171.072] if family=='nerra' else [512/3,448/3]
+        feet=[cell[0]/2,540 if family=='nerra' else 396];pivot=[feet[0]/cell[0],feet[1]/cell[1]]
+        isolated=f.isolate(im,groups[group]);box=isolated.getchannel('A').getbbox();crop=isolated.crop(box);dims=[round(crop.width*scale),round(crop.height*scale)];crop=crop.resize(dims,Image.Resampling.LANCZOS)
+        dx,dy=round(feet[0]+(box[0]-foot[0])*scale),round(feet[1]+(box[1]-foot[1])*scale)
+        frame=Image.new('RGBA',cell);frame.alpha_composite(crop,(dx,dy));frame=f.clean(frame)
+        def uv(point):return [(dx+(point[0]-box[0])*dims[0]/(box[2]-box[0]))/cell[0],(dy+(point[1]-box[1])*dims[1]/(box[3]-box[1]))/cell[1]]
+        socket_uvs={k:uv(v) for k,v in sockets.items()};local={k:{'x':(v[0]-pivot[0])*unit[0],'y':(v[1]-pivot[1])*unit[1]} for k,v in socket_uvs.items()}
+        e=f.entry(family+'-'+name+'-v1',frame,unit,pivot,source,list(box),{'feet':pivot,**{('socket'+k.capitalize()):u for k,u in socket_uvs.items()}},
+            terminalOnly=terminal,footUV=pivot,sockets=local,socketUVs=socket_uvs,frame=0,frameRect=[0,0,*cell],
+            sourceFeet=foot,sourceToCell=[scale,feet[0]-foot[0]*scale,feet[1]-foot[1]*scale])
+        if not terminal:
+            circles=v2.disks(frame,unit,pivot,90);e['circles']=circles
+            manifest['geometry']['nerraFury']={'frame':0,'frameRect':[0,0,*cell],'unit':unit,'pivot':pivot,'footUV':pivot,'sockets':local,'circles':circles,'sourceSHA256':f.sha(source),'spriteSHA256':e['sha256']}
+        manifest[family][name]=e
+    module=SOURCE/'reactions-data.mjs';module.write_text('// Measured live fury anatomy, relative to the existing supporting feet.\nexport default '+json.dumps(manifest['geometry'],separators=(',',':'))+';\n',encoding='utf-8')
+    manifest['geometryModule']={'path':module.relative_to(ROOT).as_posix(),'sha256':f.sha(module)}
+    path=OUT/'reactions-manifest.json';path.write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
+    print(json.dumps({'manifestSHA256':f.sha(path),'sourceSHA256':f.sha(source),'geometryModuleSHA256':f.sha(module),'furySockets':manifest['geometry']['nerraFury']['sockets'],'furyDisks':len(manifest['geometry']['nerraFury']['circles'])},indent=2))
+
+
+if __name__=='__main__':main()
+```
+
+
+---
+
+## `art/snake-emerald/extract.py`
+
+Normalizes ten authored expressions, mirrors the left row, maps legacy aliases and records measured mouth outlets while preserving the gameplay core.
+
+```python
+from pathlib import Path
+import hashlib,json,math
+import numpy as np
+from PIL import Image,ImageOps,ImageDraw
+
+ROOT=Path(__file__).resolve().parents[2]
+HERE=Path(__file__).parent
+OUT=ROOT/'assets/snake-emerald'
+SOURCE=HERE/'source/heads-v1.png'
+EXPRESSIONS=['idle','blink','taste','hunt','chew0','chew1','hiss','ouch','dizzy','shock','snarl','strike','grin']
+AUTHORED=['idle','blink','taste','hunt','chew0','chew1','hiss','ouch','dizzy','grin']
+ALIASES={'shock':'idle','snarl':'hunt','strike':'hiss'}
+CELL=256;UNIT=44;SCALE=.33
+ROWS=[0,302,602,897,1205,1536]
+CENTRES=[(285,154),(790,154),(285,448),(790,448),(285,744),(790,744),(285,1043),(790,1043),(285,1341),(790,1341)]
+MOUTHS=[(440,227),(926,226),(434,519),(937,521),(380,790),(934,826),(365,1090),(916,1111),(400,1442),(921,1425)]
+
+def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
+def clean(im):
+    a=np.array(im.convert('RGBA'));a[a[:,:,3]<4]=0
+    return Image.fromarray(a)
+
+def main():
+    OUT.mkdir(parents=True,exist_ok=True);proof=HERE/'proof';proof.mkdir(parents=True,exist_ok=True)
+    im=Image.open(SOURCE).convert('RGBA');assert im.size==(1024,1536)
+    unique={};mouths={};records={};parts={}
+    for i,name in enumerate(AUTHORED):
+        row,col=divmod(i,2);box=(col*512,ROWS[row],(col+1)*512,ROWS[row+1]);crop=im.crop(box)
+        cx,cy=CENTRES[i];cx-=box[0];cy-=box[1]
+        frame=clean(crop.transform((CELL,CELL),Image.Transform.AFFINE,(1/SCALE,0,cx-CELL/(2*SCALE),0,1/SCALE,cy-CELL/(2*SCALE)),Image.Resampling.BICUBIC))
+        unique[name]=frame;mx,my=MOUTHS[i];dx=(mx-CENTRES[i][0])*SCALE*UNIT/CELL;dy=(my-CENTRES[i][1])*SCALE*UNIT/CELL
+        mouths[name]={'r':[dx,dy],'l':[-dx,dy]};records[name]={'sourceCell':list(box),'sourceCore':list(CENTRES[i]),'sourceMouth':list(MOUTHS[i]),'scale':SCALE}
+    for name in EXPRESSIONS:
+        authored=ALIASES.get(name,name);right=unique[authored];mouths[name]=mouths[authored]
+        for direction,frame in [('r',right),('l',ImageOps.mirror(right))]:
+            path=OUT/f'head_{name}_{direction}.png';frame.save(path)
+            a=np.array(frame);b=frame.getchannel('A').point(lambda n:255 if n>=128 else 0).getbbox();alpha=frame.getchannel('A').getbbox()
+            assert min(alpha[:2])>8 and max(alpha[2:])<CELL-8
+            assert not a[0,:,3].any() and not a[-1,:,3].any() and not a[:,0,3].any() and not a[:,-1,3].any()
+            assert not a[a[:,:,3]==0,:3].any()
+            parts[f'{name}_{direction}']={'path':path.relative_to(ROOT).as_posix(),'sha256':sha(path),'size':[CELL,CELL],'authoredExpression':authored,'mirrored':direction=='l','alphaBounds':list(alpha),'solidBounds':list(b),'nativeOpaqueSizeAt1_45':[(b[2]-b[0])*UNIT/CELL*1.45,(b[3]-b[1])*UNIT/CELL*1.45],'bytes':path.stat().st_size}
+    meta={'px':CELL/UNIT,'cell':CELL,'box':UNIT,'pivot':[.5,.5],'expressions':EXPRESSIONS,'dirs':['r','l'],'palette':'emerald','colors':{'body':'#168f83','belly':'#c9e8d2','crown':'#0b5d59','outline':'#052d31','brow':'#ff8a9b','mark':'#83e4c2'},'mouths':mouths,'authoredExpressions':AUTHORED,'aliases':ALIASES,'mirroredDirections':{'l':'r'},'source':SOURCE.relative_to(ROOT).as_posix(),'sourceSHA256':sha(SOURCE),'collision':'presentation only; unchanged existing head core and route'}
+    mp=OUT/'meta.json';mp.write_text(json.dumps(meta,indent=2)+'\n',encoding='utf-8')
+    manifest={'version':1,'status':'New rendered expression keyposes; native runtime verification pending','source':meta['source'],'sourceSHA256':meta['sourceSHA256'],'meta':'assets/snake-emerald/meta.json','metaSHA256':sha(mp),'unit':UNIT,'cell':CELL,'pivot':[.5,.5],'authoredExpressions':AUTHORED,'aliases':ALIASES,'normalization':records,'parts':parts,'encodedBytes':sum(p['bytes'] for p in parts.values()),'packedDecodedRGBABytes':CELL*CELL*len(EXPRESSIONS)*2*4,'note':'Ten authored right-facing heads; exact mirrored left directions. Legacy aliases are explicit. No new skeletal rig or gameplay collider.'}
+    manifestPath=OUT/'manifest.json';manifestPath.write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
+    sheet=Image.new('RGB',(1280,960),'#122c2b');d=ImageDraw.Draw(sheet)
+    for i,name in enumerate(AUTHORED):
+        x=(i%5)*256;y=(i//5)*480;frame=unique[name];sheet.paste(frame,(x,y),frame);d.text((x+12,y+255),name,fill='white')
+        native=frame.resize((70,70),Image.Resampling.LANCZOS);sheet.paste(native,(x+90,y+300),native);d.text((x+12,y+390),'393px phone / normal growth',fill='#a2c8bd')
+    sheet.save(proof/'contact.png')
+    report={'manifestSHA256':sha(manifestPath),'metaSHA256':sha(mp),'sourceSHA256':sha(SOURCE),'authoredHeads':len(AUTHORED),'legacyKeys':len(EXPRESSIONS),'directions':2,'cells':len(parts),'unit':UNIT,'cell':CELL,'aliases':ALIASES,'alphaEdges':0,'metadata':{},'allHiddenRGBZero':True,'encodedBytes':manifest['encodedBytes'],'packedDecodedRGBABytes':manifest['packedDecodedRGBABytes'],'normalOpaqueWidthRange':[min(p['nativeOpaqueSizeAt1_45'][0] for k,p in parts.items() if not k.startswith('taste')),max(p['nativeOpaqueSizeAt1_45'][0] for k,p in parts.items() if not k.startswith('taste'))],'note':'Native-sized source proof only; final integrated body/head seam and venom outlet are verified separately.'}
+    (proof/'verification.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8');print(json.dumps(report,indent=2))
+
+if __name__=='__main__':main()
+```
+
+
+---
+
 ## `art/frost_warden.py`
 
 Separate hostile Yeti palette and seven real rig clips. Retains Brum ally source, measures projected hand and torso collision anchors, and renders 28 poses for the fifth princess encounter.
@@ -1067,11 +1186,12 @@ SOURCES = [
     ('sources', 'art/starflight-storm'),
     ('sources', 'art/starflight-equipment'),
     ('sources', 'art/fantasy-machinery'),
+    ('sources', 'art/snake-emerald'),
     ('assets', 'design/phase1/weapon-vfx-v2'),
     ('assets', 'design/phase1/weapon-vfx-v3'),
     *[('assets', 'assets/' + name) for name in (
         'space-a', 'space-b', 'space-c', 'space-common', 'space-companions', 'circuit-companions',
-        'relay-circuit', 'orbital-forge', 'frost-warden', 'kit', 'kit-cast', 'snake-jade', 'starflight', 'starflight-v2', 'starflight-arsenal', 'starflight-storm', 'starflight-equipment', 'fantasy-machinery')],
+        'relay-circuit', 'orbital-forge', 'frost-warden', 'kit', 'kit-cast', 'snake-jade', 'snake-emerald', 'starflight', 'starflight-v2', 'starflight-arsenal', 'starflight-storm', 'starflight-equipment', 'fantasy-machinery')],
     *[('renders', 'out/' + name) for name in (
         'brum-proof', 'kit-proof', 'kit-cast-proof', 'cast',
         'rejected-cast-20261018', 'rejected-kit-20261018')],
@@ -8164,6 +8284,8 @@ def uri(im, q=88, lossless=False):
     b = io.BytesIO(); im.save(b, 'WEBP', quality=q, method=6, lossless=lossless, exact=lossless); return 'data:image/webp;base64,' + base64.b64encode(b.getvalue()).decode()
 
 art = {'sprites': {}}
+with Image.open(A('fantasy-machinery', 'bellforge-background.png')) as keep:
+    art['keepBackdrop'] = uri(keep, 88)
 art['spaceWeapons'] = {}
 for name in ('shot', 'impact'):
     path = os.path.join(ROOT, 'design', 'phase1', 'weapon-vfx-v3', f'plasma-{name}-runtime.png')
@@ -8233,16 +8355,17 @@ if os.path.exists(cast_meta):
     art['kitCast'] = {'url': uri(sheet, 90), 'cell': cell, 'anims': clips, 'timing': timing}
 
 # serpent: one sheet of head sprites, a row per facing and a column per expression (art/snake.py)
-for key, directory in [('snake', 'snake'), ('snakeJade', 'snake-jade')]:
+for key, directory in [('snake', 'snake'), ('snakeJade', 'snake-jade'), ('snakeEmerald', 'snake-emerald')]:
     meta_path = A(directory, 'meta.json')
     if not os.path.exists(meta_path): continue
-    meta = json.load(open(meta_path)); px = meta['px']; cell = meta['box'] * px
+    meta = json.load(open(meta_path)); px = meta['px']; cell = int(meta.get('cell', round(meta['box'] * px)))
     exprs, dirs = meta['expressions'], meta['dirs']
     sheet = Image.new('RGBA', (len(exprs) * cell, len(dirs) * cell))
     for r, d in enumerate(dirs):
         for c, e in enumerate(exprs): sheet.paste(Image.open(A(directory, f'head_{e}_{d}.png')), (c * cell, r * cell))
-    art[key] = {'url': uri(sheet, 86), 'cell': cell, 'unit': meta['box'],
+    art[key] = {'url': uri(sheet, 94 if key == 'snakeEmerald' else 86), 'cell': cell, 'unit': meta['box'],
                 'expr': {e: i for i, e in enumerate(exprs)}, 'dir': {d: i for i, d in enumerate(dirs)}}
+    if 'mouths' in meta: art[key]['mouths'] = meta['mouths']
 
 # vault plate, bricks and props from the Blender pipeline (art/render_vault_assets.py), when present
 atlas = A('vault', 'atlas.json')

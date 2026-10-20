@@ -9,6 +9,10 @@ export const BELLFORGE_MODES = {
   medium: { hp: 32, interval: 8.5, bellCap: 1, mistakes: 6, coreHits: 22 },
   hard: { hp: 40, interval: 7.5, bellCap: 2, mistakes: 5, coreHits: 26 },
 };
+export const BELLFORGE_ENDING = { stagger: .45, slump: .65, settle: .5, escape: 1.8 };
+const RESCUE_DELAY = BELLFORGE_ENDING.stagger + BELLFORGE_ENDING.slump + BELLFORGE_ENDING.settle;
+const RESCUE_DURATION = RESCUE_DELAY + BELLFORGE_ENDING.escape;
+const smooth = t => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
 export function rampPose(ramp, fraction = 1) {
   const angle = ramp.previousAngle + (ramp.angle - ramp.previousAngle) * fraction;
   const c = Math.cos(angle), s = Math.sin(angle), offset = ramp.contactOffset || { x: 0, y: 0 };
@@ -72,7 +76,7 @@ export class Bellforge {
     this.state = 'play'; this.phase = 'serve'; this.paused = false; this.continued = false; this.lives = 3; this.score = 0; this.serial = 0;
     this.charge = 0; this.chargeBank = 0; this.guard = null; this.effects = []; this.bells = []; this.balls = [];
     this.paddle = { x: width / 2, px: width / 2, y: paddleY, w: 100, h: 14, targetX: width / 2, vx: 0 };
-    this.villain = { x: 88, y: 105, foot: { x: 88, y: 161 }, w: 136, h: 112, hp: this.rules.hp, maxHP: this.rules.hp, stage: 'idle', stageTime: 0, until: 0, body: [] };
+    this.villain = { x: 88, y: 105, foot: { x: 88, y: 161 }, w: 136, h: 112, hp: this.rules.hp, maxHP: this.rules.hp, stage: 'idle', stageTime: 0, until: 0, body: [], defeat: null };
     this.korrBodies = geometry.korrBodies || KORR_BODIES;
     this.fixedKorrBody = geometry.korrBody; this.updateBody();
     this.bellSource = { x: 164, y: 147, ...(geometry.bellSource || {}) };
@@ -106,7 +110,7 @@ export class Bellforge {
         Math.hypot(b.w, b.h) / 2, { ...r, previousAngle: angle, angle }, 0)));
     });
     this.nextWarning = 1.5; this.teachingDone = false; this.pendingDocks = []; this.lastRelease = -Infinity;
-    this.rescueRemaining = 0; this.breachRemaining = 0; this.reason = ''; this.makeServe();
+    this.rescueRemaining = 0; this.rescueDelayRemaining = 0; this.breachRemaining = 0; this.reason = ''; this.makeServe();
   }
   setTarget(x) { if (!Number.isFinite(x)) return false; this.paddle.targetX = clamp(x, this.paddle.w / 2 + 6, this.width - this.paddle.w / 2 - 6); return true; }
   pause(value) { this.paused = !!value; }
@@ -141,8 +145,7 @@ export class Bellforge {
     for (const fx of this.effects) fx.age += dt;
     this.effects = this.effects.filter(f => f.age < f.life);
     if (this.phase === 'rescue') {
-      this.time += dt; this.rescueRemaining = Math.max(0, this.rescueRemaining - dt); this.lumi.escape = 1 - this.rescueRemaining / 1.8;
-      if (!this.rescueRemaining) { this.state = 'won'; this.villain.stage = 'disabled'; } return;
+      this.time += dt; this.updateDefeat(dt); return;
     }
     if (this.phase === 'breach') {
       this.time += dt; this.moveLift(dt); this.breachRemaining = Math.max(0, this.breachRemaining - dt);
@@ -163,7 +166,7 @@ export class Bellforge {
       Object.assign(r, rampPose(r));
     }
     this.updateVillain(); this.updateBody(); this.pendingDocks = [];
-    for (const b of this.bells) this.moveBell(b, dt);
+    for (const b of this.bells) { this.moveBell(b, dt); if (this.phase === 'rescue') return; }
     if (this.phase === 'rescue') return;
     for (const b of this.balls) if (!b.caught && !b.dead) this.moveBall(b, dt);
     if (this.phase === 'rescue') return;
@@ -182,6 +185,7 @@ export class Bellforge {
   }
   updateVillain() {
     const v = this.villain; v.stageTime = Math.max(0, this.time - (v.stageAt || 0));
+    if (v.hp <= 0) return;
     if (v.stage === 'stagger' || v.stage === 'recover' || v.stage === 'release') {
       if (this.time < v.until) return;
       if (v.stage === 'release') { v.stage = 'recover'; v.stageAt = this.time; v.until = this.time + .85; return; }
@@ -201,10 +205,27 @@ export class Bellforge {
   }
   updateBody() {
     const v = this.villain, pose = this.korrBodies[v.stage] || this.korrBodies.idle;
+    if (v.hp <= 0) { v.body = []; return; }
     v.body = this.fixedKorrBody || pose.map(([x, y, r]) => ({ type: 'circle', x: v.foot.x + x, y: v.foot.y + y, r }));
+  }
+  updateDefeat(dt) {
+    const v = this.villain, d = v.defeat;
+    d.age = Math.min(RESCUE_DURATION, d.age + dt); v.stageTime = d.age;
+    const falling = (d.age - BELLFORGE_ENDING.stagger) / BELLFORGE_ENDING.slump;
+    d.stage = d.age < BELLFORGE_ENDING.stagger ? 'stagger' : falling < 1 ? 'slump' : 'dazed';
+    d.progress = clamp(d.stage === 'stagger' ? d.age / BELLFORGE_ENDING.stagger : d.stage === 'slump' ? falling : (d.age - BELLFORGE_ENDING.stagger - BELLFORGE_ENDING.slump) / BELLFORGE_ENDING.settle, 0, 1);
+    const recoil = smooth(d.age / BELLFORGE_ENDING.stagger), slump = smooth(falling);
+    // The raster settles around its actual supporting foot; no hovering or live collider moves.
+    d.angle = -.07 * recoil + .15 * slump; d.scaleX = 1 + .04 * slump; d.scaleY = 1 - .18 * slump;
+    d.daze = smooth((d.age - BELLFORGE_ENDING.stagger - BELLFORGE_ENDING.slump) / .2);
+    this.rescueDelayRemaining = Math.max(0, RESCUE_DELAY - d.age);
+    this.rescueRemaining = Math.max(0, RESCUE_DURATION - d.age);
+    this.lumi.escape = clamp((d.age - RESCUE_DELAY) / BELLFORGE_ENDING.escape, 0, 1);
+    if (!this.rescueRemaining) this.state = 'won';
   }
   moveLift(dt) { this.lumi.y += clamp(this.lumi.targetY - this.lumi.y, -30 * dt, 30 * dt); }
   releaseBell(teaching = false) {
+    if (this.state !== 'play' || this.villain.hp <= 0 || ['rescue', 'breach'].includes(this.phase)) return false;
     if (this.bells.filter(b => !b.dead).length >= this.rules.bellCap) return false;
     const b = { id: ++this.serial, x: this.bellSource.x, y: this.bellSource.y, px: this.bellSource.x, py: this.bellSource.y,
       vx: 54, vy: 0, r: 14, hp: 2, angle: 0, spin: 0, returning: false, teaching, dead: false, contacts: new Set(), docked: false };
@@ -330,7 +351,11 @@ export class Bellforge {
     const dealt = Math.min(this.villain.hp, damage);
     this.villain.hp -= dealt; this.score += dealt * 25;
     if (!this.villain.hp) {
-      this.phase = 'rescue'; this.rescueRemaining = 1.8; this.bells = []; this.guard = null; this.villain.stage = 'disabled';
+      this.phase = 'rescue'; this.rescueRemaining = RESCUE_DURATION; this.rescueDelayRemaining = RESCUE_DELAY;
+      this.bells = []; this.pendingDocks = []; this.guard = null; this.nextWarning = Infinity; this.nextTeaching = false;
+      Object.assign(this.villain, { stage: 'defeated', stageAt: this.time, stageTime: 0, until: this.time + RESCUE_DURATION, body: [],
+        defeat: { age: 0, stage: 'stagger', progress: 0, frame: 3, offsetX: 0, offsetY: 0, angle: 0, scaleX: 1, scaleY: 1, daze: 0 } });
+      this.effects = this.effects.filter(e => !['bell-warning', 'bell-release', 'echo-deploy'].includes(e.kind));
       for (const b of this.balls) { b.vx = 0; b.vy = 0; b.caught = true; }
       this.effect(this.villain.x, this.villain.y, 'winch-stop', 1.2); return;
     }

@@ -5,7 +5,7 @@ This one file contains everything another assistant needs to design for, or take
 - **Game:** BREACH, a premium portrait brick breaker for iOS and Android. Tagline: "Break in. Break out."
 - **Owner:** mykee (GitHub `mahikshith`).
 - **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `codex/starship-run-prototype` is this working branch.
-- **Assembled at:** repo commit `117fd51`.
+- **Assembled at:** repo commit `8286cee`.
 
 ## How to read this file
 
@@ -15,11 +15,14 @@ This one file contains everything another assistant needs to design for, or take
 | Part | Contents | Source file in the repo |
 |---|---|---|
 | M | Current continuation memory | `docs/CONTINUE_HERE.md` |
+| AC | Latest keep playtest, powers and reactions | `docs/FANTASY_REFINEMENT.md` |
 | Q | Approved new keep references | `design/phase1/princess-two-levels.md` |
 | Y | Bellforge machinery and encounter | `docs/BELLFORGE_PHYSICS.md` |
 | Z | Tidewheel machinery and encounter | `docs/TIDEWHEEL_PHYSICS.md` |
 | AA | Keep artwork production and measured geometry | `art/fantasy-machinery/SOURCE.md` |
 | AB | Nerra chain-pull artwork and anatomy | `art/fantasy-machinery/NERRA_V2.md` |
+| AD | Keep reaction artwork and anchors | `art/fantasy-machinery/REACTIONS.md` |
+| AE | Emerald serpent source and presentation contract | `art/snake-emerald/SOURCE.md` |
 | W | Gatebreak mission implementation | `docs/STARFLIGHT_MISSION.md` |
 | X | Distinct future flight powers | `docs/STARFLIGHT_POWER_EXPLORATION.md` |
 | S | Starflight prototype and story | `docs/STARFLIGHT_PROTOTYPE.md` |
@@ -52,6 +55,10 @@ Companion file: `docs/BREACH-blender-scripts.md` has every Blender and art scrip
 
 Last updated 2026-10-20. Active branch: `codex/starship-run-prototype`. The completed five-chapter APK branch is `codex/space-combat-apk` and has been incorporated here.
 
+Newest keep playtest: read `docs/FANTASY_REFINEMENT.md` first. Bellforge's short-window load failure is fixed at the shared layout boundary. Both villains now have safe defeat sequences and separate dazed/fainted art. Tidewheel has Anchor, Arrow Volley and Starfire, an exact-full charge fix, a claw-origin water attack, and cumulative hauling-chain motion. Nerra's new live fury art uses matching measured collision. The original Vault now reuses the rendered castle hall with a registered dark brick recess and masonry tunnel. This changes the current web bundle; the old APK hash below remains historical and does not include this revision.
+
+Latest Vault steering: upgrade the snake graphics, body capture, evil laugh and venom presentation; retain the dungeon bricks/dust. Difficulty and removal of black blocks are deferred until the owner tests powers. The initial graphics-only checkpoint preserved all 55 non-draw methods. The subsequent capture revision changes only post-commit choreography and its result delay: full body history follows the head after the second strike, Lumi moves with the coil, the jaw laughs, and a fallen ball cannot interrupt the ending. The entire 400-cell layout remains unchanged (45 granite, 18 cage-bar cells). Read `docs/FANTASY_REFINEMENT.md` and the final browser receipts.
+
 Latest steering: enjoyable, readable combat with memorable powers; enemies must not disappear and award progress for doing nothing. The default browser now runs **Gatebreak**, a finite mission with returning fighter roles, three blockade batteries, a command ship that loses firing capability, earned weapon capsules, recovery pockets and a final fleet departure. Read `docs/STARFLIGHT_MISSION.md` first. Stormwing is exclusively thunder from separation through return; no friendly bullets may appear until attachment. Ricochet uses actual repeated wall reflections. Nine choices use a paused weapon bay; stock spends before reactor charge. Preview: `http://127.0.0.1:4194/prototypes/starflight/`. The previous repeating lab is retained at `?lab=1`. The owner approved both Bellforge Run and Tidewheel Citadel boards and asked for faithful moving implementations. Their original boards are preserved in `design/phase1/princess-two-levels.md`. Both now have standalone moving browser encounters: `http://127.0.0.1:4194/prototypes/fantasy/?level=bellforge` and `?level=tidewheel`. Read `docs/BELLFORGE_PHYSICS.md` and `docs/TIDEWHEEL_PHYSICS.md` for current rules, source hashes and phone-size receipts. Bellforge has 30 phone-layout bricks, extended ramps, rolling bells and a lowering lift. Tidewheel has 24 raft bricks, a smaller crab supported by a broad sluice wall, physical chain pulls, anger, a lowering refuge, bounded currents and a warned water attack. Two-hit central raft braces open broad ball lanes. These previews use four keyed character poses plus independently moving machinery; they are not full skeletal animation or part of the APK.
 
 `docs/STARFLIGHT_CAMPAIGN.md` remains a broader proposed campaign, not an implemented six-chapter game. Rescue-to-module progression was an example, not a required formula. Gatebreak is NOT inside the five-chapter APK; chapter saves, a physical rescue/attachment campaign and physical-phone balance remain future work.
@@ -69,6 +76,83 @@ Save slots remain Carrier 0 / Vault 1 / Circuit 2 / Forge 3; Frost Warden append
 Final canonical browser SHA256: `B06CDD969BCF5C420A74B3CF37A3EAC45FE3D46EABB2926F5E5D2B8A42E01770`. Offline Android HTML: `4071ACEE8BE6AB862A3CD9A0CE35680B99090B9E254D7B858F699668D949B90A`. `config/mobile-preview.json` pins the source bundle; `tools/prepare-android.mjs` refuses a mismatch. The release checkpoint passes 231 unit tests. Historical release receipts are in `docs/validation/space-combat/`; current Gatebreak verification belongs in `docs/validation/starflight-mission/`.
 
 User emphasis: retain reference art quality in runtime, meaningful pressure with readable dodges, ordinary-ball progress, useful bounded powers, distinct level objectives, full-screen safe mobile layout and detailed reproducible handoffs. Enemy space shots must never destroy the player's bricks. Avoid a mandatory precision puzzle when the ball cannot be directly aimed at every contact.
+
+
+---
+
+# Part AC: Latest keep playtest, powers and reactions
+
+*Source: `docs/FANTASY_REFINEMENT.md`*
+
+## Lost Keeps: mobile layout, reactions and powers
+
+2026-10-20. This revision follows the owner's Bellforge load-error report and Tidewheel playtest. It updates the standalone fantasy preview and the original Vault's presentation. It does not update the previously delivered APK.
+
+### Bellforge loading
+
+`prototypes/fantasy/layout.js` owns the conversion from the actual host rectangle to the 360-unit game world. The world is at least 700 units high; the paddle reserve is bounded to 90–120 units. The previous fixed 126-CSS-pixel reserve became too large in a short preview and violated Bellforge's `paddleY >= 580` requirement. The model guard remains intact. Retry adopts the current viewport; resizing an active encounter pauses it and preserves its existing world.
+
+The face orb scales down with a short portrait playfield and retains safe-area insets. Short-window menus scroll, and the pause button keeps its touch area with a lighter visual treatment. Phone layouts retain the clear reaction lane.
+
+### Clear defeats
+
+The final hit immediately disables harmful work. Korr recoils, changes to a dazed face, slumps into a separate closed-eye pose, and settles on the same plinth before Lumi's lift rises. His full ending is 3.4 seconds. Nerra staggers, drops her independent claws into resting poses, faints on the sluice wall, and releases the chain while the basin drains; her ending is 3.6 seconds. Result overlays wait for these sequences.
+
+Five new keyed reaction sprites are in `assets/fantasy-machinery/reactions-manifest.json`. The original sprite families remain unchanged. Nerra's live fury pose has its own measured opaque geometry and shoulder sockets. Dazed/fainted sprites are terminal presentation only; there is no active collider after defeat. These are keyed raster poses and articulated parts, not skeletal animation.
+
+### Tidewheel: Kit's three choices
+
+Tap Kit's lower-left face orb to pause and choose one power. Each choice requires and spends one complete meter. An unavailable choice stays disabled without spending anything.
+
+| Power | Duration | Actual action |
+|---|---:|---|
+| Anchor | 8 seconds | Locks the hoist, cancels the current attack, drains water, and protects against new pulls while active. Usable outside the old narrow warning window. |
+| Arrow Volley | 3 seconds | Deploys a paddle-mounted crossbow and fires five physical upward arrows, half a second apart. Obstacles can stop arrows. |
+| Starfire | 6 seconds | Gives the existing ball the original cosmic/TITAN appearance and an 8-unit radius. It pierces ordinary breakable targets; permanent scenery remains physical. |
+
+Easy/Medium/Hard use 12/15/18 productive credits and at least that many active refill seconds. Powered hits cannot refill the meter. A complete earned meter is snapped within numerical tolerance to 100; the old floating-point remainder could leave a visibly full meter unable to cast. There is no automatic free charge. A charged choice can be armed while the ball is caught; offensive duration waits for launch, while Anchor begins guarding immediately.
+
+The power menu uses a single row of anchor, arrow and cosmic-ball icons. A short indicator underneath the paddle shows remaining active duration. Pause, Retry and Continue retain their established semantics.
+
+### Nerra's machinery and attack
+
+The right pincer grips the actual chain endpoint. Link travel and wheel rotation accumulate from the hand's physical haul distance. Recovery relaxes the arm without reversing the ratchet's earned rotation. The chain is released when Nerra faints.
+
+The water attack comes from the measured tip of the animated left crusher claw. Water gathers there during the wind-up; the target lane is chosen once, and the shot is emitted from the actual firing pose toward that saved target. A landing ripple communicates danger without a connecting aim line. The earlier disconnected side outlets are removed. The projectile retains its swept collision, rounded water core, foam trail and ball-interception response; enemy shots do not break cargo bricks.
+
+Anger raises the claws and changes the live facial pose. Getting hit uses the hurt pose, while defeat uses separate dazed and fainted expressions. The hauling wheel, rising basin, raft springs, breakable braces and descending refuge remain the encounter's physical cause-and-effect loop.
+
+### Original Vault presentation
+
+`src/vault.js` reuses the rendered Bellforge hall as the Vault's rear environment, with a dark recess behind the registered brick field, stone supports, a lower sill and a masonry entrance arch. The notch extension samples the same backdrop. `tools/pack_art.py` embeds this existing source as `keepBackdrop` so the canonical page remains self-contained.
+
+The original princess frames, serpent path, grid, cage, collisions and power rules are preserved. The owner then explicitly requested a snake graphics pass and deferred difficulty/black-block changes. A new emerald head family and matching curved scale/clearcoat body presentation replace the older faceted appearance. Breath, dazed sway and coherent hit recoil stay centred on the existing head core. The original head atlas and plate remain fallbacks. The atlas stores measured mouth outlets per expression and facing; venom uses the same rotation, bob and deformation as the head. The initial graphics-only audit against `8286cee9` confirmed all 55 non-draw methods unchanged. The subsequent capture request below explicitly revises presentation after the loss is committed. The complete 400-cell layout still retains all 45 granite cells and 18 bar cells. See [`art/snake-emerald/SOURCE.md`](../art/snake-emerald/SOURCE.md) for authored expressions and explicit aliases; this is a raster/presentation upgrade, not a change to the rescue rules or a new skeletal model.
+
+### Head-led capture and visible laugh
+
+The owner expanded the snake pass after the new atlas was ready. `src/serpent-capture.js` snapshots the complete existing smoothed body at the second strike (attack time1.22). The head then travels a continuous route around Lumi's waist, and every section follows that history. The centreline length is conserved, including the original tail extension; no set of control points is simply morphed into a ring. Capture samples are already smoothed and are not resmoothed or extended by the renderer.
+
+The head wraps by2.55, turns toward Lumi, then alternates the new grin and open-mouth pose with a small tip/breath pulse from2.65. The attack timeline ends at4.2. The existing0.6 time scale makes the terminal choreography readable. This does not extend the pre-second-strike save window. Ball/laser collisions against the serpent are already disabled in `caught`, and `loseBall()` now returns in that terminal phase so a draining ball cannot replace the capture ending. All other phases retain their existing lost-ball behavior.
+
+The lower/front portion of the same ribbon is drawn over Lumi's waist after her body; the rear portion remains behind her. Her existing animated scared pose is supported by an8-unit lift, a small body tilt and settling struggle. Her face remains visible. The head looks toward Lumi with bounded side-view roll (at most0.5 radians), rather than rolling upside down with the ellipse tangent. A small reusable256px scratch surface blends the two facing rows with preserved skin opacity; modest width compression suggests the yaw. The head is drawn behind Lumi during the rear half of the wrap. The final route passes through a rear-neck anchor18 units behind and6 units below the fixed head core before approaching the skull. `capturePose()` caches a pure sample by attack time; only this committed presentation uses the cache.
+
+The venom spray still uses the measured moving mouth. A wet acid film gathers on the target, followed by falling drops and steam in the gap. Guarded targets do not show the melting overlay. Target selection, timing, brick removal, shielding and route changes remain the existing rules. Dungeon glazed bricks, chips and dust are preserved; no black blocks were removed.
+
+### Evidence and next checks
+
+Current receipts are under `docs/validation/fantasy-refinement/`; the Bellforge independent review is under `docs/validation/bellforge/`. Browser full-charge, attack and defeat captures are explicitly staged. Separately recorded earned model routes use actual public controls and do not inject health or resources.
+
+The complete unit suite passes 365 tests. Phone-sized Chromium checks cover iPhone and Android layouts. Short desktop and rotated windows are checked for the reported load error and usable controls. These checks do not establish physical-handset performance or human difficulty. Ask the owner to replay both keeps and check whether the charge timing and threat rhythm now feel useful.
+
+Preview:
+
+- `http://127.0.0.1:4194/prototypes/fantasy/?level=bellforge`
+- `http://127.0.0.1:4194/prototypes/fantasy/?level=tidewheel`
+- `http://127.0.0.1:4194/dist/breach.html?level=2` — The Vault.
+
+Future work must preserve the approved reference boards and source artwork, keep the mechanical origin of every attack visible, and update geometry whenever a live pose silhouette changes. Do not substitute a still-image assembly for runtime motion evidence.
+
+Final capture review: [`snake-review.md`](validation/fantasy-refinement/snake-review.md) records the exact tested source/build, natural approach, mirrored fixture, mouth attachment checks and seven-second motion clip. Both 393×852 and 412×915 browser viewports passed with no page errors. The upright head, rear-neck connection and clear Lumi face were independently inspected.
 
 
 ---
@@ -198,6 +282,7 @@ Authored world width is360 units. Heights700/760 are model route fixtures; the b
 | `ramps` | Fixed actual `pivot`, local `contactOffset`, length, angle/previousAngle/targetAngle, `omega`, thickness8, actual top-face endpoints `a,b` |
 | `bells` | Mass centre `x,y`, previous `px,py`, velocity, radius14, HP2, spin/angle, `teaching,returning,dead,docked,rampId` |
 | `villain` | HP, maxHP, stage/stageAt/stageTime/until; world-space compound `body`; render foot at(88,161), visual centre(88,105) |
+| `villain.defeat` | Null in combat; after final hit: age, stagger/slump/dazed stage, stage progress, fallback raster frame3, fixed-foot offset/angle/scale and daze intensity |
 | `lumi` | Lift location, `baseY:105,targetY,steps,allowance,escape,worried`; y moves at≤30u/s |
 | `dock` | Bell-only trigger rectangle(294,312,36,28); no invisible player-ball wall |
 | `guard` | Actual deflecting segment `a,b`, remaining/age/used; null while absent |
@@ -205,8 +290,9 @@ Authored world width is360 units. Heights700/760 are model route fixtures; the b
 | `state` | `play`, `lost`, `won` |
 | `phase` | `serve`, `play`, safe `rescue`, or final safe `breach` descent |
 | Other | Active threat `time`, lives3, score, charge0–100, pending raw `chargeBank`, `continued` |
+| Ending clocks | `rescueDelayRemaining` holds Lumi until Korr settles; `rescueRemaining` includes that delay plus escape |
 
-All positions and colliders are model coordinates, independent of Canvas scale. Exports `rampPose` and `sweepMovingSegment` are pure helpers. `BELLFORGE_MODES` contains the mode hypotheses below. Unknown mode falls back to Medium.
+All positions and colliders are model coordinates, independent of Canvas scale. Exports `rampPose` and `sweepMovingSegment` are pure helpers. `BELLFORGE_MODES` contains the mode hypotheses below. `BELLFORGE_ENDING` exposes the stagger/slump/settle/escape timings. Unknown mode falls back to Medium.
 
 ### Motion and collision
 
@@ -236,7 +322,9 @@ Korr's sequence is idle→windup≥1.3s→release.45s→recover.85s→idle. A re
 
 Bell gravity is220u/s² with a360u/s speed cap. Spin tracks actual horizontal rolling motion. Balls and bells use relative swept contacts. First ordinary hit removes one bell HP and imparts a150–290u/s capped impulse. A second separated contact shatters it; remaining overlap cannot farm HP. Fragments are presentation only. A returned bell physically reaching Korr's compound shoulder deals4HP and staggers; it cannot deal damage remotely. Bells that miss the ratchet fall to a harmless catch at y365 rather than reaching the paddle.
 
-A physical dock arrival increments the ratchet exactly once and changes `lumi.targetY` by12u. The lift moves continuously at≤30u/s; the final two remaining teeth set her worried expression. A final dock latches `breach`, clears further hazards, and finishes the bounded descent before `lost`. There is no injury animation. A last legal Korr hit is resolved before pending dock/life losses, latches safe rescue immediately, clears threats and finishes a1.8s escape before `won`.
+A physical dock arrival increments the ratchet exactly once and changes `lumi.targetY` by12u. The lift moves continuously at≤30u/s; the final two remaining teeth set her worried expression. A final dock latches `breach`, clears further hazards, and finishes the bounded descent before `lost`. There is no injury animation. A last legal Korr hit is resolved before pending dock/life losses and latches safe rescue immediately. Every live bell, queued dock, guard and pending warning is cleared; player balls park, and no further bell can be released. A final reflected bell also exits the current bell iterator immediately, so a later same-step ratchet arrival cannot survive the safe latch.
+
+Korr's readable defeat takes3.4 active seconds. The first.45s recoils the stagger pose; the next.65s eases into a grounded slump; a.5s dazed hold precedes Lumi's1.8s escape. `phase` stays `rescue` and `villain.stage` stays `defeated` throughout. `villain.defeat.stage` distinguishes `stagger`, `slump` and `dazed`; its fallback frame is3, offsets remain zero, angle eases from0 through−.07rad to+.08rad, and scales settle at(1.04,.82). The renderer applies these transforms around the unchanged supporting foot(88,161), swaps to dedicated dazed art after.22s and collapsed defeat art after.9s, and fades `daze` to1 after the slump. This is authored keyed-raster presentation data, not a new skeletal kneeling rig. `lumi.escape` remains0 for1.6s, then advances0→1 over1.8s; the shared renderer eases Lumi and the lift upward28u with chain endpoints following. Pause freezes the complete sequence, and the settled dazed pose persists after `won`.
 
 | Mode | Korr HP | Harmful release interval | Max active bells | Lift teeth | Echo credits |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -256,15 +344,17 @@ Initial serve auto-launches at8s; replacement caught serves auto-launch at3s whi
 
 ### Validation and limits
 
-`tests/bellforge.test.js` covers world metrics, ramp clearance, fast/static and angular-tip CCD, actual raster hinge/anatomy mapping, the full teaching/harmful route, pin rotation, physical bell momentum and damage episodes, banked charge exclusions, pause/delta/serve timing, physical Echo, animated ratchet/fragment metadata, last-hit precedence, Continue and ordinary public-input Easy wins at both model heights.
+`tests/bellforge.test.js` covers world metrics, ramp clearance, fast/static and angular-tip CCD, actual raster hinge/anatomy mapping, the full teaching/harmful route, pin rotation, physical bell momentum and damage episodes, banked charge exclusions, pause/delta/serve timing, physical Echo, animated ratchet/fragment metadata, last-hit precedence, the fixed-foot defeat/escape timeline, complete ending pause/cleanup, reflected-bell final-hit precedence, Continue and ordinary public-input Easy wins at both model heights. The defeat revision passes22 focused tests, including both ordinary model routes. The shared browser's six-aspect controls and final two-phone staged reaction/escape review pass with zero errors; final Main/render/reaction dependencies match before/after. The dedicated collapsed art and moving rescue lift were viewed at both primary phone sizes.
+
+Defeat-revision model SHA256: `A36418F1A40E5B95521065D27F80497C241BC30BAA4E1789DA3E9BE7CE3693CF`; focused test-file SHA256: `3A9BF4078E2F6EF0B835177E4A8A0F34A3F065B149D03EFC772D547C4CC75432`. No encounter HP, brick layout, bell route or power budget changed.
 
 Ignored deterministic receipts are under `out/bellforge-proof/`; browser receipts/screenshots are under `out/fantasy-bellforge-browser/`. The model-assisted policy reads geometry to forecast paddle angles and changes gameplay only through `launch`, `setTarget`, `update` and optional legitimate `activate`. This establishes an earned route, not human difficulty, touch skill, device performance or production admission. Historical route failures are retained with their exact pre-correction geometry and must not be presented as current pass results.
 
-The art family currently contains four authored keyed Korr raster poses, not a full skeletal hoof/walk animation. The shared renderer supplies actual hopper/platform/ratchet layers, Lumi/Kit expressions, brass contact fragments and phone UI; their separate browser receipts determine visual admission. No new APK or campaign slot is implied by this standalone module.
+The art family contains four authored keyed Korr combat rasters plus separate dazed and collapsed reaction poses, not a full skeletal hoof/walk animation. The shared renderer supplies actual hopper/platform/ratchet layers, Lumi/Kit expressions, brass contact fragments and phone UI; their separate browser receipts determine visual admission. No new APK or campaign slot is implied by this standalone module.
 
-#### Current measured checkpoint
+#### Earlier six-row measured checkpoint
 
-Final model SHA256: `46F6297072BAF87B7C8D2E88875B3E1E4A7E99EC90A48F0AB3F5CF4BE7AC65CF`. Focused tests:19pass; test-file SHA256 `69DDB9CC7124EA73E7A4B13EEC27C46B8C74D45078685482DEF481770498F5C8`. Actual frozen art manifest: `B810545F1C1CABBE6252FBAE0ECE8B4CCC1637946FD4BCA35D97C3A09D41FF13`.
+Pre-defeat-revision model SHA256: `46F6297072BAF87B7C8D2E88875B3E1E4A7E99EC90A48F0AB3F5CF4BE7AC65CF`. Focused tests at that checkpoint:19pass; test-file SHA256 `69DDB9CC7124EA73E7A4B13EEC27C46B8C74D45078685482DEF481770498F5C8`. Actual frozen art manifest: `B810545F1C1CABBE6252FBAE0ECE8B4CCC1637946FD4BCA35D97C3A09D41FF13`. The timings below include the former1.8s ending; the current readable ending adds1.6s of safe presentation and does not inherit a new browser completion claim from these receipts.
 
 One bounded deterministic policy run per mode/height/ordinary-or-Echo variant, all with three lives and no Continue:
 
@@ -287,6 +377,10 @@ The final shared-loader/input refresh passed all six phone/mode UI cases with ze
 
 The repeatable browser harness and read-only forecast policy are maintained in `tools/playtest/bellforge.mjs` and `tools/playtest/bellforge-policy.mjs`; neither imports an ignored output file. Run `node tools/playtest/bellforge.mjs` against the repository static server, or append `--ui-only` for controls/readiness. `tools/playtest/fantasy-visual.mjs` captures the two source-aligned phone openings and staged Tidewheel poses. `BASE_URL`, `PW_MODULE`, `BROWSER_EXECUTABLE` and `OUT_DIR` are optional environment overrides; exact commands and proof scopes are in the validation README.
 
+Responsive/defeat integration is repeatable with `node tools/playtest/bellforge-defeat.mjs` (`--phones` for393×852/412×915 only). It checks ordinary touch launch, the first Pause after a drag, complete model freeze, Resume, an uncharged Kit menu and fresh Retry at six aspect ratios. It then stages final HP on the two phones and captures the actual renderer at stagger/slump/dazed/escape/result times. At renderer `7C4519AD…E13F0C7`, all six cases were source-stable, with no page/HTTP errors; the orb clears the paddle by18.91–19.64CSS pixels on the main phones and≥8.35CSS pixels in short previews. That retained-raster intermediate presentation is recorded separately in `validation/bellforge/defeat-responsive-intermediate.json`; newer reaction art and the subsequent `lumi.escape` lift movement do not inherit its visual approval.
+
+The final two-phone rerun uses Main `728BBC49ADB17A215F7FEBFEA85488185927819EE1210ACCE5D1EAEC89BE7542`, renderer `57D691A16ACD59680F60BBFFE698110245F3220369A8A01FC744029CF0DD148E` and reaction manifest `11B2958079F617C556B8D8155195A156DC08F10FC69AFE7F7E86F639A6317544`. Both pass real control/Retry checks and the staged ending, with zero errors and stable source/PNG dependencies. The viewed final closed-eye collapsed Korr is grounded; Lumi/lift move together and remain separate from the mechanism. Final receipts and four native PNGs are in `validation/bellforge/defeat-responsive-final*` and `*-final-staged.png`. This is bounded staged visual/control evidence, not a new earned completion or physical-device performance result.
+
 
 ---
 
@@ -296,11 +390,11 @@ The repeatable browser harness and read-only forecast policy are maintained in `
 
 ## Tidewheel Citadel — physical encounter contract
 
-Current implementation work, 20 October 2026. This separate browser encounter is not in the five-chapter Android APK. The earlier 216u Nerra, eighteen-brick and B810 anatomy receipts are historical checkpoints; they do not validate this smaller, patrolling, twenty-four-brick version. Final v2 art/route/browser receipts are recorded below only after completion.
+Current revision, 20 October 2026: the owner's power/source/defeat feedback supersedes the C216 checkpoint below. Anchor no longer requires a short warning window; Arrow Volley and Starfire are selectable earned powers. Water is emitted from the actual animated crusher claw. The full earned meter is numerically snapped to100 rather than getting stuck just below the availability threshold. The earlier C216 receipts remain historical; they do not prove the revised powers or live fury artwork. This separate browser encounter is not in the five-chapter Android APK.
 
 ### Objective and layout
 
-Keep the ordinary ball alive and defeat Nerra before rising water reaches Lumi's balcony foundation. Any separate ordinary ball contact with the visible shell or either claw damages Nerra; there is no colour order, precision symbol gate or invulnerable pose. The optional gate locks drain water when broken. Kit's earned Anchor clamps the hoist, cancels one attack and drains water.
+Keep the ordinary ball alive and defeat Nerra before rising water reaches Lumi's balcony foundation. Any separate ordinary ball contact with the visible shell or either claw damages Nerra; there is no colour order, precision symbol gate or invulnerable pose. Optional gate locks drain water when broken. One full earned meter buys a choice of Anchor, Arrow Volley or Starfire; power-caused damage cannot fund its own refill.
 
 World width is 360u. The paddle remains at the shared lower phone location supplied by the client; its model width/height are 100×14u and ordinary ball radius/speed are 6u/345u/s. Walls occupy x≤12 and x≥348; the upper ball boundary is y67. The 390u scenic rear wall extends beyond the viewport. It supports a smaller Nerra at feet y232; the wall and balcony scenery sit in a rear depth layer and do not pretend to be foreground ball obstacles.
 
@@ -312,9 +406,11 @@ Raft initial height is min(380,paddleY−265), with a mechanical tether stop exa
 
 ### Anatomy and moving contact
 
-The v2 body is 190.08×171.072u, with idle/step/hurt/pull raster keyposes sharing a supporting-foot pivot. Each pose owns its measured head, shell, legs and feet stencil and two shoulder sockets. Right claw geometry owns a real grip and a separate free-chain end. The left crusher reuses the original raster at explicit .88 scale. Decorative chain links are not hidden ball colliders.
+The v2 body is 190.08×171.072u, with idle/step/hurt/pull raster keyposes sharing a supporting-foot pivot. Each pose owns its measured head, shell, legs and feet stencil and two shoulder sockets. The added live fury roar has its own90 measured disks and new shoulder sockets; `villain.pose==='fury'` selects both the new artwork and its exact anatomy. Do not choose fury art from the numeric anger alone while the model is using a hurt pose. Right claw geometry owns a real grip and a separate free-chain end. The left crusher reuses the original raster at explicit .88 scale. Decorative chain links are not hidden ball colliders.
 
 The runtime imports `src/fantasy/tidewheel-v2-geometry.js`; the browser and Node model use this same data. The generated data SHA is BA6E1BDAB8034A9E9F6835A8DB20879738FC2824E07F278EA76ECEF194ED0F23; its exact equality with the final manifest DEFC7D7D75AF13B50560CBABD79D5115CBEEAFA997D9ABC5452F5C5E0418FC69 is tested. Each body pose has90 opaque disks; the .88-scaled left crusher has63 and the new right gripper37, for190 actor disks. Body keyposes are discrete artwork; patrol translation is swept, while unrelated stencil indices are never interpolated across empty space. Claws rotate rigidly about their measured moving shoulder roots, and each local disk is swept using its actual transformed previous/current centre.
+
+The separate `src/fantasy/tidewheel-reaction-geometry.js` admits the live roar without modifying the previous v2 data. Its measured source module is A4F3EC81C4D50E17279AF8805AD30DA8EE8406E2ECD9DA28FED503ECC3E266AE, reaction manifest11B2958079F617C556B8D8155195A156DC08F10FC69AFE7F7E86F639A6317544, and generated runtime module36EE0A32FC06359E6E5D202244D27B8FDD8F40EEF9CB0185946773C7F4A0CFF7. Fury uses the same unit size/foot pivot, actual crusher socket(−19.0050,−69.3527) and gate socket(64.2454,−58.2678). Source/module equality, genuine ordinary contact and full-r6 short-phone clearance are regression tested. Dazed/faint artwork is terminal presentation, not a reused live collision stencil.
 
 Ball simulation uses bounded 240Hz substeps and swept circles against the moving bricks, deck, gates and anatomy. Shell and both claws share one compound `nerra` contact episode, cleared only after the ball leaves the union by 2u. A .1s minimum interval additionally prevents a concave seam from farming damage. A later genuinely separate contact remains productive. Normal reflection resolves in the moving target's frame, then restores the ordinary ball speed and at least75u/s vertical travel.
 
@@ -333,27 +429,43 @@ The initial caught ball does not advance machinery or launch an attack. First la
 | Water-pulse warning | 1.50s | 1.40s | 1.30s |
 | Water-pulse speed | 200u/s | 230u/s | 260u/s |
 | Pulse gap after firing | 18s | 16s | 14s |
-| Minimum productive charge time | 18s | 22s | 26s |
+| Productive contacts / minimum active fill time | 12 /12s | 15 /15s | 18 /18s |
 
 These are implementation values, not human balance certification. Pull and pulse attacks share one state machine, so warnings do not overlap. The first normal pull teaches the mechanism before anger can strengthen it.
 
 Every productive shell/claw contact causes a .4s hurt response and briefly stops the lateral patrol. The warning/attack clock continues, so repeated hits cannot freeze an attack forever. Three productive contacts bank anger. After the first pull, this can bring the next pull forward to a three-second idle warning opportunity. A normal pull has a full warning, then a one-second physical action and1.2s recovery. During warning the left crusher rises from−.12 to+.5rad; during action it drops back to−.12. The right gripping claw starts at+.12 and hauls upward to−.55rad over .55s. The real chain runs from its measured free end to the lower hoist wheel at(310,244), then onward in the scenic mechanism. The wheel turns with that pull.
 
-Two distinct contacts on the active claw during a warning cancel it. Broad body damage is always legal but does not silently count as that directed interruption. Anchor accepts either warning, either active attack, or a still-live water pulse. Its full charge is consumed once, its bank is cleared, the attack is cancelled, water target drains24u and the visible clamp remains four seconds. An idle tap is rejected without spending. `canActivate('anchor',{ignorePause:true})` is a presentation query; `activate` itself never casts while paused.
+Two distinct contacts on the active claw during a warning cancel it. Broad body damage is always legal but does not silently count as that directed interruption. The power interface is `canActivate(kind,{ignorePause})` / `activate(kind)`, with kinds `anchor|volley|cosmic`. All three can arm on a full meter during ordinary combat or a caught serve. Unknown powers, terminal/rescue state, pause, insufficient charge or an already active choice reject without spending. Offensive power clocks wait while the ball is caught; they start at launch. The menu's ignorePause query never permits an actual paused cast.
+
+| Power | Physical effect | Bound |
+|---|---|---|
+| Anchor | Cancels the current chain/pulse threat, drains24u immediately, visibly clamps the wheel and prevents a new attack during protection |8 active seconds; available while idle, not a narrow warning-only input |
+| Arrow Volley | Five upward r3 arrows from alternating paddle emitters at x±16/y−18, speed480u/s. Each swept arrow damages its first actual opaque target once and is consumed; braces/endcaps can block it | Five arrows, .5s spacing,3s deployment; each arrow life2s |
+| Starfire (`cosmic`) | One existing ball becomes an r8 piercing ball. It can damage each destructible target/contact episode once per pass; walls/endcaps remain solid |6 active seconds; no repeated overlap damage |
+
+Each choice spends the same full meter once and clears its credit bank. Arrows and Starfire cannot earn charge. Ordinary hits still bank at most one refill, and time only converts earned credit: there is no passive generation. A1e−7 rounding tolerance snaps a fully earned meter to exactly100; it does not turn a partially earned meter into a free cast. Power timers/maxima are exposed as `powerTimers`/`powerMaxTimes`; `anchor.time/maxTime` also drive the visible clamp. A miss or Continue clears active powers/projectiles, while the unspent meter and encounter progress remain.
+
+Starfire restores the normal r6 ball at expiry. If expiry occurs inside an object it was already traversing, that ball only finishes leaving that already-held overlap, without more damage or charge. New surfaces are immediately solid; the exit exception clears beyond the union. This avoids a trapped, expired ball without extending the damage window.
 
 The chain-hung refuge starts at baseY75 and an enraged pull lowers it by 6u, up to three steps/18u total (targetY93). It animates at at most20u/s. The visible flood limit is always `lumi.y+REFUGE_LIP_OFFSET`, initially122 and at most140. The exported offset47 matches the actual lower edge of the cropped hanging platform to within.1u; removed wall corbels no longer define an invisible failure line. The cropped platform stays visibly clear of the hauling claw. Raising the platform adds40u of flood headroom relative to the earlier baseY115 version, and matching its actual cropped edge adds another18u; earlier receipts are labelled by their source hashes. Water rises at at most28u/s and drains at at most20u/s. Neither a target change nor a refuge step teleports the encounter into failure.
 
-The separate pulse begins at a visible lower side outlet, x24 or336/y=paddleY−205, and locks the current paddle lane when its warning begins. It does not follow a later drag. Exactly one r10 water projectile is fired, with a maximum three-second lifetime. Both ball and moving paddle interception are swept in relative motion. A ball deflects it into a short harmless .45s splash, without free damage/charge. A paddle hit costs one life, clears the attack and makes a fresh serve with at least three seconds of threat grace. Enemy water never damages or rewards the bricks. There is no forced loss from being underwater and no unannounced ball-speed reduction; the bounded current is lateral acceleration, not a new aiming axis.
+The separate pulse locks the current paddle landing lane when its warning begins. Its source follows the measured crusher-tip anchor through the real claw's preparation and recoil; the firing origin is sampled from that exact transformed muzzle, not a sidewall. It does not retarget a later drag. `pulseWarning.source` is the moving visible source, its `target/targetX` are fixed, and `villain.emission={from,angle,at}` records actual discharge. Exactly one r10 water projectile is fired, with a maximum three-second lifetime (enough for the longest native claw-to-paddle flight). Ball/arrow and moving-paddle interception are swept in relative motion. A ball or arrow deflects it into a short harmless .45s splash, without free damage/charge. A paddle hit costs one life, clears the attack and makes a fresh serve with at least three seconds of threat grace. Enemy water never damages or rewards the bricks. There is no forced loss from being underwater and no unannounced ball-speed reduction; the bounded current is lateral acceleration, not a new aiming axis.
 
 ### Win, loss and reset ownership
 
-The actual final legal Nerra contact immediately enters `rescue`, clears water projectiles and warnings, and opens both gate locks. That owns the same tick over flood, pulse or ball-miss failure. A2.5s harmless rescue drains water and lifts Lumi before `won`.
+The actual final legal Nerra contact immediately enters `rescue`, clears hostile/friendly power projectiles and active powers, releases the hauling chain, and opens both gate locks. That owns the same tick over flood, pulse or ball-miss failure. The harmless3.6s defeat/rescue sequence shows stagger (<.35s), faint (<1.2s) and slumped/dazed rest before `won`. `villain.defeat` exposes age/stage/offsetX/offsetY/angle/scaleX/scaleY/daze. The foot remains planted (offsetY0); compression and a slight rotation create the slump instead of sinking the actor below the platform. The released chain becomes slack scenery and no longer pretends to follow a transformed hand under tension.
 
 Flood failure is tested against the current visible foundation. Out of balls or an actual pulse hit can exhaust lives. Terminal `update` is inert. One Continue preserves Nerra HP, cleared bricks, brace damage/openings, broken gates, refuge steps and earned resources. It clears threats, restores at least40u of visible flood headroom (normally48u drain), creates a caught ball and six seconds of warning grace; the replacement ball auto-launches after three seconds. Retry is a fresh model and resets all progress.
 
-Renderer contract: `villain.stage` is idle/pullWindup/pull/recover/pulseWindup/pulse/defeated; `pose` is idle/step/hurt/pull; `footX/footY`, `frame`, `anger`, `enraged`, `stunUntil`, `hp/maxHP` are public. Each claw exposes root/previousRoot/angle/previousAngle/scale/mirror/partKey/grip. `chain` exposes hand/pulley/pull/wheelAngle. `pulseWarning` exposes source/from/fixed target/targetX/angle/age/life; `pulses` expose x/y/px/py/r/vx/vy/age/life/dealt/reflected/harmless. `lumi` exposes baseY/targetY/y/steps, and `water.limit` is dynamic. The real dimensional water raster is32×48u, rotated around its measured opaque core; its circle remainsr10. Transparent tail/glints add no extra collision area.
+Renderer contract: `villain.stage` is idle/pullWindup/pull/recover/pulseWindup/pulse/defeated; `pose` is idle/step/hurt/pull/fury. `footX/footY`, `frame`, `anger`, `enraged`, `fury/furyPulse`, `emission`, `defeat`, `stunUntil`, `hp/maxHP` are public. Each claw exposes root/previousRoot/angle/previousAngle/scale/mirror/partKey/grip; the crusher also exposes `muzzle`. `chain` exposes hand/pulley/route/pull/haul/scroll/wheelAngle/tension/released. Haul/scroll accumulate only actual positive chain-length gain during the pull; the wheel retains that ratchet angle through recovery rather than unwinding each cycle. `pulseWarning` exposes source/from/fixed target/targetX/angle/age/life; `pulses` expose x/y/px/py/r/vx/vy/age/life/dealt/reflected/harmless. `shots` exposes the finite physical arrow list. `lumi` exposes baseY/targetY/y/steps, and `water.limit` is dynamic. The dimensional water raster is32×48u, rotated around its measured opaque core; its circle remainsr10. Transparent tail/glints add no extra collision area.
 
-### Verification status
+### Revision verification
+
+The revised model has40 focused tests, including all previous seam/layout/flood invariants plus idle/serve power arming, actual charge completion, no self-funding, finite cover-limited arrows, one-pass Cosmic contact and safe expiry, measured claw emission, cumulative hoist, exact live fury anatomy and grounded3.6s defeat. Model SHA E2E14ED4BC09F91F6DDEDF0A7CE030B6B1C578B51686A67B2D42CD83BAEF33B7 is frozen for integrated browser review.
+
+The final8-run logical-phone Easy policy completed all ordinary/Anchor/Volley/Starfire attempts without HP/resource/actor writes. It uses the measured logical dimensions of393×852 and412×915 viewports and their126CSS-pixel paddle reserve, a fixed ordinary opening, coarse20Hz/8u paddle prediction and visible pulse dodges. Every power policy genuinely charged and cast twice before the result; first casts were17.91s at the iPhone logical size and16.57s at Android. iPhone outcomes were60.18/39.12/39.53/53.18s; Android61.82/53.33/47.01/71.44s, retaining1–3 lives. Power damage produced no charge and the source hash stayed unchanged. These are bounded coarse controller results, not browser/art or human-fun validation. Raw receipt: `out/tidewheel-powers/final-routes/routes.json`, reproduced by the local review adapter `out/tidewheel-powers/routes.mjs`. The earlier pre-fury receipt remains at `out/tidewheel-powers/first-routes/routes.json` as history; its different reflection paths are not current evidence.
+
+### Historical C216 verification checkpoint
 
 The focused suite has 29 tests, including the exact historical concave seam, inert endcap reflection, actual two-hit brace opening without reward duplication, early centre-catch feedback, exact v2 data admission, all four body poses and short-phone r6 clearance, actual platform-crop/flood-contact equality, real last-hit precedence, warned fixed lanes, swept moving-ball interception, one-life pulse cleanup, one-spend Anchor and Continue headroom/progress.
 
@@ -370,7 +482,7 @@ The four-second desktop Chromium readback at190 actor disks measured callback CP
 Reproduction from a fresh checkout (Node22; browser commands require Playwright's module and Chromium executable in `PW_MODULE`/`PW_CHROMIUM`):
 
 ```powershell
-node --test tests/tidewheel.test.js tests/tidewheel-attacks.test.js tests/tidewheel-seams.test.js
+node --test tests/tidewheel*.test.js
 node tools/playtest/tidewheel-geometry.mjs out/tidewheel-geometry
 node tools/playtest/tidewheel-centre-catch.mjs out/tidewheel-centre-catch
 node tools/playtest/tidewheel-routes.mjs out/tidewheel-routes
@@ -478,6 +590,94 @@ python art/fantasy-machinery/proof-nerra-v2.py
 `proof/nerra-v2/verification.json` verifies source/runtime hashes, exact equality between manifest and importable geometry data, empty metadata, transparent image edges, cleared hidden RGB and all opaque-inscribed body/claw disks. The seven runtime PNGs total4,192,937encodedbytes and12,894,208decodedRGBAbytes including four individually preserved frames. Loading the atlas alone for those frames saves5,898,240decodedbytes. All source/runtime files are below20MB individually.
 
 `native-poses.png`, `ios-idle/step/hurt/pull.png`, `android-pull.png` and `keyposes.gif` are labelled staged art assemblies. They show the actual raster family at phone size with attached claws, grounded feet, a larger masonry support and a textured chain. They are not earned gameplay, human difficulty approval, native-device performance or a finished full-rig animation claim. Final actual-browser integration and playtest evidence are separate.
+
+
+---
+
+# Part AD: Keep reaction artwork and anchors
+
+*Source: `art/fantasy-machinery/REACTIONS.md`*
+
+## Bellforge and Tidewheel reaction keyposes
+
+The separate reaction family adds a live furious Nerra body and earned-victory dazed/fainted poses for Nerra and Korr. These are five raster keyposes with measured anchors, not a skeletal animation rig. The original base family, Nerra v2 family and water projectile remain unchanged.
+
+### Source and reproduction
+
+- Original sheet: `source/reactions-v1.png`, RGBA 1024×1536; SHA256 `67cefe6a3b15f485a2985d899fba7132c9f18bfc8777054ab4e3bcdc009a4606`.
+- Exact prompt: `reactions-prompt.json`. Visual references were the existing `nerra-v2-idle.png`, `nerra-v2-pull.png` and `korr-idle.png` under `assets/fantasy-machinery/`.
+- The sheet preserves the coral/oxblood castle-shell, teal eyes, cream jaw and eight short walking legs of Nerra; Korr retains the ruby/plum armour, ivory tusks, amber eyes and pink snout.
+- Reproduce deterministic extraction from the repository root with `python art/fantasy-machinery/extract-reactions.py`, then verify and assemble the staged proofs with `python art/fantasy-machinery/proof-reactions.py`. Pillow and NumPy are required. Preserve the source sheet and prompt when cloning or archiving.
+- The extractor isolates the five alpha-connected figures, normalizes each species to its existing supporting-foot pivot, applies measured shoulder anchors, clears transparent RGB and writes PNGs without metadata. The source remains intact.
+
+### Runtime contract
+
+Manifest: `assets/fantasy-machinery/reactions-manifest.json`, SHA256 `11b2958079f617c556b8d8155195a156dc08f10fc69afe7f7e86f639a6317544`.
+
+| Manifest key | Runtime PNG | Canvas | World unit | Supporting-foot pivot | Use |
+|---|---|---|---|---|---|
+| `nerra.fury` | `nerra-fury-v1.png` | 640×576 | 190.08×171.072 | `[.5,.9375]` | Live fury, with the matching new geometry |
+| `nerra.dazed` | `nerra-dazed-v1.png` | 640×576 | 190.08×171.072 | `[.5,.9375]` | Earned victory presentation only |
+| `nerra.defeat` | `nerra-defeat-v1.png` | 640×576 | 190.08×171.072 | `[.5,.9375]` | Earned victory presentation only |
+| `korr.dazed` | `korr-dazed-v1.png` | 512×448 | 170.6667×149.3333 | `[.5,.8839285714]` | Earned victory presentation only |
+| `korr.defeat` | `korr-defeat-v1.png` | 512×448 | 170.6667×149.3333 | `[.5,.8839285714]` | Earned victory presentation only |
+
+All paths in the manifest are repository relative. Each entry contains `path`, `size`, `unit`, `pivot`, `frame`, `frameRect`, `footUV`, `sha256`, source crop/transform, alpha/solid bounds, measured anchors and `terminalOnly`. Every image is a separate one-frame texture. No atlas row convention is needed.
+
+Nerra is **body only**: the eight small walking legs are present, but the two large combat claws are separate parts. Draw the existing crusher and chain-gripping claw once, attached to the selected body's measured sockets. Terminal poses have lower shoulders and must use their own sockets. Their data has no live damage or collision authority.
+
+Fury anatomy is exported by `reactions-data.mjs` as default `{nerraFury:{frame,frameRect,unit,pivot,footUV,sockets,circles,sourceSHA256,spriteSHA256}}`. Module SHA256: `a4f3ec81c4d50e17279af8805ad30da8ee8406e2ecd9da28fed503ecc3e266ae`. Coordinates and disk radii are world units relative to the supporting feet; do not scale them a second time.
+
+Fury sockets are crusher `(-19.0050240481,-69.3527423581)` and gate `(64.2454448898,-58.2677685590)`. The new live silhouette must switch together with this geometry and these sockets. It must not inherit the idle/pull collider merely because the canvas and pivot match.
+
+### Verification and limits
+
+`proof/reactions/verification.json` SHA256 `7b1c18d29fbd7dae26b7469afa2491598593b8d4d5437e55023a05bb2704597c` records exact source, module and sprite hashes. All five PNGs have empty metadata, zero alpha on every outer edge and zero RGB beneath fully transparent pixels. Total: 1,899,108 encoded bytes and 6,258,688 decoded RGBA bytes.
+
+The live fury body has 90 measured disk components, all inside alpha≥128. A 6-unit normal ball reaches 100% of the opaque silhouette; maximum opaque-to-proxy gap is 5.849546 units. Feet-local opaque bounds are `[-82.269,-151.767,82.863,0.297]`. The independent articulated claws retain their own measured geometry. This is a broad compound silhouette, with no padding rectangle across leg gaps.
+
+The source contact sheet and native-sized assembled proofs are in `proof/reactions/`. They show a planted, open-mouth furious face, an uneven-eyed dazed reaction and a visibly lowered/fainted body. Korr's four hooves and armour settle onto the plinth; Nerra's folded legs and relaxed jaw rest on the rear coping. These are explicitly staged art assemblies. Runtime phase ordering, moving claw attachment, refuge clearance and actual earned victories require the integration owner's current native captures; source verification does not establish those gameplay results.
+
+### Original Vault presentation recommendation
+
+Keep the existing Lumi/princess animation cells, snake expression family and camera/alpha registrations. The cage, tower and brick coordinates are registered to the original plate. Repainting individual animation frames would introduce face and silhouette drift. The safe improvement for this pass is the integration owner's registered masonry entrance and environmental lighting/dressing around the original assets, while preserving the existing serpent body/head motion and princess face rig. No new Vault character asset or animation replacement is part of this reaction family.
+
+
+---
+
+# Part AE: Emerald serpent source and presentation contract
+
+*Source: `art/snake-emerald/SOURCE.md`*
+
+## Emerald serpent expression family
+
+This versioned family replaces the simple rendered head presentation with richer emerald scales, broad soft reflections, shaded lower planes, pale mint lower jaw and larger readable eye/brow/mouth poses. It preserves the original serpent identity and runtime framing. The original `assets/snake-jade/` family remains intact.
+
+### Source and preservation
+
+- Reference-directed source sheet: `source/heads-v1.png`, RGBA1024×1536, SHA256 `ce924290a0c5cc2670d492d40eb75f0fb8241aa686af220a5c291b60833d3952`.
+- Exact prompt and reference paths: `prompt.json`. The original jade idle/snarl heads establish identity, palette and view; Korr/Nerra establish material depth and lighting quality.
+- Runtime manifest: `assets/snake-emerald/manifest.json`, SHA256 `d07cce6d9c7732be361cbe6b759831ad513597907871c318ad26815639aa704a`.
+- Runtime metadata: `assets/snake-emerald/meta.json`, SHA256 `f8e9f9f937740e9096ba1c173de2ea378263572fed402c203a1bfad92ea12977`.
+- Reproduce the deterministic normalization with `python art/snake-emerald/extract.py`; verify actual files with `python art/snake-emerald/verify.py`. Requires Pillow and NumPy. Preserve the source sheet before extraction; runtime copies have transparent RGB cleared and no metadata.
+
+### Exact runtime contract
+
+All26 canonical files are `assets/snake-emerald/head_<expression>_<r|l>.png`, each256×256 RGBA, `box`/worldunit44, centre pivot `[.5,.5]`. The packer can use explicit `cell:256`; `px` is256/44. All13 existing expression names and both facing rows remain present in their previous order.
+
+Ten authored right-facing keyposes are `idle`, `blink`, `taste`, `hunt`, `chew0`, `chew1`, `hiss`, `ouch`, `dizzy`, `grin`. The left row is an exact pixel mirror. Three legacy keys intentionally reuse compatible artwork: `shock→idle` retains open alert eyes, `snarl→hunt` retains angry focus, and `strike→hiss` retains the open-fang attack mouth. These are explicit mappings, not13 separately authored faces. Runtime recoil, breathing, head rotation and expression timing remain separate presentation layers; the family is not a new skeletal rig or interpolated animation.
+
+One common0.33 source-to-cell scale and measured source core anchors preserve skull volume. At normal existing1.45 draw scale, opaque non-tongue head widths are29.4078–31.1523 worldunits. The thin taste tongue extends beyond that base footprint and has no collision authority. All centre points remain visibly on the head. No grid, route, ball, bite/damage radius or other gameplay geometry changes are encoded here.
+
+`meta.mouths[expression][direction]=[dx,dy]` records the visible mouth outlet in local worldunit44 coordinates relative to the sprite centre. Apply the same head translation, rotation, breathing scale and existing draw multiplier to this outlet as to the sprite. The left outlet mirrors X exactly. An annotated source proof is `proof/anchors.png`; warm circles mark mouth outlets and pale crosses mark the unchanged head centre. Mouths are measured per authored pose, then inherited by the three aliases.
+
+Palette seam targets remain body `#168f83`, belly `#c9e8d2`, crown `#0b5d59`, outline `#052d31`, coral brow `#ff8a9b` and mint markings `#83e4c2`. The short rear skull is deliberately dark so it blends with the rendered body; no long neck or separate body sprite is baked in.
+
+### Verification and admission
+
+The source contact proof includes both256px cells and actual393px phone-scale heads. Every runtime image has empty metadata, transparent outer edges and zero RGB beneath alpha0. All left images mirror exactly; alias pixels match their named source; each head centre and measured mouth outlet lie on alpha≥128 pixels. Total encoded runtime PNGs575,649bytes; the13-column/two-row packed atlas decodes to6,815,744RGBAbytes.
+
+`proof/verification.json` records extraction and native-scale measurements. `proof/source-verification.json` independently rereads the source/meta/runtime files and validates hashes, mirroring, alias ownership, alpha and anchors. These proofs establish the source family and registration. Final integrated native entrance rotation, body/head seam, venom origin and actual gameplay motion require the current browser receipts; a static contact sheet does not establish those results.
 
 
 ---
@@ -3054,6 +3254,10 @@ Each workstream is sized for one subagent with a clear contract and a test.
 
 ## BREACH handoff 1/3: status and next steps
 
+**Snake presentation and capture steering (2026-10-20):** The owner deferred difficulty/black-block removal, requested richer emerald graphics, then expanded the request to the wrapping body, evil laugh, Lumi's body animation and venom melting. The initial graphics-only audit preserved all55 non-draw methods; the subsequent capture pass replaces post-second-strike pose morphing with length-conserving head-led motion, coordinated front/rear layering, a visible jaw laugh and a4.2-second attack-timeline ending. A fallen ball cannot interrupt an already committed capture. The entire400-cell field remains unchanged:45 granite/18 cage-bar cells. Existing dungeon brick art/dust and live combat rules remain. Final evidence is in `docs/validation/fantasy-refinement/`; the historical APK does not include these changes.
+
+**Keep playtest revision (2026-10-20):** The owner reported Bellforge's portrait-playfield load error, unclear villain endings, unusable Tidewheel powers, disconnected water attacks/chains and a visual gap in the original Vault. Current implementation and receipt locations are in `docs/FANTASY_REFINEMENT.md`. The layout now bounds logical paddle space; both villains have staged grounded defeats and new reaction art; Tidewheel gains three earned choices, fixes the 99.999%-charge gate, emits water from the animated claw, and retains cumulative wheel/chain motion. The original Vault reuses the rendered castle hall with its established collision/grid. This revision changes the current canonical web build; B06CDD and APK references in earlier entries remain historical. The new standalone keeps are still outside the released APK. Autonomous branch commit/push remains authorized; no main merge.
+
 **Grounded keep encounters (2026-10-20):** The owner approved Bellforge Run and Tidewheel Citadel, then requested extended supports, more bricks and a smaller crab that hauls a chain, becomes angry, attacks and threatens Lumi through rising water. Both standalone browser encounters now use actual separate scenery, keyed actor poses, moving machinery and swept ball collision. Bellforge has 30 phone-layout bricks and extended physical rolling ramps. Tidewheel has 24 raft bricks, a broad supporting sluice wall, a measured chain grip, lateral patrol, ordinary-hit stun/anger, warned stronger pulls, a descending refuge and an interceptable water shot. A reproduced 26-second centre-catch dead period led to two-hit central raft braces that visibly crack and open a broad lower entry. Numerical rules and final evidence are in `docs/BELLFORGE_PHYSICS.md`, `docs/TIDEWHEEL_PHYSICS.md` and their `docs/validation/` folders. Browser tests are not physical-device or human enjoyment certification. All342 unit tests and the canonical build pass; the released bundle stays B06CDD. Both previews, like Gatebreak, remain outside the five-chapter APK. The artwork archive verifies1,006 records/1,030 aliases/381,626,616bytes. Owner authorization permits design decisions, commit and push on the branch; no main merge.
 
 **Gatebreak recheck and approved keeps (2026-10-20):** The owner clarified RECHECK, not reject. The mission now has nonmagnetic falling capsules, measured Ricochet/Trident launch points, visible shield interception, thunder-only Stormwing and physically combining ignored scouts. Final independent browser evidence is in `docs/validation/starflight-mission/`; all six phone/mode UI cases and eight bounded Easy routes passed on stable source. Ordinary Easy runs took197–211s; earned powers162–173s. Human enjoyment and physical-device performance remain unverified. Both Bellforge Run and Tidewheel Citadel reference boards are now approved and preserved; moving machinery and independent physics are being developed in a separate browser prototype. No new APK inclusion is claimed.
@@ -4078,6 +4282,128 @@ assets/snake-jade: 26 PNG renders
 assets/vault: 53 PNG renders
 assets/invasion: 78 PNG renders
 
+art/fantasy-machinery/REACTIONS.md
+art/fantasy-machinery/extract-reactions.py
+art/fantasy-machinery/proof-reactions.py
+art/fantasy-machinery/proof/reactions/contact.png
+art/fantasy-machinery/proof/reactions/korr-dazed-ios.png
+art/fantasy-machinery/proof/reactions/korr-defeat-ios.png
+art/fantasy-machinery/proof/reactions/nerra-defeat-ios.png
+art/fantasy-machinery/proof/reactions/nerra-fury-ios.png
+art/fantasy-machinery/proof/reactions/verification.json
+art/fantasy-machinery/reactions-data.mjs
+art/fantasy-machinery/reactions-prompt.json
+art/fantasy-machinery/source/reactions-v1.png
+art/snake-emerald/SOURCE.md
+art/snake-emerald/extract.py
+art/snake-emerald/prompt.json
+art/snake-emerald/proof/anchors.png
+art/snake-emerald/proof/contact.png
+art/snake-emerald/proof/source-verification.json
+art/snake-emerald/proof/verification.json
+art/snake-emerald/source/heads-v1.png
+art/snake-emerald/verify.py
+artwork-library/assets/fantasy-machinery/korr-dazed-v1--b471614a2428.png
+artwork-library/assets/fantasy-machinery/korr-defeat-v1--d2a054abc055.png
+artwork-library/assets/fantasy-machinery/nerra-dazed-v1--6f2c100dfa91.png
+artwork-library/assets/fantasy-machinery/nerra-defeat-v1--49b8f352ee5f.png
+artwork-library/assets/fantasy-machinery/nerra-fury-v1--6678778a9157.png
+artwork-library/assets/fantasy-machinery/reactions-manifest--11b2958079f6.json
+artwork-library/assets/snake-emerald/head_blink_l--9b2efbad5858.png
+artwork-library/assets/snake-emerald/head_blink_r--a8727a03f39e.png
+artwork-library/assets/snake-emerald/head_chew0_l--2d7998b103f3.png
+artwork-library/assets/snake-emerald/head_chew0_r--ea6fa44e5829.png
+artwork-library/assets/snake-emerald/head_chew1_l--2146f18fc333.png
+artwork-library/assets/snake-emerald/head_chew1_r--fdc3334ef374.png
+artwork-library/assets/snake-emerald/head_dizzy_l--7ef9881e1613.png
+artwork-library/assets/snake-emerald/head_dizzy_r--8cfbcb23aaf7.png
+artwork-library/assets/snake-emerald/head_grin_l--27d566c7d398.png
+artwork-library/assets/snake-emerald/head_grin_r--c77de439f8ca.png
+artwork-library/assets/snake-emerald/head_hiss_l--abad076ecf05.png
+artwork-library/assets/snake-emerald/head_hiss_r--e8621d8b20d2.png
+artwork-library/assets/snake-emerald/head_hunt_l--fdd74495ea84.png
+artwork-library/assets/snake-emerald/head_hunt_r--338e214613fb.png
+artwork-library/assets/snake-emerald/head_idle_l--839ae0f9b8e8.png
+artwork-library/assets/snake-emerald/head_idle_r--b8bafff43894.png
+artwork-library/assets/snake-emerald/head_ouch_l--2237ccb3427c.png
+artwork-library/assets/snake-emerald/head_ouch_r--2a3c05c963e3.png
+artwork-library/assets/snake-emerald/head_taste_l--171ad06df1a1.png
+artwork-library/assets/snake-emerald/head_taste_r--183617b5dab0.png
+artwork-library/assets/snake-emerald/manifest--d07cce6d9c77.json
+artwork-library/assets/snake-emerald/manifest--dae4b90943fb.json
+artwork-library/assets/snake-emerald/meta--88d13673cd4f.json
+artwork-library/assets/snake-emerald/meta--f8e9f9f93774.json
+artwork-library/sources/fantasy-machinery/proof/reactions/contact--5d7718562e1c.png
+artwork-library/sources/fantasy-machinery/proof/reactions/korr-dazed-ios--2278680f91bf.png
+artwork-library/sources/fantasy-machinery/proof/reactions/korr-defeat-ios--b690c16b84eb.png
+artwork-library/sources/fantasy-machinery/proof/reactions/nerra-defeat-ios--a69599855552.png
+artwork-library/sources/fantasy-machinery/proof/reactions/nerra-fury-ios--134338e2471b.png
+artwork-library/sources/fantasy-machinery/source/reactions-v1--67cefe6a3b15.png
+artwork-library/sources/snake-emerald/proof/anchors--297e7be7221b.png
+artwork-library/sources/snake-emerald/proof/contact--aa0966b7710c.png
+artwork-library/sources/snake-emerald/source/heads-v1--ce924290a0c5.png
+assets/fantasy-machinery/korr-dazed-v1.png
+assets/fantasy-machinery/korr-defeat-v1.png
+assets/fantasy-machinery/nerra-dazed-v1.png
+assets/fantasy-machinery/nerra-defeat-v1.png
+assets/fantasy-machinery/nerra-fury-v1.png
+assets/fantasy-machinery/reactions-manifest.json
+assets/snake-emerald/manifest.json
+assets/snake-emerald/meta.json
+docs/FANTASY_REFINEMENT.md
+docs/validation/bellforge/android-dazed-final-staged.png
+docs/validation/bellforge/android-defeat-intermediate-staged.png
+docs/validation/bellforge/android-escape-final-staged.png
+docs/validation/bellforge/defeat-responsive-final-notes.json
+docs/validation/bellforge/defeat-responsive-final.json
+docs/validation/bellforge/defeat-responsive-intermediate.json
+docs/validation/bellforge/defeat-responsive-notes.json
+docs/validation/bellforge/ios-dazed-final-staged.png
+docs/validation/bellforge/ios-defeat-intermediate-staged.png
+docs/validation/bellforge/ios-escape-final-staged.png
+docs/validation/bellforge/short-desktop-intermediate.png
+docs/validation/fantasy-refinement/README.md
+docs/validation/fantasy-refinement/SHA256SUMS
+docs/validation/fantasy-refinement/android-capture-2.2-natural.png
+docs/validation/fantasy-refinement/android-capture-3.17-natural.png
+docs/validation/fantasy-refinement/android-claw-shot-staged.png
+docs/validation/fantasy-refinement/android-starfire-staged.png
+docs/validation/fantasy-refinement/initial-responsive.json
+docs/validation/fantasy-refinement/ios-capture-2.2-natural.png
+docs/validation/fantasy-refinement/ios-capture-3-natural.png
+docs/validation/fantasy-refinement/ios-capture-3.17-mirrored-staged.png
+docs/validation/fantasy-refinement/ios-capture-3.17-natural.png
+docs/validation/fantasy-refinement/ios-kit-menu-staged.png
+docs/validation/fantasy-refinement/ios-nerra-defeat-staged.png
+docs/validation/fantasy-refinement/ios-nerra-fury-staged.png
+docs/validation/fantasy-refinement/ios-venom-breath-staged.png
+docs/validation/fantasy-refinement/new-png-audit.json
+docs/validation/fantasy-refinement/reaction-png-audit.json
+docs/validation/fantasy-refinement/snake-body-cpu-before.json
+docs/validation/fantasy-refinement/snake-body-cpu.json
+docs/validation/fantasy-refinement/snake-final-browser.json
+docs/validation/fantasy-refinement/snake-final-video.json
+docs/validation/fantasy-refinement/snake-review.md
+docs/validation/fantasy-refinement/snake-wrap-laugh-ios.webm
+docs/validation/fantasy-refinement/tidewheel-earned-routes.json
+docs/validation/fantasy-refinement/tidewheel-ui.json
+docs/validation/fantasy-refinement/unit-tests.txt
+docs/validation/fantasy-refinement/vault-capture-mechanics-audit.json
+docs/validation/fantasy-refinement/vault-graphics-mechanics-audit.json
+prototypes/fantasy/layout.js
+src/fantasy/tidewheel-reaction-geometry.js
+src/serpent-capture.js
+tests/fantasy-layout.test.js
+tests/serpent-capture.test.js
+tests/tidewheel-powers.test.js
+tools/playtest/bellforge-defeat.mjs
+tools/playtest/fantasy-responsive.mjs
+tools/playtest/snake-body-bench.mjs
+tools/playtest/snake-capture-video.mjs
+tools/playtest/snake-source-audit.mjs
+tools/playtest/snake-visual.mjs
+tools/playtest/tidewheel-powers-ui.mjs
+tools/playtest/vault-visual.mjs
 .gitattributes
 .github/workflows/mobile-preview.yml
 .gitignore

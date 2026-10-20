@@ -1,0 +1,350 @@
+{
+  "scope": "Independent real-page responsive controls and explicitly staged defeat visual timeline. Final HP is removed by the fixture, never claimed as an earned win. No human-balance, physical-device or performance claim. Per-case source stamps disclose concurrent edits.",
+  "cases": [
+    {
+      "width": 393,
+      "height": 852,
+      "before": {
+        "src/fantasy/bellforge.js": "a36418f1a40e5b95521065d27f80497c241bc30baa4e1789da3e9be7ce3693cf",
+        "prototypes/fantasy/main.js": "728bbc49adb17a215f7febfea85488185927819ee1210acce5d1eaec89be7542",
+        "prototypes/fantasy/layout.js": "963ad5bd785d403c3cda3fbe9f020a2a5c431dbbe2bec113e8f81f10b06764f0",
+        "prototypes/fantasy/style.css": "8bfdbb1340027000e093cdc75064941e5778113a7bb78e77cc38f735d28a17b6",
+        "prototypes/fantasy/render.js": "57d691a16acd59680f60bbffe698110245f3220369a8a01fc744029cf0dd148e",
+        "assets/fantasy-machinery/manifest.json": "b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13",
+        "assets/fantasy-machinery/nerra-v2-manifest.json": "defc7d7d75af13b50560cbabd79d5115cbeeafa997d9abc5452f5c5e0418fc69",
+        "assets/fantasy-machinery/water-shot-manifest.json": "44172b349146ac438006989327ddfcd8da2d4db0c81b73e03fb68e5450f8010f",
+        "assets/fantasy-machinery/reactions-manifest.json": "11b2958079f617c556b8d8155195a156dc08f10fc69afe7f7e86f639a6317544",
+        "assets/fantasy-machinery/nerra-fury-v1.png": "6678778a9157b34b2b43a037729267a2c8e655667e0c6be3be79edc8f1058f64",
+        "assets/fantasy-machinery/nerra-dazed-v1.png": "6f2c100dfa914262c87616df859b78afe941f89466322a4887e5ac714e277d91",
+        "assets/fantasy-machinery/nerra-defeat-v1.png": "49b8f352ee5f7c719d93bec137ea6f07c2c9c2038c7ee5ab9ddcdcdd7e63ef5f",
+        "assets/fantasy-machinery/korr-dazed-v1.png": "b471614a24286c3ec2bf8119b692d16459c536ef397f74039d39a3b613c7245d",
+        "assets/fantasy-machinery/korr-defeat-v1.png": "d2a054abc05565087d5ab8f6c087029e3cebe1fe45bf15dd7b85db566dea635a"
+      },
+      "errors": [],
+      "http": [],
+      "layout": {
+        "worldHeight": 781,
+        "paddleY": 665.5801526717557,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 393,
+          "h": 852
+        },
+        "orb": {
+          "x": 12,
+          "y": 761,
+          "w": 74,
+          "h": 74
+        },
+        "paddleBottom": 741.3601665510063
+      },
+      "controls": {
+        "normalTouchLaunch": true,
+        "firstPauseAfterDrag": true,
+        "pauseFreeze": true,
+        "resumeAdvances": true,
+        "orbOpens": true,
+        "freshRetry": true
+      },
+      "stagedDefeat": [
+        {
+          "label": "stagger",
+          "state": "play",
+          "phase": "rescue",
+          "defeat": {
+            "age": 0.2200000000000002,
+            "stage": "stagger",
+            "progress": 0.4888888888888893,
+            "frame": 3,
+            "offsetX": 0,
+            "offsetY": 0,
+            "angle": -0.03383352537722913,
+            "scaleX": 1,
+            "scaleY": 1,
+            "daze": 0
+          },
+          "escape": 0,
+          "bells": 0,
+          "pendingDocks": 0,
+          "body": 0
+        },
+        {
+          "label": "slump",
+          "state": "play",
+          "phase": "rescue",
+          "defeat": {
+            "age": 0.7799999999999983,
+            "stage": "slump",
+            "progress": 0.507692307692305,
+            "frame": 3,
+            "offsetX": 0,
+            "offsetY": 0,
+            "angle": 0.0067306326809279116,
+            "scaleX": 1.0204615020482475,
+            "scaleY": 0.9079232407828866,
+            "daze": 0
+          },
+          "escape": 0,
+          "bells": 0,
+          "pendingDocks": 0,
+          "body": 0
+        },
+        {
+          "label": "dazed",
+          "state": "play",
+          "phase": "rescue",
+          "defeat": {
+            "age": 1.3499999999999923,
+            "stage": "dazed",
+            "progress": 0.4999999999999847,
+            "frame": 3,
+            "offsetX": 0,
+            "offsetY": 0,
+            "angle": 0.07999999999999999,
+            "scaleX": 1.04,
+            "scaleY": 0.8200000000000001,
+            "daze": 1
+          },
+          "escape": 0,
+          "bells": 0,
+          "pendingDocks": 0,
+          "body": 0
+        },
+        {
+          "label": "escape",
+          "state": "play",
+          "phase": "rescue",
+          "defeat": {
+            "age": 2.199999999999986,
+            "stage": "dazed",
+            "progress": 1,
+            "frame": 3,
+            "offsetX": 0,
+            "offsetY": 0,
+            "angle": 0.07999999999999999,
+            "scaleX": 1.04,
+            "scaleY": 0.8200000000000001,
+            "daze": 1
+          },
+          "escape": 0.3333333333333255,
+          "bells": 0,
+          "pendingDocks": 0,
+          "body": 0
+        },
+        {
+          "label": "result",
+          "state": "won",
+          "phase": "rescue",
+          "defeat": {
+            "age": 3.4000000000000004,
+            "stage": "dazed",
+            "progress": 1,
+            "frame": 3,
+            "offsetX": 0,
+            "offsetY": 0,
+            "angle": 0.07999999999999999,
+            "scaleX": 1.04,
+            "scaleY": 0.8200000000000001,
+            "daze": 1
+          },
+          "escape": 1,
+          "bells": 0,
+          "pendingDocks": 0,
+          "body": 0
+        }
+      ],
+      "after": {
+        "src/fantasy/bellforge.js": "a36418f1a40e5b95521065d27f80497c241bc30baa4e1789da3e9be7ce3693cf",
+        "prototypes/fantasy/main.js": "728bbc49adb17a215f7febfea85488185927819ee1210acce5d1eaec89be7542",
+        "prototypes/fantasy/layout.js": "963ad5bd785d403c3cda3fbe9f020a2a5c431dbbe2bec113e8f81f10b06764f0",
+        "prototypes/fantasy/style.css": "8bfdbb1340027000e093cdc75064941e5778113a7bb78e77cc38f735d28a17b6",
+        "prototypes/fantasy/render.js": "57d691a16acd59680f60bbffe698110245f3220369a8a01fc744029cf0dd148e",
+        "assets/fantasy-machinery/manifest.json": "b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13",
+        "assets/fantasy-machinery/nerra-v2-manifest.json": "defc7d7d75af13b50560cbabd79d5115cbeeafa997d9abc5452f5c5e0418fc69",
+        "assets/fantasy-machinery/water-shot-manifest.json": "44172b349146ac438006989327ddfcd8da2d4db0c81b73e03fb68e5450f8010f",
+        "assets/fantasy-machinery/reactions-manifest.json": "11b2958079f617c556b8d8155195a156dc08f10fc69afe7f7e86f639a6317544",
+        "assets/fantasy-machinery/nerra-fury-v1.png": "6678778a9157b34b2b43a037729267a2c8e655667e0c6be3be79edc8f1058f64",
+        "assets/fantasy-machinery/nerra-dazed-v1.png": "6f2c100dfa914262c87616df859b78afe941f89466322a4887e5ac714e277d91",
+        "assets/fantasy-machinery/nerra-defeat-v1.png": "49b8f352ee5f7c719d93bec137ea6f07c2c9c2038c7ee5ab9ddcdcdd7e63ef5f",
+        "assets/fantasy-machinery/korr-dazed-v1.png": "b471614a24286c3ec2bf8119b692d16459c536ef397f74039d39a3b613c7245d",
+        "assets/fantasy-machinery/korr-defeat-v1.png": "d2a054abc05565087d5ab8f6c087029e3cebe1fe45bf15dd7b85db566dea635a"
+      },
+      "unchangedDuringCase": true,
+      "pass": true
+    },
+    {
+      "width": 412,
+      "height": 915,
+      "before": {
+        "src/fantasy/bellforge.js": "a36418f1a40e5b95521065d27f80497c241bc30baa4e1789da3e9be7ce3693cf",
+        "prototypes/fantasy/main.js": "728bbc49adb17a215f7febfea85488185927819ee1210acce5d1eaec89be7542",
+        "prototypes/fantasy/layout.js": "963ad5bd785d403c3cda3fbe9f020a2a5c431dbbe2bec113e8f81f10b06764f0",
+        "prototypes/fantasy/style.css": "8bfdbb1340027000e093cdc75064941e5778113a7bb78e77cc38f735d28a17b6",
+        "prototypes/fantasy/render.js": "57d691a16acd59680f60bbffe698110245f3220369a8a01fc744029cf0dd148e",
+        "assets/fantasy-machinery/manifest.json": "b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13",
+        "assets/fantasy-machinery/nerra-v2-manifest.json": "defc7d7d75af13b50560cbabd79d5115cbeeafa997d9abc5452f5c5e0418fc69",
+        "assets/fantasy-machinery/water-shot-manifest.json": "44172b349146ac438006989327ddfcd8da2d4db0c81b73e03fb68e5450f8010f",
+        "assets/fantasy-machinery/reactions-manifest.json": "11b2958079f617c556b8d8155195a156dc08f10fc69afe7f7e86f639a6317544",
+        "assets/fantasy-machinery/nerra-fury-v1.png": "6678778a9157b34b2b43a037729267a2c8e655667e0c6be3be79edc8f1058f64",
+        "assets/fantasy-machinery/nerra-dazed-v1.png": "6f2c100dfa914262c87616df859b78afe941f89466322a4887e5ac714e277d91",
+        "assets/fantasy-machinery/nerra-defeat-v1.png": "49b8f352ee5f7c719d93bec137ea6f07c2c9c2038c7ee5ab9ddcdcdd7e63ef5f",
+        "assets/fantasy-machinery/korr-dazed-v1.png": "b471614a24286c3ec2bf8119b692d16459c536ef397f74039d39a3b613c7245d",
+        "assets/fantasy-machinery/korr-defeat-v1.png": "d2a054abc05565087d5ab8f6c087029e3cebe1fe45bf15dd7b85db566dea635a"
+      },
+      "errors": [],
+      "http": [],
+      "layout": {
+        "worldHeight": 800,
+        "paddleY": 689.9029126213592,
+        "canvas": {
+          "x": 0,
+          "y": 0,
+          "w": 412,
+          "h": 915
+        },
+        "orb": {
+          "x": 12,
+          "y": 824,
+          "w": 74,
+          "h": 74
+        },
+        "paddleBottom": 805.0889563106796
+      },
+      "controls": {
+        "normalTouchLaunch": true,
+        "firstPauseAfterDrag": true,
+        "pauseFreeze": true,
+        "resumeAdvances": true,
+        "orbOpens": true,
+        "freshRetry": true
+      },
+      "stagedDefeat": [
+        {
+          "label": "stagger",
+          "state": "play",
+          "phase": "rescue",
+          "defeat": {
+            "age": 0.2200000000000002,
+            "stage": "stagger",
+            "progress": 0.4888888888888893,
+            "frame": 3,
+            "offsetX": 0,
+            "offsetY": 0,
+            "angle": -0.03383352537722913,
+            "scaleX": 1,
+            "scaleY": 1,
+            "daze": 0
+          },
+          "escape": 0,
+          "bells": 0,
+          "pendingDocks": 0,
+          "body": 0
+        },
+        {
+          "label": "slump",
+          "state": "play",
+          "phase": "rescue",
+          "defeat": {
+            "age": 0.7799999999999983,
+            "stage": "slump",
+            "progress": 0.507692307692305,
+            "frame": 3,
+            "offsetX": 0,
+            "offsetY": 0,
+            "angle": 0.0067306326809279116,
+            "scaleX": 1.0204615020482475,
+            "scaleY": 0.9079232407828866,
+            "daze": 0
+          },
+          "escape": 0,
+          "bells": 0,
+          "pendingDocks": 0,
+          "body": 0
+        },
+        {
+          "label": "dazed",
+          "state": "play",
+          "phase": "rescue",
+          "defeat": {
+            "age": 1.3499999999999925,
+            "stage": "dazed",
+            "progress": 0.4999999999999851,
+            "frame": 3,
+            "offsetX": 0,
+            "offsetY": 0,
+            "angle": 0.07999999999999999,
+            "scaleX": 1.04,
+            "scaleY": 0.8200000000000001,
+            "daze": 1
+          },
+          "escape": 0,
+          "bells": 0,
+          "pendingDocks": 0,
+          "body": 0
+        },
+        {
+          "label": "escape",
+          "state": "play",
+          "phase": "rescue",
+          "defeat": {
+            "age": 2.199999999999986,
+            "stage": "dazed",
+            "progress": 1,
+            "frame": 3,
+            "offsetX": 0,
+            "offsetY": 0,
+            "angle": 0.07999999999999999,
+            "scaleX": 1.04,
+            "scaleY": 0.8200000000000001,
+            "daze": 1
+          },
+          "escape": 0.3333333333333255,
+          "bells": 0,
+          "pendingDocks": 0,
+          "body": 0
+        },
+        {
+          "label": "result",
+          "state": "won",
+          "phase": "rescue",
+          "defeat": {
+            "age": 3.4000000000000004,
+            "stage": "dazed",
+            "progress": 1,
+            "frame": 3,
+            "offsetX": 0,
+            "offsetY": 0,
+            "angle": 0.07999999999999999,
+            "scaleX": 1.04,
+            "scaleY": 0.8200000000000001,
+            "daze": 1
+          },
+          "escape": 1,
+          "bells": 0,
+          "pendingDocks": 0,
+          "body": 0
+        }
+      ],
+      "after": {
+        "src/fantasy/bellforge.js": "a36418f1a40e5b95521065d27f80497c241bc30baa4e1789da3e9be7ce3693cf",
+        "prototypes/fantasy/main.js": "728bbc49adb17a215f7febfea85488185927819ee1210acce5d1eaec89be7542",
+        "prototypes/fantasy/layout.js": "963ad5bd785d403c3cda3fbe9f020a2a5c431dbbe2bec113e8f81f10b06764f0",
+        "prototypes/fantasy/style.css": "8bfdbb1340027000e093cdc75064941e5778113a7bb78e77cc38f735d28a17b6",
+        "prototypes/fantasy/render.js": "57d691a16acd59680f60bbffe698110245f3220369a8a01fc744029cf0dd148e",
+        "assets/fantasy-machinery/manifest.json": "b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13",
+        "assets/fantasy-machinery/nerra-v2-manifest.json": "defc7d7d75af13b50560cbabd79d5115cbeeafa997d9abc5452f5c5e0418fc69",
+        "assets/fantasy-machinery/water-shot-manifest.json": "44172b349146ac438006989327ddfcd8da2d4db0c81b73e03fb68e5450f8010f",
+        "assets/fantasy-machinery/reactions-manifest.json": "11b2958079f617c556b8d8155195a156dc08f10fc69afe7f7e86f639a6317544",
+        "assets/fantasy-machinery/nerra-fury-v1.png": "6678778a9157b34b2b43a037729267a2c8e655667e0c6be3be79edc8f1058f64",
+        "assets/fantasy-machinery/nerra-dazed-v1.png": "6f2c100dfa914262c87616df859b78afe941f89466322a4887e5ac714e277d91",
+        "assets/fantasy-machinery/nerra-defeat-v1.png": "49b8f352ee5f7c719d93bec137ea6f07c2c9c2038c7ee5ab9ddcdcdd7e63ef5f",
+        "assets/fantasy-machinery/korr-dazed-v1.png": "b471614a24286c3ec2bf8119b692d16459c536ef397f74039d39a3b613c7245d",
+        "assets/fantasy-machinery/korr-defeat-v1.png": "d2a054abc05565087d5ab8f6c087029e3cebe1fe45bf15dd7b85db566dea635a"
+      },
+      "unchangedDuringCase": true,
+      "pass": true
+    }
+  ],
+  "complete": true
+}

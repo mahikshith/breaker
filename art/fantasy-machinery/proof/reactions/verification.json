@@ -1,0 +1,100 @@
+{
+  "manifestSHA256": "11b2958079f617c556b8d8155195a156dc08f10fc69afe7f7e86f639a6317544",
+  "sourceSHA256": "67cefe6a3b15f485a2985d899fba7132c9f18bfc8777054ab4e3bcdc009a4606",
+  "geometryModuleSHA256": "a4f3ec81c4d50e17279af8805ad30da8ee8406e2ecd9da28fed503ecc3e266ae",
+  "files": {
+    "nerra-fury": {
+      "sha256": "6678778a9157b34b2b43a037729267a2c8e655667e0c6be3be79edc8f1058f64",
+      "bytes": 519048,
+      "decodedRGBABytes": 1474560,
+      "metadata": {},
+      "edgeAlpha": 0,
+      "unit": [
+        190.08,
+        171.072
+      ],
+      "pivot": [
+        0.5,
+        0.9375
+      ],
+      "terminalOnly": false,
+      "circles": 90,
+      "allDisksOpaque": true,
+      "normal6uCoverage": 1.0,
+      "maximumOpaqueGap": 5.849545514691528,
+      "localOpaqueBounds": [
+        -82.269,
+        -151.767,
+        82.863,
+        0.2970000000000084
+      ]
+    },
+    "nerra-dazed": {
+      "sha256": "6f2c100dfa914262c87616df859b78afe941f89466322a4887e5ac714e277d91",
+      "bytes": 461822,
+      "decodedRGBABytes": 1474560,
+      "metadata": {},
+      "edgeAlpha": 0,
+      "unit": [
+        190.08,
+        171.072
+      ],
+      "pivot": [
+        0.5,
+        0.9375
+      ],
+      "terminalOnly": true
+    },
+    "nerra-defeat": {
+      "sha256": "49b8f352ee5f7c719d93bec137ea6f07c2c9c2038c7ee5ab9ddcdcdd7e63ef5f",
+      "bytes": 460982,
+      "decodedRGBABytes": 1474560,
+      "metadata": {},
+      "edgeAlpha": 0,
+      "unit": [
+        190.08,
+        171.072
+      ],
+      "pivot": [
+        0.5,
+        0.9375
+      ],
+      "terminalOnly": true
+    },
+    "korr-dazed": {
+      "sha256": "b471614a24286c3ec2bf8119b692d16459c536ef397f74039d39a3b613c7245d",
+      "bytes": 243338,
+      "decodedRGBABytes": 917504,
+      "metadata": {},
+      "edgeAlpha": 0,
+      "unit": [
+        170.66666666666666,
+        149.33333333333334
+      ],
+      "pivot": [
+        0.5,
+        0.8839285714285714
+      ],
+      "terminalOnly": true
+    },
+    "korr-defeat": {
+      "sha256": "d2a054abc05565087d5ab8f6c087029e3cebe1fe45bf15dd7b85db566dea635a",
+      "bytes": 213918,
+      "decodedRGBABytes": 917504,
+      "metadata": {},
+      "edgeAlpha": 0,
+      "unit": [
+        170.66666666666666,
+        149.33333333333334
+      ],
+      "pivot": [
+        0.5,
+        0.8839285714285714
+      ],
+      "terminalOnly": true
+    }
+  },
+  "scope": "Source/native staged art verification; actual runtime/physics test belongs to integration.",
+  "encodedBytes": 1899108,
+  "decodedRGBABytes": 6258688
+}

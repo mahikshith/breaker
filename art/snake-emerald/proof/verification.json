@@ -1,0 +1,26 @@
+{
+  "manifestSHA256": "d07cce6d9c7732be361cbe6b759831ad513597907871c318ad26815639aa704a",
+  "metaSHA256": "f8e9f9f937740e9096ba1c173de2ea378263572fed402c203a1bfad92ea12977",
+  "sourceSHA256": "ce924290a0c5cc2670d492d40eb75f0fb8241aa686af220a5c291b60833d3952",
+  "authoredHeads": 10,
+  "legacyKeys": 13,
+  "directions": 2,
+  "cells": 26,
+  "unit": 44,
+  "cell": 256,
+  "aliases": {
+    "shock": "idle",
+    "snarl": "hunt",
+    "strike": "hiss"
+  },
+  "alphaEdges": 0,
+  "metadata": {},
+  "allHiddenRGBZero": true,
+  "encodedBytes": 575649,
+  "packedDecodedRGBABytes": 6815744,
+  "normalOpaqueWidthRange": [
+    29.4078125,
+    31.15234375
+  ],
+  "note": "Native-sized source proof only; final integrated body/head seam and venom outlet are verified separately."
+}

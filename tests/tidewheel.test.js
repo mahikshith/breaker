@@ -120,10 +120,10 @@ test('ordinary contacts always damage shell; two active-claw contacts cancel a w
   g.hit({kind:'claw',id:'claw1'},b);g.hit({kind:'claw',id:'claw1'},b);
   assert.equal(g.villain.stage,'recover');assert.equal(g.pulses.length,0);
 });
-test('earned Anchor rejects idle without spending, cancels one surge and drains once',()=>{
-  const g=new Tidewheel();g.launch();g.charge=100;
-  assert.equal(g.activate(),false);assert.equal(g.charge,100);
-  g.water.target-=48;g.villain.stage='pullWindup';const old=g.water.target;
+test('earned Anchor can arm while idle, drains once and rejects a second spend while protected',()=>{
+  const g=new Tidewheel();g.launch();g.charge=99;
+  assert.equal(g.activate(),false);assert.equal(g.charge,99);
+  g.charge=100;g.water.target-=48;const old=g.water.target;
   assert(g.activate());assert.equal(g.water.target,old+24);assert.equal(g.charge,0);
   g.charge=100;assert.equal(g.activate(),false);assert.equal(g.charge,100);
 });
@@ -136,7 +136,7 @@ test('high-speed ball hits a moving raft cell without tunnelling or duplicate co
 test('final shell hit wins before flood failure, and Continue preserves damage and broken gates',()=>{
   const g=new Tidewheel();g.launch();g.villain.hp=1;g.water.y=g.water.limit;
   g.hit({kind:'shell',id:'shell'},g.balls[0]);g.step(1/240);assert.equal(g.phase,'rescue');assert.equal(g.state,'play');
-  for(let i=0;i<30;i++)g.update(.1);assert.equal(g.state,'won');
+  for(let i=0;i<40;i++)g.update(.1);assert.equal(g.state,'won');
   const h=new Tidewheel();h.villain.hp=10;h.gates[0].hp=0;h.state='lost';h.water.y-=70;
   assert(h.continue());assert.equal(h.villain.hp,10);assert.equal(h.gates[0].hp,0);assert.equal(h.continue(),false);
 });

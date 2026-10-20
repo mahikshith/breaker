@@ -1,0 +1,1093 @@
+{
+  "scope": "Staged visual/expression/cardinal-direction and natural no-input capture sequence. Source field comparison is exact; pose fixtures change snake presentation/path fields only. No earned-win, human-balance, physical-device or performance claim. Isolated draw timing measures CPU command submission only.",
+  "htmlSHA256": "9b6b88799cfdf7c813c5d97824e3e9dd2e17558caf4fda13e0d3a3ff75385c37",
+  "before": {
+    "src/vault.js": "cc6b7e4051ab0ffc18cae81a083fdc1d985247f62836240d226e63f5c233e363",
+    "src/serpent.js": "386a9e5a72ef1d72501e8457def236806ce20a052efada2bd6b2d3148874fa4f",
+    "src/serpent-capture.js": "3f6bdfaeae957d13282afcdf0ed1b3858643d55aadb35a81fe4d821358da0560",
+    "src/difficulty.js": "3596ef0e04692535c0808b0d6625db6014f564e4f39a31741e88af2468407fd7",
+    "tools/pack_art.py": "f2355e9acb215924d9bcb04879d925270c8d163196cbeaf88cfadaf330890aa1",
+    "assets/snake-emerald/meta.json": "f8e9f9f937740e9096ba1c173de2ea378263572fed402c203a1bfad92ea12977",
+    "assets/snake-emerald/manifest.json": "d07cce6d9c7732be361cbe6b759831ad513597907871c318ad26815639aa704a",
+    "assets/snake-emerald/head_idle_r.png": "b8bafff43894f49b04d55a3d36650ac6746a350fab319b4f1ff3c4686ccb0de9",
+    "assets/snake-emerald/head_idle_l.png": "839ae0f9b8e8744283737178f1c61e4b6ea670ea12d01b0ef7baa4579ded4c8a",
+    "assets/snake-emerald/head_blink_r.png": "a8727a03f39e41dbec77ccf88fa95810e95774512c3bd769ee493aa14e56a678",
+    "assets/snake-emerald/head_blink_l.png": "9b2efbad58586ddbf8d2c64a75d16586e55a511567e52e32480bfe0df0f972b6",
+    "assets/snake-emerald/head_taste_r.png": "183617b5dab0bf265ecb6627dfbc31b847d424aa70465f10b8bb2467eda17d89",
+    "assets/snake-emerald/head_taste_l.png": "171ad06df1a105ae687660acf7c6c878c1d8c1d07e5259370595cfd31bcf3bfe",
+    "assets/snake-emerald/head_hunt_r.png": "338e214613fb93d179c264cc36824f5a095f4c15ca5f8dbb3906c89674ede8a7",
+    "assets/snake-emerald/head_hunt_l.png": "fdd74495ea8413732ad7401f6c34ab6d6f9670ca3bfdcd08a761f3f96aae4c14",
+    "assets/snake-emerald/head_chew0_r.png": "ea6fa44e58292c70ae528331c1796e1bc4cc34cdda922ee779b07b42482f5a2c",
+    "assets/snake-emerald/head_chew0_l.png": "2d7998b103f3d5ff3bb3a73924fa662cd1ecba02d6b14218c42fad06c4a04b7d",
+    "assets/snake-emerald/head_chew1_r.png": "fdc3334ef3746d12ca51d317823621bdcce13e73407034a6c418ce176a7298e7",
+    "assets/snake-emerald/head_chew1_l.png": "2146f18fc333c58909a4ac44848364d0ce05cdcfea7085a24873de9779810fd9",
+    "assets/snake-emerald/head_hiss_r.png": "e8621d8b20d248c775fb4519c962360f4359a6eab63b015578f5765ff962f175",
+    "assets/snake-emerald/head_hiss_l.png": "abad076ecf058430a51b2cdb9e3bcf28d236f398e0e27338b6dbda98642d1697",
+    "assets/snake-emerald/head_ouch_r.png": "2a3c05c963e3a649eb31cd5c19300ed71762e3e6a1cdf18d0f4f0b7491047804",
+    "assets/snake-emerald/head_ouch_l.png": "2237ccb3427c837055467e25c78071190327176f86e4e86f77eb4a0d3c9af7ca",
+    "assets/snake-emerald/head_dizzy_r.png": "8cfbcb23aaf76402bc233ffd7a4aa1df072c3bbe455f08723e80f5b1a6d1d57e",
+    "assets/snake-emerald/head_dizzy_l.png": "7ef9881e161328c8f88f27a38fdf60daaffd4b6fcda8b8f492fbc69d5c5ed3ad",
+    "assets/snake-emerald/head_shock_r.png": "b8bafff43894f49b04d55a3d36650ac6746a350fab319b4f1ff3c4686ccb0de9",
+    "assets/snake-emerald/head_shock_l.png": "839ae0f9b8e8744283737178f1c61e4b6ea670ea12d01b0ef7baa4579ded4c8a",
+    "assets/snake-emerald/head_snarl_r.png": "338e214613fb93d179c264cc36824f5a095f4c15ca5f8dbb3906c89674ede8a7",
+    "assets/snake-emerald/head_snarl_l.png": "fdd74495ea8413732ad7401f6c34ab6d6f9670ca3bfdcd08a761f3f96aae4c14",
+    "assets/snake-emerald/head_strike_r.png": "e8621d8b20d248c775fb4519c962360f4359a6eab63b015578f5765ff962f175",
+    "assets/snake-emerald/head_strike_l.png": "abad076ecf058430a51b2cdb9e3bcf28d236f398e0e27338b6dbda98642d1697",
+    "assets/snake-emerald/head_grin_r.png": "c77de439f8ca3a4ed089ac6cb19640d4b45d01614338f11ef7415c752fede734",
+    "assets/snake-emerald/head_grin_l.png": "27d566c7d3980333ebb1c8d1189107f554657d708f32e39c823f419baa80130b"
+  },
+  "after": {
+    "src/vault.js": "cc6b7e4051ab0ffc18cae81a083fdc1d985247f62836240d226e63f5c233e363",
+    "src/serpent.js": "386a9e5a72ef1d72501e8457def236806ce20a052efada2bd6b2d3148874fa4f",
+    "src/serpent-capture.js": "3f6bdfaeae957d13282afcdf0ed1b3858643d55aadb35a81fe4d821358da0560",
+    "src/difficulty.js": "3596ef0e04692535c0808b0d6625db6014f564e4f39a31741e88af2468407fd7",
+    "tools/pack_art.py": "f2355e9acb215924d9bcb04879d925270c8d163196cbeaf88cfadaf330890aa1",
+    "assets/snake-emerald/meta.json": "f8e9f9f937740e9096ba1c173de2ea378263572fed402c203a1bfad92ea12977",
+    "assets/snake-emerald/manifest.json": "d07cce6d9c7732be361cbe6b759831ad513597907871c318ad26815639aa704a",
+    "assets/snake-emerald/head_idle_r.png": "b8bafff43894f49b04d55a3d36650ac6746a350fab319b4f1ff3c4686ccb0de9",
+    "assets/snake-emerald/head_idle_l.png": "839ae0f9b8e8744283737178f1c61e4b6ea670ea12d01b0ef7baa4579ded4c8a",
+    "assets/snake-emerald/head_blink_r.png": "a8727a03f39e41dbec77ccf88fa95810e95774512c3bd769ee493aa14e56a678",
+    "assets/snake-emerald/head_blink_l.png": "9b2efbad58586ddbf8d2c64a75d16586e55a511567e52e32480bfe0df0f972b6",
+    "assets/snake-emerald/head_taste_r.png": "183617b5dab0bf265ecb6627dfbc31b847d424aa70465f10b8bb2467eda17d89",
+    "assets/snake-emerald/head_taste_l.png": "171ad06df1a105ae687660acf7c6c878c1d8c1d07e5259370595cfd31bcf3bfe",
+    "assets/snake-emerald/head_hunt_r.png": "338e214613fb93d179c264cc36824f5a095f4c15ca5f8dbb3906c89674ede8a7",
+    "assets/snake-emerald/head_hunt_l.png": "fdd74495ea8413732ad7401f6c34ab6d6f9670ca3bfdcd08a761f3f96aae4c14",
+    "assets/snake-emerald/head_chew0_r.png": "ea6fa44e58292c70ae528331c1796e1bc4cc34cdda922ee779b07b42482f5a2c",
+    "assets/snake-emerald/head_chew0_l.png": "2d7998b103f3d5ff3bb3a73924fa662cd1ecba02d6b14218c42fad06c4a04b7d",
+    "assets/snake-emerald/head_chew1_r.png": "fdc3334ef3746d12ca51d317823621bdcce13e73407034a6c418ce176a7298e7",
+    "assets/snake-emerald/head_chew1_l.png": "2146f18fc333c58909a4ac44848364d0ce05cdcfea7085a24873de9779810fd9",
+    "assets/snake-emerald/head_hiss_r.png": "e8621d8b20d248c775fb4519c962360f4359a6eab63b015578f5765ff962f175",
+    "assets/snake-emerald/head_hiss_l.png": "abad076ecf058430a51b2cdb9e3bcf28d236f398e0e27338b6dbda98642d1697",
+    "assets/snake-emerald/head_ouch_r.png": "2a3c05c963e3a649eb31cd5c19300ed71762e3e6a1cdf18d0f4f0b7491047804",
+    "assets/snake-emerald/head_ouch_l.png": "2237ccb3427c837055467e25c78071190327176f86e4e86f77eb4a0d3c9af7ca",
+    "assets/snake-emerald/head_dizzy_r.png": "8cfbcb23aaf76402bc233ffd7a4aa1df072c3bbe455f08723e80f5b1a6d1d57e",
+    "assets/snake-emerald/head_dizzy_l.png": "7ef9881e161328c8f88f27a38fdf60daaffd4b6fcda8b8f492fbc69d5c5ed3ad",
+    "assets/snake-emerald/head_shock_r.png": "b8bafff43894f49b04d55a3d36650ac6746a350fab319b4f1ff3c4686ccb0de9",
+    "assets/snake-emerald/head_shock_l.png": "839ae0f9b8e8744283737178f1c61e4b6ea670ea12d01b0ef7baa4579ded4c8a",
+    "assets/snake-emerald/head_snarl_r.png": "338e214613fb93d179c264cc36824f5a095f4c15ca5f8dbb3906c89674ede8a7",
+    "assets/snake-emerald/head_snarl_l.png": "fdd74495ea8413732ad7401f6c34ab6d6f9670ca3bfdcd08a761f3f96aae4c14",
+    "assets/snake-emerald/head_strike_r.png": "e8621d8b20d248c775fb4519c962360f4359a6eab63b015578f5765ff962f175",
+    "assets/snake-emerald/head_strike_l.png": "abad076ecf058430a51b2cdb9e3bcf28d236f398e0e27338b6dbda98642d1697",
+    "assets/snake-emerald/head_grin_r.png": "c77de439f8ca3a4ed089ac6cb19640d4b45d01614338f11ef7415c752fede734",
+    "assets/snake-emerald/head_grin_l.png": "27d566c7d3980333ebb1c8d1189107f554657d708f32e39c823f419baa80130b"
+  },
+  "expected": {
+    "granite": 45,
+    "bars": 18,
+    "cells": 400
+  },
+  "atlas": {
+    "dataURLSHA256": "844e5b00f7796f71a711b0bc370fd4dc6379d4ac852856a382af32bcfe17ad35",
+    "encodedSHA256": "1359cdfb66e7bd7aea2671a2d0c99dfb63e0c762ecb20821164318fa394962c7",
+    "encodedBytes": 176138,
+    "decodedRGBABytes": 6815744,
+    "cell": 256,
+    "unit": 44,
+    "expr": {
+      "idle": 0,
+      "blink": 1,
+      "taste": 2,
+      "hunt": 3,
+      "chew0": 4,
+      "chew1": 5,
+      "hiss": 6,
+      "ouch": 7,
+      "dizzy": 8,
+      "shock": 9,
+      "snarl": 10,
+      "strike": 11,
+      "grin": 12
+    },
+    "dir": {
+      "r": 0,
+      "l": 1
+    }
+  },
+  "testedHtmlUnchanged": true,
+  "sourcesUnchanged": true,
+  "complete": true,
+  "devices": [
+    {
+      "device": "ios",
+      "width": 393,
+      "height": 852,
+      "pass": true,
+      "errors": [],
+      "poses": [
+        {
+          "direction": "right",
+          "expression": "idle",
+          "granite": 45
+        },
+        {
+          "direction": "left",
+          "expression": "idle",
+          "granite": 45
+        },
+        {
+          "direction": "up",
+          "expression": "idle",
+          "granite": 45
+        },
+        {
+          "direction": "down",
+          "expression": "idle",
+          "granite": 45
+        },
+        {
+          "direction": "right",
+          "expression": "hiss",
+          "granite": 45
+        },
+        {
+          "direction": "right",
+          "expression": "ouch",
+          "granite": 45
+        },
+        {
+          "direction": "right",
+          "expression": "dizzy",
+          "granite": 45
+        }
+      ],
+      "venom": [
+        {
+          "phase": "warn",
+          "expression": "snarl",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 592.2645509896694,
+            "y": 698.7435285116952
+          },
+          "nearestStreamStartErrorPixels": 0.000017659774141460532,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 604.7041883046284,
+            "y": 695.5900725891576
+          },
+          "nearestStreamStartErrorPixels": 0.00002837620908094084,
+          "granite": 45
+        }
+      ],
+      "motion": [
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 604.5650506875388,
+            "y": 695.9268182296057
+          },
+          "nearestStreamStartErrorPixels": 0.00002891515031774441,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 604.5960351802128,
+            "y": 695.8300166557701
+          },
+          "nearestStreamStartErrorPixels": 0.00001608939294641178,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 604.6253186405651,
+            "y": 695.7467945485322
+          },
+          "nearestStreamStartErrorPixels": 0.000003467480904087286,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 604.6523728383934,
+            "y": 695.6790994360186
+          },
+          "nearestStreamStartErrorPixels": 0.00001276320565178304,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 604.6767094356978,
+            "y": 695.6285915698368
+          },
+          "nearestStreamStartErrorPixels": 0.00002681033818988089,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 604.6978943636459,
+            "y": 695.5965242299023
+          },
+          "nearestStreamStartErrorPixels": 0.000011060828035076657,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 604.7155499440137,
+            "y": 695.5838153585789
+          },
+          "nearestStreamStartErrorPixels": 0.000016068437287155433,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 604.729367505232,
+            "y": 695.5909913139448
+          },
+          "nearestStreamStartErrorPixels": 0.000016603607988525573,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 604.7391114938272,
+            "y": 695.6181238212789
+          },
+          "nearestStreamStartErrorPixels": 0.000018195403747269058,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 604.7446293401528,
+            "y": 695.6647675575028
+          },
+          "nearestStreamStartErrorPixels": 0.000010547655272412022,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 604.7458471822862,
+            "y": 695.7301639130385
+          },
+          "nearestStreamStartErrorPixels": 0.000004129534157563242,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 604.7427784663346,
+            "y": 695.8131093879891
+          },
+          "nearestStreamStartErrorPixels": 0.000022205789676248195,
+          "granite": 45
+        }
+      ],
+      "captureScope": "Natural no-input approach accelerated through actual update, then sequential actual120Hz updates; full original ribbon retained; lost-ball guard and4.2s terminal timing checked. Alternate side is explicitly a mirrored path/attack fixture.",
+      "capture": [
+        {
+          "attack": 1.2299999999999958,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "strike",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.49378977607654084,
+          "lift": 0,
+          "bodyTilt": 0,
+          "laughPulse": 0,
+          "frontPathCount": 0,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0.0253684187861154,
+          "maxLengthError": 5.684341886080802e-14,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 1.50499999999999,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "strike",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.4581006085565995,
+          "lift": 0,
+          "bodyTilt": 0,
+          "laughPulse": 0,
+          "frontPathCount": 0,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0.7570021437776404,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 1.8549999999999824,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "strike",
+          "side": 1,
+          "faceBlend": 1,
+          "headRotation": 0.39489847489473034,
+          "lift": 0,
+          "bodyTilt": 0,
+          "laughPulse": 0,
+          "frontPathCount": 0,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 1.128574865998033,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 2.204999999999975,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "strike",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.11079163217605185,
+          "lift": 0.21087727052497296,
+          "bodyTilt": 0.04305576880044077,
+          "laughPulse": 0,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 1.1312609338694668,
+          "maxLengthError": 2.2737367544323206e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 2.5549999999999677,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "grin",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.0470343253973,
+          "lift": 1,
+          "bodyTilt": 8.572527594031473e-18,
+          "laughPulse": 0,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0.8652123065999149,
+          "maxLengthError": 2.2737367544323206e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 3.004999999999958,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "grin",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.06689624879921714,
+          "lift": 1,
+          "bodyTilt": 8.572527594031473e-18,
+          "laughPulse": 0,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 3.1749999999999545,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "chew0",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.15881146748559827,
+          "lift": 1,
+          "bodyTilt": 8.572527594031473e-18,
+          "laughPulse": 0.9980267284283145,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 3.3049999999999518,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "grin",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.06635821396691675,
+          "lift": 1,
+          "bodyTilt": 8.572527594031473e-18,
+          "laughPulse": 0,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 4.154999999999934,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "grin",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.05305627576436046,
+          "lift": 1,
+          "bodyTilt": 8.572527594031473e-18,
+          "laughPulse": 0,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 4.204999999999933,
+          "state": "lost",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "grin",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.05558067114620969,
+          "lift": 1,
+          "bodyTilt": 8.572527594031473e-18,
+          "laughPulse": 0,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        }
+      ],
+      "mirroredCapture": [
+        {
+          "attack": 1.50499999999999,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "strike",
+          "side": -1,
+          "faceBlend": 1,
+          "headRotation": 0.4418993914434005,
+          "lift": 0,
+          "bodyTilt": 0,
+          "laughPulse": 0,
+          "frontPathCount": 0,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0.7570021437776626,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 2.204999999999975,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "strike",
+          "side": -1,
+          "faceBlend": 1,
+          "headRotation": 0.12498484941778283,
+          "lift": 0.21087727052497296,
+          "bodyTilt": -0.04305576880044077,
+          "laughPulse": 0,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 1.1312609338694692,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 2.5549999999999677,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "grin",
+          "side": -1,
+          "faceBlend": 1,
+          "headRotation": 0.06712723941522915,
+          "lift": 1,
+          "bodyTilt": -8.572527594031473e-18,
+          "laughPulse": 0,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0.8652123065999149,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 3.1749999999999545,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "chew0",
+          "side": -1,
+          "faceBlend": 1,
+          "headRotation": 0.13499490844402745,
+          "lift": 1,
+          "bodyTilt": -8.572527594031473e-18,
+          "laughPulse": 0.9980267284283145,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0,
+          "maxLengthError": 5.684341886080802e-14,
+          "granite": 45,
+          "finite": true
+        }
+      ],
+      "mirror": {
+        "side": -1,
+        "scope": "Mirrored path/attack fixture after natural approach; not an independently earned approach."
+      },
+      "lostBallGuard": {
+        "before": {
+          "state": "play",
+          "lives": 3,
+          "charge": 0,
+          "attack": 1.50499999999999
+        },
+        "after": {
+          "state": "play",
+          "lives": 3,
+          "charge": 0,
+          "attack": 1.50499999999999
+        }
+      }
+    },
+    {
+      "device": "android",
+      "width": 412,
+      "height": 915,
+      "pass": true,
+      "errors": [],
+      "poses": [
+        {
+          "direction": "right",
+          "expression": "idle",
+          "granite": 45
+        },
+        {
+          "direction": "left",
+          "expression": "idle",
+          "granite": 45
+        },
+        {
+          "direction": "up",
+          "expression": "idle",
+          "granite": 45
+        },
+        {
+          "direction": "down",
+          "expression": "idle",
+          "granite": 45
+        },
+        {
+          "direction": "right",
+          "expression": "hiss",
+          "granite": 45
+        },
+        {
+          "direction": "right",
+          "expression": "ouch",
+          "granite": 45
+        },
+        {
+          "direction": "right",
+          "expression": "dizzy",
+          "granite": 45
+        }
+      ],
+      "venom": [
+        {
+          "phase": "warn",
+          "expression": "snarl",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 620.771403566915,
+            "y": 671.9268494497105
+          },
+          "nearestStreamStartErrorPixels": 0.000018502319347101267,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 633.8045341056974,
+            "y": 668.6229426197818
+          },
+          "nearestStreamStartErrorPixels": 0.000029730033703672308,
+          "granite": 45
+        }
+      ],
+      "motion": [
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 633.6587582538401,
+            "y": 668.9757543440471
+          },
+          "nearestStreamStartErrorPixels": 0.00003029468781214627,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 633.6912210119957,
+            "y": 668.8743343816949
+          },
+          "nearestStreamStartErrorPixels": 0.000016857015511889792,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 633.7219015818334,
+            "y": 668.7871417602477
+          },
+          "nearestStreamStartErrorPixels": 0.000003632913995399944,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 633.7502465313678,
+            "y": 668.7162169241059
+          },
+          "nearestStreamStartErrorPixels": 0.000013372136325281184,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 633.7757442240663,
+            "y": 668.663299335231
+          },
+          "nearestStreamStartErrorPixels": 0.000028089455249395657,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 633.7979398817381,
+            "y": 668.6297020673354
+          },
+          "nearestStreamStartErrorPixels": 0.000011588538475020097,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 633.8164378071876,
+            "y": 668.6163868576741
+          },
+          "nearestStreamStartErrorPixels": 0.000016835059984619564,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 633.8309146021717,
+            "y": 668.6239051767902
+          },
+          "nearestStreamStartErrorPixels": 0.000017395763639280745,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 633.841123474996,
+            "y": 668.6523321719652
+          },
+          "nearestStreamStartErrorPixels": 0.000019063503660699468,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 633.8469045769393,
+            "y": 668.7012012738234
+          },
+          "nearestStreamStartErrorPixels": 0.000011050882197773135,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 633.8481805221376,
+            "y": 668.7697176796379
+          },
+          "nearestStreamStartErrorPixels": 0.000004326553571029232,
+          "granite": 45
+        },
+        {
+          "phase": "breath",
+          "expression": "strike",
+          "facing": "l",
+          "drawnMouthCanvas": {
+            "x": 633.8449653982099,
+            "y": 668.856620470713
+          },
+          "nearestStreamStartErrorPixels": 0.000023265224598939756,
+          "granite": 45
+        }
+      ],
+      "captureScope": "Natural no-input approach accelerated through actual update, then sequential actual120Hz updates; full original ribbon retained; lost-ball guard and4.2s terminal timing checked. Alternate side is explicitly a mirrored path/attack fixture.",
+      "capture": [
+        {
+          "attack": 1.2299999999999958,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "strike",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.49378977607654084,
+          "lift": 0,
+          "bodyTilt": 0,
+          "laughPulse": 0,
+          "frontPathCount": 0,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0.0253684187861154,
+          "maxLengthError": 5.684341886080802e-14,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 1.50499999999999,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "strike",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.4581006085565995,
+          "lift": 0,
+          "bodyTilt": 0,
+          "laughPulse": 0,
+          "frontPathCount": 0,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0.7570021437776404,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 1.8549999999999824,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "strike",
+          "side": 1,
+          "faceBlend": 1,
+          "headRotation": 0.39489847489473034,
+          "lift": 0,
+          "bodyTilt": 0,
+          "laughPulse": 0,
+          "frontPathCount": 0,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 1.128574865998033,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 2.204999999999975,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "strike",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.11079163217605185,
+          "lift": 0.21087727052497296,
+          "bodyTilt": 0.04305576880044077,
+          "laughPulse": 0,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 1.1312609338694668,
+          "maxLengthError": 2.2737367544323206e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 2.5549999999999677,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "grin",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.0470343253973,
+          "lift": 1,
+          "bodyTilt": 8.572527594031473e-18,
+          "laughPulse": 0,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0.8652123065999149,
+          "maxLengthError": 2.2737367544323206e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 3.004999999999958,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "grin",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.06689624879921714,
+          "lift": 1,
+          "bodyTilt": 8.572527594031473e-18,
+          "laughPulse": 0,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 3.1749999999999545,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "chew0",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.15881146748559827,
+          "lift": 1,
+          "bodyTilt": 8.572527594031473e-18,
+          "laughPulse": 0.9980267284283145,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 3.3049999999999518,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "grin",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.06635821396691675,
+          "lift": 1,
+          "bodyTilt": 8.572527594031473e-18,
+          "laughPulse": 0,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 4.154999999999934,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "grin",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.05305627576436046,
+          "lift": 1,
+          "bodyTilt": 8.572527594031473e-18,
+          "laughPulse": 0,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 4.204999999999933,
+          "state": "lost",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "grin",
+          "side": 1,
+          "faceBlend": 0,
+          "headRotation": -0.05558067114620969,
+          "lift": 1,
+          "bodyTilt": 8.572527594031473e-18,
+          "laughPulse": 0,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        }
+      ],
+      "mirroredCapture": [
+        {
+          "attack": 1.50499999999999,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "strike",
+          "side": -1,
+          "faceBlend": 1,
+          "headRotation": 0.4418993914434005,
+          "lift": 0,
+          "bodyTilt": 0,
+          "laughPulse": 0,
+          "frontPathCount": 0,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0.7570021437776626,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 2.204999999999975,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "strike",
+          "side": -1,
+          "faceBlend": 1,
+          "headRotation": 0.12498484941778283,
+          "lift": 0.21087727052497296,
+          "bodyTilt": -0.04305576880044077,
+          "laughPulse": 0,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 1.1312609338694692,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 2.5549999999999677,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "grin",
+          "side": -1,
+          "faceBlend": 1,
+          "headRotation": 0.06712723941522915,
+          "lift": 1,
+          "bodyTilt": -8.572527594031473e-18,
+          "laughPulse": 0,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0.8652123065999149,
+          "maxLengthError": 1.7053025658242404e-13,
+          "granite": 45,
+          "finite": true
+        },
+        {
+          "attack": 3.1749999999999545,
+          "state": "play",
+          "phase": "caught",
+          "lives": 3,
+          "expression": "chew0",
+          "side": -1,
+          "faceBlend": 1,
+          "headRotation": 0.13499490844402745,
+          "lift": 1,
+          "bodyTilt": -8.572527594031473e-18,
+          "laughPulse": 0.9980267284283145,
+          "frontPathCount": 1,
+          "bodyLength": 280.5127609640253,
+          "maxPointStep": 0,
+          "maxLengthError": 5.684341886080802e-14,
+          "granite": 45,
+          "finite": true
+        }
+      ],
+      "mirror": {
+        "side": -1,
+        "scope": "Mirrored path/attack fixture after natural approach; not an independently earned approach."
+      },
+      "lostBallGuard": {
+        "before": {
+          "state": "play",
+          "lives": 3,
+          "charge": 0,
+          "attack": 1.50499999999999
+        },
+        "after": {
+          "state": "play",
+          "lives": 3,
+          "charge": 0,
+          "attack": 1.50499999999999
+        }
+      }
+    }
+  ]
+}

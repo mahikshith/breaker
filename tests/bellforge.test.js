@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { Bellforge, BELLFORGE_MODES, rampPose, sweepMovingSegment } from '../src/fantasy/bellforge.js';
+import { Bellforge, BELLFORGE_MODES, BELLFORGE_ENDING, rampPose, sweepMovingSegment } from '../src/fantasy/bellforge.js';
 import { sweepTarget } from '../src/carrier-physics.js';
 
 const tick = (game, seconds) => { for (let left = seconds; left > 1e-9; left -= 1 / 120) game.update(Math.min(left, 1 / 120)); };
@@ -177,8 +177,52 @@ test('final broad-body collision wins before simultaneous dock, last-life drain 
   const bell = g.releaseBell(false); Object.assign(bell, { x: 310, px: 310, y: 297.5, py: 297.5, vx: 0, vy: 250 });
   g.balls.push({ ...b, id: 999, x: 350, y: 720, py: 720, vx: 0, vy: 345, contacts: new Set() });
   g.update(1 / 60); assert.equal(g.phase, 'rescue'); assert.equal(g.state, 'play'); assert.equal(g.lumi.steps, 7); assert.equal(g.lives, 1);
-  tick(g, 2); assert.equal(g.state, 'won'); assert.equal(g.bells.length, 0); assert.equal(g.continue(), false);
+  tick(g, 3.5); assert.equal(g.state, 'won'); assert.equal(g.bells.length, 0); assert.equal(g.continue(), false);
   const snapshot = JSON.stringify(g); tick(g, 5); assert.equal(JSON.stringify(g), snapshot);
+});
+
+test('final hit visibly staggers, slumps at the fixed foot and settles before Lumi starts escaping', () => {
+  const g = quietFixture(), foot = { ...g.villain.foot };
+  g.hitVillain(g.villain.hp, false);
+  assert.equal(g.phase, 'rescue'); assert.equal(g.villain.stage, 'defeated'); assert.equal(g.villain.defeat.frame, 3);
+  near(g.rescueDelayRemaining, 1.6); near(g.rescueRemaining, 3.4); assert.equal(g.lumi.escape, 0);
+  tick(g, BELLFORGE_ENDING.stagger / 2);
+  assert.equal(g.villain.defeat.stage, 'stagger'); assert.ok(g.villain.defeat.angle < 0); near(g.villain.defeat.scaleY, 1);
+  tick(g, BELLFORGE_ENDING.stagger / 2 + BELLFORGE_ENDING.slump / 2);
+  assert.equal(g.villain.defeat.stage, 'slump'); assert.ok(g.villain.defeat.scaleY < 1 && g.villain.defeat.scaleY > .82);
+  assert.equal(g.lumi.escape, 0); assert.deepEqual(g.villain.foot, foot);
+  tick(g, BELLFORGE_ENDING.slump / 2 + .4);
+  assert.equal(g.villain.defeat.stage, 'dazed'); near(g.villain.defeat.scaleY, .82); near(g.villain.defeat.scaleX, 1.04); near(g.villain.defeat.angle, .08);
+  assert.equal(g.lumi.escape, 0); assert.equal(g.villain.defeat.daze, 1);
+  tick(g, .2); assert.ok(g.lumi.escape > 0 && g.lumi.escape < .1); assert.equal(g.state, 'play');
+  tick(g, 1.7); assert.equal(g.state, 'won'); near(g.lumi.escape, 1); near(g.rescueRemaining, 0);
+  assert.equal(g.villain.defeat.stage, 'dazed'); assert.deepEqual(g.villain.foot, foot);
+});
+
+test('safe defeat clears attack work immediately and pause freezes the entire ending', () => {
+  const g = quietFixture();
+  const bell = g.releaseBell(false); bell.docked = true; g.pendingDocks.push(bell);
+  g.guard = { remaining: 2, age: 1 }; g.effect(164, 147, 'bell-warning', 4); g.charge = 40; g.chargeBank = 3;
+  const steps = g.lumi.steps, lives = g.lives;
+  g.hitVillain(g.villain.hp, true);
+  assert.deepEqual(g.bells, []); assert.deepEqual(g.pendingDocks, []); assert.deepEqual(g.villain.body, []); assert.equal(g.guard, null);
+  assert.equal(g.nextWarning, Infinity); assert.equal(g.releaseBell(false), false); assert.equal(g.canActivate(), false);
+  assert.ok(g.balls.every(b => b.caught && b.vx === 0 && b.vy === 0));
+  assert.ok(g.effects.every(e => e.kind !== 'bell-warning'));
+  tick(g, .8); g.pause(true); const snapshot = JSON.stringify(g); tick(g, 10); assert.equal(JSON.stringify(g), snapshot);
+  g.pause(false); tick(g, 3);
+  assert.equal(g.state, 'won'); assert.equal(g.lumi.steps, steps); assert.equal(g.lives, lives); assert.equal(g.charge, 40); assert.equal(g.chargeBank, 3);
+  assert.equal(g.releaseBell(false), false); assert.equal(g.continue(), false);
+});
+
+test('a final reflected bell stops the same-step bell loop before another queued ratchet arrival', () => {
+  const g = new Bellforge({ difficulty: 'hard', geometry: { korrBody: [{ type: 'circle', x: 80, y: 130, r: 30 }] } });
+  g.launch(); g.ramps = []; g.villain.hp = 4;
+  Object.assign(g.releaseBell(false), { x: 80, px: 80, y: 175, py: 175, vx: 0, vy: -300, returning: true });
+  Object.assign(g.releaseBell(false), { x: 310, px: 310, y: 297.8, py: 297.8, vx: 0, vy: 200 });
+  g.update(1 / 60);
+  assert.equal(g.phase, 'rescue'); assert.equal(g.villain.hp, 0); assert.equal(g.lumi.steps, 0);
+  assert.deepEqual(g.pendingDocks, []); assert.deepEqual(g.bells, []);
 });
 
 test('Continue preserves earned physical progress/resources and restores two lift teeth without boss refill', () => {

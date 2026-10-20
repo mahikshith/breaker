@@ -31,6 +31,7 @@ Authored world width is360 units. Heights700/760 are model route fixtures; the b
 | `ramps` | Fixed actual `pivot`, local `contactOffset`, length, angle/previousAngle/targetAngle, `omega`, thickness8, actual top-face endpoints `a,b` |
 | `bells` | Mass centre `x,y`, previous `px,py`, velocity, radius14, HP2, spin/angle, `teaching,returning,dead,docked,rampId` |
 | `villain` | HP, maxHP, stage/stageAt/stageTime/until; world-space compound `body`; render foot at(88,161), visual centre(88,105) |
+| `villain.defeat` | Null in combat; after final hit: age, stagger/slump/dazed stage, stage progress, fallback raster frame3, fixed-foot offset/angle/scale and daze intensity |
 | `lumi` | Lift location, `baseY:105,targetY,steps,allowance,escape,worried`; y moves at≤30u/s |
 | `dock` | Bell-only trigger rectangle(294,312,36,28); no invisible player-ball wall |
 | `guard` | Actual deflecting segment `a,b`, remaining/age/used; null while absent |
@@ -38,8 +39,9 @@ Authored world width is360 units. Heights700/760 are model route fixtures; the b
 | `state` | `play`, `lost`, `won` |
 | `phase` | `serve`, `play`, safe `rescue`, or final safe `breach` descent |
 | Other | Active threat `time`, lives3, score, charge0–100, pending raw `chargeBank`, `continued` |
+| Ending clocks | `rescueDelayRemaining` holds Lumi until Korr settles; `rescueRemaining` includes that delay plus escape |
 
-All positions and colliders are model coordinates, independent of Canvas scale. Exports `rampPose` and `sweepMovingSegment` are pure helpers. `BELLFORGE_MODES` contains the mode hypotheses below. Unknown mode falls back to Medium.
+All positions and colliders are model coordinates, independent of Canvas scale. Exports `rampPose` and `sweepMovingSegment` are pure helpers. `BELLFORGE_MODES` contains the mode hypotheses below. `BELLFORGE_ENDING` exposes the stagger/slump/settle/escape timings. Unknown mode falls back to Medium.
 
 ## Motion and collision
 
@@ -69,7 +71,9 @@ Korr's sequence is idle→windup≥1.3s→release.45s→recover.85s→idle. A re
 
 Bell gravity is220u/s² with a360u/s speed cap. Spin tracks actual horizontal rolling motion. Balls and bells use relative swept contacts. First ordinary hit removes one bell HP and imparts a150–290u/s capped impulse. A second separated contact shatters it; remaining overlap cannot farm HP. Fragments are presentation only. A returned bell physically reaching Korr's compound shoulder deals4HP and staggers; it cannot deal damage remotely. Bells that miss the ratchet fall to a harmless catch at y365 rather than reaching the paddle.
 
-A physical dock arrival increments the ratchet exactly once and changes `lumi.targetY` by12u. The lift moves continuously at≤30u/s; the final two remaining teeth set her worried expression. A final dock latches `breach`, clears further hazards, and finishes the bounded descent before `lost`. There is no injury animation. A last legal Korr hit is resolved before pending dock/life losses, latches safe rescue immediately, clears threats and finishes a1.8s escape before `won`.
+A physical dock arrival increments the ratchet exactly once and changes `lumi.targetY` by12u. The lift moves continuously at≤30u/s; the final two remaining teeth set her worried expression. A final dock latches `breach`, clears further hazards, and finishes the bounded descent before `lost`. There is no injury animation. A last legal Korr hit is resolved before pending dock/life losses and latches safe rescue immediately. Every live bell, queued dock, guard and pending warning is cleared; player balls park, and no further bell can be released. A final reflected bell also exits the current bell iterator immediately, so a later same-step ratchet arrival cannot survive the safe latch.
+
+Korr's readable defeat takes3.4 active seconds. The first.45s recoils the stagger pose; the next.65s eases into a grounded slump; a.5s dazed hold precedes Lumi's1.8s escape. `phase` stays `rescue` and `villain.stage` stays `defeated` throughout. `villain.defeat.stage` distinguishes `stagger`, `slump` and `dazed`; its fallback frame is3, offsets remain zero, angle eases from0 through−.07rad to+.08rad, and scales settle at(1.04,.82). The renderer applies these transforms around the unchanged supporting foot(88,161), swaps to dedicated dazed art after.22s and collapsed defeat art after.9s, and fades `daze` to1 after the slump. This is authored keyed-raster presentation data, not a new skeletal kneeling rig. `lumi.escape` remains0 for1.6s, then advances0→1 over1.8s; the shared renderer eases Lumi and the lift upward28u with chain endpoints following. Pause freezes the complete sequence, and the settled dazed pose persists after `won`.
 
 | Mode | Korr HP | Harmful release interval | Max active bells | Lift teeth | Echo credits |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -89,15 +93,17 @@ Initial serve auto-launches at8s; replacement caught serves auto-launch at3s whi
 
 ## Validation and limits
 
-`tests/bellforge.test.js` covers world metrics, ramp clearance, fast/static and angular-tip CCD, actual raster hinge/anatomy mapping, the full teaching/harmful route, pin rotation, physical bell momentum and damage episodes, banked charge exclusions, pause/delta/serve timing, physical Echo, animated ratchet/fragment metadata, last-hit precedence, Continue and ordinary public-input Easy wins at both model heights.
+`tests/bellforge.test.js` covers world metrics, ramp clearance, fast/static and angular-tip CCD, actual raster hinge/anatomy mapping, the full teaching/harmful route, pin rotation, physical bell momentum and damage episodes, banked charge exclusions, pause/delta/serve timing, physical Echo, animated ratchet/fragment metadata, last-hit precedence, the fixed-foot defeat/escape timeline, complete ending pause/cleanup, reflected-bell final-hit precedence, Continue and ordinary public-input Easy wins at both model heights. The defeat revision passes22 focused tests, including both ordinary model routes. The shared browser's six-aspect controls and final two-phone staged reaction/escape review pass with zero errors; final Main/render/reaction dependencies match before/after. The dedicated collapsed art and moving rescue lift were viewed at both primary phone sizes.
+
+Defeat-revision model SHA256: `A36418F1A40E5B95521065D27F80497C241BC30BAA4E1789DA3E9BE7CE3693CF`; focused test-file SHA256: `3A9BF4078E2F6EF0B835177E4A8A0F34A3F065B149D03EFC772D547C4CC75432`. No encounter HP, brick layout, bell route or power budget changed.
 
 Ignored deterministic receipts are under `out/bellforge-proof/`; browser receipts/screenshots are under `out/fantasy-bellforge-browser/`. The model-assisted policy reads geometry to forecast paddle angles and changes gameplay only through `launch`, `setTarget`, `update` and optional legitimate `activate`. This establishes an earned route, not human difficulty, touch skill, device performance or production admission. Historical route failures are retained with their exact pre-correction geometry and must not be presented as current pass results.
 
-The art family currently contains four authored keyed Korr raster poses, not a full skeletal hoof/walk animation. The shared renderer supplies actual hopper/platform/ratchet layers, Lumi/Kit expressions, brass contact fragments and phone UI; their separate browser receipts determine visual admission. No new APK or campaign slot is implied by this standalone module.
+The art family contains four authored keyed Korr combat rasters plus separate dazed and collapsed reaction poses, not a full skeletal hoof/walk animation. The shared renderer supplies actual hopper/platform/ratchet layers, Lumi/Kit expressions, brass contact fragments and phone UI; their separate browser receipts determine visual admission. No new APK or campaign slot is implied by this standalone module.
 
-### Current measured checkpoint
+### Earlier six-row measured checkpoint
 
-Final model SHA256: `46F6297072BAF87B7C8D2E88875B3E1E4A7E99EC90A48F0AB3F5CF4BE7AC65CF`. Focused tests:19pass; test-file SHA256 `69DDB9CC7124EA73E7A4B13EEC27C46B8C74D45078685482DEF481770498F5C8`. Actual frozen art manifest: `B810545F1C1CABBE6252FBAE0ECE8B4CCC1637946FD4BCA35D97C3A09D41FF13`.
+Pre-defeat-revision model SHA256: `46F6297072BAF87B7C8D2E88875B3E1E4A7E99EC90A48F0AB3F5CF4BE7AC65CF`. Focused tests at that checkpoint:19pass; test-file SHA256 `69DDB9CC7124EA73E7A4B13EEC27C46B8C74D45078685482DEF481770498F5C8`. Actual frozen art manifest: `B810545F1C1CABBE6252FBAE0ECE8B4CCC1637946FD4BCA35D97C3A09D41FF13`. The timings below include the former1.8s ending; the current readable ending adds1.6s of safe presentation and does not inherit a new browser completion claim from these receipts.
 
 One bounded deterministic policy run per mode/height/ordinary-or-Echo variant, all with three lives and no Continue:
 
@@ -119,3 +125,7 @@ Earned browser Easy rescues use only `launch`, `setTarget`, `update` and read-on
 The final shared-loader/input refresh passed all six phone/mode UI cases with zero errors; Main changed during that run, so its receipt explicitly retains both hashes rather than claiming a fixed-source seal. A later renderer-only refresh sealed current Main/render/model and both manifests unchanged at both phone sizes. The Bellforge paddle's image centre now uses its physical top plus half-height, aligning the visible metal with the caught ball. Those final openings are `validation/bellforge/*-opening-final.png`; this visual refresh does not repeat or replace the earlier earned routes.
 
 The repeatable browser harness and read-only forecast policy are maintained in `tools/playtest/bellforge.mjs` and `tools/playtest/bellforge-policy.mjs`; neither imports an ignored output file. Run `node tools/playtest/bellforge.mjs` against the repository static server, or append `--ui-only` for controls/readiness. `tools/playtest/fantasy-visual.mjs` captures the two source-aligned phone openings and staged Tidewheel poses. `BASE_URL`, `PW_MODULE`, `BROWSER_EXECUTABLE` and `OUT_DIR` are optional environment overrides; exact commands and proof scopes are in the validation README.
+
+Responsive/defeat integration is repeatable with `node tools/playtest/bellforge-defeat.mjs` (`--phones` for393×852/412×915 only). It checks ordinary touch launch, the first Pause after a drag, complete model freeze, Resume, an uncharged Kit menu and fresh Retry at six aspect ratios. It then stages final HP on the two phones and captures the actual renderer at stagger/slump/dazed/escape/result times. At renderer `7C4519AD…E13F0C7`, all six cases were source-stable, with no page/HTTP errors; the orb clears the paddle by18.91–19.64CSS pixels on the main phones and≥8.35CSS pixels in short previews. That retained-raster intermediate presentation is recorded separately in `validation/bellforge/defeat-responsive-intermediate.json`; newer reaction art and the subsequent `lumi.escape` lift movement do not inherit its visual approval.
+
+The final two-phone rerun uses Main `728BBC49ADB17A215F7FEBFEA85488185927819EE1210ACCE5D1EAEC89BE7542`, renderer `57D691A16ACD59680F60BBFFE698110245F3220369A8A01FC744029CF0DD148E` and reaction manifest `11B2958079F617C556B8D8155195A156DC08F10FC69AFE7F7E86F639A6317544`. Both pass real control/Retry checks and the staged ending, with zero errors and stable source/PNG dependencies. The viewed final closed-eye collapsed Korr is grounded; Lumi/lift move together and remain separate from the mechanism. Final receipts and four native PNGs are in `validation/bellforge/defeat-responsive-final*` and `*-final-staged.png`. This is bounded staged visual/control evidence, not a new earned completion or physical-device performance result.

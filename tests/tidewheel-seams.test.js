@@ -56,7 +56,7 @@ test('a real final ordinary hit preempts flood failure in the same physical subs
   g.water.y=g.water.limit+.04;g.water.target=g.water.limit;
   g.update(1/240);
   assert.equal(g.villain.hp,0);assert.equal(g.phase,'rescue');assert.equal(g.state,'play');
-  for(let i=0;i<30;i++)g.update(.1);
+  for(let i=0;i<40;i++)g.update(.1);
   assert.equal(g.state,'won');
 });
 

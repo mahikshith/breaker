@@ -1,0 +1,98 @@
+[
+  {
+    "level": "bellforge",
+    "width": 393,
+    "height": 781,
+    "paddleY": 665.5801526717557,
+    "state": "play",
+    "errors": []
+  },
+  {
+    "level": "tidewheel",
+    "width": 393,
+    "height": 781,
+    "paddleY": 665.5801526717557,
+    "state": "play",
+    "errors": []
+  },
+  {
+    "level": "bellforge",
+    "width": 412,
+    "height": 800,
+    "paddleY": 689.9029126213592,
+    "state": "play",
+    "errors": []
+  },
+  {
+    "level": "tidewheel",
+    "width": 412,
+    "height": 800,
+    "paddleY": 689.9029126213592,
+    "state": "play",
+    "errors": []
+  },
+  {
+    "level": "bellforge",
+    "width": 320,
+    "height": 701,
+    "paddleY": 581,
+    "state": "play",
+    "errors": []
+  },
+  {
+    "level": "tidewheel",
+    "width": 320,
+    "height": 701,
+    "paddleY": 581,
+    "state": "play",
+    "errors": []
+  },
+  {
+    "level": "bellforge",
+    "width": 1280,
+    "height": 700,
+    "paddleY": 580,
+    "state": "play",
+    "errors": []
+  },
+  {
+    "level": "tidewheel",
+    "width": 1280,
+    "height": 700,
+    "paddleY": 580,
+    "state": "play",
+    "errors": []
+  },
+  {
+    "level": "bellforge",
+    "width": 900,
+    "height": 700,
+    "paddleY": 580,
+    "state": "play",
+    "errors": []
+  },
+  {
+    "level": "tidewheel",
+    "width": 900,
+    "height": 700,
+    "paddleY": 580,
+    "state": "play",
+    "errors": []
+  },
+  {
+    "level": "bellforge",
+    "width": 852,
+    "height": 701,
+    "paddleY": 581,
+    "state": "play",
+    "errors": []
+  },
+  {
+    "level": "tidewheel",
+    "width": 852,
+    "height": 701,
+    "paddleY": 581,
+    "state": "play",
+    "errors": []
+  }
+]
