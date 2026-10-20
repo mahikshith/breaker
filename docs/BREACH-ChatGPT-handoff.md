@@ -5,7 +5,7 @@ This one file contains everything another assistant needs to design for, or take
 - **Game:** BREACH, a premium portrait brick breaker for iOS and Android. Tagline: "Break in. Break out."
 - **Owner:** mykee (GitHub `mahikshith`).
 - **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `codex/space-combat-apk` is this working branch.
-- **Assembled at:** repo commit `09d6080`.
+- **Assembled at:** repo commit `7c91445`.
 
 ## How to read this file
 
@@ -471,6 +471,9 @@ Physical-phone frame rate, touch comfort and human difficulty remain for device 
 Run [39163110800](https://github.com/mahikshith/breaker/actions/runs/39163110800) passed the complete web job, Android compilation and lint, but failed its first native canvas-colour probe. The callback timed out at `MobileSmokeTest.java:54`, after readiness and font checks; its native screenshot showed the correctly rendered five-card menu. The probe made 77 separate pixel reads on the live canvas. It now draws one 8×12 offscreen copy and reads it once, retaining the colour assertion without repeatedly reading the live render surface. The exact new probe passes against the final browser menu with a guard that rejects any live-canvas pixel read. Runtime HTML and package hashes are unchanged. A fresh CI run must pass the native gate before APK delivery.
 
 Run [39164503538](https://github.com/mahikshith/breaker/actions/runs/39164503538) passed the full web job, Android compilation/lint and the corrected pixel check. Native fullscreen and pause preservation passed, but the first aim after resuming timed out. Android explicitly dispatched a blur on pause without reliably pairing it with focus on return; a focused WebView could retain the game's suspended flag. The native wrapper now sends the matching focus signal on window focus and on resume when focus is already retained. The pause scene remains until the user chooses Resume. Instrumentation now checks advancing game time after Resume and pointer acceptance before dragging, and records state on timeout. The game bundle hashes remain unchanged. Native success is still required before delivery.
+
+
+Run [39166153838](https://github.com/mahikshith/breaker/actions/runs/39166153838) passed the full web job, Android compilation/lint, native menu/fullscreen, held-touch pause/resume, real serving, fighter launch and Circuit checks. The emulator then disconnected before instrumentation could complete; the retained device log contains no application assertion or fatal exception establishing why it exited. An unbounded post-failure `adb logcat` waited for the missing device until the 35-minute job timeout. The release repair bounds Gradle and all evidence commands, preserves the original test exit status, continuously saves device logs and records host memory/process/kernel diagnostics. Native tests use two Gradle workers and a 1 GB heap; the software-rendered emulator starts without snapshots or Vulkan, which this Canvas game does not require. These are infrastructure safeguards, not a claim that the emulator's precise failure cause is proven. Shell syntax and five mocked success/failure/timeout status cases pass; every native assertion and both frozen HTML hashes remain unchanged. The next native run still gates APK delivery.
 
 
 ---
@@ -1884,6 +1887,8 @@ Each workstream is sized for one subagent with a clear contract and a test.
 
 ## BREACH handoff 1/3: status and next steps
 
+**Release investigation (2026-10-20):** The isolated `codex/space-combat-apk` worktree retains canonical B06CDD and offline 4071AC. Native run 39166153838 passed the repaired resume/input gates but lost its emulator later; an unbounded diagnostic then caused the job timeout. CI now bounds test/evidence commands, preserves failing exit codes and retains live/host diagnostics, with a software-renderer safeguard. The emulator exit cause is unproven. No gameplay change or new APK success is claimed; see `docs/MOBILE_PREVIEW.md` for precise evidence and the next native gate.
+
 **Current implementation (2026-10-19):** The owner approved heavy rounds and three-shot salvos, per-ship colours, left/right/paired/rest batteries, stronger player fire, Vesper/Latch for Circuit, a new power chooser and difficulty tuning. These changes are implemented on `codex/space-combat-apk`. The owner subsequently delegated remaining design decisions and requested a new princess/Yeti encounter, full documentation, commit/push and an APK. Frost Warden is integrated and locally verified as the fifth chapter; Brum remains an ally. Read `docs/CONTINUE_HERE.md`, `docs/SPACE_COMBAT_HANDOFF.md`, `docs/BRUM_LEVEL_PLAN.md` and `docs/MOBILE_PREVIEW.md` for current mechanics and verified release status. Older review gates and localhost checkpoints below are historical. No new CI success is claimed until recorded in the release document.
 
 **Historical cannon correction before implementation (2026-10-19):** The owner rejected the4189 weapon studies. Enemy cannon fire must cross the intact brick field and threaten the paddle/craft, without breaking bricks or releasing their rewards. Carrier currently damages enemy-hit panels; Circuit/Forge currently absorb shots on cover. These behaviours must change in the approved implementation, while preserving player brick collisions and keeping Carrier boarding threats active. Circuit's centre is an exit iris, with no suction mechanic; the replacement presentation keeps it quiet until departure. The revised cannon comparison is at4190, stronger friendly skiff deployment/fire at4191, and reference-backed distinct companion proposals are recorded alongside them. See `design/phase1/weapon-vfx-v3-review.md`. The4188 playable checkpoint remains unchanged; visual approval is still required before implementation, commit/push or APK work. The previous4189 quality receipts certify only that historical study, which is now rejected.
@@ -2898,8 +2903,6 @@ assets/snake-jade: 26 PNG renders
 assets/vault: 53 PNG renders
 assets/invasion: 78 PNG renders
 
-docs/validation/space-combat/native-initial-failure.xml
-docs/validation/space-combat/native-resume-failure.xml
 .gitattributes
 .github/workflows/mobile-preview.yml
 .gitignore
@@ -4348,6 +4351,9 @@ docs/validation/space-combat/frost-offline-controls.json
 docs/validation/space-combat/frost-phone-controls.json
 docs/validation/space-combat/frost-review.md
 docs/validation/space-combat/lf-build.json
+docs/validation/space-combat/native-initial-failure.xml
+docs/validation/space-combat/native-resume-failure.xml
+docs/validation/space-combat/native-resume-witness.json
 docs/validation/space-combat/phone-controls-pre-menu-crop.json
 docs/validation/space-combat/screenshots/android-circuit-powers.png
 docs/validation/space-combat/screenshots/ios-frost-contact-staged.png

@@ -91,12 +91,12 @@ jobs:
           arch: x86_64
           profile: pixel_6
           disable-animations: true
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          emulator-options: -no-window -no-snapshot -gpu swiftshader_indirect -feature -Vulkan -noaudio -no-boot-anim -camera-back none
           script: |
-            adb shell svc wifi disable
-            adb shell svc data disable
-            adb shell settings put secure immersive_mode_confirmations confirmed
-            adb shell am force-stop com.google.android.apps.nexuslauncher
+            timeout --kill-after=5s 20s adb shell svc wifi disable
+            timeout --kill-after=5s 20s adb shell svc data disable
+            timeout --kill-after=5s 20s adb shell settings put secure immersive_mode_confirmations confirmed
+            timeout --kill-after=5s 20s adb shell am force-stop com.google.android.apps.nexuslauncher
             bash tools/test-android.sh
       - name: Package installable artifact
         run: |
@@ -122,4 +122,8 @@ jobs:
             out/android-screenshots/
             out/android-window.txt
             out/android-logcat.txt
+            out/android-logcat-live.txt
+            out/android-host-before.txt
+            out/android-host-after.txt
+            out/android-devices.txt
           retention-days: 30
