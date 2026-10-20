@@ -11,6 +11,7 @@ import { sfx } from './audio.js';
 import { VENOM, FuryContacts, streamingCells, safeRecoilSteps, canWard, venomTarget } from './serpent.js';
 import { store } from './prefs.js';
 import { SERPENT_CAPTURE, createSerpentCapture, sampleSerpentCapture } from './serpent-capture.js';
+import { createSerpentRetreat, sampleSerpentRetreat } from './serpent-retreat.js';
 
 const COLS = 20, ROWS = 20, CELL = 16, OX = 20, OY = 96;
 const EMPTY = 0, SUN = 1, CORAL = 2, VIOLET = 3, TEAL = 4, GOLD = 5, BLUE = 6, BARS = 8, GRANITE = 9;
@@ -79,7 +80,7 @@ export class Vault extends Arena {
     this.paddle.baseW = this.paddle.w = 70;
     this.debris = new Debris({ left: this.left, right: this.right, floor: H + 200, killY: this.drainY, onPaddleHit: () => this.brickOnPaddle() });
     this.build();
-    this.snake = { cells: streamingCells(), hist: [], chew: 0, chewing: null, prog: 1, stun: 0, dir: Math.PI / 2, look: Math.PI / 2, faceLeft: true, path: [], open: 0, hits: [], flinch: 0, mood: null, moodT: 0, alpha: 1, fleeT: 0, eaten: 0, gulp: 0, lunge: 0 };
+    this.snake = { cells: streamingCells(), hist: [], chew: 0, chewing: null, prog: 1, stun: 0, dir: Math.PI / 2, look: Math.PI / 2, faceLeft: true, path: [], open: 0, hits: [], flinch: 0, mood: null, moodT: 0, alpha: 1, retreat: null, eaten: 0, gulp: 0, lunge: 0 };
     this.entry = { progress: 0, speed: 1, fullHeadTurn: true };
     this.coreMode = 'ward'; this.kitPowers = true; this.kitCastAt = this.kitReactionAt = -Infinity; this.kitWardResult = null;
     this.wardCoach = false; this.wardCoachSeen = !!store.get('wardCoachAck');
@@ -223,6 +224,11 @@ export class Vault extends Arena {
     if (exit === undefined) return;
     const path = []; for (let k = exit; k !== -1; k = prev[k]) path.push(k);
     this.foxPath = path.reverse().map(k => ({ x: OX + (k % COLS) * CELL + CELL / 2, y: OY + Math.floor(k / COLS) * CELL + CELL / 2 }));
+    const s = this.snake, headPose = this.drawSnakeHeadPose();
+    s.retreat = { path: createSerpentRetreat({ points: this.snakePoints(),
+      heading: headPose.rotation + (headPose.facing === 'l' ? Math.PI : 0), faceLeft: headPose.facing === 'l',
+      history: s.hist.map(([c, r]) => ({ x: OX + c * CELL + CELL / 2, y: OY + r * CELL + CELL / 2 })) }), t: 0 };
+    s.attack = null; s.chewing = null; s.lunge = 0; s.stun = 0;
     this.burstCage();
     this.phase = 'escape'; this.foxT = 0; this.mood('shock', 1.4);
     sfx.breach(); this.bump(0.7, 0.12); this.timeScale = 0.35; this.slomoT = 0.8;
@@ -399,6 +405,11 @@ export class Vault extends Arena {
     }
     return a.pose;
   }
+  retreatPose() {
+    const r = this.snake.retreat; if (!r) return null;
+    if (r.poseAt !== r.t) { r.poseAt = r.t; r.pose = sampleSerpentRetreat(r.path, r.t); }
+    return r.pose;
+  }
   cancelAttack() { // driven off at the last moment
     const s = this.snake; if (!s.attack || s.attack.struck >= 2) return false;
     s.attack = null; s.lunge = 0; this.timeScale = 1;
@@ -441,6 +452,7 @@ export class Vault extends Arena {
   }
   snakePoints() {
     const s = this.snake, ctr = ([c, r]) => ({ x: OX + c * CELL + CELL / 2, y: OY + r * CELL + CELL / 2 });
+    const retreat = this.retreatPose(); if (retreat) return retreat.points;
     if (this.phase === 'intro') return Array.from({ length: 12 }, (_, i) => ({ x: 284, y: 72 + 48 * this.entry.progress - i * CELL }));
     const pts = s.cells.map(ctr), k = s.prog;
     const out = pts.map((p, i) => { const q = pts[i + 1] || p; return { x: q.x + (p.x - q.x) * k, y: q.y + (p.y - q.y) * k }; });
@@ -591,8 +603,11 @@ export class Vault extends Arena {
     const sn = this.snake; sn.moodT -= dtReal;
     let da = sn.dir - sn.look; da = Math.atan2(Math.sin(da), Math.cos(da)); sn.look += da * Math.min(1, dtReal * 10);
     if (Math.abs(Math.cos(sn.dir)) > 0.3) sn.faceLeft = Math.cos(sn.dir) < 0;
-    if ((this.phase === 'escape' || this.phase === 'frenzy') && sn.moodT <= 0) { // the beaten serpent slinks back into its lair
-      sn.open = 0; if ((sn.fleeT += dt) > 0.16) { sn.fleeT = 0; if (sn.hist.length) this.knockBack(1); else sn.alpha = Math.max(0, sn.alpha - 0.08); }
+    if (sn.retreat) {
+      sn.retreat.t += dt; const pose = this.retreatPose();
+      sn.dir = sn.look = pose.heading; sn.faceLeft = Math.cos(pose.heading) < 0;
+      sn.open = 0; sn.flinch = Math.max(0, sn.flinch - dt * 4); sn.gulp = Math.max(0, sn.gulp - dt * .9);
+      sn.alpha = pose.done ? 0 : 1;
     }
     if (this.phase === 'intro') {
       this.introT += dtReal * this.entry.speed;
@@ -619,7 +634,7 @@ export class Vault extends Arena {
     } else if (this.phase === 'frenzy') {
       this.frenzyT -= dt; this.fireT = Math.max(this.fireT, 0.5);
       if (this.pr.anim === 'Idle') this.play('Cheer');
-      if (this.frenzyT <= 0 || this.bricks.every(b => b.gone || b.kind === GRANITE)) { sfx.win(); this.win(); }
+      if ((this.frenzyT <= 0 || this.bricks.every(b => b.gone || b.kind === GRANITE)) && (!sn.retreat || this.retreatPose().done)) { sfx.win(); this.win(); }
     }
   }
   startFrenzy() {
@@ -675,6 +690,7 @@ export class Vault extends Arena {
     } else if (this.phase === 'frenzy' || this.state === 'won') {
       this.drawPrincess(g, this.paddle.x, this.paddle.y, 0.75);
     }
+    this.drawEntrance(g);
     if (this.snake.alpha > 0 && this.state !== 'won') this.drawSnake(g);
     g.save(); g.beginPath(); g.rect(0, -400, W, this.playClipY + 400); g.clip(); this.debris.draw(g); g.restore();
     this.drawDrops(g); this.drawPaddle(g); this.drawBalls(g); this.fx.draw(g); this.drawAim(g);
@@ -694,7 +710,6 @@ export class Vault extends Arena {
   drawSnake(g) {
     const s = this.snake, pts = this.snakePoints(), t = this.t, cap = this.capturePose();
     g.save();
-    this.drawEntrance(g);
     if (this.phase === 'intro' && this.introT < 1.7) { g.restore(); return; }
     g.beginPath(); g.rect(0, OY, this.W, this.H); g.rect(269, 78, 30, 18); g.clip();
     g.globalAlpha = s.alpha;
@@ -706,13 +721,20 @@ export class Vault extends Arena {
     const { ex, facing, rotation, bob, scaleX, scaleY, k } = pose;
     const size = SNAKE.unit * k, cell = SNAKE.cell, col = SNAKE.expr[ex] ?? 0, row = SNAKE.dir[facing];
     g.save(); g.translate(h.x, h.y + bob); g.rotate(rotation); g.scale(scaleX, scaleY);
-    const blend = cap?.faceBlend;
+    const retreat = this.retreatPose(), blend = cap?.faceBlend ?? retreat?.faceBlend;
     if (blend > .001 && blend < .999) {
       // Blend the two facing rows in one small scratch surface, retaining opaque skin during the turn.
       if (!snakeTurnCanvas) { snakeTurnCanvas = document.createElement('canvas'); snakeTurnCanvas.width = snakeTurnCanvas.height = cell; }
       const turn = snakeTurnCanvas.getContext('2d'); turn.clearRect(0, 0, cell, cell); turn.save();
-      turn.globalAlpha = 1 - blend; turn.drawImage(SNAKE.img, col * cell, SNAKE.dir.r * cell, cell, cell, 0, 0, cell, cell);
-      turn.globalCompositeOperation = 'lighter'; turn.globalAlpha = blend; turn.drawImage(SNAKE.img, col * cell, SNAKE.dir.l * cell, cell, cell, 0, 0, cell, cell); turn.restore();
+      const nativeTurn = (dir, alpha) => {
+        turn.save(); turn.globalAlpha = alpha;
+        if (retreat) {
+          const base = facing === 'l' ? retreat.leftRotation : retreat.rightRotation;
+          turn.translate(cell / 2, cell / 2); turn.rotate((dir === 'l' ? retreat.leftRotation : retreat.rightRotation) - base); turn.translate(-cell / 2, -cell / 2);
+        }
+        turn.drawImage(SNAKE.img, col * cell, SNAKE.dir[dir] * cell, cell, cell, 0, 0, cell, cell); turn.restore();
+      };
+      nativeTurn('r', 1 - blend); turn.globalCompositeOperation = 'lighter'; nativeTurn('l', blend); turn.restore();
       g.drawImage(snakeTurnCanvas, -size / 2, -size / 2, size, size);
     } else g.drawImage(SNAKE.img, col * cell, row * cell, cell, cell, -size / 2, -size / 2, size, size);
     g.restore();
@@ -724,10 +746,11 @@ export class Vault extends Arena {
   }
   // Presentation only: the sprite and venom outlet share one transform around the unchanged head core.
   drawSnakeHeadPose(cap = this.capturePose()) {
-    const s = this.snake, t = this.t, L = cap ? cap.faceLeft : s.attack ? s.attack.side < 0 : s.faceLeft;
+    const s = this.snake, t = this.t, retreat = this.retreatPose(), L = cap ? cap.faceLeft : retreat ? retreat.faceBlend >= .5 : s.attack ? s.attack.side < 0 : s.faceLeft;
     const angle = Math.atan2(Math.sin(s.look - (L ? Math.PI : 0)), Math.cos(s.look - (L ? Math.PI : 0)));
     let rot = Math.max(-0.95, Math.min(0.95, angle));
     if (cap) rot = cap.rotation;
+    else if (retreat) rot = L ? retreat.leftRotation : retreat.rightRotation;
     else if (s.attack) rot = angle;
     else if (this.entry.fullHeadTurn) {
       if (this.phase === 'intro' || angle < -0.95) rot = angle;
@@ -868,8 +891,8 @@ export class Vault extends Arena {
     const s = this.snake, t = this.t, cap = this.capturePose();
     // a smooth centreline through the cell centres (Catmull-Rom), extended past the last cell to a tail tip
     if (pts.length < 2) return;
-    const C = cap ? pts : [];
-    if (!cap) {
+    const prepared = cap || s.retreat, C = prepared ? pts : [];
+    if (!prepared) {
       const P = pts.slice(), n = P.length;
       const last = P[n - 1], prev = P[n - 2];
       P.push({ x: last.x + (last.x - prev.x) * 0.6, y: last.y + (last.y - prev.y) * 0.6 });
@@ -885,7 +908,7 @@ export class Vault extends Arena {
     }
     let len = 0; const arc = [0];
     for (let i = 1; i < C.length; i++) { len += Math.hypot(C[i].x - C[i - 1].x, C[i].y - C[i - 1].y); arc.push(len); }
-    const belly = (s.attack ? s.attack.side < 0 : s.faceLeft) ? -1 : 1, shake = s.flinch > 0 ? s.flinch * 1.2 : 0, gr = this.growth();
+    const belly = (s.retreat ? s.retreat.path.faceLeft : s.attack ? s.attack.side < 0 : s.faceLeft) ? -1 : 1, shake = s.flinch > 0 ? s.flinch * 1.2 : 0, gr = this.growth();
     const S = C.map((p, i) => {
       const q = C[Math.min(C.length - 1, i + 1)], o = C[Math.max(0, i - 1)];
       let tx = o.x - q.x, ty = o.y - q.y; const tl = Math.hypot(tx, ty) || 1; tx /= tl; ty /= tl;   // tangent toward the head

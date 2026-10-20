@@ -1,0 +1,43 @@
+{
+  "count": 9,
+  "allDecode": true,
+  "allMetadataEmpty": true,
+  "files": [
+    {
+      "file": "android-halfway-mid-staged.png",
+      "sha256": "b2526ec863eec34a5d78bee2967dc482bd5a97292c9f55d66a09c6b251ef9509"
+    },
+    {
+      "file": "android-halfway-tunnel-staged.png",
+      "sha256": "9046546557ebfc65f34724590120a1759367bbcfb0c1652c5d462b344833df5c"
+    },
+    {
+      "file": "android-late-turn-staged.png",
+      "sha256": "85e194602e9e6ecfabb72253426b7798f49ebb0776fe0eeca0059be289cc958c"
+    },
+    {
+      "file": "ios-early-turn-staged.png",
+      "sha256": "a02829e87cc64a8b1458f419e878f5736efeddd25aaaab75c5a5083fd690108a"
+    },
+    {
+      "file": "ios-halfway-mid-staged.png",
+      "sha256": "9610d634ac500a56e8a78acd47937690754869370d93102a9518b8fcefe0ca04"
+    },
+    {
+      "file": "ios-halfway-tail-clear-staged.png",
+      "sha256": "52ed18aaaf4798e8aaef0982dbb8a707a28798d3d61565faf82670d284974c73"
+    },
+    {
+      "file": "ios-halfway-tunnel-staged.png",
+      "sha256": "b90f66eaf06c985dd8d3809f9ee13088bc5c3d1e0cdc039a8b3c10366fd19a58"
+    },
+    {
+      "file": "ios-halfway-turn-staged.png",
+      "sha256": "61e517a3465a49fcded9041ea0a4fd346bb44fcd951aaec201109c865ed862b7"
+    },
+    {
+      "file": "ios-late-mid-staged.png",
+      "sha256": "dbc842f402fa36ab83aa1d27d642f3370b6533cc9f2ac20d92659247c6db551b"
+    }
+  ]
+}

@@ -188,3 +188,27 @@ test('manual break bookkeeping never double-credits explicit damage charge; Ward
     assert.equal(l.bricksBroken, 12); assert.equal(l.combo, 12);
   }
 });
+
+
+test('successful Vault rescue leads with the head and finishes retreat before the result', () => {
+  const l = vault('easy'); l.phase = 'rescue'; l.state = 'play';
+  // An opened rescue corridor fixture; this does not claim an earned win.
+  for (let i = 0; i < l.grid.cells.length; i++) if (l.grid.cells[i] !== 9) l.grid.cells[i] = 0;
+  for (const b of l.bricks) if (b.kind !== 9) b.gone = true;
+  l.snake.attack = { t: 1.05, struck: 1, side: 1 };
+  const head = l.snakePoints()[0], cells = structuredClone(l.snake.cells), history = structuredClone(l.snake.hist);
+  l.checkBreach();
+  assert.equal(l.phase, 'escape'); assert.ok(l.snake.retreat); assert.equal(l.snake.attack, null);
+  assert.deepEqual(l.snakePoints()[0], head);
+  // Even a cleared board cannot cut off the departure.
+  l.phase = 'frenzy'; l.frenzyT = 0;
+  let count = 0;
+  while (!l.retreatPose().done && count++ < 1200) {
+    l.updateLevel(1 / 120, 1 / 120);
+    if (!l.retreatPose().done) { assert.equal(l.state, 'play'); assert.equal(l.snake.alpha, 1); }
+  }
+  assert.ok(count < 1200); assert.equal(l.snake.alpha, 0); assert.equal(l.state, 'won');
+  assert.ok(l.snakePoints().every(p => p.y < 78), 'tail has entered the tunnel before hiding the snake');
+  assert.deepEqual(l.snake.cells, cells); assert.deepEqual(l.snake.hist, history);
+  assert.equal([...l.grid.cells].filter(x => x === 9).length, 45);
+});

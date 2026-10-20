@@ -129,3 +129,5 @@ export function sampleSerpentCapture(capture, attackTime) {
     laugh: laughEnvelope, travelled, bodyLength: c.source.length, finished: attackTime >= SERPENT_CAPTURE.endAt
   };
 }
+
+export { ribbon as serpentRibbon };

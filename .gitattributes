@@ -42,3 +42,7 @@ tools/playtest/snake-visual.mjs -text
 src/serpent-capture.js -text
 tests/serpent-capture.test.js -text
 tools/playtest/snake-*.mjs -text
+
+src/serpent-retreat.js -text
+tests/serpent-retreat.test.js -text
+docs/validation/snake-retreat/** -text

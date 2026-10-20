@@ -1,5 +1,7 @@
 # Continue here
 
+**Vault successful-rescue retreat (2026-10-20):** The owner approved the emerald snake/capture presentation. The final requested correction replaces backward cell stepping/fading with a head-led turn and return into the top tunnel, followed by the whole body and tail. The entrance remains visible, and the result cannot cut off departure. See `docs/FANTASY_REFINEMENT.md` and `docs/validation/snake-retreat/`. Difficulty and black-block removal remain deferred. The earlier capture receipts remain historical evidence for their pinned build.
+
 Last updated 2026-10-20. Active branch: `codex/starship-run-prototype`. The completed five-chapter APK branch is `codex/space-combat-apk` and has been incorporated here.
 
 Newest keep playtest: read `docs/FANTASY_REFINEMENT.md` first. Bellforge's short-window load failure is fixed at the shared layout boundary. Both villains now have safe defeat sequences and separate dazed/fainted art. Tidewheel has Anchor, Arrow Volley and Starfire, an exact-full charge fix, a claw-origin water attack, and cumulative hauling-chain motion. Nerra's new live fury art uses matching measured collision. The original Vault now reuses the rendered castle hall with a registered dark brick recess and masonry tunnel. This changes the current web bundle; the old APK hash below remains historical and does not include this revision.

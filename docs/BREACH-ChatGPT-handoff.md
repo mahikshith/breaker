@@ -5,7 +5,7 @@ This one file contains everything another assistant needs to design for, or take
 - **Game:** BREACH, a premium portrait brick breaker for iOS and Android. Tagline: "Break in. Break out."
 - **Owner:** mykee (GitHub `mahikshith`).
 - **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `codex/starship-run-prototype` is this working branch.
-- **Assembled at:** repo commit `8286cee`.
+- **Assembled at:** repo commit `774d3b6`.
 
 ## How to read this file
 
@@ -52,6 +52,8 @@ Companion file: `docs/BREACH-blender-scripts.md` has every Blender and art scrip
 *Source: `docs/CONTINUE_HERE.md`*
 
 ## Continue here
+
+**Vault successful-rescue retreat (2026-10-20):** The owner approved the emerald snake/capture presentation. The final requested correction replaces backward cell stepping/fading with a head-led turn and return into the top tunnel, followed by the whole body and tail. The entrance remains visible, and the result cannot cut off departure. See `docs/FANTASY_REFINEMENT.md` and `docs/validation/snake-retreat/`. Difficulty and black-block removal remain deferred. The earlier capture receipts remain historical evidence for their pinned build.
 
 Last updated 2026-10-20. Active branch: `codex/starship-run-prototype`. The completed five-chapter APK branch is `codex/space-combat-apk` and has been incorporated here.
 
@@ -153,6 +155,21 @@ Preview:
 Future work must preserve the approved reference boards and source artwork, keep the mechanical origin of every attack visible, and update geometry whenever a live pose silhouette changes. Do not substitute a still-image assembly for runtime motion evidence.
 
 Final capture review: [`snake-review.md`](validation/fantasy-refinement/snake-review.md) records the exact tested source/build, natural approach, mirrored fixture, mouth attachment checks and seven-second motion clip. Both 393×852 and 412×915 browser viewports passed with no page errors. The upright head, rear-neck connection and clear Lumi face were independently inspected.
+
+
+### Successful rescue: head-first return to the tunnel (2026-10-20)
+
+The owner approved the emerald capture sequence and requested one remaining change: after Lumi is saved, the serpent must turn toward its original tunnel and return head first. The old departure stepped the body backward through cell history and faded it in place. The new presentation snapshots the complete current body at `checkBreach`, turns the head, and lets the continuous ribbon follow the return route. `src/serpent-retreat.js` owns the pure motion sample; `Vault.retreatPose()` caches it by elapsed simulation time.
+
+The successful-rescue branch clears an unfinished attack so its strike expression and camera cannot persist through the escape. The body is rendered from the prepared ribbon, the head faces its travel direction, and opacity remains one until the tail has entered the tunnel. The masonry entrance remains visible after departure. A cleared-board result waits for the departure to finish. Live rescue conditions, difficulty, dungeon bricks, damage, rewards and the approved failed-capture choreography are retained.
+
+Validation and exact source/build hashes are recorded in `docs/validation/snake-retreat/`. Phone browser scenarios stage an opened rescue corridor at early, midway and last-moment rescue states; these exercise the actual successful-rescue transition but do not establish earned wins or physical-phone performance.
+
+The retreat uses a compact forward-leading turn, then the already travelled body/history corridor. It lasts 4–5 simulation seconds depending on route length; the existing rescue slow motion still applies. The head retains one native facing on a straight vertical approach, with short transitions only when the direction changes. The full 374-test unit suite passes; the source audit preserves 51 of 55 previous non-draw Vault methods exactly, with only constructor, rescue transition, presentation point selection and level update changed. Capture motion, rescue rewards, all 400 layout cells and the 45 granite/18 initial bar counts remain exact.
+
+Maintenance: the retreat is terminal presentation, not a new collision-driven snake controller. Its turn projects 6 units forward and 12 sideways, rejoins the previous body about 24 units behind the head, then follows reversed tail history into the original mouth at (284, 88). Corridor corners round within 3 units. Future layouts must leave clearance for this turn; the helper reports an incomplete history instead of drawing a direct shortcut through walls. Very long future routes may exceed the nominal 180-unit/second travel target because duration is capped at five seconds. The current authored encounter is the validated scope.
+
+Final browser acceptance: all three rescue fixtures passed at 393×852 and 412×915 with zero page errors on HTML `CDFF74B582002029D5E4B2BF3B98099B69F3583AC6BA39EFEB994774436A85F7`. The late fixture cancels the first strike and applies six staged legal recoil cells before opening a body-free rescue corridor; it is not an earned win. Native portal frames show a single head facing inside, and the recorded Main loop completes the departure. The held ball applies existing slow motion, so the replay takes about 11.85 wall-clock seconds. See the receipt README for the complete scope.
 
 
 ---
@@ -3254,6 +3271,8 @@ Each workstream is sized for one subagent with a clear contract and a test.
 
 ## BREACH handoff 1/3: status and next steps
 
+**Vault successful-rescue retreat (2026-10-20):** The owner approved the emerald snake/capture presentation. The final requested correction replaces backward cell stepping/fading with a head-led turn and return into the top tunnel, followed by the whole body and tail. The entrance remains visible, and the result cannot cut off departure. See `docs/FANTASY_REFINEMENT.md` and `docs/validation/snake-retreat/`. Difficulty and black-block removal remain deferred. The earlier capture receipts remain historical evidence for their pinned build.
+
 **Snake presentation and capture steering (2026-10-20):** The owner deferred difficulty/black-block removal, requested richer emerald graphics, then expanded the request to the wrapping body, evil laugh, Lumi's body animation and venom melting. The initial graphics-only audit preserved all55 non-draw methods; the subsequent capture pass replaces post-second-strike pose morphing with length-conserving head-led motion, coordinated front/rear layering, a visible jaw laugh and a4.2-second attack-timeline ending. A fallen ball cannot interrupt an already committed capture. The entire400-cell field remains unchanged:45 granite/18 cage-bar cells. Existing dungeon brick art/dust and live combat rules remain. Final evidence is in `docs/validation/fantasy-refinement/`; the historical APK does not include these changes.
 
 **Keep playtest revision (2026-10-20):** The owner reported Bellforge's portrait-playfield load error, unclear villain endings, unusable Tidewheel powers, disconnected water attacks/chains and a visual gap in the original Vault. Current implementation and receipt locations are in `docs/FANTASY_REFINEMENT.md`. The layout now bounds logical paddle space; both villains have staged grounded defeats and new reaction art; Tidewheel gains three earned choices, fixes the 99.999%-charge gate, emits water from the animated claw, and retains cumulative wheel/chain motion. The original Vault reuses the rendered castle hall with its established collision/grid. This revision changes the current canonical web build; B06CDD and APK references in earlier entries remain historical. The new standalone keeps are still outside the released APK. Autonomous branch commit/push remains authorized; no main merge.
@@ -4282,128 +4301,25 @@ assets/snake-jade: 26 PNG renders
 assets/vault: 53 PNG renders
 assets/invasion: 78 PNG renders
 
-art/fantasy-machinery/REACTIONS.md
-art/fantasy-machinery/extract-reactions.py
-art/fantasy-machinery/proof-reactions.py
-art/fantasy-machinery/proof/reactions/contact.png
-art/fantasy-machinery/proof/reactions/korr-dazed-ios.png
-art/fantasy-machinery/proof/reactions/korr-defeat-ios.png
-art/fantasy-machinery/proof/reactions/nerra-defeat-ios.png
-art/fantasy-machinery/proof/reactions/nerra-fury-ios.png
-art/fantasy-machinery/proof/reactions/verification.json
-art/fantasy-machinery/reactions-data.mjs
-art/fantasy-machinery/reactions-prompt.json
-art/fantasy-machinery/source/reactions-v1.png
-art/snake-emerald/SOURCE.md
-art/snake-emerald/extract.py
-art/snake-emerald/prompt.json
-art/snake-emerald/proof/anchors.png
-art/snake-emerald/proof/contact.png
-art/snake-emerald/proof/source-verification.json
-art/snake-emerald/proof/verification.json
-art/snake-emerald/source/heads-v1.png
-art/snake-emerald/verify.py
-artwork-library/assets/fantasy-machinery/korr-dazed-v1--b471614a2428.png
-artwork-library/assets/fantasy-machinery/korr-defeat-v1--d2a054abc055.png
-artwork-library/assets/fantasy-machinery/nerra-dazed-v1--6f2c100dfa91.png
-artwork-library/assets/fantasy-machinery/nerra-defeat-v1--49b8f352ee5f.png
-artwork-library/assets/fantasy-machinery/nerra-fury-v1--6678778a9157.png
-artwork-library/assets/fantasy-machinery/reactions-manifest--11b2958079f6.json
-artwork-library/assets/snake-emerald/head_blink_l--9b2efbad5858.png
-artwork-library/assets/snake-emerald/head_blink_r--a8727a03f39e.png
-artwork-library/assets/snake-emerald/head_chew0_l--2d7998b103f3.png
-artwork-library/assets/snake-emerald/head_chew0_r--ea6fa44e5829.png
-artwork-library/assets/snake-emerald/head_chew1_l--2146f18fc333.png
-artwork-library/assets/snake-emerald/head_chew1_r--fdc3334ef374.png
-artwork-library/assets/snake-emerald/head_dizzy_l--7ef9881e1613.png
-artwork-library/assets/snake-emerald/head_dizzy_r--8cfbcb23aaf7.png
-artwork-library/assets/snake-emerald/head_grin_l--27d566c7d398.png
-artwork-library/assets/snake-emerald/head_grin_r--c77de439f8ca.png
-artwork-library/assets/snake-emerald/head_hiss_l--abad076ecf05.png
-artwork-library/assets/snake-emerald/head_hiss_r--e8621d8b20d2.png
-artwork-library/assets/snake-emerald/head_hunt_l--fdd74495ea84.png
-artwork-library/assets/snake-emerald/head_hunt_r--338e214613fb.png
-artwork-library/assets/snake-emerald/head_idle_l--839ae0f9b8e8.png
-artwork-library/assets/snake-emerald/head_idle_r--b8bafff43894.png
-artwork-library/assets/snake-emerald/head_ouch_l--2237ccb3427c.png
-artwork-library/assets/snake-emerald/head_ouch_r--2a3c05c963e3.png
-artwork-library/assets/snake-emerald/head_taste_l--171ad06df1a1.png
-artwork-library/assets/snake-emerald/head_taste_r--183617b5dab0.png
-artwork-library/assets/snake-emerald/manifest--d07cce6d9c77.json
-artwork-library/assets/snake-emerald/manifest--dae4b90943fb.json
-artwork-library/assets/snake-emerald/meta--88d13673cd4f.json
-artwork-library/assets/snake-emerald/meta--f8e9f9f93774.json
-artwork-library/sources/fantasy-machinery/proof/reactions/contact--5d7718562e1c.png
-artwork-library/sources/fantasy-machinery/proof/reactions/korr-dazed-ios--2278680f91bf.png
-artwork-library/sources/fantasy-machinery/proof/reactions/korr-defeat-ios--b690c16b84eb.png
-artwork-library/sources/fantasy-machinery/proof/reactions/nerra-defeat-ios--a69599855552.png
-artwork-library/sources/fantasy-machinery/proof/reactions/nerra-fury-ios--134338e2471b.png
-artwork-library/sources/fantasy-machinery/source/reactions-v1--67cefe6a3b15.png
-artwork-library/sources/snake-emerald/proof/anchors--297e7be7221b.png
-artwork-library/sources/snake-emerald/proof/contact--aa0966b7710c.png
-artwork-library/sources/snake-emerald/source/heads-v1--ce924290a0c5.png
-assets/fantasy-machinery/korr-dazed-v1.png
-assets/fantasy-machinery/korr-defeat-v1.png
-assets/fantasy-machinery/nerra-dazed-v1.png
-assets/fantasy-machinery/nerra-defeat-v1.png
-assets/fantasy-machinery/nerra-fury-v1.png
-assets/fantasy-machinery/reactions-manifest.json
-assets/snake-emerald/manifest.json
-assets/snake-emerald/meta.json
-docs/FANTASY_REFINEMENT.md
-docs/validation/bellforge/android-dazed-final-staged.png
-docs/validation/bellforge/android-defeat-intermediate-staged.png
-docs/validation/bellforge/android-escape-final-staged.png
-docs/validation/bellforge/defeat-responsive-final-notes.json
-docs/validation/bellforge/defeat-responsive-final.json
-docs/validation/bellforge/defeat-responsive-intermediate.json
-docs/validation/bellforge/defeat-responsive-notes.json
-docs/validation/bellforge/ios-dazed-final-staged.png
-docs/validation/bellforge/ios-defeat-intermediate-staged.png
-docs/validation/bellforge/ios-escape-final-staged.png
-docs/validation/bellforge/short-desktop-intermediate.png
-docs/validation/fantasy-refinement/README.md
-docs/validation/fantasy-refinement/SHA256SUMS
-docs/validation/fantasy-refinement/android-capture-2.2-natural.png
-docs/validation/fantasy-refinement/android-capture-3.17-natural.png
-docs/validation/fantasy-refinement/android-claw-shot-staged.png
-docs/validation/fantasy-refinement/android-starfire-staged.png
-docs/validation/fantasy-refinement/initial-responsive.json
-docs/validation/fantasy-refinement/ios-capture-2.2-natural.png
-docs/validation/fantasy-refinement/ios-capture-3-natural.png
-docs/validation/fantasy-refinement/ios-capture-3.17-mirrored-staged.png
-docs/validation/fantasy-refinement/ios-capture-3.17-natural.png
-docs/validation/fantasy-refinement/ios-kit-menu-staged.png
-docs/validation/fantasy-refinement/ios-nerra-defeat-staged.png
-docs/validation/fantasy-refinement/ios-nerra-fury-staged.png
-docs/validation/fantasy-refinement/ios-venom-breath-staged.png
-docs/validation/fantasy-refinement/new-png-audit.json
-docs/validation/fantasy-refinement/reaction-png-audit.json
-docs/validation/fantasy-refinement/snake-body-cpu-before.json
-docs/validation/fantasy-refinement/snake-body-cpu.json
-docs/validation/fantasy-refinement/snake-final-browser.json
-docs/validation/fantasy-refinement/snake-final-video.json
-docs/validation/fantasy-refinement/snake-review.md
-docs/validation/fantasy-refinement/snake-wrap-laugh-ios.webm
-docs/validation/fantasy-refinement/tidewheel-earned-routes.json
-docs/validation/fantasy-refinement/tidewheel-ui.json
-docs/validation/fantasy-refinement/unit-tests.txt
-docs/validation/fantasy-refinement/vault-capture-mechanics-audit.json
-docs/validation/fantasy-refinement/vault-graphics-mechanics-audit.json
-prototypes/fantasy/layout.js
-src/fantasy/tidewheel-reaction-geometry.js
-src/serpent-capture.js
-tests/fantasy-layout.test.js
-tests/serpent-capture.test.js
-tests/tidewheel-powers.test.js
-tools/playtest/bellforge-defeat.mjs
-tools/playtest/fantasy-responsive.mjs
-tools/playtest/snake-body-bench.mjs
-tools/playtest/snake-capture-video.mjs
-tools/playtest/snake-source-audit.mjs
-tools/playtest/snake-visual.mjs
-tools/playtest/tidewheel-powers-ui.mjs
-tools/playtest/vault-visual.mjs
+docs/validation/snake-retreat/README.md
+docs/validation/snake-retreat/SHA256SUMS
+docs/validation/snake-retreat/android-halfway-mid-staged.png
+docs/validation/snake-retreat/android-halfway-tunnel-staged.png
+docs/validation/snake-retreat/android-late-turn-staged.png
+docs/validation/snake-retreat/ios-early-turn-staged.png
+docs/validation/snake-retreat/ios-halfway-mid-staged.png
+docs/validation/snake-retreat/ios-halfway-tail-clear-staged.png
+docs/validation/snake-retreat/ios-halfway-tunnel-staged.png
+docs/validation/snake-retreat/ios-halfway-turn-staged.png
+docs/validation/snake-retreat/ios-late-mid-staged.png
+docs/validation/snake-retreat/png-audit.json
+docs/validation/snake-retreat/report.json
+docs/validation/snake-retreat/snake-head-first-retreat-ios.webm
+docs/validation/snake-retreat/source-audit.json
+docs/validation/snake-retreat/unit-tests.txt
+src/serpent-retreat.js
+tests/serpent-retreat.test.js
+tools/playtest/snake-retreat.mjs
 .gitattributes
 .github/workflows/mobile-preview.yml
 .gitignore
@@ -4421,9 +4337,11 @@ android/settings.gradle
 art/brum.py
 art/char_preview.py
 art/fantasy-machinery/NERRA_V2.md
+art/fantasy-machinery/REACTIONS.md
 art/fantasy-machinery/SOURCE.md
 art/fantasy-machinery/WATER_SHOT.md
 art/fantasy-machinery/extract-nerra-v2.py
+art/fantasy-machinery/extract-reactions.py
 art/fantasy-machinery/extract-water-shot.py
 art/fantasy-machinery/extract.py
 art/fantasy-machinery/final-prompts.json
@@ -4434,6 +4352,7 @@ art/fantasy-machinery/nerra-v2-prompts.json
 art/fantasy-machinery/production-prompts.json
 art/fantasy-machinery/prompts.json
 art/fantasy-machinery/proof-nerra-v2.py
+art/fantasy-machinery/proof-reactions.py
 art/fantasy-machinery/proof.py
 art/fantasy-machinery/proof/android-assembly.png
 art/fantasy-machinery/proof/asset-audit.json
@@ -4460,8 +4379,16 @@ art/fantasy-machinery/proof/nerra-v2/old-balcony-overlap.json
 art/fantasy-machinery/proof/nerra-v2/verification.json
 art/fantasy-machinery/proof/nerraBody-collision.png
 art/fantasy-machinery/proof/parts-contact.png
+art/fantasy-machinery/proof/reactions/contact.png
+art/fantasy-machinery/proof/reactions/korr-dazed-ios.png
+art/fantasy-machinery/proof/reactions/korr-defeat-ios.png
+art/fantasy-machinery/proof/reactions/nerra-defeat-ios.png
+art/fantasy-machinery/proof/reactions/nerra-fury-ios.png
+art/fantasy-machinery/proof/reactions/verification.json
 art/fantasy-machinery/proof/verification.json
 art/fantasy-machinery/proof/water-shot-native.png
+art/fantasy-machinery/reactions-data.mjs
+art/fantasy-machinery/reactions-prompt.json
 art/fantasy-machinery/source/background-pair-v1.png
 art/fantasy-machinery/source/background-pair-v2.png
 art/fantasy-machinery/source/bell-cradle-v1.png
@@ -4470,6 +4397,7 @@ art/fantasy-machinery/source/bellforge-sheet-v2.png
 art/fantasy-machinery/source/grounding-sheet-v1.png
 art/fantasy-machinery/source/nerra-motion-v1.png
 art/fantasy-machinery/source/nerra-motion-v2.png
+art/fantasy-machinery/source/reactions-v1.png
 art/fantasy-machinery/source/tidewheel-bricks-v1.png
 art/fantasy-machinery/source/tidewheel-sheet-v1.png
 art/fantasy-machinery/source/water-shot-v1.png
@@ -4517,6 +4445,15 @@ art/kit_cast.py
 art/princess.py
 art/render_invasion_assets.py
 art/render_vault_assets.py
+art/snake-emerald/SOURCE.md
+art/snake-emerald/extract.py
+art/snake-emerald/prompt.json
+art/snake-emerald/proof/anchors.png
+art/snake-emerald/proof/contact.png
+art/snake-emerald/proof/source-verification.json
+art/snake-emerald/proof/verification.json
+art/snake-emerald/source/heads-v1.png
+art/snake-emerald/verify.py
 art/snake.py
 art/space/ASSETS_AB.md
 art/space/COMMON_ASSETS.md
@@ -4693,6 +4630,8 @@ artwork-library/assets/fantasy-machinery/gateClawV2--8233aae478bd.png
 artwork-library/assets/fantasy-machinery/gateFrame--87dbdf9ca727.png
 artwork-library/assets/fantasy-machinery/hopperStudy--bbc2d0f6d680.png
 artwork-library/assets/fantasy-machinery/korr--e1f2ab4f5b58.png
+artwork-library/assets/fantasy-machinery/korr-dazed-v1--b471614a2428.png
+artwork-library/assets/fantasy-machinery/korr-defeat-v1--d2a054abc055.png
 artwork-library/assets/fantasy-machinery/korr-idle--30e5da9d16d7.png
 artwork-library/assets/fantasy-machinery/korr-release--eedd6b91a8d6.png
 artwork-library/assets/fantasy-machinery/korr-stagger--a1743526bfaa.png
@@ -4700,6 +4639,9 @@ artwork-library/assets/fantasy-machinery/korr-windup--47c5e0598e4d.png
 artwork-library/assets/fantasy-machinery/leverMount--9076a3a8c9ba.png
 artwork-library/assets/fantasy-machinery/lift--b5c336570676.png
 artwork-library/assets/fantasy-machinery/manifest--b810545f1c1c.json
+artwork-library/assets/fantasy-machinery/nerra-dazed-v1--6f2c100dfa91.png
+artwork-library/assets/fantasy-machinery/nerra-defeat-v1--49b8f352ee5f.png
+artwork-library/assets/fantasy-machinery/nerra-fury-v1--6678778a9157.png
 artwork-library/assets/fantasy-machinery/nerra-v2--0ef6a3017d29.png
 artwork-library/assets/fantasy-machinery/nerra-v2-hurt--6098a9d7f4bd.png
 artwork-library/assets/fantasy-machinery/nerra-v2-idle--3909b5ddfb3b.png
@@ -4711,6 +4653,7 @@ artwork-library/assets/fantasy-machinery/plinth--d9e3877ba5fa.png
 artwork-library/assets/fantasy-machinery/raft--6382b5972389.png
 artwork-library/assets/fantasy-machinery/ramp--d37022aa5f8e.png
 artwork-library/assets/fantasy-machinery/ratchet--0578c721ec5d.png
+artwork-library/assets/fantasy-machinery/reactions-manifest--11b2958079f6.json
 artwork-library/assets/fantasy-machinery/refugeBalcony--df3dca5a3242.png
 artwork-library/assets/fantasy-machinery/releaseLever--a4a0add6dcb1.png
 artwork-library/assets/fantasy-machinery/sluiceWall--9603f5603b9a.png
@@ -4950,6 +4893,30 @@ artwork-library/assets/relay-circuit/runtime-extra/phaseBadge--63c882585f14.webp
 artwork-library/assets/relay-circuit/runtime-extra/portLeft--2115ce17adbe.webp
 artwork-library/assets/relay-circuit/runtime-extra/portRight--443280f6188d.webp
 artwork-library/assets/relay-circuit/runtime-extra/report--c9bd5829aa5a.json
+artwork-library/assets/snake-emerald/head_blink_l--9b2efbad5858.png
+artwork-library/assets/snake-emerald/head_blink_r--a8727a03f39e.png
+artwork-library/assets/snake-emerald/head_chew0_l--2d7998b103f3.png
+artwork-library/assets/snake-emerald/head_chew0_r--ea6fa44e5829.png
+artwork-library/assets/snake-emerald/head_chew1_l--2146f18fc333.png
+artwork-library/assets/snake-emerald/head_chew1_r--fdc3334ef374.png
+artwork-library/assets/snake-emerald/head_dizzy_l--7ef9881e1613.png
+artwork-library/assets/snake-emerald/head_dizzy_r--8cfbcb23aaf7.png
+artwork-library/assets/snake-emerald/head_grin_l--27d566c7d398.png
+artwork-library/assets/snake-emerald/head_grin_r--c77de439f8ca.png
+artwork-library/assets/snake-emerald/head_hiss_l--abad076ecf05.png
+artwork-library/assets/snake-emerald/head_hiss_r--e8621d8b20d2.png
+artwork-library/assets/snake-emerald/head_hunt_l--fdd74495ea84.png
+artwork-library/assets/snake-emerald/head_hunt_r--338e214613fb.png
+artwork-library/assets/snake-emerald/head_idle_l--839ae0f9b8e8.png
+artwork-library/assets/snake-emerald/head_idle_r--b8bafff43894.png
+artwork-library/assets/snake-emerald/head_ouch_l--2237ccb3427c.png
+artwork-library/assets/snake-emerald/head_ouch_r--2a3c05c963e3.png
+artwork-library/assets/snake-emerald/head_taste_l--171ad06df1a1.png
+artwork-library/assets/snake-emerald/head_taste_r--183617b5dab0.png
+artwork-library/assets/snake-emerald/manifest--d07cce6d9c77.json
+artwork-library/assets/snake-emerald/manifest--dae4b90943fb.json
+artwork-library/assets/snake-emerald/meta--88d13673cd4f.json
+artwork-library/assets/snake-emerald/meta--f8e9f9f93774.json
 artwork-library/assets/snake-jade/head_blink_l--c75cd603f6fa.png
 artwork-library/assets/snake-jade/head_blink_r--6c3addffc51e.png
 artwork-library/assets/snake-jade/head_chew0_l--dbae15a3f6b5.png
@@ -5545,6 +5512,11 @@ artwork-library/sources/fantasy-machinery/proof/nerra-v2/keyposes--cf5aafa39019.
 artwork-library/sources/fantasy-machinery/proof/nerra-v2/native-poses--e1c6dce1f25e.png
 artwork-library/sources/fantasy-machinery/proof/nerraBody-collision--f2a3360e37fd.png
 artwork-library/sources/fantasy-machinery/proof/parts-contact--32182804136d.png
+artwork-library/sources/fantasy-machinery/proof/reactions/contact--5d7718562e1c.png
+artwork-library/sources/fantasy-machinery/proof/reactions/korr-dazed-ios--2278680f91bf.png
+artwork-library/sources/fantasy-machinery/proof/reactions/korr-defeat-ios--b690c16b84eb.png
+artwork-library/sources/fantasy-machinery/proof/reactions/nerra-defeat-ios--a69599855552.png
+artwork-library/sources/fantasy-machinery/proof/reactions/nerra-fury-ios--134338e2471b.png
 artwork-library/sources/fantasy-machinery/proof/water-shot-native--c468062241e2.png
 artwork-library/sources/fantasy-machinery/source/background-pair-v1--4ca8531182c0.png
 artwork-library/sources/fantasy-machinery/source/background-pair-v2--8074e80015b5.png
@@ -5554,6 +5526,7 @@ artwork-library/sources/fantasy-machinery/source/bellforge-sheet-v2--2688aec368b
 artwork-library/sources/fantasy-machinery/source/grounding-sheet-v1--033a7daf69b1.png
 artwork-library/sources/fantasy-machinery/source/nerra-motion-v1--207638df8b6c.png
 artwork-library/sources/fantasy-machinery/source/nerra-motion-v2--afecbfb234c1.png
+artwork-library/sources/fantasy-machinery/source/reactions-v1--67cefe6a3b15.png
 artwork-library/sources/fantasy-machinery/source/tidewheel-bricks-v1--c8061573b71f.png
 artwork-library/sources/fantasy-machinery/source/tidewheel-sheet-v1--2fa3bcd1f1be.png
 artwork-library/sources/fantasy-machinery/source/water-shot-v1--5339f2742b54.png
@@ -5584,6 +5557,9 @@ artwork-library/sources/frost-warden/renders/windup_00--6b49e2e0f602.png
 artwork-library/sources/frost-warden/renders/windup_01--deb83633bfd7.png
 artwork-library/sources/frost-warden/renders/windup_02--abdff8c8d3b5.png
 artwork-library/sources/frost-warden/renders/windup_03--12f4a4bf48a5.png
+artwork-library/sources/snake-emerald/proof/anchors--297e7be7221b.png
+artwork-library/sources/snake-emerald/proof/contact--aa0966b7710c.png
+artwork-library/sources/snake-emerald/source/heads-v1--ce924290a0c5.png
 artwork-library/sources/space/circuit-companions/source/latch-original--80f2f3056437.png
 artwork-library/sources/space/circuit-companions/source/vesper-original--e14168bb92fd.png
 artwork-library/sources/space/circuit/source/craft-family--327c31dc8a3e.png
@@ -5681,6 +5657,8 @@ assets/fantasy-machinery/gateClaw.png
 assets/fantasy-machinery/gateClawV2.png
 assets/fantasy-machinery/gateFrame.png
 assets/fantasy-machinery/hopperStudy.png
+assets/fantasy-machinery/korr-dazed-v1.png
+assets/fantasy-machinery/korr-defeat-v1.png
 assets/fantasy-machinery/korr-idle.png
 assets/fantasy-machinery/korr-release.png
 assets/fantasy-machinery/korr-stagger.png
@@ -5689,6 +5667,9 @@ assets/fantasy-machinery/korr.png
 assets/fantasy-machinery/leverMount.png
 assets/fantasy-machinery/lift.png
 assets/fantasy-machinery/manifest.json
+assets/fantasy-machinery/nerra-dazed-v1.png
+assets/fantasy-machinery/nerra-defeat-v1.png
+assets/fantasy-machinery/nerra-fury-v1.png
 assets/fantasy-machinery/nerra-v2-hurt.png
 assets/fantasy-machinery/nerra-v2-idle.png
 assets/fantasy-machinery/nerra-v2-manifest.json
@@ -5700,6 +5681,7 @@ assets/fantasy-machinery/plinth.png
 assets/fantasy-machinery/raft.png
 assets/fantasy-machinery/ramp.png
 assets/fantasy-machinery/ratchet.png
+assets/fantasy-machinery/reactions-manifest.json
 assets/fantasy-machinery/refugeBalcony.png
 assets/fantasy-machinery/releaseLever.png
 assets/fantasy-machinery/sluiceWall.png
@@ -5819,6 +5801,8 @@ assets/relay-circuit/runtime-extra/phaseBadge.webp
 assets/relay-circuit/runtime-extra/portLeft.webp
 assets/relay-circuit/runtime-extra/portRight.webp
 assets/relay-circuit/runtime-extra/report.json
+assets/snake-emerald/manifest.json
+assets/snake-emerald/meta.json
 assets/snake-jade/README.md
 assets/snake-jade/meta.json
 assets/snake/meta.json
@@ -6130,6 +6114,7 @@ docs/BREACH-ChatGPT-handoff.md
 docs/BREACH-blender-scripts.md
 docs/BRUM_LEVEL_PLAN.md
 docs/CONTINUE_HERE.md
+docs/FANTASY_REFINEMENT.md
 docs/GAME_PLAN.md
 docs/MOBILE_PREVIEW.md
 docs/NEXT_LEVELS.md
@@ -6166,11 +6151,21 @@ docs/screens/08-vault-breach.png
 docs/screens/10-vault-results.png
 docs/validation/bellforge/README.md
 docs/validation/bellforge/SHA256SUMS
+docs/validation/bellforge/android-dazed-final-staged.png
+docs/validation/bellforge/android-defeat-intermediate-staged.png
 docs/validation/bellforge/android-earned-result.png
+docs/validation/bellforge/android-escape-final-staged.png
 docs/validation/bellforge/android-opening-final.png
 docs/validation/bellforge/android-rolling.png
+docs/validation/bellforge/defeat-responsive-final-notes.json
+docs/validation/bellforge/defeat-responsive-final.json
+docs/validation/bellforge/defeat-responsive-intermediate.json
+docs/validation/bellforge/defeat-responsive-notes.json
 docs/validation/bellforge/historical-before-final-anatomy.json
+docs/validation/bellforge/ios-dazed-final-staged.png
+docs/validation/bellforge/ios-defeat-intermediate-staged.png
 docs/validation/bellforge/ios-echo-staged.png
+docs/validation/bellforge/ios-escape-final-staged.png
 docs/validation/bellforge/ios-opening-final.png
 docs/validation/bellforge/ios-opening.png
 docs/validation/bellforge/model-routes.json
@@ -6178,6 +6173,7 @@ docs/validation/bellforge/palette-refresh.json
 docs/validation/bellforge/phone-report.json
 docs/validation/bellforge/shared-refresh-notes.json
 docs/validation/bellforge/shared-ui-report.json
+docs/validation/bellforge/short-desktop-intermediate.png
 docs/validation/bellforge/visual-source-refresh.json
 docs/validation/fantasy-preview/README.md
 docs/validation/fantasy-preview/all-tests.txt
@@ -6188,6 +6184,34 @@ docs/validation/fantasy-preview/motion-report.json
 docs/validation/fantasy-preview/post-review-whitespace.json
 docs/validation/fantasy-preview/tidewheel-live.png
 docs/validation/fantasy-preview/tidewheel-live.webm
+docs/validation/fantasy-refinement/README.md
+docs/validation/fantasy-refinement/SHA256SUMS
+docs/validation/fantasy-refinement/android-capture-2.2-natural.png
+docs/validation/fantasy-refinement/android-capture-3.17-natural.png
+docs/validation/fantasy-refinement/android-claw-shot-staged.png
+docs/validation/fantasy-refinement/android-starfire-staged.png
+docs/validation/fantasy-refinement/initial-responsive.json
+docs/validation/fantasy-refinement/ios-capture-2.2-natural.png
+docs/validation/fantasy-refinement/ios-capture-3-natural.png
+docs/validation/fantasy-refinement/ios-capture-3.17-mirrored-staged.png
+docs/validation/fantasy-refinement/ios-capture-3.17-natural.png
+docs/validation/fantasy-refinement/ios-kit-menu-staged.png
+docs/validation/fantasy-refinement/ios-nerra-defeat-staged.png
+docs/validation/fantasy-refinement/ios-nerra-fury-staged.png
+docs/validation/fantasy-refinement/ios-venom-breath-staged.png
+docs/validation/fantasy-refinement/new-png-audit.json
+docs/validation/fantasy-refinement/reaction-png-audit.json
+docs/validation/fantasy-refinement/snake-body-cpu-before.json
+docs/validation/fantasy-refinement/snake-body-cpu.json
+docs/validation/fantasy-refinement/snake-final-browser.json
+docs/validation/fantasy-refinement/snake-final-video.json
+docs/validation/fantasy-refinement/snake-review.md
+docs/validation/fantasy-refinement/snake-wrap-laugh-ios.webm
+docs/validation/fantasy-refinement/tidewheel-earned-routes.json
+docs/validation/fantasy-refinement/tidewheel-ui.json
+docs/validation/fantasy-refinement/unit-tests.txt
+docs/validation/fantasy-refinement/vault-capture-mechanics-audit.json
+docs/validation/fantasy-refinement/vault-graphics-mechanics-audit.json
 docs/validation/space-combat/README.md
 docs/validation/space-combat/apk-verification.json
 docs/validation/space-combat/bounded-balance.json
@@ -6249,6 +6273,7 @@ index.html
 package-lock.json
 package.json
 prototypes/fantasy/index.html
+prototypes/fantasy/layout.js
 prototypes/fantasy/main.js
 prototypes/fantasy/render.js
 prototypes/fantasy/style.css
@@ -6310,6 +6335,7 @@ src/debris.js
 src/difficulty.js
 src/fantasy/bellforge.js
 src/fantasy/tidewheel-geometry.js
+src/fantasy/tidewheel-reaction-geometry.js
 src/fantasy/tidewheel-v2-geometry.js
 src/fantasy/tidewheel.js
 src/frost.js
@@ -6322,6 +6348,7 @@ src/orbital.js
 src/physics.js
 src/prefs.js
 src/relay.js
+src/serpent-capture.js
 src/serpent.js
 src/skiff.js
 src/space-companions.js
@@ -6345,6 +6372,7 @@ tests/companion-ui.test.js
 tests/core-command.test.js
 tests/difficulty.test.js
 tests/enemy-fire.test.js
+tests/fantasy-layout.test.js
 tests/forge-review.test.js
 tests/frost.test.js
 tests/hybrid-review.test.js
@@ -6358,6 +6386,7 @@ tests/pause-retry-review.test.js
 tests/physics.test.js
 tests/relay-review.test.js
 tests/relay.test.js
+tests/serpent-capture.test.js
 tests/serpent.test.js
 tests/space-plasma-integration.test.js
 tests/space-powers.test.js
@@ -6365,6 +6394,7 @@ tests/space-weapons.test.js
 tests/starflight-mission.test.js
 tests/starflight.test.js
 tests/tidewheel-attacks.test.js
+tests/tidewheel-powers.test.js
 tests/tidewheel-seams.test.js
 tests/tidewheel.test.js
 tools/archive_artwork.py
@@ -6395,6 +6425,7 @@ tools/orbital-preview/prepare_art.py
 tools/orbital-preview/prepare_reference.py
 tools/orbital-preview/render-proof.mjs
 tools/pack_art.py
+tools/playtest/bellforge-defeat.mjs
 tools/playtest/bellforge-policy.mjs
 tools/playtest/bellforge.mjs
 tools/playtest/boarding.mjs
@@ -6403,6 +6434,7 @@ tools/playtest/carrier.mjs
 tools/playtest/combat-balance.mjs
 tools/playtest/combat.mjs
 tools/playtest/fantasy-motion.mjs
+tools/playtest/fantasy-responsive.mjs
 tools/playtest/fantasy-visual.mjs
 tools/playtest/frost.mjs
 tools/playtest/kit.mjs
@@ -6410,15 +6442,21 @@ tools/playtest/l1.mjs
 tools/playtest/layout.mjs
 tools/playtest/mobile-ui.mjs
 tools/playtest/polish.mjs
+tools/playtest/snake-body-bench.mjs
+tools/playtest/snake-capture-video.mjs
+tools/playtest/snake-source-audit.mjs
+tools/playtest/snake-visual.mjs
 tools/playtest/space-selected.mjs
 tools/playtest/starflight-mission.mjs
 tools/playtest/starflight.mjs
 tools/playtest/tidewheel-centre-catch.mjs
 tools/playtest/tidewheel-geometry.mjs
+tools/playtest/tidewheel-powers-ui.mjs
 tools/playtest/tidewheel-profile.mjs
 tools/playtest/tidewheel-routes.mjs
 tools/playtest/tidewheel.mjs
 tools/playtest/vault-v2.mjs
+tools/playtest/vault-visual.mjs
 tools/playtest/vault.mjs
 tools/playtest/venom.mjs
 tools/prepare-android.mjs
