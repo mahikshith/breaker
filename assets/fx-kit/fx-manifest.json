@@ -1,0 +1,128 @@
+{
+  "version": 1,
+  "source": "art/fx_kit/fx_kit.py",
+  "rig": "art/render_vault_assets.py",
+  "scope": "Shared counter gems and crash pieces. Draw at drawSize (game units), centred.",
+  "parts": {
+    "pip_empty": {
+      "path": "assets/fx-kit/pip_empty.png",
+      "use": "counter socket, unlit",
+      "px": [
+        54,
+        54
+      ],
+      "ppu": 6,
+      "drawSize": [
+        9,
+        9
+      ],
+      "sha256": "a5f86ee8839943bfd018e3782396a48f292c6462b5e54ea3fe7d13b22d943f27",
+      "encodedBytes": 4828
+    },
+    "pip_gold": {
+      "path": "assets/fx-kit/pip_gold.png",
+      "use": "counter lit: streak, health, charge",
+      "px": [
+        54,
+        54
+      ],
+      "ppu": 6,
+      "drawSize": [
+        9,
+        9
+      ],
+      "sha256": "b4c43fac967f6817fb820bc42bdc40ec26887cc41cf7bdb70c071b672f4fe381",
+      "encodedBytes": 5227
+    },
+    "pip_blue": {
+      "path": "assets/fx-kit/pip_blue.png",
+      "use": "Kit-themed lit counter",
+      "px": [
+        54,
+        54
+      ],
+      "ppu": 6,
+      "drawSize": [
+        9,
+        9
+      ],
+      "sha256": "3661915c063dc91df29c0e0f359444cd6e3575929c741ff91e462f125ac6390f",
+      "encodedBytes": 5195
+    },
+    "pip_rose": {
+      "path": "assets/fx-kit/pip_rose.png",
+      "use": "Lumi-themed lit counter",
+      "px": [
+        54,
+        54
+      ],
+      "ppu": 6,
+      "drawSize": [
+        9,
+        9
+      ],
+      "sha256": "8675db3fac8a4ee1b71f133b3e01592a841e76af8d0f8f6a386490deff35af13",
+      "encodedBytes": 5148
+    },
+    "chip_a": {
+      "path": "assets/fx-kit/chip_a.png",
+      "use": "stone chip for structural crashes",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "sha256": "1e0e0ce5b0f12181dd68c7a5658498c2789f7431e5abf76d64d97ecd42586281",
+      "encodedBytes": 1422
+    },
+    "chip_b": {
+      "path": "assets/fx-kit/chip_b.png",
+      "use": "stone chip variant",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "sha256": "51144207ed06026d4b4d3b80434d365953ab157b2192174aa2d334bcea856b3b",
+      "encodedBytes": 1137
+    },
+    "chip_c": {
+      "path": "assets/fx-kit/chip_c.png",
+      "use": "stone chip variant",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "sha256": "3560d13203ef5f58d2ccba47155d4e6e7facafe996746ea3dd9a0c84c5d40c72",
+      "encodedBytes": 902
+    },
+    "spark": {
+      "path": "assets/fx-kit/spark.png",
+      "use": "gold spark streak; rotate along travel",
+      "px": [
+        90,
+        30
+      ],
+      "ppu": 6,
+      "drawSize": [
+        15,
+        5
+      ],
+      "sha256": "fe9a059b2d3ec9d1c23d929fcb98cb53e98f75becd1b01f31c6f9bebbf8a1545",
+      "encodedBytes": 1323
+    }
+  }
+}

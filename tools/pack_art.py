@@ -45,6 +45,14 @@ if os.path.exists(window_manifest):
             assert im.mode == 'RGBA' and not im.info and list(im.size) == spec['px'], f'Invalid window sprite: {key}'
             art['castleWindow'][key] = {'url': uri(im, 100, lossless=True), 'uw': spec['drawSize'][0], 'uh': spec['drawSize'][1],
                                         'anchor': spec['anchor'], 'opening': spec['opening']}
+# Shared counter gems and crash pieces (see art/fx_kit/fx_kit.py); drawn centred at drawSize.
+fx_manifest = A('fx-kit', 'fx-manifest.json')
+if os.path.exists(fx_manifest):
+    art['fxKit'] = {}
+    for key, spec in json.load(open(fx_manifest, encoding='utf-8'))['parts'].items():
+        with Image.open(os.path.join(ROOT, spec['path'])) as im:
+            assert im.mode == 'RGBA' and not im.info and list(im.size) == spec['px'], f'Invalid fx part: {key}'
+            art['fxKit'][key] = {'url': uri(im, 100, lossless=True), 'uw': spec['drawSize'][0], 'uh': spec['drawSize'][1]}
 art['spaceWeapons'] = {}
 for name in ('shot', 'impact'):
     path = os.path.join(ROOT, 'design', 'phase1', 'weapon-vfx-v3', f'plasma-{name}-runtime.png')
