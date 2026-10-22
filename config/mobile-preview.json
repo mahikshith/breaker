@@ -4,7 +4,7 @@
   "sourceBranch": "codex/starship-run-prototype",
   "androidVersionCode": 6,
   "androidVersionName": "0.6-eight-chapter-preview",
-  "reviewedCanonicalSha256": "a7bbd0356f8088856e6254251cb0347ccf1584bdfde48e453ce0c6d87e382d73",
+  "reviewedCanonicalSha256": "48c390262c3092032d0471267635b766e2c9709624f64ab7d324556eb16d4843",
   "saveSlots": ["Carrier Breakout", "The Vault", "Circuit Breakout", "Shutter Forge", "Frost Warden", "Mooncoil Reliquary", "Bellforge Run", "Tidewheel Citadel", "Gatehouse Siege", "Lumi Breaks Out", "Serpent Rivals"],
   "menuOrder": [0, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10],
   "difficulties": ["easy", "medium", "hard"],
