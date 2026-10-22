@@ -1,0 +1,115 @@
+{
+  "scope": "Actual Main phone touch and staged mechanism/ending fixtures; not earned victories or physical handset tests.",
+  "sha256": "921840f69a1e1af720b999140e3212cc6c1a1cd32a824adc50a8de01d6c0955c",
+  "devices": [
+    {
+      "name": "ios",
+      "checks": {
+        "name": "Mooncoil Reliquary",
+        "phase": "rescue",
+        "paddleY": 614,
+        "clearance": 198,
+        "cageHP": 6,
+        "prisonX": 84,
+        "floorY": 240,
+        "enemyCageDamage": 0
+      },
+      "cast": {
+        "active": 7,
+        "charge": 0,
+        "menu": false
+      },
+      "mechanisms": {
+        "crystalAccepted": true,
+        "crystalCount": 2,
+        "crystalPositions": [
+          {
+            "x": 109.50000000000041,
+            "y": 502.5000000000023,
+            "vx": -235,
+            "vy": -325
+          },
+          {
+            "x": 250.49999999999932,
+            "y": 502.5000000000023,
+            "vx": 235,
+            "vy": -325
+          }
+        ],
+        "crystalDoesNotCharge": true,
+        "cageHP": 0,
+        "phase": "escape",
+        "final": "won",
+        "retreatDone": true
+      },
+      "pauseRetry": true,
+      "frost": {
+        "active": 1.6,
+        "reached": true,
+        "expired": true
+      },
+      "noInput": {
+        "state": "lost",
+        "phase": "caught",
+        "time": 239.99999999994606,
+        "eaten": 5
+      },
+      "errors": []
+    },
+    {
+      "name": "android",
+      "checks": {
+        "name": "Mooncoil Reliquary",
+        "phase": "rescue",
+        "paddleY": 675,
+        "clearance": 259,
+        "cageHP": 6,
+        "prisonX": 84,
+        "floorY": 240,
+        "enemyCageDamage": 0
+      },
+      "cast": {
+        "active": 7,
+        "charge": 0,
+        "menu": false
+      },
+      "mechanisms": {
+        "crystalAccepted": true,
+        "crystalCount": 2,
+        "crystalPositions": [
+          {
+            "x": 109.50000000000041,
+            "y": 563.5000000000027,
+            "vx": -235,
+            "vy": -325
+          },
+          {
+            "x": 250.49999999999932,
+            "y": 563.5000000000027,
+            "vx": 235,
+            "vy": -325
+          }
+        ],
+        "crystalDoesNotCharge": true,
+        "cageHP": 0,
+        "phase": "escape",
+        "final": "won",
+        "retreatDone": true
+      },
+      "pauseRetry": true,
+      "frost": {
+        "active": 1.6,
+        "reached": true,
+        "expired": true
+      },
+      "noInput": {
+        "state": "lost",
+        "phase": "caught",
+        "time": 239.99999999994606,
+        "eaten": 5
+      },
+      "errors": []
+    }
+  ],
+  "pass": true
+}
