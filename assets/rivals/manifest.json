@@ -1,0 +1,654 @@
+{
+ "version": 1,
+ "source": "art/rivals/rivals_art.py",
+ "rig": "art/render_vault_assets.py",
+ "scope": "Serpent Rivals props. Every sprite: draw its drawSize (game units) with `anchor` (units from the sprite top-left) on the model point named in `use`. `contact` = [x, y, w, h] in sprite units = the model rect, so collision matches the drawing. Blender Cycles, Vault ortho rig, AgX Medium High Contrast.",
+ "sprites": {
+  "chamber_floor": {
+   "path": "assets/rivals/chamber_floor.png",
+   "px": [
+    480,
+    296
+   ],
+   "ppu": 4,
+   "drawSize": [
+    120,
+    74
+   ],
+   "anchor": [
+    60,
+    37
+   ],
+   "alphaBounds": [
+    15,
+    15,
+    465,
+    281
+   ],
+   "contact": [
+    4.0,
+    4.0,
+    112,
+    66
+   ],
+   "use": "Clash Chamber floor (scenery, floors 2-3): anchor = centre of m.chamber rect; draw under heads, balls, effects. No collision (the chamber is open space). Kerb inner edge = contact inset 6u.",
+   "sha256": "d4b0cc59d1cf29ea71846ea590c827da260133dddf4694dd08b1d905a8982e47",
+   "encodedBytes": 132419
+  },
+  "clash_0": {
+   "path": "assets/rivals/clash_0.png",
+   "px": [
+    304,
+    304
+   ],
+   "ppu": 4,
+   "drawSize": [
+    76,
+    76
+   ],
+   "anchor": [
+    38.0,
+    38.0
+   ],
+   "alphaBounds": [
+    87,
+    95,
+    219,
+    200
+   ],
+   "frame": 0,
+   "use": "Clash impact (effect `clash`), centred on the effect point (chamber cx, cy). Frames 0,1,2 over the first ~0.3 s (e.g. 0.08/0.10/0.12 s), additive-free normal blending; scale 1.0-1.15 for punch.",
+   "sha256": "aefd1122239805087618613888b34f11af76ad851b76f02f63da4dd999881ea5",
+   "encodedBytes": 15613
+  },
+  "clash_1": {
+   "path": "assets/rivals/clash_1.png",
+   "px": [
+    304,
+    304
+   ],
+   "ppu": 4,
+   "drawSize": [
+    76,
+    76
+   ],
+   "anchor": [
+    38.0,
+    38.0
+   ],
+   "alphaBounds": [
+    40,
+    53,
+    282,
+    216
+   ],
+   "frame": 1,
+   "use": "Clash impact (effect `clash`), centred on the effect point (chamber cx, cy). Frames 0,1,2 over the first ~0.3 s (e.g. 0.08/0.10/0.12 s), additive-free normal blending; scale 1.0-1.15 for punch.",
+   "sha256": "b66141a2d4c7509c6c6621b1e0cfe32fe66d44b040d1a2e65ff758bbb46b685e",
+   "encodedBytes": 23072
+  },
+  "clash_2": {
+   "path": "assets/rivals/clash_2.png",
+   "px": [
+    304,
+    304
+   ],
+   "ppu": 4,
+   "drawSize": [
+    76,
+    76
+   ],
+   "anchor": [
+    38.0,
+    38.0
+   ],
+   "alphaBounds": [
+    48,
+    33,
+    277,
+    264
+   ],
+   "frame": 2,
+   "use": "Clash impact (effect `clash`), centred on the effect point (chamber cx, cy). Frames 0,1,2 over the first ~0.3 s (e.g. 0.08/0.10/0.12 s), additive-free normal blending; scale 1.0-1.15 for punch.",
+   "sha256": "3834f7c751e5d4e69537e829b310ca1beb288a171917ccfb893ca50d6f05dbcb",
+   "encodedBytes": 10609
+  },
+  "lure_gnash_dim": {
+   "path": "assets/rivals/lure_gnash_dim.png",
+   "px": [
+    168,
+    112
+   ],
+   "ppu": 4,
+   "drawSize": [
+    42,
+    28
+   ],
+   "anchor": [
+    21,
+    14
+   ],
+   "alphaBounds": [
+    20,
+    20,
+    148,
+    92
+   ],
+   "contact": [
+    5.0,
+    5.0,
+    32,
+    18
+   ],
+   "snake": "gnash",
+   "state": "dim",
+   "use": "emerald rune lure (gnash); draw centred on the lure rect (anchor = rect centre). Dim: lure.lit false / cooling, cold.",
+   "sha256": "61f25594cbc382e51b59513fe91bc1dac8a749c3de17a3fbd6630efce0b897c9",
+   "encodedBytes": 14967
+  },
+  "lure_gnash_lit": {
+   "path": "assets/rivals/lure_gnash_lit.png",
+   "px": [
+    168,
+    112
+   ],
+   "ppu": 4,
+   "drawSize": [
+    42,
+    28
+   ],
+   "anchor": [
+    21,
+    14
+   ],
+   "alphaBounds": [
+    20,
+    17,
+    148,
+    97
+   ],
+   "contact": [
+    5.0,
+    5.0,
+    32,
+    18
+   ],
+   "snake": "gnash",
+   "state": "lit",
+   "use": "emerald rune lure (gnash); draw centred on the lure rect (anchor = rect centre). Lit: lure.lit true, glows.",
+   "sha256": "99fd72de57da2a55225faaa9ebfda7e9710cf68b210beb7ba5cb4ecef2d8da4a",
+   "encodedBytes": 17809
+  },
+  "lure_mooncoil_dim": {
+   "path": "assets/rivals/lure_mooncoil_dim.png",
+   "px": [
+    168,
+    112
+   ],
+   "ppu": 4,
+   "drawSize": [
+    42,
+    28
+   ],
+   "anchor": [
+    21,
+    14
+   ],
+   "alphaBounds": [
+    20,
+    20,
+    148,
+    92
+   ],
+   "contact": [
+    5.0,
+    5.0,
+    32,
+    18
+   ],
+   "snake": "mooncoil",
+   "state": "dim",
+   "use": "violet rune lure (mooncoil); draw centred on the lure rect (anchor = rect centre). Dim: lure.lit false / cooling, cold.",
+   "sha256": "94a861286ba730910578afcda85742ad140a9ef3dca9a115c91863f9ee64c525",
+   "encodedBytes": 15111
+  },
+  "lure_mooncoil_lit": {
+   "path": "assets/rivals/lure_mooncoil_lit.png",
+   "px": [
+    168,
+    112
+   ],
+   "ppu": 4,
+   "drawSize": [
+    42,
+    28
+   ],
+   "anchor": [
+    21,
+    14
+   ],
+   "alphaBounds": [
+    20,
+    17,
+    148,
+    97
+   ],
+   "contact": [
+    5.0,
+    5.0,
+    32,
+    18
+   ],
+   "snake": "mooncoil",
+   "state": "lit",
+   "use": "violet rune lure (mooncoil); draw centred on the lure rect (anchor = rect centre). Lit: lure.lit true, glows.",
+   "sha256": "eea466ee966ba523043cdfe9bc531ab1354b39479d0b10cefd3c377ed8ce4b8a",
+   "encodedBytes": 17167
+  },
+  "seal_crack1": {
+   "path": "assets/rivals/seal_crack1.png",
+   "px": [
+    608,
+    176
+   ],
+   "ppu": 4,
+   "drawSize": [
+    152,
+    44
+   ],
+   "anchor": [
+    76,
+    22
+   ],
+   "alphaBounds": [
+    23,
+    21,
+    585,
+    155
+   ],
+   "contact": [
+    6.0,
+    7.0,
+    140,
+    30
+   ],
+   "stage": 1,
+   "use": "Twin Seal door; anchor = centre of m.seal rect (x + w/2, y + h/2). Stage by HP fraction: intact > 0.75, crack1 > 0.5, crack2 > 0.25, shattered otherwise (and under seal-open/seal-shatter).",
+   "sha256": "256381ce7f16bd49326893b9b7af1a6b7bea5847b1b80a4c5b07ca06e6925eb0",
+   "encodedBytes": 107720
+  },
+  "seal_crack2": {
+   "path": "assets/rivals/seal_crack2.png",
+   "px": [
+    608,
+    176
+   ],
+   "ppu": 4,
+   "drawSize": [
+    152,
+    44
+   ],
+   "anchor": [
+    76,
+    22
+   ],
+   "alphaBounds": [
+    23,
+    21,
+    585,
+    155
+   ],
+   "contact": [
+    6.0,
+    7.0,
+    140,
+    30
+   ],
+   "stage": 2,
+   "use": "Twin Seal door; anchor = centre of m.seal rect (x + w/2, y + h/2). Stage by HP fraction: intact > 0.75, crack1 > 0.5, crack2 > 0.25, shattered otherwise (and under seal-open/seal-shatter).",
+   "sha256": "3159d572eac0ea18e318a20cdbb9236eefc1499f4eca41ddacee17f450bd0250",
+   "encodedBytes": 110744
+  },
+  "seal_intact": {
+   "path": "assets/rivals/seal_intact.png",
+   "px": [
+    608,
+    176
+   ],
+   "ppu": 4,
+   "drawSize": [
+    152,
+    44
+   ],
+   "anchor": [
+    76,
+    22
+   ],
+   "alphaBounds": [
+    23,
+    21,
+    585,
+    155
+   ],
+   "contact": [
+    6.0,
+    7.0,
+    140,
+    30
+   ],
+   "stage": 0,
+   "use": "Twin Seal door; anchor = centre of m.seal rect (x + w/2, y + h/2). Stage by HP fraction: intact > 0.75, crack1 > 0.5, crack2 > 0.25, shattered otherwise (and under seal-open/seal-shatter).",
+   "sha256": "84bbdf10f5e088203e7985bd51d5d96a0978ec2a293116e043932056ee592e64",
+   "encodedBytes": 106286
+  },
+  "seal_shattered": {
+   "path": "assets/rivals/seal_shattered.png",
+   "px": [
+    608,
+    176
+   ],
+   "ppu": 4,
+   "drawSize": [
+    152,
+    44
+   ],
+   "anchor": [
+    76,
+    22
+   ],
+   "alphaBounds": [
+    23,
+    21,
+    582,
+    158
+   ],
+   "contact": [
+    6.0,
+    7.0,
+    140,
+    30
+   ],
+   "stage": 3,
+   "use": "Twin Seal door; anchor = centre of m.seal rect (x + w/2, y + h/2). Stage by HP fraction: intact > 0.75, crack1 > 0.5, crack2 > 0.25, shattered otherwise (and under seal-open/seal-shatter).",
+   "sha256": "c47b4e5b65a4b453f7457ec124c743140d859c5cc3d2a7a4e9103fcb7a25d419",
+   "encodedBytes": 106263
+  },
+  "shutter_eyes": {
+   "path": "assets/rivals/shutter_eyes.png",
+   "px": [
+    180,
+    216
+   ],
+   "ppu": 3,
+   "drawSize": [
+    60,
+    72
+   ],
+   "anchor": [
+    30,
+    36
+   ],
+   "alphaBounds": [
+    51,
+    73,
+    129,
+    118
+   ],
+   "opening": [
+    [
+     14,
+     58.0
+    ],
+    [
+     14.0,
+     30.0
+    ],
+    [
+     14.35,
+     26.673
+    ],
+    [
+     15.383,
+     23.492
+    ],
+    [
+     17.056,
+     20.595
+    ],
+    [
+     19.294,
+     18.11
+    ],
+    [
+     22.0,
+     16.144
+    ],
+    [
+     25.056,
+     14.783
+    ],
+    [
+     28.328,
+     14.088
+    ],
+    [
+     31.672,
+     14.088
+    ],
+    [
+     34.944,
+     14.783
+    ],
+    [
+     38.0,
+     16.144
+    ],
+    [
+     40.706,
+     18.11
+    ],
+    [
+     42.944,
+     20.595
+    ],
+    [
+     44.617,
+     23.492
+    ],
+    [
+     45.65,
+     26.673
+    ],
+    [
+     46.0,
+     30.0
+    ],
+    [
+     46,
+     58.0
+    ]
+   ],
+   "use": "Mooncoil eyes behind the shutter slats (registered with window kit, eye line 4.2u above the opening centre). Visible through the broken slat and gaps; fade/blink with alpha.",
+   "sha256": "0701cd9c3e52c79b3542d07499a655be47de3d84e86e0fe9cda21006dcb7c01f",
+   "encodedBytes": 3110
+  },
+  "ward_plate_gilt": {
+   "path": "assets/rivals/ward_plate_gilt.png",
+   "px": [
+    84,
+    112
+   ],
+   "ppu": 4,
+   "drawSize": [
+    21,
+    28
+   ],
+   "anchor": [
+    10.5,
+    14.0
+   ],
+   "alphaBounds": [
+    11,
+    11,
+    73,
+    100
+   ],
+   "use": "Seal ward plate (one per seal.ward), anchor at a sealWardSlots point. Optional gilt variant: alternate with iron, or use for the newest plate.",
+   "sha256": "7742d142cfec8171bf5b506407c87511e2a4e8b2249fb14d0398cba3544c2bcd",
+   "encodedBytes": 9183
+  },
+  "ward_plate_iron": {
+   "path": "assets/rivals/ward_plate_iron.png",
+   "px": [
+    84,
+    112
+   ],
+   "ppu": 4,
+   "drawSize": [
+    21,
+    28
+   ],
+   "anchor": [
+    10.5,
+    14.0
+   ],
+   "alphaBounds": [
+    11,
+    11,
+    73,
+    100
+   ],
+   "use": "Seal ward plate (one per seal.ward), anchor at a sealWardSlots point. Default plate.",
+   "sha256": "ac0ab30b34a9f87e61322baf81dedb6df1df3e574a439267d2f4486228c72dcf",
+   "encodedBytes": 9316
+  },
+  "window_front_shuttered": {
+   "path": "assets/rivals/window_front_shuttered.png",
+   "px": [
+    180,
+    216
+   ],
+   "ppu": 3,
+   "drawSize": [
+    60,
+    72
+   ],
+   "anchor": [
+    30,
+    36
+   ],
+   "alphaBounds": [
+    11,
+    11,
+    170,
+    205
+   ],
+   "opening": [
+    [
+     14,
+     58.0
+    ],
+    [
+     14.0,
+     30.0
+    ],
+    [
+     14.35,
+     26.673
+    ],
+    [
+     15.383,
+     23.492
+    ],
+    [
+     17.056,
+     20.595
+    ],
+    [
+     19.294,
+     18.11
+    ],
+    [
+     22.0,
+     16.144
+    ],
+    [
+     25.056,
+     14.783
+    ],
+    [
+     28.328,
+     14.088
+    ],
+    [
+     31.672,
+     14.088
+    ],
+    [
+     34.944,
+     14.783
+    ],
+    [
+     38.0,
+     16.144
+    ],
+    [
+     40.706,
+     18.11
+    ],
+    [
+     42.944,
+     20.595
+    ],
+    [
+     44.617,
+     23.492
+    ],
+    [
+     45.65,
+     26.673
+    ],
+    [
+     46.0,
+     30.0
+    ],
+    [
+     46,
+     58.0
+    ]
+   ],
+   "use": "Floor-1 Mooncoil window, closed (m.shutters). Same drawSize/anchor/opening as assets/castle/window_front: draw window_back, then shutter_eyes (optional, blink by alpha), then this, at the window centre. Not a lunge window.",
+   "sha256": "b088ac3e1e0fef4292deb9b490456314c458e03e43ef15f8d0e4654bda247030",
+   "encodedBytes": 45726
+  }
+ },
+ "sealWardSlots": {
+  "note": "ward plate centres in seal sprite units (from the seal sprite top-left), in fill order; draw plate i < seal.ward at slot i with the plate anchor. Plate contact is visual only (the seal rect owns collision).",
+  "slots": [
+   [
+    52,
+    21.4
+   ],
+   [
+    100,
+    22.6
+   ],
+   [
+    34,
+    21.4
+   ],
+   [
+    118,
+    22.6
+   ],
+   [
+    16,
+    21.4
+   ],
+   [
+    136,
+    22.6
+   ]
+  ]
+ }
+}

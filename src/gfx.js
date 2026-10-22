@@ -212,7 +212,7 @@ export class FX {
   }
   draw(g, P, overlay) { // overlay: only rings and score pops, projected by P (the 3D view renders debris itself)
     if (overlay) {
-      for (const r of this.rings) { const k = r.t / r.life, [x, y] = P(r.x, r.y); g.globalAlpha = 0.6 * (1 - k); g.strokeStyle = r.color; g.lineWidth = 3 * (1 - k) + 0.5; g.beginPath(); g.arc(x, y, r.r * (0.3 + k), 0, 7); g.stroke(); }
+      for (const r of this.rings) { const [x, y] = P(r.x, r.y); bloom(g, x, y, r); }
       g.globalAlpha = 1;
       for (const p of this.pops) {
         const k = p.t / p.life, sc = k < 0.15 ? 0.6 + k / 0.15 * 0.5 : 1.1 - Math.min(0.1, (k - 0.15)), [x, y] = p.screen ? [p.x, p.y] : P(p.x, p.y);
@@ -234,11 +234,7 @@ export class FX {
       g.fillStyle = Math.cos(s.rot) > 0 ? s.light : s.color; poly(g, s.x, s.y, s.pts, s.rot); g.fill();
       g.strokeStyle = s.dark; g.lineWidth = 0.6; g.stroke();
     }
-    for (const r of this.rings) {
-      const k = r.t / r.life;
-      g.globalAlpha = 0.6 * (1 - k); g.strokeStyle = r.color; g.lineWidth = 3 * (1 - k) + 0.5;
-      g.beginPath(); g.arc(r.x, r.y, r.r * (0.3 + k), 0, 7); g.stroke();
-    }
+    for (const r of this.rings) bloom(g, r.x, r.y, r);
     g.globalAlpha = 1;
     for (const p of this.pops) {
       const k = p.t / p.life, sc = k < 0.15 ? 0.6 + k / 0.15 * 0.5 : 1.1 - Math.min(0.1, (k - 0.15));
@@ -247,6 +243,12 @@ export class FX {
     }
     g.globalAlpha = 1;
   }
+}
+// An impact 'ring' is a soft expanding bloom of light (filled, additive), never a stroked circle.
+function bloom(g, x, y, r) {
+  const k = r.t / r.life, R = r.r * (0.45 + 0.75 * k);
+  const gr = g.createRadialGradient(x, y, 0, x, y, R); gr.addColorStop(0, r.color); gr.addColorStop(1, 'rgba(0,0,0,0)');
+  g.save(); g.globalCompositeOperation = 'lighter'; g.globalAlpha = 0.42 * (1 - k) * (1 - k); g.fillStyle = gr; g.fillRect(x - R, y - R, R * 2, R * 2); g.restore();
 }
 function poly(g, x, y, pts, rot) {
   const c = Math.cos(rot), s = Math.sin(rot);
