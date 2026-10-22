@@ -4,6 +4,7 @@ import { Arena } from '../arena.js';
 import { Bellforge } from './bellforge.js';
 import { Tidewheel } from './tidewheel.js';
 import { Gatehouse, GATEHOUSE_FLOORS } from './gatehouse.js';
+import { LumiTower } from './lumitower.js';
 import { makeArt, drawEncounter } from './render.js';
 import { cached, drawBall, text } from '../gfx.js';
 import { sfx } from '../audio.js';
@@ -19,6 +20,10 @@ const CHAPTERS = {
   // Stars: clear it, finish with 2+ balls, and take at most one paddle stun (a bell that lands on the paddle).
   gatehouse: { Model: Gatehouse, name: 'Gatehouse Siege', kinds: { shield: 'ward' }, powers: [{ id: 'shield', label: 'WARD', color: '#a9cbf0' }],
     preview: { x: 14, y: 88, w: 332, h: 68 }, stars: a => 1 + (a.lives >= 2) + (a.stuns <= 1) },
+  // Lumi holds the paddle: her face fills Kit's orb and her songs map 1:1 to the model. Stars: clear it, keep 2+ balls, never get bitten.
+  lumitower: { Model: LumiTower, name: 'Lumi Breaks Out', hero: 'Lumi', face: 'lumi', menuTitle: 'LUMI’S SONGS', kinds: { lullaby: 'lullaby', starlight: 'starlight', songshield: 'songshield' },
+    powers: [{ id: 'lullaby', label: 'LULLABY', color: '#b9a8ef' }, { id: 'starlight', label: 'STARLIGHT', color: '#f4d98c' }, { id: 'songshield', label: 'SONG SHIELD', color: '#f0a7c4' }],
+    preview: { x: -15, y: 98, w: 260, h: 46 }, stars: a => 1 + (a.lives >= 2) + (a.m.bites === 0) },
 };
 let art;
 
@@ -30,7 +35,7 @@ export class FantasyChapter {
     this.k = Math.min(1, (H - hudTop) / MIN_H); this.ox = (W - 360 * this.k) / 2;
     this.m = new c.Model({ width: 360, height, difficulty, paddleY: height - Math.min(120, Math.max(90, 126 / uiScale)) });
     art ||= makeArt();
-    this.name = c.name || (key === 'bellforge' ? 'Bellforge Run' : 'Tidewheel Citadel'); this.stuns = 0;
+    this.name = c.name || (key === 'bellforge' ? 'Bellforge Run' : 'Tidewheel Citadel'); this.stuns = 0; this.kitFace = c.face; this.menuTitle = c.menuTitle; this.hurtUntil = 0; this.lives0 = this.m.lives;
     this.paddle = { charge: 0, stun: 0 }; this.balls = this.m.balls;
     this.coreMode = 'ward'; this.kitPowers = true; this.powerChoices = c.powers; this.powerMenuOpen = false; this.powerMenuAt = 0;
     this.t = 0; this.kitTime = 0; this.kitMood = 'Idle'; this.kitAt = 0; this.kitShockUntil = 0; this.kitCastAt = -Infinity; this.kitReactionAt = -Infinity;
@@ -42,8 +47,8 @@ export class FantasyChapter {
   get phase() { return this.m.phase; }
   get lives() { return this.m.lives; }
   get score() { return this.m.score; }
-  get danger() { const m = this.m; if (this.key === 'gatehouse') return m.bells.length || m.villain.stage === 'windup' ? .75 : m.floor / 3 * .6; return this.key === 'bellforge' ? m.lumi.steps / m.rules.mistakes : 1 - (m.water.y - m.water.limit) / (m.water.initial - m.water.limit); }
-  get reason() { const m = this.m; return this.key === 'bellforge' || this.key === 'gatehouse' ? m.reason : m.loss === 'flood' ? 'The basin reached the refuge.' : 'The last ball slipped away.'; }
+  get danger() { const m = this.m; if (this.key === 'lumitower') return m.lunges.some(l => l.stage !== 'peek' && l.stage !== 'retreat') ? .8 : 0; if (this.key === 'gatehouse') return m.bells.length || m.villain.stage === 'windup' ? .75 : m.floor / 3 * .6; return this.key === 'bellforge' ? m.lumi.steps / m.rules.mistakes : 1 - (m.water.y - m.water.limit) / (m.water.initial - m.water.limit); }
+  get reason() { const m = this.m; return this.key === 'bellforge' || this.key === 'gatehouse' || this.key === 'lumitower' ? m.reason : m.loss === 'flood' ? 'The basin reached the refuge.' : 'The last ball slipped away.'; }
   previewRect() { const r = this.c.preview; return { ...r, y: r.y + this.hudTop }; }
   // ---------- input (level coordinates; the model sits hudTop below the level's top, scaled by k on short screens) ----------
   toModel(x) { return (x - this.ox) / this.k; }
@@ -72,7 +77,7 @@ export class FantasyChapter {
   activateKitPower() {
     if (this.state !== 'play' || this.powerMenuOpen) return false;
     if (this.m.charge < 100) {
-      this.hint = { text: 'Break bricks to charge Kit', until: this.t + 2.2 };
+      this.hint = { text: `Break bricks to charge ${this.c.hero || 'Kit'}`, until: this.t + 2.2 };
       return false;
     }
     this.powerMenuOpen = true; this.powerMenuAt = performance.now();
@@ -101,10 +106,20 @@ export class FantasyChapter {
     this.t += dt; this.kitTime += dt;
     const nudge = (this.keys.ArrowRight ? 1 : 0) - (this.keys.ArrowLeft ? 1 : 0);
     if (nudge) m.setTarget(m.paddle.targetX + nudge * 460 * dt);
-    m.update(dt); this.balls = m.balls; this.paddle.charge = m.charge / 100; this.paddle.stun = m.paddle.stun || 0;
+    m.update(dt); this.balls = m.balls; this.paddle.charge = m.charge / 100; this.paddle.stun = m.paddle.stun || (this.t < this.hurtUntil ? 1 : 0);
+    if (this.key === 'lumitower' && m.lives < this.lives0) this.hurtUntil = this.t + .9; this.lives0 = m.lives;
     if (this.key === 'tidewheel') this.floodMin = Math.min(this.floodMin, m.water.y);
     for (const e of m.effects) if (!this.heard.has(e)) {
       this.heard.add(e); if (e.kind === 'paddle-stun') this.stuns++;
+      if (this.key === 'lumitower') {
+        if (e.kind === 'swallow') { this.kitShockUntil = this.t + .9; sfx.hurt(); }
+        else if (e.kind === 'snake-hurt' || e.kind === 'shield-block') { this.kitReactionAt = this.t; this.kitWardResult = 'held'; sfx.hit(); }
+        else if (e.kind === 'chomp') sfx.chew();
+        else if (['bite-warning', 'hatch-open', 'rope-escape', 'ram-launch'].includes(e.kind)) sfx.beat();
+        else if (e.kind === 'bell-ring') sfx.hit(Math.min(8, e.rings * 2));
+        else if (!['window-peek', 'lullaby', 'starlight', 'songshield'].includes(e.kind) && m.time - this.hitSoundAt > .06) { sfx.hit(); this.hitSoundAt = m.time; }
+        continue;
+      }
       if (['bell-release', 'ratchet', 'surge', 'bell-warning', 'housing-break', 'drawbridge-crash', 'gate-open', 'ram-launch'].includes(e.kind)) sfx.beat();
       else if (m.time - this.hitSoundAt > .06) { sfx.hit(); this.hitSoundAt = m.time; }
     }
@@ -116,11 +131,12 @@ export class FantasyChapter {
   result() {
     const m = this.m, won = m.state === 'won';
     return { stars: won ? this.c.stars(this) : 0,
-      lines: this.key === 'gatehouse' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Balls left', m.lives]] : [['Score', Math.round(m.score).toLocaleString()], this.key === 'bellforge' ? ['Lift drops', `${m.lumi.steps} / ${m.rules.mistakes}`] : ['Flood margin', `${Math.max(0, Math.round((this.floodMin - m.water.limit) / (m.water.initial - m.water.limit) * 100))}%`], ['Balls left', m.lives]] };
+      lines: this.key === 'lumitower' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Bites', m.bites]] : this.key === 'gatehouse' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Balls left', m.lives]] : [['Score', Math.round(m.score).toLocaleString()], this.key === 'bellforge' ? ['Lift drops', `${m.lumi.steps} / ${m.rules.mistakes}`] : ['Flood margin', `${Math.max(0, Math.round((this.floodMin - m.water.limit) / (m.water.initial - m.water.limit) * 100))}%`], ['Balls left', m.lives]] };
   }
   // ---------- drawing ----------
   background() {
     return cached(`fantasy-bg-${this.key}-${this.W}-${this.H}`, this.W, this.H, g => {
+      if (this.key === 'lumitower') { const gr = g.createLinearGradient(0, 0, 0, this.H); gr.addColorStop(0, '#171226'); gr.addColorStop(1, '#0c0a16'); g.fillStyle = gr; g.fillRect(0, 0, this.W, this.H); return; }
       const img = art.images[this.key + '/background'];
       g.fillStyle = '#101622'; g.fillRect(0, 0, this.W, this.H);
       if (!img.naturalWidth) return;

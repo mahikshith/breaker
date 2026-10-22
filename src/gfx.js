@@ -27,7 +27,9 @@ export function drawStretchPaddle(g, part, p) {
 }
 const KIT = ART?.kit ? { ...ART.kit, img: loadImg(ART.kit.url) } : null;
 const KIT_FACES = KIT?.faces ? { ...KIT.faces, img: loadImg(KIT.faces.url) } : null;
-export function drawKitFace(g, x, y, size, clip = 'Idle') {
+const LUMI_FACES = ART?.lumiFaces ? { ...ART.lumiFaces, img: loadImg(ART.lumiFaces.url) } : null;
+export function drawKitFace(g, x, y, size, clip = 'Idle', who) {
+  if (who === 'lumi' && ready(LUMI_FACES)) { const c = LUMI_FACES.cell; g.drawImage(LUMI_FACES.img, (LUMI_FACES.expr[clip] ?? 0) * c, 0, c, c, x - size / 2, y - size / 2, size, size); return; }
   if (!ready(KIT_FACES)) return;
   const c = KIT_FACES.cell, col = (KIT.anims[clip] || KIT.anims.Idle).row;
   g.drawImage(KIT_FACES.img, col * c, 0, c, c, x - size / 2, y - size / 2, size, size);

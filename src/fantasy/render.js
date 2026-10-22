@@ -1,6 +1,7 @@
 import { ART } from '../vault-art.js';
 import { SPR, loadImg, artLoaded, text } from '../gfx.js';
 import { GATEHOUSE_FLOORS } from './gatehouse.js';
+import { renderLumi } from './lumi-render.js';
 const damageStates=new WeakMap();
 // Machinery comes packed in ART.fantasy (tools/pack_art.py); the plates, ball, paddle, bricks and Lumi are the main game's own art.
 export function makeArt(){
@@ -12,6 +13,7 @@ export function makeArt(){
   for(const [key,item] of Object.entries(F.tidewheel.bricks))images['brick/'+key]=loadImg(item.url);
   images['bellforge/background']=loadImg(ART.keepBackdrop);images['gatehouse/background']=images['bellforge/background'];
   images.waterShot=loadImg(F.waterShot.url);
+  if(ART.lumiPaddle)for(const k of['l','m','r'])images['lumiPaddle'+k.toUpperCase()]=loadImg(ART.lumiPaddle[k]);
   for(const [key,sprite] of Object.entries({ball:'ball',titan:'ball_titan',paddleL:'paddle_l',paddleM:'paddle_m',paddleR:'paddle_r',cyan:'brick_t_2_0',rose:'brick_t_2_0',plum:'brick_v_2_0',pin:'brick_gold_1_0',shield:'cap_shield'}))images[key]=SPR[sprite].img;
   return {manifest,images,waterShot:F.waterShot,lumi:{...ART.princess,img:loadImg(ART.princess.url)}};
 }
@@ -309,9 +311,10 @@ function ghBell(ctx,g,art,b){
 function holeFx(ctx,g,h,y=h.y,rx=16,ry=16){
   const x=h.x,warn=g.effects.find(e=>e.kind==='bell-warning'&&Math.hypot(e.x-h.x,e.y-h.y)<1),q=warn?clamp01(warn.age/warn.life):0,pulse=.7+.3*Math.sin(g.time*(10+q*14));
   if(warn){glow(ctx,x,y+12,96,'#ff5a1a',(.42+.5*q)*pulse);glow(ctx,x,y+4,40,'#ffc47a',(.45+.45*q)*pulse);}
-  ctx.save();ctx.fillStyle='#07060a';ctx.strokeStyle='#8a6a3a';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fill();ctx.stroke();
-  ctx.strokeStyle='#e2bd77';ctx.lineWidth=.7;ctx.stroke();ctx.restore();
-  if(warn){ctx.save();ctx.beginPath();ctx.ellipse(x,y,rx-1,ry-1,0,0,Math.PI*2);ctx.clip();glow(ctx,x,y+ry*.4,rx*1.3,'#ff9a3a',(.4+.6*q)*pulse);ctx.restore();ring(ctx,x,y,rx+26*(1-q)+4,'#ffb067',1.4,.2+q*.6,(ry+26*(1-q)+4)*.8);}
+  // The ledge slot is a dark port with a brass lip; the round dais ends are only a soft shadow that heats up, never a drawn ring.
+  if(ry<rx){ctx.save();ctx.fillStyle='#07060a';ctx.strokeStyle='#8a6a3a';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.strokeStyle='#e2bd77';ctx.lineWidth=.7;ctx.stroke();ctx.restore();}
+  else glow(ctx,x,y+3,rx*1.5,'#030206',.7);
+  if(warn){ctx.save();if(ry<rx){ctx.beginPath();ctx.ellipse(x,y,rx-1,ry-1,0,0,Math.PI*2);ctx.clip();}glow(ctx,x,y+ry*.4,rx*1.3,'#ff9a3a',(.4+.6*q)*pulse);ctx.restore();glow(ctx,x,y+10,rx*2.4*(1.2-.5*q),'#ff8a3a',.18+q*.3);}
 }
 function pool(ctx,x,y,rx,ry,colour,a){ctx.save();ctx.translate(x,y);ctx.scale(1,ry/rx);glow(ctx,0,0,rx,colour,a);ctx.restore();}
 function gateFrame(ctx,art){
@@ -412,7 +415,7 @@ function gEffects(ctx,g,art){
         const t=e.age-.5;
         if(e.age<.12)for(const sx of[96,264])sparks(ctx,sx,106,e.age,9,110,['#ffd883','#fff4d6'],2.2,Math.round(sx));
         if(t>0){ctx.globalAlpha=1;chunks(ctx,art,'bellforge/plinth',B.plinth,PLINTH,180,318,t,.6,34,260,22,11);chunks(ctx,art,'tidewheel/counterweight',T.counterweight,COUNTERWEIGHT,180,318,t,.6,8,200,15,12);
-          dust(ctx,180,326,t,.6,10,96,22);ring(ctx,180,324,30+t*240,'#e8d7ae',2,(1-t/.6)*.5,(30+t*240)*.25);}
+          dust(ctx,180,326,t,.6,10,96,22);glow(ctx,180,322,60+t*150,'#e8d7ae',(1-t/.6)*.4);}
         break;}
       case'gate-open':{ctx.globalAlpha=1;const k=Math.sin(Math.PI*clamp01(q));glow(ctx,180,250,130,'#ffc46b',.5*k);dust(ctx,180,262,e.age,e.life,6,70,14,'#b9a177');break;}
       case'bell-release':dust(ctx,e.x,e.y,e.age,e.life,3,14,8,'#7e7769');ring(ctx,e.x,e.y,8+e.age*80,'#ffc98a',1.2,a*.8);break;
@@ -436,11 +439,11 @@ function gEffects(ctx,g,art){
   }
 }
 // The sweet spot is the paddle's centre third: faint at rest, pips light 1/3, 2/3, 3/3, then the ring pulses until the ram launches.
-function gPaddle(ctx,g,art){
+function gPaddle(ctx,g,art,skin=['paddleL','paddleM','paddleR']){
   const p=g.paddle,h=p.h*20/12,py=p.y+p.h/2,k=p.stun/.8,f=Math.floor(g.time*45);
   const jx=p.stun>0?(rnd(f,1)-.5)*4*k:0,jy=p.stun>0?(rnd(f,2)-.5)*2.4*k:0,x=p.x+jx,y=py+jy;
   if(p.armed)glow(ctx,x,y,54,'#ffd883',.28+.14*Math.sin(g.time*9));
-  ctx.drawImage(art.images.paddleL,x-p.w/2-4,y-h/2,16,h);ctx.drawImage(art.images.paddleM,x-p.w/2+12,y-h/2,p.w-24,h);ctx.drawImage(art.images.paddleR,x+p.w/2-12,y-h/2,16,h);
+  ctx.drawImage(art.images[skin[0]],x-p.w/2-4,y-h/2,16,h);ctx.drawImage(art.images[skin[1]],x-p.w/2+12,y-h/2,p.w-24,h);ctx.drawImage(art.images[skin[2]],x+p.w/2-12,y-h/2,16,h);
   const lit=p.armed?3:p.streak,on=p.armed?.65+.3*Math.sin(g.time*9):.16+.1*lit;
   ctx.save();ctx.globalAlpha=on;ctx.strokeStyle=p.armed?'#ffe3a1':'#f3dca8';ctx.lineWidth=p.armed?1.8:1.1;ctx.beginPath();ctx.roundRect(x-p.w/6,y-h/2+1.5,p.w/3,h-3,7);ctx.stroke();ctx.restore();
   for(let i=0;i<3;i++){const px=x+(i-1)*9,py2=y+h/2+4,l=i<lit;if(l)glow(ctx,px,py2,8,'#ffd883',.75);ctx.fillStyle=l?'#ffe3a1':'#10151c';ctx.strokeStyle=l?'#fff6d6':'#8a7650aa';ctx.lineWidth=.8;ctx.beginPath();ctx.arc(px,py2,2.1,0,Math.PI*2);ctx.fill();ctx.stroke();}
@@ -523,6 +526,7 @@ function renderGatehouse(ctx,g,art){
 export function drawEncounter(ctx,g,art,level){
   ctx.clearRect(0,0,g.width,g.height);
   if(level==='gatehouse')return renderGatehouse(ctx,g,art);
+  if(level==='lumitower')return renderLumi(ctx,g,art);
   const plate=art.images[level+'/background'];ctx.drawImage(plate,0,0,g.width,g.height);
   ctx.fillStyle='#07101b1c';ctx.fillRect(0,0,g.width,g.height);
   if(level==='tidewheel')renderTidewheel(ctx,g,art);else renderBellforge(ctx,g,art);
@@ -578,3 +582,5 @@ export function drawEncounter(ctx,g,art,level){
     ctx.fillStyle=name==='cosmic'?'#cdadf1':'#d2bd8e';ctx.beginPath();ctx.roundRect(x-27,y,54*time/max,3,2);ctx.fill();
   }
 }
+// Shared with the Lumi renderer (lumi-render.js).
+export {glow,sparks,dust,rnd,clamp01,smooth,gBanner,gPaddle,hoistChain,sprite,slab,CLIMB};
