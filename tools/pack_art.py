@@ -29,6 +29,22 @@ if os.path.exists(moon_manifest):
             assert list(im.size) == spec['px']
             art['mooncoil']['bricks'][key] = {'url': uri(im, 100, lossless=True),
                 'margin': spec['margin'], 'uw': spec['drawSize'][0], 'uh': spec['drawSize'][1]}
+icon_manifest = A('power-icons', 'icons-manifest.json')
+if os.path.exists(icon_manifest):
+    art['powerIcons'] = {}
+    for key, spec in json.load(open(icon_manifest, encoding='utf-8'))['icons'].items():
+        with Image.open(os.path.join(ROOT, spec['path'])) as im:
+            assert im.mode == 'RGBA' and not im.info and list(im.size) == spec['px'], f'Invalid power icon: {key}'
+            art['powerIcons'][key] = {'url': uri(im, 100, lossless=True), 'artBounds': spec['artBounds']}
+# Castle window kit: back layer, clipped serpent, front layer (see art/castle/README.md).
+window_manifest = A('castle', 'window-manifest.json')
+if os.path.exists(window_manifest):
+    art['castleWindow'] = {}
+    for key, spec in json.load(open(window_manifest, encoding='utf-8'))['sprites'].items():
+        with Image.open(os.path.join(ROOT, spec['path'])) as im:
+            assert im.mode == 'RGBA' and not im.info and list(im.size) == spec['px'], f'Invalid window sprite: {key}'
+            art['castleWindow'][key] = {'url': uri(im, 100, lossless=True), 'uw': spec['drawSize'][0], 'uh': spec['drawSize'][1],
+                                        'anchor': spec['anchor'], 'opening': spec['opening']}
 art['spaceWeapons'] = {}
 for name in ('shot', 'impact'):
     path = os.path.join(ROOT, 'design', 'phase1', 'weapon-vfx-v3', f'plasma-{name}-runtime.png')

@@ -13,6 +13,8 @@ export const KIT_POWERS = [
   { id: 'five', label: 'BALL FAN', color: '#dba4ba' },
 ];
 
+const POWER_ICONS = Object.fromEntries(Object.entries(ART.powerIcons || {}).map(([id, icon]) => [id, { ...icon, img: loadImg(icon.url) }]));
+
 export function spacePowerLayout(level) {
   const s = level.kitUIScale, kit = level.kitPowers;
   const w = Math.min(level.W - 24 / s, (kit ? 344 : 374) / s), h = (kit ? 122 : 238) / s;
@@ -43,7 +45,9 @@ export function drawSpacePowerMenu(g, level) {
     g.save(); if (!level.canChoosePower(c.id)) g.globalAlpha *= .4;
     g.fillStyle = level.kitPowers ? '#493447' : '#39304b'; rrect(g, c.x, c.y, c.w, c.h, 10 / s); g.fill();
     g.strokeStyle = c.color; g.fillStyle = c.color; g.lineWidth = 2 / s;
-    if (c.id === 'anchor') {
+    if (iconPart(g, POWER_ICONS[c.id], cx, cy + 1 / s, 32 / s, 32 / s)) {
+      // Rendered emblem from art/power_icons; the glyphs below remain the fallback.
+    } else if (c.id === 'anchor') {
       g.beginPath(); g.arc(cx, cy - 11 / s, 3 / s, 0, 7); g.moveTo(cx, cy - 8 / s); g.lineTo(cx, cy + 11 / s); g.moveTo(cx - 6 / s, cy - 3 / s); g.lineTo(cx + 6 / s, cy - 3 / s);
       g.moveTo(cx - 11 / s, cy + 3 / s); g.quadraticCurveTo(cx - 9 / s, cy + 12 / s, cx, cy + 12 / s); g.quadraticCurveTo(cx + 9 / s, cy + 12 / s, cx + 11 / s, cy + 3 / s); g.stroke();
     } else if (c.id === 'moonbind') {
