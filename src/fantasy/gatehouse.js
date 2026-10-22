@@ -60,8 +60,10 @@ export class Gatehouse {
       Object.assign(this.villain, { x: 300, y: 76, foot: { x: 300, y: 118 }, solid: false });
     }
     if (n === 2) {
+      // Korr stands on a recessed dais (scenery, no collider, so his whole body stays hittable) and kicks bells off its ends.
       Object.assign(this.villain, { x: 180, y: 150, foot: { x: 180, y: 206 }, solid: true });
-      this.holes = [{ x: 104, y: 214 }, { x: 256, y: 214 }];
+      this.dais = { x: 120, y: 206, w: 120, h: 16 };
+      this.holes = [{ x: 100, y: 214 }, { x: 260, y: 214 }];
       this.ramps = [ramp('ramp-l', 116, 236, 84, Math.PI - .2), ramp('ramp-r', 244, 236, 84, .2)];
       this.nextWarning = 5;
     }
