@@ -4,6 +4,50 @@
   "rig": "art/render_vault_assets.py",
   "scope": "Blender Cycles CPU4, 48 samples; shared Vault ortho rig and AgX look. Emblem only; menu cards stay code-drawn. Ids match level power ids.",
   "icons": {
+    "moonbind": {
+      "path": "assets/power-icons/moonbind.png",
+      "owner": "kit",
+      "label": "MOONBIND",
+      "px": [
+        120,
+        120
+      ],
+      "ppu": 3,
+      "drawSize": [
+        40,
+        40
+      ],
+      "artBounds": [
+        0.125,
+        0.1833,
+        0.65,
+        0.6417
+      ],
+      "sha256": "bb2c14563575016ce210615755f5fb8debaf3ed4b52e322999d3d8c29df83e59",
+      "encodedBytes": 8219
+    },
+    "ricochet": {
+      "path": "assets/power-icons/ricochet.png",
+      "owner": "kit",
+      "label": "CRYSTALS",
+      "px": [
+        120,
+        120
+      ],
+      "ppu": 3,
+      "drawSize": [
+        40,
+        40
+      ],
+      "artBounds": [
+        0.3167,
+        0.2583,
+        0.3667,
+        0.5083
+      ],
+      "sha256": "43e591a59662f2cf636528b644d8c5949d0debb5386cbb7c67e2c7953cf2a4c3",
+      "encodedBytes": 4329
+    },
     "shield": {
       "path": "assets/power-icons/shield.png",
       "owner": "kit",
