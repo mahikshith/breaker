@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "source": "art/paddle_skins/paddle_skins.py",
+  "rig": "art/render_vault_assets.py",
+  "scope": "Same slicing contract as SPR.paddle_l/m/r: draw l at x-4, m stretched from x+12 to x+w-12, r at x+w-12; all 16x20 units at y-4.",
+  "skins": {
+    "kit": {
+      "l": {
+        "path": "assets/paddle-skins/kit_l.png",
+        "px": [
+          48,
+          60
+        ],
+        "drawSize": [
+          16,
+          20
+        ],
+        "sha256": "26c851fb75fb659c41fcdf52fe14ba70d3ee7f39b980a88aaf283341695bc6b7",
+        "encodedBytes": 2856
+      },
+      "m": {
+        "path": "assets/paddle-skins/kit_m.png",
+        "px": [
+          48,
+          60
+        ],
+        "drawSize": [
+          16,
+          20
+        ],
+        "sha256": "875e52e370bd5ac4a1f5a6fef006a289613163ff244d9632b79f8d6b4a5a84de",
+        "encodedBytes": 2759
+      },
+      "r": {
+        "path": "assets/paddle-skins/kit_r.png",
+        "px": [
+          48,
+          60
+        ],
+        "drawSize": [
+          16,
+          20
+        ],
+        "sha256": "d3535e9d8b9b654b6ade3f3f2f30fe89b10cb1f086145f53327e238b64f8353b",
+        "encodedBytes": 2948
+      }
+    },
+    "lumi": {
+      "l": {
+        "path": "assets/paddle-skins/lumi_l.png",
+        "px": [
+          48,
+          60
+        ],
+        "drawSize": [
+          16,
+          20
+        ],
+        "sha256": "9fb93e47939ca1ef0ff2fed395f6f1715356271f465976eee5c1e3475a02c269",
+        "encodedBytes": 2888
+      },
+      "m": {
+        "path": "assets/paddle-skins/lumi_m.png",
+        "px": [
+          48,
+          60
+        ],
+        "drawSize": [
+          16,
+          20
+        ],
+        "sha256": "e98686d26de43473dc97eac7cf4e3b26f7bfaea0e541ca681da89a5a64a3eafd",
+        "encodedBytes": 2543
+      },
+      "r": {
+        "path": "assets/paddle-skins/lumi_r.png",
+        "px": [
+          48,
+          60
+        ],
+        "drawSize": [
+          16,
+          20
+        ],
+        "sha256": "d79503930b4b0571c6e9f5cbbc75c8264ef0319d4fed1ae235014697e462f310",
+        "encodedBytes": 2969
+      }
+    }
+  }
+}

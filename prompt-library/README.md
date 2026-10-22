@@ -12,8 +12,11 @@ Copy-paste prompts for making BREACH art and design with Copilot (ChatGPT image 
 | `30-level-concept-boards.md` | Portrait phone mocks of a level that read as playable boards. Gatehouse Siege, Lumi Breaks Out, Serpent Rivals, Dragon's Hoard. |
 | `40-game-design-and-physics.md` | Prompts for a reasoning model: level design doc, physics and collision spec with manifest.json, a measuring script, a rule audit. |
 | `50-starflight.md` | The space mode: ships, enemy families, bosses, asteroids, pickups, projectiles, backgrounds, a phone mock and a chapter design doc. |
+| `25-environments.md` | Backdrops and environment plates for castle, cave and space levels. |
+| `26-ui-and-icons.md` | HUD pieces, buttons, badges and icons. |
+| `references.md` | Repo art worth attaching as reference, with paths. |
 | `60-sprite-sheet-delivery.md` | Exactly how a sheet must arrive: transparent PNG, grid, padding, sizes, naming, consistency tips. |
-| `examples/` | Twelve small reference pictures. `examples/INDEX.md` says which prompt each one goes with. |
+| `examples/` | Twelve small reference pictures. `examples/INDEX.md` says which prompt each one goes with; `examples/MORE-EXAMPLES.md` covers four more. |
 
 ## How to use it (one path)
 
