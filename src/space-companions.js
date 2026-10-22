@@ -38,7 +38,7 @@ export function drawSpacePowerMenu(g, level) {
   g.translate(0, (1 - eased) * 24 / s); g.globalAlpha *= eased;
   g.fillStyle = level.kitPowers ? '#302333' : '#242036'; rrect(g, a.x, a.y, a.w, a.h, 16 / s); g.fill();
   g.strokeStyle = level.kitPowers ? '#96667c' : '#826480'; g.lineWidth = 1 / s; g.stroke();
-  text(g, level.kitPowers ? 'KIT’S ARMOURY' : 'CHOOSE POWER', a.x + 16 / s, a.y + 23 / s, 14 / s, '#f2deec');
+  text(g, level.menuTitle || (level.kitPowers ? 'KIT’S ARMOURY' : 'CHOOSE POWER'), a.x + 16 / s, a.y + 23 / s, 14 / s, '#f2deec');
   text(g, '×', a.close.x + a.close.w / 2, a.y + 23 / s, 24 / s, '#cfbacf', 'center');
   for (const c of a.choices) {
     const cx = c.x + c.w / 2, cy = c.y + 23 / s;
@@ -47,6 +47,9 @@ export function drawSpacePowerMenu(g, level) {
     g.strokeStyle = c.color; g.fillStyle = c.color; g.lineWidth = 2 / s;
     if (iconPart(g, POWER_ICONS[c.id], cx, cy + 1 / s, 32 / s, 32 / s)) {
       // Rendered emblem from art/power_icons; the glyphs below remain the fallback.
+    } else if (c.id === 'anchor') {
+      g.beginPath(); g.arc(cx, cy - 11 / s, 3 / s, 0, 7); g.moveTo(cx, cy - 8 / s); g.lineTo(cx, cy + 11 / s); g.moveTo(cx - 6 / s, cy - 3 / s); g.lineTo(cx + 6 / s, cy - 3 / s);
+      g.moveTo(cx - 11 / s, cy + 3 / s); g.quadraticCurveTo(cx - 9 / s, cy + 12 / s, cx, cy + 12 / s); g.quadraticCurveTo(cx + 9 / s, cy + 12 / s, cx + 11 / s, cy + 3 / s); g.stroke();
     } else if (c.id === 'moonbind') {
       g.beginPath(); g.arc(cx, cy, 12 / s, -.8, 4.6); g.stroke();
       g.beginPath(); g.moveTo(cx, cy - 8 / s); g.lineTo(cx, cy); g.lineTo(cx + 6 / s, cy + 3 / s); g.stroke();

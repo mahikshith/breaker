@@ -400,7 +400,7 @@ export class Arena {
     const s = this.kitUIScale, orb = this.kitAnchor(), p = this.paddle;
     g.save(); g.beginPath(); g.arc(orb.x, orb.y, orb.r - 3 / s, 0, Math.PI * 2); g.clip();
     g.fillStyle = '#3d2b3d'; g.fillRect(orb.x - orb.r, orb.y - orb.r, orb.r * 2, orb.r * 2);
-    drawKitFace(g, orb.x, orb.y, orb.r * 2 - 6 / s, this.kitMood);
+    drawKitFace(g, orb.x, orb.y, orb.r * 2 - 6 / s, this.kitMood, this.kitFace);
     g.restore();
     g.strokeStyle = '#6c3c55'; g.lineWidth = 3 / s; g.beginPath(); g.arc(orb.x, orb.y, orb.r - 1.5 / s, 0, Math.PI * 2); g.stroke();
     if (p.charge > 0) {

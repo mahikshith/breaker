@@ -3,7 +3,7 @@ import {createHash} from 'node:crypto';
 const {chromium}=await import(process.env.PW_MODULE);
 const OUT=process.argv[2]||'out/tidewheel-frame-profile';mkdirSync(OUT,{recursive:true});
 const sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
-const source=()=>Object.fromEntries(['src/fantasy/tidewheel.js','src/fantasy/tidewheel-v2-geometry.js','prototypes/fantasy/main.js','prototypes/fantasy/render.js','assets/fantasy-machinery/manifest.json'].map(p=>[p,sha(p)]));
+const source=()=>Object.fromEntries(['src/fantasy/tidewheel.js','src/fantasy/tidewheel-v2-geometry.js','prototypes/fantasy/main.js','src/fantasy/render.js','assets/fantasy-machinery/manifest.json'].map(p=>[p,sha(p)]));
 const report={scope:'Bounded real requestAnimationFrame,4 gameplay seconds per desktop Chromium phone viewport, DPR2. Callback CPU/submission cost and browser cadence only; no physical-phone/GPU completion/memory/frame-rate guarantee. No concurrent benchmark load is intended.',before:source(),phones:[]};
 const b=await chromium.launch({executablePath:process.env.PW_CHROMIUM,args:['--mute-audio']});
 try{for(const [device,viewport]of Object.entries({ios:{width:393,height:852},android:{width:412,height:915}})){

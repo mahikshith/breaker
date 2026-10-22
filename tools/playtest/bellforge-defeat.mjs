@@ -4,7 +4,7 @@ import crypto from 'node:crypto';
 const {chromium}=await import(process.env.PW_MODULE||'playwright');
 const out=process.env.OUT_DIR||'out/bellforge-defeat-review',base=process.env.BASE_URL||'http://127.0.0.1:4194';
 fs.mkdirSync(out,{recursive:true});
-const paths=['src/fantasy/bellforge.js','prototypes/fantasy/main.js','prototypes/fantasy/layout.js','prototypes/fantasy/style.css','prototypes/fantasy/render.js','assets/fantasy-machinery/manifest.json','assets/fantasy-machinery/nerra-v2-manifest.json','assets/fantasy-machinery/water-shot-manifest.json'];
+const paths=['src/fantasy/bellforge.js','prototypes/fantasy/main.js','prototypes/fantasy/layout.js','prototypes/fantasy/style.css','src/fantasy/render.js','assets/fantasy-machinery/manifest.json','assets/fantasy-machinery/nerra-v2-manifest.json','assets/fantasy-machinery/water-shot-manifest.json'];
 const reactionPath='assets/fantasy-machinery/reactions-manifest.json';
 if(fs.existsSync(reactionPath)){
  paths.push(reactionPath);

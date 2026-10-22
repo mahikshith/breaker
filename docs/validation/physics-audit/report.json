@@ -1,0 +1,7239 @@
+{
+ "config": {
+  "cap": 240,
+  "seeds": 3,
+  "idleSeeds": 1,
+  "limits": {
+   "boundsEps": 0.5,
+   "depthEps": 0.5,
+   "stuckSeconds": 12,
+   "flatFraction": 0.15,
+   "flatSeconds": 4,
+   "speedLow": 0.5,
+   "speedHigh": 2,
+   "crawlWindow": 60,
+   "crawlFraction": 0.25
+  },
+  "phones": [
+   {
+    "id": "393x852",
+    "H": 729,
+    "scale": 1.0916666666666666
+   },
+   {
+    "id": "412x915",
+    "H": 785,
+    "scale": 1.1444444444444444
+   }
+  ],
+  "difficulties": [
+   "easy",
+   "medium",
+   "hard"
+  ],
+  "levels": [
+   "carrier",
+   "vault",
+   "relay",
+   "orbital",
+   "frost",
+   "mooncoil",
+   "bellforge",
+   "tidewheel",
+   "gatehouse"
+  ]
+ },
+ "totals": {
+  "error": 0,
+  "nan": 0,
+  "bounds": 0,
+  "tunnel": 18,
+  "stuck": 159,
+  "flat": 0,
+  "speed": 0
+ },
+ "failed": true,
+ "cells": [
+  {
+   "level": "carrier",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 92.6,
+   "medianWinTime": 92.6,
+   "medianLivesLost": 1,
+   "failures": {},
+   "cleanWins": 2,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 2065,
+     "time": 117.91,
+     "livesLost": 3,
+     "continues": 2,
+     "firstLoss": 60.01,
+     "phases": [
+      "carrier",
+      "escape",
+      "retreat"
+     ],
+     "contacts": 47,
+     "peakSpeed": 1.254,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 1325,
+     "time": 72.95,
+     "livesLost": 1,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "carrier",
+      "escape",
+      "retreat"
+     ],
+     "contacts": 29,
+     "peakSpeed": 1.196,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 1750,
+     "time": 92.63,
+     "livesLost": 1,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "carrier",
+      "escape",
+      "retreat"
+     ],
+     "contacts": 41,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "carrier",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 78.5,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 1077,
+     "time": 78.51,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 43.54,
+     "phases": [
+      "carrier"
+     ],
+     "contacts": 21,
+     "peakSpeed": 1.087,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "carrier",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 97.4,
+   "medianWinTime": 97.4,
+   "medianLivesLost": 1,
+   "failures": {},
+   "cleanWins": 2,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 1412,
+     "time": 137.44,
+     "livesLost": 1,
+     "continues": 1,
+     "firstLoss": 131.93,
+     "phases": [
+      "carrier",
+      "escape",
+      "retreat"
+     ],
+     "contacts": 53,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 1840,
+     "time": 89.7,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "carrier",
+      "escape",
+      "retreat"
+     ],
+     "contacts": 33,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 1200,
+     "time": 97.43,
+     "livesLost": 1,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "carrier",
+      "escape",
+      "retreat"
+     ],
+     "contacts": 39,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "carrier",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 86,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 979,
+     "time": 85.96,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 46.83,
+     "phases": [
+      "carrier"
+     ],
+     "contacts": 21,
+     "peakSpeed": 1.074,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "carrier",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 1,
+   "losses": 2,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 128.5,
+   "medianWinTime": 190.8,
+   "medianLivesLost": 1,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 1789,
+     "time": 109.7,
+     "livesLost": 1,
+     "continues": 3,
+     "firstLoss": 33.52,
+     "phases": [
+      "carrier"
+     ],
+     "contacts": 47,
+     "peakSpeed": 1.21,
+     "reason": "Carrier jumped",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 3452,
+     "time": 190.82,
+     "livesLost": 1,
+     "continues": 2,
+     "firstLoss": 75.57,
+     "phases": [
+      "carrier",
+      "escape",
+      "rebuild",
+      "retreat"
+     ],
+     "contacts": 81,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 1963,
+     "time": 128.49,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 44.1,
+     "phases": [
+      "carrier"
+     ],
+     "contacts": 53,
+     "peakSpeed": 1.28,
+     "reason": "Carrier jumped",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "carrier",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 63.1,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 605,
+     "time": 63.07,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 28.14,
+     "phases": [
+      "carrier"
+     ],
+     "contacts": 16,
+     "peakSpeed": 1.036,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "carrier",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 0,
+   "losses": 3,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 162,
+   "medianWinTime": null,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 3109,
+     "time": 161.98,
+     "livesLost": 2,
+     "continues": 3,
+     "firstLoss": 33.52,
+     "phases": [
+      "carrier",
+      "escape",
+      "rebuild"
+     ],
+     "contacts": 52,
+     "peakSpeed": 1.182,
+     "reason": "Crew taken",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "lose",
+     "wallMs": 3289,
+     "time": 192.83,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 33.22,
+     "phases": [
+      "carrier",
+      "escape",
+      "rebuild"
+     ],
+     "contacts": 61,
+     "peakSpeed": 1.28,
+     "reason": "Crew taken",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 1739,
+     "time": 108.84,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 32.91,
+     "phases": [
+      "carrier"
+     ],
+     "contacts": 40,
+     "peakSpeed": 1.182,
+     "reason": "Crew taken",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "carrier",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 78.6,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 802,
+     "time": 78.61,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 39.49,
+     "phases": [
+      "carrier"
+     ],
+     "contacts": 18,
+     "peakSpeed": 1.049,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "carrier",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 0,
+   "losses": 3,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 107.8,
+   "medianWinTime": null,
+   "medianLivesLost": 1,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 1737,
+     "time": 99.84,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 27.52,
+     "phases": [
+      "carrier"
+     ],
+     "contacts": 41,
+     "peakSpeed": 1.168,
+     "reason": "Crew taken",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "lose",
+     "wallMs": 2337,
+     "time": 168.71,
+     "livesLost": 1,
+     "continues": 3,
+     "firstLoss": 68.47,
+     "phases": [
+      "carrier",
+      "escape",
+      "rebuild"
+     ],
+     "contacts": 72,
+     "peakSpeed": 1.28,
+     "reason": "Crew taken",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 1498,
+     "time": 107.79,
+     "livesLost": 3,
+     "continues": 3,
+     "firstLoss": 48.54,
+     "phases": [
+      "carrier"
+     ],
+     "contacts": 47,
+     "peakSpeed": 1.182,
+     "reason": "Crew taken",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "carrier",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 60.1,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 734,
+     "time": 60.14,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 27.62,
+     "phases": [
+      "carrier"
+     ],
+     "contacts": 16,
+     "peakSpeed": 1.036,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "carrier",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 0,
+   "losses": 3,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 108.9,
+   "medianWinTime": null,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 1697,
+     "time": 108.89,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 27.52,
+     "phases": [
+      "carrier"
+     ],
+     "contacts": 39,
+     "peakSpeed": 1.154,
+     "reason": "Carrier jumped",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "lose",
+     "wallMs": 2456,
+     "time": 168.31,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 75.57,
+     "phases": [
+      "carrier",
+      "escape",
+      "rebuild"
+     ],
+     "contacts": 66,
+     "peakSpeed": 1.28,
+     "reason": "Crew taken",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 1326,
+     "time": 90.46,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 26.91,
+     "phases": [
+      "carrier"
+     ],
+     "contacts": 31,
+     "peakSpeed": 1.168,
+     "reason": "Crew taken",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "carrier",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 72.9,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 740,
+     "time": 72.86,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 33.77,
+     "phases": [
+      "carrier"
+     ],
+     "contacts": 16,
+     "peakSpeed": 1.049,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "vault",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 2,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 137,
+   "medianWinTime": 129.6,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 2769,
+     "time": 161.23,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 120.13,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 108,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 2984,
+     "time": 122.28,
+     "livesLost": 0,
+     "continues": 1,
+     "firstLoss": 108.97,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught",
+      "escape",
+      "frenzy"
+     ],
+     "contacts": 105,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 3397,
+     "time": 137.01,
+     "livesLost": 0,
+     "continues": 1,
+     "firstLoss": 121.57,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught",
+      "escape",
+      "frenzy"
+     ],
+     "contacts": 99,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "vault",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 114.5,
+   "medianWinTime": null,
+   "medianLivesLost": 5,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 743,
+     "time": 114.46,
+     "livesLost": 5,
+     "continues": 3,
+     "firstLoss": 88.98,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 42,
+     "peakSpeed": 1.28,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "vault",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 2,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 138.1,
+   "medianWinTime": 129.6,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 3212,
+     "time": 121.16,
+     "livesLost": 0,
+     "continues": 1,
+     "firstLoss": 110.23,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught",
+      "escape",
+      "frenzy"
+     ],
+     "contacts": 90,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 2350,
+     "time": 138.09,
+     "livesLost": 0,
+     "continues": 2,
+     "firstLoss": 114.77,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught",
+      "escape",
+      "frenzy"
+     ],
+     "contacts": 97,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 1660,
+     "time": 156.68,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 115.18,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 80,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "vault",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 134.1,
+   "medianWinTime": null,
+   "medianLivesLost": 2,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 1475,
+     "time": 134.06,
+     "livesLost": 2,
+     "continues": 3,
+     "firstLoss": 94.95,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 40,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "vault",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 1,
+   "losses": 2,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 123.5,
+   "medianWinTime": 95.7,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 1484,
+     "time": 125.99,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 87.88,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 80,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 2990,
+     "time": 95.74,
+     "livesLost": 0,
+     "continues": 2,
+     "firstLoss": 72.07,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught",
+      "escape",
+      "frenzy"
+     ],
+     "contacts": 72,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 1003,
+     "time": 123.55,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 85.19,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 72,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "vault",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 111.8,
+   "medianWinTime": null,
+   "medianLivesLost": 2,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 996,
+     "time": 111.84,
+     "livesLost": 2,
+     "continues": 3,
+     "firstLoss": 73.24,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 38,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "vault",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 2,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 125,
+   "medianWinTime": 121.1,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 1782,
+     "time": 117.32,
+     "livesLost": 0,
+     "continues": 2,
+     "firstLoss": 76,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught",
+      "escape",
+      "frenzy"
+     ],
+     "contacts": 75,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "lose",
+     "wallMs": 1132,
+     "time": 133.2,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 94.83,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 73,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 1540,
+     "time": 124.97,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 88.74,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught",
+      "escape",
+      "frenzy"
+     ],
+     "contacts": 78,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "vault",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 1,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 88.6,
+   "medianWinTime": 88.6,
+   "medianLivesLost": 2,
+   "failures": {
+    "tunnel": {
+     "runs": 1,
+     "events": 1,
+     "first": {
+      "seed": 1,
+      "type": "tunnel",
+      "t": 76.625,
+      "phase": "rescue",
+      "subtype": "engulfed",
+      "collider": "serpent-head",
+      "depth": 4.54,
+      "from": {
+       "x": 180,
+       "y": 296.58
+      },
+      "ball": {
+       "x": 182.73,
+       "y": 298.77,
+       "vx": 0,
+       "vy": 349.1,
+       "r": 6
+      },
+      "afterContinue": true
+     }
+    }
+   },
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 2111,
+     "time": 88.58,
+     "livesLost": 2,
+     "continues": 1,
+     "firstLoss": 76.62,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught",
+      "escape",
+      "frenzy"
+     ],
+     "contacts": 34,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {
+      "tunnel": 1
+     },
+     "failures": [
+      {
+       "type": "tunnel",
+       "t": 76.625,
+       "phase": "rescue",
+       "subtype": "engulfed",
+       "collider": "serpent-head",
+       "depth": 4.54,
+       "from": {
+        "x": 180,
+        "y": 296.58
+       },
+       "ball": {
+        "x": 182.73,
+        "y": 298.77,
+        "vx": 0,
+        "vy": 349.1,
+        "r": 6
+       },
+       "afterContinue": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "level": "vault",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 1,
+   "losses": 2,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 112,
+   "medianWinTime": 112,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 1638,
+     "time": 111.98,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 76.98,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught",
+      "escape",
+      "frenzy"
+     ],
+     "contacts": 91,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "lose",
+     "wallMs": 959,
+     "time": 117.64,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 81.03,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 70,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 828,
+     "time": 110.38,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 73.72,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 71,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "vault",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 88.1,
+   "medianWinTime": null,
+   "medianLivesLost": 3,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 868,
+     "time": 88.13,
+     "livesLost": 3,
+     "continues": 3,
+     "firstLoss": 65.19,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 25,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "vault",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 1,
+   "losses": 2,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 104.4,
+   "medianWinTime": 102.9,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 2677,
+     "time": 102.9,
+     "livesLost": 0,
+     "continues": 2,
+     "firstLoss": 78.5,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught",
+      "escape",
+      "frenzy"
+     ],
+     "contacts": 68,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "lose",
+     "wallMs": 581,
+     "time": 113.2,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 76.59,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 58,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 678,
+     "time": 104.38,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 67.64,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 52,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "vault",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 103.6,
+   "medianWinTime": null,
+   "medianLivesLost": 2,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 888,
+     "time": 103.58,
+     "livesLost": 2,
+     "continues": 3,
+     "firstLoss": 66.5,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 26,
+     "peakSpeed": 1.225,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "relay",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 2,
+   "wins": 2,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 145.7,
+   "medianWinTime": 145.7,
+   "medianLivesLost": 3,
+   "failures": {},
+   "cleanWins": 1,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 34863,
+     "time": 178.28,
+     "livesLost": 4,
+     "continues": 2,
+     "firstLoss": 77.88,
+     "phases": [
+      "relay",
+      "launch",
+      "flight",
+      "return",
+      "escape"
+     ],
+     "contacts": 65,
+     "peakSpeed": 1.254,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 22072,
+     "time": 113.13,
+     "livesLost": 2,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "relay",
+      "launch",
+      "flight",
+      "return",
+      "escape"
+     ],
+     "contacts": 42,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "relay",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 37.8,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 6481,
+     "time": 37.78,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 21.91,
+     "phases": [
+      "relay"
+     ],
+     "contacts": 3,
+     "peakSpeed": 1.012,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "relay",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 2,
+   "wins": 2,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 139.3,
+   "medianWinTime": 139.3,
+   "medianLivesLost": 4,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 30238,
+     "time": 149.28,
+     "livesLost": 5,
+     "continues": 3,
+     "firstLoss": 31.02,
+     "phases": [
+      "relay",
+      "launch",
+      "flight",
+      "return",
+      "escape"
+     ],
+     "contacts": 45,
+     "peakSpeed": 1.168,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 26246,
+     "time": 129.27,
+     "livesLost": 3,
+     "continues": 1,
+     "firstLoss": 98.56,
+     "phases": [
+      "relay",
+      "launch",
+      "flight",
+      "return",
+      "escape"
+     ],
+     "contacts": 39,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "relay",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 38.8,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 6435,
+     "time": 38.77,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 22.47,
+     "phases": [
+      "relay"
+     ],
+     "contacts": 3,
+     "peakSpeed": 1.012,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "relay",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 2,
+   "wins": 2,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 147.2,
+   "medianWinTime": 147.2,
+   "medianLivesLost": 1,
+   "failures": {},
+   "cleanWins": 2,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 23605,
+     "time": 125.53,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "relay",
+      "launch",
+      "flight",
+      "return",
+      "escape"
+     ],
+     "contacts": 57,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 30247,
+     "time": 168.8,
+     "livesLost": 2,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "relay",
+      "launch",
+      "flight",
+      "return",
+      "escape"
+     ],
+     "contacts": 69,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "relay",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 36.3,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 6776,
+     "time": 36.28,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 21.31,
+     "phases": [
+      "relay"
+     ],
+     "contacts": 2,
+     "peakSpeed": 1.012,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "relay",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 2,
+   "wins": 0,
+   "losses": 2,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 116.7,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 17444,
+     "time": 82.82,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 26.25,
+     "phases": [
+      "relay"
+     ],
+     "contacts": 30,
+     "peakSpeed": 1.196,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "lose",
+     "wallMs": 28653,
+     "time": 150.53,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 82.85,
+     "phases": [
+      "relay",
+      "launch",
+      "flight",
+      "return"
+     ],
+     "contacts": 50,
+     "peakSpeed": 1.28,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "relay",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 37.2,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 6903,
+     "time": 37.18,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 21.83,
+     "phases": [
+      "relay"
+     ],
+     "contacts": 2,
+     "peakSpeed": 1.012,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "relay",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 2,
+   "wins": 1,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 214,
+   "medianWinTime": 206.7,
+   "medianLivesLost": 5.5,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 37120,
+     "time": 221.34,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 121.64,
+     "phases": [
+      "relay",
+      "launch",
+      "flight",
+      "return"
+     ],
+     "contacts": 77,
+     "peakSpeed": 1.28,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 34756,
+     "time": 206.68,
+     "livesLost": 5,
+     "continues": 3,
+     "firstLoss": 42.07,
+     "phases": [
+      "relay",
+      "launch",
+      "flight",
+      "return",
+      "escape"
+     ],
+     "contacts": 77,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "relay",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 35.3,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 6989,
+     "time": 35.28,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 20.91,
+     "phases": [
+      "relay"
+     ],
+     "contacts": 2,
+     "peakSpeed": 1.012,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "relay",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 2,
+   "wins": 0,
+   "losses": 2,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 130.3,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 27718,
+     "time": 157.13,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 101.22,
+     "phases": [
+      "relay"
+     ],
+     "contacts": 56,
+     "peakSpeed": 1.28,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "lose",
+     "wallMs": 18793,
+     "time": 103.51,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 43.19,
+     "phases": [
+      "relay"
+     ],
+     "contacts": 37,
+     "peakSpeed": 1.127,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "relay",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 36.1,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 7246,
+     "time": 36.06,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 21.38,
+     "phases": [
+      "relay"
+     ],
+     "contacts": 1,
+     "peakSpeed": 1.012,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "orbital",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 88.3,
+   "medianWinTime": 88.3,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 6620,
+     "time": 88.34,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 49,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 6343,
+     "time": 83.96,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 43,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 5696,
+     "time": 96.3,
+     "livesLost": 1,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 49,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "orbital",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 70.3,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 4441,
+     "time": 70.25,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 29.89,
+     "phases": [
+      "forge"
+     ],
+     "contacts": 24,
+     "peakSpeed": 1.127,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "orbital",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 109.7,
+   "medianWinTime": 109.7,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 7287,
+     "time": 107.02,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 50,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 7572,
+     "time": 133.18,
+     "livesLost": 1,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 58,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 7638,
+     "time": 109.66,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 48,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "orbital",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 72.3,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 5111,
+     "time": 72.31,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 30.78,
+     "phases": [
+      "forge"
+     ],
+     "contacts": 21,
+     "peakSpeed": 1.1,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "orbital",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 104.4,
+   "medianWinTime": 104.4,
+   "medianLivesLost": 1,
+   "failures": {},
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 7538,
+     "time": 135.29,
+     "livesLost": 2,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 69,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 5404,
+     "time": 81.74,
+     "livesLost": 1,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 41,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 5727,
+     "time": 104.39,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 58,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "orbital",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 65.5,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 4765,
+     "time": 65.52,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 28.6,
+     "phases": [
+      "forge"
+     ],
+     "contacts": 25,
+     "peakSpeed": 1.113,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "orbital",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 129.9,
+   "medianWinTime": 129.9,
+   "medianLivesLost": 1,
+   "failures": {},
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 7872,
+     "time": 129.95,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 58,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 6557,
+     "time": 116.63,
+     "livesLost": 1,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 49,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 8592,
+     "time": 149.56,
+     "livesLost": 1,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 66,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "orbital",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 82.1,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 6462,
+     "time": 82.14,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 29.47,
+     "phases": [
+      "forge"
+     ],
+     "contacts": 26,
+     "peakSpeed": 1.127,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "orbital",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 130.3,
+   "medianWinTime": 130.3,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 5786,
+     "time": 130.29,
+     "livesLost": 2,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 58,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 6330,
+     "time": 97.77,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 57,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 7220,
+     "time": 132.73,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 76,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "orbital",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 60.8,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 5289,
+     "time": 60.83,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 26.89,
+     "phases": [
+      "forge"
+     ],
+     "contacts": 25,
+     "peakSpeed": 1.087,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "orbital",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 139.6,
+   "medianWinTime": 139.6,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 6861,
+     "time": 139.58,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 68,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 7418,
+     "time": 138.11,
+     "livesLost": 1,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 66,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 9606,
+     "time": 160.34,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "forge",
+      "collapse",
+      "projection",
+      "core",
+      "ending"
+     ],
+     "contacts": 71,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "orbital",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 86.7,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 8062,
+     "time": 86.68,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 27.75,
+     "phases": [
+      "forge"
+     ],
+     "contacts": 30,
+     "peakSpeed": 1.21,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "frost",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 1,
+   "losses": 2,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 159.4,
+   "medianWinTime": 139.2,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 1602,
+     "time": 139.15,
+     "livesLost": 0,
+     "continues": 2,
+     "firstLoss": 118.98,
+     "phases": [
+      "siege",
+      "breach",
+      "rescue"
+     ],
+     "contacts": 45,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "lose",
+     "wallMs": 1407,
+     "time": 159.38,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 110.58,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 46,
+     "peakSpeed": 1.28,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 1664,
+     "time": 175.29,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 128.19,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 53,
+     "peakSpeed": 1.28,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "frost",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 125,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 928,
+     "time": 124.96,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 63.3,
+     "phases": [
+      "siege"
+     ],
+     "contacts": 27,
+     "peakSpeed": 1.087,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "frost",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 2,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 166.9,
+   "medianWinTime": 155.3,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 1614,
+     "time": 170.15,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 126.3,
+     "phases": [
+      "siege",
+      "breach",
+      "rescue"
+     ],
+     "contacts": 51,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 934,
+     "time": 140.48,
+     "livesLost": 0,
+     "continues": 2,
+     "firstLoss": 111.89,
+     "phases": [
+      "siege",
+      "breach",
+      "rescue"
+     ],
+     "contacts": 40,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 1307,
+     "time": 166.93,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 118.57,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 47,
+     "peakSpeed": 1.28,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "frost",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 117.3,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 1008,
+     "time": 117.28,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 64.64,
+     "phases": [
+      "siege"
+     ],
+     "contacts": 21,
+     "peakSpeed": 1.1,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "frost",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 0,
+   "losses": 3,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 104.6,
+   "medianWinTime": null,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 597,
+     "time": 104.63,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 71.38,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 40,
+     "peakSpeed": 1.28,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "lose",
+     "wallMs": 864,
+     "time": 98.75,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 65.77,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 26,
+     "peakSpeed": 1.28,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 686,
+     "time": 109.84,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 73.23,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 35,
+     "peakSpeed": 1.28,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "frost",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 116.5,
+   "medianWinTime": null,
+   "medianLivesLost": 3,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 844,
+     "time": 116.45,
+     "livesLost": 3,
+     "continues": 3,
+     "firstLoss": 54.88,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 28,
+     "peakSpeed": 1.087,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "frost",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 0,
+   "losses": 3,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 104.2,
+   "medianWinTime": null,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 856,
+     "time": 102.61,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 66.07,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 26,
+     "peakSpeed": 1.269,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "lose",
+     "wallMs": 644,
+     "time": 106.48,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 70.99,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 29,
+     "peakSpeed": 1.28,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 628,
+     "time": 104.17,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 70.9,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 26,
+     "peakSpeed": 1.269,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "frost",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 122.9,
+   "medianWinTime": null,
+   "medianLivesLost": 2,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 727,
+     "time": 122.88,
+     "livesLost": 2,
+     "continues": 3,
+     "firstLoss": 82.48,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 31,
+     "peakSpeed": 1.113,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "frost",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 0,
+   "losses": 3,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 92.3,
+   "medianWinTime": null,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 641,
+     "time": 93.67,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 59.83,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 21,
+     "peakSpeed": 1.196,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "lose",
+     "wallMs": 471,
+     "time": 89.52,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 59.47,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 22,
+     "peakSpeed": 1.21,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 655,
+     "time": 92.34,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 59.15,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 24,
+     "peakSpeed": 1.225,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "frost",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 100.7,
+   "medianWinTime": null,
+   "medianLivesLost": 3,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 546,
+     "time": 100.66,
+     "livesLost": 3,
+     "continues": 3,
+     "firstLoss": 59.37,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 25,
+     "peakSpeed": 1.087,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "frost",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 0,
+   "losses": 3,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 87.9,
+   "medianWinTime": null,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 592,
+     "time": 87.93,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 57.17,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 26,
+     "peakSpeed": 1.24,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "lose",
+     "wallMs": 489,
+     "time": 86.95,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 57.17,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 21,
+     "peakSpeed": 1.21,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 841,
+     "time": 90.08,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 60.04,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 18,
+     "peakSpeed": 1.154,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "frost",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 108.8,
+   "medianWinTime": null,
+   "medianLivesLost": 2,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 887,
+     "time": 108.82,
+     "livesLost": 2,
+     "continues": 3,
+     "firstLoss": 71.64,
+     "phases": [
+      "siege",
+      "breach"
+     ],
+     "contacts": 26,
+     "peakSpeed": 1.1,
+     "reason": "Chamber breached",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "mooncoil",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 153.7,
+   "medianWinTime": 153.7,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 1201,
+     "time": 162.18,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 107.67,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught",
+      "escape",
+      "frenzy"
+     ],
+     "contacts": 90,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 1441,
+     "time": 153.67,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 98.72,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught",
+      "escape",
+      "frenzy"
+     ],
+     "contacts": 100,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 1135,
+     "time": 129.53,
+     "livesLost": 0,
+     "continues": 2,
+     "firstLoss": 93.73,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught",
+      "escape",
+      "frenzy"
+     ],
+     "contacts": 91,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "mooncoil",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 120.6,
+   "medianWinTime": null,
+   "medianLivesLost": 5,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 570,
+     "time": 120.62,
+     "livesLost": 5,
+     "continues": 3,
+     "firstLoss": 74.03,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 21,
+     "peakSpeed": 1.182,
+     "reason": "Out of balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "mooncoil",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 2,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 161.6,
+   "medianWinTime": 157.9,
+   "medianLivesLost": 0,
+   "failures": {
+    "tunnel": {
+     "runs": 1,
+     "events": 1,
+     "first": {
+      "seed": 2,
+      "type": "tunnel",
+      "t": 152.717,
+      "phase": "rescue",
+      "subtype": "engulfed",
+      "collider": "grid",
+      "depth": 16,
+      "from": {
+       "x": 62.72,
+       "y": 206.32
+      },
+      "ball": {
+       "x": 62.06,
+       "y": 202.5,
+       "vx": 67.2,
+       "vy": -436.5,
+       "r": 6
+      },
+      "afterContinue": true
+     }
+    }
+   },
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 1600,
+     "time": 154.2,
+     "livesLost": 0,
+     "continues": 2,
+     "firstLoss": 103.02,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught",
+      "escape",
+      "frenzy"
+     ],
+     "contacts": 77,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 1031,
+     "time": 161.63,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 113.53,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught",
+      "escape",
+      "frenzy"
+     ],
+     "contacts": 85,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {
+      "tunnel": 1
+     },
+     "failures": [
+      {
+       "type": "tunnel",
+       "t": 152.717,
+       "phase": "rescue",
+       "subtype": "engulfed",
+       "collider": "grid",
+       "depth": 16,
+       "from": {
+        "x": 62.72,
+        "y": 206.32
+       },
+       "ball": {
+        "x": 62.06,
+        "y": 202.5,
+        "vx": 67.2,
+        "vy": -436.5,
+        "r": 6
+       },
+       "afterContinue": true
+      }
+     ]
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 1169,
+     "time": 165.57,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 108.92,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 75,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "mooncoil",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 108.7,
+   "medianWinTime": null,
+   "medianLivesLost": 5,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 600,
+     "time": 108.72,
+     "livesLost": 5,
+     "continues": 3,
+     "firstLoss": 72.54,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 14,
+     "peakSpeed": 1.154,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "mooncoil",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 0,
+   "losses": 3,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 127.3,
+   "medianWinTime": null,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 1071,
+     "time": 156.81,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 108.89,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 74,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "lose",
+     "wallMs": 820,
+     "time": 123.73,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 74.93,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 63,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 755,
+     "time": 127.31,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 66.89,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 59,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "mooncoil",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 102,
+   "medianWinTime": null,
+   "medianLivesLost": 4,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 678,
+     "time": 102.03,
+     "livesLost": 4,
+     "continues": 3,
+     "firstLoss": 55.24,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 10,
+     "peakSpeed": 1.1,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "mooncoil",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 1,
+   "losses": 2,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 133.2,
+   "medianWinTime": 82.2,
+   "medianLivesLost": 0,
+   "failures": {
+    "tunnel": {
+     "runs": 1,
+     "events": 1,
+     "first": {
+      "seed": 3,
+      "type": "tunnel",
+      "t": 77.042,
+      "phase": "rescue",
+      "subtype": "engulfed",
+      "collider": "grid",
+      "depth": 16,
+      "from": {
+       "x": 70.26,
+       "y": 203.34
+      },
+      "ball": {
+       "x": 74.67,
+       "y": 203.63,
+       "vx": 375.2,
+       "vy": 232.9,
+       "r": 6
+      },
+      "afterContinue": true
+     }
+    }
+   },
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 858,
+     "time": 141.32,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 85.58,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 55,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "lose",
+     "wallMs": 769,
+     "time": 133.18,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 76.31,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 53,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 725,
+     "time": 82.2,
+     "livesLost": 0,
+     "continues": 1,
+     "firstLoss": 77.03,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught",
+      "escape",
+      "frenzy"
+     ],
+     "contacts": 46,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {
+      "tunnel": 1
+     },
+     "failures": [
+      {
+       "type": "tunnel",
+       "t": 77.042,
+       "phase": "rescue",
+       "subtype": "engulfed",
+       "collider": "grid",
+       "depth": 16,
+       "from": {
+        "x": 70.26,
+        "y": 203.34
+       },
+       "ball": {
+        "x": 74.67,
+        "y": 203.63,
+        "vx": 375.2,
+        "vy": 232.9,
+        "r": 6
+       },
+       "afterContinue": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "level": "mooncoil",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 90.1,
+   "medianWinTime": null,
+   "medianLivesLost": 5,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 382,
+     "time": 90.13,
+     "livesLost": 5,
+     "continues": 3,
+     "firstLoss": 55.11,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 8,
+     "peakSpeed": 1.087,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "mooncoil",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 0,
+   "losses": 3,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 114.7,
+   "medianWinTime": null,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 584,
+     "time": 114.72,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 59.41,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 60,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "lose",
+     "wallMs": 717,
+     "time": 117.96,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 62.91,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 56,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 639,
+     "time": 107.98,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 60.91,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 55,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "mooncoil",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 90.5,
+   "medianWinTime": null,
+   "medianLivesLost": 3,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 561,
+     "time": 90.48,
+     "livesLost": 3,
+     "continues": 3,
+     "firstLoss": 50.32,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 17,
+     "peakSpeed": 1.087,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "mooncoil",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 0,
+   "losses": 3,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 107.2,
+   "medianWinTime": null,
+   "medianLivesLost": 0,
+   "failures": {
+    "tunnel": {
+     "runs": 2,
+     "events": 2,
+     "first": {
+      "seed": 1,
+      "type": "tunnel",
+      "t": 39.908,
+      "phase": "rescue",
+      "subtype": "entered",
+      "collider": "serpent-head",
+      "depth": 2.29,
+      "from": {
+       "x": 169.08,
+       "y": 358.13
+      },
+      "ball": {
+       "x": 167.46,
+       "y": 355.2,
+       "vx": 404,
+       "vy": 123.8,
+       "r": 6
+      },
+      "afterContinue": false
+     }
+    }
+   },
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 605,
+     "time": 130.83,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 86.02,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 55,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {
+      "tunnel": 1
+     },
+     "failures": [
+      {
+       "type": "tunnel",
+       "t": 39.908,
+       "phase": "rescue",
+       "subtype": "entered",
+       "collider": "serpent-head",
+       "depth": 2.29,
+       "from": {
+        "x": 169.08,
+        "y": 358.13
+       },
+       "ball": {
+        "x": 167.46,
+        "y": 355.2,
+        "vx": 404,
+        "vy": 123.8,
+        "r": 6
+       },
+       "afterContinue": false
+      }
+     ]
+    },
+    {
+     "seed": 2,
+     "outcome": "lose",
+     "wallMs": 603,
+     "time": 107.17,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 63.1,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 37,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "lose",
+     "wallMs": 680,
+     "time": 105.06,
+     "livesLost": 0,
+     "continues": 3,
+     "firstLoss": 58.52,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 46,
+     "peakSpeed": 1.28,
+     "reason": "The serpent caught the princess",
+     "counts": {
+      "tunnel": 1
+     },
+     "failures": [
+      {
+       "type": "tunnel",
+       "t": 88.675,
+       "phase": "rescue",
+       "subtype": "engulfed",
+       "collider": "grid",
+       "depth": 5.83,
+       "from": {
+        "x": 80.77,
+        "y": 229.32
+       },
+       "ball": {
+        "x": 82.94,
+        "y": 234.17,
+        "vx": 430.8,
+        "vy": -97.2,
+        "r": 6
+       },
+       "afterContinue": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "level": "mooncoil",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 90.5,
+   "medianWinTime": null,
+   "medianLivesLost": 4,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 396,
+     "time": 90.51,
+     "livesLost": 4,
+     "continues": 3,
+     "firstLoss": 55.93,
+     "phases": [
+      "intro",
+      "rescue",
+      "caught"
+     ],
+     "contacts": 8,
+     "peakSpeed": 1.087,
+     "reason": "The serpent caught the princess",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "bellforge",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 44.5,
+   "medianWinTime": 44.5,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 1071,
+     "time": 44.53,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 9,
+     "peakSpeed": 1.113,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 390,
+     "time": 13.69,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 1,
+     "peakSpeed": 1.012,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 1705,
+     "time": 93.91,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 32,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "bellforge",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 66.1,
+   "medianWinTime": null,
+   "medianLivesLost": 9,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 707,
+     "time": 66.09,
+     "livesLost": 9,
+     "continues": 3,
+     "firstLoss": 19.02,
+     "phases": [
+      "serve",
+      "play"
+     ],
+     "contacts": 8,
+     "peakSpeed": 1.049,
+     "reason": "No balls remaining",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "bellforge",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 103.8,
+   "medianWinTime": 103.8,
+   "medianLivesLost": 0,
+   "failures": {
+    "tunnel": {
+     "runs": 1,
+     "events": 1,
+     "first": {
+      "seed": 1,
+      "type": "tunnel",
+      "t": 51.6,
+      "phase": "play",
+      "subtype": "engulfed",
+      "collider": "korr",
+      "depth": 1.57,
+      "from": {
+       "x": 49.75,
+       "y": 154.7
+      },
+      "ball": {
+       "x": 49.76,
+       "y": 154.57,
+       "vx": 398.9,
+       "vy": -139.4,
+       "r": 6
+      },
+      "afterContinue": false
+     }
+    },
+    "stuck": {
+     "runs": 1,
+     "events": 58,
+     "first": {
+      "seed": 1,
+      "type": "stuck",
+      "t": 43.492,
+      "phase": "play",
+      "subtype": "crawl",
+      "moved": 3.4,
+      "expected": 63.4,
+      "ball": {
+       "x": 49.76,
+       "y": 154.7,
+       "vx": 354.4,
+       "vy": 230.1,
+       "r": 6
+      },
+      "afterContinue": false
+     }
+    }
+   },
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 2522,
+     "time": 76.13,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 20,
+     "peakSpeed": 1.269,
+     "reason": "",
+     "counts": {
+      "tunnel": 1,
+      "stuck": 58
+     },
+     "failures": [
+      {
+       "type": "stuck",
+       "t": 43.492,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 3.4,
+       "expected": 63.4,
+       "ball": {
+        "x": 49.76,
+        "y": 154.7,
+        "vx": 354.4,
+        "vy": 230.1,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "stuck",
+       "t": 43.642,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 0.3,
+       "expected": 63.4,
+       "ball": {
+        "x": 49.75,
+        "y": 154.69,
+        "vx": 215.5,
+        "vy": 363.5,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "stuck",
+       "t": 43.792,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 0.3,
+       "expected": 63.4,
+       "ball": {
+        "x": 49.74,
+        "y": 154.7,
+        "vx": -176.3,
+        "vy": 384,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "tunnel",
+       "t": 51.6,
+       "phase": "play",
+       "subtype": "engulfed",
+       "collider": "korr",
+       "depth": 1.57,
+       "from": {
+        "x": 49.75,
+        "y": 154.7
+       },
+       "ball": {
+        "x": 49.76,
+        "y": 154.57,
+        "vx": 398.9,
+        "vy": -139.4,
+        "r": 6
+       },
+       "afterContinue": false
+      }
+     ]
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 1996,
+     "time": 103.81,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 27,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 1653,
+     "time": 108.07,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 33,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "bellforge",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 60,
+   "medianWinTime": null,
+   "medianLivesLost": 9,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 747,
+     "time": 59.98,
+     "livesLost": 9,
+     "continues": 3,
+     "firstLoss": 18.98,
+     "phases": [
+      "serve",
+      "play"
+     ],
+     "contacts": 4,
+     "peakSpeed": 1.012,
+     "reason": "No balls remaining",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "bellforge",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 75.2,
+   "medianWinTime": 75.2,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 1055,
+     "time": 75.15,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 19,
+     "peakSpeed": 1.254,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 606,
+     "time": 35.59,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 5,
+     "peakSpeed": 1.061,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 936,
+     "time": 105.47,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 29,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "bellforge",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 66.1,
+   "medianWinTime": null,
+   "medianLivesLost": 9,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 543,
+     "time": 66.09,
+     "livesLost": 9,
+     "continues": 3,
+     "firstLoss": 19.02,
+     "phases": [
+      "serve",
+      "play"
+     ],
+     "contacts": 8,
+     "peakSpeed": 1.049,
+     "reason": "No balls remaining",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "bellforge",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 83.3,
+   "medianWinTime": 83.3,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 2,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 984,
+     "time": 83.28,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 25,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 1741,
+     "time": 83.08,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 16,
+     "peakSpeed": 1.21,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 1571,
+     "time": 111.28,
+     "livesLost": 0,
+     "continues": 1,
+     "firstLoss": 57.73,
+     "phases": [
+      "serve",
+      "play",
+      "breach",
+      "rescue"
+     ],
+     "contacts": 26,
+     "peakSpeed": 1.196,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "bellforge",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 60,
+   "medianWinTime": null,
+   "medianLivesLost": 9,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 591,
+     "time": 59.98,
+     "livesLost": 9,
+     "continues": 3,
+     "firstLoss": 18.98,
+     "phases": [
+      "serve",
+      "play"
+     ],
+     "contacts": 4,
+     "peakSpeed": 1.012,
+     "reason": "No balls remaining",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "bellforge",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 92,
+   "medianWinTime": 92,
+   "medianLivesLost": 0,
+   "failures": {
+    "tunnel": {
+     "runs": 1,
+     "events": 1,
+     "first": {
+      "seed": 3,
+      "type": "tunnel",
+      "t": 87.308,
+      "phase": "play",
+      "subtype": "engulfed",
+      "collider": "bell-13",
+      "depth": 3.73,
+      "from": {
+       "x": 160.75,
+       "y": 128.41
+      },
+      "ball": {
+       "x": 162.45,
+       "y": 126.87,
+       "vx": 426.7,
+       "vy": -113.9,
+       "r": 6
+      },
+      "afterContinue": false
+     }
+    }
+   },
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 985,
+     "time": 91.96,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 17,
+     "peakSpeed": 1.225,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 872,
+     "time": 78.74,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 19,
+     "peakSpeed": 1.254,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 776,
+     "time": 93.76,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 26,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {
+      "tunnel": 1
+     },
+     "failures": [
+      {
+       "type": "tunnel",
+       "t": 87.308,
+       "phase": "play",
+       "subtype": "engulfed",
+       "collider": "bell-13",
+       "depth": 3.73,
+       "from": {
+        "x": 160.75,
+        "y": 128.41
+       },
+       "ball": {
+        "x": 162.45,
+        "y": 126.87,
+        "vx": 426.7,
+        "vy": -113.9,
+        "r": 6
+       },
+       "afterContinue": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "level": "bellforge",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 66.1,
+   "medianWinTime": null,
+   "medianLivesLost": 9,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 499,
+     "time": 66.09,
+     "livesLost": 9,
+     "continues": 3,
+     "firstLoss": 19.02,
+     "phases": [
+      "serve",
+      "play"
+     ],
+     "contacts": 8,
+     "peakSpeed": 1.049,
+     "reason": "No balls remaining",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "bellforge",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 133.4,
+   "medianWinTime": 133.4,
+   "medianLivesLost": 0,
+   "failures": {
+    "tunnel": {
+     "runs": 1,
+     "events": 2,
+     "first": {
+      "seed": 2,
+      "type": "tunnel",
+      "t": 20.542,
+      "phase": "play",
+      "subtype": "engulfed",
+      "collider": "korr",
+      "depth": 1.82,
+      "from": {
+       "x": 55.24,
+       "y": 148.19
+      },
+      "ball": {
+       "x": 55,
+       "y": 148.19,
+       "vx": -67.3,
+       "vy": 360,
+       "r": 6
+      },
+      "afterContinue": false
+     }
+    },
+    "stuck": {
+     "runs": 2,
+     "events": 38,
+     "first": {
+      "seed": 1,
+      "type": "stuck",
+      "t": 50.525,
+      "phase": "play",
+      "subtype": "crawl",
+      "moved": 15,
+      "expected": 63,
+      "ball": {
+       "x": 26.87,
+       "y": 134.75,
+       "vx": -388.3,
+       "vy": 87.6,
+       "r": 6
+      },
+      "afterContinue": false
+     }
+    }
+   },
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 979,
+     "time": 57.56,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 13,
+     "peakSpeed": 1.168,
+     "reason": "",
+     "counts": {
+      "stuck": 2
+     },
+     "failures": [
+      {
+       "type": "stuck",
+       "t": 50.525,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 15,
+       "expected": 63,
+       "ball": {
+        "x": 26.87,
+        "y": 134.75,
+        "vx": -388.3,
+        "vy": 87.6,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "stuck",
+       "t": 50.683,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 3.3,
+       "expected": 63,
+       "ball": {
+        "x": 23.74,
+        "y": 134.07,
+        "vx": -388.3,
+        "vy": 87.6,
+        "r": 6
+       },
+       "afterContinue": false
+      }
+     ]
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 2178,
+     "time": 133.44,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 39,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {
+      "tunnel": 2,
+      "stuck": 36
+     },
+     "failures": [
+      {
+       "type": "tunnel",
+       "t": 20.542,
+       "phase": "play",
+       "subtype": "engulfed",
+       "collider": "korr",
+       "depth": 1.82,
+       "from": {
+        "x": 55.24,
+        "y": 148.19
+       },
+       "ball": {
+        "x": 55,
+        "y": 148.19,
+        "vx": -67.3,
+        "vy": 360,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "stuck",
+       "t": 20.767,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 4.8,
+       "expected": 61,
+       "ball": {
+        "x": 48.52,
+        "y": 148.31,
+        "vx": -67.3,
+        "vy": 360,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "stuck",
+       "t": 20.933,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 0.6,
+       "expected": 61,
+       "ball": {
+        "x": 48.31,
+        "y": 148.77,
+        "vx": -46.6,
+        "vy": 363.2,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "stuck",
+       "t": 21.1,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 0.4,
+       "expected": 61,
+       "ball": {
+        "x": 48.27,
+        "y": 149.04,
+        "vx": -356,
+        "vy": 86,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "tunnel",
+       "t": 26.292,
+       "phase": "play",
+       "subtype": "engulfed",
+       "collider": "korr",
+       "depth": 2.73,
+       "from": {
+        "x": 48.29,
+        "y": 149.04
+       },
+       "ball": {
+        "x": 48.51,
+        "y": 149.14,
+        "vx": 341.4,
+        "vy": -132.5,
+        "r": 6
+       },
+       "afterContinue": false
+      }
+     ]
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 937,
+     "time": 145.57,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 40,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "bellforge",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 60,
+   "medianWinTime": null,
+   "medianLivesLost": 9,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 449,
+     "time": 59.98,
+     "livesLost": 9,
+     "continues": 3,
+     "firstLoss": 18.98,
+     "phases": [
+      "serve",
+      "play"
+     ],
+     "contacts": 4,
+     "peakSpeed": 1.012,
+     "reason": "No balls remaining",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "tidewheel",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 70.9,
+   "medianWinTime": 70.9,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 11107,
+     "time": 104.65,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 47,
+     "peakSpeed": 1,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 6367,
+     "time": 56.02,
+     "livesLost": 1,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 20,
+     "peakSpeed": 1,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 8078,
+     "time": 70.88,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 28,
+     "peakSpeed": 1,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "tidewheel",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 1,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 46.6,
+   "medianWinTime": 46.6,
+   "medianLivesLost": 4,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 2842,
+     "time": 46.62,
+     "livesLost": 4,
+     "continues": 2,
+     "firstLoss": 29.17,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 1,
+     "peakSpeed": 1,
+     "reason": "balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "tidewheel",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 57.7,
+   "medianWinTime": 57.7,
+   "medianLivesLost": 0,
+   "failures": {
+    "tunnel": {
+     "runs": 1,
+     "events": 1,
+     "first": {
+      "seed": 3,
+      "type": "tunnel",
+      "t": 26.9,
+      "phase": "play",
+      "subtype": "engulfed",
+      "collider": "claw-1:38",
+      "depth": 0.64,
+      "from": {
+       "x": 112.38,
+       "y": 247.12
+      },
+      "ball": {
+       "x": 112.09,
+       "y": 248.28,
+       "vx": 87.4,
+       "vy": 333.7,
+       "r": 6
+      },
+      "afterContinue": false
+     }
+    }
+   },
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 7274,
+     "time": 57.66,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 17,
+     "peakSpeed": 1,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 6039,
+     "time": 65.72,
+     "livesLost": 1,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 20,
+     "peakSpeed": 1,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 4336,
+     "time": 55.17,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 13,
+     "peakSpeed": 1,
+     "reason": "",
+     "counts": {
+      "tunnel": 1
+     },
+     "failures": [
+      {
+       "type": "tunnel",
+       "t": 26.9,
+       "phase": "play",
+       "subtype": "engulfed",
+       "collider": "claw-1:38",
+       "depth": 0.64,
+       "from": {
+        "x": 112.38,
+        "y": 247.12
+       },
+       "ball": {
+        "x": 112.09,
+        "y": 248.28,
+        "vx": 87.4,
+        "vy": 333.7,
+        "r": 6
+       },
+       "afterContinue": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "level": "tidewheel",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 1,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 71,
+   "medianWinTime": 71,
+   "medianLivesLost": 4,
+   "failures": {
+    "tunnel": {
+     "runs": 1,
+     "events": 1,
+     "first": {
+      "seed": 1,
+      "type": "tunnel",
+      "t": 49.933,
+      "phase": "play",
+      "subtype": "engulfed",
+      "collider": "shell60",
+      "depth": 0.63,
+      "from": {
+       "x": 179.57,
+       "y": 216.32
+      },
+      "ball": {
+       "x": 179.51,
+       "y": 216.92,
+       "vx": -219.7,
+       "vy": 266,
+       "r": 6
+      },
+      "afterContinue": false
+     }
+    }
+   },
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 5742,
+     "time": 70.98,
+     "livesLost": 4,
+     "continues": 2,
+     "firstLoss": 45.74,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 6,
+     "peakSpeed": 1,
+     "reason": "balls",
+     "counts": {
+      "tunnel": 1
+     },
+     "failures": [
+      {
+       "type": "tunnel",
+       "t": 49.933,
+       "phase": "play",
+       "subtype": "engulfed",
+       "collider": "shell60",
+       "depth": 0.63,
+       "from": {
+        "x": 179.57,
+        "y": 216.32
+       },
+       "ball": {
+        "x": 179.51,
+        "y": 216.92,
+        "vx": -219.7,
+        "vy": 266,
+        "r": 6
+       },
+       "afterContinue": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "level": "tidewheel",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 70.2,
+   "medianWinTime": 70.2,
+   "medianLivesLost": 1,
+   "failures": {
+    "tunnel": {
+     "runs": 1,
+     "events": 1,
+     "first": {
+      "seed": 2,
+      "type": "tunnel",
+      "t": 91.233,
+      "phase": "play",
+      "subtype": "engulfed",
+      "collider": "claw-1:10",
+      "depth": 1.06,
+      "from": {
+       "x": 113.51,
+       "y": 237.51
+      },
+      "ball": {
+       "x": 114.79,
+       "y": 236.98,
+       "vx": 194.6,
+       "vy": 284.9,
+       "r": 6
+      },
+      "afterContinue": false
+     }
+    }
+   },
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 5048,
+     "time": 70.15,
+     "livesLost": 1,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 24,
+     "peakSpeed": 1,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 8255,
+     "time": 107.01,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 37,
+     "peakSpeed": 1,
+     "reason": "",
+     "counts": {
+      "tunnel": 1
+     },
+     "failures": [
+      {
+       "type": "tunnel",
+       "t": 91.233,
+       "phase": "play",
+       "subtype": "engulfed",
+       "collider": "claw-1:10",
+       "depth": 1.06,
+       "from": {
+        "x": 113.51,
+        "y": 237.51
+       },
+       "ball": {
+        "x": 114.79,
+        "y": 236.98,
+        "vx": 194.6,
+        "vy": 284.9,
+        "r": 6
+       },
+       "afterContinue": false
+      }
+     ]
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 5856,
+     "time": 66.25,
+     "livesLost": 1,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 25,
+     "peakSpeed": 1,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "tidewheel",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 1,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 50.5,
+   "medianWinTime": 50.5,
+   "medianLivesLost": 4,
+   "failures": {
+    "tunnel": {
+     "runs": 1,
+     "events": 1,
+     "first": {
+      "seed": 1,
+      "type": "tunnel",
+      "t": 45.033,
+      "phase": "play",
+      "subtype": "engulfed",
+      "collider": "claw-1:26",
+      "depth": 0.9,
+      "from": {
+       "x": 83.26,
+       "y": 247.84
+      },
+      "ball": {
+       "x": 83.31,
+       "y": 247.9,
+       "vx": 207.3,
+       "vy": -275.8,
+       "r": 6
+      },
+      "afterContinue": false
+     }
+    },
+    "stuck": {
+     "runs": 1,
+     "events": 2,
+     "first": {
+      "seed": 1,
+      "type": "stuck",
+      "t": 45.242,
+      "phase": "play",
+      "subtype": "crawl",
+      "moved": 3.1,
+      "expected": 60.4,
+      "ball": {
+       "x": 82.41,
+       "y": 244.69,
+       "vx": -41.7,
+       "vy": 342.5,
+       "r": 6
+      },
+      "afterContinue": false
+     }
+    }
+   },
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 3025,
+     "time": 50.54,
+     "livesLost": 4,
+     "continues": 2,
+     "firstLoss": 29.17,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 1,
+     "peakSpeed": 1,
+     "reason": "water-pulse",
+     "counts": {
+      "tunnel": 1,
+      "stuck": 2
+     },
+     "failures": [
+      {
+       "type": "tunnel",
+       "t": 45.033,
+       "phase": "play",
+       "subtype": "engulfed",
+       "collider": "claw-1:26",
+       "depth": 0.9,
+       "from": {
+        "x": 83.26,
+        "y": 247.84
+       },
+       "ball": {
+        "x": 83.31,
+        "y": 247.9,
+        "vx": 207.3,
+        "vy": -275.8,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "stuck",
+       "t": 45.242,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 3.1,
+       "expected": 60.4,
+       "ball": {
+        "x": 82.41,
+        "y": 244.69,
+        "vx": -41.7,
+        "vy": 342.5,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "stuck",
+       "t": 45.417,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 1.3,
+       "expected": 60.4,
+       "ball": {
+        "x": 82.37,
+        "y": 244.64,
+        "vx": -240.2,
+        "vy": -247.6,
+        "r": 6
+       },
+       "afterContinue": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "level": "tidewheel",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 82.3,
+   "medianWinTime": 82.3,
+   "medianLivesLost": 0,
+   "failures": {
+    "stuck": {
+     "runs": 1,
+     "events": 2,
+     "first": {
+      "seed": 3,
+      "type": "stuck",
+      "t": 17.583,
+      "phase": "play",
+      "subtype": "crawl",
+      "moved": 12.1,
+      "expected": 60.4,
+      "ball": {
+       "x": 97.64,
+       "y": 244.74,
+       "vx": 331.8,
+       "vy": -94.5,
+       "r": 6
+      },
+      "afterContinue": false
+     }
+    }
+   },
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 3714,
+     "time": 47.25,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 13,
+     "peakSpeed": 1,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 6397,
+     "time": 82.27,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 25,
+     "peakSpeed": 1,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 7104,
+     "time": 113.13,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 43,
+     "peakSpeed": 1,
+     "reason": "",
+     "counts": {
+      "stuck": 2
+     },
+     "failures": [
+      {
+       "type": "stuck",
+       "t": 17.583,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 12.1,
+       "expected": 60.4,
+       "ball": {
+        "x": 97.64,
+        "y": 244.74,
+        "vx": 331.8,
+        "vy": -94.5,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "stuck",
+       "t": 17.758,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 2.7,
+       "expected": 60.4,
+       "ball": {
+        "x": 99.74,
+        "y": 244.61,
+        "vx": -241,
+        "vy": -246.8,
+        "r": 6
+       },
+       "afterContinue": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "level": "tidewheel",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 1,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 64,
+   "medianWinTime": 64,
+   "medianLivesLost": 4,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 4490,
+     "time": 64.02,
+     "livesLost": 4,
+     "continues": 2,
+     "firstLoss": 45.97,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 3,
+     "peakSpeed": 1,
+     "reason": "balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "tidewheel",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 105.4,
+   "medianWinTime": 105.4,
+   "medianLivesLost": 1,
+   "failures": {
+    "tunnel": {
+     "runs": 2,
+     "events": 2,
+     "first": {
+      "seed": 1,
+      "type": "tunnel",
+      "t": 97.383,
+      "phase": "play",
+      "subtype": "engulfed",
+      "collider": "claw-1:5",
+      "depth": 1,
+      "from": {
+       "x": 106.53,
+       "y": 246.58
+      },
+      "ball": {
+       "x": 106.62,
+       "y": 247.14,
+       "vx": 179.8,
+       "vy": 294.4,
+       "r": 6
+      },
+      "afterContinue": false
+     }
+    }
+   },
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 11204,
+     "time": 115.28,
+     "livesLost": 2,
+     "continues": 1,
+     "firstLoss": 101.43,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 48,
+     "peakSpeed": 1,
+     "reason": "flood",
+     "counts": {
+      "tunnel": 1
+     },
+     "failures": [
+      {
+       "type": "tunnel",
+       "t": 97.383,
+       "phase": "play",
+       "subtype": "engulfed",
+       "collider": "claw-1:5",
+       "depth": 1,
+       "from": {
+        "x": 106.53,
+        "y": 246.58
+       },
+       "ball": {
+        "x": 106.62,
+        "y": 247.14,
+        "vx": 179.8,
+        "vy": 294.4,
+        "r": 6
+       },
+       "afterContinue": false
+      }
+     ]
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 9720,
+     "time": 105.38,
+     "livesLost": 0,
+     "continues": 1,
+     "firstLoss": 82.08,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 41,
+     "peakSpeed": 1,
+     "reason": "flood",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 6704,
+     "time": 89.59,
+     "livesLost": 1,
+     "continues": 1,
+     "firstLoss": 80.38,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 29,
+     "peakSpeed": 1,
+     "reason": "flood",
+     "counts": {
+      "tunnel": 1
+     },
+     "failures": [
+      {
+       "type": "tunnel",
+       "t": 24.975,
+       "phase": "play",
+       "subtype": "engulfed",
+       "collider": "claw-1:5",
+       "depth": 2.42,
+       "from": {
+        "x": 111.91,
+        "y": 246.03
+       },
+       "ball": {
+        "x": 112.78,
+        "y": 245.57,
+        "vx": 93.1,
+        "vy": 332.2,
+        "r": 6
+       },
+       "afterContinue": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "level": "tidewheel",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 54.6,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {
+    "tunnel": {
+     "runs": 1,
+     "events": 1,
+     "first": {
+      "seed": 1,
+      "type": "tunnel",
+      "t": 52.325,
+      "phase": "play",
+      "subtype": "engulfed",
+      "collider": "claw-1:62",
+      "depth": 1.98,
+      "from": {
+       "x": 91.46,
+       "y": 244.82
+      },
+      "ball": {
+       "x": 91.44,
+       "y": 244.9,
+       "vx": 274.6,
+       "vy": -208.9,
+       "r": 6
+      },
+      "afterContinue": false
+     }
+    },
+    "stuck": {
+     "runs": 1,
+     "events": 2,
+     "first": {
+      "seed": 1,
+      "type": "stuck",
+      "t": 52.575,
+      "phase": "play",
+      "subtype": "crawl",
+      "moved": 6.9,
+      "expected": 60.4,
+      "ball": {
+       "x": 99.72,
+       "y": 244.59,
+       "vx": 336.7,
+       "vy": -75,
+       "r": 6
+      },
+      "afterContinue": false
+     }
+    }
+   },
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 2835,
+     "time": 54.65,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 33.18,
+     "phases": [
+      "serve",
+      "play"
+     ],
+     "contacts": 1,
+     "peakSpeed": 1,
+     "reason": "balls",
+     "counts": {
+      "tunnel": 1,
+      "stuck": 2
+     },
+     "failures": [
+      {
+       "type": "tunnel",
+       "t": 52.325,
+       "phase": "play",
+       "subtype": "engulfed",
+       "collider": "claw-1:62",
+       "depth": 1.98,
+       "from": {
+        "x": 91.46,
+        "y": 244.82
+       },
+       "ball": {
+        "x": 91.44,
+        "y": 244.9,
+        "vx": 274.6,
+        "vy": -208.9,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "stuck",
+       "t": 52.575,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 6.9,
+       "expected": 60.4,
+       "ball": {
+        "x": 99.72,
+        "y": 244.59,
+        "vx": 336.7,
+        "vy": -75,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "stuck",
+       "t": 52.75,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 3.7,
+       "expected": 60.4,
+       "ball": {
+        "x": 98.87,
+        "y": 246.59,
+        "vx": -284.1,
+        "vy": 195.7,
+        "r": 6
+       },
+       "afterContinue": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "level": "tidewheel",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 114.8,
+   "medianWinTime": 114.8,
+   "medianLivesLost": 1,
+   "failures": {
+    "tunnel": {
+     "runs": 2,
+     "events": 2,
+     "first": {
+      "seed": 1,
+      "type": "tunnel",
+      "t": 40.558,
+      "phase": "play",
+      "subtype": "engulfed",
+      "collider": "claw1:1",
+      "depth": 1.71,
+      "from": {
+       "x": 275.1,
+       "y": 208.48
+      },
+      "ball": {
+       "x": 274.11,
+       "y": 209.06,
+       "vx": -154.2,
+       "vy": 308.6,
+       "r": 6
+      },
+      "afterContinue": false
+     }
+    },
+    "stuck": {
+     "runs": 2,
+     "events": 57,
+     "first": {
+      "seed": 1,
+      "type": "stuck",
+      "t": 40.775,
+      "phase": "play",
+      "subtype": "crawl",
+      "moved": 1.1,
+      "expected": 60.4,
+      "ball": {
+       "x": 270.27,
+       "y": 209.63,
+       "vx": -336.7,
+       "vy": 75,
+       "r": 6
+      },
+      "afterContinue": false
+     }
+    }
+   },
+   "cleanWins": 1,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 7678,
+     "time": 76.21,
+     "livesLost": 1,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 21,
+     "peakSpeed": 1,
+     "reason": "",
+     "counts": {
+      "tunnel": 1,
+      "stuck": 55
+     },
+     "failures": [
+      {
+       "type": "tunnel",
+       "t": 40.558,
+       "phase": "play",
+       "subtype": "engulfed",
+       "collider": "claw1:1",
+       "depth": 1.71,
+       "from": {
+        "x": 275.1,
+        "y": 208.48
+       },
+       "ball": {
+        "x": 274.11,
+        "y": 209.06,
+        "vx": -154.2,
+        "vy": 308.6,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "stuck",
+       "t": 40.775,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 1.1,
+       "expected": 60.4,
+       "ball": {
+        "x": 270.27,
+        "y": 209.63,
+        "vx": -336.7,
+        "vy": 75,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "stuck",
+       "t": 40.95,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 1.2,
+       "expected": 60.4,
+       "ball": {
+        "x": 269.47,
+        "y": 209.07,
+        "vx": -87,
+        "vy": -333.8,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "stuck",
+       "t": 41.125,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 1.4,
+       "expected": 60.4,
+       "ball": {
+        "x": 269.27,
+        "y": 208.55,
+        "vx": -54.4,
+        "vy": 340.7,
+        "r": 6
+       },
+       "afterContinue": false
+      }
+     ]
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 12108,
+     "time": 124.79,
+     "livesLost": 2,
+     "continues": 1,
+     "firstLoss": 105.88,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 38,
+     "peakSpeed": 1,
+     "reason": "flood",
+     "counts": {
+      "tunnel": 1,
+      "stuck": 2
+     },
+     "failures": [
+      {
+       "type": "tunnel",
+       "t": 45.367,
+       "phase": "play",
+       "subtype": "engulfed",
+       "collider": "claw-1:26",
+       "depth": 2.29,
+       "from": {
+        "x": 99.35,
+        "y": 245.65
+       },
+       "ball": {
+        "x": 99.29,
+        "y": 246.29,
+        "vx": 121.3,
+        "vy": 323,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "stuck",
+       "t": 45.542,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 5.7,
+       "expected": 60.4,
+       "ball": {
+        "x": 95.84,
+        "y": 245.34,
+        "vx": -212.8,
+        "vy": -271.6,
+        "r": 6
+       },
+       "afterContinue": false
+      },
+      {
+       "type": "stuck",
+       "t": 45.717,
+       "phase": "play",
+       "subtype": "crawl",
+       "moved": 1.9,
+       "expected": 60.4,
+       "ball": {
+        "x": 95.51,
+        "y": 244.68,
+        "vx": -310.8,
+        "vy": 149.7,
+        "r": 6
+       },
+       "afterContinue": false
+      }
+     ]
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 7829,
+     "time": 114.81,
+     "livesLost": 0,
+     "continues": 1,
+     "firstLoss": 91.97,
+     "phases": [
+      "serve",
+      "play",
+      "rescue"
+     ],
+     "contacts": 34,
+     "peakSpeed": 1,
+     "reason": "flood",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "tidewheel",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 74.1,
+   "medianWinTime": null,
+   "medianLivesLost": 6,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 4190,
+     "time": 74.13,
+     "livesLost": 6,
+     "continues": 3,
+     "firstLoss": 43.25,
+     "phases": [
+      "serve",
+      "play"
+     ],
+     "contacts": 4,
+     "peakSpeed": 1,
+     "reason": "balls",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "gatehouse",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 134.7,
+   "medianWinTime": 134.7,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 3004,
+     "time": 135.35,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 41,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 2785,
+     "time": 134.73,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 43,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 2762,
+     "time": 104.18,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 22,
+     "peakSpeed": 1.225,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "gatehouse",
+   "difficulty": "easy",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 71.5,
+   "medianWinTime": null,
+   "medianLivesLost": 9,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 665,
+     "time": 71.5,
+     "livesLost": 9,
+     "continues": 3,
+     "firstLoss": 20.31,
+     "phases": [
+      "serve",
+      "play"
+     ],
+     "contacts": 4,
+     "peakSpeed": 1.036,
+     "reason": "No balls remaining",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "gatehouse",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 135.9,
+   "medianWinTime": 135.9,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 3320,
+     "time": 164.03,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 53,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 1737,
+     "time": 116.12,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 26,
+     "peakSpeed": 1.196,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 1813,
+     "time": 135.93,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 29,
+     "peakSpeed": 1.269,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "gatehouse",
+   "difficulty": "easy",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 69.1,
+   "medianWinTime": null,
+   "medianLivesLost": 9,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 743,
+     "time": 69.13,
+     "livesLost": 9,
+     "continues": 3,
+     "firstLoss": 20.26,
+     "phases": [
+      "serve",
+      "play"
+     ],
+     "contacts": 4,
+     "peakSpeed": 1.036,
+     "reason": "No balls remaining",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "gatehouse",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 152.4,
+   "medianWinTime": 152.4,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 2327,
+     "time": 177.99,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 59,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 1898,
+     "time": 152.37,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 55,
+     "peakSpeed": 1.269,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 1509,
+     "time": 124.78,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 34,
+     "peakSpeed": 1.269,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "gatehouse",
+   "difficulty": "medium",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 71.5,
+   "medianWinTime": null,
+   "medianLivesLost": 9,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 630,
+     "time": 71.5,
+     "livesLost": 9,
+     "continues": 3,
+     "firstLoss": 20.31,
+     "phases": [
+      "serve",
+      "play"
+     ],
+     "contacts": 4,
+     "peakSpeed": 1.036,
+     "reason": "No balls remaining",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "gatehouse",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 190.2,
+   "medianWinTime": 190.2,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 2360,
+     "time": 190.24,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 61,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 1888,
+     "time": 195.24,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 58,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 1620,
+     "time": 100.08,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 22,
+     "peakSpeed": 1.154,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "gatehouse",
+   "difficulty": "medium",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 69.1,
+   "medianWinTime": null,
+   "medianLivesLost": 9,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 731,
+     "time": 69.13,
+     "livesLost": 9,
+     "continues": 3,
+     "firstLoss": 20.26,
+     "phases": [
+      "serve",
+      "play"
+     ],
+     "contacts": 4,
+     "peakSpeed": 1.036,
+     "reason": "No balls remaining",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "gatehouse",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 180.2,
+   "medianWinTime": 180.2,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 2466,
+     "time": 146.74,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 30,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 1493,
+     "time": 180.18,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 63,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 2210,
+     "time": 200.97,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 63,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "gatehouse",
+   "difficulty": "hard",
+   "phone": "393x852",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 71.5,
+   "medianWinTime": null,
+   "medianLivesLost": 9,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 417,
+     "time": 71.5,
+     "livesLost": 9,
+     "continues": 3,
+     "firstLoss": 20.31,
+     "phases": [
+      "serve",
+      "play"
+     ],
+     "contacts": 4,
+     "peakSpeed": 1.036,
+     "reason": "No balls remaining",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "gatehouse",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "bot",
+   "runs": 3,
+   "wins": 3,
+   "losses": 0,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 185.6,
+   "medianWinTime": 185.6,
+   "medianLivesLost": 0,
+   "failures": {},
+   "cleanWins": 3,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "win",
+     "wallMs": 2010,
+     "time": 187.81,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 57,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 2,
+     "outcome": "win",
+     "wallMs": 2245,
+     "time": 183.73,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 50,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    },
+    {
+     "seed": 3,
+     "outcome": "win",
+     "wallMs": 1648,
+     "time": 185.64,
+     "livesLost": 0,
+     "continues": 0,
+     "firstLoss": null,
+     "phases": [
+      "serve",
+      "play",
+      "crash",
+      "climb",
+      "defeat"
+     ],
+     "contacts": 53,
+     "peakSpeed": 1.28,
+     "reason": "",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  },
+  {
+   "level": "gatehouse",
+   "difficulty": "hard",
+   "phone": "412x915",
+   "variant": "idle",
+   "runs": 1,
+   "wins": 0,
+   "losses": 1,
+   "timeouts": 0,
+   "errors": 0,
+   "medianTime": 69.1,
+   "medianWinTime": null,
+   "medianLivesLost": 9,
+   "failures": {},
+   "cleanWins": 0,
+   "runs_detail": [
+    {
+     "seed": 1,
+     "outcome": "lose",
+     "wallMs": 513,
+     "time": 69.13,
+     "livesLost": 9,
+     "continues": 3,
+     "firstLoss": 20.26,
+     "phases": [
+      "serve",
+      "play"
+     ],
+     "contacts": 4,
+     "peakSpeed": 1.036,
+     "reason": "No balls remaining",
+     "counts": {},
+     "failures": []
+    }
+   ]
+  }
+ ]
+}

@@ -2,6 +2,7 @@
 import { setDPR, text, rrect, shade, vignette, drawGrain, cached, brick, FONT, artLoaded, SPR, ready } from './gfx.js';
 import { unlockAudio, setMuted, isMuted, sfx } from './audio.js';
 import { Mooncoil } from './mooncoil.js';
+import { FantasyChapter } from './fantasy/chapter.js';
 import { Carrier } from './carrier.js';
 import { Relay } from './relay.js';
 import { Orbital } from './orbital.js';
@@ -19,8 +20,12 @@ const LEVELS = [
   { make: (W, H, s) => new Vault(W, H, s, selectedDifficulty), name: 'The Vault', sub: 'Protect Lumi from the serpent.', color: '#d99db8', next: 4, victory: 'PRINCESS SAVED!' },
   { make: (W, H, s) => new Relay(W, H, s, selectedDifficulty), name: 'Circuit Breakout', sub: 'Disable the relay. Launch the skiff.', color: '#9eb6ef', next: 3, victory: 'CIRCUIT CLEARED!' },
   { make: (W, H, s) => new Orbital(W, H, s, selectedDifficulty), name: 'Shutter Forge', sub: 'Crack the armour. Stop the reactor.', color: '#efb295', victory: 'FORGE DISABLED!' },
-  { make: (W, H, s) => new Frost(W, H, s, selectedDifficulty), name: 'Frost Warden', sub: 'Break the siege. Protect Lumi.', color: '#9bc9dd', victory: 'LUMI PROTECTED!' },
-  { make: (W, H, s) => new Mooncoil(W, H, s, selectedDifficulty), name: 'Mooncoil Reliquary', sub: 'Break three seals. Drive the serpent back.', color: '#cbb3ef', victory: 'RELIQUARY FREED!' },
+  { make: (W, H, s) => new Frost(W, H, s, selectedDifficulty), name: 'Frost Warden', sub: 'Break the siege. Protect Lumi.', color: '#9bc9dd', next: 5, victory: 'LUMI PROTECTED!' },
+  { make: (W, H, s) => new Mooncoil(W, H, s, selectedDifficulty), name: 'Mooncoil Reliquary', sub: 'Shatter the moonstone. Free Lumi.', color: '#cbb3ef', victory: 'RELIQUARY FREED!', next: 6 },
+  { make: (W, H, s) => new FantasyChapter('bellforge', W, H, s, selectedDifficulty), name: 'Bellforge Run', sub: 'Break Korr\u2019s armour. Stop the winch.', color: '#d6a35f', next: 7, victory: 'LUMI IS FREE!' },
+  { make: (W, H, s) => new FantasyChapter('tidewheel', W, H, s, selectedDifficulty), name: 'Tidewheel Citadel', sub: 'Break Nerra\u2019s grip. Stop the flood.', color: '#7fc7cf', next: 8, victory: 'LUMI IS SAFE!' },
+  { make: (W, H, s) => new FantasyChapter('gatehouse', W, H, s, selectedDifficulty), name: 'Gatehouse Siege', sub: 'Kit breaks in. Korr holds the gate.', color: '#c98a5b', next: 9, victory: 'THE GATE IS OURS!' },
+  { make: (W, H, s) => new FantasyChapter('lumitower', W, H, s, selectedDifficulty), name: 'Lumi Breaks Out', sub: 'Lumi breaks out. Gnash coils the tower.', color: '#e58fb4', victory: 'LUMI BROKE OUT!' },
 ];
 const W = 360;
 let H = 740, scale = 1, FH = 740, inT = 0, inB = 0; // FH: full canvas height; H: playable height inside the safe area
@@ -134,7 +139,7 @@ addEventListener('keydown', e => {
   if (suspended || document.hidden || scene === 'pause') return;
   if (scene === 'level' && !e.repeat) level.key(e.key, true);
   if (e.key === ' ' || e.key.startsWith('Arrow') || e.key.toLowerCase() === 'k') e.preventDefault();
-  if (scene === 'menu' && /^[1-9]$/.test(e.key) && +e.key <= LEVELS.length) start(+e.key - 1);
+  if (scene === 'menu' && /^[0-9]$/.test(e.key)) { const i = e.key === '0' ? 9 : +e.key - 1; if (i < LEVELS.length) start(i); }
 });
 addEventListener('keyup', e => {
   if (e.key === ' ' && level?.suppressedSpace) { level.key(e.key, false); return; }
@@ -239,7 +244,7 @@ function drawMenu() {
   // level cards
   DIFFICULTY_IDS.forEach((id, i) => button(difficulty(id).label, 20 + i * 110, listTop - 54, 100, 42, id === selectedDifficulty ? '#9b6295' : '#414b65', () => selectDifficulty(id), true));
   const cw = W - 40, ch = Math.min(104, (H - listTop - 66) / LEVELS.length - 8);
-  [0, 2, 3, 1, 4, 5].filter(i => i < LEVELS.length).forEach((i, row) => {
+  [0, 2, 3, 1, 4, 5, 6, 7, 8, 9].filter(i => i < LEVELS.length).forEach((i, row) => {
     const L = LEVELS[i], x = 20, y = listTop + row * (ch + 8);
     buttons.push({ x, y, w: cw, h: ch, fn: () => start(i) });
     g.fillStyle = 'rgba(0,0,0,0.45)'; rrect(g, x + 3, y + 6, cw, ch, 18); g.fill();

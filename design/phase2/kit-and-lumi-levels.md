@@ -86,3 +86,50 @@ Easy, Medium and Hard scale villain HP (24/32/40), tell length (1.8/1.6/1.4 s) a
 3. Build Gatehouse Siege, because it uses only finished art.
 4. Render Lumi's face orb and paddle in Blender.
 5. Build Lumi Breaks Out.
+
+## Owner steering 2026-10-22 (applies to Lumi Breaks Out first)
+
+Owner loves serpent windows: Gnash can come out of **any** window. The level must be tough, addictive, physically correct and consistent in look. Lumi gets her own power set. Kit's power art (Arrows first) gets refreshed.
+
+### Serpent windows: origin, path, expressions
+
+- **Window anatomy, three layers.** The back recess is a dark tunnel interior drawn behind everything. Gnash's body is drawn in the middle. The front stone lip and arch are drawn over the body. So the neck visibly passes *through* the opening and never floats in front of the wall.
+- **Six windows,** three per side wall on floor 2 and two on floor 3. Each has a fixed origin point inside the recess and an exit normal pointing into the room.
+- **Lunge choreography:**
+  - *peek (0.6 s):* eyes glow in the dark recess and the head is half-hidden. Uses the blink and idle heads.
+  - *hiss tell (1.6, 1.4 or 1.2 s):* the head pushes to the lip, the jaw opens, and the bite row glows.
+  - *strike (0.35 s):* the head travels along the bite row and the body follows the same path. Body segments trail through the window origin, so the snake never teleports.
+  - *chew:* bricks on the row are eaten one by one with crumbs, each vanishing quietly.
+  - *retreat:* head first, back through the same window, with the body following its own path.
+- **Expressions by state:** peek blink, hiss, strike, chew0/1, grin when the bite costs the player, hurt and dizzy when hit, and laugh on a life lost. These already exist in `assets/snake-emerald/`.
+- **Physics:**
+  - The head and visible neck are a moving compound of circles sampled along the same path the art follows, so the ball rebounds off the snake.
+  - A ball hit on the head during the tell or the strike interrupts the lunge: hurt face, early retreat, and a short stun. This is the skill counter.
+  - Ordinary contacts only. Collision always comes from the drawn path, never a separate hidden box.
+  - The bite costs a life only when the live ball is inside the bite lane at the strike, never just because the paddle is in it.
+- **Toughness:**
+  - Medium: two windows can be primed one after the other.
+  - Hard: windows alternate sides and tells are shorter.
+  - The bite eats bricks, which keeps routes changing.
+  - The difficulty curve goes Easy (teach), then Medium (pressure), then Hard (two-window feints).
+  - Stars reward a no-bite clear.
+
+### Lumi's own powers (face orb, same charge rules as Kit)
+
+| Power | Effect | Counter-play |
+|---|---|---|
+| Lullaby | A song wave calms Gnash for 4 s. It cancels the current lunge and he sways and dozes (dizzy head). | Best used during a hiss tell |
+| Starlight Notes | The next 6 broken bricks drop power-ups that drift toward the paddle. | Feeds Ram Ball and extra balls |
+| Song Shield | A sung barrier across the primed bite row. It blocks one bite and the snake recoils. | Saves a ball, no damage |
+
+The shared Ram Ball comes from the paddle's sweet spot. On Lumi it uses a song-note sphere skin, and the code is the same.
+
+### Art work split
+
+- **Laptop (Blender on the owner's machine):**
+  - Lumi's power icons and FX sprites;
+  - refreshed Kit power icons, starting with Arrows;
+  - a layered serpent-window arch (back recess, front lip).
+- **Cloud:**
+  - Lumi's face-orb set and paddle skin;
+  - all level logic (floors, serpent windows, powers).

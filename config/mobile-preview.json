@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "name": "BREACH — Six-chapter Mooncoil preview",
+  "name": "BREACH — Ten-chapter castle preview",
   "sourceBranch": "codex/starship-run-prototype",
-  "androidVersionCode": 5,
-  "androidVersionName": "0.5-six-chapter-preview",
-  "reviewedCanonicalSha256": "921840f69a1e1af720b999140e3212cc6c1a1cd32a824adc50a8de01d6c0955c",
-  "saveSlots": ["Carrier Breakout", "The Vault", "Circuit Breakout", "Shutter Forge", "Frost Warden", "Mooncoil Reliquary"],
-  "menuOrder": [0, 2, 3, 1, 4, 5],
+  "androidVersionCode": 6,
+  "androidVersionName": "0.6-eight-chapter-preview",
+  "reviewedCanonicalSha256": "04be5c8ac089469e4f02b4002783438532ed3a7a43bca13c5bcf57f7413e694f",
+  "saveSlots": ["Carrier Breakout", "The Vault", "Circuit Breakout", "Shutter Forge", "Frost Warden", "Mooncoil Reliquary", "Bellforge Run", "Tidewheel Citadel", "Gatehouse Siege", "Lumi Breaks Out"],
+  "menuOrder": [0, 2, 3, 1, 4, 5, 6, 7, 8, 9],
   "difficulties": ["easy", "medium", "hard"],
-  "scope": "Six main chapters including Mooncoil Reliquary, the emerald serpent presentation, corrected Carrier Focus/LASER contact, distinct companion controls, bounded powers and offline fonts. Standalone Bellforge, Tidewheel and Starflight/Gatebreak are not included.",
+  "scope": "Ten main chapters including Mooncoil Reliquary, Bellforge Run, Tidewheel Citadel, Gatehouse Siege, Lumi Breaks Out, the emerald serpent presentation, corrected Carrier Focus/LASER contact, distinct companion controls, bounded powers and offline fonts. Standalone Starflight/Gatebreak is not included.",
   "limitations": "Debug preview; ads and purchases are local simulations. Physical-phone performance and human difficulty require device testing."
 }

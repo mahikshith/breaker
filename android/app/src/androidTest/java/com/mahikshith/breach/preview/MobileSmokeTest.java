@@ -28,13 +28,16 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class MobileSmokeTest {
     private MainActivity activity;
+    // The first render of the page holds the WebView UI thread for 6-12 s on a 2-vCPU emulator (6.4 s on the
+    // last passing runner, 10-11 s on slower ones). Callbacks arrive on that thread, so startup gets a longer budget.
+    private int jsTimeoutSeconds = 10;
 
     private String js(String script) throws Exception {
         AtomicReference<String> result = new AtomicReference<>();
         CountDownLatch done = new CountDownLatch(1);
         InstrumentationRegistry.getInstrumentation().runOnMainSync(() ->
             activity.game.evaluateJavascript(script, value -> { result.set(value); done.countDown(); }));
-        assertTrue("JavaScript callback timed out: " + script.substring(0, Math.min(160, script.length())), done.await(10, TimeUnit.SECONDS));
+        assertTrue("JavaScript callback timed out: " + script.substring(0, Math.min(160, script.length())), done.await(jsTimeoutSeconds, TimeUnit.SECONDS));
         return result.get();
     }
 
@@ -49,6 +52,15 @@ public class MobileSmokeTest {
     }
 
     private void awaitCanvas() throws Exception {
+        jsTimeoutSeconds = 60;
+        try {
+            awaitStartup();
+        } finally {
+            jsTimeoutSeconds = 10;
+        }
+    }
+
+    private void awaitStartup() throws Exception {
         await("window.__breach && window.__breach.ready && document.getElementById('game').width > 300");
         js("document.fonts.load('16px \"Lilita One\"'); document.fonts.load('600 16px Rubik'); true");
         await("document.fonts.status === 'loaded' && document.fonts.check('16px \"Lilita One\"') && document.fonts.check('600 16px Rubik')");

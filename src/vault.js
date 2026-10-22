@@ -2,7 +2,8 @@
 // chews its way down to her. Bricks that lose their hold on the tower fall out as rigid bodies.
 import { Arena } from './arena.js';
 import { difficulty } from './difficulty.js';
-import { makeGrid, makeBall } from './physics.js';
+import { makeGrid, makeBall, cellAt } from './physics.js';
+import { ejectBall } from './clearance.js';
 import { brick, cached, text, vignette, drawGrain, rrect, shade, NUM, SPR, ready, loadImg, drawKitCastFlight, drawKitBrickArmour } from './gfx.js';
 import { drawSerpent } from './characters.js';
 import { Debris } from './debris.js';
@@ -84,7 +85,7 @@ export class Vault extends Arena {
     this.floorY = OY + (this.pocket.r1 + 1) * CELL;
     this.layout = options.layout || LAYOUT;
     this.build();
-    this.snake = { cells: streamingCells(), hist: [], chew: 0, chewing: null, prog: 1, stun: 0, dir: Math.PI / 2, look: Math.PI / 2, faceLeft: true, path: [], open: 0, hits: [], flinch: 0, mood: null, moodT: 0, alpha: 1, retreat: null, eaten: 0, gulp: 0, lunge: 0 };
+    this.snake = this.newSnake(streamingCells());
     this.entry = { progress: 0, speed: 1, fullHeadTurn: true };
     this.coreMode = 'ward'; this.kitPowers = true; this.kitCastAt = this.kitReactionAt = -Infinity; this.kitWardResult = null;
     this.wardCoach = false; this.wardCoachSeen = !!store.get('wardCoachAck');
@@ -96,6 +97,10 @@ export class Vault extends Arena {
     this.motes = Array.from({ length: 18 }, (_, i) => ({ x: Math.random() * W, y: OY + Math.random() * (H - OY), s: 0.6 + Math.random() * 1.2, p: i }));
   }
   previewRect() { return { x: OX - 14, y: OY - 30, w: COLS * CELL + 28, h: 230 }; }
+  newSnake(cells) {
+    return { cells, hist: [], chew: 0, chewing: null, prog: 1, stun: 0, dir: Math.PI / 2, look: Math.PI / 2, faceLeft: true, path: [], open: 0, hits: [], flinch: 0, mood: null, moodT: 0, alpha: 1, retreat: null, eaten: 0, gulp: 0, lunge: 0 };
+  }
+  otherSnakeCells() { return []; } // levels with more than one serpent block each route with the others' bodies
 
   build() {
     const G = this.grid;
@@ -228,16 +233,19 @@ export class Vault extends Arena {
     if (exit === undefined) return;
     const path = []; for (let k = exit; k !== -1; k = prev[k]) path.push(k);
     this.foxPath = path.reverse().map(k => ({ x: OX + (k % COLS) * CELL + CELL / 2, y: OY + Math.floor(k / COLS) * CELL + CELL / 2 }));
-    const s = this.snake, headPose = this.drawSnakeHeadPose();
-    s.retreat = { path: createSerpentRetreat({ points: this.snakePoints(),
-      heading: headPose.rotation + (headPose.facing === 'l' ? Math.PI : 0), faceLeft: headPose.facing === 'l',
-      history: s.hist.map(([c, r]) => ({ x: OX + c * CELL + CELL / 2, y: OY + r * CELL + CELL / 2 })) }), t: 0 };
-    s.attack = null; s.chewing = null; s.lunge = 0; s.stun = 0;
+    this.beginRetreat();
     this.burstCage();
     this.phase = 'escape'; this.foxT = 0; this.mood('shock', 1.4);
     sfx.breach(); this.bump(0.7, 0.12); this.timeScale = 0.35; this.slomoT = 0.8;
     this.fx.pop(this.W / 2, OY + 150, 'BREACH!', '#ffe08a', 40);
     this.play('Cheer'); this.say('Yay!', 1.4);
+  }
+  beginRetreat() { // the current serpent turns head first and returns along its own tunnel
+    const s = this.snake, headPose = this.drawSnakeHeadPose();
+    s.retreat = { path: createSerpentRetreat({ points: this.snakePoints(),
+      heading: headPose.rotation + (headPose.facing === 'l' ? Math.PI : 0), faceLeft: headPose.facing === 'l', tunnel: { x: s.mouthX ?? 284, y: 88 },
+      history: s.hist.map(([c, r]) => ({ x: OX + c * CELL + CELL / 2, y: OY + r * CELL + CELL / 2 })) }), t: 0 };
+    s.attack = null; s.chewing = null; s.lunge = 0; s.stun = 0;
   }
   burstCage(capture = false) { // the bars spring out of the frame as physical pieces
     const G = this.grid;
@@ -252,7 +260,8 @@ export class Vault extends Arena {
   // Dijkstra from the serpent's head to the chamber; bricks cost chewing time.
   snakePlan() {
     const G = this.grid, dist = new Float32Array(COLS * ROWS).fill(Infinity), prev = new Int32Array(COLS * ROWS).fill(-1);
-    const [hc, hr] = this.snake.cells[0], start = hr * COLS + hc, body = new Set(this.snake.cells.slice(1).map(([c, r]) => r * COLS + c));
+    const [hc, hr] = this.snake.cells[0], start = hr * COLS + hc;
+    const body = new Set([...this.snake.cells.slice(1), ...this.otherSnakeCells()].filter(([c, r]) => r >= 0).map(([c, r]) => r * COLS + c));
     dist[start] = 0; const open = [start];
     while (open.length) {
       let bi = 0; for (let i = 1; i < open.length; i++) if (dist[open[i]] < dist[open[bi]]) bi = i;
@@ -447,6 +456,25 @@ export class Vault extends Arena {
     for (let i = 0; i < safe; i++) { s.cells.shift(); s.cells.push(s.hist.pop()); }
     const [a, b] = s.cells; if (b) s.dir = Math.atan2(a[1] - b[1], a[0] - b[0]);
     s.chewing = null; s.prog = 1;
+    this.clearSnake();
+  }
+  // A ball may sit where a teleported collider (knocked-back serpent, rebuilt cage) now is: push it to the nearest
+  // spot clear of that shape, the masonry and the walls, along the contact normal. No hit is scored.
+  ballFits(x, y, r) {
+    if (x - r < this.left || x + r > this.right || y - r < this.top) return false;
+    const G = this.grid;
+    for (let row = Math.floor((y - r - G.oy) / G.ch); row <= Math.floor((y + r - G.oy) / G.ch); row++)
+      for (let c = Math.floor((x - r - G.ox) / G.cw); c <= Math.floor((x + r - G.ox) / G.cw); c++) {
+        if (!cellAt(G, c, row)) continue;
+        const x0 = G.ox + c * G.cw, y0 = G.oy + row * G.ch;
+        if (Math.hypot(x - Math.max(x0, Math.min(x0 + G.cw, x)), y - Math.max(y0, Math.min(y0 + G.ch, y))) < r) return false;
+      }
+    return true;
+  }
+  clearSnake() {
+    if (this.phase !== 'rescue') return;
+    const g = this.growth(), body = this.snakePoints().map((p, i) => ({ type: 'circle', x: p.x, y: p.y, r: (i === 0 ? 11 : Math.max(4, 8 - i * 0.5)) * g })).filter(c => c.y >= OY);
+    for (const b of this.balls) if (!b.dead && !b.caught) ejectBall(b, body, { ok: (x, y) => this.ballFits(x, y, b.r) });
   }
   stunSnake(secs, label, pts, x, y) {
     const s = this.snake;
@@ -571,6 +599,9 @@ export class Vault extends Arena {
     this.kitWardResult = null; this.kitReactionAt = -Infinity;
     if (this.phase === 'caught' || s.attack) {
       for (let r = this.pocket.r0; r <= this.pocket.r1; r++) for (let c = this.pocket.c0; c <= this.pocket.c1; c++) this.grid.cells[r * COLS + c] = BARS;
+      // The cage must not close over a live ball: push it out to open space, or serve it again if there is none.
+      const cage = [{ type: 'rect', x: OX + this.pocket.c0 * CELL, y: OY + this.pocket.r0 * CELL, w: (this.pocket.c1 - this.pocket.c0 + 1) * CELL, h: (this.pocket.r1 - this.pocket.r0 + 1) * CELL }];
+      for (const b of this.balls) if (!b.dead && !b.caught && ejectBall(b, cage, { ok: (x, y) => this.ballFits(x, y, b.r) }) && !this.ballFits(b.x, b.y, b.r)) b.dead = true;
       this.cageGone = false; s.attack = null; s.lunge = 0; this.phase = 'rescue';
       this.knockBack(6); s.stun = 3; this.mood('ouch', 0.6);
       this.pr.x = this.prisonX; this.pr.depth = 0; this.play('Cheer'); this.say('Phew!', 1.2);
@@ -604,15 +635,7 @@ export class Vault extends Arena {
     this.updatePrincess(dtReal); this.updateZoom(dtReal);
     if (this.bubble && (this.bubble.t += dtReal) > this.bubble.dur) this.bubble = null;
     if (this.collapseDirty) { this.collapseT -= dtReal; if (this.collapseT <= 0) { this.collapseDirty = false; this.collapseT = 0.12; this.collapse(); } }
-    const sn = this.snake; sn.moodT -= dtReal;
-    let da = sn.dir - sn.look; da = Math.atan2(Math.sin(da), Math.cos(da)); sn.look += da * Math.min(1, dtReal * 10);
-    if (Math.abs(Math.cos(sn.dir)) > 0.3) sn.faceLeft = Math.cos(sn.dir) < 0;
-    if (sn.retreat) {
-      sn.retreat.t += dt; const pose = this.retreatPose();
-      sn.dir = sn.look = pose.heading; sn.faceLeft = Math.cos(pose.heading) < 0;
-      sn.open = 0; sn.flinch = Math.max(0, sn.flinch - dt * 4); sn.gulp = Math.max(0, sn.gulp - dt * .9);
-      sn.alpha = pose.done ? 0 : 1;
-    }
+    const sn = this.snake; this.tickSnakePose(dt, dtReal);
     if (this.phase === 'intro') {
       this.introT += dtReal * this.entry.speed;
       this.entry.progress = Math.max(0, Math.min(1, (this.introT - 1.7) / 0.8));
@@ -639,6 +662,17 @@ export class Vault extends Arena {
       this.frenzyT -= dt; this.fireT = Math.max(this.fireT, 0.5);
       if (this.pr.anim === 'Idle') this.play('Cheer');
       if ((this.frenzyT <= 0 || this.bricks.every(b => b.gone || b.kind === GRANITE)) && (!sn.retreat || this.retreatPose().done)) { sfx.win(); this.win(); }
+    }
+  }
+  tickSnakePose(dt, dtReal) { // facing, head turn and retreat progress of the current serpent
+    const sn = this.snake; sn.moodT -= dtReal;
+    let da = sn.dir - sn.look; da = Math.atan2(Math.sin(da), Math.cos(da)); sn.look += da * Math.min(1, dtReal * 10);
+    if (Math.abs(Math.cos(sn.dir)) > 0.3) sn.faceLeft = Math.cos(sn.dir) < 0;
+    if (sn.retreat) {
+      sn.retreat.t += dt; const pose = this.retreatPose();
+      sn.dir = sn.look = pose.heading; sn.faceLeft = Math.cos(pose.heading) < 0;
+      sn.open = 0; sn.flinch = Math.max(0, sn.flinch - dt * 4); sn.gulp = Math.max(0, sn.gulp - dt * .9);
+      sn.alpha = pose.done ? 0 : 1;
     }
   }
   startFrenzy() {
@@ -715,7 +749,7 @@ export class Vault extends Arena {
     const s = this.snake, pts = this.snakePoints(), t = this.t, cap = this.capturePose();
     g.save();
     if (this.phase === 'intro' && this.introT < 1.7) { g.restore(); return; }
-    g.beginPath(); g.rect(0, OY, this.W, this.H); g.rect(269, 78, 30, 18); g.clip();
+    g.beginPath(); g.rect(0, OY, this.W, this.H); g.rect((s.mouthX ?? 284) - 15, 78, 30, 18); g.clip();
     g.globalAlpha = s.alpha;
     this.drawSnakeBody(g, pts);
     const headBehind = cap && cap.head.y < cap.coilY && Math.abs(cap.head.x - cap.x) < cap.frontClip.w / 2;
@@ -770,8 +804,7 @@ export class Vault extends Arena {
       scaleX: (1 + breath + recoil + laugh * .025) * (cap ? .7 + .3 * Math.abs(1 - 2 * cap.faceBlend) : 1), scaleY: 1 - breath - recoil - laugh * .025,
       k: 1.45 * (1 + Math.min(.25, s.eaten * .015) + (s.gulp || 0) * .06) };
   }
-  drawEntrance(g) {
-    const x=284,y=91;
+  drawEntrance(g, x = 284, y = 91) {
     g.save();g.fillStyle='#050a10';g.beginPath();g.roundRect(x-16,y-17,32,28,[15,15,0,0]);g.fill();
     // Individual bevelled arch stones make the existing entrance a built part of the keep.
     for(let i=0;i<7;i++){

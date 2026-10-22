@@ -5,7 +5,7 @@ import { resolve } from 'node:path';
 const {chromium}=await import(process.env.PW_MODULE||'playwright');
 const out=resolve(process.env.OUT_DIR||'out/fantasy-motion');
 const base=process.env.BASE_URL||'http://127.0.0.1:4194/prototypes/fantasy/';
-const sources=['prototypes/fantasy/main.js','prototypes/fantasy/render.js','src/fantasy/bellforge.js','src/fantasy/tidewheel.js','assets/fantasy-machinery/manifest.json','assets/fantasy-machinery/nerra-v2-manifest.json','assets/fantasy-machinery/water-shot-manifest.json'];
+const sources=['prototypes/fantasy/main.js','src/fantasy/render.js','src/fantasy/bellforge.js','src/fantasy/tidewheel.js','assets/fantasy-machinery/manifest.json','assets/fantasy-machinery/nerra-v2-manifest.json','assets/fantasy-machinery/water-shot-manifest.json'];
 const hashes=()=>Object.fromEntries(sources.map(p=>[p,createHash('sha256').update(readFileSync(p)).digest('hex')]));
 mkdirSync(out,{recursive:true});
 const before=hashes(),browser=await chromium.launch({headless:true,...(process.env.BROWSER_EXECUTABLE?{executablePath:process.env.BROWSER_EXECUTABLE}:{})}),cases=[];

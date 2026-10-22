@@ -76,6 +76,8 @@ The game does not use Phaser or PixiJS, so skip those two skills unless the owne
   - `node tools/playtest/layout.mjs <out>`.
 
   Check that there are no page errors, then show the owner the screenshots.
+- **Physics:** `npm run audit:physics` must report zero failures before any level ships.
+- **CI (owner rule, 2026-10-22):** the mobile workflow is manual only (`workflow_dispatch`); pushes never start it. Run it once per real release candidate, after `npm test`, `npm run build`, the re-pinned SHA in `config/mobile-preview.json` and `node tools/prepare-android.mjs` all pass locally. A CI run should pass, not be used as a test loop.
 
 ## After every milestone
 
