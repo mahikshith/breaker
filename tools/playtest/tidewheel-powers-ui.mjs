@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import crypto from 'node:crypto';
 const {chromium}=await import(process.env.PW_MODULE||'playwright');
 const out=process.env.OUT_DIR||'out/tidewheel-powers-ui';fs.mkdirSync(out,{recursive:true});
-const files=['src/fantasy/tidewheel.js','src/fantasy/tidewheel-v2-geometry.js','src/fantasy/tidewheel-reaction-geometry.js','prototypes/fantasy/main.js','prototypes/fantasy/layout.js','prototypes/fantasy/render.js','prototypes/fantasy/style.css','prototypes/fantasy/index.html','assets/fantasy-machinery/reactions-manifest.json'];
+const files=['src/fantasy/tidewheel.js','src/fantasy/tidewheel-v2-geometry.js','src/fantasy/tidewheel-reaction-geometry.js','prototypes/fantasy/main.js','prototypes/fantasy/layout.js','src/fantasy/render.js','prototypes/fantasy/style.css','prototypes/fantasy/index.html','assets/fantasy-machinery/reactions-manifest.json'];
 const reactions=JSON.parse(fs.readFileSync('assets/fantasy-machinery/reactions-manifest.json','utf8'));
 files.push(...['nerra','korr'].flatMap(f=>Object.values(reactions[f]).map(p=>p.path)));
 const seal=()=>Object.fromEntries(files.filter(f=>fs.existsSync(f)).map(f=>[f,crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex')]));

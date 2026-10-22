@@ -4,7 +4,7 @@ import crypto from 'node:crypto';
 const {chromium}=await import(process.env.PW_MODULE||'playwright');
 const out=process.env.OUT_DIR||'out/fantasy-visual',base=process.env.BASE_URL||'http://127.0.0.1:4194';
 fs.mkdirSync(out,{recursive:true});
-const files=['src/fantasy/bellforge.js','src/fantasy/tidewheel.js','src/fantasy/tidewheel-v2-geometry.js','prototypes/fantasy/main.js','prototypes/fantasy/render.js','prototypes/fantasy/style.css','assets/fantasy-machinery/manifest.json','assets/fantasy-machinery/nerra-v2-manifest.json'];
+const files=['src/fantasy/bellforge.js','src/fantasy/tidewheel.js','src/fantasy/tidewheel-v2-geometry.js','prototypes/fantasy/main.js','src/fantasy/render.js','prototypes/fantasy/style.css','assets/fantasy-machinery/manifest.json','assets/fantasy-machinery/nerra-v2-manifest.json'];
 const sha=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 const seal=()=>Object.fromEntries(files.map(p=>[p,sha(p)]));
 const report={scope:'Renderer-only source refresh after Bellforge paddle centre and Tidewheel raft front depth alignment. Fresh browser, real source art, two phone sizes. No repeated earned-completion or balance claim. Tidewheel pose captures are explicitly staged visual fixtures.',before:seal(),cases:[],complete:false};
@@ -29,4 +29,4 @@ for(const[device,width,height]of[['ios',393,852],['android',412,915]]){
  await browser.close();
 }
 report.after=seal();assert.deepEqual(report.before,report.after,'visual capture source seal');report.complete=true;
-fs.writeFileSync(out+'/report.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({complete:true,cases:report.cases.length,render:report.after['prototypes/fantasy/render.js']}));
+fs.writeFileSync(out+'/report.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({complete:true,cases:report.cases.length,render:report.after['src/fantasy/render.js']}));

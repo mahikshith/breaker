@@ -1,35 +1,20 @@
-const ROOT='../../';
+import { ART } from '../vault-art.js';
+import { SPR, loadImg, artLoaded } from '../gfx.js';
 const damageStates=new WeakMap();
-const image=path=>new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=()=>reject(new Error(path));i.src=ROOT+path;});
-export async function loadArt(){
-  const response=await fetch(ROOT+'assets/fantasy-machinery/manifest.json');if(!response.ok)throw new Error('Missing machinery manifest');
-  const manifest=await response.json(),art={manifest,images:{},geometry:{}};
-  const jobs=[];
-  for(const family of ['bellforge','tidewheel'])for(const [key,item] of Object.entries(manifest[family])){
-    if(item.path)jobs.push(image(item.path).then(i=>art.images[family+'/'+key]=i));
-  }
-  const nerraResponse=await fetch(ROOT+'assets/fantasy-machinery/nerra-v2-manifest.json');
-  if(!nerraResponse.ok)throw new Error('Missing Nerra motion manifest');
-  const nerraManifest=await nerraResponse.json();
-  manifest.nerra=nerraManifest.nerra??nerraManifest.tidewheel??nerraManifest;
-  for(const [key,item] of Object.entries(manifest.nerra))if(item.path&&item.size)jobs.push(image(item.path).then(i=>art.images['nerra/'+key]=i));
-  const waterResponse=await fetch(ROOT+'assets/fantasy-machinery/water-shot-manifest.json');
-  if(!waterResponse.ok)throw new Error('Missing water-shot manifest');
-  art.waterShot=await waterResponse.json();
-  jobs.push(image(art.waterShot.path).then(i=>art.images.waterShot=i));
-  const reactionResponse=await fetch(ROOT+'assets/fantasy-machinery/reactions-manifest.json');
-  if(!reactionResponse.ok)throw new Error('Missing character reactions');
-  const reactions=await reactionResponse.json();
-  for(const family of ['nerra','korr']){
-    const key=family+'Reaction';manifest[key]=reactions[family];
-    for(const [pose,item]of Object.entries(reactions[family]))jobs.push(image(item.path).then(i=>art.images[key+'/'+pose]=i));
-  }
-  for(const [key,item] of Object.entries(manifest.tidewheel.bricks||{}))jobs.push(image(item.path).then(i=>art.images['brick/'+key]=i));
-  for(const [key,path] of Object.entries({ball:'vault/ball.png',titan:'vault/ball_titan.png',paddleL:'vault/paddle_l.png',paddleM:'vault/paddle_m.png',paddleR:'vault/paddle_r.png',cyan:'vault/brick_t_2_0.png',rose:'vault/brick_t_2_0.png',plum:'vault/brick_v_2_0.png',pin:'vault/brick_gold_1_0.png',shield:'vault/cap_shield.png'}))jobs.push(image('assets/'+path).then(i=>art.images[key]=i));
-  for(const clip of ['Idle','Nervous','Cheer'])for(let n=0;n< (clip==='Nervous'?12:16);n++)jobs.push(image(`assets/princess/${clip}_${String(n).padStart(2,'0')}.png`).then(i=>art.images[`lumi/${clip}/${n}`]=i));
-  await Promise.all(jobs);
-  return art;
+// Machinery comes packed in ART.fantasy (tools/pack_art.py); the plates, ball, paddle, bricks and Lumi are the main game's own art.
+export function makeArt(){
+  const F=ART.fantasy,manifest={bellforge:{},tidewheel:{},nerra:{},nerraReaction:{},korrReaction:{}},images={};
+  const add=(family,key,item)=>{manifest[family][key]=item;if(item.url)images[family+'/'+key]=loadImg(item.url);};
+  for(const family of ['bellforge','tidewheel','nerra'])for(const [key,item] of Object.entries(F[family]))if(key!=='bricks')add(family,key,item);
+  for(const family of ['nerra','korr'])for(const [pose,item] of Object.entries(F.reactions[family]))add(family+'Reaction',pose,item);
+  manifest.tidewheel.bricks=F.tidewheel.bricks;
+  for(const [key,item] of Object.entries(F.tidewheel.bricks))images['brick/'+key]=loadImg(item.url);
+  images['bellforge/background']=loadImg(ART.keepBackdrop);
+  images.waterShot=loadImg(F.waterShot.url);
+  for(const [key,sprite] of Object.entries({ball:'ball',titan:'ball_titan',paddleL:'paddle_l',paddleM:'paddle_m',paddleR:'paddle_r',cyan:'brick_t_2_0',rose:'brick_t_2_0',plum:'brick_v_2_0',pin:'brick_gold_1_0',shield:'cap_shield'}))images[key]=SPR[sprite].img;
+  return {manifest,images,waterShot:F.waterShot,lumi:{...ART.princess,img:loadImg(ART.princess.url)}};
 }
+export async function loadArt(){const art=makeArt();await artLoaded();return art;}
 function sprite(ctx,art,family,key,x,y,{width,angle=0,mirror=false,frame=0,pivot}={}){
   const m=art.manifest[family][key],img=art.images[family+'/'+key];if(!m||!img)return;
   const w=width??m.unit?.[0]??100,h=w*(m.cell?.[1]??m.size[1])/(m.cell?.[0]??m.size[0]),p=pivot??m.pivot??[.5,.5];
@@ -86,9 +71,9 @@ function brick(ctx,art,b,x=b.x,y=b.y){
 function princess(ctx,g,art,x,y){
   const worried=g.lumi.worried||g.lumi.steps>0||(g.water&&g.water.y-g.water.limit<60);
   const clip=g.phase==='rescue'||g.state==='won'?'Cheer':/windup/i.test(g.villain.stage)||worried?'Nervous':'Idle';
-  const n=Math.floor(g.time*10)%(clip==='Nervous'?12:16),img=art.images[`lumi/${clip}/${n}`];
+  const L=art.lumi,a=L.anims[clip];
   // Existing character frames share the centred feet baseline.
-  ctx.drawImage(img,x-29,y-55,58,58);
+  ctx.drawImage(L.img,Math.floor(g.time*10)%a.n*L.cell,a.row*L.cell,L.cell,L.cell,x-29,y-55,58,58);
 }
 function renderBellforge(ctx,g,art){
   const v=g.villain,stage=v.stage==='windup'?1:v.stage==='release'?2:v.stage==='stagger'||v.stage==='defeated'?3:0;

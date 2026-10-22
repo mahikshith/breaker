@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';import fs from'node:fs';import crypto from'node:crypto';
 const{chromium}=await import(process.env.PW_MODULE||'playwright');const out=process.env.OUT_DIR||'out/bellforge-playtest', base=process.env.BASE_URL||'http://127.0.0.1:4194', uiOnly=process.argv.includes('--ui-only');fs.mkdirSync(out,{recursive:true});
 const sha=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
-const files=['src/fantasy/bellforge.js','prototypes/fantasy/main.js','prototypes/fantasy/render.js','prototypes/fantasy/style.css','assets/fantasy-machinery/manifest.json','assets/fantasy-machinery/nerra-v2-manifest.json','tools/playtest/bellforge.mjs','tools/playtest/bellforge-policy.mjs'];
+const files=['src/fantasy/bellforge.js','prototypes/fantasy/main.js','src/fantasy/render.js','prototypes/fantasy/style.css','assets/fantasy-machinery/manifest.json','assets/fantasy-machinery/nerra-v2-manifest.json','tools/playtest/bellforge.mjs','tools/playtest/bellforge-policy.mjs'];
 const seal=()=>Object.fromEntries(files.map(p=>[p,sha(p)]));
 const report={scope:'Fresh Chromium per case; real standalone page and touch controls at phone sizes. Kit charge fixture is staged. Earned routes read geometry and use only public launch/setTarget/update, with no charge, HP, positions, lives or progression writes. Not physical-device or human-balance proof.',before:seal(),cases:[],earned:[],complete:false};const save=()=>fs.writeFileSync(out+'/report.json',JSON.stringify(report,null,2));
 const devices=[['ios',393,852],['android',412,915]];

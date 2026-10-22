@@ -1,6 +1,6 @@
 import { Bellforge } from '../../src/fantasy/bellforge.js';
 import { Tidewheel } from '../../src/fantasy/tidewheel.js';
-import { loadArt, drawEncounter } from './render.js';
+import { loadArt, drawEncounter } from '../../src/fantasy/render.js';
 import { unlockAudio, sfx, setMuted, isMuted } from '../../src/audio.js';
 import { playfield } from './layout.js';
 

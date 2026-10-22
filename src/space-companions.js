@@ -43,7 +43,10 @@ export function drawSpacePowerMenu(g, level) {
     g.save(); if (!level.canChoosePower(c.id)) g.globalAlpha *= .4;
     g.fillStyle = level.kitPowers ? '#493447' : '#39304b'; rrect(g, c.x, c.y, c.w, c.h, 10 / s); g.fill();
     g.strokeStyle = c.color; g.fillStyle = c.color; g.lineWidth = 2 / s;
-    if (c.id === 'moonbind') {
+    if (c.id === 'anchor') {
+      g.beginPath(); g.arc(cx, cy - 11 / s, 3 / s, 0, 7); g.moveTo(cx, cy - 8 / s); g.lineTo(cx, cy + 11 / s); g.moveTo(cx - 6 / s, cy - 3 / s); g.lineTo(cx + 6 / s, cy - 3 / s);
+      g.moveTo(cx - 11 / s, cy + 3 / s); g.quadraticCurveTo(cx - 9 / s, cy + 12 / s, cx, cy + 12 / s); g.quadraticCurveTo(cx + 9 / s, cy + 12 / s, cx + 11 / s, cy + 3 / s); g.stroke();
+    } else if (c.id === 'moonbind') {
       g.beginPath(); g.arc(cx, cy, 12 / s, -.8, 4.6); g.stroke();
       g.beginPath(); g.moveTo(cx, cy - 8 / s); g.lineTo(cx, cy); g.lineTo(cx + 6 / s, cy + 3 / s); g.stroke();
     } else if (c.id === 'ricochet') {

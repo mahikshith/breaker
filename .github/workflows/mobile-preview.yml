@@ -1,9 +1,9 @@
-name: Six-chapter mobile preview
+name: Eight-chapter mobile preview
 
 on:
   workflow_dispatch:
   push:
-    branches: [codex/space-combat-apk]
+    branches: [codex/castle-chapters]
     paths-ignore: ['docs/**', 'design/**']
 
 permissions:
@@ -103,14 +103,14 @@ jobs:
       - name: Package installable artifact
         run: |
           mkdir -p out/apk
-          cp android/app/build/outputs/apk/debug/app-debug.apk out/apk/BREACH-Six-chapter.apk
+          cp android/app/build/outputs/apk/debug/app-debug.apk out/apk/BREACH-Eight-chapter.apk
           cp android/app/src/main/assets/preview.json out/apk/preview.json
           cp docs/MOBILE_PREVIEW.md out/apk/README.md
-          sha256sum out/apk/BREACH-Six-chapter.apk > out/apk/SHA256SUMS.txt
+          sha256sum out/apk/BREACH-Eight-chapter.apk > out/apk/SHA256SUMS.txt
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: success()
         with:
-          name: BREACH-six-chapter-android-${{ github.run_number }}
+          name: BREACH-eight-chapter-android-${{ github.run_number }}
           path: out/apk/
           if-no-files-found: error
           retention-days: 30
