@@ -1,5 +1,6 @@
 import { ART } from './vault-art.js';
 import { loadImg, ready, rrect, text, drawBall, NUM } from './gfx.js';
+import { drawChargeReady } from './kit.js';
 
 export const SPACE_POWERS = [
   { id: 'laser', label: 'LASER', color: '#f39cba' },
@@ -202,7 +203,8 @@ export function drawNixControl(g, level) {
   if (id !== 'forge' && !ready(family)) return;
   const orb = level.kitAnchor(), s = level.kitUIScale, clip = nixExpression(level);
   const age = clip === 'command' ? level.kitTime - level.coreCastAt : level.kitTime;
-  g.save();
+  const swell = drawChargeReady(g, level, orb);
+  g.save(); g.translate(orb.x, orb.y); g.scale(swell, swell); g.translate(-orb.x, -orb.y);
   g.fillStyle = '#30243e'; g.beginPath(); g.arc(orb.x, orb.y, orb.r, 0, Math.PI * 2); g.fill();
   if (id === 'forge') drawCoreIcon(g, orb.x, orb.y, orb.r * .64);
   else sprite(g, family, clip, age, orb.x, orb.y - 2 / s, orb.r * 2, orb.r * 2);
