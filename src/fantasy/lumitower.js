@@ -253,7 +253,7 @@ export class LumiTower {
   swallow(b, l) {
     b.dead = true; l.swallowed = true; l.mood = 'grin'; this.bites++; this.paddle.streak = 0;
     this.effect(b.x, b.y, 'swallow', .8);
-    if (this.rules.spit && this.balls.filter(q => !q.dead).length === 0) { const r = this.newBall(this.paddle.x, this.paddle.y - 8, 0, 0, true); this.balls.push(r); this.phase = 'serve'; this.serveTime = 0; }
+    if (this.rules.spit && this.balls.filter(q => !q.dead).length === 0) { const r = this.newBall(this.paddle.x, this.paddle.y - 8, 0, 0, true); this.balls = [r]; /* the spat ball is the only one, so serve and launch act on it */ this.phase = 'serve'; this.serveTime = 0; }
   }
   hitHead(l) {
     this.headHits++; this.score += 50; this.chargeBank = Math.min((100 - this.charge) * this.rules.coreHits / 100, this.chargeBank + 2);

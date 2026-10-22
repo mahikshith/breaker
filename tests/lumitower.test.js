@@ -107,3 +107,13 @@ test('after Lullaby the calm ends with a gap before the next peek, and a retreat
   for (let i = 0; i < 40; i++) r.step(1 / 240);
   assert.equal(r.score, score); assert.equal(r.headHits, hits);
 });
+
+test('Easy: after a spit the new ball is the one that serves and launches (no softlock)', () => {
+  const m = tower('easy'); const win = m.windows[0], l = m.makeLunge(win); m.lunges = [l]; m.nextLunge = Infinity;
+  runLunge(m, () => l.stage === 'strike');
+  const b = m.balls[0]; Object.assign(b, { caught: false, x: 200, y: win.y, vx: 0, vy: -1, r: 6 });
+  for (let i = 0; i < 200 && l.stage === 'strike' && !b.dead; i++) { b.vx = 0; b.vy = -1; m.step(1 / 240); }
+  assert(b.dead); assert.equal(m.balls.length, 1); assert(!m.balls[0].dead && m.balls[0].caught);
+  for (let i = 0; i < 240 * 9 && m.balls[0].caught; i++) m.step(1 / 240);
+  assert(!m.balls[0].caught && !m.balls[0].dead, 'the spat ball is served');
+});
