@@ -128,7 +128,7 @@ test('Ward: a full charge deploys a bar below the paddle that ends bells and bou
   const g = live(new Gatehouse({ difficulty: 'easy' }), 1); g.nextWarning = Infinity;
   assert.equal(g.canActivate('ward'), false); g.charge = 100; assert(g.canActivate('ward')); assert(g.canActivate('echo'));
   assert(g.activate('ward')); assert.equal(g.charge, 0); assert(kinds(g).includes('ward-deploy')); assert.equal(g.ward.y, g.paddle.y + 24); assert.equal(g.activate('ward'), false);
-  const p = g.paddle, bell = g.releaseBell(false); Object.assign(bell, { x: 40, y: p.y - 10, px: 40, py: p.y - 10, vx: 0, vy: 200 });
+  const p = g.paddle, bell = g.releaseBell(false); Object.assign(bell, { x: p.x, y: p.y - 30, px: p.x, py: p.y - 30, vx: 0, vy: 200 }); // right over the paddle
   g.balls = [{ id: 98, x: 300, y: p.y + 10, px: 300, py: p.y + 10, vx: 0, vy: 200, r: 6, caught: false, dead: false, ram: 0, ramBricks: 0, contacts: new Set() }];
   tick(g, .4); assert.equal(g.bells.length, 0); assert.equal(g.paddle.stun, 0); assert(g.balls[0].vy < 0, 'ball bounced off the ward'); assert.equal(g.lives, 9);
   tick(g, GATEHOUSE_TIMING.ward); assert.equal(g.ward, null);
@@ -156,4 +156,44 @@ test('no ball or bell ever leaves the playfield or goes non-finite over a long s
       for (const b of [...g.balls, ...g.bells]) assert(Number.isFinite(b.x) && Number.isFinite(b.y) && b.x > -1 && b.x < g.width + 1, `${mode} f${floor} step ${i}`);
     }
   }
+});
+
+test('bells never wedge between a ramp tip and the wall: every dropped or kicked bell reaches the paddle line', () => {
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  for (const floor of [1, 2]) for (let k = 0; k < 60; k++) {
+    const g = live(new Gatehouse({ difficulty: 'hard' }), floor); g.nextWarning = Infinity; g.balls = []; g.lives = 9;
+    g.villain.hole = g.holes[k % g.holes.length]; const bell = g.releaseBell(false);
+    tick(g, .4 + rnd() * .6); if (!bell.dead) Object.assign(bell, { vx: (rnd() - .5) * 500, vy: (rnd() - .4) * 300 });
+    let age = 0; for (let i = 0; i < 1200 && !bell.dead; i++) { g.update(1 / 120); age = bell.age; }
+    assert(bell.dead, `floor ${floor} kick ${k}: bell gone`);
+    assert(age < 6.5, `floor ${floor} kick ${k}: bell reached the paddle line by itself (age ${age.toFixed(2)} s, not the failsafe)`);
+  }
+});
+
+test('a kicked bell bounces off bricks and the gate instead of passing through them', () => {
+  const g = live(new Gatehouse({ difficulty: 'easy' }), 1); g.nextWarning = Infinity; g.balls = [];
+  g.buildFloor(1); g.phase = 'play'; g.active = true; g.balls = []; g.lives = 9;
+  const brick = g.bricks[g.bricks.length - 1], bell = g.releaseBell(false); // bottom row
+  Object.assign(bell, { x: brick.x + brick.w / 2, y: brick.y + brick.h + 40, px: brick.x + brick.w / 2, py: brick.y + brick.h + 40, vx: 0, vy: -260, returning: false });
+  let worst = 0;
+  for (let i = 0; i < 120 && !bell.dead; i++) {
+    g.update(1 / 120);
+    for (const b of g.bricks) if (b.hp > 0) {
+      const cx = Math.max(b.x, Math.min(bell.x, b.x + b.w)), cy = Math.max(b.y, Math.min(bell.y, b.y + b.h));
+      worst = Math.max(worst, bell.r - Math.hypot(bell.x - cx, bell.y - cy));
+    }
+  }
+  assert(worst < .5, `bell overlapped a brick by ${worst.toFixed(2)}u`); assert(bell.vy > 0 || bell.dead, 'the bell came back down'); assert(g.bricks.every(b => b.hp === b.maxHP), 'bells never break bricks');
+});
+
+test('the counterweight collider leaves the empty top corners open, and Korr\'s pose swaps eject the ball', () => {
+  const g = live(new Gatehouse({ difficulty: 'easy' }), 0), h = g.housings[0], hp = h.hp;
+  // A ball falling through the empty top-left corner of the housing does not touch it.
+  const b = { id: 77, x: h.x + 6, y: h.y - 10, px: h.x + 6, py: h.y - 10, vx: 0, vy: 200, r: 3.5, caught: false, dead: false, ram: 0, ramBricks: 0, contacts: new Set() };
+  g.balls = [b]; for (let i = 0; i < 10; i++) g.update(1 / 120);
+  assert.equal(h.hp, hp, 'no hit from the air above the corner'); assert(b.y > h.y + 4);
+  const d = live(new Gatehouse({ difficulty: 'easy' }), 2), v = d.villain; d.nextWarning = Infinity;
+  const body = v.body[0], ball = { id: 78, x: body.x, y: body.y, px: body.x, py: body.y, vx: 0, vy: 300, r: 6, caught: false, dead: false, ram: 0, ramBricks: 0, contacts: new Set() };
+  d.balls = [ball]; v.stage = 'windup'; d.updateBody();
+  assert(v.body.every(c => Math.hypot(ball.x - c.x, ball.y - c.y) >= c.r + ball.r - 1e-6), 'pose swap pushed the ball clear');
 });

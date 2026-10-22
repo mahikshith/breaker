@@ -14,10 +14,15 @@ export const GATEHOUSE_MODES = {
 export const GATEHOUSE_FLOORS = ['Drawbridge', 'Murder holes', 'Inner gate'];
 export const GATEHOUSE_TIMING = { crash: 1.1, climb: 1.2, defeat: 2.4, stun: .8, ward: 6 };
 // Static ramps: a bell rolls down them and drops off the low end; balls rebound from them.
+// The art is anchored on the measured top-face line a..b; the collider (body) is the whole beam as drawn: 13.5u deep with
+// the top face 1.2u above that line, starting at the hinge roller 11u before a.
+const RAMP_BODY = { back: 11, drop: 5.55, thickness: 13.5 };
 const ramp = (id, x, y, length, angle) => {
   const r = { id, pivot: { x, y }, contactOffset: { x: 0, y: 0 }, length, angle, previousAngle: angle, thickness: 8 };
+  r.body = { pivot: r.pivot, contactOffset: { x: -RAMP_BODY.back, y: RAMP_BODY.drop }, length: length + RAMP_BODY.back, angle, previousAngle: angle, thickness: RAMP_BODY.thickness };
   return Object.assign(r, rampPose(r));
 };
+const BELL_R = 11.5, BELL_LIFE = 7;
 
 export class Gatehouse {
   constructor({ width = 360, height = 700, difficulty = 'easy', paddleY = height - 90, floor = 0 } = {}) {
@@ -53,10 +58,10 @@ export class Gatehouse {
       this.gate = { posts: [{ x: 130, y: 150, w: 14, h: 112 }, { x: 216, y: 150, w: 14, h: 112 }], lintel: { x: 130, y: 150, w: 100, h: 14 },
         door: { x: 144, top: 164, bottom: 262, y: 262 }, need: rules.notches };
       for (const r of [...this.gate.posts, this.gate.lintel]) this.solids.push({ id: `gate-${this.solids.length}`, type: 'rect', ...r });
-      this.wheel = { x: 62, y: 206, r: 26, notches: 0, angle: 0, spin: 0 };
+      this.wheel = { x: 62, y: 206, r: 26, hitR: 28, notches: 0, angle: 0, spin: 0 };
       this.holes = [{ x: 300, y: 158 }];
       // Bells roll outward and drop down a side lane, never through the brick field (which keeps to the middle six columns).
-      this.ramps = [ramp('ramp-r', 262, 226, 74, .2)];
+      this.ramps = [ramp('ramp-r', 262, 226, 54, .2)];
       Object.assign(this.villain, { x: 300, y: 76, foot: { x: 300, y: 118 }, solid: false });
     }
     if (n === 2) {
@@ -64,7 +69,7 @@ export class Gatehouse {
       Object.assign(this.villain, { x: 180, y: 150, foot: { x: 180, y: 206 }, solid: true });
       this.dais = { x: 120, y: 206, w: 120, h: 16 };
       this.holes = [{ x: 100, y: 214 }, { x: 260, y: 214 }];
-      this.ramps = [ramp('ramp-l', 116, 236, 84, Math.PI - .2), ramp('ramp-r', 244, 236, 84, .2)];
+      this.ramps = [ramp('ramp-l', 116, 236, 74, Math.PI - .2), ramp('ramp-r', 244, 236, 74, .2)];
       this.nextWarning = 5;
     }
     this.updateBody(); this.makeServe();
@@ -158,20 +163,32 @@ export class Gatehouse {
   }
   updateBody() {
     const v = this.villain;
-    v.body = v.solid && v.hp > 0 ? (KORR_BODIES[v.stage] || KORR_BODIES.idle).map(([x, y, r]) => ({ type: 'circle', x: v.foot.x + x, y: v.foot.y + y, r })) : [];
+    const pose = v.stage === 'recover' ? 'stagger' : v.stage;
+    v.body = v.solid && v.hp > 0 ? (KORR_BODIES[pose] || KORR_BODIES.idle).map(([x, y, r]) => ({ type: 'circle', x: v.foot.x + x, y: v.foot.y + y, r })) : [];
+    if (v.pose !== pose) { v.pose = pose; for (const b of this.balls || []) if (!b.caught) this.eject(b, v.body); }
+  }
+  // A keypose swap must never leave a ball inside Korr: push it out along the deepest circle's normal, turning it away.
+  eject(b, shapes) {
+    for (let i = 0; i < 4; i++) {
+      let worst = null;
+      for (const c of shapes) { const d = Math.hypot(b.x - c.x, b.y - c.y), depth = c.r + b.r - d; if (depth > 0 && (!worst || depth > worst.depth)) worst = { c, d, depth }; }
+      if (!worst) return;
+      const nx = worst.d > 1e-6 ? (b.x - worst.c.x) / worst.d : 0, ny = worst.d > 1e-6 ? (b.y - worst.c.y) / worst.d : 1;
+      b.x += nx * (worst.depth + .05); b.y += ny * (worst.depth + .05); reflect(b, { nx, ny });
+    }
   }
   releaseBell(teaching = false) {
     const h = this.villain.hole || this.holes[0];
     if (!h || this.bells.length >= this.rules.bellCap) return false;
-    const b = { id: ++this.serial, x: h.x, y: h.y, px: h.x, py: h.y, vx: 0, vy: 40, r: 14, hp: 2, angle: 0, spin: 0, returning: false, teaching, dead: false };
+    const b = { id: ++this.serial, x: h.x, y: h.y, px: h.x, py: h.y, vx: 0, vy: 40, r: BELL_R, hp: 2, age: 0, angle: 0, spin: 0, returning: false, teaching, dead: false };
     this.bells.push(b); this.effect(b.x, b.y, 'bell-release', .3); return b;
   }
   targets() {
     const t = this.bricks.filter(b => b.hp > 0).map(b => ({ id: b.id, kind: 'brick', item: b, type: 'rect', x: b.x, y: b.y, w: b.w, h: b.h }));
-    for (const h of this.housings) if (h.hp > 0) t.push({ id: h.id, kind: 'housing', item: h, type: 'rect', x: h.x, y: h.y, w: h.w, h: h.h });
+    for (const h of this.housings) if (h.hp > 0) t.push({ id: h.id, kind: 'housing', item: h, shapes: [{ type: 'rect', x: h.x, y: h.y + 11, w: h.w, h: h.h - 11 }, { type: 'rect', x: h.x + 21, y: h.y, w: 14, h: 11 }] });
     for (const s of this.solids) t.push({ id: s.id, kind: 'solid', type: 'rect', x: s.x, y: s.y, w: s.w, h: s.h });
     if (this.gate) { const d = this.gate.door; if (d.y - d.top > 1) t.push({ id: 'door', kind: 'solid', type: 'rect', x: d.x, y: d.top, w: 72, h: d.y - d.top }); }
-    if (this.wheel) t.push({ id: 'wheel', kind: 'wheel', item: this.wheel, type: 'circle', x: this.wheel.x, y: this.wheel.y, r: this.wheel.r });
+    if (this.wheel) t.push({ id: 'wheel', kind: 'wheel', item: this.wheel, type: 'circle', x: this.wheel.x, y: this.wheel.y, r: this.wheel.hitR });
     if (this.villain.body.length) t.push({ id: 'korr', kind: 'villain', shapes: this.villain.body });
     return t;
   }
@@ -192,7 +209,7 @@ export class Gatehouse {
       if (b.vx > 0 && to.x > this.width - b.r) add({ t: (this.width - b.r - b.x) / (to.x - b.x), nx: -1, ny: 0 }, 'wall');
       if (b.vy < 0 && to.y < ceiling) add({ t: Math.max(0, (ceiling - b.y) / (to.y - b.y)), nx: 0, ny: 1 }, 'wall');
       for (const t of targets) if (t.item?.hp !== 0) add(sweepTarget(from, to, b.r, t), t.kind, t);
-      for (const r of this.ramps) add(sweepMovingSegment(from, to, b.r, r, left), 'ramp', r);
+      for (const r of this.ramps) add(sweepMovingSegment(from, to, b.r, r.body, left), 'ramp', r);
       for (const bell of this.bells) if (!bell.dead) add(circleSweep(from, to, b.r, lerpPoint({ x: bell.px, y: bell.py }, bell, elapsed), bell, bell.r), 'bell', bell);
       if (this.ward && b.vy > 0 && to.y > this.ward.y - b.r) add({ t: Math.max(0, (this.ward.y - b.r - b.y) / (to.y - b.y)), nx: 0, ny: -1 }, 'ward');
       if (b.vy > 0 && b.y <= p.y + b.r) add(sweepTarget(from, to, b.r, { type: 'rect', x: p.px - p.w / 2, y: p.y, w: p.w, h: p.h, vx: p.vx }, elapsed * dt, left), 'paddle', p);
@@ -265,26 +282,37 @@ export class Gatehouse {
   moveBell(b, dt) {
     const motionFrom = { x: b.x, y: b.y }; b.px = b.x; b.py = b.y; b.vy += 220 * dt;
     const speed = Math.hypot(b.vx, b.vy); if (speed > 360) { b.vx *= 360 / speed; b.vy *= 360 / speed; }
+    // A bell that never reaches the paddle (wedged or resting) cracks apart instead of blocking the next tell.
+    if ((b.age += dt) > BELL_LIFE) { b.dead = true; this.effect(b.x, b.y, 'bell-break', .6); return; }
+    const solids = this.targets().filter(t => t.kind !== 'villain');
     let left = dt;
     for (let pass = 0; pass < 6 && left > 1e-8; pass++) {
       const from = { x: b.x, y: b.y }, to = { x: b.x + b.vx * left, y: b.y + b.vy * left }, hits = [];
-      if (!b.returning) for (const r of this.ramps) { const c = sweepMovingSegment(from, to, b.r, r, left); if (c) hits.push(c); }
+      if (!b.returning) for (const r of this.ramps) { const c = sweepMovingSegment(from, to, b.r, r.body, left); if (c) hits.push(c); }
+      // Bells bounce off bricks, the gate, the wheel and housings (approaching contacts only, so a bell leaving a surface is free).
+      for (const t of solids) { const c = sweepTarget(from, to, b.r, t); if (c && b.vx * c.nx + b.vy * c.ny < 0) hits.push({ ...c, solid: true }); }
       hits.sort((a, c) => a.t - c.t); const hit = hits[0];
       if (!hit) { b.x = to.x; b.y = to.y; break; }
       b.x += (to.x - from.x) * hit.t + hit.nx * ((hit.depth || 0) + .02); b.y += (to.y - from.y) * hit.t + hit.ny * ((hit.depth || 0) + .02);
-      reflect(b, hit, .06); left *= 1 - hit.t; if (hit.t < 1e-6) left = Math.max(0, left - 1e-5);
+      // Landing on top of a brick or prop cracks the bell (it can never come to rest on the field); side and underside hits bounce.
+      if (hit.solid && hit.ny < -.5) { b.dead = true; this.effect(b.x, b.y, 'bell-break', .6); return; }
+      reflect(b, hit, hit.solid ? .3 : .06); left *= 1 - hit.t; if (hit.t < 1e-6) left = Math.max(0, left - 1e-5);
     }
     if (b.x < b.r) { b.x = b.r; b.vx = Math.abs(b.vx) * .55; }
     if (b.x > this.width - b.r) { b.x = this.width - b.r; b.vx = -Math.abs(b.vx) * .55; }
     b.spin += (b.vx / b.r - b.spin) * Math.min(1, dt * 8); b.angle += b.spin * dt;
+    // A bell that comes to rest anywhere (wedged against a post, balanced on a cap) cracks after half a second.
+    b.rest = Math.hypot(b.vx, b.vy) < 20 ? (b.rest || 0) + dt : 0;
+    if (b.rest > .5) { b.dead = true; this.effect(b.x, b.y, 'bell-break', .6); return; }
     if (b.returning) {
       // A bell knocked back up can strike Korr (floor 3) or shatters on the ceiling ledge.
       if (this.villain.body.length && sweepTarget(motionFrom, b, b.r, { shapes: this.villain.body })) { b.dead = true; this.hitVillain(4, true); this.effect(b.x, b.y, 'bell-shoulder', .6); return; }
       if (b.y < (this.floor === 1 ? 144 : 12) + b.r || b.vy > 0) b.returning = false;
       if (b.y < (this.floor === 1 ? 144 : 12) + b.r) { b.dead = true; this.effect(b.x, b.y, 'bell-break', .6); return; }
     }
-    if (this.ward && b.y + b.r >= this.ward.y) { b.dead = true; this.effect(b.x, this.ward.y, 'bell-break', .5); return; }
     const p = this.paddle;
+    // The Ward bar shields the whole paddle line: a bell reaching it shatters before it can stun.
+    if (this.ward && b.y + b.r >= p.y) { b.dead = true; this.effect(b.x, p.y, 'bell-break', .5); return; }
     if (b.y + b.r >= p.y) {
       b.dead = true;
       if (!b.teaching && Math.abs(b.x - p.x) < p.w / 2 + b.r) { p.stun = GATEHOUSE_TIMING.stun; this.effect(p.x, p.y, 'paddle-stun', GATEHOUSE_TIMING.stun); }
