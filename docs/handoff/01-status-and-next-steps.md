@@ -1,5 +1,84 @@
 # BREACH handoff 1/3: status and next steps
 
+Last updated 2026-10-22 night. Read "Current state" first. The progress log below it is history, newest first; an older entry never overrides this section. Sections 2 to 9 were checked on 2026-10-22: where a section is marked HISTORICAL it describes work that has since been replaced.
+
+## Current state (2026-10-22)
+
+**Branch:** `codex/castle-chapters` is the working branch (about 66 commits ahead of `main`). `main` is untouched: the owner merges after reviewing screenshots. Laptop side branches `recovered/codex-2026-10-22`, `codex/castle-art` and `codex/mooncoil-rivals` are merged into it, except one docs-only commit on the recovered branch (3bcae82, the Mooncoil recheck record) that is not in this branch. `codex/wip-lumi-audit` is throwaway WIP snapshots and is safe to delete. The other local branches (`codex/starship-run-prototype`, `wip/polish-pass`) are old and already contained here.
+
+**11 chapters.** The registry is `LEVELS` in `src/main.js`. Save slots never move; new chapters only append. `?level=N` is 1-based. In the menu, keys 1 to 9 start slots 0 to 8 and key 0 starts slot 9 (Lumi Breaks Out). Serpent Rivals has no key: tap its card or use `?level=11`. Menu card order comes from `[0, 2, 3, 1, 4 ... 10]`, not slot order. Invasion (`src/invasion.js`) is still in the repo but is not in `LEVELS`.
+
+| Slot | `?level=` | Chapter | Code |
+|---|---|---|---|
+| 0 | 1 | Carrier Breakout | `src/carrier.js` |
+| 1 | 2 | The Vault | `src/vault.js` |
+| 2 | 3 | Circuit Breakout | `src/relay.js` |
+| 3 | 4 | Shutter Forge | `src/orbital.js` |
+| 4 | 5 | Frost Warden | `src/frost.js` |
+| 5 | 6 | Mooncoil Reliquary (now with a second serpent, Gnash, who can clash with Mooncoil) | `src/mooncoil.js`, `src/mooncoil-layout.js` |
+| 6 | 7 | Bellforge Run | `src/fantasy/bellforge.js` |
+| 7 | 8 | Tidewheel Citadel | `src/fantasy/tidewheel.js` |
+| 8 | 9 | Gatehouse Siege (Kit) | `src/fantasy/gatehouse.js` |
+| 9 | 10 | Lumi Breaks Out (Lumi is the player: layered serpent windows, Lullaby, Starlight, Song Shield) | `src/fantasy/lumitower.js` |
+| 10 | 11 | Serpent Rivals (Gnash and Mooncoil from opposite walls, lure runes, clash chamber, Twin Seal) | `src/fantasy/rivals.js` |
+
+Chapters 7 to 11 run through the `FantasyChapter` adapter in `src/fantasy/chapter.js`, which puts the standalone models behind the shared Arena contract (drag, Kit or Lumi orb, power menu, HUD, continue, results). Drawing is in `src/fantasy/render.js`, `lumi-render.js` and `rivals-render.js`.
+
+**Shared mechanics added this week**
+- **Ram Ball in every level** (`src/fantasy/ram.js`; Arena levels use the `ramPierce` hook in `src/arena.js`). Three centre-third paddle hits arm it; the next centre hit launches a giant ball that ploughs only 1-HP ordinary bricks (about 2.5 s or 14 bricks). Everything else takes a normal hit and the ram bounces. Owner-approved design.
+- **Power-ready pulse** (`drawChargeReady` and a vibrate in `src/kit.js`): the face orb double-beats with a halo for 5 s, then glows until used. Android has the VIBRATE permission.
+- **Clearance** (`src/clearance.js`): ejects a ball that a pose swap, knock-back or spawn dropped inside a solid. Added after the physics audit found six traps.
+- Rendered gems, chips, sparks and glints (`ART.fxKit`) replace code-drawn rings and dots. Kit's arrows and bow are rendered, not line-drawn.
+
+**Gates (all must pass before anything ships; physics is the owner's top concern)**
+1. `npm test`: 506 tests, all pass (re-run 2026-10-22).
+2. `npm run audit:physics` (`tools/playtest/physics-audit.mjs`): headless bot, idle and ram sweep of every level x easy/medium/hard x two phones; zero failures. Report: `docs/validation/physics-audit/report.json` (last run: 180 cells, 1,041 ram launches, no failures). **Gap:** the adapter list (`tools/playtest/audit-adapters.mjs`) has no Lumi Breaks Out, so slot 9 is covered only by `tests/lumitower.test.js`. Add an adapter.
+3. `node tools/playtest/physics-audit-checks.mjs --quick`: seeded Gatehouse checks (tunnelling, stuck hazards, ward vs bell, clearability).
+4. Screenshots of anything visual, shown to the owner.
+
+**Release path**
+1. Gates above, then `npm run build` (writes `dist/breach.html`, about 14 MB; `src/vault-art.js` is about 12.9 MB of it).
+2. `node tools/pin-sha.mjs` re-pins `config/mobile-preview.json`; `node tools/prepare-android.mjs` must pass.
+3. CI (`.github/workflows/mobile-preview.yml`) is manual only (`workflow_dispatch`), by owner rule. Run it once per release candidate after the local checks; the run must pass. Do not use it as a test loop.
+4. The last delivered APK is the old five-chapter build (see `docs/MOBILE_PREVIEW.md`). There is no APK of the 11-chapter build yet. Note `androidVersionName` in `config/mobile-preview.json` still reads "0.6-eight-chapter-preview"; update it when the APK is cut.
+
+**Art**
+- `python3 tools/pack_art.py` (about 4.5 min) packs `assets/` into `src/vault-art.js`. Never hand-merge that file: after a git conflict take one side and repack.
+- Blender `bpy` 5.2.2 runs headless (Python 3.13). Scripts are in `art/` (for example `art/rivals`, `art/premium`, `art/fx_kit`).
+- Look standard: the Gatehouse first-pass render. No bare stroked rings or dots as FX; use `ART.fxKit` gems, chips, sparks and glints.
+- Strip PNG metadata before committing renders (doc 02, section 3).
+- The owner generates art with M365 Copilot using `prompt-library/` (copy also at `/mnt/project-files/breaker/prompt-library/`) and posts renders back in the project chat.
+
+**Where the plans are:** `docs/BACKLOG.md` (every saved to-do, checked against code), `design/phase2/` (`kit-and-lumi-levels.md`, `serpent-rivals.md`, `dragons-hoard.md`, `premium-pass.md`, `new-concepts.md`), `docs/MOONCOIL_RELIQUARY.md`, `docs/BELLFORGE_PHYSICS.md`, `docs/TIDEWHEEL_PHYSICS.md`.
+
+**Owner rules (short; full list in section 1)**: commits authored and committed as `mahikshith <mahikshith97@gmail.com>`; no AI attribution anywhere in the repo; strip PNG metadata; show screenshots after anything finishes; short single-path instructions; physics first; harder but fair; premium look, never vibe-coded.
+
+**Next, in order**
+1. Premium art wiring into the earlier levels (in progress; see `design/phase2/premium-pass.md`).
+2. Build the APK of the 11-chapter game and run the manual CI once.
+3. Owner playtest and tuning: harder but fair (the continue screen is the safety net).
+4. Dragon's Hoard (`design/phase2/dragons-hoard.md`); needs dragon art from the prompt library first.
+5. Starflight in its own thread later (`docs/STARFLIGHT_*.md`; it is a separate browser prototype, not in the game).
+
+**Pending owner decision:** "compress the companions" would save about 2 MB, but faces shift by 4 to 7 out of 255 per channel.
+
+**Known stale or loose ends**
+- `docs/CONTINUE_HERE.md` is the short pointer; `docs/SPACE_COMBAT_HANDOFF.md`, `docs/NEXT_LEVELS.md` and `docs/MOBILE_PREVIEW.md` describe the older five-chapter state and are historical for anything castle-related.
+- Doc 04 and 05 (ChatGPT brief and prompts) predate the castle chapters; use `prompt-library/` for new art prompts.
+
+Read all three handoff docs before touching code: this one (status, rules, history), `02-architecture-and-pipeline.md` and `03-environment-skills-ux.md`. Keep them current at the end of every session.
+
+## Progress log (newest first)
+
+- **2026-10-22 (night) — Eleven chapters, Ram Ball everywhere, physics gates, handoff refresh.**
+  - Shipped on `codex/castle-chapters`: Lumi Breaks Out (chapter 10), Serpent Rivals (chapter 11), a second serpent in Mooncoil, Ram Ball in every level, the power-ready pulse and buzz, and the premium pass on the castle chapters (rendered gems, chips and sparks, glazed and ceramic bricks, Frost rampart, Korr's dais, Kit and Lumi paddle skins, rendered arrows and bow).
+  - Physics: the audit found and fixed six traps (pose swaps and spawns now eject the ball); Gatehouse bells, ramps, Ward and colliders were corrected; Lumi had its score-farming, post-Lullaby gap and collider fixes; Lumi Easy spits the ball back so the next serve cannot softlock. Gate commands are in "Current state".
+  - Size: lossy colour with exact alpha for the Forge plates cut 3.6 MB; the build is about 14 MB.
+  - Housekeeping: CI made manual only; Android smoke test has a startup JavaScript budget; laptop branches merged; `docs/BACKLOG.md`, `prompt-library/` and `design/phase2/` added.
+  - Open: premium wiring into earlier levels, APK plus one CI run, owner playtest, Dragon's Hoard. The audit has no Lumi adapter. One docs-only commit (3bcae82) is still only on `origin/recovered/codex-2026-10-22`.
+
+**Older log entries (2026-10-20 and earlier)** are kept as written. Where one calls something "current", "Await the owner" or "five-chapter", it is superseded by the entry above.
+
 **2026-10-20 — Fresh physics audit and Mooncoil Reliquary:** Pig and crab were rechecked with new model routes and phone-browser checks. Carrier had a moving-fighter laser miss during Focus; its projectile/actor clock conversion is now corrected and regression-tested. A new browser chapter is appended at index5 (`?level=6`): violet Mooncoil, three broad masonry banks, falling counterweights, Moonbind/Crystals/Cosmic. Read `docs/MOONCOIL_RELIQUARY.md` and `docs/validation/physics-recheck/`. Original Vault difficulty/layout are unchanged. The prior APK is a separate checkpoint.
 
 
@@ -19,39 +98,6 @@
 
 **Release investigation (2026-10-20):** The isolated `codex/space-combat-apk` worktree retains canonical B06CDD and offline 4071AC. Native run 39166153838 passed the repaired resume/input gates but lost its emulator later; an unbounded diagnostic then caused the job timeout. CI now bounds test/evidence commands, preserves failing exit codes and retains live/host diagnostics, with a software-renderer safeguard. The emulator exit cause is unproven. No gameplay change or new APK success is claimed; see `docs/MOBILE_PREVIEW.md` for precise evidence and the next native gate.
 
-**Current implementation (2026-10-19):** The owner approved heavy rounds and three-shot salvos, per-ship colours, left/right/paired/rest batteries, stronger player fire, Vesper/Latch for Circuit, a new power chooser and difficulty tuning. These changes are implemented on `codex/space-combat-apk`. The owner subsequently delegated remaining design decisions and requested a new princess/Yeti encounter, full documentation, commit/push and an APK. Frost Warden is integrated and locally verified as the fifth chapter; Brum remains an ally. Read `docs/CONTINUE_HERE.md`, `docs/SPACE_COMBAT_HANDOFF.md`, `docs/BRUM_LEVEL_PLAN.md` and `docs/MOBILE_PREVIEW.md` for current mechanics and verified release status. Older review gates and localhost checkpoints below are historical. No new CI success is claimed until recorded in the release document.
-
-**Historical cannon correction before implementation (2026-10-19):** The owner rejected the4189 weapon studies. Enemy cannon fire must cross the intact brick field and threaten the paddle/craft, without breaking bricks or releasing their rewards. Carrier currently damages enemy-hit panels; Circuit/Forge currently absorb shots on cover. These behaviours must change in the approved implementation, while preserving player brick collisions and keeping Carrier boarding threats active. Circuit's centre is an exit iris, with no suction mechanic; the replacement presentation keeps it quiet until departure. The revised cannon comparison is at4190, stronger friendly skiff deployment/fire at4191, and reference-backed distinct companion proposals are recorded alongside them. See `design/phase1/weapon-vfx-v3-review.md`. The4188 playable checkpoint remains unchanged; visual approval is still required before implementation, commit/push or APK work. The previous4189 quality receipts certify only that historical study, which is now rejected.
-
-**Replacement weapon motion review (2026-10-19):** The rejected Hard boards are superseded by two moving visual candidates at <http://127.0.0.1:4189/>: A Magnetic breacher and B Reactor rupture. Both use original cannon/ship art, complete rendered charge clips and actual machined payload PNGs, with distinct launch/recoil/travel and staged source-panel impact. The initially regular B fracture was revised to five unequal jagged metal pieces. Independent review covers12 family/phone/cannon combinations,132 phase PNGs, controls and full cycles with zero browser/network errors. All14 protected source/build hashes and four served4188 routes remain unchanged. Final movies decode at1240x1000 /5.209s with distinct frames. See `design/phase1/weapon-vfx-v2-review.md`, permanent candidate media in `design/phase1/weapon-vfx-v2/review/`, and `out/weapon-vfx-v2/qa/final/QA.md`. The734-file archive preserves candidates and rejected drafts. These are visual studies; owner approval still gates gameplay, tuning, commit/push and APK work. Desktop timings/memory are not handset performance admission.
-
-**Current selected effects and power limits (2026-10-18):** Ship A magnetic extraction/plasma and Kit B single-row Quick Volley are implemented in the4188 review hub. Kit offers real Brick Ward, Arrows, canonical Cosmic and Ball Fan while retaining the face control. All three space levels use slower18/22/26 banked hit/active-second charging. Companion casts and ball pickups now obey mode caps:12/9/5 live balls,2/2/1 simultaneous Cosmic,20/18/14 maximum remaining special seconds. Saturated choices keep charge. All196 units,24 actual Main phone/mode cases (including66 Kit check groups), required polish/layout and compact mobile UI pass with zero page errors. Six coarse earned Easy attempts win with3lives; they are not human balance. Exact builds, screenshots and receipts are sealed in `out/space-selected-review/final-report.json`. The owner rejected both subsequent Hard laser/lance/battery boards as stale and visually mismatched. Their replacement is an isolated moving weapon study using the original cannon art and new rendered payloads; gameplay implementation remains explicitly withheld until the owner approves the visuals. Current normal plasma still uses the existing3.5u collision core. See `design/phase1/space-selected-review.md`. Older4186/4187 and the delivered APK are unchanged; no new gameplay commit/push or APK is implied.
-
-**Historical pacing revision before the selected FX/Kit build:** The owner finds the six-hit space-power revision too short. All three space levels now bank18/22/26 ordinary damage credits and fill the orb over at least18/22/26 active combat seconds; shots/cosmic balls cannot recharge themselves. WIDE stacks width and time, other positive durations add, ball fan adds ordinary survivors, and canonical cosmic artwork is restored. Actual paddle artwork now widens with its collider while preserving chrome ends. The pacing-only hub is127.0.0.1:4187; older4186 and the APK remain frozen. Three level owners supplied earned Easy routes and native render proofs; scripted durations are not human balance. All183 units, final18 Main phone/mode cases, required polish/layout and compact mobile UI pass with zero page errors; exact artifacts are sealed in `out/space-polish-review/final-report.json`. Two ship-effect proposals and two Kit menu proposals have been shown, with owner picks still pending. New suction/cannon FX and live Kit power choices are therefore not yet built. See `design/phase1/space-polish-review.md` for rules, receipts and limits. No commit/push: the latest message both authorizes push and then asks to wait; resolve that after the complete result is reviewable.
-
-**Historical six-hit space revision (superseded by the current pacing revision):** The owner rejects the earlier Circuit/Forge Easy balance as a precision/patience grind. New review candidates retain the selected visual families but provide broad mothership damage, equal-sized coloured panels, fewer grey pieces and Nix in all three space levels. Six productive ordinary damage contacts earn a paused three-choice picker: ten-second LASER, ten-second UNSTOPPABLE, or fill the live set to5 ordinary balls. Shots/TITAN do not self-recharge. Closed Forge machinery takes damage; Circuit drops the ordered-symbol gate and retains an earned skiff burst; ordinary ship metal hits remain productive. Carrier retains crew urgency and uses a curved connected tractor beam and matching pull. Shared input resets prevent stale taps/Space from launching; pause Retry stays. New browser review hub is127.0.0.1:4186, with all three modes per level; older4184/4185 and the delivered native APK stay frozen. All171 tests and the local build pass. Final18 actual Main CDP cases cover three levels ×three modes ×both phones, with visible Nix, choice/cancel, frozen clocks, powers, pause and Retry; zero page errors. Required polish/layout and compact mobile UI pass. Exact final artifacts are Carrier9f772abdf382, Circuit983c8c0328d0, Forge7c8df65c5f23; sealed hashes, gallery and receipts are in `out/space-power-review/final-report.json`. Circuit/Forge coarse Easy public-input-assisted completions with earned choices are separate evidence, not human balance. Carrier curved-motion media is explicitly staged. Full rules and receipt links: `design/phase1/space-powers-review.md`. This supersedes earlier balance/target rules, not the approved artwork. No gameplay commit/push or new APK approval.
-
-**Artwork preservation:** `artwork-library/` now preserves750 unique originals/asset records (770 source aliases/versions, 288042628 bytes), with a complete catalogue, full SHA256 manifest and preserved A/B/C/D space-board gallery. See `docs/ARTWORK_LIBRARY.md` and `artwork-library/README.md`; AGENTS.md links the folder and requires `python tools/archive_artwork.py` after adding artwork. Copies are byte-exact, duplicates share one copy, and changed sources create new versions; historical rejected concepts remain labelled. Working manifests/render scripts stay at their existing paths. The archive is local until an approved push or separate backup.
-
-**Historical selected space reviews (superseded by later owner difficulty feedback):** Owner-selected Circuit Breakout Level2 and Shutter Forge Level3 are now actual-art playable isolated candidates. Circuit HTML `9115383E4F4963F86C11A7063A07A50B10FC1B7347F5425AC4C972D39202FDCE`, sourceEEB862BC…, is served at127.0.0.1:4184/circuit.html?level=1&difficulty=medium. Forge HTML `E8F06046E4B224C1EF790F59F4124661583ABC1F5D141583ED0B44A46118F97F`, source89B1E8A1…, is served at127.0.0.1:4185/forge.html?level=1&difficulty=medium. Both use fresh Main controls, house fonts, real Resume/Retry/Menu and semantic result titles; previews have no companion/pilot/captive art. All147 configured tests pass, including20 independent new-level regressions. Both packed previews pass actual Chromium phone-size touch, pause, Retry, geometry and visual checks with zero page errors. Circuit earned runs win50.2667s iPhone /28.0417s Android, three lives: both use the selected intrinsic flight burst, Android also naturally collects SPLIT/LASER. Forge strict ordinary completions are162.88s iPhone /260.0417s Android, three lives, no optional capsule/TITAN/Continue; Android uses a legitimate wall-bank input policy. Earlier failed policies remain retained. These are scripted route proofs, not human balance or physical-device performance. Actual motion fixtures are explicitly staged. Details: `design/phase1/relay-circuit.md`, `orbital-forge.md`; independent review: `out/next-level-review/REVIEW.md`; phone galleries: `out/selected-levels-review/`. Human screenshot/play OK is still required before gameplay commit/push, permanent registry admission or a new APK. Existing frozen F8EB pause-Retry checkpoint4183 and delivered APK remain unchanged. The final local `npm run build` also passes at `EB70331AD2A520D35E9DFB0EDF4F6539D68CD455ACF814D70920061D7B780547`; it includes the shared no-core charge guard but retains only the existing two menu levels. Phone review receipts belong to their exact frozen previews above, not an untested new APK.
-
-**Pause Retry checkpoint (2026-10-18):** Owner explicitly requests Retry inside pause. Current Main uses the existing fresh constructor on the same level/difficulty; Continue/ad/result/input state and the frame origin reset while saved stars/preferences stay intact. Three stacked Resume/Retry/Menu buttons fit both phone safe areas. Two independent regressions and12 real CDP cases (Carrier/Vault ×three modes ×both phone sizes) pass with zero page errors on exact HTML SHA256 `F8EB9BE20BDD854546944BF941CBB139FE97887505094A46B33732FAA6ECB9E0`. Frozen review is `out/pause-retry/browser/breach.html`, served at127.0.0.1:4183/breach.html?difficulty=medium. Evidence: `out/retry-review/final/report.json` and `out/retry-review/REVIEW.md`. This proves the two existing menu levels; selected Circuit/Forge will need the same real-input checks after their isolated build is ready. No new gameplay commit/push or APK change.
-
-**Owner human balance feedback (2026-10-18):** The owner finds earlier BA5E Carrier too easy and Vault too hard, then selects a MIX of boosted retreat and finite rebuilding siege. That choice is implemented in the new review candidate; the old pure A/B choice is closed. Easy/Medium/Hard share controls and the lower reaction lane. Vault locomotion/chew multipliers are0.60/0.80/1.00; warning, venom, cage and ball/input timing stay intact. Hard Carrier is a development setting pending calibration, not approved balance. No new gameplay commit/push approval has been given.
-
-**Latest selection and tested candidate (2026-10-18):** Production HTML SHA256 `19376ED445F4D89CEA02CFF8733A5255DA14FD275DA3CAD9798155AA64516AA1` adds the selected hybrid to Boarding Raid: finite distinct manifests, active per-manifest jump clocks, permanent archived rescues, six-contact manual Nix, larger target-facing fighters, visible hull motion/engines, safe rebuilding and final boosted retreat or disabled cleanup. All128 units pass. Production two-phone real-input lifecycle checks, required polish/layout and compact mobile UI pass with zero page errors. Separately sealed isolated HTML `4F808C2A682885F6415325CBC89B064D63939FF277912ABD859D5AD048BC457D` uses identical gameplay source plus embedded fonts/read-only trajectory planning. At120Hz public level input, ordinary Easy wins40.400/42.700s; Medium ten-rescue wins109.725/125.600s, three lives, no pickups/Nix/Continue. These are scripted route proofs, not human balance, DOM routing or performance proof. Hard75s/8.5s has no strict ordinary full-clear admission; failed attempts and an unadopted90s/10s experiment are preserved. A separate bounded earned-Nix proof readies at8.667/12.325s with nine authored rescues remaining; iPhone cast run wins, Android cast run disables the hull then controller-times-out in cleanup, not a victory (`out/carrier-hybrid/nix-earned-report.json`). Primary changes remain uncommitted pending owner play/screenshot OK. Evidence: `out/carrier-hybrid/evidence.json`, `out/hybrid-review/production-decoded/report.json`, `out/carrier-hybrid/mobile-ui/report.json`. Earlier BA5E and4181 remain frozen history.
-
-**Parallel levels authorized (2026-10-18):** The selected Circuit A and Forge A mechanics, source-faithful machinery families, actual moving collision and independent phone reviews are delivered as described above. Escort Run B and Orbital Switch B remain distinct later directions, numbers unassigned. Original B/C rescue prototypes are historical; selected design/source geometry and collision are authoritative now. The C lower hull lip remains physical: Forge uses its visibly deployed exterior reactor. Circuit uses four empty phase stations, real split-metal firing ports and one earned skiff burst; Forge uses three timed stabilisers, collapse, once-only ordinary three-ball reward and quiet external-reactor finish. No extra cast or permanent registry/progress migration is included. All new gameplay remains uncommitted pending owner approval.
-
-**APK checkpoint delivered (2026-10-18):** Separate `codex/carrier-mobile-preview` CI [39129140498](https://github.com/mahikshith/breaker/actions/runs/39129140498) completed successfully on native fix47bc6b3. Actual APK artifact12137681701 is downloaded and verified at `../breaker-mobile-preview/out/carrier-apk-delivery/39129140498/apk/BREACH-Carrier-preview.apk` (2,431,097bytes, SHA256 `7F5468197BB6333BF5AACEBE4CF4226048D043634BCA8829B6644042C4F2E10D`). Web44units/six suites, native build/lint and lifecycle instrumentation pass; actual recreation captures show full1080×2400 content. Frozen gameplay F4863DC5… and packaged HTML4D5D7B5E… remain exact. Delivery documentation commitf72e7ccf follows tested47bc6b3 and is pushed as the owner. APK excludes Boarding Raid, Nix/Tick, difficulty/hybrid and B/C. Physical phone performance remains for owner testing. This checkpoint authorization does not approve primary gameplay commit/push or merging main.
-
-Read all three handoff docs before touching code: this one (status, rules, TODO with agreed designs), `02-architecture-and-pipeline.md` and `03-environment-skills-ux.md`. Keep them updated at the end of every session. Historical sections include the original `wip/polish-pass` snapshot (`main` @ b5df0eb); current work and the newest progress entries take precedence.
-
-**Current work:** Await the owner's review of the completed4189 moving candidates, A Magnetic breacher / B Reactor rupture. Actual phone-size motion, corrected irregular fracture, source hashes and frozen gameplay receipts are complete. Keep all new Hard weapon rules, production packing/tuning, commit/push and APK work behind that visual approval.
-
-**Historical A/B asset milestone (2026-10-18):** real independent PNG parts and the isolated Canvas motion assembly are complete for the approved A/B left playfields. Final proof is under `out/space-assets-ab/final/`: `A-ios-reference.png`, `A-android-reference.png`, `B-ios-reference.png`, `B-android-reference.png`, `A-motion.gif`, `B-motion.gif` and `asset-report.json`. Actual 393×852/412×915 images and sampled launch/release/boarding/iris sequences pass independent visual review; all four capture runs report zero page errors, real alpha/metadata checks and approximately 126 CSS paddle reserve. A has five shallow captive windows; B has four large worker pods. This asset-only milestone contains no companions, pilots or portraits and predates the latest Nix/Tick selection. These are asset-motion proofs with a placement ball, not new gameplay: runtime admission/WebP sizing, actual-alpha collision alignment, input/combat/rescue/power rules, full playable phone runs, memory/performance and new APK checks remain. The proof milestone retains EA839F00… as its gameplay baseline; it does not cover later Carrier integration. Reproduction and limits: `art/space/ASSETS_AB.md`; inventory/contracts: `design/phase1/space-assets-ab-spec.md` and `space-assets-ab.json`.
-
-## Progress log (newest first)
 
 - **2026-10-19 — Corrected cannon and stronger friendly-fire review:** The owner rejects enemy brick destruction, weak shots and identical space companions. New4190 heavy-shot/salvo attack studies cross complete intact fields and sweep only the paddle; hit/dodge, genuine drag, exact restored field pixels and14 unchanged production/build hashes pass12 phone/ship/pattern cases. Real rendered plasma replaces the rejected mechanical payloads and flat impact stamps. Separate4191 skiff study deploys armour/cannons and now fires roughly14u visible cyan rounds with stronger muzzle flash/recoil; both phone checks pass. Circuit's centre is a closed exit iris, not suction. Original Nix/Tick, Vesper/Latch and Nova/Pin cast status/roles are preserved in `design/phase1/space-companion-role-review.md`. Carrier's raider breach dependency must also change when enemy brick damage is removed, or boarding can stall. Review scope/receipts: `design/phase1/weapon-vfx-v3-review.md`. No production implementation, damage retune, commit, push or APK; visual selection remains pending.
 
@@ -210,31 +256,27 @@ Read all three handoff docs before touching code: this one (status, rules, TODO 
 
 ## 1. Rules from the owner (non-negotiable)
 
-- **Repo:** https://github.com/mahikshith/breaker. `main` holds the last stable build. In-progress work is on `wip/polish-pass`.
+- **Repo:** https://github.com/mahikshith/breaker. `main` holds the last stable build and is merged only after the owner has seen screenshots. Day-to-day work is on `codex/castle-chapters`.
 - **Commit identity:** every commit must be authored and committed as `mahikshith <mahikshith97@gmail.com>`. The repo-local config sets this: `git config user.name mahikshith; git config user.email mahikshith97@gmail.com`.
 - **No AI attribution anywhere.** That means:
   - no "Co-Authored-By" lines;
   - no session links;
   - no "Generated with …" in commits, code comments, README or docs.
 - **Never ask for or paste the owner's GitHub token.**
-- **Show the owner screen drafts and character sheets during playtests.** They want to see shots for iOS and Android sizes.
+- **Physics is the top concern.** No chapter ships until the gates in "Current state" pass.
+- **Short, single-path instructions.** When the owner has to do something, give one path, not a menu.
+- **Strip PNG metadata** from every render before committing (doc 02, section 3).
+- **Show screenshots after anything finishes** (screen drafts, character sheets, playtests), for iOS and Android sizes.
 - **Quality bar:** the owner (mykee) wants a premium, inventive, addictive iOS/Android game, and nothing that looks "vibe-coded".
   - Favourite references: BALL x PIT, and Arkanoid crossed with Space Invaders.
   - Rejected in the past: pixel art, wisps, jittery foxes, ball-chain snake bodies, rounded blob heads, and uniform faces. Expressions must "say a lot".
-- **Scope right now:** approved Phase 1 of `docs/STORY_PLAN.md`, finished Knight 2/B and mixed Vault review, replacement cast concepts after the rejected set, and isolated venom-effect and Kit-ability proposals. Independent work may run in parallel; concept-pick and post-playtest approval gates still apply. Later chapter systems still need their own implementation decision.
+- **Scope right now:** the 11 chapters in "Current state" are built. Open work is the "Next" list there and `docs/BACKLOG.md`. Anything in `docs/STORY_PLAN.md` beyond Phase 1 (store, Shine currency, unlockables) needs the owner's go-ahead first.
 
 ---
 
 ## 2. The game in one paragraph
 
-BREACH is a brick breaker for phones in portrait. The world is 360 units wide, and the height adapts to the screen.
-
-You drag your thumb to move a chrome paddle and bounce a chrome ball. The game has two levels:
-
-1. **Invasion.** A marching Space-Invaders-style formation of glossy candy bricks and toy robots steps down toward you, and the robots fire bolts. If the formation reaches the hazard line, you lose. Clear the formation and a mothership boss arrives.
-2. **The Vault.** This is a side-view cutaway of a castle tower. A princess is caged near the top, and a purple serpent chews its way through bricks toward her along a Dijkstra path. You break a path up to the cage to free her. That triggers BREACH: she runs out and a FRENZY multiball round plays as the win lap. If the serpent reaches her, you lose.
-
-There is also a **Focus aim** mechanic. Hold your thumb still while a ball lands and the paddle catches it. Time slows to 0.25×, you slide to aim with a predicted path, and you lift to fire. This costs an AIM pip; pips refill as you break bricks.
+BREACH is a brick breaker for phones in portrait. The world is 360 units wide and the height adapts to the screen. You drag your thumb to move a chrome paddle and bounce a chrome ball. The story is castle-and-space: Prince Kit and Princess Lumi against serpents, a warden and two keep villains, over 11 chapters (table in "Current state"). Each chapter has its own objective and villain: rescue a crew (Carrier), outpace a serpent (Vault, Mooncoil), break a siege (Frost Warden, Gatehouse), stop machinery (Forge, Bellforge, Tidewheel), play as Lumi (Lumi Breaks Out) or bait two serpents into each other (Serpent Rivals). Shared systems: Focus aim (hold still as the ball lands, slide to aim, lift to fire), the Kit or Lumi face orb that charges and opens a power menu, the Ram Ball, three difficulties (Easy, Medium, Hard in `src/difficulty.js`), a continue screen (placeholder ad and unlock, `src/monetize.js`) and stars per chapter and difficulty.
 
 ---
 
@@ -246,13 +288,13 @@ There is also a **Focus aim** mechanic. Hold your thumb still while a ball lands
   - `npm install`, then `npm run build`, produces:
     - `dist/breach.html`, the standalone page;
     - `dist/breach-artifact.html`, a body fragment for hosts that supply their own `<head>`.
-  - The build is about 1.2 MB because every rendered image is inlined as a WebP data URI in `src/vault-art.js`.
+  - The build is about 14 MB because every rendered image is inlined as a WebP data URI in `src/vault-art.js` (about 12.9 MB).
 - **Run locally:** open `dist/breach.html`, or serve the repo root and open `index.html`, which loads `src/main.js` as a module.
 - **URL params:**
-  - `?level=1` or `?level=2` jumps straight into a level;
+  - `?level=N` (1-based, 1 to 11) jumps straight into a chapter;
   - `?safe=top,bottom` fakes notch and home-indicator insets in CSS px. iPhone 15 is `?safe=59,34`, a typical Android is `?safe=32,24`.
-- **Test hook:** `window.__breach` exposes `{ start(i), level, scene }` for automated playtests with Playwright and Chromium.
-- **Unit tests:** `npm test` runs `tests/physics.test.js`.
+- **Test hook:** `window.__breach` exposes `{ start(i), level, scene }` (`i` is the 0-based slot) for automated playtests with Playwright and Chromium.
+- **Unit tests:** `npm test` runs every `tests/*.test.js` with Node's test runner (506 tests on 2026-10-22). Physics audit: `npm run audit:physics`.
 - **Fixed timestep:** 1/120 s (`STEP` in `main.js`).
 - **Fonts:** Google Fonts **Lilita One** for game text and **Rubik 600** for numbers, loaded in `index.html`.
 
@@ -265,8 +307,9 @@ All art is pre-rendered in Blender (bpy 5.2.2 from pip, Cycles on CPU, view tran
   - `render_vault_assets.py` and `vault_post.py` render the Vault plate, bars, bricks, ball, paddle, capsules, lantern and torch flame into `assets/vault/` plus `atlas.json`.
   - `render_invasion_assets.py` and `invasion_post.py` render the Invasion hangar plate, bricks, robots (7 expressions × 4 colours), mothership (5 expressions plus a light overlay), bolt and bomb into `assets/invasion/`.
   - `princess.py` restyles the KayKit Rogue model (`assets/models/kk_Rogue.glb`, CC0) into the princess: tiara, expressive eye rig, bell skirt. It renders animation frames to `assets/princess/<Anim>_NN.png`. The `--face` option renders face close-ups.
+  - Later scripts (Kit, castle chapters, Rivals, premium pass, FX kit) are listed in `docs/BREACH-blender-scripts.md`; the newest are in `art/rivals`, `art/premium` and `art/fx_kit`.
   - `snake.py` renders the serpent's angular head. It has an `EXPR` dict of expressions (lids, brows, slit pupils, jaw, tongue, fangs) and two facings, `r` and `l`. Output goes to `assets/snake/head_<expr>_<r|l>.png` and `meta.json`.
-- `tools/pack_art.py` packs everything into `src/vault-art.js` (`export const ART = {...}`). Re-run it after any render, then `npm run build`.
+- `tools/pack_art.py` packs everything into `src/vault-art.js` (`export const ART = {...}`, about 4.5 min). Re-run it after any render, then `npm run build`. Never hand-merge `vault-art.js`: on a conflict take one side and repack.
 - **Sprite convention:**
   - sprites are 3 px per game unit, with a margin (usually 4 units) around the footprint;
   - plates are 2 px per unit and cover screen y from -40 to 780, drawn at (0, -40) with size 360 × 820.
@@ -324,29 +367,34 @@ Reference screenshots of the current `main` build are in `docs/reference/`:
 
 | File | What it does |
 |---|---|
-| `src/main.js` | Canvas sizing and safe insets, input mapping, the fixed-step loop, scenes (menu with level cards and live previews; level; results with stars). `LEVELS` registry. `best` stars kept in localStorage. |
-| `src/arena.js` | **Base class shared by both levels:** paddle, balls, serve and Focus aim, power-ups, lives, combo, score, shake, HUD base, aim-path preview. Levels extend `Arena` and override `hitCell`, `updateLevel`, `draw`, `background`, `result`… |
-| `src/physics.js` | Ball stepping with substeps, grid collision with ghost-edge fix, paddle bounce (offset angle up to ±62° plus swipe spin), minimum vertical speed. |
-| `src/debris.js` | planck world. It has five behaviours: |
-| | • `shatter()`: Voronoi fragments from the brick image; |
-| | • `drop()`: a whole brick falls as a rigid body and shatters on impact; |
-| | • a kinematic paddle that debris can bonk; |
-| | • `poke()`, which lets balls shove debris; |
-| | • **new `crumble()`**: non-physics fragments that shrink and fade in about 0.4 s. |
-| `src/gfx.js` | Sprite registry `SPR`, `cached()` offscreen canvases, the `brick()` fallback, `drawBall`, the `FX` particle system (shards, dust, rings, score pops), `text()`, `POWER` table, `capsule()` fallback. |
-| `src/invasion.js` | Level 1 (details in section 6). |
-| `src/vault.js` | Level 2 (details in section 6). |
-| `src/characters.js` | Old code-drawn character fallbacks (invader, mothership, serpent). |
-| `src/audio.js` | WebAudio synth SFX (`sfx.hit/tough/paddle/wall/power/lose/zap/hurt/boom/breach/beat/chew/win`). |
-| `src/vault-art.js` | **Generated** by `tools/pack_art.py`. Never edit by hand. |
-| `src/prefs.js` | **New.** A `store.get/set` wrapper over localStorage. |
-| `src/monetize.js` | **New.** Continue-offer placeholders (section 8). |
+| `src/main.js` | Canvas sizing and safe insets, input mapping, the fixed-step loop (1/120 s), scenes (menu, level, pause, results, continue). `LEVELS` registry. Stars in localStorage per chapter and difficulty. |
+| `src/arena.js` | Base class for the space chapters, Vault, Frost and Mooncoil: paddle, balls, serve and Focus aim, power-ups, lives, combo, score, shake, HUD base, the Ram Ball hooks (`ramPierce`). Levels override `hitCell`, `updateLevel`, `draw`, `result`, `continueRun`. |
+| `src/fantasy/chapter.js` | `FantasyChapter`: wraps the standalone models (Bellforge, Tidewheel, Gatehouse, LumiTower, SerpentRivals) in the same contract as Arena. Per-chapter powers, preview rect and stars live in its `CHAPTERS` table. |
+| `src/fantasy/*.js` models | `bellforge.js`, `tidewheel.js`, `gatehouse.js`, `lumitower.js`, `rivals.js`: pure game models (no drawing). `ram.js` is the shared Ram Ball. |
+| `src/fantasy/render.js`, `lumi-render.js`, `rivals-render.js` | Drawing for those models. |
+| `src/carrier.js`, `relay.js`, `orbital.js`, `frost.js`, `vault.js`, `mooncoil.js` | The six Arena chapters. `mooncoil-layout.js` is Mooncoil's authored field. `space-companions.js`, `space-weapons.js`, `carrier-physics.js` support the space chapters. |
+| `src/physics.js` | Ball stepping with substeps, grid collision, paddle bounce. |
+| `src/clearance.js` | `clearance()` and `ejectBall()`: push a ball out of solids dropped on it by pose swaps or spawns. |
+| `src/kit.js` | Kit and Lumi face orb, presence window, tap rules, `drawChargeReady` pulse and vibrate. |
+| `src/serpent.js`, `serpent-capture.js`, `serpent-retreat.js` | Vault and Mooncoil serpent rules, capture and retreat choreography. |
+| `src/debris.js` | planck.js debris: `shatter`, `drop`, `crumble`, kinematic paddle. |
+| `src/gfx.js` | Sprite registry `SPR`, `cached()` canvases, ball and FX drawing, `text()`, `POWER` table. |
+| `src/difficulty.js`, `src/monetize.js`, `src/prefs.js`, `src/audio.js` | Difficulty table, continue offers (placeholder), localStorage wrapper, WebAudio synth. |
+| `src/vault-art.js` | **Generated** by `tools/pack_art.py`. Never edit or merge by hand. |
+| `src/invasion.js`, `src/characters.js` | Legacy Invasion level; no longer in `LEVELS`. Kept for reference. |
+| `src/starflight/` | Separate flight prototype (not in the game or the APK). |
+
+Full architecture, conventions and test list: doc 02.
 
 ---
 
-## 6. Level details (as on `main`)
+## 6. Level details
+
+Per-chapter rules live in the model files and these docs: Vault below and in `docs/FANTASY_REFINEMENT.md`; Mooncoil `docs/MOONCOIL_RELIQUARY.md`; Frost Warden `docs/BRUM_LEVEL_PLAN.md`; Bellforge `docs/BELLFORGE_PHYSICS.md`; Tidewheel `docs/TIDEWHEEL_PHYSICS.md`; Gatehouse, Lumi and Rivals `design/phase2/kit-and-lumi-levels.md` and `design/phase2/serpent-rivals.md`; space chapters `docs/SPACE_COMBAT_HANDOFF.md`.
 
 ### The Vault (`src/vault.js`)
+
+Original details below still hold (the later emerald snake presentation, Ward and venom are in doc 02 and `docs/FANTASY_REFINEMENT.md`).
 
 - **Grid:** 20 × 20 cells of 16 units, origin (20, 96). Bricks are 2 cells wide in running bond. `LAYOUT` is an ASCII map:
   - `t` teal, `v` violet, `c` coral, `y` sun, `b` blue — glazed bricks;
@@ -383,226 +431,27 @@ Reference screenshots of the current `main` build are in `docs/reference/`:
   - +1 if the serpent never got halfway (`peakDanger < 0.5`);
   - +1 if the score is over 10 000.
 
-### Invasion (`src/invasion.js`)
+### Invasion (HISTORICAL)
 
-- **Grid:** 11 × 9 cells of 28 × 18 units, starting at y = 92.
-- **Cell types:**
-
-  | Type | Hit points | Notes |
-  |---|---|---|
-  | CANDY | 1 | |
-  | ARMOR | 3 | |
-  | POWERB | 1 | always drops a power-up |
-  | BOT | 2 | a robot; 20% chance to drop a power-up |
-- **March:** the formation steps sideways ±14 units, then drops 14. The step interval shrinks as fewer cells remain. `dangerY = paddle.y - 64` is the hazard line.
-- **Robot shots:** the robot lowest in a column scowls (`angry`) for 0.45 s, then fires a bolt. A bolt stuns the paddle; then the shooter and about 35% of the robots laugh, and the boss looks smug. Balls can knock bolts out of the air.
-- **Robot faces:** the `march0/1` cycle, `hurt` at 1 hp, `shock` when a ball is about to hit, `dizzy` when killed. A killed robot falls as a rigid body; catching it on the paddle gives +120 "CATCH!".
-- **Mothership:** 30 HP, an elliptical hitbox. It drops bombs, and its expressions are smug, angry, hurt, panic and dizzy. Killing it drops the wreck.
-- **Stars:** depend on lives left and best combo.
+`src/invasion.js` is still in the repo (Arkanoid crossed with Space Invaders: a marching candy-and-robot formation, then a 36-HP mothership) but it is not in `LEVELS` and nothing ships it. Carrier Breakout replaced it. Do not extend it unless the owner asks.
 
 ---
 
-## 7. Work in progress on `wip/polish-pass` (what this branch already changes)
+## 7. Remaining work
 
-The owner's latest feedback, which is the current task list, is reproduced in section 8. The branch already contains the following.
+The old TODO list (wire levels to the arena, crumble vs crash, difficulty, continue screen, ferocious serpent, nervous princess, Invasion polish, shinier bricks) is finished and removed. What is left:
 
-### `src/arena.js` (rewritten; levels still need wiring)
-
-- **Raised paddle.** `paddleY(H, minY)` puts it at `H - clamp(H*0.25, 150, 210)`, well above the thumb.
-  - Below it is a **control deck** (`drawDeck(g)`): a dark panel, a grooved track with a grip that follows the paddle, and "Drag anywhere down here to move" for the first seconds.
-  - `deckY = paddle.y + 34`, `shieldY = paddle.y + 28`, `drainY = paddle.y + 46`. The ball is lost at `drainY`, not at the screen bottom.
-- **Smoother, snappier controls.**
-  - The paddle maps 1:1.15 to thumb travel from where the press started.
-  - It re-anchors when pinned against a wall, so it reverses instantly.
-  - Smoothing went from rate 22 to rate 45.
-- **Harder base game.**
-  - Ball speed went from 330 to 345, scaled by `opt.speed` per level.
-  - A rally ramp adds 1.2% per paddle hit, up to 1.28×.
-- **Titan sweet spot.**
-  - A diamond "core" gem sits in the centre of the paddle and fills as bricks break (`CORE_BRICKS = 12`).
-  - When it is full it blazes. A ball hitting within ±7 units of the centre becomes a **TITAN**: radius 10, ploughs through bricks like fire, lasts 7 s.
-  - Pops say "CORE READY · hit it dead centre" (for the first 3 times) and "TITAN!".
-- **New power-ups:**
-  - **LASER:** twin emitters on the paddle auto-fire every 0.3 s for 7 s. Shots call `hitCell`, and a level can consume them via `shotHit(shot)`, for example for the boss or the serpent.
-  - **SHIELD:** a teal energy barrier under the paddle that saves 2 balls, or lasts 16 s.
-  - **SLOW:** balls move at 0.68× for 8 s.
-  - **TINY:** a bad power-up. The paddle shrinks to 0.62× for 9 s, and the capsule has a flashing red outline.
-- **HUD chips:** active power timers show as small chips next to the lives.
-- **Aim teaching** (the owner asked how aim works):
-  - "CATCH READY" brackets appear over the paddle while the thumb is held still and a pip is available.
-  - A coach bubble, "HOLD STILL as it lands to catch & aim", shows when a ball is falling toward the paddle. It stops after the player has used Focus 3 times (`store aimCoach`).
-  - During aim: "Slide to aim · lift to fire". During serve: "Slide to aim · lift to launch".
-- **Big crashes only.** `bigCrash(ball)` returns true when 4 or more bricks broke within 0.3 s, or the ball is fire or titan. Levels should use `debris.shatter` (physics) only then, and `debris.crumble` (subtle fade) for single bricks. This was requested because falling fragments were being mistaken for the ball.
-- **`continueRun()`** puts the level back into play after a continue: at least 1 life, a fresh serve, a 2-hit shield for 10 s, and "BACK IN!".
-
-### Other files
-
-- **`src/debris.js`:**
-  - `crumble(art, x, y, w, h, vx, vy, n)` creates a short-lived fade with a white flash;
-  - new constructor option `killY` removes physics pieces that fall past the paddle into the deck.
-- **`src/physics.js`:** `b.titan > 0` pierces like fire.
-- **`src/gfx.js`:** titan ball drawing with halo; `POWER` entries for laser, shield, slow and shrink (`bad: true`).
-- **`src/prefs.js`, `src/monetize.js`:** new (section 8).
-
-### Art that was being rendered (may or may not be in the branch)
-
-Two Blender jobs were running when the session ended. They write into `assets/` and re-run `tools/pack_art.py`:
-
-1. **Shinier bricks** for both levels to match `docs/reference/vault-top-down.png`, with the same file names, sizes and atlas entries. Also new capsules `cap_laser`, `cap_shield`, `cap_slow` and `cap_shrink`, and a `ball_titan` sprite. Script edits are in progress in `art/render_vault_assets.py`.
-2. **Characters:**
-   - princess animations **`Nervous`** (worried walk, about 12 frames) and **`Panic`** (terrified run, about 12 frames), in profile facing like `Running_A`, added to the pack list;
-   - serpent expressions **`snarl`** (fangs bared, low brows, narrowed eyes; the hunting face) and **`strike`** (jaw wide, fangs, furious wide eyes; for lunges and bites), in both facings, in `meta.json`.
-   - Script edits are in progress in `art/princess.py`.
-
-If those sprites are missing, the code must fall back gracefully:
-
-- missing `cap_*` sprites already fall back to the code `capsule()`;
-- a missing `ball_titan` falls back to the fire sprite;
-- for the princess, check `PRINCESS.anims.Nervous` and fall back to `Running_A` at a slower frame rate;
-- for the serpent, check `SNAKE.expr.snarl` and fall back to `hunt`.
+- The ordered "Next" list in "Current state".
+- `docs/BACKLOG.md`: every saved to-do from the Codex and ChatGPT plans, each marked done, partial, not started or superseded, with the code that proves it. Recommended next five are at its top.
+- Owner round-2 feedback still partly open: a repeating aim-hold hint (only a one-time "Aim ready" text exists), and castle-chapter brick shine. Both are in the backlog.
 
 ---
 
-## 8. Remaining work: the owner's latest feedback and the agreed design
+## 8. Future, NOT to build now (keep the code extensible)
 
-Paraphrased owner feedback (2026-10-18):
-
-> - Make the bricks shinier, like the Vault top-down render.
-> - Add more powers, for example: hit a certain point and the ball becomes bigger and unstoppable.
-> - Make it harder so players can actually die.
-> - On losing, show a pop-up: watch an ad to continue, or pay to unlock the full game. (Maybe make the whole game free later.)
-> - The paddle is too low and overlaps the thumb, and the controls feel sluggish.
-> - Explain how aim works (does a long press trigger it?).
-> - Single broken bricks should crack and subtly vanish. Only big crashes should drop debris, because falling pieces get confused with the ball.
-> - The snake should be more ferocious, visibly bite through bricks with urgency, and have a dedicated animation when it reaches the cage (bite the cage, grab or take the princess).
-> - The princess should walk nervously, and run in circles in panic, inside the cage as the snake nears.
-> - Apply the same polish to Invasion.
-> - Invasion's background is too flashy and distracting: the big planet, the neon, and the yellow-black hazard line and compartments at the bottom. Tone it down and make it darker, but keep the colours.
-> - Later, not now: story mode, unlockables (princess, sword, prince), dragons and mythical beasts. Focus on one perfect level first.
-
-### TODO, in order
-
-#### 1. Wire both levels to the new arena
-
-- **Constructors:** pass `minPaddleY`.
-  - Vault: about `OY + 20*16 + 80 = 496`, so the paddle never sits on the tower.
-  - Invasion: about 470.
-- **Draw order:** call `this.drawDeck(g)` right after drawing the background, before the shake transform.
-- **Debris:** create it with `floor: H + 200, killY: this.paddle.y + 70`, or similar, so nothing piles up in the deck.
-- **Shots:** draw them. `drawBalls` already draws shots.
-- **Vault `hintY`:** no longer used and can be removed.
-- **Drop tables:** add the new kinds.
-  - Vault `DROPS` example: `['split','fire','wide','focus','burst','laser','shield','slow','shrink']`.
-  - Invasion: similar, with `laser` weighted a bit higher.
-
-#### 2. Single brick versus big crash
-
-- In `Vault.removeBrick(br, ball)` and `Invasion.hitCell`, use `this.bigCrash(ball) ? debris.shatter(...) : debris.crumble(...)`.
-- Reduce the `fx.shatter` coloured shard counts for single breaks to 1–2.
-- The Vault `collapse()` rigid-body drops stay as they are: that is the "major crash".
-
-#### 3. Difficulty
-
-**Vault:**
-- Multiply `CHEW` by about 0.75 (2.8 → 2.1, 4.6 → 3.45).
-- Make the serpent chew faster as danger rises: `need /= (1 + danger*0.5)`.
-- Empty-cell travel goes from 0.42 to 0.32.
-
-**Invasion:**
-- March interval: `0.2 + 0.7*n/total`.
-- Bolt interval: `0.9 + 1.4*n/total`.
-- Bolt speed: 200.
-- Boss HP: 36.
-- In rage, the boss fires twin bolts.
-
-**Both:** tune so a first-time player usually loses once or twice, and a skilled player can 3-star.
-
-#### 4. Continue screen
-
-Do this in `main.js`, with `src/monetize.js` already written.
-
-- **When:** on `state === 'lost'`, if `continueOffer(used)` returns `'ad'` or `'free'`, show a **Continue?** card before the results.
-- **Card content:**
-  - the loss reason;
-  - a 9-second countdown ring;
-  - primary button "▶ Watch ad · Continue" (or "Continue" when unlocked or in free mode);
-  - secondary button `Unlock full game · ${PRICE}`, hidden when `MODE === 'free'` or already unlocked;
-  - a "No thanks" text link that goes to the results.
-- **Watch ad:**
-  - show a placeholder full-screen "Ad · 3…2…1" card while awaiting `watchAd()`;
-  - then call `level.continueRun()`;
-  - count `used++` per attempt and reset it in `start()`.
-- **Unlock:** `buyFullGame()`, then continue.
-- **Level-specific undo** goes in each level's `continueRun()`:
-  - **Vault after the serpent reached her:** rebuild the BARS cells, set `cageGone = false`, `knockBack(6)`, stun 3 s, princess back to Idle, `phase = 'rescue'`.
-  - **Invasion after the formation landed:** `grid.oy -= 42`; all robots look `shock`.
-- **Swapping later:** keep all money logic inside `monetize.js`, so real ad and payment SDKs, or free mode, are a one-file change.
-
-#### 5. Ferocious serpent (Vault)
-
-- **Default face:** `snarl` when danger is over 0.15. Use `strike` on each bite.
-- **Visible biting:** about 2.2 chomps per second. On each chomp:
-  - the head lunges about 5 units toward the target cell (offset the head draw along `s.dir`);
-  - the brick wobbles;
-  - chips crumble off;
-  - `sfx.chew()` plays louder;
-  - bite-mark notches grow on the brick with chew progress, replacing the current thin crack lines in `drawChew`.
-  - When finished, `crumble` the brick.
-- **Cage attack:** replace the instant "caught". When the next planned cell is a cage cell, start an attack sequence in slow-mo (timeScale about 0.6):
-  1. the head **rears back** with `strike` and a red "!" telegraph (0.7 s);
-  2. **strike 1**: bars bend (big `barsWob`), sparks, shake, `sfx.boom`;
-  3. rear back (0.5 s);
-  4. **strike 2**: bars shatter (`burstCage`-style debris);
-  5. the head lunges onto the princess; she cowers (`Scared`); `grin`; red flash; "GOT HER!".
-  6. `fail('The serpent got the princess')` about 1 s later.
-- **Last chance:** hitting the head before strike 2 interrupts the attack (stun plus `knockBack(3)`).
-
-#### 6. Nervous princess (Vault)
-
-Give her an x position inside the cage (about 140–220).
-
-| Danger | Behaviour |
-|---|---|
-| below 0.3 | Idle at the centre, occasionally "Help!" |
-| 0.3–0.6 | `Nervous` walk back and forth at about 22 u/s, pausing at the ends with a scared glance toward the snake |
-| above 0.6 | `Panic` run "in circles": x = cx + 36·cos θ, with a slight scale and y bob from sin θ for depth, flipping on direction, biased away from the serpent |
-| during the attack | `Scared`, cowering on the far side |
-
-#### 7. Invasion polish
-
-- **Calm the background:**
-  - in `background()`, after drawing the plate, darken it with about rgba(6,8,20,0.35);
-  - desaturate it about 30% (`globalCompositeOperation = 'saturation'` with grey at about 0.3 alpha);
-  - darken the lower hangar (y above about 450) a further 25%.
-- **Hazard line:** draw it thin and dim (about 0.3 alpha) until the formation is near, then brighten and flash it as a warning.
-- **Landing beat:** when the formation lands, all robots `laugh`, the hazard line flashes red, and a beam zaps the paddle. Then "THEY LANDED" and `fail` after about 1.2 s.
-- **Laser:** shots damage the boss through `shotHit`.
-- Apply the same crumble, deck and continue behaviour as the Vault.
-
-#### 8. Shinier bricks
-
-Done by the art job above; verify it. If it is not finished, rerun the brick renders with:
-- lower roughness and clearcoat;
-- a softbox or emissive strip so the top faces catch a crisp highlight;
-- the same sizes and names.
-
-#### 9. Playtest and publish
-
-- Playtest at iOS 393×852 with `?safe=59,34` and Android 412×915 with `?safe=32,24`.
-- Check for no console errors, the deck clear of play, readable text, and a reachable continue flow.
-- Share screenshots with the owner.
-
-#### 10. Merge
-
-Commit as mahikshith (no AI attribution) and merge `wip/polish-pass` into `main`.
-
----
-
-## 9. Future, NOT to build now (keep the code extensible)
-
-- **Story mode** chaining levels. The full plan (story bible, chapters, heroes, weapons, power-ups, fusions, store, roadmap) is in `docs/STORY_PLAN.md`; build only after the owner approves a phase.
-- **Unlockables:** a locked princess, sword or prince shown as "next time" teasers; dragons and mythical beasts as new creatures.
+- **Story mode** chaining levels. The full plan (story bible, chapters, heroes, weapons, power-ups, fusions, store, roadmap) is in `docs/STORY_PLAN.md`; build only after the owner approves a phase. Its chapter map was replaced by the shipped castle chapters, so re-plan before building any of it.
+- **Unlockables:** a locked prince or sword shown as "next time" teasers; dragons and mythical beasts as new creatures (first step is Dragon's Hoard).
 - **Extensibility:**
-  - levels are self-contained classes in the `LEVELS` registry in `main.js`, so new levels and creatures slot in the same way;
+  - levels are self-contained classes or models in the `LEVELS` registry in `main.js`; append, never reorder, so save slots stay put;
   - monetisation stays isolated in `monetize.js`;
   - persistent progress goes through `prefs.js`.

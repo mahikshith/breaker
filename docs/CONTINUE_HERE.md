@@ -1,32 +1,33 @@
 # Continue here
 
-**Latest steering:** Let the owner play current Mooncoil first. Two distinct snakes, new traps/urgency and rendered themed armour/power icons are deferred until that feedback; the current room and snake movement intentionally still reuse Vault.
+Last updated 2026-10-22 (night). Branch `codex/castle-chapters`; `main` is untouched until the owner reviews screenshots.
 
-**2026-10-20 — Fresh physics audit and Mooncoil Reliquary:** Pig and crab were rechecked with new model routes and phone-browser checks. Carrier had a moving-fighter laser miss during Focus; its projectile/actor clock conversion is now corrected and regression-tested. A new browser chapter is appended at index5 (`?level=6`): violet Mooncoil, three broad masonry banks, falling counterweights, Moonbind/Crystals/Cosmic. Read `docs/MOONCOIL_RELIQUARY.md` and `docs/validation/physics-recheck/`. Original Vault difficulty/layout are unchanged. The prior APK is a separate checkpoint.
+## State in five lines
 
+- 11 chapters are built (`LEVELS` in `src/main.js`; save slots never move): 0 Carrier, 1 Vault, 2 Circuit, 3 Forge, 4 Frost Warden, 5 Mooncoil Reliquary (with a second serpent, Gnash), 6 Bellforge Run, 7 Tidewheel Citadel, 8 Gatehouse Siege, 9 Lumi Breaks Out, 10 Serpent Rivals. `?level=N` is 1-based; menu key 0 starts slot 9.
+- Chapters 6 to 10 run through `src/fantasy/chapter.js`; Ram Ball (`src/fantasy/ram.js`), the power-ready pulse and `src/clearance.js` apply everywhere.
+- Gates before anything ships: `npm test` (506 pass), `npm run audit:physics` (zero failures), `node tools/playtest/physics-audit-checks.mjs --quick`.
+- Release path: `npm run build` (dist/breach.html, about 14 MB), `node tools/pin-sha.mjs`, `node tools/prepare-android.mjs`, then one manual CI run (`workflow_dispatch` only). No APK of the 11-chapter game exists yet; the last APK is the old five-chapter one.
+- Art: `python3 tools/pack_art.py` (about 4.5 min) builds `src/vault-art.js`; never hand-merge it. Blender bpy 5.2.2 runs headless from `art/`.
 
-**Vault successful-rescue retreat (2026-10-20):** The owner approved the emerald snake/capture presentation. The final requested correction replaces backward cell stepping/fading with a head-led turn and return into the top tunnel, followed by the whole body and tail. The entrance remains visible, and the result cannot cut off departure. See `docs/FANTASY_REFINEMENT.md` and `docs/validation/snake-retreat/`. Difficulty and black-block removal remain deferred. The earlier capture receipts remain historical evidence for their pinned build.
+## Next
 
-Last updated 2026-10-20. Active branch: `codex/starship-run-prototype`. The completed five-chapter APK branch is `codex/space-combat-apk` and has been incorporated here.
+1. Premium art wiring into the earlier levels (in progress).
+2. APK build plus one manual CI run.
+3. Owner playtest and tuning (harder but fair).
+4. Dragon's Hoard (needs dragon art from `prompt-library/`).
+5. Starflight in its own thread later (separate prototype, not in the game).
 
-Newest keep playtest: read `docs/FANTASY_REFINEMENT.md` first. Bellforge's short-window load failure is fixed at the shared layout boundary. Both villains now have safe defeat sequences and separate dazed/fainted art. Tidewheel has Anchor, Arrow Volley and Starfire, an exact-full charge fix, a claw-origin water attack, and cumulative hauling-chain motion. Nerra's new live fury art uses matching measured collision. The original Vault now reuses the rendered castle hall with a registered dark brick recess and masonry tunnel. This changes the current web bundle; the old APK hash below remains historical and does not include this revision.
+Pending owner decision: "compress the companions" saves about 2 MB but shifts faces by 4 to 7 out of 255.
 
-Latest Vault steering: upgrade the snake graphics, body capture, evil laugh and venom presentation; retain the dungeon bricks/dust. Difficulty and removal of black blocks are deferred until the owner tests powers. The initial graphics-only checkpoint preserved all 55 non-draw methods. The subsequent capture revision changes only post-commit choreography and its result delay: full body history follows the head after the second strike, Lumi moves with the coil, the jaw laughs, and a fallen ball cannot interrupt the ending. The entire 400-cell layout remains unchanged (45 granite, 18 cage-bar cells). Read `docs/FANTASY_REFINEMENT.md` and the final browser receipts.
+## Where to read more
 
-Latest steering: enjoyable, readable combat with memorable powers; enemies must not disappear and award progress for doing nothing. The default browser now runs **Gatebreak**, a finite mission with returning fighter roles, three blockade batteries, a command ship that loses firing capability, earned weapon capsules, recovery pockets and a final fleet departure. Read `docs/STARFLIGHT_MISSION.md` first. Stormwing is exclusively thunder from separation through return; no friendly bullets may appear until attachment. Ricochet uses actual repeated wall reflections. Nine choices use a paused weapon bay; stock spends before reactor charge. Preview: `http://127.0.0.1:4194/prototypes/starflight/`. The previous repeating lab is retained at `?lab=1`. The owner approved both Bellforge Run and Tidewheel Citadel boards and asked for faithful moving implementations. Their original boards are preserved in `design/phase1/princess-two-levels.md`. Both now have standalone moving browser encounters: `http://127.0.0.1:4194/prototypes/fantasy/?level=bellforge` and `?level=tidewheel`. Read `docs/BELLFORGE_PHYSICS.md` and `docs/TIDEWHEEL_PHYSICS.md` for current rules, source hashes and phone-size receipts. Bellforge has 30 phone-layout bricks, extended ramps, rolling bells and a lowering lift. Tidewheel has 24 raft bricks, a smaller crab supported by a broad sluice wall, physical chain pulls, anger, a lowering refuge, bounded currents and a warned water attack. Two-hit central raft braces open broad ball lanes. These previews use four keyed character poses plus independently moving machinery; they are not full skeletal animation or part of the APK.
+- `docs/handoff/01-status-and-next-steps.md`: full "Current state", owner rules, progress log.
+- `docs/handoff/02-architecture-and-pipeline.md` and `03-environment-skills-ux.md`: code, art, build, tests, tools, UX.
+- `docs/BACKLOG.md` and `design/phase2/*.md`: plans and to-dos.
+- Per-chapter notes: `docs/MOONCOIL_RELIQUARY.md`, `docs/BRUM_LEVEL_PLAN.md`, `docs/BELLFORGE_PHYSICS.md`, `docs/TIDEWHEEL_PHYSICS.md`, `docs/FANTASY_REFINEMENT.md`.
+- Older docs (`SPACE_COMBAT_HANDOFF.md`, `MOBILE_PREVIEW.md`, `NEXT_LEVELS.md`, `STARFLIGHT_*.md`) describe the five-chapter space release and the Starflight prototype. They are history for anything castle-related.
 
-`docs/STARFLIGHT_CAMPAIGN.md` remains a broader proposed campaign, not an implemented six-chapter game. Rescue-to-module progression was an example, not a required formula. Gatebreak is NOT inside the five-chapter APK; chapter saves, a physical rescue/attachment campaign and physical-phone balance remain future work.
+## Owner rules
 
-The owner approved both heavy and salvo fire, differentiated ship colours, alternating/paired/rest batteries, stronger player shots, Circuit Vesper/Latch, a better power menu, difficulty tuning and a new APK through CI. The five-chapter release is complete: CI 39399653237 passes web, native compilation/lint and Android 15 touch/fullscreen/lifecycle instrumentation. The downloaded APK is verified at 9,596,473 bytes, SHA256 B44BC99FE10468DEF35E89F32B85900F8AAD3C16BB92C6C1040A04D850E7BA8E. Download and scope: `docs/MOBILE_PREVIEW.md`; permanent evidence: `docs/validation/space-combat/native-release.json`. Physical handset performance and human difficulty remain device testing.
-
-1. Read `docs/SPACE_COMBAT_HANDOFF.md`: exact current mechanics, resources, files, physics, controls and verification limits.
-2. Read `docs/MOBILE_PREVIEW.md`: package scope, release hashes, CI and installable artifact.
-3. Read `docs/NEXT_LEVELS.md`: proposed next encounters, with future encounters clearly separated from the completed Frost Warden. Escort and Switch proposals remain deferred.
-4. Read `docs/ARTWORK_LIBRARY.md` and the permanent `artwork-library/` catalogue before remaking any asset.
-5. Then read the historical handoff set for the broader story and prior choices. Newest dated facts override historical review gates; do not erase earlier evidence.
-
-Save slots remain Carrier 0 / Vault 1 / Circuit 2 / Forge 3; Frost Warden appends slot 4. Do not move Vault progress into a space slot. Nix/Tick belong to Carrier; Vesper/Latch to Circuit; Forge currently has neutral ship arsenal. Nova/Pin, Escort Run and Orbital Switch remain future proposals. The owner delegated design decisions and authorized a fifth Frost Warden princess encounter using the Yeti rig, preserving Brum as a hero. See `docs/BRUM_LEVEL_PLAN.md` for the implemented geometry, measured collision, pacing, powers and phone evidence.
-
-Final canonical browser SHA256: `B06CDD969BCF5C420A74B3CF37A3EAC45FE3D46EABB2926F5E5D2B8A42E01770`. Offline Android HTML: `4071ACEE8BE6AB862A3CD9A0CE35680B99090B9E254D7B858F699668D949B90A`. `config/mobile-preview.json` pins the source bundle; `tools/prepare-android.mjs` refuses a mismatch. The release checkpoint passes 231 unit tests. Historical release receipts are in `docs/validation/space-combat/`; current Gatebreak verification belongs in `docs/validation/starflight-mission/`.
-
-User emphasis: retain reference art quality in runtime, meaningful pressure with readable dodges, ordinary-ball progress, useful bounded powers, distinct level objectives, full-screen safe mobile layout and detailed reproducible handoffs. Enemy space shots must never destroy the player's bricks. Avoid a mandatory precision puzzle when the ball cannot be directly aimed at every contact.
+Commits authored and committed as `mahikshith <mahikshith97@gmail.com>`; no AI attribution anywhere in the repo; strip PNG metadata from renders; show screenshots after anything finishes; short single-path instructions; physics first.

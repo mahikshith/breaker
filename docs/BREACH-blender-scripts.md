@@ -1187,10 +1187,11 @@ SOURCES = [
     ('sources', 'art/starflight-equipment'),
     ('sources', 'art/fantasy-machinery'),
     ('sources', 'art/snake-emerald'),
+    ('sources', 'art/mooncoil'),
     ('assets', 'design/phase1/weapon-vfx-v2'),
     ('assets', 'design/phase1/weapon-vfx-v3'),
     *[('assets', 'assets/' + name) for name in (
-        'space-a', 'space-b', 'space-c', 'space-common', 'space-companions', 'circuit-companions',
+        'mooncoil', 'space-a', 'space-b', 'space-c', 'space-common', 'space-companions', 'circuit-companions',
         'relay-circuit', 'orbital-forge', 'frost-warden', 'kit', 'kit-cast', 'snake-jade', 'snake-emerald', 'starflight', 'starflight-v2', 'starflight-arsenal', 'starflight-storm', 'starflight-equipment', 'fantasy-machinery')],
     *[('renders', 'out/' + name) for name in (
         'brum-proof', 'kit-proof', 'kit-cast-proof', 'cast',
@@ -1472,10 +1473,15 @@ for name, part in manifest['parts'].items():
     pixels[pixels[:, :, 3] == 0, :3] = 0
     image = Image.fromarray(pixels)
     encoded = io.BytesIO()
-    image.save(encoded, 'WEBP', lossless=True, exact=True, method=6)
+    # Large opaque plates may opt in to lossy colour ("encode": "lossy"); alpha must stay bit-exact so silhouettes
+    # and collision never move, and the native-size guard below still bounds the visible error.
+    lossy = part.get('encode') == 'lossy'
+    if lossy: image.save(encoded, 'WEBP', quality=92, alpha_quality=100, method=6)
+    else: image.save(encoded, 'WEBP', lossless=True, exact=True, method=6)
     data = encoded.getvalue()
     decoded = Image.open(io.BytesIO(data)).convert('RGBA')
-    assert decoded.tobytes() == image.tobytes(), f'{name}: lossless round trip drift'
+    if lossy: assert decoded.getchannel('A').tobytes() == image.getchannel('A').tobytes(), f'{name}: alpha drift'
+    else: assert decoded.tobytes() == image.tobytes(), f'{name}: lossless round trip drift'
     native_error = None
     if isinstance(display, list):
         size = tuple(max(1, round(n * 412 / 360)) for n in display)
@@ -1485,6 +1491,9 @@ for name, part in manifest['parts'].items():
             return np.array(backdrop.convert('RGB'), dtype=np.float32)
         native_error = float(np.abs(native(original) - native(decoded)).mean())
         assert native_error < 4, (name, native_error)
+    elif lossy:  # full-screen plates have no display size: bound the error at their own resolution
+        native_error = float(np.abs(np.array(image.convert('RGB'), dtype=np.float32) - np.array(decoded.convert('RGB'), dtype=np.float32)).mean())
+        assert native_error < 4, (name, native_error)
     path = output / f'{name}.webp'
     path.write_bytes(data)
     rows.append({'id': name, 'source': part['path'], 'sourceSHA256': sha(raw),
@@ -1492,7 +1501,7 @@ for name, part in manifest['parts'].items():
         'sourceSize': part['size'], 'runtimeSize': list(image.size),
         'sourceBytes': len(raw), 'encodedBytes': len(data),
         'decodedRGBABytes': image.width * image.height * 4,
-        'nativeMeanChannelError': native_error, 'losslessRoundTrip': True})
+        'nativeMeanChannelError': native_error, 'losslessRoundTrip': not lossy, **({'encoding': 'lossy-q92-exact-alpha'} if lossy else {})})
 report = {'scope': 'Isolated phone texture sizing; original normalized collision/anchors remain authoritative',
     'manifest': manifest_path.relative_to(ROOT).as_posix(), 'manifestSHA256': sha(manifest_path.read_bytes()),
     'parts': rows, 'encodedBytes': sum(p['encodedBytes'] for p in rows),
@@ -8286,6 +8295,55 @@ def uri(im, q=88, lossless=False):
 art = {'sprites': {}}
 with Image.open(A('fantasy-machinery', 'bellforge-background.png')) as keep:
     art['keepBackdrop'] = uri(keep, 88)
+art['mooncoil'] = {'bricks': {}}
+moon_background = A('mooncoil', 'background.png')
+if os.path.exists(moon_background):
+    with Image.open(moon_background) as im:
+        assert not im.info, 'Mooncoil background metadata must be stripped'
+        art['mooncoil']['background'] = uri(im, 90)
+moon_manifest = A('mooncoil', 'bricks-manifest.json')
+if os.path.exists(moon_manifest):
+    manifest = json.load(open(moon_manifest, encoding='utf-8'))
+    for key, spec in manifest['sprites'].items():
+        path = os.path.join(ROOT, spec['path'])
+        with Image.open(path) as im:
+            assert im.mode == 'RGBA' and not im.info, f'Invalid Mooncoil brick: {key}'
+            assert list(im.size) == spec['px']
+            art['mooncoil']['bricks'][key] = {'url': uri(im, 100, lossless=True),
+                'margin': spec['margin'], 'uw': spec['drawSize'][0], 'uh': spec['drawSize'][1]}
+icon_manifest = A('power-icons', 'icons-manifest.json')
+if os.path.exists(icon_manifest):
+    art['powerIcons'] = {}
+    for key, spec in json.load(open(icon_manifest, encoding='utf-8'))['icons'].items():
+        with Image.open(os.path.join(ROOT, spec['path'])) as im:
+            assert im.mode == 'RGBA' and not im.info and list(im.size) == spec['px'], f'Invalid power icon: {key}'
+            art['powerIcons'][key] = {'url': uri(im, 100, lossless=True), 'artBounds': spec['artBounds']}
+# Castle window kit: back layer, clipped serpent, front layer (see art/castle/README.md).
+window_manifest = A('castle', 'window-manifest.json')
+if os.path.exists(window_manifest):
+    art['castleWindow'] = {}
+    for key, spec in json.load(open(window_manifest, encoding='utf-8'))['sprites'].items():
+        with Image.open(os.path.join(ROOT, spec['path'])) as im:
+            assert im.mode == 'RGBA' and not im.info and list(im.size) == spec['px'], f'Invalid window sprite: {key}'
+            art['castleWindow'][key] = {'url': uri(im, 100, lossless=True), 'uw': spec['drawSize'][0], 'uh': spec['drawSize'][1],
+                                        'anchor': spec['anchor'], 'opening': spec['opening']}
+# Shared counter gems and crash pieces (see art/fx_kit/fx_kit.py); drawn centred at drawSize.
+fx_manifest = A('fx-kit', 'fx-manifest.json')
+if os.path.exists(fx_manifest):
+    art['fxKit'] = {}
+    for key, spec in json.load(open(fx_manifest, encoding='utf-8'))['parts'].items():
+        with Image.open(os.path.join(ROOT, spec['path'])) as im:
+            assert im.mode == 'RGBA' and not im.info and list(im.size) == spec['px'], f'Invalid fx part: {key}'
+            art['fxKit'][key] = {'url': uri(im, 100, lossless=True), 'uw': spec['drawSize'][0], 'uh': spec['drawSize'][1]}
+skin_manifest = A('paddle-skins', 'skins-manifest.json')
+if os.path.exists(skin_manifest):
+    art['paddleSkins'] = {}
+    for key, parts in json.load(open(skin_manifest, encoding='utf-8'))['skins'].items():
+        art['paddleSkins'][key] = {}
+        for part, spec in parts.items():
+            with Image.open(os.path.join(ROOT, spec['path'])) as im:
+                assert im.mode == 'RGBA' and not im.info and list(im.size) == spec['px'], f'Invalid paddle skin: {key}_{part}'
+                art['paddleSkins'][key][part] = {'url': uri(im, 100, lossless=True)}
 art['spaceWeapons'] = {}
 for name in ('shot', 'impact'):
     path = os.path.join(ROOT, 'design', 'phase1', 'weapon-vfx-v3', f'plasma-{name}-runtime.png')
@@ -8502,6 +8560,80 @@ if os.path.exists(frost_path):
             assert bounds and bounds[0] > 0 and bounds[1] > 0 and bounds[2] < cw and bounds[3] < ch, f'Clipped Frost frame {n}'
         art['frostWarden'] = {k: v for k, v in frost.items() if k not in ('atlas', 'sha256')}
         art['frostWarden']['url'] = uri(im, 100, lossless=True)
+
+# Bellforge Run and Tidewheel Citadel machinery: native-resolution WebP (alpha stays exact) plus the measured pivots/anchors the renderer uses.
+# The Bellforge plate is art['keepBackdrop'] above; shared ball, paddle, brick and Lumi art comes from art['sprites'] and art['princess'].
+fm = lambda f: A('fantasy-machinery', f)
+def fm_part(spec, q=88):
+    part = {k: spec[k] for k in ('size', 'unit', 'pivot', 'cell', 'columns', 'anchors', 'sockets', 'footUV', 'frame', 'frameRect') if k in spec}
+    with Image.open(os.path.join(ROOT, spec['path'])) as im:
+        assert list(im.size) == spec['size'] and im.mode == 'RGBA', f"Stale fantasy art: {spec['path']}"
+        part['url'] = uri(im, q)
+    return part
+fantasy_manifest = json.load(open(fm('manifest.json'), encoding='utf-8'))
+nerra_manifest = json.load(open(fm('nerra-v2-manifest.json'), encoding='utf-8'))
+reactions = json.load(open(fm('reactions-manifest.json'), encoding='utf-8'))
+fantasy = {'bellforge': {k: fm_part(fantasy_manifest['bellforge'][k]) for k in ('korr', 'bell', 'ramp', 'lift', 'ratchet', 'plinth', 'releaseLever', 'leverMount', 'bellCradle')},
+           'tidewheel': {k: fm_part(fantasy_manifest['tidewheel'][k]) for k in ('crusherClaw', 'wheel', 'raft', 'gate', 'counterweight', 'sluiceWall', 'refugeBalcony', 'gateFrame')},
+           'nerra': {k: fm_part(nerra_manifest[k]) for k in ('nerraBody', 'gateClawV2', 'chain')}}
+fantasy['tidewheel']['bricks'] = {k: fm_part(fantasy_manifest['tidewheel']['bricks'][k]) for k in ('sage', 'coral', 'ivory')}
+with Image.open(fm('tidewheel-background.png')) as im:
+    fantasy['tidewheel']['background'] = {'size': list(im.size), 'url': uri(im.convert('RGB'), 86)}
+fantasy['bellforge']['background'] = {'size': fantasy_manifest['bellforge']['background']['size']}
+fantasy['reactions'] = {f: {k: fm_part(reactions[f][k]) for k in reactions[f]} for f in ('nerra', 'korr')}
+fantasy['waterShot'] = fm_part(json.load(open(fm('water-shot-manifest.json'), encoding='utf-8')))
+art['fantasy'] = fantasy
+
+# Lumi Breaks Out: her face-orb set (Kit's mood names alias onto it) and the pink-gold paddle caps, both drop-ins for Kit's/the Vault's.
+lumi_faces = A('princess', 'faces', 'manifest.json')
+if os.path.exists(lumi_faces):
+    order = json.load(open(lumi_faces, encoding='utf-8'))['order']; face_cell = 288
+    faces = Image.new('RGBA', (len(order) * face_cell, face_cell))
+    for c, a in enumerate(order):
+        with Image.open(A('princess', 'faces', f'{a}_face_00.png')) as im:
+            assert im.size == (face_cell, face_cell) and im.mode == 'RGBA' and not im.info, f'Invalid Lumi face: {a}'
+            faces.paste(im, (c * face_cell, 0))
+    expr = {a: i for i, a in enumerate(order)}; expr.update({'Worried': expr['Nervous'], 'Shock': expr['Panic'], 'Grin': expr['Cheer'], 'Laugh': expr['Cheer']})
+    art['lumiFaces'] = {'url': uri(faces, 90), 'cell': face_cell, 'expr': expr}
+if os.path.exists(A('princess', 'paddle', 'paddle_m.png')):
+    art['lumiPaddle'] = {}
+    for part in ('l', 'm', 'r'):
+        with Image.open(A('princess', 'paddle', f'paddle_{part}.png')) as im:
+            assert im.mode == 'RGBA' and not im.info and im.size == ((150 if part == 'm' else 48), 60), f'Invalid Lumi paddle: {part}'
+            art['lumiPaddle'][part] = uri(im, 100, lossless=True)
+
+# Serpent Rivals props (art/rivals/rivals_art.py): lure runes, Twin Seal stages, ward plates, chamber floor, clash burst, shuttered window.
+# Each sprite is drawn at drawSize with `anchor` on its model point; `contact` is the model rect inside the sprite.
+rivals_manifest = A('rivals', 'manifest.json')
+if os.path.exists(rivals_manifest):
+    rm = json.load(open(rivals_manifest, encoding='utf-8')); art['rivals'] = {'sprites': {}, 'wardSlots': rm['sealWardSlots']['slots']}
+    for key, spec in rm['sprites'].items():
+        with Image.open(os.path.join(ROOT, spec['path'])) as im:
+            assert im.mode == 'RGBA' and not im.info and list(im.size) == spec['px'], f'Invalid rivals sprite: {key}'
+            art['rivals']['sprites'][key] = {k: spec[k] for k in ('anchor', 'contact', 'opening') if k in spec}
+            art['rivals']['sprites'][key].update({'url': uri(im, 100, lossless=True), 'uw': spec['drawSize'][0], 'uh': spec['drawSize'][1]})
+
+# Premium pass (art/premium/premium.py): glazed crash shards and impact glints for every Arena chapter, the Bellforge
+# ceramic and pin bricks (Tidewheel contact anchors), the Frost ward posts and the Frost rampart backdrop.
+premium_manifest = A('premium', 'manifest.json')
+if os.path.exists(premium_manifest):
+    pm = json.load(open(premium_manifest, encoding='utf-8'))['parts']
+    def premium_uri(key, q=92, lossless=False, rgb=False):
+        spec = pm[key]; path = os.path.join(ROOT, spec['path'])
+        assert hashlib.sha256(open(path, 'rb').read()).hexdigest() == spec['sha256'], f'Premium art changed: {key}'
+        with Image.open(path) as im:
+            assert list(im.size) == spec['px'] and not im.info and im.mode == ('RGB' if rgb else 'RGBA'), f'Invalid premium art: {key}'
+            return uri(im, q, lossless=lossless)
+    premium = {'shards': {}, 'glints': {}, 'bricks': {}, 'frost': {}}
+    for key in sorted(pm):
+        family, name = key.split('/'); spec = pm[key]
+        if family == 'shards': premium['shards'].setdefault(name.rsplit('_', 1)[0], []).append(premium_uri(key, 100, True))
+        elif family == 'glints': premium['glints'][name.split('_', 1)[1]] = premium_uri(key, 100, True)
+        elif family == 'bellforge': premium['bricks'][name] = {'url': premium_uri(key), 'uw': spec['drawSize'][0], 'uh': spec['drawSize'][1], 'anchors': spec['anchors']}
+        elif key == 'frost/backdrop': premium['frost']['backdrop'] = {'url': premium_uri(key, 86, rgb=True), 'screenRect': spec['screenRect'], 'anchors': spec['anchors']}
+        elif family == 'frost': premium['frost'][name] = {'url': premium_uri(key), 'uw': spec['drawSize'][0], 'uh': spec['drawSize'][1], 'anchors': spec['anchors']}
+    assert all(len(v) == 3 for v in premium['shards'].values()) and set(premium['glints']) == {'warm', 'cool', 'rose'}
+    art['premium'] = premium
 
 out = os.path.join(ROOT, 'src', 'vault-art.js')
 js = '// Rendered art for the Vault, generated by tools/pack_art.py from assets/. Do not edit by hand.\nexport const ART = ' + json.dumps(art) + ';\n'

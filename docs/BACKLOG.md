@@ -1,8 +1,8 @@
 # BREACH backlog: everything Codex and ChatGPT left to do
 
-Checked against the code on branch `codex/castle-chapters`, 2026-10-22. Status words: **done** (built and in the build), **partial** (some of it built), **not started**, **superseded** (a later decision or build replaced it). Size: S is under a day, M a few days, L a week or more. "Art?" means new rendered art is needed, not just code.
+Checked against the code on branch `codex/castle-chapters`, 2026-10-22 (night). Status words: **done** (built and in the build), **partial** (some of it built), **not started**, **superseded** (a later decision or build replaced it). Size: S is under a day, M a few days, L a week or more. "Art?" means new rendered art is needed, not just code.
 
-Built today, checked in `src/main.js`: ten levels (Carrier, Vault, Circuit, Forge, Frost Warden, Mooncoil, Bellforge, Tidewheel, Gatehouse, Lumi Breaks Out), the continue screen, power icons, Ram Ball. Lumi Breaks Out is still in progress (floors, windows, Lullaby/Starlight are in `src/fantasy/lumitower.js`).
+Built today, checked in `src/main.js`: eleven chapters (Carrier, Vault, Circuit, Forge, Frost Warden, Mooncoil with a second serpent, Bellforge, Tidewheel, Gatehouse, Lumi Breaks Out, Serpent Rivals), the continue screen, power icons, Ram Ball in every level, the power-ready pulse. Status of the whole game and the gates: `docs/handoff/01-status-and-next-steps.md`, "Current state".
 
 Sources are short names: **H01** `docs/handoff/01-status-and-next-steps.md`, **H04** `docs/handoff/04-chatgpt-design-brief.md`, **NL** `docs/NEXT_LEVELS.md`, **SP** `docs/STORY_PLAN.md`, **GP** `docs/GAME_PLAN.md`, **P2a** `design/phase2/new-concepts.md`, **P2b** `design/phase2/kit-and-lumi-levels.md`, **P2c** `design/phase2/dragons-hoard.md`, **CH** `docs/CONTINUE_HERE.md`.
 
@@ -10,10 +10,10 @@ Sources are short names: **H01** `docs/handoff/01-status-and-next-steps.md`, **H
 
 Picked for: sticky, reuses finished art, harder but fair.
 
-1. **Ram Ball in every castle chapter** (Vault, Mooncoil, Frost, Bellforge, Tidewheel). The owner asked for it, the ring art and both skins (`assets/power-icons/ram_steel.png`, `ram_song.png`) are finished, and today only Gatehouse and Lumi have it. Move the duplicate copy in `gatehouse.js` onto `src/fantasy/ram.js` at the same time. Size S to M, no art.
-2. **Harder-but-fair pass on all ten levels.** The owner wants players to actually die, with the continue screen as the safety net. The deterministic sweep from the physics audit and the three difficulty modes already exist, so tune Hard and Medium and set a "usually lose once or twice, 3-star when skilled" target. Size M, no art.
+1. **APK of the 11-chapter game plus one manual CI run.** Gates first (`npm test`, `npm run audit:physics`, `physics-audit-checks.mjs --quick`), then build, `pin-sha`, `prepare-android`, one `workflow_dispatch` run. Size S, no art. (Ram Ball in every level and the Rivals chapter are done and were items 1 and 4 here before.)
+2. **Harder-but-fair pass on all eleven levels.** The owner wants players to actually die, with the continue screen as the safety net. The deterministic sweep from the physics audit and the three difficulty modes already exist, so tune Hard and Medium and set a "usually lose once or twice, 3-star when skilled" target. Size M, no art.
 3. **Heat streak** (P2a section 2). One module that makes every finished level stickier: a ball-tint ramp, an ember trail and "touch the paddle cools one step". It only needs a tint ramp, not new characters. Size M.
-4. **Serpent Rivals** (P2a section 1, CH "two distinct snakes"). The owner asked for two snakes twice. Both skins, all 13 head expressions and the window kit already exist. The lane paths and the clash animation are code only. Size L, little art.
+4. **Premium art wiring into the earlier levels** (in progress; `design/phase2/premium-pass.md`). Finish the per-level gap audit, then show the owner screenshots. Size M, little art.
 5. **Feel bundle: aim-hold coach, castle-chapter brick shine, single-brick vanish check.** Three small owner complaints that are cheap and visible on every level. The aim hint is currently a single one-second "Aim ready" text. Size S to M, brick re-render only if the castle bricks still look flat.
 
 Next tier: Shine currency plus locked prince and sword teasers (the first rung of the roadmap), Daily Breach, Dragon's Hoard.
@@ -23,10 +23,10 @@ Next tier: Shine currency plus locked prince and sword teasers (the first rung o
 | Item | Source | Status | Size | Art? | Note |
 |---|---|---|---|---|---|
 | Gatehouse Siege (Kit, 3 floors, drawbridge, murder holes, Korr duel) | P2b:33, NL | done | L | n | Chapter 9 in the menu; `src/fantasy/gatehouse.js`, `tests/gatehouse.test.js`. |
-| Lumi Breaks Out (3 floors, Gnash from any window, Lullaby, Starlight) | P2b:47, P2b:90 | partial | L | y | `src/fantasy/lumitower.js` and `lumi-render.js` are in the menu but unfinished in the working tree. Lullaby, Starlight and Song Shield are coded. Still open: roof race polish, owner playtest, laptop art (window arch). |
+| Lumi Breaks Out (3 floors, Gnash from any window, Lullaby, Starlight) | P2b:47, P2b:90 | done | L | y | Chapter 10; `src/fantasy/lumitower.js`, `lumi-render.js`, `tests/lumitower.test.js`. Not in the physics audit adapters yet; owner playtest pending. |
 | Mooncoil Reliquary (violet snake, three seal banks) | MOONCOIL_RELIQUARY.md, CH | done | M | n | Chapter 6. |
 | Mooncoil: themed armour and rendered power icons | CH line 3 | not started | M | y | Deferred until the owner plays Mooncoil. |
-| Serpent Rivals (two snakes, two lanes, clash chamber) | P2a:7, MOONCOIL_RELIQUARY.md:57 | not started | L | n | Same idea the owner proposed for Mooncoil. Must stay winnable on Easy and keep the single rescue goal. |
+| Serpent Rivals (two snakes, two lanes, clash chamber) | P2a:7, MOONCOIL_RELIQUARY.md:57 | done | L | y | Chapter 11; `src/fantasy/rivals.js`, `rivals-render.js`, `design/phase2/serpent-rivals.md`. Mooncoil also got a second serpent, Gnash. Owner playtest pending. |
 | Dragon's Hoard (about 200 coin bricks, noise meter, greed exit) | P2c | not started | L | y | New dragon character needed (6 poses). Comes after Serpent Rivals. |
 | Living mortar (regrowing bricks, keystone) | P2a:29 | not started | M | y | One keystone variant per brick family, from the existing brick scripts. |
 | Duet swap (Kit and Lumi on one paddle) | P2a:22 | not started | M | n | Needs Lumi Breaks Out finished first. Both face-orb sets exist. |
@@ -43,7 +43,7 @@ Next tier: Shine currency plus locked prince and sword teasers (the first rung o
 
 | Item | Source | Status | Size | Art? | Note |
 |---|---|---|---|---|---|
-| Sweet-spot Ram Ball | P2b:23, owner round 2 | partial | S to M | n | Done in Gatehouse and Lumi only. Not in Vault, Mooncoil, Frost, Bellforge, Tidewheel. Gatehouse holds its own copy of the logic. |
+| Sweet-spot Ram Ball | P2b:23, owner round 2 | done | S to M | n | In every level: `src/fantasy/ram.js`, `ramPierce` hook in `src/arena.js`, `tests/ram.test.js`; covered by the audit's ram variant. |
 | Floors module (shared stage climb, per-floor Continue) | P2b:15 | partial | M | n | Floors exist inside Gatehouse and Lumi, but not as one shared module as designed. Lets old chapters get a floor-based remix. |
 | Heat streak / Molten ball | P2a:15 | not started | M | n | See recommended 3. |
 | Fusions and codex (6 fusions) | SP:190 | not started | L | y | Needs the extra power-ups below first. |
@@ -115,10 +115,10 @@ Next tier: Shine currency plus locked prince and sword teasers (the first rung o
 |---|---|---|---|---|---|
 | Physical-phone test: frame rate, touch comfort, human difficulty | MOBILE_PREVIEW.md:15, H01:595, FANTASY_REFINEMENT.md:55 | not started | S | n | Browser and emulator only so far. Owner playtest needed. |
 | Headless physics sweep of every level | commit 4992b7e | done | M | n | Rerun after each level or tuning change. |
-| Android APK covering the ten levels | MOBILE_PREVIEW.md | partial | M | n | The delivered APK is the earlier five-chapter build. Needs a new CI build and native check. |
+| Android APK covering the eleven levels | MOBILE_PREVIEW.md | partial | M | n | The delivered APK is the earlier five-chapter build. Needs a new CI build and native check. |
 | Startup JavaScript budget in the Android smoke test | commit f420a10 | done | S | n | Keep an eye on it as levels grow (art is packed into the HTML). |
 | Merge `wip/polish-pass` into `main` | H01:595 | superseded | S | n | Work moved to `codex/*` branches; the owner approves merges after screenshots. |
-| Gatehouse duplicate Ram logic cleanup | `gatehouse.js:231-241` vs `ram.js` | not started | S | n | Do together with recommended 1. |
+| Gatehouse duplicate Ram logic cleanup | `gatehouse.js` vs `ram.js` | done | S | n | Gatehouse imports the shared `ram.js`. |
 | Art pack size and load time as chapters are added | `tools/pack_art.py` | not started | M | n | Watch the 16 MB-class HTML bundle. Lazy-load per chapter if the smoke test budget is hit. |
 | Apply `skills/gamedev` guidance (game-feel, performance, save-systems) | AGENTS.md skills table | partial | S | n | Skills are vendored. Use them for tasks above. |
 | Real iOS wrapper (Capacitor, Game Center) | GP:246 | superseded | L | n | GP plans iOS first; the repo ships an Android APK. Decide platform order before doing it. |
