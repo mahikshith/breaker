@@ -1,10 +1,8 @@
 name: Eight-chapter mobile preview
 
+# Manual only: run it from the Actions tab (or `gh workflow run`) once local tests, build and the pinned SHA pass.
 on:
   workflow_dispatch:
-  push:
-    branches: [codex/castle-chapters]
-    paths-ignore: ['docs/**', 'design/**']
 
 permissions:
   contents: read
