@@ -1,0 +1,1699 @@
+{
+  "version": 1,
+  "source": "art/premium/premium.py",
+  "rig": "art/render_vault_assets.py (glaze, gloss card, key/fill/bounce, AgX Medium High Contrast)",
+  "units": "game units; sprites are centred on anchor and drawn at drawSize; contact anchors are normalized UV of the full image, like assets/fantasy-machinery bricks",
+  "scope": "Premium pass for chapters 1-8: glazed brick families, crash shards, impact glints, Frost backdrop. Transparent PNG, metadata stripped.",
+  "parts": {
+    "bellforge/ceramic_coral": {
+      "path": "assets/premium/bellforge/ceramic_coral.png",
+      "use": "Bellforge glazed ceramic brick (coral); same tile as the Gatehouse/Tidewheel bricks",
+      "px": [
+        304,
+        176
+      ],
+      "ppu": 8,
+      "drawSize": [
+        38,
+        22
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        19.0,
+        11.0
+      ],
+      "alphaBounds": [
+        15,
+        15,
+        289,
+        161
+      ],
+      "contact": [
+        34,
+        18
+      ],
+      "anchors": {
+        "contactTopLeft": [
+          0.05263157894736842,
+          0.09090909090909091
+        ],
+        "contactBottomRight": [
+          0.9473684210526316,
+          0.9090909090909091
+        ]
+      },
+      "sha256": "97c200a5ce1e81625ea638a4b292de71feeccba80d580ba9c50c8a1c78886b9f",
+      "encodedBytes": 39491
+    },
+    "bellforge/ceramic_plum": {
+      "path": "assets/premium/bellforge/ceramic_plum.png",
+      "use": "Bellforge glazed ceramic brick (plum); same tile as the Gatehouse/Tidewheel bricks",
+      "px": [
+        304,
+        176
+      ],
+      "ppu": 8,
+      "drawSize": [
+        38,
+        22
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        19.0,
+        11.0
+      ],
+      "alphaBounds": [
+        15,
+        15,
+        289,
+        161
+      ],
+      "contact": [
+        34,
+        18
+      ],
+      "anchors": {
+        "contactTopLeft": [
+          0.05263157894736842,
+          0.09090909090909091
+        ],
+        "contactBottomRight": [
+          0.9473684210526316,
+          0.9090909090909091
+        ]
+      },
+      "sha256": "25667b899927c63cfa2df539aa3055e81b653a42ed5de72df9fa2b957698747d",
+      "encodedBytes": 38207
+    },
+    "bellforge/ceramic_teal": {
+      "path": "assets/premium/bellforge/ceramic_teal.png",
+      "use": "Bellforge glazed ceramic brick (teal); same tile as the Gatehouse/Tidewheel bricks",
+      "px": [
+        304,
+        176
+      ],
+      "ppu": 8,
+      "drawSize": [
+        38,
+        22
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        19.0,
+        11.0
+      ],
+      "alphaBounds": [
+        15,
+        15,
+        289,
+        161
+      ],
+      "contact": [
+        34,
+        18
+      ],
+      "anchors": {
+        "contactTopLeft": [
+          0.05263157894736842,
+          0.09090909090909091
+        ],
+        "contactBottomRight": [
+          0.9473684210526316,
+          0.9090909090909091
+        ]
+      },
+      "sha256": "1d2912180d29f7d46dcfd969d5418905b86c16ff7b8941019d54d1e67edc43b1",
+      "encodedBytes": 39637
+    },
+    "bellforge/pin_1hp": {
+      "path": "assets/premium/bellforge/pin_1hp.png",
+      "use": "Bellforge ramp pin plate, 1 hit(s) left; draw the ratchet badge on top as now",
+      "px": [
+        272,
+        176
+      ],
+      "ppu": 8,
+      "drawSize": [
+        34,
+        22
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        17.0,
+        11.0
+      ],
+      "alphaBounds": [
+        15,
+        15,
+        257,
+        161
+      ],
+      "contact": [
+        30,
+        18
+      ],
+      "anchors": {
+        "contactTopLeft": [
+          0.058823529411764705,
+          0.09090909090909091
+        ],
+        "contactBottomRight": [
+          0.9411764705882353,
+          0.9090909090909091
+        ]
+      },
+      "sha256": "d51102769a74478d32f475cf796ba7e9e8e0b2c1eeeba0e5b0a62e7f34b6fe09",
+      "encodedBytes": 48177
+    },
+    "bellforge/pin_2hp": {
+      "path": "assets/premium/bellforge/pin_2hp.png",
+      "use": "Bellforge ramp pin plate, 2 hit(s) left; draw the ratchet badge on top as now",
+      "px": [
+        272,
+        176
+      ],
+      "ppu": 8,
+      "drawSize": [
+        34,
+        22
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        17.0,
+        11.0
+      ],
+      "alphaBounds": [
+        15,
+        15,
+        257,
+        161
+      ],
+      "contact": [
+        30,
+        18
+      ],
+      "anchors": {
+        "contactTopLeft": [
+          0.058823529411764705,
+          0.09090909090909091
+        ],
+        "contactBottomRight": [
+          0.9411764705882353,
+          0.9090909090909091
+        ]
+      },
+      "sha256": "9bcf82df4760a22a333c34e4369cd17c958bd5a89ee5ba04108e28a2c081679b",
+      "encodedBytes": 40561
+    },
+    "carrier/enamel_cyan": {
+      "path": "assets/premium/carrier/enamel_cyan.png",
+      "use": "Carrier A cyan panel, drop-in for assets/space-a/brick_cyan.png (same normalized frame and alpha bounds)",
+      "px": [
+        264,
+        168
+      ],
+      "ppu": 6,
+      "drawSize": [
+        44,
+        28
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        22.0,
+        14.0
+      ],
+      "alphaBounds": [
+        23,
+        31,
+        241,
+        137
+      ],
+      "contact": [
+        36,
+        17.33
+      ],
+      "anchors": {
+        "contactTopLeft": [
+          0.09090909090909091,
+          0.1905357142857143
+        ],
+        "contactBottomRight": [
+          0.9090909090909091,
+          0.8094642857142857
+        ]
+      },
+      "sha256": "69f004422c2a73d5130f5148289a35e4e5961b2874a94e4025e159a20ec4b0c7",
+      "encodedBytes": 36963
+    },
+    "carrier/enamel_pink": {
+      "path": "assets/premium/carrier/enamel_pink.png",
+      "use": "Carrier A pink panel, drop-in for assets/space-a/brick_pink.png (same normalized frame and alpha bounds)",
+      "px": [
+        264,
+        168
+      ],
+      "ppu": 6,
+      "drawSize": [
+        44,
+        28
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        22.0,
+        14.0
+      ],
+      "alphaBounds": [
+        23,
+        31,
+        241,
+        137
+      ],
+      "contact": [
+        36,
+        17.33
+      ],
+      "anchors": {
+        "contactTopLeft": [
+          0.09090909090909091,
+          0.1905357142857143
+        ],
+        "contactBottomRight": [
+          0.9090909090909091,
+          0.8094642857142857
+        ]
+      },
+      "sha256": "cff4827a33a423684e4615d475cfadf43126cf2495b1f01dd42acc396dd675e3",
+      "encodedBytes": 37212
+    },
+    "frost/backdrop": {
+      "path": "assets/premium/frost/backdrop.png",
+      "use": "Frost Warden backdrop: sky, peaks, crenellated rampart walk, Lumi tower and balcony baked in",
+      "px": [
+        720,
+        1600
+      ],
+      "ppu": 2,
+      "drawSize": [
+        360,
+        800
+      ],
+      "screenRect": [
+        0,
+        0,
+        360,
+        800
+      ],
+      "anchors": {
+        "walk": [
+          6,
+          214,
+          258,
+          24
+        ],
+        "ledge": [
+          266,
+          202,
+          64,
+          14
+        ],
+        "alcove": [
+          272,
+          134,
+          54,
+          68
+        ]
+      },
+      "jpg": "assets/premium/frost/backdrop.jpg",
+      "sha256": "26713382ea91c50714feca98dde451ea0649a326a46e777781d830fa69ea67ce",
+      "encodedBytes": 930856
+    },
+    "frost/post_0": {
+      "path": "assets/premium/frost/post_0.png",
+      "use": "Frost ward post intact",
+      "px": [
+        104,
+        320
+      ],
+      "ppu": 4,
+      "drawSize": [
+        26,
+        80
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        13.0,
+        40.0
+      ],
+      "alphaBounds": [
+        12,
+        9,
+        91,
+        295
+      ],
+      "contact": [
+        18,
+        68
+      ],
+      "anchors": {
+        "contactTopLeft": [
+          0.15384615384615385,
+          0.075
+        ],
+        "contactBottomRight": [
+          0.8461538461538461,
+          0.925
+        ]
+      },
+      "sha256": "07a9f70ae550e54f7995f3829247618c349e62adcc1b6315633ef01230aa170c",
+      "encodedBytes": 33286
+    },
+    "frost/post_1": {
+      "path": "assets/premium/frost/post_1.png",
+      "use": "Frost ward post cracked (hp <= 2/3)",
+      "px": [
+        104,
+        320
+      ],
+      "ppu": 4,
+      "drawSize": [
+        26,
+        80
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        13.0,
+        40.0
+      ],
+      "alphaBounds": [
+        12,
+        9,
+        91,
+        295
+      ],
+      "contact": [
+        18,
+        68
+      ],
+      "anchors": {
+        "contactTopLeft": [
+          0.15384615384615385,
+          0.075
+        ],
+        "contactBottomRight": [
+          0.8461538461538461,
+          0.925
+        ]
+      },
+      "sha256": "d49b6e786eb458c1a33b21e41060418be89d468ca4723cee8c615279a04d32da",
+      "encodedBytes": 32798
+    },
+    "frost/post_2": {
+      "path": "assets/premium/frost/post_2.png",
+      "use": "Frost ward post breaking (hp <= 1/3)",
+      "px": [
+        104,
+        320
+      ],
+      "ppu": 4,
+      "drawSize": [
+        26,
+        80
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        13.0,
+        40.0
+      ],
+      "alphaBounds": [
+        11,
+        9,
+        92,
+        295
+      ],
+      "contact": [
+        18,
+        68
+      ],
+      "anchors": {
+        "contactTopLeft": [
+          0.15384615384615385,
+          0.075
+        ],
+        "contactBottomRight": [
+          0.8461538461538461,
+          0.925
+        ]
+      },
+      "sha256": "b32ea94214aa67261bdc9abd91a843a1e86f9f3b4ae72a13eae25b9482513965",
+      "encodedBytes": 35863
+    },
+    "glints/glint_cool": {
+      "path": "assets/premium/glints/glint_cool.png",
+      "use": "cool impact glint; replaces fx.ring on brick/armour hits (scale 0.6->1.2, fade 0.25 s)",
+      "px": [
+        96,
+        96
+      ],
+      "ppu": 6,
+      "drawSize": [
+        16,
+        16
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        8.0,
+        8.0
+      ],
+      "alphaBounds": [
+        29,
+        19,
+        66,
+        78
+      ],
+      "sha256": "9f6baf713a29e874d560bca12fa4ccc5b7cc38fc7c1db0e8913dc86f4b514833",
+      "encodedBytes": 4281
+    },
+    "glints/glint_rose": {
+      "path": "assets/premium/glints/glint_rose.png",
+      "use": "rose impact glint; replaces fx.ring on brick/armour hits (scale 0.6->1.2, fade 0.25 s)",
+      "px": [
+        96,
+        96
+      ],
+      "ppu": 6,
+      "drawSize": [
+        16,
+        16
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        8.0,
+        8.0
+      ],
+      "alphaBounds": [
+        29,
+        19,
+        66,
+        78
+      ],
+      "sha256": "270d56b641a28830c8f155f9a9a743967f7ef63b1bc62fb55bcfa0c3440fa272",
+      "encodedBytes": 4386
+    },
+    "glints/glint_warm": {
+      "path": "assets/premium/glints/glint_warm.png",
+      "use": "warm impact glint; replaces fx.ring on brick/armour hits (scale 0.6->1.2, fade 0.25 s)",
+      "px": [
+        96,
+        96
+      ],
+      "ppu": 6,
+      "drawSize": [
+        16,
+        16
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        8.0,
+        8.0
+      ],
+      "alphaBounds": [
+        29,
+        19,
+        66,
+        78
+      ],
+      "sha256": "32433b9835d9d23eabf23c9201c19a8dddfc698169091e9e990fea55f7d156b5",
+      "encodedBytes": 5082
+    },
+    "shards/blue_a": {
+      "path": "assets/premium/shards/blue_a.png",
+      "use": "glazed blue brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        7,
+        11,
+        41,
+        34
+      ],
+      "sha256": "107759c7bdd605f7225308deb82f6ce16b6ddcfe9e5912a11e126cffae2eb39e",
+      "encodedBytes": 1684
+    },
+    "shards/blue_b": {
+      "path": "assets/premium/shards/blue_b.png",
+      "use": "glazed blue brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        9,
+        13,
+        40,
+        37
+      ],
+      "sha256": "294c23a6058a750b7c2ec6ba54cbceaae9c6932683101d257d5b47b890ac471a",
+      "encodedBytes": 1646
+    },
+    "shards/blue_c": {
+      "path": "assets/premium/shards/blue_c.png",
+      "use": "glazed blue brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        8,
+        9,
+        34,
+        35
+      ],
+      "sha256": "eb26066bf647370311e223ebf2845b5f4441d415fa758e8c28a93de48fa622a4",
+      "encodedBytes": 1645
+    },
+    "shards/ceramic_a": {
+      "path": "assets/premium/shards/ceramic_a.png",
+      "use": "glazed ceramic brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        6,
+        10,
+        38,
+        35
+      ],
+      "sha256": "201e5255e8e46cdadb78c401317132fd98f1a7bc1cc36270f636f6b784ba0bcf",
+      "encodedBytes": 1708
+    },
+    "shards/ceramic_b": {
+      "path": "assets/premium/shards/ceramic_b.png",
+      "use": "glazed ceramic brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        11,
+        10,
+        40,
+        39
+      ],
+      "sha256": "0b6b478c1d00b6818f557bb4aee9eeb86c9a0a3fe2cab57d79719b833a799595",
+      "encodedBytes": 1814
+    },
+    "shards/ceramic_c": {
+      "path": "assets/premium/shards/ceramic_c.png",
+      "use": "glazed ceramic brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        7,
+        9,
+        38,
+        34
+      ],
+      "sha256": "398e3e4512029d221d8cde2a7e04ea9c451bd491952d23d2ac1612f6e0627784",
+      "encodedBytes": 1693
+    },
+    "shards/coral_a": {
+      "path": "assets/premium/shards/coral_a.png",
+      "use": "glazed coral brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        12,
+        9,
+        38,
+        34
+      ],
+      "sha256": "5d5ad033489145ca4626a5d048d366257a2889a9ba175ee279132a958eef368c",
+      "encodedBytes": 1489
+    },
+    "shards/coral_b": {
+      "path": "assets/premium/shards/coral_b.png",
+      "use": "glazed coral brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        12,
+        14,
+        41,
+        40
+      ],
+      "sha256": "52804357a936036b4cb5698a25045a5d36b49c0c787d3427d2f4186b7b3bea24",
+      "encodedBytes": 1641
+    },
+    "shards/coral_c": {
+      "path": "assets/premium/shards/coral_c.png",
+      "use": "glazed coral brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        10,
+        9,
+        32,
+        35
+      ],
+      "sha256": "ee2eabc390ec0c916b8ad25dd35e0a8acb644398b8a2c32bcdd9cf0c8ab8e997",
+      "encodedBytes": 1479
+    },
+    "shards/cyan_a": {
+      "path": "assets/premium/shards/cyan_a.png",
+      "use": "glazed cyan brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        7,
+        11,
+        40,
+        36
+      ],
+      "sha256": "46fdc80a9889f789fec32e8b2b337aafe3612cabf3b16f34e163983cb7c2a2d7",
+      "encodedBytes": 1710
+    },
+    "shards/cyan_b": {
+      "path": "assets/premium/shards/cyan_b.png",
+      "use": "glazed cyan brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        9,
+        14,
+        41,
+        38
+      ],
+      "sha256": "eadcaca86320874c37965802f3637d50dfb00cc781028af5153caafbe5f692e3",
+      "encodedBytes": 1678
+    },
+    "shards/cyan_c": {
+      "path": "assets/premium/shards/cyan_c.png",
+      "use": "glazed cyan brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        6,
+        11,
+        32,
+        36
+      ],
+      "sha256": "6b5353efdc962b4c8246a7b095ea944cd9cfcfaf4d80196d6315c576b4d8b69e",
+      "encodedBytes": 1636
+    },
+    "shards/gold_a": {
+      "path": "assets/premium/shards/gold_a.png",
+      "use": "glazed gold brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        11,
+        11,
+        41,
+        35
+      ],
+      "sha256": "08a19201c950146b04a0892418ccca2f6c87f6cfdf3313e1ac96d4947c7623ec",
+      "encodedBytes": 1574
+    },
+    "shards/gold_b": {
+      "path": "assets/premium/shards/gold_b.png",
+      "use": "glazed gold brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        9,
+        11,
+        41,
+        38
+      ],
+      "sha256": "5f5bcd7f487bbff841dd2eff0e3c71dd8233b24e7a83102e6d89990e079fcdc1",
+      "encodedBytes": 1789
+    },
+    "shards/gold_c": {
+      "path": "assets/premium/shards/gold_c.png",
+      "use": "glazed gold brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        9,
+        11,
+        38,
+        35
+      ],
+      "sha256": "3ae46743000296b62affe78956cfd03fec9461d4c7c465c5b95cd504ee59232a",
+      "encodedBytes": 1704
+    },
+    "shards/hull_a": {
+      "path": "assets/premium/shards/hull_a.png",
+      "use": "gunmetal hull plate shard (Carrier, Circuit, Forge structural hits)",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        11,
+        15,
+        41,
+        36
+      ],
+      "sha256": "82056f556d9553a72128992e5d8d5dd8429045f87e70e454063b015d4c9777a7",
+      "encodedBytes": 1398
+    },
+    "shards/hull_b": {
+      "path": "assets/premium/shards/hull_b.png",
+      "use": "gunmetal hull plate shard (Carrier, Circuit, Forge structural hits)",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        13,
+        13,
+        40,
+        38
+      ],
+      "sha256": "a38d2c06c93219299d78d3c22c10c93e51907cb72a96f7d7d8bc4ba50dc2db3a",
+      "encodedBytes": 1487
+    },
+    "shards/hull_c": {
+      "path": "assets/premium/shards/hull_c.png",
+      "use": "gunmetal hull plate shard (Carrier, Circuit, Forge structural hits)",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        9,
+        13,
+        35,
+        37
+      ],
+      "sha256": "3d0c62d8f7b51fe8230123dc64fb71611a47276c6474a94318f8bb68451892a2",
+      "encodedBytes": 1512
+    },
+    "shards/ice_a": {
+      "path": "assets/premium/shards/ice_a.png",
+      "use": "ice shard (Frost: Warden punch, post break, frozen bricks)",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        9,
+        11,
+        38,
+        36
+      ],
+      "sha256": "e1a2750aeaf83924b263fb8a7a69c05ee3b5a8086bf0e801c81fedf0c69ea0f2",
+      "encodedBytes": 1641
+    },
+    "shards/ice_b": {
+      "path": "assets/premium/shards/ice_b.png",
+      "use": "ice shard (Frost: Warden punch, post break, frozen bricks)",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        13,
+        10,
+        38,
+        39
+      ],
+      "sha256": "f0ab84116d9104bab0057fff03cab8d552ae9f329675a7800b5c608943079b45",
+      "encodedBytes": 1682
+    },
+    "shards/ice_c": {
+      "path": "assets/premium/shards/ice_c.png",
+      "use": "ice shard (Frost: Warden punch, post break, frozen bricks)",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        9,
+        13,
+        35,
+        36
+      ],
+      "sha256": "6bd4e08a7978f83a6312629977d842fcc1ea28be7250ba1dac2520ba91c09bc0",
+      "encodedBytes": 1564
+    },
+    "shards/ivory_a": {
+      "path": "assets/premium/shards/ivory_a.png",
+      "use": "glazed ivory brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        11,
+        9,
+        39,
+        33
+      ],
+      "sha256": "cc3dd73179928f4efbb18247ef2c4167b84bbcc35ed771b9080ff106ab409d2c",
+      "encodedBytes": 1468
+    },
+    "shards/ivory_b": {
+      "path": "assets/premium/shards/ivory_b.png",
+      "use": "glazed ivory brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        8,
+        10,
+        41,
+        37
+      ],
+      "sha256": "98e4d05037b09c85d5849fae8c0c799267e088c887c066f448fd733378696d93",
+      "encodedBytes": 1790
+    },
+    "shards/ivory_c": {
+      "path": "assets/premium/shards/ivory_c.png",
+      "use": "glazed ivory brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        9,
+        12,
+        36,
+        37
+      ],
+      "sha256": "a31cd3ad51a5b32d5bfb527d89c787c691f7e392c9a1ac1277d508c94a75d00e",
+      "encodedBytes": 1622
+    },
+    "shards/pink_a": {
+      "path": "assets/premium/shards/pink_a.png",
+      "use": "glazed pink brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        6,
+        11,
+        39,
+        35
+      ],
+      "sha256": "481e256dcf154e8f4f212ea0bc49949b9a5f789b56d348e62a89b95b3f5a3d4e",
+      "encodedBytes": 1669
+    },
+    "shards/pink_b": {
+      "path": "assets/premium/shards/pink_b.png",
+      "use": "glazed pink brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        10,
+        12,
+        43,
+        39
+      ],
+      "sha256": "3bbf361ebcd13140abca0f16f2f2c0cee3fdbd37c7898f19f9d5e49131b25861",
+      "encodedBytes": 1872
+    },
+    "shards/pink_c": {
+      "path": "assets/premium/shards/pink_c.png",
+      "use": "glazed pink brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        10,
+        10,
+        37,
+        34
+      ],
+      "sha256": "103831076d100a07138e5f6249a52941dca586af598abd423e2e726f8939b8c3",
+      "encodedBytes": 1634
+    },
+    "shards/plum_a": {
+      "path": "assets/premium/shards/plum_a.png",
+      "use": "glazed plum brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        9,
+        8,
+        39,
+        35
+      ],
+      "sha256": "2e656cc194c5a34bce4a47912ca80a36a69eed5babacef1f04755c4ac5f95c10",
+      "encodedBytes": 1648
+    },
+    "shards/plum_b": {
+      "path": "assets/premium/shards/plum_b.png",
+      "use": "glazed plum brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        11,
+        12,
+        39,
+        39
+      ],
+      "sha256": "c20fbc3384f78715a69624c86be11737ea8bdce17b90326002ca9d4f350108f1",
+      "encodedBytes": 1695
+    },
+    "shards/plum_c": {
+      "path": "assets/premium/shards/plum_c.png",
+      "use": "glazed plum brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        8,
+        11,
+        37,
+        37
+      ],
+      "sha256": "db16989861b02357e187e7b0d814cf085f0d048bf8c5a27d15702f758fea01dd",
+      "encodedBytes": 1785
+    },
+    "shards/sage_a": {
+      "path": "assets/premium/shards/sage_a.png",
+      "use": "glazed sage brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        11,
+        10,
+        39,
+        35
+      ],
+      "sha256": "11578d20d9ca87ff46cf6cc29a1f1a22e2dd1558b140291f72909301a5750342",
+      "encodedBytes": 1537
+    },
+    "shards/sage_b": {
+      "path": "assets/premium/shards/sage_b.png",
+      "use": "glazed sage brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        9,
+        17,
+        44,
+        37
+      ],
+      "sha256": "8370ba25c072d298679676dabd233dde748320fdfeff2b483a3e2569b4cd0282",
+      "encodedBytes": 1542
+    },
+    "shards/sage_c": {
+      "path": "assets/premium/shards/sage_c.png",
+      "use": "glazed sage brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        6,
+        10,
+        37,
+        38
+      ],
+      "sha256": "87c696a3bff4c35185850bd921abc5f2d7d4da578ccb94d7f823458a0596bbc9",
+      "encodedBytes": 1849
+    },
+    "shards/teal_a": {
+      "path": "assets/premium/shards/teal_a.png",
+      "use": "glazed teal brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        10,
+        9,
+        37,
+        34
+      ],
+      "sha256": "ddef657630bc9b9be7ba96c28d80faa242dc1d27c8a3ed4d4d28065aed7f7ac0",
+      "encodedBytes": 1552
+    },
+    "shards/teal_b": {
+      "path": "assets/premium/shards/teal_b.png",
+      "use": "glazed teal brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        8,
+        10,
+        40,
+        38
+      ],
+      "sha256": "55b79d3b57b7f10dcf69f6cd73016380a150512658ee7417048d5dad08897699",
+      "encodedBytes": 1859
+    },
+    "shards/teal_c": {
+      "path": "assets/premium/shards/teal_c.png",
+      "use": "glazed teal brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        5,
+        11,
+        34,
+        37
+      ],
+      "sha256": "546f3880e14f2911c52e3ed274ce606a13d6f2177e2589054b00c2958d7a075d",
+      "encodedBytes": 1827
+    },
+    "shards/violet_a": {
+      "path": "assets/premium/shards/violet_a.png",
+      "use": "glazed violet brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        7,
+        9,
+        41,
+        32
+      ],
+      "sha256": "e3cdf627247b664efcc7f97ddda31a0ade6b16f74c6297d63a884a746a6c8aee",
+      "encodedBytes": 1701
+    },
+    "shards/violet_b": {
+      "path": "assets/premium/shards/violet_b.png",
+      "use": "glazed violet brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        13,
+        12,
+        42,
+        37
+      ],
+      "sha256": "73b7e3d6b35372b4b8c23ab2578d35c249dba60ca9b7cea76e935bd873e4694b",
+      "encodedBytes": 1542
+    },
+    "shards/violet_c": {
+      "path": "assets/premium/shards/violet_c.png",
+      "use": "glazed violet brick shard; spin while it falls",
+      "px": [
+        48,
+        48
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        8
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "anchor": [
+        4.0,
+        4.0
+      ],
+      "alphaBounds": [
+        11,
+        14,
+        36,
+        34
+      ],
+      "sha256": "edbf077bd355c9aeaa047d314ef0b3433cafb2b82a05f40fff8bd8d0b54c7593",
+      "encodedBytes": 1428
+    }
+  }
+}

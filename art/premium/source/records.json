@@ -1,0 +1,1069 @@
+{
+ "bellforge/ceramic_teal": {
+  "family": "bellforge",
+  "px": [
+   304,
+   176
+  ],
+  "ppu": 8,
+  "drawSize": [
+   38,
+   22
+  ],
+  "alphaBounds": [
+   15,
+   15,
+   289,
+   161
+  ],
+  "contact": [
+   34,
+   18
+  ],
+  "use": "Bellforge glazed ceramic brick (teal); same tile as the Gatehouse/Tidewheel bricks"
+ },
+ "bellforge/ceramic_coral": {
+  "family": "bellforge",
+  "px": [
+   304,
+   176
+  ],
+  "ppu": 8,
+  "drawSize": [
+   38,
+   22
+  ],
+  "alphaBounds": [
+   15,
+   15,
+   289,
+   161
+  ],
+  "contact": [
+   34,
+   18
+  ],
+  "use": "Bellforge glazed ceramic brick (coral); same tile as the Gatehouse/Tidewheel bricks"
+ },
+ "bellforge/ceramic_plum": {
+  "family": "bellforge",
+  "px": [
+   304,
+   176
+  ],
+  "ppu": 8,
+  "drawSize": [
+   38,
+   22
+  ],
+  "alphaBounds": [
+   15,
+   15,
+   289,
+   161
+  ],
+  "contact": [
+   34,
+   18
+  ],
+  "use": "Bellforge glazed ceramic brick (plum); same tile as the Gatehouse/Tidewheel bricks"
+ },
+ "bellforge/pin_2hp": {
+  "family": "bellforge",
+  "px": [
+   272,
+   176
+  ],
+  "ppu": 8,
+  "drawSize": [
+   34,
+   22
+  ],
+  "alphaBounds": [
+   15,
+   15,
+   257,
+   161
+  ],
+  "contact": [
+   30,
+   18
+  ],
+  "use": "Bellforge ramp pin plate, 2 hit(s) left; draw the ratchet badge on top as now"
+ },
+ "bellforge/pin_1hp": {
+  "family": "bellforge",
+  "px": [
+   272,
+   176
+  ],
+  "ppu": 8,
+  "drawSize": [
+   34,
+   22
+  ],
+  "alphaBounds": [
+   15,
+   15,
+   257,
+   161
+  ],
+  "contact": [
+   30,
+   18
+  ],
+  "use": "Bellforge ramp pin plate, 1 hit(s) left; draw the ratchet badge on top as now"
+ },
+ "carrier/enamel_cyan": {
+  "family": "carrier",
+  "px": [
+   264,
+   168
+  ],
+  "ppu": 6,
+  "drawSize": [
+   44,
+   28
+  ],
+  "alphaBounds": [
+   23,
+   31,
+   241,
+   137
+  ],
+  "contact": [
+   36,
+   17.33
+  ],
+  "use": "Carrier A cyan panel, drop-in for assets/space-a/brick_cyan.png (same normalized frame and alpha bounds)"
+ },
+ "carrier/enamel_pink": {
+  "family": "carrier",
+  "px": [
+   264,
+   168
+  ],
+  "ppu": 6,
+  "drawSize": [
+   44,
+   28
+  ],
+  "alphaBounds": [
+   23,
+   31,
+   241,
+   137
+  ],
+  "contact": [
+   36,
+   17.33
+  ],
+  "use": "Carrier A pink panel, drop-in for assets/space-a/brick_pink.png (same normalized frame and alpha bounds)"
+ },
+ "frost/post_0": {
+  "family": "frost",
+  "px": [
+   104,
+   320
+  ],
+  "ppu": 4,
+  "drawSize": [
+   26,
+   80
+  ],
+  "alphaBounds": [
+   12,
+   9,
+   91,
+   295
+  ],
+  "contact": [
+   18,
+   68
+  ],
+  "use": "Frost ward post intact"
+ },
+ "frost/post_1": {
+  "family": "frost",
+  "px": [
+   104,
+   320
+  ],
+  "ppu": 4,
+  "drawSize": [
+   26,
+   80
+  ],
+  "alphaBounds": [
+   12,
+   9,
+   91,
+   295
+  ],
+  "contact": [
+   18,
+   68
+  ],
+  "use": "Frost ward post cracked (hp <= 2/3)"
+ },
+ "frost/post_2": {
+  "family": "frost",
+  "px": [
+   104,
+   320
+  ],
+  "ppu": 4,
+  "drawSize": [
+   26,
+   80
+  ],
+  "alphaBounds": [
+   11,
+   9,
+   92,
+   295
+  ],
+  "contact": [
+   18,
+   68
+  ],
+  "use": "Frost ward post breaking (hp <= 1/3)"
+ },
+ "shards/teal_a": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   10,
+   9,
+   37,
+   34
+  ],
+  "use": "glazed teal brick shard; spin while it falls"
+ },
+ "shards/teal_b": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   8,
+   10,
+   40,
+   38
+  ],
+  "use": "glazed teal brick shard; spin while it falls"
+ },
+ "shards/teal_c": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   5,
+   11,
+   34,
+   37
+  ],
+  "use": "glazed teal brick shard; spin while it falls"
+ },
+ "shards/violet_a": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   7,
+   9,
+   41,
+   32
+  ],
+  "use": "glazed violet brick shard; spin while it falls"
+ },
+ "shards/violet_b": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   13,
+   12,
+   42,
+   37
+  ],
+  "use": "glazed violet brick shard; spin while it falls"
+ },
+ "shards/violet_c": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   11,
+   14,
+   36,
+   34
+  ],
+  "use": "glazed violet brick shard; spin while it falls"
+ },
+ "shards/coral_a": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   12,
+   9,
+   38,
+   34
+  ],
+  "use": "glazed coral brick shard; spin while it falls"
+ },
+ "shards/coral_b": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   12,
+   14,
+   41,
+   40
+  ],
+  "use": "glazed coral brick shard; spin while it falls"
+ },
+ "shards/coral_c": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   10,
+   9,
+   32,
+   35
+  ],
+  "use": "glazed coral brick shard; spin while it falls"
+ },
+ "shards/gold_a": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   11,
+   11,
+   41,
+   35
+  ],
+  "use": "glazed gold brick shard; spin while it falls"
+ },
+ "shards/gold_b": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   9,
+   11,
+   41,
+   38
+  ],
+  "use": "glazed gold brick shard; spin while it falls"
+ },
+ "shards/gold_c": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   9,
+   11,
+   38,
+   35
+  ],
+  "use": "glazed gold brick shard; spin while it falls"
+ },
+ "shards/blue_a": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   7,
+   11,
+   41,
+   34
+  ],
+  "use": "glazed blue brick shard; spin while it falls"
+ },
+ "shards/blue_b": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   9,
+   13,
+   40,
+   37
+  ],
+  "use": "glazed blue brick shard; spin while it falls"
+ },
+ "shards/blue_c": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   8,
+   9,
+   34,
+   35
+  ],
+  "use": "glazed blue brick shard; spin while it falls"
+ },
+ "shards/cyan_a": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   7,
+   11,
+   40,
+   36
+  ],
+  "use": "glazed cyan brick shard; spin while it falls"
+ },
+ "shards/cyan_b": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   9,
+   14,
+   41,
+   38
+  ],
+  "use": "glazed cyan brick shard; spin while it falls"
+ },
+ "shards/cyan_c": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   6,
+   11,
+   32,
+   36
+  ],
+  "use": "glazed cyan brick shard; spin while it falls"
+ },
+ "shards/pink_a": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   6,
+   11,
+   39,
+   35
+  ],
+  "use": "glazed pink brick shard; spin while it falls"
+ },
+ "shards/pink_b": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   10,
+   12,
+   43,
+   39
+  ],
+  "use": "glazed pink brick shard; spin while it falls"
+ },
+ "shards/pink_c": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   10,
+   10,
+   37,
+   34
+  ],
+  "use": "glazed pink brick shard; spin while it falls"
+ },
+ "shards/sage_a": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   11,
+   10,
+   39,
+   35
+  ],
+  "use": "glazed sage brick shard; spin while it falls"
+ },
+ "shards/sage_b": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   9,
+   17,
+   44,
+   37
+  ],
+  "use": "glazed sage brick shard; spin while it falls"
+ },
+ "shards/sage_c": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   6,
+   10,
+   37,
+   38
+  ],
+  "use": "glazed sage brick shard; spin while it falls"
+ },
+ "shards/ivory_a": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   11,
+   9,
+   39,
+   33
+  ],
+  "use": "glazed ivory brick shard; spin while it falls"
+ },
+ "shards/ivory_b": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   8,
+   10,
+   41,
+   37
+  ],
+  "use": "glazed ivory brick shard; spin while it falls"
+ },
+ "shards/ivory_c": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   9,
+   12,
+   36,
+   37
+  ],
+  "use": "glazed ivory brick shard; spin while it falls"
+ },
+ "shards/ceramic_a": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   6,
+   10,
+   38,
+   35
+  ],
+  "use": "glazed ceramic brick shard; spin while it falls"
+ },
+ "shards/ceramic_b": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   11,
+   10,
+   40,
+   39
+  ],
+  "use": "glazed ceramic brick shard; spin while it falls"
+ },
+ "shards/ceramic_c": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   7,
+   9,
+   38,
+   34
+  ],
+  "use": "glazed ceramic brick shard; spin while it falls"
+ },
+ "shards/plum_a": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   9,
+   8,
+   39,
+   35
+  ],
+  "use": "glazed plum brick shard; spin while it falls"
+ },
+ "shards/plum_b": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   11,
+   12,
+   39,
+   39
+  ],
+  "use": "glazed plum brick shard; spin while it falls"
+ },
+ "shards/plum_c": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   8,
+   11,
+   37,
+   37
+  ],
+  "use": "glazed plum brick shard; spin while it falls"
+ },
+ "shards/ice_a": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   9,
+   11,
+   38,
+   36
+  ],
+  "use": "ice shard (Frost: Warden punch, post break, frozen bricks)"
+ },
+ "shards/ice_b": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   13,
+   10,
+   38,
+   39
+  ],
+  "use": "ice shard (Frost: Warden punch, post break, frozen bricks)"
+ },
+ "shards/ice_c": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   9,
+   13,
+   35,
+   36
+  ],
+  "use": "ice shard (Frost: Warden punch, post break, frozen bricks)"
+ },
+ "shards/hull_a": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   11,
+   15,
+   41,
+   36
+  ],
+  "use": "gunmetal hull plate shard (Carrier, Circuit, Forge structural hits)"
+ },
+ "shards/hull_b": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   13,
+   13,
+   40,
+   38
+  ],
+  "use": "gunmetal hull plate shard (Carrier, Circuit, Forge structural hits)"
+ },
+ "shards/hull_c": {
+  "family": "shards",
+  "px": [
+   48,
+   48
+  ],
+  "ppu": 6,
+  "drawSize": [
+   8,
+   8
+  ],
+  "alphaBounds": [
+   9,
+   13,
+   35,
+   37
+  ],
+  "use": "gunmetal hull plate shard (Carrier, Circuit, Forge structural hits)"
+ },
+ "glints/glint_warm": {
+  "family": "glints",
+  "px": [
+   96,
+   96
+  ],
+  "ppu": 6,
+  "drawSize": [
+   16,
+   16
+  ],
+  "alphaBounds": [
+   29,
+   19,
+   66,
+   78
+  ],
+  "use": "warm impact glint; replaces fx.ring on brick/armour hits (scale 0.6->1.2, fade 0.25 s)"
+ },
+ "glints/glint_cool": {
+  "family": "glints",
+  "px": [
+   96,
+   96
+  ],
+  "ppu": 6,
+  "drawSize": [
+   16,
+   16
+  ],
+  "alphaBounds": [
+   29,
+   19,
+   66,
+   78
+  ],
+  "use": "cool impact glint; replaces fx.ring on brick/armour hits (scale 0.6->1.2, fade 0.25 s)"
+ },
+ "glints/glint_rose": {
+  "family": "glints",
+  "px": [
+   96,
+   96
+  ],
+  "ppu": 6,
+  "drawSize": [
+   16,
+   16
+  ],
+  "alphaBounds": [
+   29,
+   19,
+   66,
+   78
+  ],
+  "use": "rose impact glint; replaces fx.ring on brick/armour hits (scale 0.6->1.2, fade 0.25 s)"
+ },
+ "frost/backdrop": {
+  "family": "frost",
+  "px": [
+   720,
+   1600
+  ],
+  "ppu": 2,
+  "drawSize": [
+   360,
+   800
+  ],
+  "screenRect": [
+   0,
+   0,
+   360,
+   800
+  ],
+  "anchors": {
+   "walk": [
+    6,
+    214,
+    258,
+    24
+   ],
+   "ledge": [
+    266,
+    202,
+    64,
+    14
+   ],
+   "alcove": [
+    272,
+    134,
+    54,
+    68
+   ]
+  },
+  "use": "Frost Warden backdrop: sky, peaks, crenellated rampart walk, Lumi tower and balcony baked in"
+ }
+}
