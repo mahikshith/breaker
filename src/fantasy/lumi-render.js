@@ -2,7 +2,7 @@ import { ART } from '../vault-art.js';
 import { SPR, ready, cached, text, drawKit, loadImg } from '../gfx.js';
 import { drawCastleWindow } from '../castle-window.js';
 import { LUMI_FLOORS, LUNGE, LUMI_TIMING } from './lumitower.js';
-import { glow, sparks, dust, rnd, clamp01, smooth, gBanner, gPaddle, hoistChain, sprite, CLIMB } from './render.js';
+import { glow, sparks, chips, pips, dust, rnd, clamp01, smooth, gBanner, gPaddle, hoistChain, sprite, skinFor, CLIMB } from './render.js';
 
 // Lumi Breaks Out. Windows are the layered castle-window kit scaled to 44u; the serpent is one sampled path drawn twice:
 // first clipped to the opening (behind the front arch), then beyond the opening edge in front of the frame, so the neck visibly
@@ -119,7 +119,7 @@ function floorRoof(ctx, art, g) {
   sprite(ctx, art, 'bellforge', 'bellCradle', 180, 118, { width: 128 });
   hoistChain(ctx, art, { x: b.x + 2, y: 94 }, { x: b.x + 4, y: b.y - 27 }, 0);
   ctx.save(); ctx.translate(b.x + 3, b.y - 22); ctx.rotate(sw); ctx.translate(-b.x - 3, -b.y + 22); sprite(ctx, art, 'bellforge', 'bell', b.x, b.y, { width: 52 }); ctx.restore();
-  for (let i = 0; i < b.need; i++) { const x = 180 + (i - (b.need - 1) / 2) * 13, on = i < b.rings; if (on) glow(ctx, x, 174, 9, '#ffd883', .8); ctx.fillStyle = on ? '#ffe3a1' : '#1a1522'; ctx.fillRect(x - 3, 171, 6, 6); ctx.fillStyle = on ? '#fff6d6' : '#6a5a7c'; ctx.fillRect(x - 3, 171, 6, 1.5); }
+  pips(ctx, 180, 174, b.need, b.rings, { key: 'pip_rose', gap: 12, scale: .95, bloom: '#ff9ec0' });
   // Kit on the ledge, the rope dropping from his hands.
   ledge(ctx, 296, LEDGE, 64, 16);
   const esc = g.phase === 'escape' ? 1 - g.transition / LUMI_TIMING.escape : 0, t = esc * LUMI_TIMING.escape, p = g.phase === 'escape' ? 1 : q;
@@ -215,7 +215,8 @@ function roseArc(ctx, x, y, dir, a, g) {
   note(ctx, x + bulge * 1.6, y + 4, 9, '#ffe6a8'); ctx.restore();
 }
 // ---------- effects ----------
-function crumbs(ctx, e, n, spread, col) { for (let i = 0; i < n; i++) { const t = e.age, a = -Math.PI * (.2 + .6 * rnd(i, 4)), v = spread * (.4 + .6 * rnd(i, 5)); ctx.fillStyle = col; ctx.globalAlpha = Math.max(0, 1 - e.age / e.life); ctx.fillRect(e.x + Math.cos(a) * v * t, e.y + Math.sin(a) * v * t + 150 * t * t, 2.2, 2.2); } }
+// Crumbs are the rendered stone chips, small.
+function crumbs(ctx, e, n, spread) { chips(ctx, e.x, e.y, e.age, e.life, n, spread * 2, .55, 4, .6); }
 function lEffects(ctx, g, art, pre) {
   for (const e of g.effects) {
     if ((e.kind === 'chomp') !== !!pre) continue;
@@ -223,7 +224,7 @@ function lEffects(ctx, g, art, pre) {
     switch (e.kind) {
       case 'window-peek': { const w = g.windows.find(w => Math.abs(w.originX - e.x) < 1 && Math.abs(w.y - e.y) < 1); if (w) { ctx.globalAlpha = 1; glow(ctx, w.originX + w.dir * 4, w.y, 26, '#a6f0a0', .4 * Math.sin(Math.PI * q)); } break; }
       case 'bite-warning': case 'paddle': break;
-      case 'chomp': { const k = 1 - q * .35; ctx.save(); ctx.translate(e.x, e.y); ctx.scale(k, k); lbrick(ctx, { x: -e.w / 2, y: -e.h / 2, w: e.w, h: e.h, colour: e.colour }); ctx.restore(); ctx.globalAlpha = a; crumbs(ctx, e, 5, 34, '#cbbfe8'); dust(ctx, e.x, e.y, e.age, e.life, 3, 14, 7, '#9a8fb8'); break; }
+      case 'chomp': { const k = 1 - q * .35; ctx.save(); ctx.translate(e.x, e.y); ctx.scale(k, k); lbrick(ctx, { x: -e.w / 2, y: -e.h / 2, w: e.w, h: e.h, colour: e.colour }); ctx.restore(); ctx.globalAlpha = a; crumbs(ctx, e, 4, 34); dust(ctx, e.x, e.y, e.age, e.life, 3, 14, 7, '#9a8fb8'); break; }
       case 'brick-break': {
         if (e.type === 'bar') { for (let n = 0; n < 4; n++) { const t = e.age, x = e.x + (n - 1.5) * (7 + t * 40), y = e.y - 40 * t + 260 * t * t; ctx.save(); ctx.translate(x, y); ctx.rotate((n - 1.5) * t * 6); ctx.fillStyle = '#9aa2bc'; ctx.fillRect(-1.3, -8, 2.6, 16); ctx.fillStyle = '#e4e8f6'; ctx.fillRect(-1.3, -8, .9, 16); ctx.restore(); } sparks(ctx, e.x, e.y, e.age, 6, 60, ['#ffe3a1', '#fff'], 1.6, 3); break; }
         const s = SPR[`brick_${BRICK[e.colour] || 'v'}_2_0`]; if (!ready(s)) break;
@@ -266,7 +267,7 @@ function lCapsule(ctx, g, c) {
   if (ready(s)) ctx.drawImage(s.img, c.x - 17, c.y - 9, 34, 18.4);
   note(ctx, c.x - 2.5, c.y + 3.6, 9, '#fff4d0');
 }
-function chips(ctx, g) {
+function songBars(ctx, g) {
   const p = g.paddle, rows = [[g.calm / LUMI_TIMING.calm, '#b9a8ef'], [g.shield ? g.shield.remaining / LUMI_TIMING.shield : 0, g.shield?.used ? '#8a6a7a' : '#f0a7c4'], [p.wide / LUMI_TIMING.wide, '#7fc4ff'], [g.notes / 6, '#f4d98c']].filter(r => r[0] > 0);
   rows.forEach(([f, col], i) => { const y = p.y + p.h + 12 + i * 5; ctx.fillStyle = '#0c0a18cc'; ctx.beginPath(); ctx.roundRect(p.x - 28, y, 56, 3.4, 2); ctx.fill(); ctx.fillStyle = col; ctx.beginPath(); ctx.roundRect(p.x - 28, y, 56 * clamp01(f), 3.4, 2); ctx.fill(); });
 }
@@ -323,7 +324,8 @@ export function renderLumi(ctx, g, art) {
     else if (t < 1.2) charSprite(ctx, art, 'Jump_Full_Short', t - .9, rx, endY + 6 - 12 * Math.sin(Math.PI * (t - .9) / .3), { size: 56 });
     else charSprite(ctx, art, 'Cheer', g.time, rx, endY + 6 - (endY - 24 - (LEDGE + 2)) * ease((t - 1.2) / 1.2), { size: 56 });
   }
-  if (paddleA > .02) { ctx.save(); ctx.globalAlpha = paddleA; gPaddle(ctx, g, art, art.images.lumiPaddleL ? ['lumiPaddleL', 'lumiPaddleM', 'lumiPaddleR'] : undefined); chips(ctx, g); ctx.restore(); }
+  // Lumi's rose-pearl skin, chosen over the older pink-gold render: less yellow and the same family as Kit's enamel.
+  if (paddleA > .02) { ctx.save(); ctx.globalAlpha = paddleA; gPaddle(ctx, g, art, skinFor(art, 'lumi'), 'pip_rose'); songBars(ctx, g); ctx.restore(); }
   if (g.phase !== 'escape' && g.state !== 'won') for (const b of g.balls) if (!b.dead) lBall(ctx, g, art, b);
   // Floor chip and banner.
   const n = g.floor + 1 + (climb ? 1 : 0); ctx.save(); ctx.globalAlpha = .85; ctx.fillStyle = '#0b0a18cc'; ctx.beginPath(); ctx.roundRect(W / 2 - 40, 6, 80, 17, 8.5); ctx.fill(); ctx.strokeStyle = '#d6a35f88'; ctx.lineWidth = .8; ctx.stroke(); ctx.restore();
