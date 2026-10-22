@@ -43,6 +43,11 @@ These are the skill guides used to build the game so far.
 | Quick experiments | `skills/gamedev/prototype-fast/SKILL.md` |
 | Procedural stages (Raid mode, Endless) | `skills/gamedev/procedural-gen/SKILL.md` |
 | Shader-style effects | `skills/gamedev/shader-programming/SKILL.md` |
+| Serpent and villain behaviour (hunt, lunge, retreat decisions) | `skills/gamedev/game-ai/SKILL.md` and `skills/gamedev/ai-behavior-trees-utility-ai/SKILL.md` |
+| Floor climbs, look-ahead, screen shake framing | `skills/gamedev/camera-systems/SKILL.md` |
+| Per-floor Continue, save slots, save migration | `skills/gamedev/save-systems/SKILL.md` |
+| Run-based modes (Daily Breach, streak meta) | `skills/gamedev/roguelike/SKILL.md` |
+| Token-saving voice for agent-to-agent work | `skills/caveman/caveman/SKILL.md` (internal only; persisted text stays plain) |
 
 The game does not use Phaser or PixiJS, so skip those two skills unless the owner decides to switch engines.
 
