@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "character": "Lumi (princess player hero)",
+  "status": "rendered; awaiting owner review",
+  "source": {
+    "model": "assets/models/kk_Rogue.glb",
+    "license": "CC0",
+    "renderer": "Blender 5.2.2 / Cycles",
+    "script": "art/lumi_faces.py",
+    "rig": "art/princess.py",
+    "paddle_script": "art/lumi_paddle.py"
+  },
+  "technical": {
+    "face_cell_px": 288,
+    "camera": "orthographic, ortho_scale 2.4, centred on head bone + 0.62",
+    "alpha": true,
+    "samples": 48,
+    "supersampling": 2,
+    "downsample": "Lanczos",
+    "png_text_metadata": false,
+    "lights": "key #FFDBB8 top-left, fill #8CA6FF, bounce #FF80A6 (art/kit.py rig)"
+  },
+  "order": [
+    "Idle",
+    "Focus",
+    "Nervous",
+    "Panic",
+    "Cheer",
+    "Hurt"
+  ],
+  "assets": [
+    {
+      "id": "lumi-idle-face",
+      "expression": "Idle",
+      "kit_equivalent": "Idle",
+      "path_pattern": "assets/princess/faces/Idle_face_NN.png",
+      "frames": 1,
+      "alpha_bounds": [
+        [
+          25,
+          4,
+          264,
+          288
+        ]
+      ],
+      "sha256": [
+        "76967485556b295d27a07c400461eb98f214fe438c8e862e3f3b52ed16b91dd0"
+      ],
+      "body_clip": "Idle"
+    },
+    {
+      "id": "lumi-focus-face",
+      "expression": "Focus",
+      "kit_equivalent": "Focus",
+      "path_pattern": "assets/princess/faces/Focus_face_NN.png",
+      "frames": 1,
+      "alpha_bounds": [
+        [
+          25,
+          13,
+          264,
+          288
+        ]
+      ],
+      "sha256": [
+        "7939b7308c91b789306ffc37355849c3216ee64aca306f7fb6372aeba33e7589"
+      ],
+      "body_clip": "Idle"
+    },
+    {
+      "id": "lumi-nervous-face",
+      "expression": "Nervous",
+      "kit_equivalent": "Worried",
+      "path_pattern": "assets/princess/faces/Nervous_face_NN.png",
+      "frames": 1,
+      "alpha_bounds": [
+        [
+          25,
+          0,
+          264,
+          288
+        ]
+      ],
+      "sha256": [
+        "5992335ac14b2ebfd5c5a8aeeea9bc16680d676e203ce28298810c3e61cae14d"
+      ],
+      "body_clip": "Idle"
+    },
+    {
+      "id": "lumi-panic-face",
+      "expression": "Panic",
+      "kit_equivalent": "Shock",
+      "path_pattern": "assets/princess/faces/Panic_face_NN.png",
+      "frames": 1,
+      "alpha_bounds": [
+        [
+          24,
+          14,
+          264,
+          288
+        ]
+      ],
+      "sha256": [
+        "249577e23a0e8d200203e268f19dab071cf23c8cd78862db6fb7498759b3bf73"
+      ],
+      "body_clip": "Idle"
+    },
+    {
+      "id": "lumi-cheer-face",
+      "expression": "Cheer",
+      "kit_equivalent": "Cheer",
+      "path_pattern": "assets/princess/faces/Cheer_face_NN.png",
+      "frames": 1,
+      "alpha_bounds": [
+        [
+          25,
+          4,
+          264,
+          288
+        ]
+      ],
+      "sha256": [
+        "a08568ba198c004f6001b4417fefdc79e9c248b6448d8cff52bb6d885161ba97"
+      ],
+      "body_clip": "Cheer"
+    },
+    {
+      "id": "lumi-hurt-face",
+      "expression": "Hurt",
+      "kit_equivalent": "Hurt",
+      "path_pattern": "assets/princess/faces/Hurt_face_NN.png",
+      "frames": 1,
+      "alpha_bounds": [
+        [
+          25,
+          0,
+          265,
+          288
+        ]
+      ],
+      "sha256": [
+        "17a6cc0b72f53e57f63e8a1502bfa5524c0cec71d4493096dc316d95c1c3d8f0"
+      ],
+      "body_clip": "Idle"
+    }
+  ]
+}
