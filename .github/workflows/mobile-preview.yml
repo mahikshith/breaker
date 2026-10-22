@@ -1,4 +1,4 @@
-name: Space combat mobile preview
+name: Six-chapter mobile preview
 
 on:
   workflow_dispatch:
@@ -40,6 +40,8 @@ jobs:
           node tools/playtest/combat.mjs out/ci-combat-offline android/app/src/main/assets/breach.html
           node tools/playtest/frost.mjs out/ci-frost
           node tools/playtest/frost.mjs out/ci-frost-offline android/app/src/main/assets/breach.html
+          node tools/playtest/mooncoil.mjs out/ci-mooncoil dist/breach.html
+          node tools/playtest/mooncoil.mjs out/ci-mooncoil-offline android/app/src/main/assets/breach.html
           node tools/playtest/layout.mjs out/ci-layout
           node tools/playtest/polish.mjs out/ci-polish-ios ios
           node tools/playtest/polish.mjs out/ci-polish-android android
@@ -101,14 +103,14 @@ jobs:
       - name: Package installable artifact
         run: |
           mkdir -p out/apk
-          cp android/app/build/outputs/apk/debug/app-debug.apk out/apk/BREACH-Space-combat.apk
+          cp android/app/build/outputs/apk/debug/app-debug.apk out/apk/BREACH-Six-chapter.apk
           cp android/app/src/main/assets/preview.json out/apk/preview.json
           cp docs/MOBILE_PREVIEW.md out/apk/README.md
-          sha256sum out/apk/BREACH-Space-combat.apk > out/apk/SHA256SUMS.txt
+          sha256sum out/apk/BREACH-Six-chapter.apk > out/apk/SHA256SUMS.txt
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: success()
         with:
-          name: BREACH-space-combat-android-${{ github.run_number }}
+          name: BREACH-six-chapter-android-${{ github.run_number }}
           path: out/apk/
           if-no-files-found: error
           retention-days: 30

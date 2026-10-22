@@ -1,0 +1,7 @@
+{
+  "seed": "0x20b311",
+  "scope": "Deterministic read-only rotating-ramp CCD oracle, actual 1/240 step and .85rad/s angular limit. 3000 near-surface directions at345–5000u/s; 128 reference samples detect meaningful penetration (>.02u), not exact tangency. This is a bounded stress sample, not exhaustive proof.",
+  "cases": 3000,
+  "referenceContacts": 2290,
+  "misses": []
+}

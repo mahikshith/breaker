@@ -1,0 +1,418 @@
+{
+  "scope": "One fixed seed/policy per phone/mode. Actual embedded Main and live Mooncoil; geometry-reading model input assistance through pointerDown/Move/Up, release, power menu/choice and update. Natural cache powers allowed and observed. No HP/resource/life/seal/grid/position/progress writes or Continue; not touch-only human balance or physical-device performance.",
+  "before": {
+    "out/mooncoil-preview/breach.html": "04714446a570fde6c62f7e697335ef61e08c6b8c957a0591d50b7aa8b79f053a",
+    "src/mooncoil.js": "a464ab46b036035fc4d6af2ef9603600f9947a874a307a8e9541b365e3d64f79",
+    "src/vault.js": "47c20380b9097fbf03943c49c549703692ad3e5891de197a44c67bbf0836ddc2",
+    "src/arena.js": "9754b8db430b7e84a9c093103a06ce7f3c1a2b89846e4cf48d84bd5660533edf",
+    "src/physics.js": "091d241a8b2c106707c101871c5619e3dc295d15ce1ff0efc95a27f8df9a9cf2"
+  },
+  "useCore": true,
+  "seed": 20261020,
+  "cases": [
+    {
+      "device": "ios",
+      "mode": "medium",
+      "time": 28.766666666665675,
+      "state": "won",
+      "phase": "frenzy",
+      "reason": null,
+      "lives": 3,
+      "score": 5514,
+      "seals": [
+        {
+          "hits": 18,
+          "released": true,
+          "landed": true
+        },
+        {
+          "hits": 18,
+          "released": true,
+          "landed": true
+        },
+        {
+          "hits": 18,
+          "released": true,
+          "landed": true
+        }
+      ],
+      "quota": 18,
+      "snake": {
+        "eaten": 1,
+        "cost": 31.99000358581543
+      },
+      "brickHP": 61,
+      "charge": 1,
+      "balls": 21,
+      "finite": true,
+      "firstBrick": 6.350000000000105,
+      "firstCharge": 15.483333333333094,
+      "firstSeal": 13.92499999999985,
+      "casts": [
+        {
+          "time": 15.483333333333094,
+          "choice": "ricochet"
+        },
+        {
+          "time": 17.316666666666325,
+          "choice": "titan"
+        },
+        {
+          "time": 19.22499999999955,
+          "choice": "ricochet"
+        }
+      ],
+      "drops": [
+        {
+          "time": 10.016666666666739,
+          "kind": "split"
+        },
+        {
+          "time": 12.941666666666572,
+          "kind": "split"
+        },
+        {
+          "time": 17.149999999999668,
+          "kind": "focus"
+        },
+        {
+          "time": 18.60833333333292,
+          "kind": "shield"
+        },
+        {
+          "time": 18.866666666666237,
+          "kind": "fire"
+        },
+        {
+          "time": 20.658333333332802,
+          "kind": "fire"
+        },
+        {
+          "time": 20.758333333332796,
+          "kind": "shrink"
+        },
+        {
+          "time": 22.66666666666602,
+          "kind": "fire"
+        },
+        {
+          "time": 25.383333333332533,
+          "kind": "laser"
+        }
+      ],
+      "returns": 101,
+      "samples": [],
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "ios",
+      "mode": "hard",
+      "time": 32.983333333332105,
+      "state": "won",
+      "phase": "frenzy",
+      "reason": null,
+      "lives": 3,
+      "score": 8544,
+      "seals": [
+        {
+          "hits": 24,
+          "released": true,
+          "landed": true
+        },
+        {
+          "hits": 24,
+          "released": true,
+          "landed": true
+        },
+        {
+          "hits": 25,
+          "released": true,
+          "landed": true
+        }
+      ],
+      "quota": 24,
+      "snake": {
+        "eaten": 2,
+        "cost": 20.850004196166992
+      },
+      "brickHP": 4,
+      "charge": 1,
+      "balls": 17,
+      "finite": true,
+      "firstBrick": 6.350000000000105,
+      "firstCharge": 19.07499999999956,
+      "firstSeal": 17.29999999999966,
+      "casts": [
+        {
+          "time": 19.07499999999956,
+          "choice": "ricochet"
+        },
+        {
+          "time": 21.983333333332727,
+          "choice": "ricochet"
+        },
+        {
+          "time": 22.71666666666602,
+          "choice": "titan"
+        }
+      ],
+      "drops": [
+        {
+          "time": 10.016666666666739,
+          "kind": "split"
+        },
+        {
+          "time": 12.941666666666572,
+          "kind": "split"
+        },
+        {
+          "time": 20.558333333332808,
+          "kind": "shrink"
+        },
+        {
+          "time": 21.274999999999434,
+          "kind": "fire"
+        },
+        {
+          "time": 22.383333333332704,
+          "kind": "slow"
+        },
+        {
+          "time": 22.59999999999936,
+          "kind": "slow"
+        },
+        {
+          "time": 25.216666666665876,
+          "kind": "wide"
+        },
+        {
+          "time": 25.233333333332542,
+          "kind": "split"
+        },
+        {
+          "time": 25.233333333332542,
+          "kind": "split"
+        },
+        {
+          "time": 26.183333333332488,
+          "kind": "wide"
+        },
+        {
+          "time": 29.383333333332306,
+          "kind": "split"
+        },
+        {
+          "time": 31.358333333332194,
+          "kind": "wide"
+        }
+      ],
+      "returns": 70,
+      "samples": [],
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "android",
+      "mode": "medium",
+      "time": 40.92499999999832,
+      "state": "won",
+      "phase": "frenzy",
+      "reason": null,
+      "lives": 3,
+      "score": 7597,
+      "seals": [
+        {
+          "hits": 18,
+          "released": true,
+          "landed": true
+        },
+        {
+          "hits": 19,
+          "released": true,
+          "landed": true
+        },
+        {
+          "hits": 18,
+          "released": true,
+          "landed": true
+        }
+      ],
+      "quota": 18,
+      "snake": {
+        "eaten": 0,
+        "cost": 30.210002899169922
+      },
+      "brickHP": 61,
+      "charge": 1,
+      "balls": 15,
+      "finite": true,
+      "firstBrick": 8.200000000000175,
+      "firstCharge": 25.674999999999184,
+      "firstSeal": 12.833333333333245,
+      "casts": [
+        {
+          "time": 25.674999999999184,
+          "choice": "ricochet"
+        },
+        {
+          "time": 30.899999999998887,
+          "choice": "ricochet"
+        },
+        {
+          "time": 31.54999999999885,
+          "choice": "titan"
+        }
+      ],
+      "drops": [
+        {
+          "time": 9.800000000000084,
+          "kind": "laser"
+        },
+        {
+          "time": 21.841666666666068,
+          "kind": "shrink"
+        },
+        {
+          "time": 25.499999999999194,
+          "kind": "split"
+        },
+        {
+          "time": 30.258333333332256,
+          "kind": "fire"
+        },
+        {
+          "time": 33.99166666666538,
+          "kind": "fire"
+        },
+        {
+          "time": 34.25833333333203,
+          "kind": "split"
+        },
+        {
+          "time": 34.43333333333202,
+          "kind": "split"
+        },
+        {
+          "time": 36.45833333333191,
+          "kind": "split"
+        },
+        {
+          "time": 37.04999999999854,
+          "kind": "shield"
+        },
+        {
+          "time": 40.46666666666501,
+          "kind": "laser"
+        }
+      ],
+      "returns": 54,
+      "samples": [],
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "android",
+      "mode": "hard",
+      "time": 27.79166666666573,
+      "state": "won",
+      "phase": "frenzy",
+      "reason": null,
+      "lives": 3,
+      "score": 9054,
+      "seals": [
+        {
+          "hits": 24,
+          "released": true,
+          "landed": true
+        },
+        {
+          "hits": 24,
+          "released": true,
+          "landed": true
+        },
+        {
+          "hits": 24,
+          "released": true,
+          "landed": true
+        }
+      ],
+      "quota": 24,
+      "snake": {
+        "eaten": 1,
+        "cost": 26.289997100830078
+      },
+      "brickHP": 62,
+      "charge": 1,
+      "balls": 15,
+      "finite": true,
+      "firstBrick": 8.200000000000175,
+      "firstCharge": 17.7666666666663,
+      "firstSeal": 13.708333333333195,
+      "casts": [
+        {
+          "time": 17.7666666666663,
+          "choice": "ricochet"
+        },
+        {
+          "time": 18.14166666666628,
+          "choice": "titan"
+        }
+      ],
+      "drops": [
+        {
+          "time": 9.800000000000084,
+          "kind": "laser"
+        },
+        {
+          "time": 14.483333333333151,
+          "kind": "fire"
+        },
+        {
+          "time": 17.249999999999662,
+          "kind": "wide"
+        },
+        {
+          "time": 17.433333333332985,
+          "kind": "split"
+        },
+        {
+          "time": 21.424999999999425,
+          "kind": "split"
+        },
+        {
+          "time": 23.574999999999303,
+          "kind": "slow"
+        },
+        {
+          "time": 23.691666666665963,
+          "kind": "fire"
+        },
+        {
+          "time": 23.983333333332613,
+          "kind": "split"
+        },
+        {
+          "time": 23.983333333332613,
+          "kind": "shield"
+        },
+        {
+          "time": 24.84999999999923,
+          "kind": "split"
+        }
+      ],
+      "returns": 30,
+      "samples": [],
+      "errors": [],
+      "http": []
+    }
+  ],
+  "complete": true,
+  "after": {
+    "out/mooncoil-preview/breach.html": "04714446a570fde6c62f7e697335ef61e08c6b8c957a0591d50b7aa8b79f053a",
+    "src/mooncoil.js": "a464ab46b036035fc4d6af2ef9603600f9947a874a307a8e9541b365e3d64f79",
+    "src/vault.js": "47c20380b9097fbf03943c49c549703692ad3e5891de197a44c67bbf0836ddc2",
+    "src/arena.js": "9754b8db430b7e84a9c093103a06ce7f3c1a2b89846e4cf48d84bd5660533edf",
+    "src/physics.js": "091d241a8b2c106707c101871c5619e3dc295d15ce1ff0efc95a27f8df9a9cf2"
+  }
+}

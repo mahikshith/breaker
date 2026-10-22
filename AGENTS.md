@@ -23,6 +23,8 @@ BREACH is a premium portrait brick breaker for iOS and Android. It is plain JS o
 15. Approved new princess visual references and physical design: `design/phase1/princess-two-levels.md`. Read `docs/BELLFORGE_PHYSICS.md` and `docs/TIDEWHEEL_PHYSICS.md` for the actual standalone browser encounters, current rules and validation limits. Retain the original boards and measure collision against the actual moving assets. These encounters are separate from the released Android package.
 16. Latest keep playtest fixes, reactions, powers and original Vault presentation: `docs/FANTASY_REFINEMENT.md`. Its current browser receipts supersede earlier layout/pose checks; the previously delivered APK remains a separate checkpoint.
 
+17. Fresh cross-level physics review: `docs/validation/physics-recheck/`. New sixth browser chapter: `docs/MOONCOIL_RELIQUARY.md` and `docs/validation/mooncoil/`. Mooncoil appends index5; do not confuse this web checkpoint with the earlier five-chapter APK.
+
 ## Skills (read the matching SKILL.md before that kind of work)
 
 These are the skill guides used to build the game so far.

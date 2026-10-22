@@ -1,0 +1,15 @@
+{
+  "loadProbe": [],
+  "staleFlightWait": {
+    "message": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n3 !== 2\n\n    at machinery (file:///C:/Users/mahik/Music/Breach/breaker/tools/playtest/tidewheel.mjs:114:9)\n    at async file:///C:/Users/mahik/Music/Breach/breaker/tools/playtest/tidewheel.mjs:126:97",
+    "level": "tidewheel",
+    "device": "ios",
+    "mode": "easy",
+    "errors": [],
+    "network": []
+  },
+  "fullGeometrySHA256": "8A2D9EBEA1AD604508A359887EB687C24C67F920043C4256B658A0AD13A50AF8",
+  "initialReady": {
+    "message": "page.waitForFunction: Timeout 45000ms exceeded.\n    at open (C:\\Users\\mahik\\Music\\Breach\\breaker\\tools\\playtest\\tidewheel.mjs:18:50)\n    at async file:///C:/Users/mahik/Music/Breach/breaker/tools/playtest/tidewheel.mjs:126:13"
+  }
+}

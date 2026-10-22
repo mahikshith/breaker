@@ -1,11 +1,13 @@
 {
   "version": 1,
-  "name": "BREACH — Space combat and Frost Warden preview",
-  "sourceBranch": "codex/space-combat-apk",
-  "reviewedCanonicalSha256": "b06cdd969bcf5c420a74b3cf37a3eac45fe3d46eabb2926f5e5d2b8a42e01770",
-  "saveSlots": ["Carrier Breakout", "The Vault", "Circuit Breakout", "Shutter Forge", "Frost Warden"],
-  "menuOrder": [0, 2, 3, 1, 4],
+  "name": "BREACH — Six-chapter Mooncoil preview",
+  "sourceBranch": "codex/starship-run-prototype",
+  "androidVersionCode": 5,
+  "androidVersionName": "0.5-six-chapter-preview",
+  "reviewedCanonicalSha256": "921840f69a1e1af720b999140e3212cc6c1a1cd32a824adc50a8de01d6c0955c",
+  "saveSlots": ["Carrier Breakout", "The Vault", "Circuit Breakout", "Shutter Forge", "Frost Warden", "Mooncoil Reliquary"],
+  "menuOrder": [0, 2, 3, 1, 4, 5],
   "difficulties": ["easy", "medium", "hard"],
-  "scope": "Heavy and salvo space batteries, distinct companion controls, bounded powers, five playable chapters and offline fonts.",
+  "scope": "Six main chapters including Mooncoil Reliquary, the emerald serpent presentation, corrected Carrier Focus/LASER contact, distinct companion controls, bounded powers and offline fonts. Standalone Bellforge, Tidewheel and Starflight/Gatebreak are not included.",
   "limitations": "Debug preview; ads and purchases are local simulations. Physical-phone performance and human difficulty require device testing."
 }

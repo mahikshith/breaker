@@ -1,0 +1,192 @@
+{
+  "scope": "One fixed seed/policy per phone/mode. Actual embedded Main and live Mooncoil; geometry-reading model input assistance through pointerDown/Move/Up, release, power menu/choice and update. Natural cache powers allowed and observed. No HP/resource/life/seal/grid/position/progress writes or Continue; not touch-only human balance or physical-device performance.",
+  "before": {
+    "out/mooncoil-preview/breach.html": "04714446a570fde6c62f7e697335ef61e08c6b8c957a0591d50b7aa8b79f053a",
+    "src/mooncoil.js": "a464ab46b036035fc4d6af2ef9603600f9947a874a307a8e9541b365e3d64f79",
+    "src/vault.js": "47c20380b9097fbf03943c49c549703692ad3e5891de197a44c67bbf0836ddc2",
+    "src/arena.js": "9754b8db430b7e84a9c093103a06ce7f3c1a2b89846e4cf48d84bd5660533edf",
+    "src/physics.js": "091d241a8b2c106707c101871c5619e3dc295d15ce1ff0efc95a27f8df9a9cf2"
+  },
+  "useCore": true,
+  "seed": 20261020,
+  "cases": [
+    {
+      "device": "ios",
+      "mode": "easy",
+      "time": 31.358333333332194,
+      "state": "won",
+      "phase": "frenzy",
+      "reason": null,
+      "lives": 3,
+      "score": 8353,
+      "seals": [
+        {
+          "hits": 12,
+          "released": true,
+          "landed": true
+        },
+        {
+          "hits": 13,
+          "released": true,
+          "landed": true
+        },
+        {
+          "hits": 12,
+          "released": true,
+          "landed": true
+        }
+      ],
+      "quota": 12,
+      "snake": {
+        "eaten": 0,
+        "cost": 32.31000518798828
+      },
+      "brickHP": 60,
+      "charge": 1,
+      "balls": 15,
+      "finite": true,
+      "firstBrick": 6.350000000000105,
+      "firstCharge": 16.416666666666377,
+      "firstSeal": 12.041666666666623,
+      "casts": [
+        {
+          "time": 16.416666666666377,
+          "choice": "ricochet"
+        },
+        {
+          "time": 20.616666666666138,
+          "choice": "ricochet"
+        },
+        {
+          "time": 21.483333333332755,
+          "choice": "titan"
+        }
+      ],
+      "drops": [
+        {
+          "time": 10.016666666666739,
+          "kind": "split"
+        },
+        {
+          "time": 17.083333333333005,
+          "kind": "shrink"
+        },
+        {
+          "time": 20.33333333333282,
+          "kind": "fire"
+        },
+        {
+          "time": 24.35833333333259,
+          "kind": "burst"
+        },
+        {
+          "time": 27.44166666666575,
+          "kind": "shield"
+        },
+        {
+          "time": 27.458333333332416,
+          "kind": "split"
+        },
+        {
+          "time": 27.608333333332407,
+          "kind": "split"
+        }
+      ],
+      "returns": 62,
+      "samples": [],
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "android",
+      "mode": "easy",
+      "time": 27.09166666666577,
+      "state": "won",
+      "phase": "frenzy",
+      "reason": null,
+      "lives": 3,
+      "score": 8623,
+      "seals": [
+        {
+          "hits": 13,
+          "released": true,
+          "landed": true
+        },
+        {
+          "hits": 12,
+          "released": true,
+          "landed": true
+        },
+        {
+          "hits": 13,
+          "released": true,
+          "landed": true
+        }
+      ],
+      "quota": 12,
+      "snake": {
+        "eaten": 0,
+        "cost": 32.95000076293945
+      },
+      "brickHP": 61,
+      "charge": 1,
+      "balls": 13,
+      "finite": true,
+      "firstBrick": 8.200000000000175,
+      "firstCharge": 17.466666666666317,
+      "firstSeal": 11.658333333333312,
+      "casts": [
+        {
+          "time": 17.466666666666317,
+          "choice": "ricochet"
+        }
+      ],
+      "drops": [
+        {
+          "time": 9.800000000000084,
+          "kind": "laser"
+        },
+        {
+          "time": 12.983333333333237,
+          "kind": "slow"
+        },
+        {
+          "time": 13.45833333333321,
+          "kind": "focus"
+        },
+        {
+          "time": 14.558333333333147,
+          "kind": "fire"
+        },
+        {
+          "time": 20.174999999999496,
+          "kind": "shield"
+        },
+        {
+          "time": 20.44999999999948,
+          "kind": "slow"
+        },
+        {
+          "time": 22.95833333333267,
+          "kind": "shrink"
+        },
+        {
+          "time": 25.04999999999922,
+          "kind": "split"
+        }
+      ],
+      "returns": 23,
+      "samples": [],
+      "errors": [],
+      "http": []
+    }
+  ],
+  "complete": true,
+  "after": {
+    "out/mooncoil-preview/breach.html": "04714446a570fde6c62f7e697335ef61e08c6b8c957a0591d50b7aa8b79f053a",
+    "src/mooncoil.js": "a464ab46b036035fc4d6af2ef9603600f9947a874a307a8e9541b365e3d64f79",
+    "src/vault.js": "47c20380b9097fbf03943c49c549703692ad3e5891de197a44c67bbf0836ddc2",
+    "src/arena.js": "9754b8db430b7e84a9c093103a06ce7f3c1a2b89846e4cf48d84bd5660533edf",
+    "src/physics.js": "091d241a8b2c106707c101871c5619e3dc295d15ce1ff0efc95a27f8df9a9cf2"
+  }
+}

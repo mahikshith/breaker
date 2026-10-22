@@ -1,0 +1,385 @@
+{
+  "scope": "One fixed seed/policy per phone/mode. Actual embedded Main and live Mooncoil; geometry-reading model input assistance through pointerDown/Move/Up, release, power menu/choice and update. Natural cache powers allowed and observed. No HP/resource/life/seal/grid/position/progress writes or Continue; not touch-only human balance or physical-device performance.",
+  "before": {
+    "out/mooncoil-preview/breach.html": "6b21de2363df6969a4996028ce236488dcd67c22e1a9a48d2b681f75a066c8eb",
+    "src/mooncoil.js": "b9ffad2b6fe34e702f7b96d5b783e0d792ccdbc7495961b40f29f677e713cc07",
+    "src/vault.js": "47c20380b9097fbf03943c49c549703692ad3e5891de197a44c67bbf0836ddc2",
+    "src/arena.js": "9754b8db430b7e84a9c093103a06ce7f3c1a2b89846e4cf48d84bd5660533edf",
+    "src/physics.js": "091d241a8b2c106707c101871c5619e3dc295d15ce1ff0efc95a27f8df9a9cf2"
+  },
+  "useCore": true,
+  "seed": 20261020,
+  "cases": [
+    {
+      "device": "ios",
+      "mode": "easy",
+      "time": 63.958333333330344,
+      "state": "won",
+      "phase": "frenzy",
+      "reason": null,
+      "lives": 3,
+      "score": 5664,
+      "seals": [
+        {
+          "hits": 21,
+          "released": true,
+          "landed": true
+        },
+        {
+          "hits": 20,
+          "released": true,
+          "landed": true
+        },
+        {
+          "hits": 21,
+          "released": true,
+          "landed": true
+        }
+      ],
+      "quota": 20,
+      "snake": {
+        "eaten": 2,
+        "cost": 12.700002670288086
+      },
+      "brickHP": 60,
+      "charge": 1,
+      "balls": 13,
+      "finite": true,
+      "firstBrick": 6.350000000000105,
+      "firstCharge": 32.54166666666546,
+      "firstSeal": 25.149999999999213,
+      "casts": [
+        {
+          "time": 32.54166666666546,
+          "choice": "ricochet"
+        },
+        {
+          "time": 48.691666666664545,
+          "choice": "ricochet"
+        },
+        {
+          "time": 52.649999999997654,
+          "choice": "ricochet"
+        },
+        {
+          "time": 54.44166666666422,
+          "choice": "titan"
+        }
+      ],
+      "drops": [
+        {
+          "time": 51.516666666664385,
+          "kind": "fire"
+        },
+        {
+          "time": 59.93333333333057,
+          "kind": "split"
+        }
+      ],
+      "returns": 71,
+      "samples": [],
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "ios",
+      "mode": "medium",
+      "time": 92.76666666668656,
+      "state": "lost",
+      "phase": "caught",
+      "reason": "The serpent caught the princess",
+      "lives": 3,
+      "score": 2561,
+      "seals": [
+        {
+          "hits": 20,
+          "released": false,
+          "landed": false
+        },
+        {
+          "hits": 26,
+          "released": true,
+          "landed": true
+        },
+        {
+          "hits": 26,
+          "released": true,
+          "landed": true
+        }
+      ],
+      "quota": 26,
+      "snake": {
+        "eaten": 12,
+        "cost": 0.3199999928474426,
+        "attack": 4.204999999999933
+      },
+      "brickHP": 113,
+      "charge": 0.6,
+      "balls": 1,
+      "finite": true,
+      "firstBrick": 6.350000000000105,
+      "firstCharge": 42.64166666666489,
+      "firstSeal": 29.474999999998968,
+      "casts": [
+        {
+          "time": 42.64166666666489,
+          "choice": "ricochet"
+        },
+        {
+          "time": 60.141666666663895,
+          "choice": "moonbind"
+        },
+        {
+          "time": 77.81666666667466,
+          "choice": "moonbind"
+        }
+      ],
+      "drops": [],
+      "returns": 67,
+      "samples": [],
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "ios",
+      "mode": "hard",
+      "time": 66.64166666666577,
+      "state": "lost",
+      "phase": "caught",
+      "reason": "The serpent caught the princess",
+      "lives": 3,
+      "score": 1463,
+      "seals": [
+        {
+          "hits": 0,
+          "released": false,
+          "landed": false
+        },
+        {
+          "hits": 19,
+          "released": false,
+          "landed": false
+        },
+        {
+          "hits": 32,
+          "released": true,
+          "landed": true
+        }
+      ],
+      "quota": 32,
+      "snake": {
+        "eaten": 12,
+        "cost": 0.3199999928474426,
+        "attack": 4.204999999999933
+      },
+      "brickHP": 153,
+      "charge": 0.5833333333333333,
+      "balls": 1,
+      "finite": true,
+      "firstBrick": 6.350000000000105,
+      "firstCharge": 45.50833333333139,
+      "firstSeal": 35.67499999999862,
+      "casts": [
+        {
+          "time": 45.50833333333139,
+          "choice": "moonbind"
+        }
+      ],
+      "drops": [
+        {
+          "time": 50.95833333333108,
+          "kind": "slow"
+        }
+      ],
+      "returns": 50,
+      "samples": [],
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "android",
+      "mode": "easy",
+      "time": 94.69166666668809,
+      "state": "won",
+      "phase": "frenzy",
+      "reason": null,
+      "lives": 3,
+      "score": 4594,
+      "seals": [
+        {
+          "hits": 20,
+          "released": true,
+          "landed": true
+        },
+        {
+          "hits": 20,
+          "released": true,
+          "landed": true
+        },
+        {
+          "hits": 21,
+          "released": true,
+          "landed": true
+        }
+      ],
+      "quota": 20,
+      "snake": {
+        "eaten": 7,
+        "cost": 12.920000076293945
+      },
+      "brickHP": 60,
+      "charge": 1,
+      "balls": 15,
+      "finite": true,
+      "firstBrick": 9.725000000000088,
+      "firstCharge": 39.46666666666507,
+      "firstSeal": 31.87499999999883,
+      "casts": [
+        {
+          "time": 39.46666666666507,
+          "choice": "ricochet"
+        },
+        {
+          "time": 66.76666666666587,
+          "choice": "ricochet"
+        },
+        {
+          "time": 81.44166666667755,
+          "choice": "ricochet"
+        },
+        {
+          "time": 85.05000000001375,
+          "choice": "ricochet"
+        }
+      ],
+      "drops": [
+        {
+          "time": 83.33333333334572,
+          "kind": "fire"
+        },
+        {
+          "time": 83.55000000001256,
+          "kind": "split"
+        },
+        {
+          "time": 92.25833333335282,
+          "kind": "split"
+        }
+      ],
+      "returns": 77,
+      "samples": [],
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "android",
+      "mode": "medium",
+      "time": 78.50000000000854,
+      "state": "lost",
+      "phase": "caught",
+      "reason": "The serpent caught the princess",
+      "lives": 3,
+      "score": 1523,
+      "seals": [
+        {
+          "hits": 0,
+          "released": false,
+          "landed": false
+        },
+        {
+          "hits": 22,
+          "released": false,
+          "landed": false
+        },
+        {
+          "hits": 26,
+          "released": true,
+          "landed": true
+        }
+      ],
+      "quota": 26,
+      "snake": {
+        "eaten": 12,
+        "cost": 0.3199999928474426,
+        "attack": 4.204999999999933
+      },
+      "brickHP": 149,
+      "charge": 0.9000000000000002,
+      "balls": 1,
+      "finite": true,
+      "firstBrick": 9.725000000000088,
+      "firstCharge": 51.65833333333104,
+      "firstSeal": 36.75833333333189,
+      "casts": [
+        {
+          "time": 51.65833333333104,
+          "choice": "ricochet"
+        }
+      ],
+      "drops": [],
+      "returns": 51,
+      "samples": [],
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "android",
+      "mode": "hard",
+      "time": 61.658333333330475,
+      "state": "lost",
+      "phase": "caught",
+      "reason": "The serpent caught the princess",
+      "lives": 3,
+      "score": 1127,
+      "seals": [
+        {
+          "hits": 0,
+          "released": false,
+          "landed": false
+        },
+        {
+          "hits": 4,
+          "released": false,
+          "landed": false
+        },
+        {
+          "hits": 32,
+          "released": true,
+          "landed": true
+        }
+      ],
+      "quota": 32,
+      "snake": {
+        "eaten": 12,
+        "cost": 0.3199999928474426,
+        "attack": 4.200899999999924
+      },
+      "brickHP": 168,
+      "charge": 0.125,
+      "balls": 1,
+      "finite": true,
+      "firstBrick": 9.725000000000088,
+      "firstCharge": 55.78333333333081,
+      "firstSeal": 42.341666666664906,
+      "casts": [
+        {
+          "time": 55.78333333333081,
+          "choice": "moonbind"
+        }
+      ],
+      "drops": [],
+      "returns": 39,
+      "samples": [],
+      "errors": [],
+      "http": []
+    }
+  ],
+  "complete": true,
+  "after": {
+    "out/mooncoil-preview/breach.html": "6b21de2363df6969a4996028ce236488dcd67c22e1a9a48d2b681f75a066c8eb",
+    "src/mooncoil.js": "b9ffad2b6fe34e702f7b96d5b783e0d792ccdbc7495961b40f29f677e713cc07",
+    "src/vault.js": "47c20380b9097fbf03943c49c549703692ad3e5891de197a44c67bbf0836ddc2",
+    "src/arena.js": "9754b8db430b7e84a9c093103a06ce7f3c1a2b89846e4cf48d84bd5660533edf",
+    "src/physics.js": "091d241a8b2c106707c101871c5619e3dc295d15ce1ff0efc95a27f8df9a9cf2"
+  }
+}

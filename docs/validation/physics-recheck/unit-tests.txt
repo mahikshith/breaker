@@ -1,0 +1,2260 @@
+TAP version 13
+# Subtest: lower geometry includes the full TITAN halo and keeps shield before drain
+ok 1 - lower geometry includes the full TITAN halo and keeps shield before drain
+  ---
+  duration_ms: 4.0597
+  type: 'test'
+  ...
+# Subtest: Aim ready requires a real press, clears on release and persists into another run
+ok 2 - Aim ready requires a real press, clears on release and persists into another run
+  ---
+  duration_ms: 2.0826
+  type: 'test'
+  ...
+# Subtest: a held-input Focus collision can teach once, while cancel never launches
+ok 3 - a held-input Focus collision can teach once, while cancel never launches
+  ---
+  duration_ms: 1.8511
+  type: 'test'
+  ...
+# Subtest: compact top HUD uses the game font for scores and shows five lives above play
+ok 4 - compact top HUD uses the game font for scores and shows five lives above play
+  ---
+  duration_ms: 8.9474
+  type: 'test'
+  ...
+# Subtest: Invasion has no Kit control or K action while its earned centre-return Titan remains
+ok 5 - Invasion has no Kit control or K action while its earned centre-return Titan remains
+  ---
+  duration_ms: 3.7465
+  type: 'test'
+  ...
+# Subtest: levels without a core keep brick and Focus rewards without a phantom ready charge
+ok 6 - levels without a core keep brick and Focus rewards without a phantom ready charge
+  ---
+  duration_ms: 1.5879
+  type: 'test'
+  ...
+# Subtest: chapter preview and live scene share decoded artwork
+ok 7 - chapter preview and live scene share decoded artwork
+  ---
+  duration_ms: 2.7513
+  type: 'test'
+  ...
+# Subtest: Bellforge world metrics preserve normal input sizes, return runway and finite mode pressure
+ok 8 - Bellforge world metrics preserve normal input sizes, return runway and finite mode pressure
+  ---
+  duration_ms: 11.1395
+  type: 'test'
+  ...
+# Subtest: full normal/cosmic diameter fits the authored ramp gaps and flanks at every stop
+ok 9 - full normal/cosmic diameter fits the authored ramp gaps and flanks at every stop
+  ---
+  duration_ms: 2.347
+  type: 'test'
+  ...
+# Subtest: six-row phone layout adds thirty full bricks without obstructing pins, ramps or the ratchet
+ok 10 - six-row phone layout adds thirty full bricks without obstructing pins, ramps or the ratchet
+  ---
+  duration_ms: 3.5441
+  type: 'test'
+  ...
+# Subtest: moving-segment CCD catches a fast crossing and a rotating tip using actual angular velocity
+ok 11 - moving-segment CCD catches a fast crossing and a rotating tip using actual angular velocity
+  ---
+  duration_ms: 1.197
+  type: 'test'
+  ...
+# Subtest: first teaching bell physically touches all ramps without moving Lumi; harmful route docks once
+ok 12 - first teaching bell physically touches all ramps without moving Lumi; harmful route docks once
+  ---
+  duration_ms: 129.047
+  type: 'test'
+  ...
+# Subtest: pin destruction drives the same real ramp smoothly rather than moving a collider instantly
+ok 13 - pin destruction drives the same real ramp smoothly rather than moving a collider instantly
+  ---
+  duration_ms: 11.4046
+  type: 'test'
+  ...
+# Subtest: raster hinge/contact anchors and each measured Korr anatomy pose stay in the physics frame
+ok 14 - raster hinge/contact anchors and each measured Korr anatomy pose stay in the physics frame
+  ---
+  duration_ms: 6.1325
+  type: 'test'
+  ...
+# Subtest: ratchet motion is bounded, fatal descent finishes safely, and broken-brick metadata keeps real dimensions
+ok 15 - ratchet motion is bounded, fatal descent finishes safely, and broken-brick metadata keeps real dimensions
+  ---
+  duration_ms: 4.1378
+  type: 'test'
+  ...
+# Subtest: fast normal ball cannot tunnel through a brick or double-credit held Korr contact
+ok 16 - fast normal ball cannot tunnel through a brick or double-credit held Korr contact
+  ---
+  duration_ms: 6.6957
+  type: 'test'
+  ...
+# Subtest: one normal bell contact imparts momentum, held overlap cannot farm HP, separated hit shatters
+ok 17 - one normal bell contact imparts momentum, held overlap cannot farm HP, separated hit shatters
+  ---
+  duration_ms: 8.8941
+  type: 'test'
+  ...
+# Subtest: a real first-hit reversal before dock contact cancels arrival; later contact cannot undo the ratchet
+ok 18 - a real first-hit reversal before dock contact cancels arrival; later contact cannot undo the ratchet
+  ---
+  duration_ms: 3.7195
+  type: 'test'
+  ...
+# Subtest: earned charge banks only productive brick HP and fills at one active credit per second
+ok 19 - earned charge banks only productive brick HP and fills at one active credit per second
+  ---
+  duration_ms: 121.946
+  type: 'test'
+  ...
+# Subtest: enemy, arrow and active cosmic damage cannot refill their replacement power
+ok 20 - enemy, arrow and active cosmic damage cannot refill their replacement power
+  ---
+  duration_ms: 1.2477
+  type: 'test'
+  ...
+# Subtest: invalid delta cannot advance and one stalled frame is bounded to .1s
+ok 21 - invalid delta cannot advance and one stalled frame is bounded to .1s
+  ---
+  duration_ms: 1.2729
+  type: 'test'
+  ...
+# Subtest: Echo Guard makes a physical one-use reflection into Korr and never remote damage
+ok 22 - Echo Guard makes a physical one-use reflection into Korr and never remote damage
+  ---
+  duration_ms: 90.2924
+  type: 'test'
+  ...
+# Subtest: warning/physics pause together and serve cannot be used as an indefinite threat freeze
+ok 23 - warning/physics pause together and serve cannot be used as an indefinite threat freeze
+  ---
+  duration_ms: 132.3185
+  type: 'test'
+  ...
+# Subtest: final broad-body collision wins before simultaneous dock, last-life drain and future hazards
+ok 24 - final broad-body collision wins before simultaneous dock, last-life drain and future hazards
+  ---
+  duration_ms: 5.9801
+  type: 'test'
+  ...
+# Subtest: final hit visibly staggers, slumps at the fixed foot and settles before Lumi starts escaping
+ok 25 - final hit visibly staggers, slumps at the fixed foot and settles before Lumi starts escaping
+  ---
+  duration_ms: 5.9776
+  type: 'test'
+  ...
+# Subtest: safe defeat clears attack work immediately and pause freezes the entire ending
+ok 26 - safe defeat clears attack work immediately and pause freezes the entire ending
+  ---
+  duration_ms: 6.9368
+  type: 'test'
+  ...
+# Subtest: a final reflected bell stops the same-step bell loop before another queued ratchet arrival
+ok 27 - a final reflected bell stops the same-step bell loop before another queued ratchet arrival
+  ---
+  duration_ms: 1.6789
+  type: 'test'
+  ...
+# Subtest: Continue preserves earned physical progress/resources and restores two lift teeth without boss refill
+ok 28 - Continue preserves earned physical progress/resources and restores two lift teeth without boss refill
+  ---
+  duration_ms: 6.2712
+  type: 'test'
+  ...
+# Subtest: ordinary public-input Easy policy wins both portrait world heights without Echo or Continue
+ok 29 - ordinary public-input Easy policy wins both portrait world heights without Echo or Continue
+  ---
+  duration_ms: 10668.7602
+  type: 'test'
+  ...
+# Subtest: the actual last normal-ball contact beats extraction expiry and suppresses a second live ball
+ok 30 - the actual last normal-ball contact beats extraction expiry and suppresses a second live ball
+  ---
+  duration_ms: 169.2761
+  type: 'test'
+  ...
+# Subtest: aerial fire reaches the first real ball on either side of intact housing without damaging that housing
+ok 31 - aerial fire reaches the first real ball on either side of intact housing without damaging that housing
+  ---
+  duration_ms: 3.7387
+  type: 'test'
+  ...
+# Subtest: a physically blocked radius route is ineligible even when its centre ray misses the friendly housing
+ok 32 - a physically blocked radius route is ineligible even when its centre ray misses the friendly housing
+  ---
+  duration_ms: 77.6064
+  type: 'test'
+  ...
+# Subtest: moving actor and bolt snapshots compensate for Focus plus SLOW without changing their real trajectory
+ok 33 - moving actor and bolt snapshots compensate for Focus plus SLOW without changing their real trajectory
+  ---
+  duration_ms: 42.4598
+  type: 'test'
+  ...
+# Subtest: interrupting a partial pull returns continuously while preserving its locked status
+ok 34 - interrupting a partial pull returns continuously while preserving its locked status
+  ---
+  duration_ms: 570.9925
+  type: 'test'
+  ...
+# Subtest: initial serve auto launches at8 seconds; replacement serve at3 without a frozen pressure clock
+ok 35 - initial serve auto launches at8 seconds; replacement serve at3 without a frozen pressure clock
+  ---
+  duration_ms: 258.7567
+  type: 'test'
+  ...
+# Subtest: one continuous bay launch, edge warning and reentry leads to a reachable2HP boarder
+ok 36 - one continuous bay launch, edge warning and reentry leads to a reachable2HP boarder
+  ---
+  duration_ms: 228.8391
+  type: 'test'
+  ...
+# Subtest: route selection excludes an intact friendly housing even when a breakable panel is closer
+ok 37 - route selection excludes an intact friendly housing even when a breakable panel is closer
+  ---
+  duration_ms: 16.1222
+  type: 'test'
+  ...
+# Subtest: enemy fire crosses intact panels and housing without damage, drops, score or core rewards
+ok 38 - enemy fire crosses intact panels and housing without damage, drops, score or core rewards
+  ---
+  duration_ms: 4.6149
+  type: 'test'
+  ...
+# Subtest: a clear route gets its full mode window, connected pull only in the last2, and loss freezes it
+ok 39 - a clear route gets its full mode window, connected pull only in the last2, and loss freezes it
+  ---
+  duration_ms: 527.6304
+  type: 'test'
+  ...
+# Subtest: real ordinary ball contacts kill the raider in two episodes without rescuing its locked target
+ok 40 - real ordinary ball contacts kill the raider in two episodes without rescuing its locked target
+  ---
+  duration_ms: 86.8496
+  type: 'test'
+  ...
+# Subtest: a legal lock break on the expiry tick wins the tie and Tick secures only once
+ok 41 - a legal lock break on the expiry tick wins the tie and Tick secures only once
+  ---
+  duration_ms: 51.5195
+  type: 'test'
+  ...
+# Subtest: Focus and visual hit-stop cannot buy extraction time
+ok 42 - Focus and visual hit-stop cannot buy extraction time
+  ---
+  duration_ms: 915.6575
+  type: 'test'
+  ...
+# Subtest: linked gun damage counts actual removed HP once and optional shutdown cancels the raid
+ok 43 - linked gun damage counts actual removed HP once and optional shutdown cancels the raid
+  ---
+  duration_ms: 104.6265
+  type: 'test'
+  ...
+# Subtest: all five rescues latch success without hull grind, late life loss or same-tick laser creation
+ok 44 - all five rescues latch success without hull grind, late life loss or same-tick laser creation
+  ---
+  duration_ms: 8.8791
+  type: 'test'
+  ...
+# Subtest: capture Continue preserves every earned fact and clears only the failed capture/hostile pressure
+ok 45 - capture Continue preserves every earned fact and clears only the failed capture/hostile pressure
+  ---
+  duration_ms: 684.831
+  type: 'test'
+  ...
+# Subtest: a lethal bolt costs one life, cannot repeat during fresh-serve grace, and SHIELD remains ball-only
+ok 46 - a lethal bolt costs one life, cannot repeat during fresh-serve grace, and SHIELD remains ball-only
+  ---
+  duration_ms: 2.7804
+  type: 'test'
+  ...
+# Subtest: mode construction keeps ordinary geometry and selects real HP, clock and finite manifests
+ok 47 - mode construction keeps ordinary geometry and selects real HP, clock and finite manifests
+  ---
+  duration_ms: 8.9437
+  type: 'test'
+  ...
+# Subtest: mode budget counts partial locks and linked guns once; self TITAN and dead targets earn nothing
+ok 48 - mode budget counts partial locks and linked guns once; self TITAN and dead targets earn nothing
+  ---
+  duration_ms: 6.9275
+  type: 'test'
+  ...
+# Subtest: earned credit fills at one contact per active second through Focus and hit-stop, and freezes during protected phases
+ok 49 - earned credit fills at one contact per active second through Focus and hit-stop, and freezes during protected phases
+  ---
+  duration_ms: 84.4735
+  type: 'test'
+  ...
+# Subtest: active-real jump time starts at launch, survives Focus/hit-stop and cannot expire during final release
+ok 50 - active-real jump time starts at launch, survives Focus/hit-stop and cannot expire during final release
+  ---
+  duration_ms: 139.0505
+  type: 'test'
+  ...
+# Subtest: expired jump is a single terminal outcome and Continue retains wave/resources with bounded time and grace
+ok 51 - expired jump is a single terminal outcome and Continue retains wave/resources with bounded time and grace
+  ---
+  duration_ms: 4.785
+  type: 'test'
+  ...
+# Subtest: safe rebuild archives five unique secured identities and preserves multiball, HP and every power duration
+ok 52 - safe rebuild archives five unique secured identities and preserves multiball, HP and every power duration
+  ---
+  duration_ms: 4.4575
+  type: 'test'
+  ...
+# Subtest: second grid changes the centre route without overlapping pods or invading the return lane; caches have new IDs
+ok 53 - second grid changes the centre route without overlapping pods or invading the return lane; caches have new IDs
+  ---
+  duration_ms: 7.5134
+  type: 'test'
+  ...
+# Subtest: two complete manifests terminate once with ten safe identities; a defeated hull cancels new work without resurrection
+ok 54 - two complete manifests terminate once with ten safe identities; a defeated hull cancels new work without resurrection
+  ---
+  duration_ms: 13.256
+  type: 'test'
+  ...
+# Subtest: nose, muzzle, moving collision and housing tractor share the actual48x40 pose at both phone heights
+ok 55 - nose, muzzle, moving collision and housing tractor share the actual48x40 pose at both phone heights
+  ---
+  duration_ms: 12.0022
+  type: 'test'
+  ...
+# Subtest: uniform Carrier panels keep centred40x23 slots, finite cache identities and no added grey walls
+ok 56 - uniform Carrier panels keep centred40x23 slots, finite cache identities and no added grey walls
+  ---
+  duration_ms: 2.7125
+  type: 'test'
+  ...
+# Subtest: Nix chooser freezes Carrier pressure, serve and presentation clocks, closes without spending and rejects protected phases
+ok 57 - Nix chooser freezes Carrier pressure, serve and presentation clocks, closes without spending and rejects protected phases
+  ---
+  duration_ms: 5.0824
+  type: 'test'
+  ...
+# Subtest: LASER, pulses and active UNSTOPPABLE damage without farming charge; normal linked impacts earn one pip
+ok 58 - LASER, pulses and active UNSTOPPABLE damage without farming charge; normal linked impacts earn one pip
+  ---
+  duration_ms: 1.4498
+  type: 'test'
+  ...
+# Subtest: spent cannon metal shares the living hull episode and still accepts ordinary damage once
+ok 59 - spent cannon metal shares the living hull episode and still accepts ordinary damage once
+  ---
+  duration_ms: 32.3246
+  type: 'test'
+  ...
+# Subtest: one ordinary cannon-and-rim overlap cannot double-damage or double-charge the ship contact
+ok 60 - one ordinary cannon-and-rim overlap cannot double-damage or double-charge the ship contact
+  ---
+  duration_ms: 13.6315
+  type: 'test'
+  ...
+# Subtest: curved beam endpoints track the actual emitter and captive; full pull stays outside both body footprints
+ok 61 - curved beam endpoints track the actual emitter and captive; full pull stays outside both body footprints
+  ---
+  duration_ms: 14.0175
+  type: 'test'
+  ...
+# Subtest: interrupt returns along the saved curve with no first-frame jump; opening the lock rescues from the pulled pose
+ok 62 - interrupt returns along the saved curve with no first-frame jump; opening the lock rescues from the pulled pose
+  ---
+  duration_ms: 80.3622
+  type: 'test'
+  ...
+# Subtest: selected funnel fills a real tapered curved volume around the moving worker and compression rings
+ok 63 - selected funnel fills a real tapered curved volume around the moving worker and compression rings
+  ---
+  duration_ms: 23.232
+  type: 'test'
+  ...
+# Subtest: high-speed balls and moving thin targets cannot tunnel between substeps
+ok 64 - high-speed balls and moving thin targets cannot tunnel between substeps
+  ---
+  duration_ms: 23.9334
+  type: 'test'
+  ...
+# Subtest: compound hull leaves the real bay empty; only visible shutter leaves close it
+ok 65 - compound hull leaves the real bay empty; only visible shutter leaves close it
+  ---
+  duration_ms: 4.8505
+  type: 'test'
+  ...
+# Subtest: inside starts/corners resolve outside with finite normals and conserve speed
+ok 66 - inside starts/corners resolve outside with finite normals and conserve speed
+  ---
+  duration_ms: 2.3864
+  type: 'test'
+  ...
+# Subtest: adjoining hull sectors and separate bricks have no false seam normal
+ok 67 - adjoining hull sectors and separate bricks have no false seam normal
+  ---
+  duration_ms: 1.7125
+  type: 'test'
+  ...
+# Subtest: a concave inner corner resolves both exposed faces without extra damage or speed gain
+ok 68 - a concave inner corner resolves both exposed faces without extra damage or speed gain
+  ---
+  duration_ms: 1.8481
+  type: 'test'
+  ...
+# Subtest: piercing damage counts one episode until exit/reentry and solid materials still bounce
+ok 69 - piercing damage counts one episode until exit/reentry and solid materials still bounce
+  ---
+  duration_ms: 1.541
+  type: 'test'
+  ...
+# Subtest: fresh snapshots keep episode IDs and dead/trigger callbacks cannot cause extra hits
+ok 70 - fresh snapshots keep episode IDs and dead/trigger callbacks cannot cause extra hits
+  ---
+  duration_ms: 2.5932
+  type: 'test'
+  ...
+# Subtest: swept laser queries agree with holes, moving circles and corners without side effects
+ok 71 - swept laser queries agree with holes, moving circles and corners without side effects
+  ---
+  duration_ms: 2.6615
+  type: 'test'
+  ...
+# Subtest: callbacks can deactivate another compound target before its pending damage dispatch
+ok 72 - callbacks can deactivate another compound target before its pending damage dispatch
+  ---
+  duration_ms: 1.5018
+  type: 'test'
+  ...
+# Subtest: aim simulation does not mutate live targets or share live-ball episode state
+ok 73 - aim simulation does not mutate live targets or share live-ball episode state
+  ---
+  duration_ms: 275.8824
+  type: 'test'
+  ...
+# Subtest: Carrier uses one continuous image transform through both signed safe-inset origins
+ok 74 - Carrier uses one continuous image transform through both signed safe-inset origins
+  ---
+  duration_ms: 9.542
+  type: 'test'
+  ...
+# Subtest: Carrier dimensions persist through earned split, burst and TITAN expiry
+ok 75 - Carrier dimensions persist through earned split, burst and TITAN expiry
+  ---
+  duration_ms: 23.5372
+  type: 'test'
+  ...
+# Subtest: Carrier UNSTOPPABLE uses the existing cosmic sprite while ordinary balls retain their Carrier artwork
+ok 76 - Carrier UNSTOPPABLE uses the existing cosmic sprite while ordinary balls retain their Carrier artwork
+  ---
+  duration_ms: 4.9695
+  type: 'test'
+  ...
+# Subtest: an ordinary ball breaks visible panel cover, rebounds and drops one authored reward
+ok 77 - an ordinary ball breaks visible panel cover, rebounds and drops one authored reward
+  ---
+  duration_ms: 8.2086
+  type: 'test'
+  ...
+# Subtest: the open bay stays empty and disabled opaque machinery remains physical
+ok 78 - the open bay stays empty and disabled opaque machinery remains physical
+  ---
+  duration_ms: 8.3476
+  type: 'test'
+  ...
+# Subtest: aim preview cannot damage actual crew, carrier, guns or rewards
+ok 79 - aim preview cannot damage actual crew, carrier, guns or rewards
+  ---
+  duration_ms: 80.6348
+  type: 'test'
+  ...
+# Subtest: all five housings begin safe release while optional carrier damage remains unfinished
+ok 80 - all five housings begin safe release while optional carrier damage remains unfinished
+  ---
+  duration_ms: 4.6678
+  type: 'test'
+  ...
+# Subtest: loss freezes actors and Continue keeps earned progress with a fresh protected serve
+ok 81 - loss freezes actors and Continue keeps earned progress with a fresh protected serve
+  ---
+  duration_ms: 3.8447
+  type: 'test'
+  ...
+# Subtest: cannon warning precedes aerial fire; intact panels survive and direct paddle hits cost one life
+ok 82 - cannon warning precedes aerial fire; intact panels survive and direct paddle hits cost one life
+  ---
+  duration_ms: 6.0486
+  type: 'test'
+  ...
+# Subtest: independent: moving leaf collision follows the actual opposite poses under Focus plus SLOW
+ok 83 - independent: moving leaf collision follows the actual opposite poses under Focus plus SLOW
+  ---
+  duration_ms: 111.1691
+  type: 'test'
+  ...
+# Subtest: independent: warned volley pose and projectile travel use active real time through Focus/SLOW and hit-stop
+ok 84 - independent: warned volley pose and projectile travel use active real time through Focus/SLOW and hit-stop
+  ---
+  duration_ms: 1207.5353
+  type: 'test'
+  ...
+# Subtest: independent: open port leaves clear every reachable aim extreme with normal, wide and shrunk paddles and both new radii
+ok 85 - independent: open port leaves clear every reachable aim extreme with normal, wide and shrunk paddles and both new radii
+  ---
+  duration_ms: 1445.673
+  type: 'test'
+  ...
+# Subtest: independent: disabled visible barrels remain solid to ordinary and TITAN balls
+ok 86 - independent: disabled visible barrels remain solid to ordinary and TITAN balls
+  ---
+  duration_ms: 21.5492
+  type: 'test'
+  ...
+# Subtest: independent: side-moving caught ball intercepts a real swept bolt before the paddle
+ok 87 - independent: side-moving caught ball intercepts a real swept bolt before the paddle
+  ---
+  duration_ms: 2.9994
+  type: 'test'
+  ...
+# Subtest: independent: actual caught flight capsule queues once, preserves live identities and does not refresh hidden timers
+ok 88 - independent: actual caught flight capsule queues once, preserves live identities and does not refresh hidden timers
+  ---
+  duration_ms: 94.9771
+  type: 'test'
+  ...
+# Subtest: independent: missile impact interrupts flight safely once; stale Space and pointer releases cannot launch the returned fan
+ok 89 - independent: missile impact interrupts flight safely once; stale Space and pointer releases cannot launch the returned fan
+  ---
+  duration_ms: 37.8727
+  type: 'test'
+  ...
+# Subtest: real heavy and three-shot batteries use mode cadence/radius, lock lanes and leave safe current-width centres
+ok 90 - real heavy and three-shot batteries use mode cadence/radius, lock lanes and leave safe current-width centres
+  ---
+  duration_ms: 281.6808
+  type: 'test'
+  ...
+# Subtest: both is a staggered battery; a new maximum WIDE at launch aborts without firing through an unavoidable lane
+ok 91 - both is a staggered battery; a new maximum WIDE at launch aborts without firing through an unavoidable lane
+  ---
+  duration_ms: 17.0526
+  type: 'test'
+  ...
+# Subtest: a swept cannon hit costs exactly one life, clears the volley and starts one protected caught serve
+ok 92 - a swept cannon hit costs exactly one life, clears the volley and starts one protected caught serve
+  ---
+  duration_ms: 5.038
+  type: 'test'
+  ...
+# Subtest: valid Vesper choice jams only one live cannon6 active seconds, keeps launched ordnance and rejects duplicate effects
+ok 93 - valid Vesper choice jams only one live cannon6 active seconds, keeps launched ordnance and rejects duplicate effects
+  ---
+  duration_ms: 9.3945
+  type: 'test'
+  ...
+# Subtest: real skiff fire owns a broad6.8u swept body, alternates true muzzles and cannot double-hit cover
+ok 94 - real skiff fire owns a broad6.8u swept body, alternates true muzzles and cannot double-hit cover
+  ---
+  duration_ms: 73.8881
+  type: 'test'
+  ...
+# Subtest: fresh Circuit construction resets weapons/jam/reward while Continue retains earned boss and spent burst
+ok 95 - fresh Circuit construction resets weapons/jam/reward while Continue retains earned boss and spent burst
+  ---
+  duration_ms: 8.7095
+  type: 'test'
+  ...
+# Subtest: twelve real skiff pulses spend finite ammunition, resolve the final projectile and return without refilling
+ok 96 - twelve real skiff pulses spend finite ammunition, resolve the final projectile and return without refilling
+  ---
+  duration_ms: 3562.2572
+  type: 'test'
+  ...
+# Subtest: the live charge raster points along the same signed angle as the actual cannon velocity
+ok 97 - the live charge raster points along the same signed angle as the actual cannon velocity
+  ---
+  duration_ms: 7.0111
+  type: 'test'
+  ...
+# Subtest: selected Circuit identity and unselected Forge control never dispatch the Carrier face
+ok 98 - selected Circuit identity and unselected Forge control never dispatch the Carrier face
+  ---
+  duration_ms: 2.4477
+  type: 'test'
+  ...
+# Subtest: three premium targets fit both phones, stay clear of the live face and have disjoint large hit areas
+ok 99 - three premium targets fit both phones, stay clear of the live face and have disjoint large hit areas
+  ---
+  duration_ms: 1.9577
+  type: 'test'
+  ...
+# Subtest: card details use the actual mode duration and live-ball budget, excluding dead balls
+ok 100 - card details use the actual mode duration and live-ball budget, excluding dead balls
+  ---
+  duration_ms: 1.3194
+  type: 'test'
+  ...
+# Subtest: new authored Vesper expressions and actual Latch approach/clamp/release frames use their own atlas clips
+ok 101 - new authored Vesper expressions and actual Latch approach/clamp/release frames use their own atlas clips
+  ---
+  duration_ms: 1.1519
+  type: 'test'
+  ...
+# Subtest: manual command rejects unavailable resources and terminal/wrong modes without spending or changing a ball
+ok 102 - manual command rejects unavailable resources and terminal/wrong modes without spending or changing a ball
+  ---
+  duration_ms: 14.9746
+  type: 'test'
+  ...
+# Subtest: a caught live ball has priority over a lower moving ball and dead caught balls
+ok 103 - a caught live ball has priority over a lower moving ball and dead caught balls
+  ---
+  duration_ms: 1.7709
+  type: 'test'
+  ...
+# Subtest: without a catch, the lowest live ball receives the sole seven-second command
+ok 104 - without a catch, the lowest live ball receives the sole seven-second command
+  ---
+  duration_ms: 1.3702
+  type: 'test'
+  ...
+# Subtest: repeated K presses cannot double-spend, refresh TITAN or overwrite the cast timestamp
+ok 105 - repeated K presses cannot double-spend, refresh TITAN or overwrite the cast timestamp
+  ---
+  duration_ms: 1.5301
+  type: 'test'
+  ...
+# Subtest: a real manual-mode centre paddle bounce keeps its charge and ordinary radius
+ok 106 - a real manual-mode centre paddle bounce keeps its charge and ordinary radius
+  ---
+  duration_ms: 2.0885
+  type: 'test'
+  ...
+# Subtest: SPLIT widens coverage without copying an active manual TITAN or its enlarged radius
+ok 107 - SPLIT widens coverage without copying an active manual TITAN or its enlarged radius
+  ---
+  duration_ms: 1.7179
+  type: 'test'
+  ...
+# Subtest: TITAN expiry returns to the configured ordinary radius
+ok 108 - TITAN expiry returns to the configured ordinary radius
+  ---
+  duration_ms: 3.003
+  type: 'test'
+  ...
+# Subtest: Carrier escape cannot spend an otherwise full and usable manual charge
+ok 109 - Carrier escape cannot spend an otherwise full and usable manual charge
+  ---
+  duration_ms: 6.1178
+  type: 'test'
+  ...
+# Subtest: Vault Quick Volley K opens four choices and Brick Ward preserves its real shield target
+ok 110 - Vault Quick Volley K opens four choices and Brick Ward preserves its real shield target
+  ---
+  duration_ms: 72.6012
+  type: 'test'
+  ...
+# Subtest: Kit menu fits four single-row phone targets and keeps the face clear
+ok 111 - Kit menu fits four single-row phone targets and keeps the face clear
+  ---
+  duration_ms: 50.5067
+  type: 'test'
+  ...
+# Subtest: Kit menu freezes the world, rejects unavailable Ward and cancels without spending
+ok 112 - Kit menu freezes the world, rejects unavailable Ward and cancels without spending
+  ---
+  duration_ms: 33.549
+  type: 'test'
+  ...
+# Subtest: Kit Arrows uses physical twin shots, spends once and can resume the venom coach
+ok 113 - Kit Arrows uses physical twin shots, spends once and can resume the venom coach
+  ---
+  duration_ms: 28.0003
+  type: 'test'
+  ...
+# Subtest: Kit Cosmic and Ball Fan retain canonical power rules and never become automatic centre casts
+ok 114 - Kit Cosmic and Ball Fan retain canonical power rules and never become automatic centre casts
+  ---
+  duration_ms: 18.9373
+  type: 'test'
+  ...
+# Subtest: Kit offensive powers still score real brick breaks without charging their own replacements
+ok 115 - Kit offensive powers still score real brick breaks without charging their own replacements
+  ---
+  duration_ms: 29.5225
+  type: 'test'
+  ...
+# Subtest: companion frames use authored fps, start at negative age and clamp an ending action
+ok 116 - companion frames use authored fps, start at negative age and clamp an ending action
+  ---
+  duration_ms: 0.8098
+  type: 'test'
+  ...
+# Subtest: Nix gives terminal, command, raid and securing reactions priority over ready/idle
+ok 117 - Nix gives terminal, command, raid and securing reactions priority over ready/idle
+  ---
+  duration_ms: 1.0743
+  type: 'test'
+  ...
+# Subtest: a full charge while TITAN is active shows idle rather than an unusable ready command
+ok 118 - a full charge while TITAN is active shows idle rather than an unusable ready command
+  ---
+  duration_ms: 0.9727
+  type: 'test'
+  ...
+# Subtest: difficulty accepts only own mode ids and safely falls back to Medium
+ok 119 - difficulty accepts only own mode ids and safely falls back to Medium
+  ---
+  duration_ms: 4.967
+  type: 'test'
+  ...
+# Subtest: three modes retain the selected Vault speeds and distinct Carrier pressure settings
+ok 120 - three modes retain the selected Vault speeds and distinct Carrier pressure settings
+  ---
+  duration_ms: 1.2644
+  type: 'test'
+  ...
+# Subtest: Vault modes preserve both phone geometries, starting grid/path, balls, paddle and resources
+ok 121 - Vault modes preserve both phone geometries, starting grid/path, balls, paddle and resources
+  ---
+  duration_ms: 166.4438
+  type: 'test'
+  ...
+# Subtest: legacy Vault construction stays Hard while explicit invalid modes follow Medium fallback
+ok 122 - legacy Vault construction stays Hard while explicit invalid modes follow Medium fallback
+  ---
+  duration_ms: 130.4991
+  type: 'test'
+  ...
+# Subtest: real pointer aiming, launch velocity and paddle dragging are identical in every Vault mode
+ok 123 - real pointer aiming, launch velocity and paddle dragging are identical in every Vault mode
+  ---
+  duration_ms: 238.9453
+  type: 'test'
+  ...
+# Subtest: locomotion alone scales exactly .6/.8/1 at starting and fully accelerated serpent speed
+ok 124 - locomotion alone scales exactly .6/.8/1 at starting and fully accelerated serpent speed
+  ---
+  duration_ms: 58.3797
+  type: 'test'
+  ...
+# Subtest: actual path-selected empty and reinforced-brick chewing keeps inverse mode ratios and damage discounts
+ok 125 - actual path-selected empty and reinforced-brick chewing keeps inverse mode ratios and damage discounts
+  ---
+  duration_ms: 181.7522
+  type: 'test'
+  ...
+# Subtest: difficulty does not scale ordinary stun or venom wind-up world seconds
+ok 126 - difficulty does not scale ordinary stun or venom wind-up world seconds
+  ---
+  duration_ms: 47.7223
+  type: 'test'
+  ...
+# Subtest: cage strikes retain the save window while the committed wrap and laugh finish before loss in every mode
+ok 127 - cage strikes retain the save window while the committed wrap and laugh finish before loss in every mode
+  ---
+  duration_ms: 134.8086
+  type: 'test'
+  ...
+# Subtest: chargeCore becomes exactly full at twelve legacy hits or six configured manual hits, once
+ok 128 - chargeCore becomes exactly full at twelve legacy hits or six configured manual hits, once
+  ---
+  duration_ms: 4.126
+  type: 'test'
+  ...
+# Subtest: manual break bookkeeping never double-credits explicit damage charge; Ward and default mode still earn twelve breaks
+ok 129 - manual break bookkeeping never double-credits explicit damage charge; Ward and default mode still earn twelve breaks
+  ---
+  duration_ms: 52.8565
+  type: 'test'
+  ...
+# Subtest: successful Vault rescue leads with the head and finishes retreat before the result
+ok 130 - successful Vault rescue leads with the head and finishes retreat before the result
+  ---
+  duration_ms: 1281.4388
+  type: 'test'
+  ...
+# Subtest: fast enemy shots traverse the complete intact field and hit or miss the actual paddle without changing any cover/reward
+ok 131 - fast enemy shots traverse the complete intact field and hit or miss the actual paddle without changing any cover/reward
+  ---
+  duration_ms: 106.7298
+  type: 'test'
+  ...
+# Subtest: Carrier aerial boarding reaches extraction through an entirely intact field without a breach projectile
+ok 132 - Carrier aerial boarding reaches extraction through an entirely intact field without a breach projectile
+  ---
+  duration_ms: 209.4665
+  type: 'test'
+  ...
+# Subtest: Carrier batteries independently warn before staggered shots and rest when current WIDE has no escape
+ok 133 - Carrier batteries independently warn before staggered shots and rest when current WIDE has no escape
+  ---
+  duration_ms: 5.8305
+  type: 'test'
+  ...
+# Subtest: Forge both-gun salvos preserve delayed launch, full cleanup and paused/terminal clock invariants
+ok 134 - Forge both-gun salvos preserve delayed launch, full cleanup and paused/terminal clock invariants
+  ---
+  duration_ms: 30.0533
+  type: 'test'
+  ...
+# Subtest: short previews, phones and rotated windows retain a full playable world
+ok 135 - short previews, phones and rotated windows retain a full playable world
+  ---
+  duration_ms: 317.6957
+  type: 'test'
+  ...
+# Subtest: independent Forge: legal full-radius coil lineups clear U openings while oblique approaches retain real side metal
+ok 136 - independent Forge: legal full-radius coil lineups clear U openings while oblique approaches retain real side metal
+  ---
+  duration_ms: 167.1949
+  type: 'test'
+  ...
+# Subtest: independent Forge: final actual coil contact beats a last-life miss in either ball order and clears ready LASER
+ok 137 - independent Forge: final actual coil contact beats a last-life miss in either ball order and clears ready LASER
+  ---
+  duration_ms: 99.3233
+  type: 'test'
+  ...
+# Subtest: independent Forge: final physical external-core hit latches ending before same-tick drain or ready LASER
+ok 138 - independent Forge: final physical external-core hit latches ending before same-tick drain or ready LASER
+  ---
+  duration_ms: 66.848
+  type: 'test'
+  ...
+# Subtest: independent Forge: one reward tops surviving total to3 without deleting powered objects or resurrecting dead ones
+ok 139 - independent Forge: one reward tops surviving total to3 without deleting powered objects or resurrecting dead ones
+  ---
+  duration_ms: 4.2598
+  type: 'test'
+  ...
+# Subtest: independent Forge: presentation freezes every unused power, and the projected external core clears actual lower claw/lip
+ok 140 - independent Forge: presentation freezes every unused power, and the projected external core clears actual lower claw/lip
+  ---
+  duration_ms: 14.8093
+  type: 'test'
+  ...
+# Subtest: independent Forge: a crossing physical LASER target is hit on active-real motion while Focus slows the shot
+ok 141 - independent Forge: a crossing physical LASER target is hit on active-real motion while Focus slows the shot
+  ---
+  duration_ms: 2.5359
+  type: 'test'
+  ...
+# Subtest: independent Forge: active-real warnings and bolt travel agree through Focus/SLOW/hit-stop
+ok 142 - independent Forge: active-real warnings and bolt travel agree through Focus/SLOW/hit-stop
+  ---
+  duration_ms: 213.8719
+  type: 'test'
+  ...
+# Subtest: independent Forge: a simultaneous last-ball drain and exposed paddle shot can cost only one life
+ok 143 - independent Forge: a simultaneous last-ball drain and exposed paddle shot can cost only one life
+  ---
+  duration_ms: 20.9998
+  type: 'test'
+  ...
+# Subtest: independent Forge: aerial fire crosses cover and an actual ball intercepts without farming power or cover damage
+ok 144 - independent Forge: aerial fire crosses cover and an actual ball intercepts without farming power or cover damage
+  ---
+  duration_ms: 4.0336
+  type: 'test'
+  ...
+# Subtest: independent Forge: Continue preserves damaged stations/guns/core and consumed reward without cloning it
+ok 145 - independent Forge: Continue preserves damaged stations/guns/core and consumed reward without cloning it
+  ---
+  duration_ms: 2.7894
+  type: 'test'
+  ...
+# Subtest: independent Forge: closed machinery and final hull union take ordinary damage once per real contact episode
+ok 146 - independent Forge: closed machinery and final hull union take ordinary damage once per real contact episode
+  ---
+  duration_ms: 164.9913
+  type: 'test'
+  ...
+# Subtest: independent Forge: live cannon plus hull-rim overlap earns one contact, while an exposed cannon still takes damage
+ok 147 - independent Forge: live cannon plus hull-rim overlap earns one contact, while an exposed cannon still takes damage
+  ---
+  duration_ms: 112.4739
+  type: 'test'
+  ...
+# Subtest: first serve has no siege progress or opening attack; auto serve is bounded and starts the mission
+ok 148 - first serve has no siege progress or opening attack; auto serve is bounded and starts the mission
+  ---
+  duration_ms: 100.4161
+  type: 'test'
+  ...
+# Subtest: all modes keep equal coloured bricks, open flank routes and full lower reaction space
+ok 149 - all modes keep equal coloured bricks, open flank routes and full lower reaction space
+  ---
+  duration_ms: 2.9227
+  type: 'test'
+  ...
+# Subtest: ordinary high-speed broad torso shot damages once per episode and a distinct return is productive
+ok 150 - ordinary high-speed broad torso shot damages once per episode and a distinct return is productive
+  ---
+  duration_ms: 14.1685
+  type: 'test'
+  ...
+# Subtest: measured hand sweep contacts the dedicated post once; score bricks/rewards remain intact
+ok 151 - measured hand sweep contacts the dedicated post once; score bricks/rewards remain intact
+  ---
+  duration_ms: 28.9924
+  type: 'test'
+  ...
+# Subtest: short real fist reach owns stance and numeric global clip frames own both art and anchors
+ok 152 - short real fist reach owns stance and numeric global clip frames own both art and anchors
+  ---
+  duration_ms: 3.6735
+  type: 'test'
+  ...
+# Subtest: one continuous powered overlap does not farm body HP, Kit credit or windup interruption
+ok 153 - one continuous powered overlap does not farm body HP, Kit credit or windup interruption
+  ---
+  duration_ms: 19.6801
+  type: 'test'
+  ...
+# Subtest: Kit earned credit fills only over active time; a modal freezes every local clock
+ok 154 - Kit earned credit fills only over active time; a modal freezes every local clock
+  ---
+  duration_ms: 4.8882
+  type: 'test'
+  ...
+# Subtest: full-charge ward spends once, protects one real swept punch and does not heal or free-refill
+ok 155 - full-charge ward spends once, protects one real swept punch and does not heal or free-refill
+  ---
+  duration_ms: 8.504
+  type: 'test'
+  ...
+# Subtest: defences remain physical for FIRE/TITAN and player arrows without friendly damage
+ok 156 - defences remain physical for FIRE/TITAN and player arrows without friendly damage
+  ---
+  duration_ms: 8.6593
+  type: 'test'
+  ...
+# Subtest: last legal body contact owns the outcome before same-tick drain and breach; terminal clocks freeze
+ok 157 - last legal body contact owns the outcome before same-tick drain and breach; terminal clocks freeze
+  ---
+  duration_ms: 9.8148
+  type: 'test'
+  ...
+# Subtest: final barrier breach has a visible terminal beat; Continue restores failed defence without resetting earned progress
+ok 158 - final barrier breach has a visible terminal beat; Continue restores failed defence without resetting earned progress
+  ---
+  duration_ms: 9.922
+  type: 'test'
+  ...
+# Subtest: replacement serve and hit-stop use real mission time while Focus cannot freeze the warning
+ok 159 - replacement serve and hit-stop use real mission time while Focus cannot freeze the warning
+  ---
+  duration_ms: 58.8488
+  type: 'test'
+  ...
+# Subtest: actual princess metadata without fps still yields finite visible source rectangles
+ok 160 - actual princess metadata without fps still yields finite visible source rectangles
+  ---
+  duration_ms: 2.9293
+  type: 'test'
+  ...
+# Subtest: shipping rig anchors sweep into each of the three posts once across modes and phone geometries
+ok 161 - shipping rig anchors sweep into each of the three posts once across modes and phone geometries
+  ---
+  duration_ms: 86.2491
+  type: 'test'
+  ...
+# Subtest: real incoming ordinary ball can stagger before the measured windup deadline; a late hit still hurts but does not cancel the punch
+ok 162 - real incoming ordinary ball can stagger before the measured windup deadline; a late hit still hurts but does not cancel the punch
+  ---
+  duration_ms: 9.9237
+  type: 'test'
+  ...
+# Subtest: a real final normal-ball contact wins the deadline tie in either manifest and suppresses a later miss
+ok 163 - a real final normal-ball contact wins the deadline tie in either manifest and suppresses a later miss
+  ---
+  duration_ms: 82.0368
+  type: 'test'
+  ...
+# Subtest: a held previous-wave pointer or Space cannot launch the replacement serve without a fresh press
+ok 164 - a held previous-wave pointer or Space cannot launch the replacement serve without a fresh press
+  ---
+  duration_ms: 49.9108
+  type: 'test'
+  ...
+# Subtest: second-wave Continue keeps archived identities, damaged modules and a consumed cache exactly once
+ok 165 - second-wave Continue keeps archived identities, damaged modules and a consumed cache exactly once
+  ---
+  duration_ms: 11.2863
+  type: 'test'
+  ...
+# Subtest: destroying the hull in wave two cancels the jump without resetting earned manifest progress
+ok 166 - destroying the hull in wave two cancels the jump without resetting earned manifest progress
+  ---
+  duration_ms: 25.7309
+  type: 'test'
+  ...
+# Subtest: a docking or frozen-breach transition cannot teleport the moving fighter and its collision
+ok 167 - a docking or frozen-breach transition cannot teleport the moving fighter and its collision
+  ---
+  duration_ms: 391.269
+  type: 'test'
+  ...
+# Subtest: menu migration preserves mapped legacy records while preventing cross-mode stars and persists the pick
+ok 168 - menu migration preserves mapped legacy records while preventing cross-mode stars and persists the pick
+  ---
+  duration_ms: 11.5113
+  type: 'test'
+  ...
+# Subtest: Kit reacts to player moments and ignores expired or dead-ball events
+ok 169 - Kit reacts to player moments and ignores expired or dead-ball events
+  ---
+  duration_ms: 3.3476
+  type: 'test'
+  ...
+# Subtest: terminal and urgent reactions take priority over rewards and aiming
+ok 170 - terminal and urgent reactions take priority over rewards and aiming
+  ---
+  duration_ms: 0.8167
+  type: 'test'
+  ...
+# Subtest: full charge and a later cast each open one window; a live window does not refresh
+ok 171 - full charge and a later cast each open one window; a live window does not refresh
+  ---
+  duration_ms: 3.6603
+  type: 'test'
+  ...
+# Subtest: presentation can expire while the coaching world clock stays frozen
+ok 172 - presentation can expire while the coaching world clock stays frozen
+  ---
+  duration_ms: 0.9865
+  type: 'test'
+  ...
+# Subtest: the face orb stays at the safe bottom-left without a body or visible track layout
+ok 173 - the face orb stays at the safe bottom-left without a body or visible track layout
+  ---
+  duration_ms: 9.0032
+  type: 'test'
+  ...
+# Subtest: Kit needs a deliberate orb tap; crossing, dragging out and back, and corners do not fire
+ok 174 - Kit needs a deliberate orb tap; crossing, dragging out and back, and corners do not fire
+  ---
+  duration_ms: 1.5945
+  type: 'test'
+  ...
+# Subtest: cast and short ward feedback remain readable, then live danger returns
+ok 175 - cast and short ward feedback remain readable, then live danger returns
+  ---
+  duration_ms: 1.5685
+  type: 'test'
+  ...
+# Subtest: Forge uses the actual cosmic sprite only for a live unstoppable ball and preserves approved ordinary art
+ok 176 - Forge uses the actual cosmic sprite only for a live unstoppable ball and preserves approved ordinary art
+  ---
+  duration_ms: 9.4391
+  type: 'test'
+  ...
+# Subtest: Forge paddle body matches1x/1.55x/2.1x/max collision widths while original end caps keep their proportions
+ok 177 - Forge paddle body matches1x/1.55x/2.1x/max collision widths while original end caps keep their proportions
+  ---
+  duration_ms: 4.2767
+  type: 'test'
+  ...
+# Subtest: real enclosed bay retains its lower metal lip and no hidden core
+ok 178 - real enclosed bay retains its lower metal lip and no hidden core
+  ---
+  duration_ms: 33.9707
+  type: 'test'
+  ...
+# Subtest: external-core FIRE/TITAN contacts damage once per real contact episode across snapshots
+ok 179 - external-core FIRE/TITAN contacts damage once per real contact episode across snapshots
+  ---
+  duration_ms: 209.0038
+  type: 'test'
+  ...
+# Subtest: laser chooses the nearest real X panel; disabled gun remains visibly physical
+ok 180 - laser chooses the nearest real X panel; disabled gun remains visibly physical
+  ---
+  duration_ms: 30.155
+  type: 'test'
+  ...
+# Subtest: all legal locked cannon angles have a clear actual muzzle outside the hull and retain player-contact metal
+ok 181 - all legal locked cannon angles have a clear actual muzzle outside the hull and retain player-contact metal
+  ---
+  duration_ms: 955.7581
+  type: 'test'
+  ...
+# Subtest: Forge has40 equal slots with38 coloured1HP panels and only2 breakable grey panels
+ok 182 - Forge has40 equal slots with38 coloured1HP panels and only2 breakable grey panels
+  ---
+  duration_ms: 5.5691
+  type: 'test'
+  ...
+# Subtest: broad physical hull takes ordinary damage on both phones and stays solid while HP falls
+ok 183 - broad physical hull takes ordinary damage on both phones and stays solid while HP falls
+  ---
+  duration_ms: 63.3892
+  type: 'test'
+  ...
+# Subtest: closed station compound spends one HP and one charge per physical contact, open damage is a bonus
+ok 184 - closed station compound spends one HP and one charge per physical contact, open damage is a bonus
+  ---
+  duration_ms: 7.7794
+  type: 'test'
+  ...
+# Subtest: either broad hull or arbitrary-order closed machinery wins the first phase without waiting for openings
+ok 185 - either broad hull or arbitrary-order closed machinery wins the first phase without waiting for openings
+  ---
+  duration_ms: 32.1754
+  type: 'test'
+  ...
+# Subtest: every final ship part is one compound core contact, including the still-solid hull
+ok 186 - every final ship part is one compound core contact, including the still-solid hull
+  ---
+  duration_ms: 9.6794
+  type: 'test'
+  ...
+# Subtest: mode-specific banked credits need active time, spend once and cannot inherit overflow or power feedback
+ok 187 - mode-specific banked credits need active time, spend once and cannot inherit overflow or power feedback
+  ---
+  duration_ms: 8.8939
+  type: 'test'
+  ...
+# Subtest: longer encounter keeps both routes productive and can earn a choice before a broad hull clear in every mode
+ok 188 - longer encounter keeps both routes productive and can earn a choice before a broad hull clear in every mode
+  ---
+  duration_ms: 1.5068
+  type: 'test'
+  ...
+# Subtest: power menu freezes all Forge, serve, power and transition clocks; shared keyboard choice works
+ok 189 - power menu freezes all Forge, serve, power and transition clocks; shared keyboard choice works
+  ---
+  duration_ms: 2.6444
+  type: 'test'
+  ...
+# Subtest: LASER and UNSTOPPABLE materially break closed grey armour; neither charges Nix
+ok 190 - LASER and UNSTOPPABLE materially break closed grey armour; neither charges Nix
+  ---
+  duration_ms: 9.1621
+  type: 'test'
+  ...
+# Subtest: final hull contact safely latches success and never reopens the picker or duplicates the reward
+ok 191 - final hull contact safely latches success and never reopens the picker or duplicates the reward
+  ---
+  duration_ms: 3.3357
+  type: 'test'
+  ...
+# Subtest: revised real-art layout preserves low paddle,40 coloured slots and3 optional machines
+ok 192 - revised real-art layout preserves low paddle,40 coloured slots and3 optional machines
+  ---
+  duration_ms: 29.0704
+  type: 'test'
+  ...
+# Subtest: actual open machines admit both ball radii; broad closed leaves also take ordinary damage
+ok 193 - actual open machines admit both ball radii; broad closed leaves also take ordinary damage
+  ---
+  duration_ms: 253.919
+  type: 'test'
+  ...
+# Subtest: all hinge poses render and collide with the same actual leaf contour
+ok 194 - all hinge poses render and collide with the same actual leaf contour
+  ---
+  duration_ms: 7.6191
+  type: 'test'
+  ...
+# Subtest: initial8s auto serve, later3s, teaching contact and Focus/SLOW/hitstop use active-real clocks
+ok 195 - initial8s auto serve, later3s, teaching contact and Focus/SLOW/hitstop use active-real clocks
+  ---
+  duration_ms: 1146.4089
+  type: 'test'
+  ...
+# Subtest: harmless expired first window, then one locked warning/shot and a full recovery
+ok 196 - harmless expired first window, then one locked warning/shot and a full recovery
+  ---
+  duration_ms: 7.5206
+  type: 'test'
+  ...
+# Subtest: optional gun damage persists and destroyed warning source cancels instead of firing
+ok 197 - optional gun damage persists and destroyed warning source cancels instead of firing
+  ---
+  duration_ms: 4.1089
+  type: 'test'
+  ...
+# Subtest: structural clear has no break farming; reward tops to3 once and keeps powered survivor ownership
+ok 198 - structural clear has no break farming; reward tops to3 once and keeps powered survivor ownership
+  ---
+  duration_ms: 235.7955
+  type: 'test'
+  ...
+# Subtest: real lower lip stays opaque; projected core only arrives outside it with normal/TITAN route
+ok 199 - real lower lip stays opaque; projected core only arrives outside it with normal/TITAN route
+  ---
+  duration_ms: 51.9521
+  type: 'test'
+  ...
+# Subtest: last stabiliser/core latch before later miss or laser work and Continue cannot repeat reward
+ok 200 - last stabiliser/core latch before later miss or laser work and Continue cannot repeat reward
+  ---
+  duration_ms: 23.8489
+  type: 'test'
+  ...
+# Subtest: enemy work crosses cover without player charge, damage or panel drops
+ok 201 - enemy work crosses cover without player charge, damage or panel drops
+  ---
+  duration_ms: 3.5763
+  type: 'test'
+  ...
+# Subtest: WIDE art matches both collision edges and preserves the same rendered end-cap size at every tier
+ok 202 - WIDE art matches both collision edges and preserves the same rendered end-cap size at every tier
+  ---
+  duration_ms: 3.2716
+  type: 'test'
+  ...
+# Subtest: Carrier/Vault pause Retry creates a fresh same-level/mode attempt without touching saved progress
+ok 203 - Carrier/Vault pause Retry creates a fresh same-level/mode attempt without touching saved progress
+  ---
+  duration_ms: 249.3596
+  type: 'test'
+  ...
+# Subtest: pointer, held Space and orb releases from before pause cannot launch or cast into the retried attempt
+ok 204 - pointer, held Space and orb releases from before pause cannot launch or cast into the retried attempt
+  ---
+  duration_ms: 7.7924
+  type: 'test'
+  ...
+# Subtest: Carrier LASER hits the actual moving fighter during Focus, with or without SLOW, at both phone geometries
+ok 205 - Carrier LASER hits the actual moving fighter during Focus, with or without SLOW, at both phone geometries
+  ---
+  duration_ms: 379.2576
+  type: 'test'
+  ...
+# Subtest: flat wall of small bricks bounces like a flat wall, even across seams
+ok 206 - flat wall of small bricks bounces like a flat wall, even across seams
+  ---
+  duration_ms: 10.05
+  type: 'test'
+  ...
+# Subtest: a very fast ball cannot tunnel through a one-brick wall
+ok 207 - a very fast ball cannot tunnel through a one-brick wall
+  ---
+  duration_ms: 1.6515
+  type: 'test'
+  ...
+# Subtest: hits report each brick touched
+ok 208 - hits report each brick touched
+  ---
+  duration_ms: 2.0201
+  type: 'test'
+  ...
+# Subtest: paddle edge sends the ball out at an angle, centre straight up
+ok 209 - paddle edge sends the ball out at an angle, centre straight up
+  ---
+  duration_ms: 1.3327
+  type: 'test'
+  ...
+# Subtest: flood fill finds connected empty cells only
+ok 210 - flood fill finds connected empty cells only
+  ---
+  duration_ms: 4.4181
+  type: 'test'
+  ...
+# Subtest: powered balls respect declared solid materials while piercing breakables
+ok 211 - powered balls respect declared solid materials while piercing breakables
+  ---
+  duration_ms: 2.9502
+  type: 'test'
+  ...
+# Subtest: a grid without declared solid materials keeps armour pierceable
+ok 212 - a grid without declared solid materials keeps armour pierceable
+  ---
+  duration_ms: 1.7874
+  type: 'test'
+  ...
+# Subtest: a pierced neighbour does not flatten a solid corner bounce
+ok 213 - a pierced neighbour does not flatten a solid corner bounce
+  ---
+  duration_ms: 0.6534
+  type: 'test'
+  ...
+# Subtest: one powered station overlap damages once across snapshots and rearms after a real exit
+ok 214 - one powered station overlap damages once across snapshots and rearms after a real exit
+  ---
+  duration_ms: 136.5775
+  type: 'test'
+  ...
+# Subtest: iris alpha aperture stays clear when open while the actual upper arch remains physical
+ok 215 - iris alpha aperture stays clear when open while the actual upper arch remains physical
+  ---
+  duration_ms: 19.7642
+  type: 'test'
+  ...
+# Subtest: station windows retain alpha holes and physical side rails until armour actually breaks
+ok 216 - station windows retain alpha holes and physical side rails until armour actually breaks
+  ---
+  duration_ms: 56.1505
+  type: 'test'
+  ...
+# Subtest: new enemy ordnance bypasses intact field cover without damaging it or farming Vesper
+ok 217 - new enemy ordnance bypasses intact field cover without damaging it or farming Vesper
+  ---
+  duration_ms: 5.4442
+  type: 'test'
+  ...
+# Subtest: final broad hull contact wins a simultaneous last-life miss in either ball order
+ok 218 - final broad hull contact wins a simultaneous last-life miss in either ball order
+  ---
+  duration_ms: 37.2346
+  type: 'test'
+  ...
+# Subtest: all Circuit modes have a broad hull route, equal colour panels, four grey pieces and no symbol order
+ok 219 - all Circuit modes have a broad hull route, equal colour panels, four grey pieces and no symbol order
+  ---
+  duration_ms: 22.4399
+  type: 'test'
+  ...
+# Subtest: normal and morph paddle drawing spans the actual WIDE collider while chrome caps retain scale
+ok 220 - normal and morph paddle drawing spans the actual WIDE collider while chrome caps retain scale
+  ---
+  duration_ms: 4.2334
+  type: 'test'
+  ...
+# Subtest: real broad closed-iris normal contacts damage the mothership and do not require stations or guns
+ok 221 - real broad closed-iris normal contacts damage the mothership and do not require stations or guns
+  ---
+  duration_ms: 2146.7607
+  type: 'test'
+  ...
+# Subtest: mode-sized productive ordinary damage contacts charge once each; shots, TITAN and spent metal cannot farm charge
+ok 222 - mode-sized productive ordinary damage contacts charge once each; shots, TITAN and spent metal cannot farm charge
+  ---
+  duration_ms: 4.851
+  type: 'test'
+  ...
+# Subtest: live and spent cannon impacts damage the mothership; overlapping boss surfaces count once
+ok 223 - live and spent cannon impacts damage the mothership; overlapping boss surfaces count once
+  ---
+  duration_ms: 2.2422
+  type: 'test'
+  ...
+# Subtest: extended hull still accepts every ordinary and powered impact with one visible half-health reward
+ok 224 - extended hull still accepts every ordinary and powered impact with one visible half-health reward
+  ---
+  duration_ms: 42.4654
+  type: 'test'
+  ...
+# Subtest: UNSTOPPABLE pierces actual closed armour; LASER breaks station HP without a timing gate
+ok 225 - UNSTOPPABLE pierces actual closed armour; LASER breaks station HP without a timing gate
+  ---
+  duration_ms: 13.4691
+  type: 'test'
+  ...
+# Subtest: half-hull reward stows exact balls and powers, then restores their safe fan with queued capsules once
+ok 226 - half-hull reward stows exact balls and powers, then restores their safe fan with queued capsules once
+  ---
+  duration_ms: 26.5837
+  type: 'test'
+  ...
+# Subtest: Vesper picker freezes every Circuit clock, power and ball before one legal choice
+ok 227 - Vesper picker freezes every Circuit clock, power and ball before one legal choice
+  ---
+  duration_ms: 18.991
+  type: 'test'
+  ...
+# Subtest: terminal and Continue retain hull, broken armour, cache progress and once-only flight
+ok 228 - terminal and Continue retain hull, broken armour, cache progress and once-only flight
+  ---
+  duration_ms: 27.6975
+  type: 'test'
+  ...
+# Subtest: handover reproduces every existing Catmull control point and the complete extended tail
+ok 229 - handover reproduces every existing Catmull control point and the complete extended tail
+  ---
+  duration_ms: 22.6378
+  type: 'test'
+  ...
+# Subtest: sampled timeline conserves full body length, with a continuous head-led path and no distant joins
+ok 230 - sampled timeline conserves full body length, with a continuous head-led path and no distant joins
+  ---
+  duration_ms: 51.1857
+  type: 'test'
+  ...
+# Subtest: body follows actual earlier head positions instead of all points moving toward a final coil
+ok 231 - body follows actual earlier head positions instead of all points moving toward a final coil
+  ---
+  duration_ms: 3.1022
+  type: 'test'
+  ...
+# Subtest: front paths are true travelled lower arcs; face and crown remain above all front occlusion
+ok 232 - front paths are true travelled lower arcs; face and crown remain above all front occlusion
+  ---
+  duration_ms: 52.1299
+  type: 'test'
+  ...
+# Subtest: head travel retains its tangent while side-view sprite roll stays upright and yaw faces Lumi
+ok 233 - head travel retains its tangent while side-view sprite roll stays upright and yaw faces Lumi
+  ---
+  duration_ms: 12.5094
+  type: 'test'
+  ...
+# Subtest: final neck supports the rear skull, preserving head endpoint, finish time and upright yaw
+ok 234 - final neck supports the rear skull, preserving head endpoint, finish time and upright yaw
+  ---
+  duration_ms: 74.9616
+  type: 'test'
+  ...
+# Subtest: lift/settle and separate laugh envelope are bounded, ending is stable and sampling is pure
+ok 235 - lift/settle and separate laugh envelope are bounded, ending is stable and sampling is pure
+  ---
+  duration_ms: 23.4554
+  type: 'test'
+  ...
+# Subtest: mirror approaches and alternate captured body routes remain bounded with no data mutation
+ok 236 - mirror approaches and alternate captured body routes remain bounded with no data mutation
+  ---
+  duration_ms: 34.9654
+  type: 'test'
+  ...
+# Subtest: handover is the exact existing full ribbon including tail, heading and native atlas family
+ok 237 - handover is the exact existing full ribbon including tail, heading and native atlas family
+  ---
+  duration_ms: 58.5543
+  type: 'test'
+  ...
+# Subtest: head first moves forward through a compact U-turn and then follows its own body toward the tail
+ok 238 - head first moves forward through a compact U-turn and then follows its own body toward the tail
+  ---
+  duration_ms: 39.411
+  type: 'test'
+  ...
+# Subtest: every sampled full body conserves length and has no detached or vanishing segment
+ok 239 - every sampled full body conserves length and has no detached or vanishing segment
+  ---
+  duration_ms: 261.2586
+  type: 'test'
+  ...
+# Subtest: return corridor uses actual body and reversed history; corner rounding cannot cut across the field
+ok 240 - return corridor uses actual body and reversed history; corner rounding cannot cut across the field
+  ---
+  duration_ms: 573.9827
+  type: 'test'
+  ...
+# Subtest: head enters original tunnel before tail; no fading hides an exposed body and done waits for full exit
+ok 241 - head enters original tunnel before tail; no fading hides an exposed body and done waits for full exit
+  ---
+  duration_ms: 22.199
+  type: 'test'
+  ...
+# Subtest: travel orientation is continuous and both atlas rows point exactly along actual travel
+ok 242 - travel orientation is continuous and both atlas rows point exactly along actual travel
+  ---
+  duration_ms: 178.3571
+  type: 'test'
+  ...
+# Subtest: vertical tunnel travel retains the last native facing instead of a permanent double-faced blend
+ok 243 - vertical tunnel travel retains the last native facing instead of a permanent double-faced blend
+  ---
+  duration_ms: 1142.6435
+  type: 'test'
+  ...
+# Subtest: snapshot/sample are pure, duration is bounded, incomplete history is explicit
+ok 244 - snapshot/sample are pure, duration is bounded, incomplete history is explicit
+  ---
+  duration_ms: 24.5721
+  type: 'test'
+  ...
+# Subtest: fury counts separate incoming contact episodes and rejects lingering, outward and simultaneous contacts
+ok 245 - fury counts separate incoming contact episodes and rejects lingering, outward and simultaneous contacts
+  ---
+  duration_ms: 3.5607
+  type: 'test'
+  ...
+# Subtest: the cage roof and both frame sides are protected independently of partition targets
+ok 246 - the cage roof and both frame sides are protected independently of partition targets
+  ---
+  duration_ms: 1.0807
+  type: 'test'
+  ...
+# Subtest: venom chooses a useful exposed partition and never shoots through bars
+ok 247 - venom chooses a useful exposed partition and never shoots through bars
+  ---
+  duration_ms: 14.0954
+  type: 'test'
+  ...
+# Subtest: partition preview restores every grid cell and owner even if planning throws
+ok 248 - partition preview restores every grid cell and owner even if planning throws
+  ---
+  duration_ms: 6.8715
+  type: 'test'
+  ...
+# Subtest: streaming tail is continuous and recoil cannot move the active head into virtual tunnel rows
+ok 249 - streaming tail is continuous and recoil cannot move the active head into virtual tunnel rows
+  ---
+  duration_ms: 1.0525
+  type: 'test'
+  ...
+# Subtest: ward requires the full charge and enough of the marked warning for the cast
+ok 250 - ward requires the full charge and enough of the marked warning for the cast
+  ---
+  duration_ms: 1.1417
+  type: 'test'
+  ...
+# Subtest: actual Circuit and Forge launches use selected heavy circle, real muzzle/clock and separate ship colours
+ok 251 - actual Circuit and Forge launches use selected heavy circle, real muzzle/clock and separate ship colours
+  ---
+  duration_ms: 308.0594
+  type: 'test'
+  ...
+# Subtest: live Circuit and Forge bolt drawers use packed raster sprites without mutating combat or rendering flat stamps
+ok 252 - live Circuit and Forge bolt drawers use packed raster sprites without mutating combat or rendering flat stamps
+  ---
+  duration_ms: 34.6719
+  type: 'test'
+  ...
+# Subtest: six productive ordinary contacts earn a choice; shots, active TITAN and passive breaks cannot recharge powers
+ok 253 - six productive ordinary contacts earn a choice; shots, active TITAN and passive breaks cannot recharge powers
+  ---
+  duration_ms: 8.1493
+  type: 'test'
+  ...
+# Subtest: opening and cancelling keeps the charge, freezes the ball and clears held input without launching
+ok 254 - opening and cancelling keeps the charge, freezes the ball and clears held input without launching
+  ---
+  duration_ms: 6.1122
+  type: 'test'
+  ...
+# Subtest: each selected power spends once; laser fires physically and cannot regenerate charge
+ok 255 - each selected power spends once; laser fires physically and cannot regenerate charge
+  ---
+  duration_ms: 2.151
+  type: 'test'
+  ...
+# Subtest: keyboard opens and chooses once, while a held pre-menu Space cannot launch on release
+ok 256 - keyboard opens and chooses once, while a held pre-menu Space cannot launch on release
+  ---
+  duration_ms: 1.3424
+  type: 'test'
+  ...
+# Subtest: unstoppable powers one live ball and expires to its configured radius
+ok 257 - unstoppable powers one live ball and expires to its configured radius
+  ---
+  duration_ms: 3.6409
+  type: 'test'
+  ...
+# Subtest: ball fan adds four ordinary balls, stacks beyond five and never copies TITAN or deletes survivors
+ok 258 - ball fan adds four ordinary balls, stacks beyond five and never copies TITAN or deletes survivors
+  ---
+  duration_ms: 2.5656
+  type: 'test'
+  ...
+# Subtest: ball fan and split respect the live-ball ceiling without deleting survivors or spending a blocked choice
+ok 259 - ball fan and split respect the live-ball ceiling without deleting survivors or spending a blocked choice
+  ---
+  duration_ms: 3.7231
+  type: 'test'
+  ...
+# Subtest: mode budgets bound companion casts and capsules; full choices retain their charge
+ok 260 - mode budgets bound companion casts and capsules; full choices retain their charge
+  ---
+  duration_ms: 4.0777
+  type: 'test'
+  ...
+# Subtest: damage credit is retained but cannot instantly refill the orb or progress in a menu/terminal state
+ok 261 - damage credit is retained but cannot instantly refill the orb or progress in a menu/terminal state
+  ---
+  duration_ms: 2.7832
+  type: 'test'
+  ...
+# Subtest: positive pickups add bounded time; repeat cosmic extends the one powered survivor
+ok 262 - positive pickups add bounded time; repeat cosmic extends the one powered survivor
+  ---
+  duration_ms: 2.451
+  type: 'test'
+  ...
+# Subtest: repeated WIDE expands further, adds time and stays inside the actual playfield
+ok 263 - repeated WIDE expands further, adds time and stays inside the actual playfield
+  ---
+  duration_ms: 12.5364
+  type: 'test'
+  ...
+# Subtest: three phone-size choice targets are at least44 CSS pixels, fit the screen and match rendered hit boxes
+ok 264 - three phone-size choice targets are at least44 CSS pixels, fit the screen and match rendered hit boxes
+  ---
+  duration_ms: 2.8702
+  type: 'test'
+  ...
+# Subtest: rendered plasma follows velocity, clips at the real muzzle plane and never mutates a projectile
+ok 265 - rendered plasma follows velocity, clips at the real muzzle plane and never mutates a projectile
+  ---
+  duration_ms: 14.974
+  type: 'test'
+  ...
+# Subtest: source-raster muzzle and charge are short, pose-anchored effects without line or spoke substitutes
+ok 266 - source-raster muzzle and charge are short, pose-anchored effects without line or spoke substitutes
+  ---
+  duration_ms: 13.9282
+  type: 'test'
+  ...
+# Subtest: paddle impact uses the approved single raster and ends at320ms; player shot keeps the approved37u source size
+ok 267 - paddle impact uses the approved single raster and ends at320ms; player shot keeps the approved37u source size
+  ---
+  duration_ms: 53.4049
+  type: 'test'
+  ...
+# Subtest: random batteries include both fire types and all four patterns with bounded repeated pressure/rest
+ok 268 - random batteries include both fire types and all four patterns with bounded repeated pressure/rest
+  ---
+  duration_ms: 24.8534
+  type: 'test'
+  ...
+# Subtest: a locked enemy lane leaves a reachable current-width escape or must rest at maximum WIDE
+ok 269 - a locked enemy lane leaves a reachable current-width escape or must rest at maximum WIDE
+  ---
+  duration_ms: 3.3667
+  type: 'test'
+  ...
+# Subtest: Carrier launch records actual muzzle, active clock and selected heavy radius without charge farming
+ok 270 - Carrier launch records actual muzzle, active clock and selected heavy radius without charge farming
+  ---
+  duration_ms: 21.1145
+  type: 'test'
+  ...
+# Subtest: actual Carrier mode object selects each bounded companion budget
+ok 271 - actual Carrier mode object selects each bounded companion budget
+  ---
+  duration_ms: 2.8957
+  type: 'test'
+  ...
+# Subtest: Carrier impact storage stays bounded and cannot award gameplay progress
+ok 272 - Carrier impact storage stays bounded and cannot award gameplay progress
+  ---
+  duration_ms: 14.85
+  type: 'test'
+  ...
+# Subtest: the mission is separate from the lab and exposes nine bounded manual choices
+ok 273 - the mission is separate from the lab and exposes nine bounded manual choices
+  ---
+  duration_ms: 12.6857
+  type: 'test'
+  ...
+# Subtest: stocks precede reactor charge, paused eligibility is read-only, and activation remains strict
+ok 274 - stocks precede reactor charge, paused eligibility is read-only, and activation remains strict
+  ---
+  duration_ms: 5.5068
+  type: 'test'
+  ...
+# Subtest: waiting and passive dodging without firing cannot clear the required patrol or win
+ok 275 - waiting and passive dodging without firing cannot clear the required patrol or win
+  ---
+  duration_ms: 905.7573
+  type: 'test'
+  ...
+# Subtest: scouts commit a snapshot lane, turn continuously and regroup instead of exiting
+ok 276 - scouts commit a snapshot lane, turn continuously and regroup instead of exiting
+  ---
+  duration_ms: 115.2759
+  type: 'test'
+  ...
+# Subtest: finite required deaths gate the next encounter and relief freezes combat resources
+ok 277 - finite required deaths gate the next encounter and relief freezes combat resources
+  ---
+  duration_ms: 64.5808
+  type: 'test'
+  ...
+# Subtest: productive broad battery damage removes a real rack and cancels its pending work
+ok 278 - productive broad battery damage removes a real rack and cancels its pending work
+  ---
+  duration_ms: 4.2785
+  type: 'test'
+  ...
+# Subtest: early earned capsules are Storm then Ricochet and invalid/enemy kills cannot farm supplies
+ok 279 - early earned capsules are Storm then Ricochet and invalid/enemy kills cannot farm supplies
+  ---
+  duration_ms: 6.2826
+  type: 'test'
+  ...
+# Subtest: power capsules remain manual, stock caps hold and full stock never silently consumes a capsule
+ok 280 - power capsules remain manual, stock caps hold and full stock never silently consumes a capsule
+  ---
+  duration_ms: 2.734
+  type: 'test'
+  ...
+# Subtest: Storm attachment pivots, neutral assembly and lightning tips match the real wing manifest
+ok 281 - Storm attachment pivots, neutral assembly and lightning tips match the real wing manifest
+  ---
+  duration_ms: 10.8388
+  type: 'test'
+  ...
+# Subtest: the upward Storm band sweeps actual targets once, has bounded boss damage and returns to moving sockets
+ok 282 - the upward Storm band sweeps actual targets once, has bounded boss damage and returns to moving sockets
+  ---
+  duration_ms: 6.8495
+  type: 'test'
+  ...
+# Subtest: Storm destroys physically crossed Hard ordinary hulls and rocks without replacement charge or drops
+ok 283 - Storm destroys physically crossed Hard ordinary hulls and rocks without replacement charge or drops
+  ---
+  duration_ms: 4.4561
+  type: 'test'
+  ...
+# Subtest: Ricochet collides along the real reflected segments rather than the diagonal endpoint chord
+ok 284 - Ricochet collides along the real reflected segments rather than the diagonal endpoint chord
+  ---
+  duration_ms: 5.653
+  type: 'test'
+  ...
+# Subtest: a last Storm kill returns wings harmlessly during relief before the next encounter
+ok 285 - a last Storm kill returns wings harmlessly during relief before the next encounter
+  ---
+  duration_ms: 17.3322
+  type: 'test'
+  ...
+# Subtest: Ricochet cannot farm continuous overlap and must exit before a later contact episode
+ok 286 - Ricochet cannot farm continuous overlap and must exit before a later contact episode
+  ---
+  duration_ms: 3.1863
+  type: 'test'
+  ...
+# Subtest: Ricochet lifetime, bounce count and trail budgets stay finite and pause freezes all new families
+ok 287 - Ricochet lifetime, bounce count and trail budgets stay finite and pause freezes all new families
+  ---
+  duration_ms: 30.6129
+  type: 'test'
+  ...
+# Subtest: Storm is exclusive with every manual power and rejected choices preserve all earned resources
+ok 288 - Storm is exclusive with every manual power and rejected choices preserve all earned resources
+  ---
+  duration_ms: 5.0125
+  type: 'test'
+  ...
+# Subtest: only thunder attacks throughout split, sweep and return; existing bullets clear and ordinary fire resumes without backlog
+ok 289 - only thunder attacks throughout split, sweep and return; existing bullets clear and ordinary fire resumes without backlog
+  ---
+  duration_ms: 60.3573
+  type: 'test'
+  ...
+# Subtest: last command damage clears same-tick lethal fire, extraction is bounded and won is terminal
+ok 290 - last command damage clears same-tick lethal fire, extraction is bounded and won is terminal
+  ---
+  duration_ms: 9.2411
+  type: 'test'
+  ...
+# Subtest: ordinary public flight inputs can complete the finite Easy mission at both phone-height fields
+ok 291 - ordinary public flight inputs can complete the finite Easy mission at both phone-height fields
+  ---
+  duration_ms: 1562.2842
+  type: 'test'
+  ...
+# Subtest: supplies drift independently of the hero and only a real swept contact collects them
+ok 292 - supplies drift independently of the hero and only a real swept contact collects them
+  ---
+  duration_ms: 0.7076
+  type: 'test'
+  ...
+# Subtest: Trident retains the spiral ID but launches a bounded three-target guided salvo from real ports
+ok 293 - Trident retains the spiral ID but launches a bounded three-target guided salvo from real ports
+  ---
+  duration_ms: 1.3134
+  type: 'test'
+  ...
+# Subtest: ignored scouts dock continuously into one heavier ship without healing or free objective credit
+ok 294 - ignored scouts dock continuously into one heavier ship without healing or free objective credit
+  ---
+  duration_ms: 25.3666
+  type: 'test'
+  ...
+# Subtest: a legal last-parent hit interrupts docking before the child can appear in that tick
+ok 295 - a legal last-parent hit interrupts docking before the child can appear in that tick
+  ---
+  duration_ms: 24.2699
+  type: 'test'
+  ...
+# Subtest: mission resize preserves every required identity and all resources across a deep portrait shrink
+ok 296 - mission resize preserves every required identity and all resources across a deep portrait shrink
+  ---
+  duration_ms: 19.7516
+  type: 'test'
+  ...
+# Subtest: payload-cap rejection and primary exclusivity cannot spend an unusable weapon stock
+ok 297 - payload-cap rejection and primary exclusivity cannot spend an unusable weapon stock
+  ---
+  duration_ms: 5.9297
+  type: 'test'
+  ...
+# Subtest: all nine abilities expire without farming energy, and drone shots are born at the real banked optic
+ok 298 - all nine abilities expire without farming energy, and drone shots are born at the real banked optic
+  ---
+  duration_ms: 117.0769
+  type: 'test'
+  ...
+# Subtest: Ricochet uses the banked central nose and retains a longer bounded real path history
+ok 299 - Ricochet uses the banked central nose and retains a longer bounded real path history
+  ---
+  duration_ms: 2.3921
+  type: 'test'
+  ...
+# Subtest: the real shield intercepts at31u once, then remaining shots immediately use the normal7u core
+ok 300 - the real shield intercepts at31u once, then remaining shots immediately use the normal7u core
+  ---
+  duration_ms: 0.9196
+  type: 'test'
+  ...
+# Subtest: direct flight responds with bounded inertia, lower-field bounds and release damping
+ok 301 - direct flight responds with bounded inertia, lower-field bounds and release damping
+  ---
+  duration_ms: 37.6647
+  type: 'test'
+  ...
+# Subtest: relative swept circles catch both crossing directions and reject parallel misses
+ok 302 - relative swept circles catch both crossing directions and reject parallel misses
+  ---
+  duration_ms: 0.7684
+  type: 'test'
+  ...
+# Subtest: a fast player projectile hits the first crossed physical enemy instead of tunnelling
+ok 303 - a fast player projectile hits the first crossed physical enemy instead of tunnelling
+  ---
+  duration_ms: 16.7593
+  type: 'test'
+  ...
+# Subtest: fast hostile crossing damages once and invulnerability prevents a same-frame pile-up
+ok 304 - fast hostile crossing damages once and invulnerability prevents a same-frame pile-up
+  ---
+  duration_ms: 9.2897
+  type: 'test'
+  ...
+# Subtest: pause freezes every simulation clock and invalid or excessive dt is bounded
+ok 305 - pause freezes every simulation clock and invalid or excessive dt is bounded
+  ---
+  duration_ms: 85.7478
+  type: 'test'
+  ...
+# Subtest: identical seeds and fixed-step subdivisions reproduce authored waves and combat
+ok 306 - identical seeds and fixed-step subdivisions reproduce authored waves and combat
+  ---
+  duration_ms: 864.1197
+  type: 'test'
+  ...
+# Subtest: difficulty has explicit pressure and health differences without changing the hitbox
+ok 307 - difficulty has explicit pressure and health differences without changing the hitbox
+  ---
+  duration_ms: 4.3514
+  type: 'test'
+  ...
+# Subtest: productive ordinary damage earns capped charge; powered damage cannot farm its replacement
+ok 308 - productive ordinary damage earns capped charge; powered damage cannot farm its replacement
+  ---
+  duration_ms: 4.3757
+  type: 'test'
+  ...
+# Subtest: full charge grants one bounded ability, rejects recast without spending, and freezes on pause/jump
+ok 309 - full charge grants one bounded ability, rejects recast without spending, and freezes on pause/jump
+  ---
+  duration_ms: 8.1081
+  type: 'test'
+  ...
+# Subtest: stasis slows hostile flight while player projectiles retain their speed
+ok 310 - stasis slows hostile flight while player projectiles retain their speed
+  ---
+  duration_ms: 4.2064
+  type: 'test'
+  ...
+# Subtest: a locked visible warning precedes actual fire and preserves a bounded volley
+ok 311 - a locked visible warning precedes actual fire and preserves a bounded volley
+  ---
+  duration_ms: 13.0055
+  type: 'test'
+  ...
+# Subtest: boss progression offers eight quiet seconds then three distinct sectors and an endless cycle
+ok 312 - boss progression offers eight quiet seconds then three distinct sectors and an endless cycle
+  ---
+  duration_ms: 824.294
+  type: 'test'
+  ...
+# Subtest: last legal boss hit beats an incoming lethal hit in the same tick
+ok 313 - last legal boss hit beats an incoming lethal hit in the same tick
+  ---
+  duration_ms: 1.7967
+  type: 'test'
+  ...
+# Subtest: pickups repair only to max, grant one shield and stay bounded
+ok 314 - pickups repair only to max, grant one shield and stay bounded
+  ---
+  duration_ms: 3.0016
+  type: 'test'
+  ...
+# Subtest: a piercing laser damages two distinct swept enemies and cannot repeat one contact
+ok 315 - a piercing laser damages two distinct swept enemies and cannot repeat one contact
+  ---
+  duration_ms: 1.409
+  type: 'test'
+  ...
+# Subtest: ordinary auto-fire has an input-only first-gate route without spending a charge ability
+ok 316 - ordinary auto-fire has an input-only first-gate route without spending a charge ability
+  ---
+  duration_ms: 306.2817
+  type: 'test'
+  ...
+# Subtest: runtime hardpoints and aspects match the actual ship manifest at one shared draw size
+ok 317 - runtime hardpoints and aspects match the actual ship manifest at one shared draw size
+  ---
+  duration_ms: 2.5682
+  type: 'test'
+  ...
+# Subtest: player shots emerge from the rotated actual twin barrels, including Hyper fan fire
+ok 318 - player shots emerge from the rotated actual twin barrels, including Hyper fan fire
+  ---
+  duration_ms: 1.3907
+  type: 'test'
+  ...
+# Subtest: gunship and boss volleys cycle left, right and paired real moving cannon ports
+ok 319 - gunship and boss volleys cycle left, right and paired real moving cannon ports
+  ---
+  duration_ms: 2.1782
+  type: 'test'
+  ...
+# Subtest: the broad guardian wings accept ordinary damage and overlapping hull pieces charge once
+ok 320 - the broad guardian wings accept ordinary damage and overlapping hull pieces charge once
+  ---
+  duration_ms: 0.9927
+  type: 'test'
+  ...
+# Subtest: all seven choices have bounded durations and a slow earned bank cannot refill passively
+ok 321 - all seven choices have bounded durations and a slow earned bank cannot refill passively
+  ---
+  duration_ms: 11.3427
+  type: 'test'
+  ...
+# Subtest: seeker missiles turn toward live targets at a capped rate and never exceed six live rounds
+ok 322 - seeker missiles turn toward live targets at a capped rate and never exceed six live rounds
+  ---
+  duration_ms: 1.1702
+  type: 'test'
+  ...
+# Subtest: spiral fire follows real alternating curved trajectories rather than a visual-only trail
+ok 323 - spiral fire follows real alternating curved trajectories rather than a visual-only trail
+  ---
+  duration_ms: 0.4166
+  type: 'test'
+  ...
+# Subtest: defensive drones orbit, consume two actual intercepts each and do not grant reactor credit
+ok 324 - defensive drones orbit, consume two actual intercepts each and do not grant reactor credit
+  ---
+  duration_ms: 1.3131
+  type: 'test'
+  ...
+# Subtest: nova clears only nearby danger, emits a bounded radial burst and cannot erase a full guardian
+ok 325 - nova clears only nearby danger, emits a bounded radial burst and cannot erase a full guardian
+  ---
+  duration_ms: 9.1074
+  type: 'test'
+  ...
+# Subtest: moving asteroids receive swept player hits and absorb hostile shots without granting credit
+ok 326 - moving asteroids receive swept player hits and absorb hostile shots without granting credit
+  ---
+  duration_ms: 1.194
+  type: 'test'
+  ...
+# Subtest: the nearest asteroid is real cover before a player collision along the same fast ray
+ok 327 - the nearest asteroid is real cover before a player collision along the same fast ray
+  ---
+  duration_ms: 0.9515
+  type: 'test'
+  ...
+# Subtest: gravity has a two-second warning, real escape margin, bounded pull and no teleport or direct damage
+ok 328 - gravity has a two-second warning, real escape margin, bounded pull and no teleport or direct damage
+  ---
+  duration_ms: 2.2328
+  type: 'test'
+  ...
+# Subtest: new sectors use real new cannon families and the crescent forward notch stays open
+ok 329 - new sectors use real new cannon families and the crescent forward notch stays open
+  ---
+  duration_ms: 1.43
+  type: 'test'
+  ...
+# Subtest: pause freezes the actual active gravity, drone, power and hazard families together
+ok 330 - pause freezes the actual active gravity, drone, power and hazard families together
+  ---
+  duration_ms: 1.979
+  type: 'test'
+  ...
+# Subtest: smaller ships retain measured aspects and the player seven-unit hurt core
+ok 331 - smaller ships retain measured aspects and the player seven-unit hurt core
+  ---
+  duration_ms: 0.7159
+  type: 'test'
+  ...
+# Subtest: reactor reservation projects targets but never changes current player position
+ok 332 - reactor reservation projects targets but never changes current player position
+  ---
+  duration_ms: 0.9323
+  type: 'test'
+  ...
+# Subtest: swept reactor exclusion retains smooth full-speed motion and the bottom central/right lanes
+ok 333 - swept reactor exclusion retains smooth full-speed motion and the bottom central/right lanes
+  ---
+  duration_ms: 23.7327
+  type: 'test'
+  ...
+# Subtest: a newly measured reactor overlapping the ship separates gradually and pause stays frozen
+ok 334 - a newly measured reactor overlapping the ship separates gradually and pause stays frozen
+  ---
+  duration_ms: 1.5282
+  type: 'test'
+  ...
+# Subtest: banked player bounds use the shared hull edge for targets, motion and control feasibility
+ok 335 - banked player bounds use the shared hull edge for targets, motion and control feasibility
+  ---
+  duration_ms: 4.1566
+  type: 'test'
+  ...
+# Subtest: three productive hits cannot create an opening angry attack or postpone the fixed warning
+ok 336 - three productive hits cannot create an opening angry attack or postpone the fixed warning
+  ---
+  duration_ms: 7.281
+  type: 'test'
+  ...
+# Subtest: enraged pull is warned, bounded, and smoothly lowers the refuge at most three steps
+ok 337 - enraged pull is warned, bounded, and smoothly lowers the refuge at most three steps
+  ---
+  duration_ms: 28.9051
+  type: 'test'
+  ...
+# Subtest: ordinary hurt pauses the bounded patrol for .4s while the attack remains live
+ok 338 - ordinary hurt pauses the bounded patrol for .4s while the attack remains live
+  ---
+  duration_ms: 2.7143
+  type: 'test'
+  ...
+# Subtest: the real clamped chain end hauls away from the lower wheel through the measured rigid pose
+ok 339 - the real clamped chain end hauls away from the lower wheel through the measured rigid pose
+  ---
+  duration_ms: 4.8828
+  type: 'test'
+  ...
+# Subtest: a fixed water warning leaves room to dodge and never follows a later paddle drag
+ok 340 - a fixed water warning leaves room to dodge and never follows a later paddle drag
+  ---
+  duration_ms: 2298.0037
+  type: 'test'
+  ...
+# Subtest: a physical water pulse bypasses the brick bank, costs one life on contact and clears
+ok 341 - a physical water pulse bypasses the brick bank, costs one life on contact and clears
+  ---
+  duration_ms: 2.4399
+  type: 'test'
+  ...
+# Subtest: swept ordinary ball contact deflects a fast water pulse before paddle contact
+ok 342 - swept ordinary ball contact deflects a fast water pulse before paddle contact
+  ---
+  duration_ms: 1.2418
+  type: 'test'
+  ...
+# Subtest: Anchor queries while paused and cancels either real attack once without free recharge
+ok 343 - Anchor queries while paused and cancels either real attack once without free recharge
+  ---
+  duration_ms: 1.1636
+  type: 'test'
+  ...
+# Subtest: Continue preserves refuge and combat progress, creates visible flood headroom and grace
+ok 344 - Continue preserves refuge and combat progress, creates visible flood headroom and grace
+  ---
+  duration_ms: 35.2538
+  type: 'test'
+  ...
+# Subtest: an actual final body contact owns the tick over a simultaneous water pulse and flood
+ok 345 - an actual final body contact owns the tick over a simultaneous water pulse and flood
+  ---
+  duration_ms: 3.7956
+  type: 'test'
+  ...
+# Subtest: live fury uses its exact new opaque silhouette and shoulder sockets, with a real ordinary hit route
+ok 346 - live fury uses its exact new opaque silhouette and shoulder sockets, with a real ordinary hit route
+  ---
+  duration_ms: 61.747
+  type: 'test'
+  ...
+# Subtest: the new roaring anatomy and claws still clear short-phone buoyant bricks by a full ordinary radius
+ok 347 - the new roaring anatomy and claws still clear short-phone buoyant bricks by a full ordinary radius
+  ---
+  duration_ms: 132.8741
+  type: 'test'
+  ...
+# Subtest: all three powers spend one full meter in ordinary idle combat, never while paused or already active
+ok 348 - all three powers spend one full meter in ordinary idle combat, never while paused or already active
+  ---
+  duration_ms: 2.5108
+  type: 'test'
+  ...
+# Subtest: full-charge powers also arm on a caught serve; offensive durations and arrows wait for launch
+ok 349 - full-charge powers also arm on a caught serve; offensive durations and arrows wait for launch
+  ---
+  duration_ms: 220.2616
+  type: 'test'
+  ...
+# Subtest: an idle armed Anchor protects the full timed window without a tiny warning-only input gate
+ok 350 - an idle armed Anchor protects the full timed window without a tiny warning-only input gate
+  ---
+  duration_ms: 43.0685
+  type: 'test'
+  ...
+# Subtest: Arrow Volley has five finite physical arrows and intact braces actually intercept them
+ok 351 - Arrow Volley has five finite physical arrows and intact braces actually intercept them
+  ---
+  duration_ms: 6.2286
+  type: 'test'
+  ...
+# Subtest: Cosmic crosses compound armour once per physical passage without self-funding
+ok 352 - Cosmic crosses compound armour once per physical passage without self-funding
+  ---
+  duration_ms: 14.3481
+  type: 'test'
+  ...
+# Subtest: Cosmic expiry finishes an embedded exit without a second hit then restores normal contact
+ok 353 - Cosmic expiry finishes an embedded exit without a second hit then restores normal contact
+  ---
+  duration_ms: 10.17
+  type: 'test'
+  ...
+# Subtest: water fire is born at the measured animated claw and retains its initially warned landing lane
+ok 354 - water fire is born at the measured animated claw and retains its initially warned landing lane
+  ---
+  duration_ms: 19.2984
+  type: 'test'
+  ...
+# Subtest: ordinary earned credit is reachable, while power damage and passive time do not recharge it
+ok 355 - ordinary earned credit is reachable, while power damage and passive time do not recharge it
+  ---
+  duration_ms: 71.9561
+  type: 'test'
+  ...
+# Subtest: last physical contact releases the chain and shows a planted stagger/faint/slump before the result
+ok 356 - last physical contact releases the chain and shows a planted stagger/faint/slump before the result
+  ---
+  duration_ms: 20.9335
+  type: 'test'
+  ...
+# Subtest: the recorded concave Nerra join rebounds without farming compound HP or charge
+ok 357 - the recorded concave Nerra join rebounds without farming compound HP or charge
+  ---
+  duration_ms: 18.0433
+  type: 'test'
+  ...
+# Subtest: a later genuinely separated shell contact remains productive after the union episode
+ok 358 - a later genuinely separated shell contact remains productive after the union episode
+  ---
+  duration_ms: 9.2516
+  type: 'test'
+  ...
+# Subtest: the visibly raised spent gate panel remains solid without more rewards or boss damage
+ok 359 - the visibly raised spent gate panel remains solid without more rewards or boss damage
+  ---
+  duration_ms: 19.4588
+  type: 'test'
+  ...
+# Subtest: a real final ordinary hit preempts flood failure in the same physical substep
+ok 360 - a real final ordinary hit preempts flood failure in the same physical substep
+  ---
+  duration_ms: 17.0914
+  type: 'test'
+  ...
+# Subtest: a fast ball rebounds from the genuinely tilted moving raft deck without score or charge
+ok 361 - a fast ball rebounds from the genuinely tilted moving raft deck without score or charge
+  ---
+  duration_ms: 64.5079
+  type: 'test'
+  ...
+# Subtest: the preserved first anatomy retains its frozen artwork pivots and silhouette disks
+ok 362 - the preserved first anatomy retains its frozen artwork pivots and silhouette disks
+  ---
+  duration_ms: 14.2337
+  type: 'test'
+  ...
+# Subtest: v2 runtime uses the exact smaller supporting-foot anatomy, not double-scaled old geometry
+ok 363 - v2 runtime uses the exact smaller supporting-foot anatomy, not double-scaled old geometry
+  ---
+  duration_ms: 25.9751
+  type: 'test'
+  ...
+# Subtest: short-phone raised raft cells leave the actual r6ball clear of every measured posed extremity
+ok 364 - short-phone raised raft cells leave the actual r6ball clear of every measured posed extremity
+  ---
+  duration_ms: 325.76
+  type: 'test'
+  ...
+# Subtest: the actual two-hit front brace opens a broad route, preserves endcaps and earns credit only once per hit
+ok 365 - the actual two-hit front brace opens a broad route, preserves endcaps and earns credit only once per hit
+  ---
+  duration_ms: 52.9311
+  type: 'test'
+  ...
+# Subtest: ordinary centre catches cannot sit under the raft for twenty seconds without productive feedback
+ok 366 - ordinary centre catches cannot sit under the raft for twenty seconds without productive feedback
+  ---
+  duration_ms: 400.675
+  type: 'test'
+  ...
+# Subtest: all four measured keyposes accept a genuine broad incoming ordinary ball contact
+ok 367 - all four measured keyposes accept a genuine broad incoming ordinary ball contact
+  ---
+  duration_ms: 65.5075
+  type: 'test'
+  ...
+# Subtest: Tidewheel keeps equal cells, full-ball lanes and a generous lower reaction space
+ok 368 - Tidewheel keeps equal cells, full-ball lanes and a generous lower reaction space
+  ---
+  duration_ms: 5.0412
+  type: 'test'
+  ...
+# Subtest: flood contact follows the real cropped hanging floor rather than removed corbels
+ok 369 - flood contact follows the real cropped hanging floor rather than removed corbels
+  ---
+  duration_ms: 4.7611
+  type: 'test'
+  ...
+# Subtest: pause freezes machinery and serve starts threat time rather than waiting on menu
+ok 370 - pause freezes machinery and serve starts threat time rather than waiting on menu
+  ---
+  duration_ms: 25.2304
+  type: 'test'
+  ...
+# Subtest: raft geometry follows buoyancy, tilt and its exact brick transforms
+ok 371 - raft geometry follows buoyancy, tilt and its exact brick transforms
+  ---
+  duration_ms: 308.0537
+  type: 'test'
+  ...
+# Subtest: ordinary contacts always damage shell; two active-claw contacts cancel a warned surge
+ok 372 - ordinary contacts always damage shell; two active-claw contacts cancel a warned surge
+  ---
+  duration_ms: 1.7819
+  type: 'test'
+  ...
+# Subtest: earned Anchor can arm while idle, drains once and rejects a second spend while protected
+ok 373 - earned Anchor can arm while idle, drains once and rejects a second spend while protected
+  ---
+  duration_ms: 1.9238
+  type: 'test'
+  ...
+# Subtest: high-speed ball hits a moving raft cell without tunnelling or duplicate contact damage
+ok 374 - high-speed ball hits a moving raft cell without tunnelling or duplicate contact damage
+  ---
+  duration_ms: 9.886
+  type: 'test'
+  ...
+# Subtest: final shell hit wins before flood failure, and Continue preserves damage and broken gates
+ok 375 - final shell hit wins before flood failure, and Continue preserves damage and broken gates
+  ---
+  duration_ms: 4.5625
+  type: 'test'
+  ...
+1..375
+# tests 375
+# suites 0
+# pass 375
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 11439.1324

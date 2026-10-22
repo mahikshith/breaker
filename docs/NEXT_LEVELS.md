@@ -1,5 +1,7 @@
 # Next levels: reserved space ideas and a new princess encounter
 
+Mooncoil Reliquary is now implemented as a sixth browser chapter (stable index5). It reuses the serpent with a violet skin, three broad seal banks, physical counterweights and a different Kit loadout. See [Mooncoil](MOONCOIL_RELIQUARY.md). Earlier five-chapter/APK references below describe historical checkpoints.
+
 ## 2026-10-20: direct-flight continuation
 
 The owner has now authorized a fast scrolling starship combat prototype, then requested a proper campaign plan first. [Starflight: Last Light](STARFLIGHT_PROTOTYPE.md) is implemented separately at `prototypes/starflight/`: direct movement, automatic twin fire, seven earned reactor choices, varied ship families, asteroids/gravity and escalating repeat cycles. Its current story framing follows the freed crew's evacuation through Carrier Reach, Relay Drift and Forge Belt. It is not included in the pinned five-chapter APK. [The campaign production plan](STARFLIGHT_CAMPAIGN.md) now governs future combat-first authored chapters; those are not implemented by the combat loop.

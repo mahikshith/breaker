@@ -267,7 +267,7 @@ export class Carrier extends Arena {
   }
   shotHit(s, previousY = s.y, dt = 0) {
     let first = null;
-    for (const target of this.targets()) {
+    for (const target of this.targets(1 / Math.max(.001, this.timeScale))) {
       const hit = sweepTarget({ x: s.x, y: previousY }, s, s.r || 2, target, 0, dt);
       if (hit && (!first || hit.t < first.hit.t)) first = { target, hit };
     }

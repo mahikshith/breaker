@@ -64,7 +64,7 @@ export class Arena {
   key(k, down) {
     if (k === ' ' && this.suppressedSpace) { if (!down) this.suppressedSpace = false; return; }
     if (this.powerMenuOpen) {
-      const choices = this.kitPowers ? KIT_POWERS : SPACE_POWERS;
+      const choices = this.powerChoices || (this.kitPowers ? KIT_POWERS : SPACE_POWERS);
       if (down && choices[+k - 1]) this.chooseSpacePower(choices[+k - 1].id);
       else if (down && k.toLowerCase() === 'k') this.closePowerMenu();
       return;
@@ -141,7 +141,7 @@ export class Arena {
     this.powerMenuOpen = false; this.inputEpoch++; this.pointerCancel(); this.keys = {};
   }
   chooseSpacePower(kind) {
-    const choices = this.kitPowers ? KIT_POWERS : SPACE_POWERS;
+    const choices = this.powerChoices || (this.kitPowers ? KIT_POWERS : SPACE_POWERS);
     if (!this.powerMenuOpen || !choices.some(p => p.id === kind) || !this.canChoosePower(kind)) return false;
     if (kind === 'shield') {
       if (!this.useKitPower()) return false;

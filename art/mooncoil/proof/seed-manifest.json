@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "source": "art/mooncoil/brick_assets.py",
+  "rig": "art/render_vault_assets.py",
+  "scope": "Blender Cycles CPU4,24samples; same Vault ortho rig/AgX look; dedicated faceted moonstone/silver setting. Exact existing collision footprints and four-unit transparent registration margin. Runtime admission is separate.",
+  "sprites": {
+    "6_2_0": {
+      "path": "art/mooncoil/proof/seed-brick-b-2-0.png",
+      "px": [
+        120,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        32,
+        16
+      ],
+      "drawSize": [
+        40,
+        24
+      ],
+      "margin": 4,
+      "kind": 6,
+      "width": 2,
+      "damage": 0,
+      "alphaBounds": [
+        12,
+        12,
+        108,
+        60
+      ],
+      "sha256": "0d0b8ac9600adb1538691e1366ea95f08c52c455e08cde87d86bd61a5158c077",
+      "encodedBytes": 8109
+    }
+  }
+}

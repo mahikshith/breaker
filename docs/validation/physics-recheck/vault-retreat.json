@@ -1,0 +1,2140 @@
+{
+  "scope": "Staged successful rescue at three approach times, by clearing a corridor fixture and calling actual checkBreach. Natural pre-rescue snake updates and actual retreat/ending logic; no earned-win, changed-difficulty, physical-device or performance claim.",
+  "before": {
+    "dist/breach.html": "6b21de2363df6969a4996028ce236488dcd67c22e1a9a48d2b681f75a066c8eb",
+    "src/vault.js": "47c20380b9097fbf03943c49c549703692ad3e5891de197a44c67bbf0836ddc2",
+    "src/serpent-retreat.js": "d013e2ed6ebe681a46ca9b31cf66a8e67e43ddba4a3584c9fe102590d3338594",
+    "src/serpent-capture.js": "f60bfa3369efd58a3a34a540ef8a6f35bd553a654bee0ae38ae6ed976ac88311",
+    "assets/snake-emerald/meta.json": "f8e9f9f937740e9096ba1c173de2ea378263572fed402c203a1bfad92ea12977"
+  },
+  "devices": [
+    {
+      "device": "ios",
+      "width": 393,
+      "height": 852,
+      "errors": [],
+      "scenarios": [
+        {
+          "fixture": {
+            "kind": "early",
+            "steps": 20,
+            "before": {
+              "phase": "rescue",
+              "time": 0.16666666666666666,
+              "head": {
+                "x": 284,
+                "y": 120
+              },
+              "granite": 45
+            },
+            "removedBrickIDs": [
+              211,
+              199,
+              188,
+              166,
+              153,
+              142,
+              122,
+              113,
+              114,
+              100,
+              89,
+              80,
+              63
+            ],
+            "corridor": [
+              387,
+              367,
+              347,
+              327,
+              307,
+              287,
+              267,
+              247,
+              227,
+              207,
+              208,
+              209,
+              189,
+              169,
+              149,
+              129,
+              109
+            ],
+            "first": {
+              "time": 0.16666666666666666,
+              "retreatTime": 0,
+              "state": "play",
+              "phase": "escape",
+              "alpha": 1,
+              "done": false,
+              "faceBlend": 1,
+              "insideTunnel": false,
+              "head": {
+                "x": 284,
+                "y": 120
+              },
+              "tail": {
+                "x": 284,
+                "y": -65.6
+              },
+              "maxY": 120,
+              "pointCount": 97,
+              "length": 185.5999999999999,
+              "lengthError": 0,
+              "heading": 1.578354497395565,
+              "headPose": {
+                "ex": "shock",
+                "facing": "l",
+                "rotation": -1.55567998559356,
+                "bob": 0.27962360301221567,
+                "scaleX": 1.0061008786111756,
+                "scaleY": 0.9938991213888244,
+                "k": 1.45
+              },
+              "granite": 45,
+              "finite": true,
+              "dominantHeadingError": 0.007558170600668212,
+              "spriteHeadingError": 0.007558170600668212
+            }
+          },
+          "frames": [
+            {
+              "label": "turn",
+              "sample": {
+                "time": 1.5833333333333302,
+                "retreatTime": 0.45208333333333456,
+                "state": "play",
+                "phase": "escape",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 0.9932402928734083,
+                "insideTunnel": false,
+                "head": {
+                  "x": 272.11061857824234,
+                  "y": 118.6226195713107
+                },
+                "tail": {
+                  "x": 284,
+                  "y": -45.46447300982459
+                },
+                "maxY": 125.95448003114973,
+                "pointCount": 122,
+                "length": 185.5999999999999,
+                "lengthError": 0,
+                "heading": 4.861213343479466,
+                "headPose": {
+                  "ex": "shock",
+                  "facing": "l",
+                  "rotation": 1.704721308335533,
+                  "bob": -0.5158435224162609,
+                  "scaleX": 0.9887452322381907,
+                  "scaleY": 1.0112547677618093,
+                  "k": 1.45
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.23257509554970435,
+                "tailStep": 0.232973039555759,
+                "motionHeadingError": 0.030428905837561724,
+                "dominantHeadingError": 0.014899381554140056,
+                "spriteHeadingError": 0.014899381554139812
+              },
+              "steps": 170,
+              "maxHeadStep": 0.23297303955576745,
+              "maxTailStep": 0.232973039555759,
+              "maxLengthError": 5.684341886080802e-14,
+              "maxMotionHeadingError": 0.05497737168618741,
+              "maxDominantHeadingError": 0.01799895096413917,
+              "maxSpriteHeadingError": 0.01799895096413917,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "mid",
+              "sample": {
+                "time": 4.583333333333351,
+                "retreatTime": 1.5020833333333388,
+                "state": "play",
+                "phase": "escape",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 0,
+                "insideTunnel": false,
+                "head": {
+                  "x": 284,
+                  "y": 37.94947330713419
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 38.40582123024441
+                },
+                "maxY": 125.95448003114973,
+                "pointCount": 134,
+                "length": 185.59999999999997,
+                "lengthError": 5.684341886080802e-14,
+                "heading": 4.71238898038469,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": -1.5816854393368027,
+                  "bob": 0.4746829273823949,
+                  "scaleX": 1.010356718415616,
+                  "scaleY": 0.9896432815843841,
+                  "k": 1.45
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.23297303955574478,
+                "tailStep": 0.23297303955574478,
+                "motionHeadingError": 2.4492935982947064e-16,
+                "dominantHeadingError": 0.01088911254190592,
+                "spriteHeadingError": 0.01088911254190592
+              },
+              "steps": 360,
+              "maxHeadStep": 0.23297303955577603,
+              "maxTailStep": 0.2329730395557661,
+              "maxLengthError": 5.684341886080802e-14,
+              "maxMotionHeadingError": 0.05269437427904602,
+              "maxDominantHeadingError": 0.0179989936693594,
+              "maxSpriteHeadingError": 0.0179989936693594,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "tunnel",
+              "sample": {
+                "time": 4.583333333333351,
+                "retreatTime": 1.5020833333333388,
+                "state": "play",
+                "phase": "escape",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 0,
+                "insideTunnel": false,
+                "head": {
+                  "x": 284,
+                  "y": 37.94947330713419
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 38.40582123024441
+                },
+                "maxY": 125.95448003114973,
+                "pointCount": 134,
+                "length": 185.59999999999997,
+                "lengthError": 5.684341886080802e-14,
+                "heading": 4.71238898038469,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": -1.5816854393368027,
+                  "bob": 0.4746829273823949,
+                  "scaleX": 1.010356718415616,
+                  "scaleY": 0.9896432815843841,
+                  "k": 1.45
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0,
+                "tailStep": 0,
+                "dominantHeadingError": 0.01088911254190592,
+                "spriteHeadingError": 0.01088911254190592
+              },
+              "steps": 0,
+              "maxHeadStep": 0,
+              "maxTailStep": 0,
+              "maxLengthError": 0,
+              "maxMotionHeadingError": 0,
+              "maxDominantHeadingError": 0,
+              "maxSpriteHeadingError": 0,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "tail-clear",
+              "sample": {
+                "time": 12.016666666666625,
+                "retreatTime": 4.001666666666682,
+                "state": "play",
+                "phase": "frenzy",
+                "alpha": 0,
+                "done": true,
+                "faceBlend": 0,
+                "insideTunnel": true,
+                "head": {
+                  "x": 284,
+                  "y": -145.5999999999999
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 40.00000000000013
+                },
+                "maxY": 40.00000000000013,
+                "pointCount": 94,
+                "length": 185.59999999999997,
+                "lengthError": 5.684341886080802e-14,
+                "heading": 4.71238898038469,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": -1.573887603564258,
+                  "bob": 0.3765968220040771,
+                  "scaleX": 1.0082166579346343,
+                  "scaleY": 0.9917833420653656,
+                  "k": 1.45
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.00015600873183529984,
+                "tailStep": 0.00015600873183529984
+              },
+              "steps": 892,
+              "maxHeadStep": 0.23297303955581583,
+              "maxTailStep": 0.23297303955581583,
+              "maxLengthError": 1.4210854715202004e-13,
+              "maxMotionHeadingError": 2.4492935982947064e-16,
+              "maxDominantHeadingError": 0.01799907641766982,
+              "maxSpriteHeadingError": 0.01799907641766982,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "won",
+              "sample": {
+                "time": 25.66666666666585,
+                "retreatTime": 8.779166666666464,
+                "state": "won",
+                "phase": "frenzy",
+                "alpha": 0,
+                "done": true,
+                "faceBlend": 0,
+                "insideTunnel": true,
+                "head": {
+                  "x": 284,
+                  "y": -145.5999999999999
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 40.00000000000013
+                },
+                "maxY": 40.00000000000013,
+                "pointCount": 94,
+                "length": 185.59999999999997,
+                "lengthError": 5.684341886080802e-14,
+                "heading": 4.71238898038469,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": -1.583195446344017,
+                  "bob": 0.24018362173213814,
+                  "scaleX": 1.0052403699287011,
+                  "scaleY": 0.9947596300712988,
+                  "k": 1.45
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0,
+                "tailStep": 0
+              },
+              "steps": 1638,
+              "maxHeadStep": 0,
+              "maxTailStep": 0,
+              "maxLengthError": 0,
+              "maxMotionHeadingError": 0,
+              "maxDominantHeadingError": 0,
+              "maxSpriteHeadingError": 0,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            }
+          ]
+        },
+        {
+          "fixture": {
+            "kind": "halfway",
+            "steps": 4081,
+            "before": {
+              "phase": "rescue",
+              "time": 34.00833333333205,
+              "head": {
+                "x": 252,
+                "y": 229.4206148682269
+              },
+              "granite": 45
+            },
+            "removedBrickIDs": [
+              211,
+              199,
+              188,
+              166,
+              153,
+              142,
+              122,
+              113,
+              114,
+              100,
+              89,
+              80,
+              63
+            ],
+            "corridor": [
+              387,
+              367,
+              347,
+              327,
+              307,
+              287,
+              267,
+              247,
+              227,
+              207,
+              208,
+              209,
+              189,
+              169,
+              149,
+              129,
+              109
+            ],
+            "first": {
+              "time": 34.00833333333205,
+              "retreatTime": 0,
+              "state": "play",
+              "phase": "escape",
+              "alpha": 1,
+              "done": false,
+              "faceBlend": 1,
+              "insideTunnel": false,
+              "head": {
+                "x": 252,
+                "y": 229.4206148682269
+              },
+              "tail": {
+                "x": 284,
+                "y": 47.94763107906387
+              },
+              "maxY": 229.4206148682269,
+              "pointCount": 113,
+              "length": 209.99894895554428,
+              "lengthError": 0,
+              "heading": 1.578740138896652,
+              "headPose": {
+                "ex": "shock",
+                "facing": "l",
+                "rotation": -1.5549087025913872,
+                "bob": 0.4972097124652615,
+                "scaleX": 1.010848211908333,
+                "scaleY": 0.989151788091667,
+                "k": 1.6466200000000002
+              },
+              "granite": 45,
+              "finite": true,
+              "dominantHeadingError": 0.007943812101753878,
+              "spriteHeadingError": 0.007943812101753878
+            }
+          },
+          "frames": [
+            {
+              "label": "turn",
+              "sample": {
+                "time": 35.42499999999863,
+                "retreatTime": 0.45208333333333456,
+                "state": "play",
+                "phase": "escape",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 0,
+                "insideTunnel": false,
+                "head": {
+                  "x": 245.10474595052273,
+                  "y": 217.93345479114902
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 79.44538277619473
+                },
+                "maxY": 235.3727631854457,
+                "pointCount": 137,
+                "length": 209.99894895554425,
+                "lengthError": 2.842170943040401e-14,
+                "heading": 5.317479195621954,
+                "headPose": {
+                  "ex": "shock",
+                  "facing": "r",
+                  "rotation": -0.98084103496451,
+                  "bob": 0.14281000477096756,
+                  "scaleX": 1.0031158546495484,
+                  "scaleY": 0.9968841453504517,
+                  "k": 1.6112218750000002
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.36443679649572575,
+                "tailStep": 0.36443679649573824,
+                "motionHeadingError": 0.006061775304811977,
+                "dominantHeadingError": 0.015134923406877589,
+                "spriteHeadingError": 0.015134923406877589
+              },
+              "steps": 170,
+              "maxHeadStep": 0.3644367964957431,
+              "maxTailStep": 0.36443679649575245,
+              "maxLengthError": 5.684341886080802e-14,
+              "maxMotionHeadingError": 0.07329755627182497,
+              "maxDominantHeadingError": 0.017999315036939967,
+              "maxSpriteHeadingError": 0.017999315036939967,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "mid",
+              "sample": {
+                "time": 38.42499999999846,
+                "retreatTime": 1.5020833333333388,
+                "state": "play",
+                "phase": "escape",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 0,
+                "insideTunnel": false,
+                "head": {
+                  "x": 284.215382504524,
+                  "y": 116.96523007443945
+                },
+                "tail": {
+                  "x": 252,
+                  "y": 182.1166643482757
+                },
+                "maxY": 235.3727631854457,
+                "pointCount": 262,
+                "length": 209.9989489555441,
+                "lengthError": 1.7053025658242404e-13,
+                "heading": 5.191582345087626,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": -1.1021487932866756,
+                  "bob": -0.23321448237411999,
+                  "scaleX": 0.9949116840209283,
+                  "scaleY": 1.0050883159790718,
+                  "k": 1.5805
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.36431879761391023,
+                "tailStep": 0.36443679649573824,
+                "motionHeadingError": 0.044265061092650514,
+                "dominantHeadingError": 0.01054583119471506,
+                "spriteHeadingError": 0.01054583119471506
+              },
+              "steps": 360,
+              "maxHeadStep": 0.36443679649580574,
+              "maxTailStep": 0.3644367964957746,
+              "maxLengthError": 1.9895196601282805e-13,
+              "maxMotionHeadingError": 0.07483460998042066,
+              "maxDominantHeadingError": 0.017999349459908418,
+              "maxSpriteHeadingError": 0.017999349459908418,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "tunnel",
+              "sample": {
+                "time": 39.09166666666509,
+                "retreatTime": 1.735416666666673,
+                "state": "play",
+                "phase": "escape",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 1,
+                "insideTunnel": false,
+                "head": {
+                  "x": 284,
+                  "y": 87.97024056393005
+                },
+                "tail": {
+                  "x": 252,
+                  "y": 211.27160806793395
+                },
+                "maxY": 235.3727631854457,
+                "pointCount": 291,
+                "length": 209.9989489555442,
+                "lengthError": 8.526512829121202e-14,
+                "heading": 4.71238898038469,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "l",
+                  "rotation": 1.5868977844005396,
+                  "bob": -0.2969702343024866,
+                  "scaleX": 0.9935206494334002,
+                  "scaleY": 1.0064793505665997,
+                  "k": 1.5805
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.36443679649573824,
+                "tailStep": 0.36443679649573824,
+                "motionHeadingError": 2.4492935982947064e-16,
+                "dominantHeadingError": 0.016101457605643077,
+                "spriteHeadingError": 0.016101457605643323
+              },
+              "steps": 80,
+              "maxHeadStep": 0.36443679649576666,
+              "maxTailStep": 0.36443679649576666,
+              "maxLengthError": 1.7053025658242404e-13,
+              "maxMotionHeadingError": 0.05142918178913216,
+              "maxDominantHeadingError": 0.016101457605643077,
+              "maxSpriteHeadingError": 0.016101457605643323,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "tail-clear",
+              "sample": {
+                "time": 45.85833333333137,
+                "retreatTime": 4.001666666666682,
+                "state": "play",
+                "phase": "frenzy",
+                "alpha": 0,
+                "done": true,
+                "faceBlend": 1,
+                "insideTunnel": true,
+                "head": {
+                  "x": 284,
+                  "y": -169.99894895554428
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 39.999999999999886
+                },
+                "maxY": 39.999999999999886,
+                "pointCount": 106,
+                "length": 209.99894895554428,
+                "lengthError": 0,
+                "heading": 4.71238898038469,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "l",
+                  "rotation": 1.5681268355203164,
+                  "bob": 0.43361470290631926,
+                  "scaleX": 1.009460684427047,
+                  "scaleY": 0.990539315572953,
+                  "k": 1.5805
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.00024404249768394948,
+                "tailStep": 0.00024404249768394948
+              },
+              "steps": 812,
+              "maxHeadStep": 0.3644367964958093,
+              "maxTailStep": 0.3644367964958311,
+              "maxLengthError": 1.9895196601282805e-13,
+              "maxMotionHeadingError": 2.4492935982947064e-16,
+              "maxDominantHeadingError": 0.01799941564366403,
+              "maxSpriteHeadingError": 0.017999415643663783,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "won",
+              "sample": {
+                "time": 59.5083333333306,
+                "retreatTime": 8.779166666666464,
+                "state": "won",
+                "phase": "frenzy",
+                "alpha": 0,
+                "done": true,
+                "faceBlend": 1,
+                "insideTunnel": true,
+                "head": {
+                  "x": 284,
+                  "y": -169.99894895554428
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 39.999999999999886
+                },
+                "maxY": 39.999999999999886,
+                "pointCount": 106,
+                "length": 209.99894895554428,
+                "lengthError": 0,
+                "heading": 4.71238898038469,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "l",
+                  "rotation": 1.5580909724957739,
+                  "bob": 0.5146829474858454,
+                  "scaleX": 1.011229446126964,
+                  "scaleY": 0.9887705538730361,
+                  "k": 1.5805
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0,
+                "tailStep": 0
+              },
+              "steps": 1638,
+              "maxHeadStep": 0,
+              "maxTailStep": 0,
+              "maxLengthError": 0,
+              "maxMotionHeadingError": 0,
+              "maxDominantHeadingError": 0,
+              "maxSpriteHeadingError": 0,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            }
+          ]
+        },
+        {
+          "fixture": {
+            "kind": "late",
+            "steps": 8491,
+            "before": {
+              "phase": "rescue",
+              "time": 70.75833333333571,
+              "head": {
+                "x": 108,
+                "y": 248
+              },
+              "granite": 45
+            },
+            "savedHead": {
+              "attack": 1.0549999999999995,
+              "head": {
+                "x": 156,
+                "y": 207.01056835937496
+              },
+              "scope": "Staged presecondstrike head save using actual cancelAttack+knockBack(3), then rescue corridor; not an earned hit.",
+              "additionalOneCellRecoils": 3
+            },
+            "removedBrickIDs": [
+              210,
+              199,
+              187,
+              177,
+              165,
+              152,
+              140,
+              120,
+              111,
+              97,
+              89,
+              80,
+              63
+            ],
+            "corridor": [
+              386,
+              366,
+              346,
+              326,
+              306,
+              286,
+              285,
+              284,
+              264,
+              244,
+              224,
+              204,
+              184,
+              164,
+              165,
+              166,
+              167,
+              168,
+              169,
+              149,
+              129,
+              109
+            ],
+            "first": {
+              "time": 70.75833333333571,
+              "retreatTime": 0,
+              "state": "play",
+              "phase": "escape",
+              "alpha": 1,
+              "done": false,
+              "faceBlend": 0,
+              "insideTunnel": false,
+              "head": {
+                "x": 108,
+                "y": 248
+              },
+              "tail": {
+                "x": 252,
+                "y": 334.4
+              },
+              "maxY": 361.171875,
+              "pointCount": 145,
+              "length": 284.1911086319509,
+              "lengthError": 0,
+              "heading": -1.553115159224452,
+              "headPose": {
+                "ex": "shock",
+                "facing": "r",
+                "rotation": -1.5354339916540127,
+                "bob": 0.12645606871795717,
+                "scaleX": 1.0027590414993008,
+                "scaleY": 0.9972409585006992,
+                "k": 1.8125
+              },
+              "granite": 45,
+              "finite": true,
+              "dominantHeadingError": 0.017681167570439364,
+              "spriteHeadingError": 0.017681167570439364
+            }
+          },
+          "frames": [
+            {
+              "label": "turn",
+              "sample": {
+                "time": 72.17500000000351,
+                "retreatTime": 0.45208333333333456,
+                "state": "play",
+                "phase": "escape",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 1,
+                "insideTunnel": false,
+                "head": {
+                  "x": 109.2786656924774,
+                  "y": 267.9102294704441
+                },
+                "tail": {
+                  "x": 236.7235820446875,
+                  "y": 360.0375190689838
+                },
+                "maxY": 361.171875,
+                "pointCount": 174,
+                "length": 284.1911086319509,
+                "lengthError": 0,
+                "heading": 2.0530962269448385,
+                "headPose": {
+                  "ex": "shock",
+                  "facing": "l",
+                  "rotation": -1.1019067193068666,
+                  "bob": -0.5492294541296073,
+                  "scaleX": 0.9880168119098994,
+                  "scaleY": 1.0119831880901005,
+                  "k": 1.8125
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.5339786287034824,
+                "tailStep": 0.533978628703485,
+                "motionHeadingError": 0.02626255566384783,
+                "dominantHeadingError": 0.01341029266191196,
+                "spriteHeadingError": 0.013410292661912404
+              },
+              "steps": 170,
+              "maxHeadStep": 0.5339786287034824,
+              "maxTailStep": 0.533978628703485,
+              "maxLengthError": 1.7053025658242404e-13,
+              "maxMotionHeadingError": 0.04892552237492564,
+              "maxDominantHeadingError": 0.017999627948655395,
+              "maxSpriteHeadingError": 0.017999627948655395,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "mid",
+              "sample": {
+                "time": 75.1750000000059,
+                "retreatTime": 1.5020833333333388,
+                "state": "play",
+                "phase": "escape",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 0,
+                "insideTunnel": false,
+                "head": {
+                  "x": 226.71427586315048,
+                  "y": 360
+                },
+                "tail": {
+                  "x": 108,
+                  "y": 277.8450370244277
+                },
+                "maxY": 361.15625,
+                "pointCount": 382,
+                "length": 284.1911086319509,
+                "lengthError": 0,
+                "heading": 0,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": 0.011265785711137401,
+                  "bob": 0.5357460749995393,
+                  "scaleX": 1.0116890052727172,
+                  "scaleY": 0.9883109947272828,
+                  "k": 1.8125
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.5924866892687817,
+                "tailStep": 0.5924866892687533,
+                "motionHeadingError": 0,
+                "dominantHeadingError": 0.011265785711137401,
+                "spriteHeadingError": 0.011265785711137401
+              },
+              "steps": 360,
+              "maxHeadStep": 0.5924866892688669,
+              "maxTailStep": 0.5924866892688695,
+              "maxLengthError": 2.8421709430404007e-13,
+              "maxMotionHeadingError": 0.12939371218529727,
+              "maxDominantHeadingError": 0.017999644882698063,
+              "maxSpriteHeadingError": 0.017999644882698063,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "tunnel",
+              "sample": {
+                "time": 79.90000000000965,
+                "retreatTime": 3.1150000000000118,
+                "state": "play",
+                "phase": "frenzy",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 0,
+                "insideTunnel": false,
+                "head": {
+                  "x": 284,
+                  "y": 87.9400011809978
+                },
+                "tail": {
+                  "x": 252,
+                  "y": 342.4196033913703
+                },
+                "maxY": 342.4196033913703,
+                "pointCount": 216,
+                "length": 284.19110863195084,
+                "lengthError": 5.684341886080802e-14,
+                "heading": -1.5707963267948966,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": -1.5638716923196119,
+                  "bob": -0.514781747437092,
+                  "scaleX": 0.9887683982377362,
+                  "scaleY": 1.0112316017622638,
+                  "k": 1.8125
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.592486689268739,
+                "tailStep": 0.5924866892687533,
+                "motionHeadingError": 0,
+                "dominantHeadingError": 0.0069246344752846856,
+                "spriteHeadingError": 0.0069246344752846856
+              },
+              "steps": 567,
+              "maxHeadStep": 0.5924866892689238,
+              "maxTailStep": 0.5924866892689806,
+              "maxLengthError": 3.410605131648481e-13,
+              "maxMotionHeadingError": 0.15632703189455965,
+              "maxDominantHeadingError": 0.01799967756757265,
+              "maxSpriteHeadingError": 0.01799967756757265,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "tail-clear",
+              "sample": {
+                "time": 85.58333333334751,
+                "retreatTime": 5.002083333333353,
+                "state": "play",
+                "phase": "frenzy",
+                "alpha": 0,
+                "done": true,
+                "faceBlend": 0,
+                "insideTunnel": true,
+                "head": {
+                  "x": 284,
+                  "y": -244.1911086319509
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 40.00000000000027
+                },
+                "maxY": 40.00000000000027,
+                "pointCount": 144,
+                "length": 284.191108631951,
+                "lengthError": 1.1368683772161603e-13,
+                "heading": -1.5707963267948966,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": -1.5615973367043652,
+                  "bob": -0.28658929420175183,
+                  "scaleX": 0.9937471426719617,
+                  "scaleY": 1.0062528573280383,
+                  "k": 1.8125
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.0001410682593814272,
+                "tailStep": 0.0001410682593814272
+              },
+              "steps": 682,
+              "maxHeadStep": 0.5924866892689877,
+              "maxTailStep": 0.5924866892689806,
+              "maxLengthError": 3.410605131648481e-13,
+              "maxMotionHeadingError": 0,
+              "maxDominantHeadingError": 0.017999716205141292,
+              "maxSpriteHeadingError": 0.017999716205141292,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "won",
+              "sample": {
+                "time": 97.95833333335736,
+                "retreatTime": 9.333333333332964,
+                "state": "won",
+                "phase": "frenzy",
+                "alpha": 0,
+                "done": true,
+                "faceBlend": 0,
+                "insideTunnel": true,
+                "head": {
+                  "x": 284,
+                  "y": -244.1911086319509
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 40.00000000000027
+                },
+                "maxY": 40.00000000000027,
+                "pointCount": 144,
+                "length": 284.191108631951,
+                "lengthError": 1.1368683772161603e-13,
+                "heading": -1.5707963267948966,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": -1.574771202328442,
+                  "bob": -0.35119659391658564,
+                  "scaleX": 0.9923375288600018,
+                  "scaleY": 1.0076624711399982,
+                  "k": 1.8125
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0,
+                "tailStep": 0
+              },
+              "steps": 1485,
+              "maxHeadStep": 0,
+              "maxTailStep": 0,
+              "maxLengthError": 0,
+              "maxMotionHeadingError": 0,
+              "maxDominantHeadingError": 0,
+              "maxSpriteHeadingError": 0,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            }
+          ]
+        }
+      ],
+      "pass": true
+    },
+    {
+      "device": "android",
+      "width": 412,
+      "height": 915,
+      "errors": [],
+      "scenarios": [
+        {
+          "fixture": {
+            "kind": "early",
+            "steps": 20,
+            "before": {
+              "phase": "rescue",
+              "time": 0.16666666666666666,
+              "head": {
+                "x": 284,
+                "y": 120
+              },
+              "granite": 45
+            },
+            "removedBrickIDs": [
+              211,
+              199,
+              188,
+              166,
+              153,
+              142,
+              122,
+              113,
+              114,
+              100,
+              89,
+              80,
+              63
+            ],
+            "corridor": [
+              387,
+              367,
+              347,
+              327,
+              307,
+              287,
+              267,
+              247,
+              227,
+              207,
+              208,
+              209,
+              189,
+              169,
+              149,
+              129,
+              109
+            ],
+            "first": {
+              "time": 0.16666666666666666,
+              "retreatTime": 0,
+              "state": "play",
+              "phase": "escape",
+              "alpha": 1,
+              "done": false,
+              "faceBlend": 1,
+              "insideTunnel": false,
+              "head": {
+                "x": 284,
+                "y": 120
+              },
+              "tail": {
+                "x": 284,
+                "y": -65.6
+              },
+              "maxY": 120,
+              "pointCount": 97,
+              "length": 185.5999999999999,
+              "lengthError": 0,
+              "heading": 1.578354497395565,
+              "headPose": {
+                "ex": "shock",
+                "facing": "l",
+                "rotation": -1.55567998559356,
+                "bob": 0.27962360301221567,
+                "scaleX": 1.0061008786111756,
+                "scaleY": 0.9938991213888244,
+                "k": 1.45
+              },
+              "granite": 45,
+              "finite": true,
+              "dominantHeadingError": 0.007558170600668212,
+              "spriteHeadingError": 0.007558170600668212
+            }
+          },
+          "frames": [
+            {
+              "label": "turn",
+              "sample": {
+                "time": 1.5833333333333302,
+                "retreatTime": 0.45208333333333456,
+                "state": "play",
+                "phase": "escape",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 0.9932402928734083,
+                "insideTunnel": false,
+                "head": {
+                  "x": 272.11061857824234,
+                  "y": 118.6226195713107
+                },
+                "tail": {
+                  "x": 284,
+                  "y": -45.46447300982459
+                },
+                "maxY": 125.95448003114973,
+                "pointCount": 122,
+                "length": 185.5999999999999,
+                "lengthError": 0,
+                "heading": 4.861213343479466,
+                "headPose": {
+                  "ex": "shock",
+                  "facing": "l",
+                  "rotation": 1.704721308335533,
+                  "bob": -0.5158435224162609,
+                  "scaleX": 0.9887452322381907,
+                  "scaleY": 1.0112547677618093,
+                  "k": 1.45
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.23257509554970435,
+                "tailStep": 0.232973039555759,
+                "motionHeadingError": 0.030428905837561724,
+                "dominantHeadingError": 0.014899381554140056,
+                "spriteHeadingError": 0.014899381554139812
+              },
+              "steps": 170,
+              "maxHeadStep": 0.23297303955576745,
+              "maxTailStep": 0.232973039555759,
+              "maxLengthError": 5.684341886080802e-14,
+              "maxMotionHeadingError": 0.05497737168618741,
+              "maxDominantHeadingError": 0.01799895096413917,
+              "maxSpriteHeadingError": 0.01799895096413917,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "mid",
+              "sample": {
+                "time": 4.583333333333351,
+                "retreatTime": 1.5020833333333388,
+                "state": "play",
+                "phase": "escape",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 0,
+                "insideTunnel": false,
+                "head": {
+                  "x": 284,
+                  "y": 37.94947330713419
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 38.40582123024441
+                },
+                "maxY": 125.95448003114973,
+                "pointCount": 134,
+                "length": 185.59999999999997,
+                "lengthError": 5.684341886080802e-14,
+                "heading": 4.71238898038469,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": -1.5816854393368027,
+                  "bob": 0.4746829273823949,
+                  "scaleX": 1.010356718415616,
+                  "scaleY": 0.9896432815843841,
+                  "k": 1.45
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.23297303955574478,
+                "tailStep": 0.23297303955574478,
+                "motionHeadingError": 2.4492935982947064e-16,
+                "dominantHeadingError": 0.01088911254190592,
+                "spriteHeadingError": 0.01088911254190592
+              },
+              "steps": 360,
+              "maxHeadStep": 0.23297303955577603,
+              "maxTailStep": 0.2329730395557661,
+              "maxLengthError": 5.684341886080802e-14,
+              "maxMotionHeadingError": 0.05269437427904602,
+              "maxDominantHeadingError": 0.0179989936693594,
+              "maxSpriteHeadingError": 0.0179989936693594,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "tunnel",
+              "sample": {
+                "time": 4.583333333333351,
+                "retreatTime": 1.5020833333333388,
+                "state": "play",
+                "phase": "escape",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 0,
+                "insideTunnel": false,
+                "head": {
+                  "x": 284,
+                  "y": 37.94947330713419
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 38.40582123024441
+                },
+                "maxY": 125.95448003114973,
+                "pointCount": 134,
+                "length": 185.59999999999997,
+                "lengthError": 5.684341886080802e-14,
+                "heading": 4.71238898038469,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": -1.5816854393368027,
+                  "bob": 0.4746829273823949,
+                  "scaleX": 1.010356718415616,
+                  "scaleY": 0.9896432815843841,
+                  "k": 1.45
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0,
+                "tailStep": 0,
+                "dominantHeadingError": 0.01088911254190592,
+                "spriteHeadingError": 0.01088911254190592
+              },
+              "steps": 0,
+              "maxHeadStep": 0,
+              "maxTailStep": 0,
+              "maxLengthError": 0,
+              "maxMotionHeadingError": 0,
+              "maxDominantHeadingError": 0,
+              "maxSpriteHeadingError": 0,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "tail-clear",
+              "sample": {
+                "time": 11.958333333333295,
+                "retreatTime": 4.001666666666682,
+                "state": "play",
+                "phase": "frenzy",
+                "alpha": 0,
+                "done": true,
+                "faceBlend": 0,
+                "insideTunnel": true,
+                "head": {
+                  "x": 284,
+                  "y": -145.5999999999999
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 40.00000000000013
+                },
+                "maxY": 40.00000000000013,
+                "pointCount": 94,
+                "length": 185.59999999999997,
+                "lengthError": 5.684341886080802e-14,
+                "heading": 4.71238898038469,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": -1.5765312584289481,
+                  "bob": 0.2956645126498681,
+                  "scaleX": 1.006450862094179,
+                  "scaleY": 0.9935491379058211,
+                  "k": 1.45
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.00015600873183529984,
+                "tailStep": 0.00015600873183529984
+              },
+              "steps": 885,
+              "maxHeadStep": 0.23297303955581583,
+              "maxTailStep": 0.23297303955581583,
+              "maxLengthError": 1.4210854715202004e-13,
+              "maxMotionHeadingError": 2.4492935982947064e-16,
+              "maxDominantHeadingError": 0.01799907641766982,
+              "maxSpriteHeadingError": 0.01799907641766982,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "won",
+              "sample": {
+                "time": 25.66666666666585,
+                "retreatTime": 8.779166666666464,
+                "state": "won",
+                "phase": "frenzy",
+                "alpha": 0,
+                "done": true,
+                "faceBlend": 0,
+                "insideTunnel": true,
+                "head": {
+                  "x": 284,
+                  "y": -145.5999999999999
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 40.00000000000013
+                },
+                "maxY": 40.00000000000013,
+                "pointCount": 94,
+                "length": 185.59999999999997,
+                "lengthError": 5.684341886080802e-14,
+                "heading": 4.71238898038469,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": -1.583195446344017,
+                  "bob": 0.24018362173213814,
+                  "scaleX": 1.0052403699287011,
+                  "scaleY": 0.9947596300712988,
+                  "k": 1.45
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0,
+                "tailStep": 0
+              },
+              "steps": 1645,
+              "maxHeadStep": 0,
+              "maxTailStep": 0,
+              "maxLengthError": 0,
+              "maxMotionHeadingError": 0,
+              "maxDominantHeadingError": 0,
+              "maxSpriteHeadingError": 0,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            }
+          ]
+        },
+        {
+          "fixture": {
+            "kind": "halfway",
+            "steps": 4081,
+            "before": {
+              "phase": "rescue",
+              "time": 34.00833333333205,
+              "head": {
+                "x": 252,
+                "y": 229.4206148682269
+              },
+              "granite": 45
+            },
+            "removedBrickIDs": [
+              211,
+              199,
+              188,
+              166,
+              153,
+              142,
+              122,
+              113,
+              114,
+              100,
+              89,
+              80,
+              63
+            ],
+            "corridor": [
+              387,
+              367,
+              347,
+              327,
+              307,
+              287,
+              267,
+              247,
+              227,
+              207,
+              208,
+              209,
+              189,
+              169,
+              149,
+              129,
+              109
+            ],
+            "first": {
+              "time": 34.00833333333205,
+              "retreatTime": 0,
+              "state": "play",
+              "phase": "escape",
+              "alpha": 1,
+              "done": false,
+              "faceBlend": 1,
+              "insideTunnel": false,
+              "head": {
+                "x": 252,
+                "y": 229.4206148682269
+              },
+              "tail": {
+                "x": 284,
+                "y": 47.94763107906387
+              },
+              "maxY": 229.4206148682269,
+              "pointCount": 113,
+              "length": 209.99894895554428,
+              "lengthError": 0,
+              "heading": 1.578740138896652,
+              "headPose": {
+                "ex": "shock",
+                "facing": "l",
+                "rotation": -1.5549087025913872,
+                "bob": 0.4972097124652615,
+                "scaleX": 1.010848211908333,
+                "scaleY": 0.989151788091667,
+                "k": 1.6466200000000002
+              },
+              "granite": 45,
+              "finite": true,
+              "dominantHeadingError": 0.007943812101753878,
+              "spriteHeadingError": 0.007943812101753878
+            }
+          },
+          "frames": [
+            {
+              "label": "turn",
+              "sample": {
+                "time": 35.42499999999863,
+                "retreatTime": 0.45208333333333456,
+                "state": "play",
+                "phase": "escape",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 0,
+                "insideTunnel": false,
+                "head": {
+                  "x": 245.10474595052273,
+                  "y": 217.93345479114902
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 79.44538277619473
+                },
+                "maxY": 235.3727631854457,
+                "pointCount": 137,
+                "length": 209.99894895554425,
+                "lengthError": 2.842170943040401e-14,
+                "heading": 5.317479195621954,
+                "headPose": {
+                  "ex": "shock",
+                  "facing": "r",
+                  "rotation": -0.98084103496451,
+                  "bob": 0.14281000477096756,
+                  "scaleX": 1.0031158546495484,
+                  "scaleY": 0.9968841453504517,
+                  "k": 1.6112218750000002
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.36443679649572575,
+                "tailStep": 0.36443679649573824,
+                "motionHeadingError": 0.006061775304811977,
+                "dominantHeadingError": 0.015134923406877589,
+                "spriteHeadingError": 0.015134923406877589
+              },
+              "steps": 170,
+              "maxHeadStep": 0.3644367964957431,
+              "maxTailStep": 0.36443679649575245,
+              "maxLengthError": 5.684341886080802e-14,
+              "maxMotionHeadingError": 0.07329755627182497,
+              "maxDominantHeadingError": 0.017999315036939967,
+              "maxSpriteHeadingError": 0.017999315036939967,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "mid",
+              "sample": {
+                "time": 38.42499999999846,
+                "retreatTime": 1.5020833333333388,
+                "state": "play",
+                "phase": "escape",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 0,
+                "insideTunnel": false,
+                "head": {
+                  "x": 284.215382504524,
+                  "y": 116.96523007443945
+                },
+                "tail": {
+                  "x": 252,
+                  "y": 182.1166643482757
+                },
+                "maxY": 235.3727631854457,
+                "pointCount": 262,
+                "length": 209.9989489555441,
+                "lengthError": 1.7053025658242404e-13,
+                "heading": 5.191582345087626,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": -1.1021487932866756,
+                  "bob": -0.23321448237411999,
+                  "scaleX": 0.9949116840209283,
+                  "scaleY": 1.0050883159790718,
+                  "k": 1.5805
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.36431879761391023,
+                "tailStep": 0.36443679649573824,
+                "motionHeadingError": 0.044265061092650514,
+                "dominantHeadingError": 0.01054583119471506,
+                "spriteHeadingError": 0.01054583119471506
+              },
+              "steps": 360,
+              "maxHeadStep": 0.36443679649580574,
+              "maxTailStep": 0.3644367964957746,
+              "maxLengthError": 1.9895196601282805e-13,
+              "maxMotionHeadingError": 0.07483460998042066,
+              "maxDominantHeadingError": 0.017999349459908418,
+              "maxSpriteHeadingError": 0.017999349459908418,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "tunnel",
+              "sample": {
+                "time": 39.09166666666509,
+                "retreatTime": 1.735416666666673,
+                "state": "play",
+                "phase": "escape",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 1,
+                "insideTunnel": false,
+                "head": {
+                  "x": 284,
+                  "y": 87.97024056393005
+                },
+                "tail": {
+                  "x": 252,
+                  "y": 211.27160806793395
+                },
+                "maxY": 235.3727631854457,
+                "pointCount": 291,
+                "length": 209.9989489555442,
+                "lengthError": 8.526512829121202e-14,
+                "heading": 4.71238898038469,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "l",
+                  "rotation": 1.5868977844005396,
+                  "bob": -0.2969702343024866,
+                  "scaleX": 0.9935206494334002,
+                  "scaleY": 1.0064793505665997,
+                  "k": 1.5805
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.36443679649573824,
+                "tailStep": 0.36443679649573824,
+                "motionHeadingError": 2.4492935982947064e-16,
+                "dominantHeadingError": 0.016101457605643077,
+                "spriteHeadingError": 0.016101457605643323
+              },
+              "steps": 80,
+              "maxHeadStep": 0.36443679649576666,
+              "maxTailStep": 0.36443679649576666,
+              "maxLengthError": 1.7053025658242404e-13,
+              "maxMotionHeadingError": 0.05142918178913216,
+              "maxDominantHeadingError": 0.016101457605643077,
+              "maxSpriteHeadingError": 0.016101457605643323,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "tail-clear",
+              "sample": {
+                "time": 45.79999999999804,
+                "retreatTime": 4.001666666666682,
+                "state": "play",
+                "phase": "frenzy",
+                "alpha": 0,
+                "done": true,
+                "faceBlend": 1,
+                "insideTunnel": true,
+                "head": {
+                  "x": 284,
+                  "y": -169.99894895554428
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 39.999999999999886
+                },
+                "maxY": 39.999999999999886,
+                "pointCount": 106,
+                "length": 209.99894895554428,
+                "lengthError": 0,
+                "heading": 4.71238898038469,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "l",
+                  "rotation": 1.5654680074642742,
+                  "bob": 0.4888739316340444,
+                  "scaleX": 1.010666340326561,
+                  "scaleY": 0.989333659673439,
+                  "k": 1.5805
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.00024404249768394948,
+                "tailStep": 0.00024404249768394948
+              },
+              "steps": 805,
+              "maxHeadStep": 0.3644367964958093,
+              "maxTailStep": 0.3644367964958311,
+              "maxLengthError": 1.9895196601282805e-13,
+              "maxMotionHeadingError": 2.4492935982947064e-16,
+              "maxDominantHeadingError": 0.01799941564366403,
+              "maxSpriteHeadingError": 0.017999415643663783,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "won",
+              "sample": {
+                "time": 59.5083333333306,
+                "retreatTime": 8.779166666666464,
+                "state": "won",
+                "phase": "frenzy",
+                "alpha": 0,
+                "done": true,
+                "faceBlend": 1,
+                "insideTunnel": true,
+                "head": {
+                  "x": 284,
+                  "y": -169.99894895554428
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 39.999999999999886
+                },
+                "maxY": 39.999999999999886,
+                "pointCount": 106,
+                "length": 209.99894895554428,
+                "lengthError": 0,
+                "heading": 4.71238898038469,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "l",
+                  "rotation": 1.5580909724957739,
+                  "bob": 0.5146829474858454,
+                  "scaleX": 1.011229446126964,
+                  "scaleY": 0.9887705538730361,
+                  "k": 1.5805
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0,
+                "tailStep": 0
+              },
+              "steps": 1645,
+              "maxHeadStep": 0,
+              "maxTailStep": 0,
+              "maxLengthError": 0,
+              "maxMotionHeadingError": 0,
+              "maxDominantHeadingError": 0,
+              "maxSpriteHeadingError": 0,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            }
+          ]
+        },
+        {
+          "fixture": {
+            "kind": "late",
+            "steps": 8491,
+            "before": {
+              "phase": "rescue",
+              "time": 70.75833333333571,
+              "head": {
+                "x": 108,
+                "y": 248
+              },
+              "granite": 45
+            },
+            "savedHead": {
+              "attack": 1.0549999999999995,
+              "head": {
+                "x": 156,
+                "y": 207.01056835937496
+              },
+              "scope": "Staged presecondstrike head save using actual cancelAttack+knockBack(3), then rescue corridor; not an earned hit.",
+              "additionalOneCellRecoils": 3
+            },
+            "removedBrickIDs": [
+              210,
+              199,
+              187,
+              177,
+              165,
+              152,
+              140,
+              120,
+              111,
+              97,
+              89,
+              80,
+              63
+            ],
+            "corridor": [
+              386,
+              366,
+              346,
+              326,
+              306,
+              286,
+              285,
+              284,
+              264,
+              244,
+              224,
+              204,
+              184,
+              164,
+              165,
+              166,
+              167,
+              168,
+              169,
+              149,
+              129,
+              109
+            ],
+            "first": {
+              "time": 70.75833333333571,
+              "retreatTime": 0,
+              "state": "play",
+              "phase": "escape",
+              "alpha": 1,
+              "done": false,
+              "faceBlend": 0,
+              "insideTunnel": false,
+              "head": {
+                "x": 108,
+                "y": 248
+              },
+              "tail": {
+                "x": 252,
+                "y": 334.4
+              },
+              "maxY": 361.171875,
+              "pointCount": 145,
+              "length": 284.1911086319509,
+              "lengthError": 0,
+              "heading": -1.553115159224452,
+              "headPose": {
+                "ex": "shock",
+                "facing": "r",
+                "rotation": -1.5354339916540127,
+                "bob": 0.12645606871795717,
+                "scaleX": 1.0027590414993008,
+                "scaleY": 0.9972409585006992,
+                "k": 1.8125
+              },
+              "granite": 45,
+              "finite": true,
+              "dominantHeadingError": 0.017681167570439364,
+              "spriteHeadingError": 0.017681167570439364
+            }
+          },
+          "frames": [
+            {
+              "label": "turn",
+              "sample": {
+                "time": 72.17500000000351,
+                "retreatTime": 0.45208333333333456,
+                "state": "play",
+                "phase": "escape",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 1,
+                "insideTunnel": false,
+                "head": {
+                  "x": 109.2786656924774,
+                  "y": 267.9102294704441
+                },
+                "tail": {
+                  "x": 236.7235820446875,
+                  "y": 360.0375190689838
+                },
+                "maxY": 361.171875,
+                "pointCount": 174,
+                "length": 284.1911086319509,
+                "lengthError": 0,
+                "heading": 2.0530962269448385,
+                "headPose": {
+                  "ex": "shock",
+                  "facing": "l",
+                  "rotation": -1.1019067193068666,
+                  "bob": -0.5492294541296073,
+                  "scaleX": 0.9880168119098994,
+                  "scaleY": 1.0119831880901005,
+                  "k": 1.8125
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.5339786287034824,
+                "tailStep": 0.533978628703485,
+                "motionHeadingError": 0.02626255566384783,
+                "dominantHeadingError": 0.01341029266191196,
+                "spriteHeadingError": 0.013410292661912404
+              },
+              "steps": 170,
+              "maxHeadStep": 0.5339786287034824,
+              "maxTailStep": 0.533978628703485,
+              "maxLengthError": 1.7053025658242404e-13,
+              "maxMotionHeadingError": 0.04892552237492564,
+              "maxDominantHeadingError": 0.017999627948655395,
+              "maxSpriteHeadingError": 0.017999627948655395,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "mid",
+              "sample": {
+                "time": 75.1750000000059,
+                "retreatTime": 1.5020833333333388,
+                "state": "play",
+                "phase": "escape",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 0,
+                "insideTunnel": false,
+                "head": {
+                  "x": 226.71427586315048,
+                  "y": 360
+                },
+                "tail": {
+                  "x": 108,
+                  "y": 277.8450370244277
+                },
+                "maxY": 361.15625,
+                "pointCount": 382,
+                "length": 284.1911086319509,
+                "lengthError": 0,
+                "heading": 0,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": 0.011265785711137401,
+                  "bob": 0.5357460749995393,
+                  "scaleX": 1.0116890052727172,
+                  "scaleY": 0.9883109947272828,
+                  "k": 1.8125
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.5924866892687817,
+                "tailStep": 0.5924866892687533,
+                "motionHeadingError": 0,
+                "dominantHeadingError": 0.011265785711137401,
+                "spriteHeadingError": 0.011265785711137401
+              },
+              "steps": 360,
+              "maxHeadStep": 0.5924866892688669,
+              "maxTailStep": 0.5924866892688695,
+              "maxLengthError": 2.8421709430404007e-13,
+              "maxMotionHeadingError": 0.12939371218529727,
+              "maxDominantHeadingError": 0.017999644882698063,
+              "maxSpriteHeadingError": 0.017999644882698063,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "tunnel",
+              "sample": {
+                "time": 79.90000000000965,
+                "retreatTime": 3.1150000000000118,
+                "state": "play",
+                "phase": "frenzy",
+                "alpha": 1,
+                "done": false,
+                "faceBlend": 0,
+                "insideTunnel": false,
+                "head": {
+                  "x": 284,
+                  "y": 87.9400011809978
+                },
+                "tail": {
+                  "x": 252,
+                  "y": 342.4196033913703
+                },
+                "maxY": 342.4196033913703,
+                "pointCount": 216,
+                "length": 284.19110863195084,
+                "lengthError": 5.684341886080802e-14,
+                "heading": -1.5707963267948966,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": -1.5638716923196119,
+                  "bob": -0.514781747437092,
+                  "scaleX": 0.9887683982377362,
+                  "scaleY": 1.0112316017622638,
+                  "k": 1.8125
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.592486689268739,
+                "tailStep": 0.5924866892687533,
+                "motionHeadingError": 0,
+                "dominantHeadingError": 0.0069246344752846856,
+                "spriteHeadingError": 0.0069246344752846856
+              },
+              "steps": 567,
+              "maxHeadStep": 0.5924866892689238,
+              "maxTailStep": 0.5924866892689806,
+              "maxLengthError": 3.410605131648481e-13,
+              "maxMotionHeadingError": 0.15632703189455965,
+              "maxDominantHeadingError": 0.01799967756757265,
+              "maxSpriteHeadingError": 0.01799967756757265,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "tail-clear",
+              "sample": {
+                "time": 85.46666666668075,
+                "retreatTime": 5.002083333333353,
+                "state": "play",
+                "phase": "frenzy",
+                "alpha": 0,
+                "done": true,
+                "faceBlend": 0,
+                "insideTunnel": true,
+                "head": {
+                  "x": 284,
+                  "y": -244.1911086319509
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 40.00000000000027
+                },
+                "maxY": 40.00000000000027,
+                "pointCount": 144,
+                "length": 284.191108631951,
+                "lengthError": 1.1368683772161603e-13,
+                "heading": -1.5707963267948966,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": -1.557395813866209,
+                  "bob": -0.09563624362023086,
+                  "scaleX": 0.9979133910482859,
+                  "scaleY": 1.0020866089517142,
+                  "k": 1.8125
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0.0001410682593814272,
+                "tailStep": 0.0001410682593814272
+              },
+              "steps": 668,
+              "maxHeadStep": 0.5924866892689877,
+              "maxTailStep": 0.5924866892689806,
+              "maxLengthError": 3.410605131648481e-13,
+              "maxMotionHeadingError": 0,
+              "maxDominantHeadingError": 0.017999716205141292,
+              "maxSpriteHeadingError": 0.017999716205141292,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            },
+            {
+              "label": "won",
+              "sample": {
+                "time": 97.90000000002398,
+                "retreatTime": 9.333333333332964,
+                "state": "won",
+                "phase": "frenzy",
+                "alpha": 0,
+                "done": true,
+                "faceBlend": 0,
+                "insideTunnel": true,
+                "head": {
+                  "x": 284,
+                  "y": -244.1911086319509
+                },
+                "tail": {
+                  "x": 284,
+                  "y": 40.00000000000027
+                },
+                "maxY": 40.00000000000027,
+                "pointCount": 144,
+                "length": 284.191108631951,
+                "lengthError": 1.1368683772161603e-13,
+                "heading": -1.5707963267948966,
+                "headPose": {
+                  "ex": "idle",
+                  "facing": "r",
+                  "rotation": -1.5720731646237476,
+                  "bob": -0.423648826448282,
+                  "scaleX": 0.990756752877492,
+                  "scaleY": 1.009243247122508,
+                  "k": 1.8125
+                },
+                "granite": 45,
+                "finite": true,
+                "headStep": 0,
+                "tailStep": 0
+              },
+              "steps": 1492,
+              "maxHeadStep": 0,
+              "maxTailStep": 0,
+              "maxLengthError": 0,
+              "maxMotionHeadingError": 0,
+              "maxDominantHeadingError": 0,
+              "maxSpriteHeadingError": 0,
+              "allFinite": true,
+              "exposedFade": false,
+              "wonBeforeClear": false,
+              "graniteUnchanged": true
+            }
+          ]
+        }
+      ],
+      "pass": true
+    }
+  ],
+  "complete": true,
+  "after": {
+    "dist/breach.html": "6b21de2363df6969a4996028ce236488dcd67c22e1a9a48d2b681f75a066c8eb",
+    "src/vault.js": "47c20380b9097fbf03943c49c549703692ad3e5891de197a44c67bbf0836ddc2",
+    "src/serpent-retreat.js": "d013e2ed6ebe681a46ca9b31cf66a8e67e43ddba4a3584c9fe102590d3338594",
+    "src/serpent-capture.js": "f60bfa3369efd58a3a34a540ef8a6f35bd553a654bee0ae38ae6ed976ac88311",
+    "assets/snake-emerald/meta.json": "f8e9f9f937740e9096ba1c173de2ea378263572fed402c203a1bfad92ea12977"
+  }
+}

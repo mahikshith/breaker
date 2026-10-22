@@ -4,7 +4,9 @@
 # Run from the repo root after editing any of those docs:  python3 tools/make_handoff.py
 import subprocess
 
-PARTS = [('M', 'Current continuation memory', 'docs/CONTINUE_HERE.md'),
+PARTS = [('AF', 'Mooncoil Reliquary and reuse contract', 'docs/MOONCOIL_RELIQUARY.md'),
+         ('AG', 'Fresh cross-level physics review', 'docs/validation/physics-recheck/README.md'),
+         ('M', 'Current continuation memory', 'docs/CONTINUE_HERE.md'),
          ('AC', 'Latest keep playtest, powers and reactions', 'docs/FANTASY_REFINEMENT.md'),
          ('Q', 'Approved new keep references', 'design/phase1/princess-two-levels.md'),
          ('Y', 'Bellforge machinery and encounter', 'docs/BELLFORGE_PHYSICS.md'),

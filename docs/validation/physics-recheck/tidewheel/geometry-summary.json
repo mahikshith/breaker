@@ -1,0 +1,11 @@
+{
+  "scope": "Measured v2 target geometry, manually posed extrema; not earned play or raster proof.",
+  "source": "e2e14ed4bc09f91f6ddedf0a7ce030b6b1c578b51686a67b2d42cd83baef33b7",
+  "geometry": "be9dbe700427fd3e5c89d72dbee0328105d2c0fe54732d88ee17cfd7174d7cd8",
+  "samples": 2304,
+  "minOuter": 28.965203145798796,
+  "minCentral": 33.93040629159765,
+  "minReturn": 212.83812462313892,
+  "overlaps": [],
+  "nearWithinBallRadius": []
+}

@@ -110,16 +110,18 @@ async function machinery(ui){
  const pulseWarn=await page.evaluate(()=>structuredClone(fantasyGame.pulseWarning));assert(pulseWarn?.targetX);
  await frame(70);await page.screenshot({path:prefix+'-07-physical-water-pulse-staged.png'});
  const launched=await page.evaluate(()=>({pulses:structuredClone(fantasyGame.pulses),bricks:fantasyGame.bricks.map(b=>b.hp),lives:fantasyGame.lives}));assert.equal(launched.pulses.length,1);
- await frame(70);const impact=await page.evaluate(()=>({lives:fantasyGame.lives,phase:fantasyGame.phase,bricks:fantasyGame.bricks.map(b=>b.hp)}));
+ // Native playfield height changes the real claw-to-paddle flight; observe that journey.
+ const impactFrames=await page.evaluate(()=>{const g=fantasyGame,q=g.pulses[0];return Math.ceil(Math.max(0,(g.paddle.y-g.paddle.h/2-q.r-q.y)/q.vy)*60)+3;});
+ await frame(impactFrames);const impact=await page.evaluate(()=>({lives:fantasyGame.lives,phase:fantasyGame.phase,bricks:fantasyGame.bricks.map(b=>b.hp)}));
  assert.equal(impact.lives,launched.lives-1);assert.deepEqual(impact.bricks,launched.bricks);
  // New staged warning, followed by a genuine CDP drag to its safe lane.
  await page.evaluate(()=>{const g=fantasyGame;g.launch();g.balls[0].caught=true;g.beginPulse();});
  const dodgeBefore=await page.evaluate(()=>({lives:fantasyGame.lives,target:fantasyGame.pulseWarning.targetX,w:fantasyGame.width}));
  const field=await page.locator('#game').boundingBox(),x=(dodgeBefore.target<180?298:62)/dodgeBefore.w*field.width+field.x,y=field.y+field.height*.8;
- await down(81,x,y);await move(81,x,y);await frame(160);await up(81);
+ await down(81,x,y);await move(81,x,y);await frame(290);await up(81);
  const dodge=await page.evaluate(()=>({lives:fantasyGame.lives,paddle:fantasyGame.paddle.x}));assert.equal(dodge.lives,dodgeBefore.lives);
  await page.screenshot({path:prefix+'-08-water-dodge-staged.png'});
- R.machinery??=[];R.machinery.push({device,scope:'Explicit staged mechanism state, then actual public touch dodge. No earned-play claim.',warning,pull,pulseWarn,launched,impact,dodge});save();
+ R.machinery??=[];R.machinery.push({device,scope:'Explicit staged mechanism state, then actual public touch dodge. No earned-play claim.',warning,pull,pulseWarn,launched,impactFrames,impact,dodge});save();
 }
 try{
  for(const level of ['tidewheel'])for(const device of probe?['ios']:Object.keys(DS))for(const mode of probe?['easy']:['easy','medium','hard']){

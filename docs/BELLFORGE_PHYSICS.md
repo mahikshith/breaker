@@ -93,6 +93,32 @@ Initial serve auto-launches at8s; replacement caught serves auto-launch at3s whi
 
 ## Validation and limits
 
+### Fresh physics recheck — 2026-10-20
+
+The owner requested a new pig/crab/all-level physics review. Bellforge required no runtime change: model SHA256 remains `A36418F1A40E5B95521065D27F80497C241BC30BAA4E1789DA3E9BE7CE3693CF`. All22 focused tests pass again. A separate fixed-seed ramp CCD stress audit checked3000 near-surface directions at345–5000u/s, the actual1/240s step and≤.85rad/s ramp motion. Of2290 reference cases penetrating the moving capsule by>.02u, none were missed. This bounded sampled audit does not prove exact grazing contacts or every possible trajectory.
+
+Fresh ordinary and optional-earned-Echo model routes all finish with three lives and no Continue. The same maintained collision-forecast policy is used once per row/variant, without HP, position, resource or progress injection:
+
+| Model height / paddle Y | Mode | Ordinary win | Earned Echo run | First cast |
+| --- | --- | ---: | ---: | ---: |
+| 700 /610 | Easy |43.54s |36.52s |30.72s |
+| 700 /610 | Medium |65.60s |65.60s |31.07s |
+| 700 /610 | Hard |73.54s |73.54s |52.29s |
+| 780.458 /665.038 | Easy |58.36s |46.90s |20.72s |
+| 780.458 /665.038 | Medium |79.45s |42.47s |27.72s |
+| 780.458 /665.038 | Hard |71.78s |70.43s |33.22s |
+| 799.515 /689.417 | Easy |63.28s |46.65s |30.72s |
+| 799.515 /689.417 | Medium |66.23s |68.12s |36.23s |
+| 799.515 /689.417 | Hard |100.37s |86.52s |40.73s |
+
+All eighteen bounded attempts won. First ordinary brick damage is.60s; first broad Korr contact is3.76–4.02s. Echo is earned and cast once in each optional run, but can miss a bell already diverted by a broken pin. Equal/slower completion times are retained rather than presented as guaranteed power damage. A separate no-input attempt auto-serves and loses all balls at10.80 active seconds, Korr24HP; waiting does not rescue Lumi.
+
+Fresh real-page Chromium checks pass all six phone/mode control cases at393×852 and412×915: genuine touch launch/drag, first Pause after drag, complete pause/chooser freeze, Resume, fresh same-mode Retry, staged full-charge Echo selection/consumption, and Home. Two earned browser Easy routes finish59.625s iOS /45.183s Android, three lives, no Echo or Continue. These rounded browser worlds are781/800u high; the unrounded aspect fixtures in the model table are intentionally reported separately. The browser policy reads geometry and uses public `launch/setTarget/update`, so these are assisted routes, not a claim of touch-only human play.
+
+Both phones additionally pass explicitly staged loss/actual-touch Continue/Retry and physical bell-dock danger-stop fixtures. Continue preserves destroyed pins, actual ramp angle, Korr HP, score and unused credit, restores two lift teeth/at least two lives, and grants the warning grace. Terminal state remains frozen. Two staged defeat timelines verify immediate hazard cleanup, grounded stagger/slump/dazed art, delayed Lumi/lift escape and final result. All browser cases have zero page/HTTP errors and identical before/after dependencies. Viewed rolling-bell, Echo, collapsed Korr and Continue frames show no new alignment blocker.
+
+Permanent compact reports, six selected native PNGs, reproducible audit scripts and hashes: [`validation/physics-recheck/bellforge/README.md`](validation/physics-recheck/bellforge/README.md). Full local output: `out/physics-recheck/bellforge/`. These checks establish bounded collision/state correctness and an assisted route through every mode; human difficulty, physical-phone performance and a new APK remain unclaimed. Earlier receipts below remain historical evidence for their original scopes.
+
 `tests/bellforge.test.js` covers world metrics, ramp clearance, fast/static and angular-tip CCD, actual raster hinge/anatomy mapping, the full teaching/harmful route, pin rotation, physical bell momentum and damage episodes, banked charge exclusions, pause/delta/serve timing, physical Echo, animated ratchet/fragment metadata, last-hit precedence, the fixed-foot defeat/escape timeline, complete ending pause/cleanup, reflected-bell final-hit precedence, Continue and ordinary public-input Easy wins at both model heights. The defeat revision passes22 focused tests, including both ordinary model routes. The shared browser's six-aspect controls and final two-phone staged reaction/escape review pass with zero errors; final Main/render/reaction dependencies match before/after. The dedicated collapsed art and moving rescue lift were viewed at both primary phone sizes.
 
 Defeat-revision model SHA256: `A36418F1A40E5B95521065D27F80497C241BC30BAA4E1789DA3E9BE7CE3693CF`; focused test-file SHA256: `3A9BF4078E2F6EF0B835177E4A8A0F34A3F065B149D03EFC772D547C4CC75432`. No encounter HP, brick layout, bell route or power budget changed.

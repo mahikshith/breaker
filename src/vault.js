@@ -69,7 +69,7 @@ const BAR_ART = (() => { // one iron bar, for when the cage bursts
 });
 
 export class Vault extends Arena {
-  constructor(W, H, uiScale = 1, difficultyId = 'hard') {
+  constructor(W, H, uiScale = 1, difficultyId = 'hard', options = {}) {
     const mode = difficulty(difficultyId);
     super(W, H, { accent: '#f4c542', top: OY, left: OX, right: W - OX - COLS * CELL, minPaddleY: OY + ROWS * CELL + 80, uiScale });
     this.difficulty = mode.id; this.snakeSpeed = mode.vaultSpeed;
@@ -79,6 +79,10 @@ export class Vault extends Arena {
     this.left = OX; this.right = OX + COLS * CELL; this.top = OY;
     this.paddle.baseW = this.paddle.w = 70;
     this.debris = new Debris({ left: this.left, right: this.right, floor: H + 200, killY: this.drainY, onPaddleHit: () => this.brickOnPaddle() });
+    this.pocket = options.pocket || POCKET;
+    this.prisonX = OX + (this.pocket.c0 + 3) * CELL;
+    this.floorY = OY + (this.pocket.r1 + 1) * CELL;
+    this.layout = options.layout || LAYOUT;
     this.build();
     this.snake = { cells: streamingCells(), hist: [], chew: 0, chewing: null, prog: 1, stun: 0, dir: Math.PI / 2, look: Math.PI / 2, faceLeft: true, path: [], open: 0, hits: [], flinch: 0, mood: null, moodT: 0, alpha: 1, retreat: null, eaten: 0, gulp: 0, lunge: 0 };
     this.entry = { progress: 0, speed: 1, fullHeadTurn: true };
@@ -88,7 +92,7 @@ export class Vault extends Arena {
     this.snakeStart = this.snakePlan().cost;
     this.phase = 'intro'; this.introT = 0; this.peakDanger = 0; this.foxT = 0; this.frenzyT = 0; this.beatT = 0; this.collapseDirty = false; this.collapseT = 0;
     this.bubble = null; this.barsWob = 0; this.zc = { z: 1, ax: W / 2, ay: this.paddle.y };
-    this.pr = { anim: 'Idle', t: 0, loop: true, flip: false, x: PR_X, pace: 1, pause: 0, th: 0, fps: 14 };
+    this.pr = { anim: 'Idle', t: 0, loop: true, flip: false, x: this.prisonX, pace: 1, pause: 0, th: 0, fps: 14 };
     this.motes = Array.from({ length: 18 }, (_, i) => ({ x: Math.random() * W, y: OY + Math.random() * (H - OY), s: 0.6 + Math.random() * 1.2, p: i }));
   }
   previewRect() { return { x: OX - 14, y: OY - 30, w: COLS * CELL + 28, h: 230 }; }
@@ -98,11 +102,11 @@ export class Vault extends Arena {
     G.bid = new Int16Array(COLS * ROWS).fill(-1);
     this.bricks = [];
     for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
-      const kind = KIND[LAYOUT[r][c]] || EMPTY;
+      const kind = KIND[this.layout[r][c]] || EMPTY;
       if (kind === BARS) { G.cells[r * COLS + c] = BARS; continue; } // the cage: solid to the ball, open to the serpent
       if (!kind || G.bid[r * COLS + c] >= 0) continue;
       // running bond: glazed bricks are two cells wide, offset by one cell on alternate rows
-      const wide = HP[kind] && kind !== GOLD && (c + r) % 2 === 0 && c + 1 < COLS && KIND[LAYOUT[r][c + 1]] === kind;
+      const wide = HP[kind] && kind !== GOLD && (c + r) % 2 === 0 && c + 1 < COLS && KIND[this.layout[r][c + 1]] === kind;
       const n = wide ? 2 : 1, id = this.bricks.length;
       const br = { id, kind, c, r, n, hp: HP[kind] || 0, max: HP[kind] || 0, x: OX + c * CELL, y: OY + r * CELL, w: n * CELL, h: CELL, wob: 0 };
       this.bricks.push(br);
@@ -128,7 +132,7 @@ export class Vault extends Arena {
     const p = this.pr, d = this.danger || 0, sn = this.snake, free = p.loop; // a one-shot (cheer, flinch) plays out first
     const captive = this.capturePose();
     if (captive) { p.x = captive.x; p.depth = 0; p.flip = captive.side > 0; return; }
-    const lo = OX + POCKET.c0 * CELL + 14, hi = OX + (POCKET.c1 + 1) * CELL - 14, cx = (lo + hi) / 2;
+    const lo = OX + this.pocket.c0 * CELL + 14, hi = OX + (this.pocket.c1 + 1) * CELL - 14, cx = (lo + hi) / 2;
     const headX = OX + sn.cells[0][0] * CELL + CELL / 2;
     const walkTo = (x, v) => { const dx = x - p.x; if (Math.abs(dx) < 1) return true; p.x += Math.sign(dx) * Math.min(Math.abs(dx), v * dt); p.flip = dx < 0; return false; };
     p.depth += (0 - (p.depth || 0)) * Math.min(1, dt * 4);
@@ -201,7 +205,7 @@ export class Vault extends Arena {
     this.paddle.stun = 0.6; sfx.hurt(); this.bump(0.35, 0.04);
     this.fx.pop(this.paddle.x, this.paddle.y - 22, 'BONK', '#ffb3a1', 14);
   }
-  pocketCell(c, r) { return c >= POCKET.c0 && c <= POCKET.c1 && r >= POCKET.r0 && r <= POCKET.r1; }
+  pocketCell(c, r) { return c >= this.pocket.c0 && c <= this.pocket.c1 && r >= this.pocket.r0 && r <= this.pocket.r1; }
 
   // open = empty, or the cage interior; the serpent's body blocks
   flood(from, blocked) {
@@ -218,7 +222,7 @@ export class Vault extends Arena {
     return { q, prev };
   }
   checkBreach() {
-    const start = POCKET.r1 * COLS + POCKET.c0 + 2, body = new Set(this.snake.cells.map(([c, r]) => r * COLS + c));
+    const start = this.pocket.r1 * COLS + this.pocket.c0 + 2, body = new Set(this.snake.cells.map(([c, r]) => r * COLS + c));
     const { q, prev } = this.flood(start, body);
     const exit = q.find(k => Math.floor(k / COLS) === ROWS - 1);
     if (exit === undefined) return;
@@ -237,8 +241,8 @@ export class Vault extends Arena {
   }
   burstCage(capture = false) { // the bars spring out of the frame as physical pieces
     const G = this.grid;
-    for (let r = POCKET.r0; r <= POCKET.r1; r++) for (let c = POCKET.c0; c <= POCKET.c1; c++) G.cells[r * COLS + c] = EMPTY;
-    const x0 = OX + POCKET.c0 * CELL, y0 = OY + POCKET.r0 * CELL;
+    for (let r = this.pocket.r0; r <= this.pocket.r1; r++) for (let c = this.pocket.c0; c <= this.pocket.c1; c++) G.cells[r * COLS + c] = EMPTY;
+    const x0 = OX + this.pocket.c0 * CELL, y0 = OY + this.pocket.r0 * CELL;
     const first = this.debris.pieces.length;
     for (let i = 1; i < 6; i++) this.debris.shatter(BAR_ART(), x0 + 96 * i / 6 - 2, y0, 4, 48, (i - 3) * 60, -200, 2);
     if (capture) for (const p of this.debris.pieces.slice(first)) { p.capture = true; p.life = Math.min(p.life, 0.38); }
@@ -267,7 +271,7 @@ export class Vault extends Arena {
   chewTime(c, r) { const br = this.brickAt(c, r); return br ? CHEW[br.kind] * (br.max > 1 && br.hp === 1 ? 0.6 : 1) : CHEW[EMPTY]; }
 
   pickVenomTarget() {
-    return venomTarget({ grid: this.grid, bricks: this.bricks, head: this.snakePoints()[0], brickAt: (c, r) => this.brickAt(c, r), plan: () => this.snakePlan() }, POCKET, GRANITE, BARS);
+    return venomTarget({ grid: this.grid, bricks: this.bricks, head: this.snakePoints()[0], brickAt: (c, r) => this.brickAt(c, r), plan: () => this.snakePlan() }, this.pocket, GRANITE, BARS);
   }
   canUseKitPower() { return canWard(this.phase, this.venom, this.paddle.charge); }
   spacePowerAvailable() { return this.state === 'play' && this.phase === 'rescue'; }
@@ -369,7 +373,7 @@ export class Vault extends Arena {
   // A head hit before the second strike drives it off (see ballVsSnake).
   startAttack() {
     const s = this.snake;
-    s.attack = { t: 0, struck: 0, side: this.snakePoints()[0].x < PR_X ? 1 : -1 }; s.chewing = null; s.lunge = 0;
+    s.attack = { t: 0, struck: 0, side: this.snakePoints()[0].x < this.prisonX ? 1 : -1 }; s.chewing = null; s.lunge = 0;
     this.timeScale = 0.6; sfx.hurt(); this.bump(0.3);
     this.say('No no no!', 1.4);
   }
@@ -382,7 +386,7 @@ export class Vault extends Arena {
     else if (a.t < 1.2) s.lunge = 2 - 3.5 * ease((a.t - 0.75) / 0.4);
     else if (a.t < 1.3) s.lunge = -1.5 + 3.8 * ease((a.t - 1.2) / 0.08);
     else s.lunge = 2.3;
-    const cageX = OX + (POCKET.c0 + 3) * CELL, cageY = OY + (POCKET.r0 + 1.5) * CELL;
+    const cageX = OX + (this.pocket.c0 + 3) * CELL, cageY = OY + (this.pocket.r0 + 1.5) * CELL;
     if (a.t >= 0.62 && a.struck === 0) { // strike one: the bars buckle
       a.struck = 1; this.barsWob = 1.6; sfx.boom(); this.bump(0.55, 0.06);
       this.fx.shatter(cageX - 10, cageY - 10, 20, 20, '#ffd36b', 8, 1.2); this.fx.pop(cageX, cageY - 30, 'CRACK!', '#ffb35c', 20);
@@ -390,7 +394,7 @@ export class Vault extends Arena {
     }
     if (a.t >= 1.22 && a.struck === 1) { // strike two: they burst, there is no saving her now
       const pts = this.snakePoints(), base = a.side > 0 ? 0 : Math.PI;
-      a.capture = createSerpentCapture({ points: pts, x: this.pr.x, feet: FLOOR_Y - 1, side: a.side, centerX: PR_X + a.side * 18, rotation: Math.atan2(Math.sin(s.look - base), Math.cos(s.look - base)) });
+      a.capture = createSerpentCapture({ points: pts, x: this.pr.x, feet: this.floorY - 1, side: a.side, centerX: this.prisonX + a.side * 18, rotation: Math.atan2(Math.sin(s.look - base), Math.cos(s.look - base)) });
       a.struck = 2; this.burstCage(true); this.phase = 'caught'; sfx.boom(); sfx.hurt(); this.bump(0.55, 0.06);
       this.bubble = null; this.play('Scared', true); this.pr.depth = 0;
     }
@@ -566,10 +570,10 @@ export class Vault extends Arena {
     this.wardCoach = false;
     this.kitWardResult = null; this.kitReactionAt = -Infinity;
     if (this.phase === 'caught' || s.attack) {
-      for (let r = POCKET.r0; r <= POCKET.r1; r++) for (let c = POCKET.c0; c <= POCKET.c1; c++) this.grid.cells[r * COLS + c] = BARS;
+      for (let r = this.pocket.r0; r <= this.pocket.r1; r++) for (let c = this.pocket.c0; c <= this.pocket.c1; c++) this.grid.cells[r * COLS + c] = BARS;
       this.cageGone = false; s.attack = null; s.lunge = 0; this.phase = 'rescue';
       this.knockBack(6); s.stun = 3; this.mood('ouch', 0.6);
-      this.pr.x = PR_X; this.pr.depth = 0; this.play('Cheer'); this.say('Phew!', 1.2);
+      this.pr.x = this.prisonX; this.pr.depth = 0; this.play('Cheer'); this.say('Phew!', 1.2);
     }
     super.continueRun();
   }
@@ -671,7 +675,7 @@ export class Vault extends Arena {
     g.save(); g.beginPath(); g.rect(0, -400, W, this.playClipY + 400); g.clip(); g.translate(sx, sy);
     if (cam) { g.translate(W / 2, H / 2); g.scale(cam.z, cam.z); g.translate(-cam.x, -cam.y); g.drawImage(this.background(), 0, 0, W, H); }
     else if (zc.z > 1.002) { g.translate(zc.ax, zc.ay); g.scale(zc.z, zc.z); g.translate(-zc.ax, -zc.ay); g.drawImage(this.background(), 0, 0, W, H); }
-    const prX = this.pr.x, floorY = FLOOR_Y, dk = this.pr.depth || 0;
+    const prX = this.pr.x, floorY = this.floorY, dk = this.pr.depth || 0;
     this.drawCell(g);
     if (['intro', 'rescue', 'caught'].includes(this.phase)) { if (!this.capturePose()) this.drawPrincess(g, prX, floorY - 1 - dk * 1.5, 1 + dk * 0.07); if (!this.cageGone) this.drawBars(g); }
     // bricks: shadow pass, then sprites (top rows first so lower bricks overlap upper front faces)
@@ -961,7 +965,7 @@ export class Vault extends Arena {
   }
   // The cell: a dark, cool stone room with a soft light falling on the princess, so she is the brightest thing in it.
   drawCell(g) {
-    const x = OX + POCKET.c0 * CELL, y = OY + POCKET.r0 * CELL, w = 6 * CELL, h = 3 * CELL;
+    const x = OX + this.pocket.c0 * CELL, y = OY + this.pocket.r0 * CELL, w = 6 * CELL, h = 3 * CELL;
     const bg = g.createLinearGradient(0, y, 0, y + h); bg.addColorStop(0, '#1b1e2e'); bg.addColorStop(1, '#10111b');
     g.fillStyle = bg; g.fillRect(x, y, w, h);
     g.strokeStyle = 'rgba(160,170,210,0.07)'; g.lineWidth = 1; g.beginPath();   // stone courses on the back wall
@@ -983,8 +987,8 @@ export class Vault extends Arena {
   // Dark iron bars: a rail top and bottom and a few thin uprights, lit from the top-left like everything else.
   drawBars(g) {
     const wob = this.barsWob ? Math.sin(this.barsWob * 30) * this.barsWob * 1.5 : 0;
-    if (BARS_IMG?.complete && BARS_IMG.naturalWidth) { g.drawImage(BARS_IMG, wob, -40, 360, 820); return; } // rendered iron cage, registered to the plate
-    const x0 = OX + POCKET.c0 * CELL, y0 = OY + POCKET.r0 * CELL, w = 6 * CELL, h = 3 * CELL;
+    if (BARS_IMG?.complete && BARS_IMG.naturalWidth) { g.drawImage(BARS_IMG, wob + (this.pocket.c0 - POCKET.c0) * CELL, -40 + (this.pocket.r0 - POCKET.r0) * CELL, 360, 820); return; } // rendered iron cage, registered to the plate
+    const x0 = OX + this.pocket.c0 * CELL, y0 = OY + this.pocket.r0 * CELL, w = 6 * CELL, h = 3 * CELL;
     const n = 5;
     for (let i = 1; i <= n; i++) {
       const x = x0 + (w * i) / (n + 1) + wob * (i % 2 ? 1 : -1);
@@ -1091,7 +1095,7 @@ export class Vault extends Arena {
       for (const x of [0, OX + COLS * CELL]) { const pg = g.createLinearGradient(x, 0, x + OX, 0); pg.addColorStop(0, '#2e3350'); pg.addColorStop(0.5, '#4a4f6e'); pg.addColorStop(1, '#262a42'); g.fillStyle = pg; g.fillRect(x, OY - 26, OX, ROWS * CELL + 34); }
       g.fillStyle = '#3a3f5c'; g.fillRect(0, OY - 10, W, 10);
       for (let i = 0; i < 10; i++) { g.fillStyle = '#3a3f5c'; g.fillRect(6 + i * 36, OY - 26, 20, 16); }
-      g.fillStyle = '#6b4a2f'; g.fillRect(OX + POCKET.c0 * CELL, OY + POCKET.r0 * CELL, 6 * CELL, 3 * CELL);
+      g.fillStyle = '#6b4a2f'; g.fillRect(OX + this.pocket.c0 * CELL, OY + this.pocket.r0 * CELL, 6 * CELL, 3 * CELL);
       for (let y = OY + ROWS * CELL + 8, row = 0; y < H; y += 40, row++) for (let x = (row % 2) * -40; x < W; x += 80) {
         g.fillStyle = 'rgba(255,255,255,0.03)'; g.fillRect(x + 1, y + 1, 78, 38); g.strokeStyle = 'rgba(0,0,0,0.4)'; g.strokeRect(x + 0.5, y + 0.5, 79, 39);
       }

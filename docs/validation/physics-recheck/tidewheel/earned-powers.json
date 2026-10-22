@@ -1,0 +1,3820 @@
+{
+  "scope": "Pure logical-phone model. One fixed coarse policy for ordinary/each power, public launch/setTarget/update/activate only, no HP/resource/actor/progression writes. Not DOM/physical-device/human balance proof.",
+  "sourceBefore": "e2e14ed4bc09f91f6ddedf0a7ce030b6b1c578b51686a67b2d42cd83baef33b7",
+  "runs": [
+    {
+      "device": "ios",
+      "viewport": [
+        393,
+        852
+      ],
+      "height": 780.4580152671756,
+      "paddleY": 665.0381679389313,
+      "power": "ordinary",
+      "state": "won",
+      "seconds": 60.17916666668759,
+      "hp": 0,
+      "lives": 2,
+      "firstFull": 17.912499999999305,
+      "casts": [],
+      "bricksCleared": 23,
+      "poweredHits": 0,
+      "ordinaryHits": 52,
+      "powerChargeViolations": [],
+      "events": [
+        {
+          "time": 1.2708333333333302,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 24,
+          "hpAfter": 23,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 1.4124999999999963,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 23,
+          "hpAfter": 22,
+          "bankBefore": 7.152777777777783,
+          "bankAfter": 15.486111111111118
+        },
+        {
+          "time": 3.8666666666667537,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 22,
+          "hpAfter": 21,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 4.162500000000084,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 21,
+          "hpAfter": 21,
+          "bankBefore": 5.868055555555557,
+          "bankAfter": 14.201388888888891
+        },
+        {
+          "time": 4.41250000000007,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 21,
+          "hpAfter": 20,
+          "bankBefore": 12.118055555555605,
+          "bankAfter": 20.45138888888894
+        },
+        {
+          "time": 5.2333333333333565,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 13.611111111111317,
+          "bankAfter": 21.94444444444465
+        },
+        {
+          "time": 10.429166666666395,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 10.720833333333045,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 12.720833333332932,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 12.912499999999588,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 13.191666666666238,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 19,
+          "bankBefore": 6.006944444444446,
+          "bankAfter": 14.34027777777778
+        },
+        {
+          "time": 14.4499999999995,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 19,
+          "bankBefore": 3.854166666666801,
+          "bankAfter": 12.187500000000135
+        },
+        {
+          "time": 14.583333333332826,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 19,
+          "bankBefore": 11.07638888888905,
+          "bankAfter": 19.409722222222385
+        },
+        {
+          "time": 14.674999999999487,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 19,
+          "bankBefore": 18.645833333333513,
+          "bankAfter": 26.979166666665634
+        },
+        {
+          "time": 15.424999999999445,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 18,
+          "bankBefore": 20.729166666665776,
+          "bankAfter": 20.729166666664497
+        },
+        {
+          "time": 19.49583333333255,
+          "kind": "brace",
+          "power": false,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 20.87083333333247,
+          "kind": "brace",
+          "power": false,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 25.058333333332232,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 29.841666666665294,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 18,
+          "hpAfter": 17,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 30.174999999998608,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 17,
+          "hpAfter": 17,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 30.437499999998593,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 17,
+          "hpAfter": 16,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 36.76250000000229,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 16,
+          "hpAfter": 15,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 37.37083333333611,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 15,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 37.5250000000029,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 15,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 41.32083333333925,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 14,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 41.50000000000606,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 14,
+          "hpAfter": 13,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 41.78750000000629,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 13,
+          "hpAfter": 13,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 41.83750000000633,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 13,
+          "hpAfter": 13,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 42.22083333333997,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 13,
+          "hpAfter": 12,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 42.670833333340326,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 12,
+          "hpAfter": 12,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 42.737500000007046,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 12,
+          "hpAfter": 12,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 43.045833333340624,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 12,
+          "hpAfter": 11,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 44.09166666667479,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 11,
+          "hpAfter": 11,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 44.40000000000837,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 11,
+          "hpAfter": 11,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 44.54583333334182,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 11,
+          "hpAfter": 11,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 44.979166666675496,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 11,
+          "hpAfter": 11,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 45.83333333334284,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 11,
+          "hpAfter": 10,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 46.25833333334318,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 10,
+          "hpAfter": 10,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 46.76250000001025,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 10,
+          "hpAfter": 9,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 47.24583333334397,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 9,
+          "hpAfter": 9,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 47.587500000010905,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 9,
+          "hpAfter": 8,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 48.45416666667826,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 8,
+          "hpAfter": 7,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 49.32083333334562,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 7,
+          "hpAfter": 6,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 50.245833333346354,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 6,
+          "hpAfter": 5,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 51.29583333334719,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 5,
+          "hpAfter": 4,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 52.333333333348016,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 4,
+          "hpAfter": 3,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 52.99583333334854,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 3,
+          "hpAfter": 3,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 53.72916666668246,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 3,
+          "hpAfter": 2,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 54.512500000016416,
+          "kind": "brace",
+          "power": false,
+          "hpBefore": 2,
+          "hpAfter": 2,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 54.550000000016446,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 2,
+          "hpAfter": 2,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 55.22500000001698,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 2,
+          "hpAfter": 1,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 56.57916666668473,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 1,
+          "hpAfter": 0,
+          "bankBefore": 0,
+          "bankAfter": 0
+        }
+      ]
+    },
+    {
+      "device": "ios",
+      "viewport": [
+        393,
+        852
+      ],
+      "height": 780.4580152671756,
+      "paddleY": 665.0381679389313,
+      "power": "anchor",
+      "state": "won",
+      "seconds": 39.11666666667083,
+      "hp": 0,
+      "lives": 3,
+      "firstFull": 17.912499999999305,
+      "casts": [
+        {
+          "time": 17.912499999999305,
+          "hp": 18,
+          "before": 100,
+          "bank": 0,
+          "after": 0
+        },
+        {
+          "time": 33.570833333333084,
+          "hp": 4,
+          "before": 100,
+          "bank": 0,
+          "after": 0
+        }
+      ],
+      "bricksCleared": 10,
+      "poweredHits": 0,
+      "ordinaryHits": 37,
+      "powerChargeViolations": [],
+      "events": [
+        {
+          "time": 1.2708333333333302,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 24,
+          "hpAfter": 23,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 1.4124999999999963,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 23,
+          "hpAfter": 22,
+          "bankBefore": 7.152777777777783,
+          "bankAfter": 15.486111111111118
+        },
+        {
+          "time": 3.8666666666667537,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 22,
+          "hpAfter": 21,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 4.162500000000084,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 21,
+          "hpAfter": 21,
+          "bankBefore": 5.868055555555557,
+          "bankAfter": 14.201388888888891
+        },
+        {
+          "time": 4.41250000000007,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 21,
+          "hpAfter": 20,
+          "bankBefore": 12.118055555555605,
+          "bankAfter": 20.45138888888894
+        },
+        {
+          "time": 5.2333333333333565,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 13.611111111111317,
+          "bankAfter": 21.94444444444465
+        },
+        {
+          "time": 10.429166666666395,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 10.720833333333045,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 12.720833333332932,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 12.912499999999588,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 13.191666666666238,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 19,
+          "bankBefore": 6.006944444444446,
+          "bankAfter": 14.34027777777778
+        },
+        {
+          "time": 14.4499999999995,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 19,
+          "bankBefore": 3.854166666666801,
+          "bankAfter": 12.187500000000135
+        },
+        {
+          "time": 14.583333333332826,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 19,
+          "bankBefore": 11.07638888888905,
+          "bankAfter": 19.409722222222385
+        },
+        {
+          "time": 14.674999999999487,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 19,
+          "bankBefore": 18.645833333333513,
+          "bankAfter": 26.979166666665634
+        },
+        {
+          "time": 15.424999999999445,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 18,
+          "bankBefore": 20.729166666665776,
+          "bankAfter": 20.729166666664497
+        },
+        {
+          "time": 19.44583333333255,
+          "kind": "brace",
+          "power": false,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 22.570833333332374,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 18,
+          "hpAfter": 17,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 23.195833333332338,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 17,
+          "hpAfter": 17,
+          "bankBefore": 3.124999999999994,
+          "bankAfter": 11.458333333333329
+        },
+        {
+          "time": 23.362499999998995,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 17,
+          "hpAfter": 17,
+          "bankBefore": 10.069444444444471,
+          "bankAfter": 18.402777777777807
+        },
+        {
+          "time": 23.512499999998987,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 17,
+          "hpAfter": 17,
+          "bankBefore": 17.152777777777835,
+          "bankAfter": 25.48611111111117
+        },
+        {
+          "time": 24.679166666665587,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 17,
+          "hpAfter": 16,
+          "bankBefore": 15.76388888888917,
+          "bankAfter": 24.097222222222506
+        },
+        {
+          "time": 24.833333333332245,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 16,
+          "hpAfter": 15,
+          "bankBefore": 22.812500000000313,
+          "bankAfter": 31.14583333333365
+        },
+        {
+          "time": 26.291666666665495,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 14,
+          "bankBefore": 18.993055555556147,
+          "bankAfter": 27.326388888889483
+        },
+        {
+          "time": 28.345833333332045,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 14,
+          "hpAfter": 13,
+          "bankBefore": 10.208333333334316,
+          "bankAfter": 18.541666666667652
+        },
+        {
+          "time": 28.88749999999868,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 13,
+          "hpAfter": 12,
+          "bankBefore": 14.027777777778866,
+          "bankAfter": 22.3611111111122
+        },
+        {
+          "time": 29.7166666666653,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 12,
+          "hpAfter": 11,
+          "bankBefore": 15.451388888890136,
+          "bankAfter": 23.784722222223472
+        },
+        {
+          "time": 30.47499999999859,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 11,
+          "hpAfter": 10,
+          "bankBefore": 17.46527777777917,
+          "bankAfter": 25.798611111110517
+        },
+        {
+          "time": 30.683333333331912,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 10,
+          "hpAfter": 9,
+          "bankBefore": 24.062499999999446,
+          "bankAfter": 24.06249999999909
+        },
+        {
+          "time": 31.062499999998558,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 9,
+          "hpAfter": 8,
+          "bankBefore": 20.90277777777694,
+          "bankAfter": 20.902777777776294
+        },
+        {
+          "time": 31.170833333331885,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 8,
+          "hpAfter": 7,
+          "bankBefore": 19.999999999998536,
+          "bankAfter": 19.99999999999835
+        },
+        {
+          "time": 31.52499999999853,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 7,
+          "hpAfter": 6,
+          "bankBefore": 17.04861111110953,
+          "bankAfter": 17.048611111108926
+        },
+        {
+          "time": 32.22916666666535,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 6,
+          "hpAfter": 5,
+          "bankBefore": 11.180555555553504,
+          "bankAfter": 11.180555555552303
+        },
+        {
+          "time": 32.92083333333257,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 5,
+          "hpAfter": 4,
+          "bankBefore": 5.416666666663478,
+          "bankAfter": 5.4166666666623655
+        },
+        {
+          "time": 34.07916666666682,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 4,
+          "hpAfter": 3,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 34.60416666666724,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 3,
+          "hpAfter": 2,
+          "bankBefore": 3.9583333333333295,
+          "bankAfter": 12.291666666666664
+        },
+        {
+          "time": 34.70833333333399,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 2,
+          "hpAfter": 1,
+          "bankBefore": 11.423611111111128,
+          "bankAfter": 19.756944444444464
+        },
+        {
+          "time": 35.516666666667966,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 1,
+          "hpAfter": 0,
+          "bankBefore": 13.020833333333506,
+          "bankAfter": 21.354166666666842
+        }
+      ]
+    },
+    {
+      "device": "ios",
+      "viewport": [
+        393,
+        852
+      ],
+      "height": 780.4580152671756,
+      "paddleY": 665.0381679389313,
+      "power": "volley",
+      "state": "won",
+      "seconds": 39.53333333333783,
+      "hp": 0,
+      "lives": 3,
+      "firstFull": 17.912499999999305,
+      "casts": [
+        {
+          "time": 17.912499999999305,
+          "hp": 18,
+          "before": 100,
+          "bank": 0,
+          "after": 0
+        },
+        {
+          "time": 33.041666666665996,
+          "hp": 4,
+          "before": 100,
+          "bank": 0,
+          "after": 0
+        }
+      ],
+      "bricksCleared": 16,
+      "poweredHits": 7,
+      "ordinaryHits": 41,
+      "powerChargeViolations": [],
+      "events": [
+        {
+          "time": 1.2708333333333302,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 24,
+          "hpAfter": 23,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 1.4124999999999963,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 23,
+          "hpAfter": 22,
+          "bankBefore": 7.152777777777783,
+          "bankAfter": 15.486111111111118
+        },
+        {
+          "time": 3.8666666666667537,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 22,
+          "hpAfter": 21,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 4.162500000000084,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 21,
+          "hpAfter": 21,
+          "bankBefore": 5.868055555555557,
+          "bankAfter": 14.201388888888891
+        },
+        {
+          "time": 4.41250000000007,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 21,
+          "hpAfter": 20,
+          "bankBefore": 12.118055555555605,
+          "bankAfter": 20.45138888888894
+        },
+        {
+          "time": 5.2333333333333565,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 13.611111111111317,
+          "bankAfter": 21.94444444444465
+        },
+        {
+          "time": 10.429166666666395,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 10.720833333333045,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 12.720833333332932,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 12.912499999999588,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 13.191666666666238,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 19,
+          "bankBefore": 6.006944444444446,
+          "bankAfter": 14.34027777777778
+        },
+        {
+          "time": 14.4499999999995,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 19,
+          "bankBefore": 3.854166666666801,
+          "bankAfter": 12.187500000000135
+        },
+        {
+          "time": 14.583333333332826,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 19,
+          "bankBefore": 11.07638888888905,
+          "bankAfter": 19.409722222222385
+        },
+        {
+          "time": 14.674999999999487,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 19,
+          "bankBefore": 18.645833333333513,
+          "bankAfter": 26.979166666665634
+        },
+        {
+          "time": 15.424999999999445,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 18,
+          "bankBefore": 20.729166666665776,
+          "bankAfter": 20.729166666664497
+        },
+        {
+          "time": 18.89999999999925,
+          "kind": "brace",
+          "power": true,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 19.404166666665887,
+          "kind": "brace",
+          "power": true,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 19.545833333332546,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 21.041666666665794,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 23.04166666666568,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 18,
+          "hpAfter": 17,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 23.39166666666566,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 17,
+          "hpAfter": 17,
+          "bankBefore": 5.416666666666667,
+          "bankAfter": 13.75
+        },
+        {
+          "time": 23.39166666666566,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 17,
+          "hpAfter": 17,
+          "bankBefore": 13.75,
+          "bankAfter": 22.083333333333336
+        },
+        {
+          "time": 23.74166666666564,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 17,
+          "hpAfter": 16,
+          "bankBefore": 19.166666666666735,
+          "bankAfter": 27.50000000000007
+        },
+        {
+          "time": 24.099999999998953,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 16,
+          "hpAfter": 16,
+          "bankBefore": 24.513888888889028,
+          "bankAfter": 32.84722222222236
+        },
+        {
+          "time": 24.424999999998935,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 16,
+          "hpAfter": 15,
+          "bankBefore": 30.138888888889092,
+          "bankAfter": 38.47222222222243
+        },
+        {
+          "time": 24.683333333332254,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 15,
+          "bankBefore": 36.3194444444447,
+          "bankAfter": 44.652777777778034
+        },
+        {
+          "time": 24.958333333332238,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 14,
+          "bankBefore": 42.36111111111142,
+          "bankAfter": 50.694444444444756
+        },
+        {
+          "time": 25.858333333332187,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 14,
+          "hpAfter": 14,
+          "bankBefore": 43.194444444444926,
+          "bankAfter": 51.52777777777826
+        },
+        {
+          "time": 26.104166666665506,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 14,
+          "hpAfter": 14,
+          "bankBefore": 49.4791666666672,
+          "bankAfter": 57.81250000000053
+        },
+        {
+          "time": 26.733333333332137,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 14,
+          "hpAfter": 14,
+          "bankBefore": 52.5694444444451,
+          "bankAfter": 52.5694444444451
+        },
+        {
+          "time": 26.866666666665463,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 14,
+          "hpAfter": 13,
+          "bankBefore": 51.45833333333401,
+          "bankAfter": 51.45833333333425
+        },
+        {
+          "time": 27.712499999998748,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 13,
+          "hpAfter": 13,
+          "bankBefore": 44.4097222222233,
+          "bankAfter": 44.4097222222233
+        },
+        {
+          "time": 28.558333333332033,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 13,
+          "hpAfter": 12,
+          "bankBefore": 37.36111111111235,
+          "bankAfter": 37.36111111111235
+        },
+        {
+          "time": 28.733333333332023,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 12,
+          "hpAfter": 11,
+          "bankBefore": 35.90277777777905,
+          "bankAfter": 35.902777777779036
+        },
+        {
+          "time": 28.93749999999868,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 11,
+          "hpAfter": 10,
+          "bankBefore": 34.201388888890186,
+          "bankAfter": 34.20138888888984
+        },
+        {
+          "time": 29.049999999998672,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 10,
+          "hpAfter": 9,
+          "bankBefore": 33.26388888888986,
+          "bankAfter": 33.26388888888967
+        },
+        {
+          "time": 29.78749999999863,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 9,
+          "hpAfter": 8,
+          "bankBefore": 27.118055555556474,
+          "bankAfter": 27.118055555555216
+        },
+        {
+          "time": 30.22916666666527,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 8,
+          "hpAfter": 7,
+          "bankBefore": 23.437499999999744,
+          "bankAfter": 23.43749999999899
+        },
+        {
+          "time": 31.333333333331876,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 7,
+          "hpAfter": 6,
+          "bankBefore": 14.236111111110311,
+          "bankAfter": 14.236111111108428
+        },
+        {
+          "time": 31.954166666665174,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 6,
+          "hpAfter": 5,
+          "bankBefore": 9.062499999997435,
+          "bankAfter": 9.062499999996376
+        },
+        {
+          "time": 32.59999999999898,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 5,
+          "hpAfter": 4,
+          "bankBefore": 3.680555555551943,
+          "bankAfter": 3.680555555550953
+        },
+        {
+          "time": 33.287499999999525,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 4,
+          "hpAfter": 3,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 33.537499999999724,
+          "kind": "brace",
+          "power": true,
+          "hpBefore": 3,
+          "hpAfter": 3,
+          "bankBefore": 6.250000000000003,
+          "bankAfter": 6.250000000000003
+        },
+        {
+          "time": 33.94583333333338,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 3,
+          "hpAfter": 3,
+          "bankBefore": 2.847222222222215,
+          "bankAfter": 11.18055555555555
+        },
+        {
+          "time": 34.45000000000045,
+          "kind": "shell",
+          "power": true,
+          "hpBefore": 3,
+          "hpAfter": 2,
+          "bankBefore": 6.97916666666673,
+          "bankAfter": 6.97916666666673
+        },
+        {
+          "time": 34.93750000000084,
+          "kind": "shell",
+          "power": true,
+          "hpBefore": 2,
+          "hpAfter": 1,
+          "bankBefore": 2.9166666666667185,
+          "bankAfter": 2.9166666666667185
+        },
+        {
+          "time": 35.03750000000092,
+          "kind": "brace",
+          "power": true,
+          "hpBefore": 1,
+          "hpAfter": 1,
+          "bankBefore": 2.0833333333333828,
+          "bankAfter": 2.0833333333333828
+        },
+        {
+          "time": 35.933333333334964,
+          "kind": "shell",
+          "power": true,
+          "hpBefore": 1,
+          "hpAfter": 0,
+          "bankBefore": 0,
+          "bankAfter": 0
+        }
+      ]
+    },
+    {
+      "device": "ios",
+      "viewport": [
+        393,
+        852
+      ],
+      "height": 780.4580152671756,
+      "paddleY": 665.0381679389313,
+      "power": "cosmic",
+      "state": "won",
+      "seconds": 53.17500000001535,
+      "hp": 0,
+      "lives": 3,
+      "firstFull": 17.912499999999305,
+      "casts": [
+        {
+          "time": 17.912499999999305,
+          "hp": 18,
+          "before": 100,
+          "bank": 0,
+          "after": 0
+        },
+        {
+          "time": 37.954166666669906,
+          "hp": 10,
+          "before": 100,
+          "bank": 0,
+          "after": 0
+        }
+      ],
+      "bricksCleared": 22,
+      "poweredHits": 21,
+      "ordinaryHits": 33,
+      "powerChargeViolations": [],
+      "events": [
+        {
+          "time": 1.2708333333333302,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 24,
+          "hpAfter": 23,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 1.4124999999999963,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 23,
+          "hpAfter": 22,
+          "bankBefore": 7.152777777777783,
+          "bankAfter": 15.486111111111118
+        },
+        {
+          "time": 3.8666666666667537,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 22,
+          "hpAfter": 21,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 4.162500000000084,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 21,
+          "hpAfter": 21,
+          "bankBefore": 5.868055555555557,
+          "bankAfter": 14.201388888888891
+        },
+        {
+          "time": 4.41250000000007,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 21,
+          "hpAfter": 20,
+          "bankBefore": 12.118055555555605,
+          "bankAfter": 20.45138888888894
+        },
+        {
+          "time": 5.2333333333333565,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 13.611111111111317,
+          "bankAfter": 21.94444444444465
+        },
+        {
+          "time": 10.429166666666395,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 10.720833333333045,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 12.720833333332932,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 12.912499999999588,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 13.191666666666238,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 19,
+          "bankBefore": 6.006944444444446,
+          "bankAfter": 14.34027777777778
+        },
+        {
+          "time": 14.4499999999995,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 19,
+          "bankBefore": 3.854166666666801,
+          "bankAfter": 12.187500000000135
+        },
+        {
+          "time": 14.583333333332826,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 19,
+          "bankBefore": 11.07638888888905,
+          "bankAfter": 19.409722222222385
+        },
+        {
+          "time": 14.674999999999487,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 19,
+          "bankBefore": 18.645833333333513,
+          "bankAfter": 26.979166666665634
+        },
+        {
+          "time": 15.424999999999445,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 18,
+          "bankBefore": 20.729166666665776,
+          "bankAfter": 20.729166666664497
+        },
+        {
+          "time": 19.479166666665883,
+          "kind": "brace",
+          "power": true,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 21.008333333332462,
+          "kind": "brace",
+          "power": true,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 21.062499999999126,
+          "kind": "brick",
+          "power": true,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 21.120833333332456,
+          "kind": "brick",
+          "power": true,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 21.183333333332452,
+          "kind": "brick",
+          "power": true,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 21.195833333332452,
+          "kind": "brick",
+          "power": true,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 21.24583333333245,
+          "kind": "brick",
+          "power": true,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 21.554166666665765,
+          "kind": "shell",
+          "power": true,
+          "hpBefore": 18,
+          "hpAfter": 17,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 22.041666666665737,
+          "kind": "shell",
+          "power": true,
+          "hpBefore": 17,
+          "hpAfter": 16,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 24.916666666665574,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 16,
+          "hpAfter": 15,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 25.274999999998887,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 15,
+          "bankBefore": 5.347222222222222,
+          "bankAfter": 13.680555555555557
+        },
+        {
+          "time": 26.68333333333214,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 15,
+          "bankBefore": 1.9444444444445574,
+          "bankAfter": 10.277777777777892
+        },
+        {
+          "time": 26.87083333333213,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 15,
+          "bankBefore": 8.715277777777928,
+          "bankAfter": 8.715277777777928
+        },
+        {
+          "time": 27.087499999998784,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 15,
+          "bankBefore": 6.909722222222385,
+          "bankAfter": 15.243055555555719
+        },
+        {
+          "time": 27.320833333332104,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 14,
+          "bankBefore": 13.298611111111319,
+          "bankAfter": 21.631944444444652
+        },
+        {
+          "time": 27.75833333333208,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 14,
+          "hpAfter": 14,
+          "bankBefore": 17.986111111111402,
+          "bankAfter": 26.319444444444734
+        },
+        {
+          "time": 28.09583333333206,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 14,
+          "hpAfter": 13,
+          "bankBefore": 23.506944444444798,
+          "bankAfter": 31.840277777778134
+        },
+        {
+          "time": 30.566666666665252,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 13,
+          "hpAfter": 12,
+          "bankBefore": 11.250000000000824,
+          "bankAfter": 19.58333333333416
+        },
+        {
+          "time": 31.099999999998555,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 12,
+          "hpAfter": 12,
+          "bankBefore": 15.138888888889817,
+          "bankAfter": 23.472222222223152
+        },
+        {
+          "time": 33.96250000000006,
+          "kind": "brace",
+          "power": false,
+          "hpBefore": 12,
+          "hpAfter": 12,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 35.954166666668314,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 12,
+          "hpAfter": 11,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 36.37500000000198,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 11,
+          "hpAfter": 11,
+          "bankBefore": 4.8263888888888875,
+          "bankAfter": 13.159722222218065
+        },
+        {
+          "time": 36.40416666666867,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 11,
+          "hpAfter": 11,
+          "bankBefore": 12.916666666662515,
+          "bankAfter": 12.916666666662465
+        },
+        {
+          "time": 36.86250000000237,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 11,
+          "hpAfter": 10,
+          "bankBefore": 9.097222222218107,
+          "bankAfter": 9.097222222217326
+        },
+        {
+          "time": 37.6083333333363,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 10,
+          "hpAfter": 10,
+          "bankBefore": 2.881944444439558,
+          "bankAfter": 2.8819444444384175
+        },
+        {
+          "time": 38.94583333333736,
+          "kind": "shell",
+          "power": true,
+          "hpBefore": 10,
+          "hpAfter": 9,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 39.05416666667078,
+          "kind": "shell",
+          "power": true,
+          "hpBefore": 9,
+          "hpAfter": 8,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 39.86666666667143,
+          "kind": "shell",
+          "power": true,
+          "hpBefore": 8,
+          "hpAfter": 7,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 40.95416666667229,
+          "kind": "shell",
+          "power": true,
+          "hpBefore": 7,
+          "hpAfter": 6,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 41.05416666667237,
+          "kind": "shell",
+          "power": true,
+          "hpBefore": 6,
+          "hpAfter": 5,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 41.82916666667299,
+          "kind": "shell",
+          "power": true,
+          "hpBefore": 5,
+          "hpAfter": 4,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 42.820833333340445,
+          "kind": "shell",
+          "power": true,
+          "hpBefore": 4,
+          "hpAfter": 3,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 42.920833333340525,
+          "kind": "shell",
+          "power": true,
+          "hpBefore": 3,
+          "hpAfter": 2,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 43.258333333340794,
+          "kind": "gate",
+          "power": true,
+          "hpBefore": 2,
+          "hpAfter": 2,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 43.57500000000771,
+          "kind": "brick",
+          "power": true,
+          "hpBefore": 2,
+          "hpAfter": 2,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 43.57500000000771,
+          "kind": "brick",
+          "power": true,
+          "hpBefore": 2,
+          "hpAfter": 2,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 43.6458333333411,
+          "kind": "brace",
+          "power": true,
+          "hpBefore": 2,
+          "hpAfter": 2,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 45.67500000000938,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 2,
+          "hpAfter": 1,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 49.57500000001249,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 1,
+          "hpAfter": 0,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        }
+      ]
+    },
+    {
+      "device": "android",
+      "viewport": [
+        412,
+        915
+      ],
+      "height": 799.5145631067961,
+      "paddleY": 689.4174757281553,
+      "power": "ordinary",
+      "state": "won",
+      "seconds": 61.816666666688896,
+      "hp": 0,
+      "lives": 2,
+      "firstFull": 16.56666666666605,
+      "casts": [],
+      "bricksCleared": 22,
+      "poweredHits": 0,
+      "ordinaryHits": 53,
+      "powerChargeViolations": [],
+      "events": [
+        {
+          "time": 1.3374999999999966,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 24,
+          "hpAfter": 23,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 2.108333333333333,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 23,
+          "hpAfter": 23,
+          "bankBefore": 1.9097222222222126,
+          "bankAfter": 10.243055555555546
+        },
+        {
+          "time": 2.2833333333333417,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 23,
+          "hpAfter": 23,
+          "bankBefore": 8.784722222222246,
+          "bankAfter": 17.11805555555558
+        },
+        {
+          "time": 7.566666666666557,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 23,
+          "hpAfter": 22,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 7.854166666666541,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 22,
+          "hpAfter": 22,
+          "bankBefore": 5.937500000000002,
+          "bankAfter": 14.270833333333336
+        },
+        {
+          "time": 8.074999999999863,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 22,
+          "hpAfter": 21,
+          "bankBefore": 12.4305555555556,
+          "bankAfter": 20.763888888888935
+        },
+        {
+          "time": 8.279166666666518,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 21,
+          "hpAfter": 21,
+          "bankBefore": 19.062500000000085,
+          "bankAfter": 27.39583333333342
+        },
+        {
+          "time": 8.516666666666504,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 21,
+          "hpAfter": 20,
+          "bankBefore": 25.4166666666668,
+          "bankAfter": 33.750000000000135
+        },
+        {
+          "time": 9.033333333333141,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 29.444444444444677,
+          "bankAfter": 37.77777777777801
+        },
+        {
+          "time": 9.204166666666465,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 36.354166666666934,
+          "bankAfter": 44.68750000000027
+        },
+        {
+          "time": 11.120833333333023,
+          "kind": "brace",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 28.71527777777841,
+          "bankAfter": 37.04861111111175
+        },
+        {
+          "time": 12.75833333333293,
+          "kind": "brace",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 23.402777777778724,
+          "bankAfter": 31.736111111111384
+        },
+        {
+          "time": 15.93333333333275,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 5.277777777778582,
+          "bankAfter": 5.277777777773238
+        },
+        {
+          "time": 16.233333333332734,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 19,
+          "bankBefore": 2.777777777773231,
+          "bankAfter": 2.7777777777727835
+        },
+        {
+          "time": 16.608333333332713,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 19,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 17.074999999999353,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 17.758333333332647,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 18.254166666665952,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 18,
+          "hpAfter": 17,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 24.474999999998932,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 17,
+          "hpAfter": 16,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 24.929166666665573,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 16,
+          "hpAfter": 16,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 24.97916666666557,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 16,
+          "hpAfter": 16,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 25.35416666666555,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 16,
+          "hpAfter": 15,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 25.824999999998855,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 15,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 26.30833333333216,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 14,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 26.937499999998792,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 14,
+          "hpAfter": 13,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 27.58333333333209,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 13,
+          "hpAfter": 12,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 27.704166666665415,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 12,
+          "hpAfter": 11,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 28.17499999999872,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 11,
+          "hpAfter": 10,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 28.308333333332047,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 10,
+          "hpAfter": 10,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 28.429166666665374,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 10,
+          "hpAfter": 9,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 29.23749999999866,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 9,
+          "hpAfter": 9,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 29.474999999998648,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 9,
+          "hpAfter": 9,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 30.058333333331948,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 9,
+          "hpAfter": 9,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 30.212499999998606,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 9,
+          "hpAfter": 8,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 35.04583333333426,
+          "kind": "brace",
+          "power": false,
+          "hpBefore": 8,
+          "hpAfter": 8,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 43.27500000000747,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 8,
+          "hpAfter": 7,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 43.72083333334116,
+          "kind": "brace",
+          "power": false,
+          "hpBefore": 7,
+          "hpAfter": 7,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 43.84166666667459,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 7,
+          "hpAfter": 7,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 44.20833333334155,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 7,
+          "hpAfter": 6,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 44.83333333334205,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 6,
+          "hpAfter": 6,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 44.991666666675506,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 6,
+          "hpAfter": 6,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 45.129166666675616,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 6,
+          "hpAfter": 6,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 45.387500000009155,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 6,
+          "hpAfter": 6,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 46.01666666667632,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 6,
+          "hpAfter": 5,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 46.71666666667688,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 5,
+          "hpAfter": 5,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 46.75000000001024,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 5,
+          "hpAfter": 5,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 48.004166666677904,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 5,
+          "hpAfter": 4,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 48.95416666667866,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 4,
+          "hpAfter": 4,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 48.97500000001201,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 4,
+          "hpAfter": 3,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 51.62083333334745,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 3,
+          "hpAfter": 2,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 52.85416666668176,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 2,
+          "hpAfter": 1,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 55.050000000016844,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 1,
+          "hpAfter": 1,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 58.21666666668603,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 1,
+          "hpAfter": 0,
+          "bankBefore": 0,
+          "bankAfter": 0
+        }
+      ]
+    },
+    {
+      "device": "android",
+      "viewport": [
+        412,
+        915
+      ],
+      "height": 799.5145631067961,
+      "paddleY": 689.4174757281553,
+      "power": "anchor",
+      "state": "won",
+      "seconds": 53.32916666668214,
+      "hp": 0,
+      "lives": 2,
+      "firstFull": 16.56666666666605,
+      "casts": [
+        {
+          "time": 16.56666666666605,
+          "hp": 19,
+          "before": 100,
+          "bank": 0,
+          "after": 0
+        },
+        {
+          "time": 28.60833333333203,
+          "hp": 8,
+          "before": 100,
+          "bank": 0,
+          "after": 0
+        }
+      ],
+      "bricksCleared": 22,
+      "poweredHits": 0,
+      "ordinaryHits": 51,
+      "powerChargeViolations": [],
+      "events": [
+        {
+          "time": 1.3374999999999966,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 24,
+          "hpAfter": 23,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 2.108333333333333,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 23,
+          "hpAfter": 23,
+          "bankBefore": 1.9097222222222126,
+          "bankAfter": 10.243055555555546
+        },
+        {
+          "time": 2.2833333333333417,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 23,
+          "hpAfter": 23,
+          "bankBefore": 8.784722222222246,
+          "bankAfter": 17.11805555555558
+        },
+        {
+          "time": 7.566666666666557,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 23,
+          "hpAfter": 22,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 7.854166666666541,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 22,
+          "hpAfter": 22,
+          "bankBefore": 5.937500000000002,
+          "bankAfter": 14.270833333333336
+        },
+        {
+          "time": 8.074999999999863,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 22,
+          "hpAfter": 21,
+          "bankBefore": 12.4305555555556,
+          "bankAfter": 20.763888888888935
+        },
+        {
+          "time": 8.279166666666518,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 21,
+          "hpAfter": 21,
+          "bankBefore": 19.062500000000085,
+          "bankAfter": 27.39583333333342
+        },
+        {
+          "time": 8.516666666666504,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 21,
+          "hpAfter": 20,
+          "bankBefore": 25.4166666666668,
+          "bankAfter": 33.750000000000135
+        },
+        {
+          "time": 9.033333333333141,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 29.444444444444677,
+          "bankAfter": 37.77777777777801
+        },
+        {
+          "time": 9.204166666666465,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 36.354166666666934,
+          "bankAfter": 44.68750000000027
+        },
+        {
+          "time": 11.120833333333023,
+          "kind": "brace",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 28.71527777777841,
+          "bankAfter": 37.04861111111175
+        },
+        {
+          "time": 12.75833333333293,
+          "kind": "brace",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 23.402777777778724,
+          "bankAfter": 31.736111111111384
+        },
+        {
+          "time": 15.93333333333275,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 5.277777777778582,
+          "bankAfter": 5.277777777773238
+        },
+        {
+          "time": 16.233333333332734,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 19,
+          "bankBefore": 2.777777777773231,
+          "bankAfter": 2.7777777777727835
+        },
+        {
+          "time": 16.608333333332713,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 19,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 17.070833333332686,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 18,
+          "bankBefore": 4.479166666666664,
+          "bankAfter": 12.812499999999998
+        },
+        {
+          "time": 17.366666666666003,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 10.347222222222276,
+          "bankAfter": 18.68055555555561
+        },
+        {
+          "time": 17.699999999999317,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 18,
+          "hpAfter": 17,
+          "bankBefore": 15.902777777777896,
+          "bankAfter": 24.236111111111228
+        },
+        {
+          "time": 18.11666666666596,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 17,
+          "hpAfter": 17,
+          "bankBefore": 20.763888888889085,
+          "bankAfter": 29.09722222222242
+        },
+        {
+          "time": 18.449999999999275,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 17,
+          "hpAfter": 16,
+          "bankBefore": 26.319444444444706,
+          "bankAfter": 34.65277777777804
+        },
+        {
+          "time": 18.71249999999926,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 16,
+          "hpAfter": 16,
+          "bankBefore": 32.46527777777809,
+          "bankAfter": 40.79861111111143
+        },
+        {
+          "time": 18.954166666665913,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 16,
+          "hpAfter": 15,
+          "bankBefore": 38.784722222222584,
+          "bankAfter": 47.11805555555592
+        },
+        {
+          "time": 19.429166666665886,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 15,
+          "bankBefore": 43.159722222222676,
+          "bankAfter": 51.49305555555601
+        },
+        {
+          "time": 19.84583333333253,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 14,
+          "bankBefore": 48.02083333333387,
+          "bankAfter": 56.354166666667204
+        },
+        {
+          "time": 20.21666666666584,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 14,
+          "hpAfter": 14,
+          "bankBefore": 53.2638888888895,
+          "bankAfter": 61.59722222222283
+        },
+        {
+          "time": 20.570833333332487,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 14,
+          "hpAfter": 13,
+          "bankBefore": 58.64583333333401,
+          "bankAfter": 66.97916666666721
+        },
+        {
+          "time": 21.412499999999106,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 13,
+          "hpAfter": 13,
+          "bankBefore": 59.96527777777788,
+          "bankAfter": 59.96527777777848
+        },
+        {
+          "time": 21.90833333333241,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 13,
+          "hpAfter": 12,
+          "bankBefore": 55.83333333333413,
+          "bankAfter": 55.83333333333413
+        },
+        {
+          "time": 22.158333333332397,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 12,
+          "hpAfter": 11,
+          "bankBefore": 53.750000000000846,
+          "bankAfter": 53.750000000000846
+        },
+        {
+          "time": 22.7041666666657,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 11,
+          "hpAfter": 11,
+          "bankBefore": 49.20138888888984,
+          "bankAfter": 49.20138888888984
+        },
+        {
+          "time": 23.40416666666566,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 11,
+          "hpAfter": 10,
+          "bankBefore": 43.36805555555664,
+          "bankAfter": 43.36805555555664
+        },
+        {
+          "time": 23.920833333332297,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 10,
+          "hpAfter": 10,
+          "bankBefore": 39.06250000000118,
+          "bankAfter": 39.06250000000118
+        },
+        {
+          "time": 24.270833333332277,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 10,
+          "hpAfter": 10,
+          "bankBefore": 36.14583333333458,
+          "bankAfter": 36.14583333333458
+        },
+        {
+          "time": 24.708333333332252,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 10,
+          "hpAfter": 10,
+          "bankBefore": 32.50000000000133,
+          "bankAfter": 32.50000000000061
+        },
+        {
+          "time": 25.29583333333222,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 10,
+          "hpAfter": 9,
+          "bankBefore": 27.60416666666739,
+          "bankAfter": 27.604166666666387
+        },
+        {
+          "time": 25.6333333333322,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 9,
+          "hpAfter": 9,
+          "bankBefore": 24.79166666666645,
+          "bankAfter": 24.791666666665876
+        },
+        {
+          "time": 25.916666666665517,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 9,
+          "hpAfter": 8,
+          "bankBefore": 22.430555555554818,
+          "bankAfter": 22.430555555554335
+        },
+        {
+          "time": 26.316666666665494,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 8,
+          "hpAfter": 8,
+          "bankBefore": 19.097222222221077,
+          "bankAfter": 19.097222222220395
+        },
+        {
+          "time": 26.616666666665477,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 8,
+          "hpAfter": 8,
+          "bankBefore": 16.597222222220452,
+          "bankAfter": 16.597222222220452
+        },
+        {
+          "time": 31.358333333331874,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 8,
+          "hpAfter": 7,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 31.75833333333185,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 7,
+          "hpAfter": 7,
+          "bankBefore": 4.999999999999999,
+          "bankAfter": 13.333333333333332
+        },
+        {
+          "time": 33.170833333332766,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 7,
+          "hpAfter": 6,
+          "bankBefore": 1.5625000000001013,
+          "bankAfter": 9.895833333333435
+        },
+        {
+          "time": 33.79999999999993,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 6,
+          "hpAfter": 6,
+          "bankBefore": 4.652777777777913,
+          "bankAfter": 12.986111111111246
+        },
+        {
+          "time": 35.595833333334696,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 6,
+          "hpAfter": 5,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 41.7583333333396,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 5,
+          "hpAfter": 4,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 41.97916666667311,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 4,
+          "hpAfter": 3,
+          "bankBefore": 6.493055555555559,
+          "bankAfter": 14.826388888888893
+        },
+        {
+          "time": 43.68333333334113,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 3,
+          "hpAfter": 2,
+          "bankBefore": 0.6250000000001389,
+          "bankAfter": 8.958333333333472
+        },
+        {
+          "time": 44.45416666667508,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 2,
+          "hpAfter": 1,
+          "bankBefore": 2.534722222222367,
+          "bankAfter": 10.868055555555701
+        },
+        {
+          "time": 45.84583333334285,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 1,
+          "hpAfter": 1,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 48.25000000001143,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 1,
+          "hpAfter": 1,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 49.729166666679276,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 1,
+          "hpAfter": 0,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        }
+      ]
+    },
+    {
+      "device": "android",
+      "viewport": [
+        412,
+        915
+      ],
+      "height": 799.5145631067961,
+      "paddleY": 689.4174757281553,
+      "power": "volley",
+      "state": "won",
+      "seconds": 47.01250000001045,
+      "hp": 0,
+      "lives": 2,
+      "firstFull": 16.56666666666605,
+      "casts": [
+        {
+          "time": 16.56666666666605,
+          "hp": 19,
+          "before": 100,
+          "bank": 0,
+          "after": 0
+        },
+        {
+          "time": 32.47499999999888,
+          "hp": 10,
+          "before": 100,
+          "bank": 0,
+          "after": 0
+        }
+      ],
+      "bricksCleared": 16,
+      "poweredHits": 5,
+      "ordinaryHits": 38,
+      "powerChargeViolations": [],
+      "events": [
+        {
+          "time": 1.3374999999999966,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 24,
+          "hpAfter": 23,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 2.108333333333333,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 23,
+          "hpAfter": 23,
+          "bankBefore": 1.9097222222222126,
+          "bankAfter": 10.243055555555546
+        },
+        {
+          "time": 2.2833333333333417,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 23,
+          "hpAfter": 23,
+          "bankBefore": 8.784722222222246,
+          "bankAfter": 17.11805555555558
+        },
+        {
+          "time": 7.566666666666557,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 23,
+          "hpAfter": 22,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 7.854166666666541,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 22,
+          "hpAfter": 22,
+          "bankBefore": 5.937500000000002,
+          "bankAfter": 14.270833333333336
+        },
+        {
+          "time": 8.074999999999863,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 22,
+          "hpAfter": 21,
+          "bankBefore": 12.4305555555556,
+          "bankAfter": 20.763888888888935
+        },
+        {
+          "time": 8.279166666666518,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 21,
+          "hpAfter": 21,
+          "bankBefore": 19.062500000000085,
+          "bankAfter": 27.39583333333342
+        },
+        {
+          "time": 8.516666666666504,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 21,
+          "hpAfter": 20,
+          "bankBefore": 25.4166666666668,
+          "bankAfter": 33.750000000000135
+        },
+        {
+          "time": 9.033333333333141,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 29.444444444444677,
+          "bankAfter": 37.77777777777801
+        },
+        {
+          "time": 9.204166666666465,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 36.354166666666934,
+          "bankAfter": 44.68750000000027
+        },
+        {
+          "time": 11.120833333333023,
+          "kind": "brace",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 28.71527777777841,
+          "bankAfter": 37.04861111111175
+        },
+        {
+          "time": 12.75833333333293,
+          "kind": "brace",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 23.402777777778724,
+          "bankAfter": 31.736111111111384
+        },
+        {
+          "time": 15.93333333333275,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 5.277777777778582,
+          "bankAfter": 5.277777777773238
+        },
+        {
+          "time": 16.233333333332734,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 19,
+          "bankBefore": 2.777777777773231,
+          "bankAfter": 2.7777777777727835
+        },
+        {
+          "time": 16.608333333332713,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 19,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 17.074999999999353,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 19,
+          "hpAfter": 18,
+          "bankBefore": 4.444444444444442,
+          "bankAfter": 12.777777777777775
+        },
+        {
+          "time": 17.145833333332682,
+          "kind": "brick",
+          "power": true,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 12.18750000000001,
+          "bankAfter": 12.18750000000001
+        },
+        {
+          "time": 17.608333333332656,
+          "kind": "brace",
+          "power": true,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 8.333333333333432,
+          "bankAfter": 8.333333333333432
+        },
+        {
+          "time": 17.758333333332647,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 18,
+          "hpAfter": 18,
+          "bankBefore": 7.083333333333436,
+          "bankAfter": 15.41666666666677
+        },
+        {
+          "time": 18.254166666665952,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 18,
+          "hpAfter": 17,
+          "bankBefore": 11.28472222222242,
+          "bankAfter": 19.618055555555756
+        },
+        {
+          "time": 18.97083333333258,
+          "kind": "claw",
+          "power": true,
+          "hpBefore": 17,
+          "hpAfter": 16,
+          "bankBefore": 13.64583333333367,
+          "bankAfter": 13.64583333333367
+        },
+        {
+          "time": 24.474999999998932,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 16,
+          "hpAfter": 15,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 24.916666666665574,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 15,
+          "bankBefore": 4.652777777777776,
+          "bankAfter": 12.98611111111111
+        },
+        {
+          "time": 25.18749999999889,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 14,
+          "bankBefore": 10.729166666666718,
+          "bankAfter": 19.06250000000005
+        },
+        {
+          "time": 25.533333333332205,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 14,
+          "hpAfter": 14,
+          "bankBefore": 16.18055555555567,
+          "bankAfter": 24.513888888889007
+        },
+        {
+          "time": 25.6458333333322,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 14,
+          "hpAfter": 14,
+          "bankBefore": 23.576388888889028,
+          "bankAfter": 31.909722222222364
+        },
+        {
+          "time": 26.020833333332178,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 14,
+          "hpAfter": 13,
+          "bankBefore": 28.784722222222435,
+          "bankAfter": 37.11805555555577
+        },
+        {
+          "time": 26.24999999999883,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 13,
+          "hpAfter": 13,
+          "bankBefore": 35.20833333333359,
+          "bankAfter": 43.54166666666693
+        },
+        {
+          "time": 26.537499999998815,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 13,
+          "hpAfter": 13,
+          "bankBefore": 41.14583333333365,
+          "bankAfter": 49.479166666666984
+        },
+        {
+          "time": 28.5624999999987,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 13,
+          "hpAfter": 12,
+          "bankBefore": 32.60416666666737,
+          "bankAfter": 32.604166666666856
+        },
+        {
+          "time": 29.758333333331965,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 12,
+          "hpAfter": 11,
+          "bankBefore": 22.638888888889305,
+          "bankAfter": 22.638888888887266
+        },
+        {
+          "time": 30.508333333331922,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 11,
+          "hpAfter": 11,
+          "bankBefore": 16.388888888887408,
+          "bankAfter": 16.38888888888613
+        },
+        {
+          "time": 31.087499999998556,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 11,
+          "hpAfter": 10,
+          "bankBefore": 11.56249999999735,
+          "bankAfter": 11.562499999996362
+        },
+        {
+          "time": 32.73333333333242,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 10,
+          "hpAfter": 9,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 33.87499999999999,
+          "kind": "claw",
+          "power": true,
+          "hpBefore": 9,
+          "hpAfter": 8,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 34.85416666666744,
+          "kind": "claw",
+          "power": true,
+          "hpBefore": 8,
+          "hpAfter": 7,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 37.39166666666946,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 7,
+          "hpAfter": 6,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 37.52083333333623,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 6,
+          "hpAfter": 5,
+          "bankBefore": 7.25694444444445,
+          "bankAfter": 15.590277777777784
+        },
+        {
+          "time": 40.97916666667231,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 5,
+          "hpAfter": 4,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 41.65000000000618,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 4,
+          "hpAfter": 3,
+          "bankBefore": 2.7430555555555483,
+          "bankAfter": 11.076388888888882
+        },
+        {
+          "time": 42.22083333333997,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 3,
+          "hpAfter": 2,
+          "bankBefore": 6.319444444444502,
+          "bankAfter": 14.652777777777835
+        },
+        {
+          "time": 42.875000000007155,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 2,
+          "hpAfter": 1,
+          "bankBefore": 9.20138888888907,
+          "bankAfter": 17.534722222222406
+        },
+        {
+          "time": 43.41250000000758,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 1,
+          "hpAfter": 0,
+          "bankBefore": 13.055555555555841,
+          "bankAfter": 21.388888888889177
+        }
+      ]
+    },
+    {
+      "device": "android",
+      "viewport": [
+        412,
+        915
+      ],
+      "height": 799.5145631067961,
+      "paddleY": 689.4174757281553,
+      "power": "cosmic",
+      "state": "won",
+      "seconds": 71.44166666668386,
+      "hp": 0,
+      "lives": 1,
+      "firstFull": 16.56666666666605,
+      "casts": [
+        {
+          "time": 16.56666666666605,
+          "hp": 19,
+          "before": 100,
+          "bank": 0,
+          "after": 0
+        },
+        {
+          "time": 49.912500000012756,
+          "hp": 8,
+          "before": 100,
+          "bank": 0,
+          "after": 0
+        }
+      ],
+      "bricksCleared": 24,
+      "poweredHits": 15,
+      "ordinaryHits": 41,
+      "powerChargeViolations": [],
+      "events": [
+        {
+          "time": 1.3374999999999966,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 24,
+          "hpAfter": 23,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 2.108333333333333,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 23,
+          "hpAfter": 23,
+          "bankBefore": 1.9097222222222126,
+          "bankAfter": 10.243055555555546
+        },
+        {
+          "time": 2.2833333333333417,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 23,
+          "hpAfter": 23,
+          "bankBefore": 8.784722222222246,
+          "bankAfter": 17.11805555555558
+        },
+        {
+          "time": 7.566666666666557,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 23,
+          "hpAfter": 22,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 7.854166666666541,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 22,
+          "hpAfter": 22,
+          "bankBefore": 5.937500000000002,
+          "bankAfter": 14.270833333333336
+        },
+        {
+          "time": 8.074999999999863,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 22,
+          "hpAfter": 21,
+          "bankBefore": 12.4305555555556,
+          "bankAfter": 20.763888888888935
+        },
+        {
+          "time": 8.279166666666518,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 21,
+          "hpAfter": 21,
+          "bankBefore": 19.062500000000085,
+          "bankAfter": 27.39583333333342
+        },
+        {
+          "time": 8.516666666666504,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 21,
+          "hpAfter": 20,
+          "bankBefore": 25.4166666666668,
+          "bankAfter": 33.750000000000135
+        },
+        {
+          "time": 9.033333333333141,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 29.444444444444677,
+          "bankAfter": 37.77777777777801
+        },
+        {
+          "time": 9.204166666666465,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 36.354166666666934,
+          "bankAfter": 44.68750000000027
+        },
+        {
+          "time": 11.120833333333023,
+          "kind": "brace",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 28.71527777777841,
+          "bankAfter": 37.04861111111175
+        },
+        {
+          "time": 12.75833333333293,
+          "kind": "brace",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 23.402777777778724,
+          "bankAfter": 31.736111111111384
+        },
+        {
+          "time": 15.93333333333275,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 20,
+          "bankBefore": 5.277777777778582,
+          "bankAfter": 5.277777777773238
+        },
+        {
+          "time": 16.233333333332734,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 20,
+          "hpAfter": 19,
+          "bankBefore": 2.777777777773231,
+          "bankAfter": 2.7777777777727835
+        },
+        {
+          "time": 16.604166666666046,
+          "kind": "brick",
+          "power": true,
+          "hpBefore": 19,
+          "hpAfter": 19,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 16.662499999999376,
+          "kind": "brick",
+          "power": true,
+          "hpBefore": 19,
+          "hpAfter": 19,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 17.233333333332677,
+          "kind": "claw",
+          "power": true,
+          "hpBefore": 19,
+          "hpAfter": 18,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 17.90833333333264,
+          "kind": "shell",
+          "power": true,
+          "hpBefore": 18,
+          "hpAfter": 17,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 18.424999999999276,
+          "kind": "brick",
+          "power": true,
+          "hpBefore": 17,
+          "hpAfter": 17,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 18.487499999999272,
+          "kind": "brick",
+          "power": true,
+          "hpBefore": 17,
+          "hpAfter": 17,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 18.545833333332602,
+          "kind": "brick",
+          "power": true,
+          "hpBefore": 17,
+          "hpAfter": 17,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 25.358333333332215,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 17,
+          "hpAfter": 17,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 25.51666666666554,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 17,
+          "hpAfter": 17,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 31.695833333331855,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 17,
+          "hpAfter": 17,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 32.31249999999875,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 17,
+          "hpAfter": 16,
+          "bankBefore": 3.1944444444444384,
+          "bankAfter": 11.527777777777771
+        },
+        {
+          "time": 35.11666666666765,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 16,
+          "hpAfter": 15,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 36.091666666668424,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 15,
+          "hpAfter": 14,
+          "bankBefore": 0.20833333333332138,
+          "bankAfter": 8.541666666666655
+        },
+        {
+          "time": 37.17916666666929,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 14,
+          "hpAfter": 13,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 39.76250000000468,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 13,
+          "hpAfter": 13,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 43.91250000000798,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 13,
+          "hpAfter": 12,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 44.31666666667497,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 12,
+          "hpAfter": 12,
+          "bankBefore": 4.965277777777777,
+          "bankAfter": 13.29861111111111
+        },
+        {
+          "time": 44.47500000000843,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 12,
+          "hpAfter": 12,
+          "bankBefore": 11.979166666666696,
+          "bankAfter": 20.31250000000003
+        },
+        {
+          "time": 44.62500000000855,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 12,
+          "hpAfter": 12,
+          "bankBefore": 19.062500000000057,
+          "bankAfter": 27.395833333333393
+        },
+        {
+          "time": 44.76250000000866,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 12,
+          "hpAfter": 12,
+          "bankBefore": 26.250000000000085,
+          "bankAfter": 34.58333333333342
+        },
+        {
+          "time": 45.329166666675775,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 12,
+          "hpAfter": 11,
+          "bankBefore": 29.861111111111306,
+          "bankAfter": 38.19444444444464
+        },
+        {
+          "time": 45.545833333342614,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 11,
+          "hpAfter": 11,
+          "bankBefore": 36.38888888888913,
+          "bankAfter": 36.38888888889012
+        },
+        {
+          "time": 45.79583333334281,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 11,
+          "hpAfter": 10,
+          "bankBefore": 34.305555555556836,
+          "bankAfter": 34.305555555556495
+        },
+        {
+          "time": 46.8250000000103,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 10,
+          "hpAfter": 9,
+          "bankBefore": 25.7291666666678,
+          "bankAfter": 25.729166666666046
+        },
+        {
+          "time": 47.712500000011005,
+          "kind": "brick",
+          "power": false,
+          "hpBefore": 9,
+          "hpAfter": 9,
+          "bankBefore": 18.33333333333288,
+          "bankAfter": 18.333333333331367
+        },
+        {
+          "time": 48.99166666667869,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 9,
+          "hpAfter": 8,
+          "bankBefore": 7.673611111109379,
+          "bankAfter": 7.673611111107206
+        },
+        {
+          "time": 50.5166666666799,
+          "kind": "brace",
+          "power": true,
+          "hpBefore": 8,
+          "hpAfter": 8,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 50.57083333334661,
+          "kind": "brick",
+          "power": true,
+          "hpBefore": 8,
+          "hpAfter": 8,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 50.57083333334661,
+          "kind": "brick",
+          "power": true,
+          "hpBefore": 8,
+          "hpAfter": 8,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 50.63333333334666,
+          "kind": "brick",
+          "power": true,
+          "hpBefore": 8,
+          "hpAfter": 8,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 50.69166666668004,
+          "kind": "brick",
+          "power": true,
+          "hpBefore": 8,
+          "hpAfter": 8,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 51.05416666668033,
+          "kind": "shell",
+          "power": true,
+          "hpBefore": 8,
+          "hpAfter": 7,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 51.58750000001409,
+          "kind": "shell",
+          "power": true,
+          "hpBefore": 7,
+          "hpAfter": 6,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 52.408333333348075,
+          "kind": "brace",
+          "power": true,
+          "hpBefore": 6,
+          "hpAfter": 6,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 57.541666666685494,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 6,
+          "hpAfter": 5,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 59.95833333335408,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 5,
+          "hpAfter": 5,
+          "bankBefore": 0,
+          "bankAfter": 0
+        },
+        {
+          "time": 59.96666666668742,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 5,
+          "hpAfter": 4,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 60.79166666668808,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 4,
+          "hpAfter": 3,
+          "bankBefore": 1.4583333333333224,
+          "bankAfter": 9.791666666666657
+        },
+        {
+          "time": 62.333333333355974,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 3,
+          "hpAfter": 2,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 65.03750000002302,
+          "kind": "claw",
+          "power": false,
+          "hpBefore": 2,
+          "hpAfter": 1,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        },
+        {
+          "time": 65.08333333335631,
+          "kind": "gate",
+          "power": false,
+          "hpBefore": 1,
+          "hpAfter": 1,
+          "bankBefore": 7.951388888888896,
+          "bankAfter": 7.951388888888896
+        },
+        {
+          "time": 67.83750000002047,
+          "kind": "shell",
+          "power": false,
+          "hpBefore": 1,
+          "hpAfter": 0,
+          "bankBefore": 0,
+          "bankAfter": 8.333333333333334
+        }
+      ]
+    }
+  ],
+  "sourceAfter": "e2e14ed4bc09f91f6ddedf0a7ce030b6b1c578b51686a67b2d42cd83baef33b7",
+  "stable": true
+}
