@@ -1,6 +1,6 @@
 # Serpent Rivals (Kit, castle chapter)
 
-Status: model and tests built (`src/fantasy/rivals.js`, `tests/rivals.test.js`, physics-audit adapter `rivals`). Not wired into LEVELS, not rendered yet. Source idea: the owner's two-snake rivalry (`docs/MOONCOIL_RELIQUARY.md`, "Future direction"; `design/phase2/new-concepts.md` §1).
+Status: built and wired as chapter 11 (LEVELS slot 10, `?level=11`): model `src/fantasy/rivals.js`, renderer `src/fantasy/rivals-render.js`, art `assets/rivals` (packed as `ART.rivals`), tests `tests/rivals.test.js` and `tests/castle-chapters.test.js`, physics-audit adapter `rivals`, review shots from `tools/playtest/rivals-review.mjs`. Source idea: the owner's two-snake rivalry (`docs/MOONCOIL_RELIQUARY.md`, "Future direction"; `design/phase2/new-concepts.md` §1).
 
 ## Goal
 
