@@ -1,6 +1,7 @@
 // Shared gameplay for every level: paddle, balls, serve and Focus aim, power-ups, lives, combo, juice.
 import { makeBall, stepBall, cellAt } from './physics.js';
-import { FX, drawBall, drawKitFace, capsule, POWER, rrect, shade, text, SHADOW, SPR, ready } from './gfx.js';
+import { FX, drawBall, drawKitFace, capsule, POWER, rrect, shade, text, SHADOW, SPR, ready, loadImg } from './gfx.js';
+import { ART } from './vault-art.js';
 import { sfx } from './audio.js';
 import { difficulty } from './difficulty.js';
 import { store } from './prefs.js';
@@ -8,6 +9,10 @@ import { kitExpression, updateKitPresence, kitLayout } from './kit.js';
 import { drawNixControl, SPACE_POWERS, KIT_POWERS } from './space-companions.js';
 
 import { drawPlayerBolt } from './space-weapons.js';
+
+// Hero paddle skins (art/paddle_skins): a level sets this.paddleSkin = 'kit' | 'lumi'; others keep the chrome paddle.
+const PADDLE_SKINS = Object.fromEntries(Object.entries(ART.paddleSkins || {}).map(([id, s]) =>
+  [id, Object.fromEntries(Object.entries(s).map(([k, part]) => [k, { img: loadImg(part.url) }]))]));
 
 const BALL_SPEED = 345;
 const FOCUS_SLOW = 0.25;
@@ -436,7 +441,8 @@ export class Arena {
     if (stun) { g.globalAlpha = 0.45; g.fillStyle = '#ff4d5e'; rrect(g, x, y, p.w, h, h / 2); g.fill(); g.globalAlpha = 1; }
   }
   drawPaddleArt(g, p) {
-    const x = p.x - p.w / 2, y = p.y, h = p.h, L = SPR.paddle_l, M = SPR.paddle_m, R = SPR.paddle_r;
+    const skin = PADDLE_SKINS[this.paddleSkin], parts = skin && ready(skin.l) && ready(skin.m) && ready(skin.r) ? skin : null;
+    const x = p.x - p.w / 2, y = p.y, h = p.h, L = parts?.l || SPR.paddle_l, M = parts?.m || SPR.paddle_m, R = parts?.r || SPR.paddle_r;
     if (ready(L) && ready(M) && ready(R)) { // rendered chrome paddle: two end caps and a middle stretched to the width
       g.drawImage(L.img, x - 4, y - 4, 16, 20); g.drawImage(M.img, x + 12, y - 4, p.w - 24, 20); g.drawImage(R.img, x + p.w - 12, y - 4, 16, 20);
     } else {

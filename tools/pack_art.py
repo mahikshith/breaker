@@ -53,6 +53,15 @@ if os.path.exists(fx_manifest):
         with Image.open(os.path.join(ROOT, spec['path'])) as im:
             assert im.mode == 'RGBA' and not im.info and list(im.size) == spec['px'], f'Invalid fx part: {key}'
             art['fxKit'][key] = {'url': uri(im, 100, lossless=True), 'uw': spec['drawSize'][0], 'uh': spec['drawSize'][1]}
+skin_manifest = A('paddle-skins', 'skins-manifest.json')
+if os.path.exists(skin_manifest):
+    art['paddleSkins'] = {}
+    for key, parts in json.load(open(skin_manifest, encoding='utf-8'))['skins'].items():
+        art['paddleSkins'][key] = {}
+        for part, spec in parts.items():
+            with Image.open(os.path.join(ROOT, spec['path'])) as im:
+                assert im.mode == 'RGBA' and not im.info and list(im.size) == spec['px'], f'Invalid paddle skin: {key}_{part}'
+                art['paddleSkins'][key][part] = {'url': uri(im, 100, lossless=True)}
 art['spaceWeapons'] = {}
 for name in ('shot', 'impact'):
     path = os.path.join(ROOT, 'design', 'phase1', 'weapon-vfx-v3', f'plasma-{name}-runtime.png')
