@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "name": "BREACH — Nine-chapter castle preview",
+  "name": "BREACH — Ten-chapter castle preview",
   "sourceBranch": "codex/starship-run-prototype",
   "androidVersionCode": 6,
   "androidVersionName": "0.6-eight-chapter-preview",
   "reviewedCanonicalSha256": "828552a3e15ea3cfa606ea15ec7e65de10d0b2a79f5235584ace6d12c5ed5360",
-  "saveSlots": ["Carrier Breakout", "The Vault", "Circuit Breakout", "Shutter Forge", "Frost Warden", "Mooncoil Reliquary", "Bellforge Run", "Tidewheel Citadel", "Gatehouse Siege"],
-  "menuOrder": [0, 2, 3, 1, 4, 5, 6, 7, 8],
+  "saveSlots": ["Carrier Breakout", "The Vault", "Circuit Breakout", "Shutter Forge", "Frost Warden", "Mooncoil Reliquary", "Bellforge Run", "Tidewheel Citadel", "Gatehouse Siege", "Lumi Breaks Out"],
+  "menuOrder": [0, 2, 3, 1, 4, 5, 6, 7, 8, 9],
   "difficulties": ["easy", "medium", "hard"],
-  "scope": "Nine main chapters including Mooncoil Reliquary, Bellforge Run, Tidewheel Citadel, Gatehouse Siege, the emerald serpent presentation, corrected Carrier Focus/LASER contact, distinct companion controls, bounded powers and offline fonts. Standalone Starflight/Gatebreak is not included.",
+  "scope": "Ten main chapters including Mooncoil Reliquary, Bellforge Run, Tidewheel Citadel, Gatehouse Siege, Lumi Breaks Out, the emerald serpent presentation, corrected Carrier Focus/LASER contact, distinct companion controls, bounded powers and offline fonts. Standalone Starflight/Gatebreak is not included.",
   "limitations": "Debug preview; ads and purchases are local simulations. Physical-phone performance and human difficulty require device testing."
 }

@@ -38,7 +38,7 @@ export function drawSpacePowerMenu(g, level) {
   g.translate(0, (1 - eased) * 24 / s); g.globalAlpha *= eased;
   g.fillStyle = level.kitPowers ? '#302333' : '#242036'; rrect(g, a.x, a.y, a.w, a.h, 16 / s); g.fill();
   g.strokeStyle = level.kitPowers ? '#96667c' : '#826480'; g.lineWidth = 1 / s; g.stroke();
-  text(g, level.kitPowers ? 'KIT’S ARMOURY' : 'CHOOSE POWER', a.x + 16 / s, a.y + 23 / s, 14 / s, '#f2deec');
+  text(g, level.menuTitle || (level.kitPowers ? 'KIT’S ARMOURY' : 'CHOOSE POWER'), a.x + 16 / s, a.y + 23 / s, 14 / s, '#f2deec');
   text(g, '×', a.close.x + a.close.w / 2, a.y + 23 / s, 24 / s, '#cfbacf', 'center');
   for (const c of a.choices) {
     const cx = c.x + c.w / 2, cy = c.y + 23 / s;
