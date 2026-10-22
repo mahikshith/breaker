@@ -44,7 +44,28 @@ def spark():
     return [slab('streak', [(-6, 0), (-1, -.9), (6, 0), (-1, .9)], .6, m, y=-1.2, bevel=.25, segs=2)]
 
 
+def arrow():  # Kit's arrow in flight, tip up: same steel bodkin, wood and coral fletching as the Arrows icon
+    wood, steel, fletch = M('shaft', '#c08a5a', .4, 0, .5), M('bodkin', '#eef2fb', .22, .55, .8), M('fletch', '#ff6f61', .3, 0, .8)
+    return [pi.rod('shaft', 19, .55, wood, 0, -1, -1.5), pi.cone('head', 1.9, 5, steel, 0, 9.5, -1.5, verts=4),
+            slab('fl_a', [(0, 0), (2.2, -1.4), (2.2, -4.8), (0, -3.4)], .4, fletch, .4, -7.6, -1.55, bevel=.03),
+            slab('fl_b', [(0, 0), (-2.2, -1.4), (-2.2, -4.8), (0, -3.4)], .4, fletch, -.4, -7.6, -1.55, bevel=.03)]
+
+
+def bow():  # recurve bow aimed up: grip in front, limbs sweeping back to gold tips, string behind
+    wood, leather = M('bow_wood', '#9b6a45', .38, 0, .6), M('grip', '#4a2f2a', .55, 0, .3)
+    gold, string = M('tip_gold', '#ffc94a', .22, .6, .7), M('string', '#efe6d2', .5, 0, .2)
+    cu = bpy.data.curves.new('limbs', 'CURVE'); cu.dimensions = '3D'; cu.bevel_depth = .62 * rig.U; cu.bevel_resolution = 4
+    sp = cu.splines.new('POLY'); pts = [i / 20 for i in range(-20, 21)]; sp.points.add(len(pts) - 1)
+    for p, t in zip(sp.points, pts): p.co = (18 * t * rig.U, 0, (2 - 5 * t * t + 1.2 * max(0, abs(t) - .8) / .2) * rig.U, 1)
+    limbs = bpy.data.objects.new('limbs', cu); bpy.context.collection.objects.link(limbs); cu.materials.append(wood)
+    limbs.location = rig.at(0, 0, -1.2)
+    objs = [limbs, pi.rod('grip', 5, .95, leather, 0, 2, -1.5, rot=math.pi / 2), pi.rod('string', 34.6, .16, string, 0, -1.8, -1.0, rot=math.pi / 2)]
+    return objs + [sphere(f'tip{s}', .8, gold, s * 18, -1.8, -1.3) for s in (-1, 1)]
+
+
 PARTS = {  # id -> (builder, frame units w, h, use)
+    'arrow': (arrow, 8, 28, 'Kit arrow projectile, tip up; rotate along travel'),
+    'bow': (bow, 42, 14, 'paddle-mounted bow while Arrows is active'),
     'pip_empty': (lambda: socket() + gem('#1a1f2b', '#000000', 0), 9, 9, 'counter socket, unlit'),
     'pip_gold': (lambda: socket() + gem('#ffb21f', '#ff9a10', .7), 9, 9, 'counter lit: streak, health, charge'),
     'pip_blue': (lambda: socket() + gem('#2f7cf0', '#3f8cff', .6), 9, 9, 'Kit-themed lit counter'),
@@ -70,7 +91,7 @@ def main():
                       'sha256': hashlib.sha256(path.read_bytes()).hexdigest(), 'encodedBytes': path.stat().st_size}
     (OUT / 'fx-manifest.json').write_text(json.dumps({'version': 1, 'source': 'art/fx_kit/fx_kit.py', 'rig': 'art/render_vault_assets.py',
         'scope': 'Shared counter gems and crash pieces. Draw at drawSize (game units), centred.', 'parts': parts}, indent=2) + '\n')
-    sheet = Image.new('RGBA', (8 * 110, 150), (29, 26, 43, 255)); d = ImageDraw.Draw(sheet)
+    sheet = Image.new('RGBA', (len(parts) * 110, 150), (29, 26, 43, 255)); d = ImageDraw.Draw(sheet)
     for i, (key, item) in enumerate(parts.items()):
         im = Image.open(ROOT / item['path']).convert('RGBA'); x = 10 + i * 110
         sheet.alpha_composite(im.resize((im.width * 90 // max(im.size), im.height * 90 // max(im.size)), Image.Resampling.LANCZOS), (x, 10))

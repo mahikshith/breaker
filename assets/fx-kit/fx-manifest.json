@@ -4,6 +4,36 @@
   "rig": "art/render_vault_assets.py",
   "scope": "Shared counter gems and crash pieces. Draw at drawSize (game units), centred.",
   "parts": {
+    "arrow": {
+      "path": "assets/fx-kit/arrow.png",
+      "use": "Kit arrow projectile, tip up; rotate along travel",
+      "px": [
+        48,
+        168
+      ],
+      "ppu": 6,
+      "drawSize": [
+        8,
+        28
+      ],
+      "sha256": "ae23e9fa301ba3a5df9d7e2e5a8c5740f3611a73900090b0cec808da3ef33121",
+      "encodedBytes": 4859
+    },
+    "bow": {
+      "path": "assets/fx-kit/bow.png",
+      "use": "paddle-mounted bow while Arrows is active",
+      "px": [
+        252,
+        84
+      ],
+      "ppu": 6,
+      "drawSize": [
+        42,
+        14
+      ],
+      "sha256": "2bd06a11899edaab1369d56ea855c7383ad4756ce3855735205d8c4084db4636",
+      "encodedBytes": 8518
+    },
     "pip_empty": {
       "path": "assets/fx-kit/pip_empty.png",
       "use": "counter socket, unlit",
@@ -76,7 +106,7 @@
         8,
         8
       ],
-      "sha256": "1e0e0ce5b0f12181dd68c7a5658498c2789f7431e5abf76d64d97ecd42586281",
+      "sha256": "a01c39e2f5d8e03c11380ffc5a4aa0b523ed0f529240f8cb9d81b4b334687c26",
       "encodedBytes": 1422
     },
     "chip_b": {
@@ -106,7 +136,7 @@
         8,
         8
       ],
-      "sha256": "3560d13203ef5f58d2ccba47155d4e6e7facafe996746ea3dd9a0c84c5d40c72",
+      "sha256": "4836e6568dad68d5bcb6cbcced596aa0a1b53e89ab22a6c06048ff17210e6109",
       "encodedBytes": 902
     },
     "spark": {
@@ -121,8 +151,8 @@
         15,
         5
       ],
-      "sha256": "fe9a059b2d3ec9d1c23d929fcb98cb53e98f75becd1b01f31c6f9bebbf8a1545",
-      "encodedBytes": 1323
+      "sha256": "692db1c51d371c557289db2adb37cb3d500a4772e2df564dbfab4542a82b3aac",
+      "encodedBytes": 1326
     }
   }
 }

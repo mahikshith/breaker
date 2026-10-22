@@ -14,6 +14,7 @@ export function makeArt(){
   for(const [key,item] of Object.entries(F.tidewheel.bricks))images['brick/'+key]=loadImg(item.url);
   images['bellforge/background']=loadImg(ART.keepBackdrop);images['gatehouse/background']=images['bellforge/background'];
   images.waterShot=loadImg(F.waterShot.url);
+  for(const [key,item] of Object.entries(ART.fxKit||{}))images['fx/'+key]=loadImg(item.url); // rendered arrow, bow, gems, chips
   // Hero paddle skins (art/paddle_skins): Kit's blue enamel and Lumi's rose pearl, same three-slice contract as the chrome paddle.
   for(const [id,s] of Object.entries(ART.paddleSkins||{}))for(const k of['l','m','r'])images[id+'Skin'+k.toUpperCase()]=loadImg(s[k].url);
   for(const [key,sprite] of Object.entries({ball:'ball',titan:'ball_titan',paddleL:'paddle_l',paddleM:'paddle_m',paddleR:'paddle_r',cyan:'brick_t_2_0',rose:'brick_t_2_0',plum:'brick_v_2_0',pin:'brick_gold_1_0',shield:'cap_shield'}))images[key]=SPR[sprite].img;
@@ -661,7 +662,9 @@ export function drawEncounter(ctx,g,art,level){
   ctx.drawImage(art.images[pl],p.x-p.w/2-4,py-h/2,16,h);ctx.drawImage(art.images[pm],p.x-p.w/2+12,py-h/2,p.w-24,h);ctx.drawImage(art.images[pr],p.x+p.w/2-12,py-h/2,16,h);
   if(p.armed){ctx.save();ctx.globalCompositeOperation='lighter';pool(ctx,p.x,py-1,p.w/6+4,h*.32,'#ffc98a',.45+.3*beat);ctx.restore();}
   pips(ctx,p.x,py+h/2+5.5,3,p.armed?3:p.streak||0,{key:'pip_gold',gap:9.5,scale:.86,bloom:'#ffc98a',pulse:p.armed?beat:0});
-  if(g.powerTimers?.volley>0){
+  const fx=k=>{const im=art.images['fx/'+k];return im?.complete&&im.naturalWidth?im:null;};
+  if(g.powerTimers?.volley>0&&fx('bow'))ctx.drawImage(fx('bow'),p.x-21,py-15,42,14);
+  else if(g.powerTimers?.volley>0){
     ctx.save();ctx.translate(p.x,py-8);ctx.lineCap='round';
     ctx.strokeStyle='#382e24';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(-20,2);ctx.quadraticCurveTo(0,-12,20,2);ctx.stroke();
     ctx.strokeStyle='#e1cba1';ctx.lineWidth=2;ctx.stroke();
@@ -670,6 +673,7 @@ export function drawEncounter(ctx,g,art,level){
   }
   for(const shot of g.shots||[]){
     ctx.save();ctx.translate(shot.x,shot.y);ctx.rotate(Math.atan2(shot.vy,shot.vx)+Math.PI/2);
+    if(fx('arrow')){ctx.drawImage(fx('arrow'),-4,-10,8,28);ctx.restore();continue;}
     line(ctx,{x:0,y:15},{x:0,y:-5},'#433122',3);line(ctx,{x:-.5,y:14},{x:-.5,y:-5},'#ecd5ac',1.2);
     ctx.fillStyle='#d9e7e8';ctx.beginPath();ctx.moveTo(0,-9);ctx.lineTo(-4,-2);ctx.lineTo(0,-4);ctx.lineTo(4,-2);ctx.closePath();ctx.fill();
     for(const side of[-1,1]){ctx.fillStyle='#b87861';ctx.beginPath();ctx.moveTo(0,10);ctx.lineTo(side*4,14);ctx.lineTo(side*4,19);ctx.lineTo(0,16);ctx.fill();}ctx.restore();
