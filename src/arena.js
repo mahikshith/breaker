@@ -14,6 +14,9 @@ import { drawPlayerBolt } from './space-weapons.js';
 const PADDLE_SKINS = Object.fromEntries(Object.entries(ART.paddleSkins || {}).map(([id, s]) =>
   [id, Object.fromEntries(Object.entries(s).map(([k, part]) => [k, { img: loadImg(part.url) }]))]));
 
+// Rendered arrow and bow (art/fx_kit) replace the line-drawn ones when loaded.
+const FX_KIT = Object.fromEntries(Object.entries(ART.fxKit || {}).map(([id, part]) => [id, { ...part, img: loadImg(part.url) }]));
+
 const BALL_SPEED = 345;
 const FOCUS_SLOW = 0.25;
 const RALLY_MAX = 1.28;      // balls pick up a little speed on every paddle hit, up to this much
@@ -430,6 +433,7 @@ export class Arena {
     this.drawPaddleArt(g, p);
     if (p.laserT > 0) for (const s of [-1, 1]) {
       const ex = p.x + s * (p.w / 2 - 7), on = Math.max(0, 1 - p.laserCd / 0.3);
+      if (this.kitPowers && ready(FX_KIT.bow)) { g.drawImage(FX_KIT.bow.img, ex - 13, y - 12, 26, 9); continue; }
       if (this.kitPowers) {
         g.strokeStyle = '#d8a7b7'; g.lineWidth = 2;
         g.beginPath(); g.moveTo(ex - 6, y - 2); g.quadraticCurveTo(ex, y - 10, ex + 6, y - 2); g.stroke();
@@ -476,6 +480,7 @@ export class Arena {
   }
   drawShots(g) {
     for (const s of this.shots) {
+      if (s.kind === 'arrow' && ready(FX_KIT.arrow)) { g.drawImage(FX_KIT.arrow.img, s.x - 3.5, s.y - 1, 7, 24.5); continue; }
       if (s.kind === 'arrow') {
         g.strokeStyle = '#d9bd9f'; g.lineWidth = 1.6;
         g.beginPath(); g.moveTo(s.x, s.y + 3); g.lineTo(s.x, s.y + 19); g.stroke();
