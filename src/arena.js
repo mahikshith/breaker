@@ -5,7 +5,7 @@ import { ART } from './vault-art.js';
 import { sfx } from './audio.js';
 import { difficulty } from './difficulty.js';
 import { store } from './prefs.js';
-import { kitExpression, updateKitPresence, kitLayout } from './kit.js';
+import { kitExpression, updateKitPresence, kitLayout, drawChargeReady } from './kit.js';
 import { drawNixControl, SPACE_POWERS, KIT_POWERS } from './space-companions.js';
 
 import { drawPlayerBolt } from './space-weapons.js';
@@ -397,7 +397,8 @@ export class Arena {
   drawDeck(g) {
     if (this.spacePowers) { drawNixControl(g, this); return; }
     if (this.coreMode !== 'ward') return;
-    const s = this.kitUIScale, orb = this.kitAnchor(), p = this.paddle;
+    const s = this.kitUIScale, orb = this.kitAnchor(), p = this.paddle, swell = drawChargeReady(g, this, orb);
+    g.save(); g.translate(orb.x, orb.y); g.scale(swell, swell); g.translate(-orb.x, -orb.y);
     g.save(); g.beginPath(); g.arc(orb.x, orb.y, orb.r - 3 / s, 0, Math.PI * 2); g.clip();
     g.fillStyle = '#3d2b3d'; g.fillRect(orb.x - orb.r, orb.y - orb.r, orb.r * 2, orb.r * 2);
     drawKitFace(g, orb.x, orb.y, orb.r * 2 - 6 / s, this.kitMood, this.kitFace);
@@ -406,6 +407,7 @@ export class Arena {
     if (p.charge > 0) {
       g.strokeStyle = p.charge >= 1 ? '#f2a6c4' : '#d37b9f'; g.beginPath(); g.arc(orb.x, orb.y, orb.r - 1.5 / s, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * p.charge); g.stroke();
     }
+    g.restore();
   }
   drawPaddle(g) {
     const p = this.paddle, x = p.x - p.w / 2, y = p.y, h = p.h, ptr = this.ptr;
