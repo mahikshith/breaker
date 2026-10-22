@@ -48,7 +48,8 @@ test('compact top HUD uses the game font for scores and shows five lives above p
   });
   for (const score of [999999, 9999999, Number.MAX_SAFE_INTEGER]) {
     labels.length = images.length = 0; l.score = score; l.drawHUDBase(g);
-    assert.equal(new Set(images.map(args => args[1])).size, 5, 'all five life positions draw');
+    // The AIM sockets are rendered gems too (x >= 140); the lives sit left of them.
+    assert.equal(new Set(images.filter(args => args[1] < 140).map(args => args[1])).size, 5, 'all five life positions draw');
     const value = labels.filter(p => p.str !== 'AIM').at(-1);
     assert(value.font.includes('Lilita One') && !value.font.includes('Rubik'));
     assert(value.y < 60, 'score lives in the top HUD');

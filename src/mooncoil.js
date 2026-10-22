@@ -1,7 +1,7 @@
 import { Vault } from './vault.js';
 import { makeBall, stepBall } from './physics.js';
 import { ART } from './vault-art.js';
-import { text, rrect, cached, loadImg, ready } from './gfx.js';
+import { text, rrect, cached, loadImg, ready, softRing } from './gfx.js';
 import { sfx } from './audio.js';
 
 const MOON_BACKGROUND = ART.mooncoil?.background ? loadImg(ART.mooncoil.background) : null;
@@ -72,7 +72,7 @@ export class Mooncoil extends Vault {
     this.dropPower(x, y, ['split', 'wide', 'fire'][this.clashes % 3]);
     this.addScore(250); this.combo++;
     this.fx.pop(Math.max(70, Math.min(this.W - 70, x)), Math.max(110, y - 22), 'CLASH!', '#c9ff9e', 20);
-    this.fx.shatter(x - 8, y - 8, 16, 16, '#d9ffb8', 10, .9); sfx.boom(); sfx.hurt(); this.bump(.5, .07);
+    this.fx.shatter(x - 8, y - 8, 16, 16, '#d9ffb8', 10, .9, 'teal'); sfx.boom(); sfx.hurt(); this.bump(.5, .07);
     this.play('Cheer'); this.say('They’re fighting!', 1.3);
     return true;
   }
@@ -112,7 +112,7 @@ export class Mooncoil extends Vault {
     this.barsT = this.t; this.barsWob = 1; this.cageFlash = .25;
     this.cageHP = Math.max(0, this.cageHP - (ball.titan > 0 ? 2 : 1));
     this.brokeBrick(ball); this.addScore(75, this.prisonX, this.floorY);
-    this.fx.shatter(ball.x - 3, ball.y - 3, 6, 6, '#c9c2ef', 5, .7);
+    this.fx.shatter(ball.x - 3, ball.y - 3, 6, 6, '#c9c2ef', 5, .7, 'violet');
     this.play('Cheer'); sfx.tough(); this.bump(.14, .025);
     this.checkBreach();
   }
@@ -211,8 +211,7 @@ export class Mooncoil extends Vault {
       super.drawSnake(g); g.restore();
       if (this.moonbindT > 0 && this.phase === 'rescue') {
         const p = this.snakePoints()[0];
-        g.save(); g.strokeStyle = '#c5aaff'; g.lineWidth = 2; g.globalAlpha = .65;
-        g.beginPath(); g.ellipse(p.x, p.y, 22, 13, this.t, 0, Math.PI * 2); g.stroke(); g.restore();
+        softRing(g, p.x, p.y, 22, 2.6, '#c5aaff', .7, 13, this.t);
       }
     });
   }
@@ -246,8 +245,7 @@ export class Mooncoil extends Vault {
     super.drawBalls(g);
     for (const pulse of this.moonPulses) {
       const radius = Math.min(92, pulse.age * 300), alpha = (1 - pulse.age / .6) * .5;
-      g.save(); g.globalAlpha = alpha; g.strokeStyle = pulse.reached ? '#d8e9ff' : '#ada0d5'; g.lineWidth = 3;
-      g.beginPath(); g.arc(pulse.x, pulse.y, radius, 0, Math.PI * 2); g.stroke(); g.restore();
+      softRing(g, pulse.x, pulse.y, radius, 4, pulse.reached ? '#d8e9ff' : '#ada0d5', alpha * 1.4);
     }
     for (const b of this.crystals) {
       g.save(); g.strokeStyle = '#a7e8df'; g.lineWidth = 3;

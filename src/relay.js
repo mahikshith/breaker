@@ -1,7 +1,7 @@
 import { ART } from './vault-art.js';
 import { difficulty } from './difficulty.js';
 import { Arena } from './arena.js';
-import { loadImg, ready, drawBall, drawStretchPaddle } from './gfx.js';
+import { loadImg, ready, drawBall, drawStretchPaddle, glazedBar } from './gfx.js';
 import { sweepTarget } from './carrier-physics.js';
 import { sfx } from './audio.js';
 import { RAM } from './fantasy/ram.js';
@@ -230,7 +230,7 @@ export class Relay extends Arena {
     this.drawDeck(g);this.drawHUD(g);if(this.debugGeometry)this.drawGeometry(g);
   }
   drawCraft(g){drawLiveSkiff(g,this);if(this.phase==='flight')for(const s of this.shots)drawPlayerBolt(g,s,this.clock-s.bornAt);}
-  drawHUD(g){this.drawHUDBase(g);const s=this.kitUIScale,y=this.hudY+39/s;g.fillStyle='#30344d';g.fillRect(110/s,y,140/s,3/s);g.fillStyle='#c4a8f3';g.fillRect(110/s,y,140/s*this.hp/this.maxHP,3/s);if(this.phase==='flight'){g.fillStyle='#a4d8f1';g.fillRect(135/s,y+9/s,80/s*Math.min(this.burstRemaining/this.rules.burst,this.skiffAmmo/12),2/s);}}
+  drawHUD(g){this.drawHUDBase(g);const s=this.kitUIScale,y=this.hudY+39/s;glazedBar(g,110/s,y-1/s,140/s,5/s,this.hp/this.maxHP,'#ecdcff','#8a63d0');if(this.phase==='flight'){g.fillStyle='#a4d8f1';g.fillRect(135/s,y+9/s,80/s*Math.min(this.burstRemaining/this.rules.burst,this.skiffAmmo/12),2/s);}}
   inspect(){return{state:this.state,phase:this.phase,difficulty:this.difficulty,clock:this.clock,hp:this.hp,maxHP:this.maxHP,nodes:this.nodes.map(n=>({id:n.id,hp:n.hp,port:this.portPose(n)})),guns:this.guns.map(c=>({id:c.id,hp:c.hp})),burstSpent:this.burstSpent,burstRemaining:this.burstRemaining,queued:[...this.queuedPowers],iris:this.irisPose(),attack:this.attack&&{...this.attack},paddle:{...this.paddle},targets:this.targets()};}
   result(){return{stars:this.state==='won'?1+(this.lives>=2?1:0)+(this.guns.every(g=>g.hp===0)?1:0):0,lines:[['Score',this.score.toLocaleString()],['Mothership',this.hp===0?'Disabled':`${this.hp} / ${this.maxHP}`],['Lives left',this.lives]]};}
   part(g, id, x, y, w, h, angle = 0, alpha = 1) {

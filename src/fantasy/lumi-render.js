@@ -60,6 +60,24 @@ function lantern(ctx, g, x, y) {
   glow(ctx, x, y + 6, 46, '#ff9a4a', .3 * fl); glow(ctx, x, y + 6, 18, '#ffd49a', .5 * fl);
   if (ready(s)) ctx.drawImage(s.img, x - 8 - s.margin * 0, y - 6, 16, 24);
 }
+// Keep banners cut from the Bellforge hall plate (the fleur-de-lis pennant at 100..152 x 165..401 px), hung in pairs with a
+// lantern between them wherever a tall phone leaves bare wall above the gate. Scenery only: nothing here collides.
+const KEEP = ART.keepBackdrop ? loadImg(ART.keepBackdrop) : null, PENNANT = [100, 165, 52, 236];
+function banner(ctx, x, y, h) {
+  if (!KEEP?.complete || !KEEP.naturalWidth) return;
+  const [sx, sy, sw, sh] = PENNANT, w = h * sw / sh, tip = h * 31 / sh;
+  const shape = (dx, dy) => { ctx.beginPath(); ctx.moveTo(x - w / 2 + dx, y + dy); ctx.lineTo(x + w / 2 + dx, y + dy); ctx.lineTo(x + w / 2 + dx, y + h - tip + dy); ctx.lineTo(x + dx, y + h + dy); ctx.lineTo(x - w / 2 + dx, y + h - tip + dy); ctx.closePath(); };
+  ctx.save(); ctx.fillStyle = '#05030c88'; shape(2, 3); ctx.fill(); shape(0, 0); ctx.clip();
+  ctx.drawImage(KEEP, sx, sy, sw, sh, x - w / 2, y, w, h);
+  const sh2 = ctx.createLinearGradient(x - w / 2, 0, x + w / 2, 0); sh2.addColorStop(0, '#00000040'); sh2.addColorStop(.35, '#0000'); sh2.addColorStop(1, '#00000055'); ctx.fillStyle = sh2; ctx.fillRect(x - w / 2, y, w, h);
+  ctx.restore();
+  const rod = ctx.createLinearGradient(0, y - 2, 0, y + 2); rod.addColorStop(0, '#f0cf8a'); rod.addColorStop(1, '#6b4a22'); ctx.fillStyle = rod; ctx.beginPath(); ctx.roundRect(x - w / 2 - 3, y - 2, w + 6, 3.4, 1.7); ctx.fill();
+}
+function wallDressing(ctx, g, top, bottom) {
+  const h = Math.min(96, bottom - top - 14); if (h < 40) return;
+  for (const x of [112, 248]) banner(ctx, x, top + 6, h);
+  lantern(ctx, g, 180, bottom - 32);
+}
 // ---------- floor scenery ----------
 // A dark stone cornice in the wall's own courses, so the hatch beams belong to the tower.
 function ledge(ctx, x, y, w, h) {
@@ -74,12 +92,14 @@ function hatchFrame(ctx, art, g) {
   const sh = ctx.createLinearGradient(0, 180, 0, 204); sh.addColorStop(0, '#0009'); sh.addColorStop(1, '#0000'); ctx.fillStyle = sh; ctx.fillRect(0, 180, g.width, 24);
 }
 function floorCell(ctx, art, g) {
+  wallDressing(ctx, g, -20, 70);
   hatchFrame(ctx, art, g); const open = g.phase === 'climb';
   glow(ctx, 180, 128, 120, '#ffb0c8', .12 + .03 * Math.sin(g.time * 2)); glow(ctx, 180, 110, 60, '#ffd6a0', .12);
   const clip = open ? 'Cheer' : g.lunges.length ? 'Nervous' : 'Idle';
   if (!open) charSprite(ctx, art, clip, g.time, 180, 150, { size: 66 });
 }
 function floorSerpent(ctx, art, g) {
+  wallDressing(ctx, g, -20, 70);
   hatchFrame(ctx, art, g); glow(ctx, 180, 120, 150, '#ffd6a0', .05); const open = g.phase === 'climb';
   if (open) glow(ctx, 180, 130, 140, '#ffe3b0', .35);
 }
@@ -106,9 +126,21 @@ function hatchBars(ctx, g) {
   const total = all.reduce((s, b) => s + b.maxHP, 0), done = total - all.reduce((s, b) => s + Math.max(0, b.hp), 0);
   if (bars.length || g.phase === 'play' || g.phase === 'serve') text(ctx, `HATCH ${done} / ${total}`, 180, 193, 11, '#f3dca8', 'center');
 }
+// Tower bricks get the castle glaze (render.js glazed()): the rendered brick seated on a soft contact shadow, a glaze band
+// across its top and a small specular glint at the top-left. Baked once per colour and size.
+function glazedTile(key, w, h) {
+  const s = SPR[`brick_${key}_2_0`], P = 6, k = w / 32;
+  return cached(`lumi-glaze-${key}-${w}-${h}`, w + P * 2, h + P * 2 + 2, c => {
+    c.save(); c.shadowColor = '#000000a0'; c.shadowBlur = 5; c.shadowOffsetX = 1.2; c.shadowOffsetY = 2.6; c.drawImage(s.img, P - 4 * k, P - 4 * k, 40 * k, 24 * k); c.restore();
+    c.save(); c.beginPath(); c.roundRect(P + 1.6, P + 1.2, w - 3.2, h * .46, [3.2, 3.2, 1.5, 1.5]); c.clip();
+    const gl = c.createLinearGradient(0, P, 0, P + h * .5); gl.addColorStop(0, '#ffffff66'); gl.addColorStop(.55, '#ffffff18'); gl.addColorStop(1, '#ffffff00'); c.fillStyle = gl; c.fillRect(P, P, w, h); c.restore();
+    const sp = c.createRadialGradient(P + 5, P + 3.4, 0, P + 5, P + 3.4, 4.2); sp.addColorStop(0, '#ffffffd0'); sp.addColorStop(1, '#ffffff00'); c.fillStyle = sp;
+    c.save(); c.translate(P + 5, P + 3.4); c.scale(1.8, .7); c.translate(-P - 5, -P - 3.4); c.fillRect(P, P, 10, 8); c.restore();
+  });
+}
 export function lbrick(ctx, b) {
-  const s = SPR[`brick_${BRICK[b.colour] || 'v'}_2_0`], k = b.w / 32;
-  if (ready(s)) ctx.drawImage(s.img, b.x - 4 * k, b.y - 4 * k, 40 * k, 24 * k);
+  const key = BRICK[b.colour] || 'v', s = SPR[`brick_${key}_2_0`];
+  if (ready(s)) ctx.drawImage(glazedTile(key, b.w, b.h), b.x - 6, b.y - 6, b.w + 12, b.h + 14);
   else { ctx.fillStyle = '#6a5bb0'; ctx.fillRect(b.x, b.y, b.w, b.h); }
   if (b.colour === 'gold') { const cx = b.x + b.w / 2, cy = b.y + b.h / 2; glow(ctx, cx, cy, 11, '#ff5a6a', .55); ctx.fillStyle = '#ff3d55'; ctx.beginPath(); ctx.moveTo(cx, cy - 5); ctx.lineTo(cx + 6, cy); ctx.lineTo(cx, cy + 5); ctx.lineTo(cx - 6, cy); ctx.fill(); ctx.fillStyle = '#ffd0d6aa'; ctx.beginPath(); ctx.moveTo(cx - 1, cy - 3.5); ctx.lineTo(cx + 2.5, cy - 1); ctx.lineTo(cx - 1, cy); ctx.fill(); }
 }
@@ -336,4 +368,4 @@ export function renderLumi(ctx, g, art) {
   else if (g.floorTime < 1.6 && g.phase !== 'escape' && g.state === 'play') gBanner(ctx, g, `FLOOR ${n} / 3 · ${LUMI_FLOORS[g.floor].toUpperCase()}`, g.floor ? Math.min(1, (1.6 - g.floorTime) * 1.6) : 1);
 }
 // Shared with the Serpent Rivals renderer (rivals-render.js).
-export { star, wave, note, lantern, ledge };
+export { star, wave, note, lantern, ledge, wallDressing };

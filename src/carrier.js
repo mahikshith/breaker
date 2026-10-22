@@ -1,6 +1,6 @@
 import { Arena } from './arena.js';
 import { ART } from './vault-art.js';
-import { cached, loadImg, ready, text, drawBall, drawStretchPaddle } from './gfx.js';
+import { cached, loadImg, ready, text, drawBall, drawStretchPaddle, softRing, drawGem } from './gfx.js';
 import { sweepTarget, overlapsTarget } from './carrier-physics.js';
 import { sfx } from './audio.js';
 import { RAM } from './fantasy/ram.js';
@@ -254,10 +254,11 @@ export class Carrier extends Arena {
     this.fx.ring(b.x, b.y, brick ? '#8ce8f8' : '#f1a1d4', brick ? 10 : 15);
     if (obj.hp <= 0) {
       if (brick || crew) this.brokeBrick();
+      if (brick) { const r = obj.art.rect, pink = obj.part === 'aBrickPink'; this.fx.shatter(r.x, r.y, r.w, r.h, pink ? '#e2459b' : '#1aa6e0', 5, .8, pink ? 'pink' : 'cyan'); }
       if (brick && obj.payload) this.dropPower(obj.art.rect.x + obj.art.rect.w / 2, obj.art.rect.y + obj.art.rect.h, obj.payload);
       if (crew) { obj.releasedAt = this.clock; if (pulled?.pull) obj.rescueFrom = { x: pulled.x, y: pulled.y }; sfx.power(); if (this.raid?.targetId === obj.id) this.endRaid(); }
       if (this.raid?.fighterId === obj.id) this.endRaid();
-      if (this.fighters.includes(obj)) { const p = this.fighterPose(obj); this.fx.shatter(p.x - 14, p.y - 9, 28, 18, '#bd9ac8', 6); sfx.boom(); }
+      if (this.fighters.includes(obj)) { const p = this.fighterPose(obj); this.fx.shatter(p.x - 14, p.y - 9, 28, 18, '#bd9ac8', 6, 1, 'hull'); sfx.boom(); }
       if (this.attack?.id === id && !this.attack.sources) this.attack = null;
     }
     if (this.carrier.hp <= 0 && !this.shutdown) this.disableCarrier();
@@ -509,7 +510,7 @@ export class Carrier extends Arena {
     for (const b of this.balls) {
       if (this.phase !== 'carrier') continue;
       if (b.titan > 0 || b.ram > 0) { drawBall(g, b); continue; }
-      if (b.fire) { g.strokeStyle = '#f3a76e'; g.lineWidth = 2; g.beginPath(); g.arc(b.x, b.y, b.r + 3, 0, TAU); g.stroke(); }
+      if (b.fire) softRing(g, b.x, b.y, b.r + 2.5, 2.2, '#f3a76e', .9);
       const a = fit('ball', [b.x - b.r, b.y - b.r, b.r * 2, b.r * 2]); part(g, 'ball', a.x, a.y, a.w, a.h);
     }
   }
@@ -675,7 +676,7 @@ export class Carrier extends Arena {
     this.drawHUDBase(g);
     if (!Number.isFinite(this.rules.waveSeconds)) return;
     const s = this.kitUIScale, y = this.hudY + 41 / s, x = this.W / 2;
-    for (let i = 0; i < this.rules.waves; i++) { g.fillStyle = i < this.encounterWave ? '#cba6d8' : '#3f4059'; g.beginPath(); g.arc(x - 30 / s + i * 9 / s, y, 2.2 / s, 0, TAU); g.fill(); }
+    for (let i = 0; i < this.rules.waves; i++) drawGem(g, i < this.encounterWave ? 'pip_rose' : 'pip_empty', x - 34 / s + i * 10 / s, y, .8 / s);   // wave gems
     const seconds = Math.ceil(this.waveRemaining), label = this.carrier.hp <= 0 ? 'DISABLED' : `JUMP ${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
     text(g, label, x + 14 / s, y, 11 / s, this.waveRemaining <= 20 && this.carrier.hp > 0 ? '#f0a3bc' : '#c6c3da', 'center');
   }

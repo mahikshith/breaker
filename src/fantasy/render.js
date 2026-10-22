@@ -1,5 +1,5 @@
 import { ART } from '../vault-art.js';
-import { SPR, loadImg, artLoaded, text, cached } from '../gfx.js';
+import { SPR, loadImg, artLoaded, text, cached, drawGlint } from '../gfx.js';
 import { GATEHOUSE_FLOORS } from './gatehouse.js';
 import { renderLumi } from './lumi-render.js';
 import { renderRivals } from './rivals-render.js';
@@ -12,6 +12,8 @@ export function makeArt(){
   for(const family of ['nerra','korr'])for(const [pose,item] of Object.entries(F.reactions[family]))add(family+'Reaction',pose,item);
   manifest.tidewheel.bricks=F.tidewheel.bricks;
   for(const [key,item] of Object.entries(F.tidewheel.bricks))images['brick/'+key]=loadImg(item.url);
+  // Premium pass: Bellforge glazed ceramic bricks and pin plates, mapped through the same contact anchors as the Tidewheel tile.
+  manifest.premium=ART.premium?.bricks||{};for(const [key,item] of Object.entries(manifest.premium))images['premium/'+key]=loadImg(item.url);
   images['bellforge/background']=loadImg(ART.keepBackdrop);images['gatehouse/background']=images['bellforge/background'];
   images.waterShot=loadImg(F.waterShot.url);
   for(const [key,item] of Object.entries(ART.fxKit||{}))images['fx/'+key]=loadImg(item.url); // rendered arrow, bow, gems, chips
@@ -58,7 +60,25 @@ function tbrick(ctx,art,key,x,y,bw,bh){
   const m=art.manifest.tidewheel.bricks[key],a=m.anchors.contactTopLeft,z=m.anchors.contactBottomRight;
   const w=bw/(z[0]-a[0]),h=bh/(z[1]-a[1]);ctx.drawImage(art.images['brick/'+key],x-a[0]*w,y-a[1]*h,w,h);
 }
+const CERAMIC={cyan:'ceramic_teal',rose:'ceramic_coral',plum:'ceramic_plum'};
+function premiumReady(art,key){const img=art.images['premium/'+key];return art.manifest.premium?.[key]&&img?.complete&&img.naturalWidth?img:null;}
+function pbrick(ctx,art,key,x,y,bw,bh){
+  const m=art.manifest.premium[key],a=m.anchors.contactTopLeft,z=m.anchors.contactBottomRight,w=bw/(z[0]-a[0]),h=bh/(z[1]-a[1]);
+  ctx.drawImage(art.images['premium/'+key],x-a[0]*w,y-a[1]*h,w,h);
+}
+// A rendered brick with a soft contact shadow, baked once per key and size (the Gatehouse bricks sit the same way).
+function seated(ctx,art,key,x,y,w,h){
+  const P=6,img=cached(`seated-${key}-${w}-${h}`,w+P*2,h+P*2+2,c=>{c.save();c.shadowColor='#000000a0';c.shadowBlur=5;c.shadowOffsetX=1.2;c.shadowOffsetY=2.6;pbrick(c,art,key,P,P,w,h);c.restore();});
+  ctx.drawImage(img,x-P,y-P,w+P*2,h+P*2+2);
+}
 function brick(ctx,art,b,x=b.x,y=b.y){
+  const pin=b.type==='pin'&&'pin_'+Math.max(1,Math.min(2,b.hp))+'hp';
+  if(pin&&premiumReady(art,pin)){
+    seated(ctx,art,pin,x,y,b.w,b.h);
+    const m=art.manifest.bellforge.ratchet,img=art.images['bellforge/ratchet'],cx=m.pivot[0]*m.size[0],cy=m.pivot[1]*m.size[1];
+    ctx.drawImage(img,cx-45,cy-45,90,90,x+b.w/2-7,y+b.h/2-7,14,14);return;
+  }
+  if(CERAMIC[b.colour]&&premiumReady(art,CERAMIC[b.colour])){seated(ctx,art,CERAMIC[b.colour],x,y,b.w,b.h);return;}
   if(b.type==='pin'){
     const metal=ctx.createLinearGradient(x,y,x,y+b.h);metal.addColorStop(0,'#d3b076');metal.addColorStop(.25,'#705335');metal.addColorStop(1,'#302b27');
     ctx.fillStyle=metal;ctx.beginPath();ctx.roundRect(x,y,b.w,b.h,3);ctx.fill();ctx.strokeStyle='#d5b77e';ctx.lineWidth=.8;ctx.stroke();
@@ -484,9 +504,12 @@ function floorDuel(ctx,g,art){
 }
 // Brick break stays quiet (three crumbs). Structural crashes throw rendered stone chips, gold spark streaks, plate fragments and soft dust;
 // small impacts are a brief warm bloom plus a few streaks. Nothing here is a stroked ring.
-function gEffects(ctx,g,art){
+function gEffects(ctx,g,art){for(const e of g.effects)gEffect(ctx,art,e);}
+// Bellforge shares the Gatehouse's rendered bell, Korr and ratchet hits (it used to fall through to four bare sparks).
+const SHARED_FX=new Set(['bell-hit','bell-break','bell-shoulder','bell-release','korr-hit','ratchet']);
+function gEffect(ctx,art,e){
   const T=art.manifest.tidewheel,B=art.manifest.bellforge;
-  for(const e of g.effects){
+  {
     const q=e.age/e.life,a=1-q;ctx.save();ctx.globalAlpha=a;
     switch(e.kind){
       case'bell-warning':case'paddle':break;
@@ -509,10 +532,10 @@ function gEffects(ctx,g,art){
       case'gate-open':{ctx.globalAlpha=1;const k=Math.sin(Math.PI*clamp01(q));glow(ctx,180,250,130,'#ffc46b',.5*k);dust(ctx,180,262,e.age,e.life,6,70,14,'#b9a177');
         chips(ctx,180,164,e.age,e.life,10,90,1,15,.6);sparks(ctx,180,262,e.age,8,150,[],2.2,16);break;}
       case'bell-release':ctx.globalAlpha=1;dust(ctx,e.x,e.y,e.age,e.life,3,14,8,'#7e7769');glow(ctx,e.x,e.y,22,'#ffc98a',a*.45);chips(ctx,e.x,e.y,e.age,e.life,3,40,.7,9,.4);break;
-      case'bell-hit':ctx.globalAlpha=1;glow(ctx,e.x,e.y,26,'#ffe0a0',a*.6);sparks(ctx,e.x,e.y,e.age,5,150,[],1.9,13);break;
+      case'bell-hit':ctx.globalAlpha=1;glow(ctx,e.x,e.y,26,'#ffe0a0',a*.6);drawGlint(ctx,e.x,e.y,13,q,'#ffd88a');sparks(ctx,e.x,e.y,e.age,5,150,[],1.9,13);break;
       case'bell-break':ctx.globalAlpha=1;chunks(ctx,art,'bellforge/bell',B.bell,BELL,e.x,e.y,e.age,e.life,9,170,11,17);glow(ctx,e.x,e.y,30,'#ffd88a',a*.45);sparks(ctx,e.x,e.y,e.age,5,140,[],1.9,18);break;
       case'bell-shoulder':ctx.globalAlpha=1;chunks(ctx,art,'bellforge/bell',B.bell,BELL,e.x,e.y,e.age,e.life,12,210,13,19);glow(ctx,e.x,e.y,56,'#ffc46b',a*.6);chips(ctx,e.x,e.y,e.age,e.life,6,150,1,20);sparks(ctx,e.x,e.y,e.age,10,210,[],2.3,20);break;
-      case'korr-hit':ctx.globalAlpha=1;glow(ctx,e.x,e.y,24,'#ffb96b',a*.4);sparks(ctx,e.x,e.y,e.age,5,130,[],1.9,23);break;
+      case'korr-hit':ctx.globalAlpha=1;glow(ctx,e.x,e.y,24,'#ffb96b',a*.4);drawGlint(ctx,e.x,e.y,12,q,'#ffc070');sparks(ctx,e.x,e.y,e.age,5,130,[],1.9,23);break;
       case'stagger':{ctx.globalAlpha=Math.min(1,a*3);glow(ctx,e.x,e.y,40+e.age*40,'#ffe3a1',Math.max(0,.5-e.age*1.2));if(e.age<.9)text(ctx,'STAGGERED!',e.x,e.y-82-e.age*10,13,'#ffe08f','center');break;}
       case'korr-defeat':{ctx.globalAlpha=1;const t=e.age;
         // Armour plates crack off and the dais dust rolls out; streaks lift in two waves.
@@ -563,7 +586,9 @@ function gBall(ctx,g,art,b){
   if(!b.caught){
     ctx.save();ctx.translate(x,y);ctx.rotate(ang);const L=60,tg=ctx.createLinearGradient(0,0,-L,0);tg.addColorStop(0,'#cfe8ffcc');tg.addColorStop(1,'#cfe8ff00');
     ctx.fillStyle=tg;ctx.beginPath();ctx.moveTo(0,-r*.95);ctx.lineTo(-L,-r*.25);ctx.lineTo(-L,r*.25);ctx.lineTo(0,r*.95);ctx.closePath();ctx.fill();
-    ctx.strokeStyle='#e8f4ffaa';ctx.lineWidth=1;for(const o of[-.55,.55]){ctx.beginPath();ctx.moveTo(-r*.5,o*r);ctx.lineTo(-L*.8,o*r*.5);ctx.stroke();}ctx.restore();
+    // A brighter filled core streak inside the wake (no stroked lines).
+    const core=ctx.createLinearGradient(0,0,-L*.8,0);core.addColorStop(0,'#ffffffb0');core.addColorStop(1,'#e8f4ff00');
+    ctx.fillStyle=core;ctx.beginPath();ctx.moveTo(-r*.3,-r*.42);ctx.quadraticCurveTo(-L*.45,-r*.16,-L*.8,0);ctx.quadraticCurveTo(-L*.45,r*.16,-r*.3,r*.42);ctx.closePath();ctx.fill();ctx.restore();
   }
   const sg=ctx.createRadialGradient(x-r*.35,y-r*.4,r*.1,x,y,r);sg.addColorStop(0,'#fff');sg.addColorStop(.25,'#d3e0ec');sg.addColorStop(.62,'#6f8499');sg.addColorStop(1,'#222c38');
   ctx.fillStyle=sg;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();
@@ -644,14 +669,21 @@ export function drawEncounter(ctx,g,art,level){
       const img=art.images['tidewheel/raft'];
       for(let n=0;n<4;n++){const t=e.age;ctx.save();ctx.translate(e.x+(n-1.5)*(10+t*32),e.y-14*t+100*t*t);ctx.rotate((n-1.5)*t*2);ctx.drawImage(img,145+n*87.5,130,87.5,102,-8.75,-7,17.5,14);ctx.restore();}
     }else if(e.kind==='brick-break'){
-      const key=typeof e.colour==='number'?['sage','coral','ivory'][e.colour]:'coral';
+      const key=typeof e.colour==='number'?['sage','coral','ivory'][e.colour]:'coral',pkey=e.colour==='pin'?'pin_1hp':CERAMIC[e.colour];
+      // Bellforge: the falling thirds are cut from the ceramic (or pin) render's contact face, so they match the wall.
+      if(pkey&&premiumReady(art,pkey)){const img=art.images['premium/'+pkey],m=art.manifest.premium[pkey],a=m.anchors.contactTopLeft,z=m.anchors.contactBottomRight,sx=a[0]*img.width,sw=(z[0]-a[0])*img.width/3,sy=a[1]*img.height,sh=(z[1]-a[1])*img.height;
+        for(let n=0;n<3;n++){const t=e.age,x=e.x+(n-1)*(8+t*45)+(e.vx||0)*t,y=e.y+(e.vy||0)*t-45*t+180*t*t;
+          ctx.save();ctx.translate(x,y);ctx.rotate((n-1)*t*5);ctx.drawImage(img,sx+n*sw,sy,sw,sh,-(e.w||34)/6,-(e.h||18)/2,(e.w||34)/3,e.h||18);ctx.restore();}
+      }else{
       const img=['cyan','plum'].includes(e.colour)?art.images[e.colour]:art.images['brick/'+key];
       if(img)for(let n=0;n<3;n++){const t=e.age,x=e.x+(n-1)*(8+t*45)+(e.vx||0)*t,y=e.y+(e.vy||0)*t-45*t+180*t*t;
         ctx.save();ctx.translate(x,y);ctx.rotate((n-1)*t*5);ctx.drawImage(img,n*img.width/3,0,img.width/3,img.height,-(e.w||34)/6,-(e.h||18)/2,(e.w||34)/3,e.h||18);ctx.restore();}
+      }
     }else if(e.kind==='ram-armed'){ctx.globalAlpha=1;pool(ctx,e.x,e.y+7,64,14,'#ffd8a0',(1-q)*.6);sparks(ctx,e.x,e.y+4,e.age,6,150,[],2,35);
     }else if(e.kind==='ram-launch'){ctx.globalAlpha=1;glow(ctx,e.x,e.y,60+e.age*60,'#9ed1ff',(1-q)*.7);sparks(ctx,e.x,e.y,e.age,10,230,[],2.4,37);
     }else if(e.kind==='ram-end'){ctx.globalAlpha=1;glow(ctx,e.x,e.y,26,'#c9dff0',(1-q)*.5);sparks(ctx,e.x,e.y,e.age,4,90,[],1.7,41);
-    }else{ctx.globalAlpha=1;sparks(ctx,e.x,e.y,e.age,4,80,[],1.5,7);}
+    }else if(SHARED_FX.has(e.kind))gEffect(ctx,art,e);
+    else{ctx.globalAlpha=1;sparks(ctx,e.x,e.y,e.age,4,80,[],1.5,7);}
     ctx.restore();
   }
   // Kit's blue-enamel paddle, the same skin the Gatehouse uses, with the Sweet-Spot Ram's gold gem sockets under it.

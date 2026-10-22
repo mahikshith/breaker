@@ -681,10 +681,10 @@
       ]
     },
     "aBrickCyan": {
-      "path": "assets/space-a/brick_cyan.png",
+      "path": "assets/premium/carrier/enamel_cyan.png",
       "size": [
-        132,
-        84
+        264,
+        168
       ],
       "pivot": [
         0.5,
@@ -703,10 +703,10 @@
       "approval": "native raster QA passed; assembly review pending"
     },
     "aBrickPink": {
-      "path": "assets/space-a/brick_pink.png",
+      "path": "assets/premium/carrier/enamel_pink.png",
       "size": [
-        132,
-        84
+        264,
+        168
       ],
       "pivot": [
         0.5,

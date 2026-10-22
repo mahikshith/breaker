@@ -4,7 +4,7 @@ import { Arena } from './arena.js';
 import { difficulty } from './difficulty.js';
 import { makeGrid, makeBall, cellAt } from './physics.js';
 import { ejectBall } from './clearance.js';
-import { brick, cached, text, vignette, drawGrain, rrect, shade, NUM, SPR, ready, loadImg, drawKitCastFlight, drawKitBrickArmour } from './gfx.js';
+import { brick, cached, text, vignette, drawGrain, rrect, shade, NUM, SPR, ready, loadImg, drawKitCastFlight, drawKitBrickArmour, glazedBar, softRing, drawGem } from './gfx.js';
 import { drawSerpent } from './characters.js';
 import { Debris } from './debris.js';
 import { ART } from './vault-art.js';
@@ -327,7 +327,7 @@ export class Vault extends Arena {
       const after = this.snakePlan(); s.cost = after.cost; s.chewing = null;
       v.record = { target: [target.c, target.r], guarded, directlyMelted: melted ? 1 : 0, extraCollapse: this.bricks.filter(b => b.gone).length - gone - (melted ? 1 : 0), before: { cost: before.cost, steps: before.path.length }, after: { cost: after.cost, steps: after.path.length } };
       v.resolved = true; this.kitWardResult = guarded ? 'held' : 'missed'; this.kitReactionAt = this.t;
-      this.fx.shatter(v.target.x - 5, v.target.y - 5, 10, 10, guarded ? '#8eefff' : '#b5ff68', 7, 0.7);
+      this.fx.shatter(v.target.x - 5, v.target.y - 5, 10, 10, guarded ? '#8eefff' : '#b5ff68', 7, 0.7, guarded ? 'ice' : 'sage');
       this.fx.ring(v.target.x, v.target.y, guarded ? '#b9f7ff' : '#cbff9c', 12); sfx.tough();
     }
     if (v.phase === 'breath' && v.t >= VENOM.breath) { v.phase = 'cool'; v.t = 0; }
@@ -843,8 +843,11 @@ export class Vault extends Arena {
     g.save(); g.lineCap = 'round';
     const dot = (x, y, r, color) => { g.fillStyle = color; g.beginPath(); g.arc(x, y, Math.max(0.3, r), 0, Math.PI * 2); g.fill(); };
     if (v.phase === 'queued') {
-      for (const x of [-4, 4]) { dot(h.x + x, h.y - 26, 2.6, '#ff8a9b'); }
-      text(g, 'FURY QUEUED', h.x, h.y - 34, 7, '#ffb5be', 'center'); g.restore(); return;
+      // A dark pill like the Gatehouse floor chip, with two lit rose gems for the queued venom.
+      const px = Math.max(40, Math.min(this.W - 40, h.x)), py = h.y - 36;
+      g.globalAlpha = .9; g.fillStyle = '#0b111bcc'; rrect(g, px - 37, py - 7.5, 74, 15, 7.5); g.fill(); g.globalAlpha = 1;
+      text(g, 'FURY QUEUED', px + 7, py + .5, 8, '#ffc6cd', 'center');
+      for (const x of [-29, -22]) drawGem(g, 'pip_rose', px + x, py, .62); g.restore(); return;
     }
     const q = v.target; if (!q) { g.restore(); return; }
     const pose = this.drawSnakeHeadPose(), rot = pose.rotation;
@@ -923,8 +926,7 @@ export class Vault extends Arena {
     g.strokeStyle = '#83d8ea'; g.lineWidth = 1; rrect(g, 36, y, this.W - 72, 62, 12); g.stroke();
     text(g, 'VENOM MELTS THIS WALL', this.W / 2, y + 20, 17, '#c1f278', 'center');
     text(g, 'Tap Kit, then Brick Ward', this.W / 2, y + 43, 16, '#f2cfdf', 'center');
-    const a = this.kitAnchor(); g.strokeStyle = '#f4aec4'; g.lineWidth = 2;
-    g.beginPath(); g.arc(a.x, a.y, a.r + 4 / (this.kitUIScale || 1), 0, Math.PI * 2); g.stroke(); g.restore();
+    const a = this.kitAnchor(); softRing(g, a.x, a.y, a.r + 4 / (this.kitUIScale || 1), 2.4, '#f4aec4', 1); g.restore();
   }
   drawSnakeBody(g, pts) {
     const s = this.snake, t = this.t, cap = this.capturePose();
@@ -1085,9 +1087,9 @@ export class Vault extends Arena {
   drawHUD(g) {
     const W = this.W, s = this.kitUIScale, y = this.hudY + 35 / s, x = 64 / s, w = W - 180 / s, h = 3 / s;
     const d = this.phase === 'rescue' ? (this.snake.attack ? 1 : this.danger || 0) : this.phase === 'caught' ? 1 : 0;
-    const c = [95, 211, 138].map((v, i) => Math.round(v + ([242, 194, 86][i] - v) * Math.min(1, d)));
-    g.fillStyle = 'rgba(255,255,255,0.12)'; rrect(g, x, y - h / 2, w, h, h / 2); g.fill();
-    g.fillStyle = `rgb(${c})`; rrect(g, x, y - h / 2, Math.max(h, w * d), h, h / 2); g.fill();
+    // Danger meter: a glazed jade bar that warms to rose as the serpent closes in (no yellow).
+    const mix = (a, b) => `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * Math.min(1, d)))})`;
+    glazedBar(g, x, y - 2.5 / s, w, 5 / s, d, mix([140, 236, 190], [255, 170, 182]), mix([38, 140, 104], [196, 62, 92]));
     if (this.phase === 'frenzy') text(g, `FRENZY ${Math.ceil(this.frenzyT)}`, W / 2, OY + ROWS * CELL + 40, 22, '#ffb35c', 'center');
     this.drawHUDBase(g);
   }

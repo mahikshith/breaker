@@ -1,3 +1,4 @@
+import { softRing } from './glow.js';
 export function kitExpression(level = {}) {
   if (level.state === 'won') return 'Cheer';
   if (level.state === 'lost' || level.t < level.kitShockUntil) return 'Shock';
@@ -46,8 +47,7 @@ export function drawChargeReady(g, level, orb) {
   halo.addColorStop(0, `rgba(255,190,225,${.5 * glow})`); halo.addColorStop(1, 'rgba(255,150,200,0)');
   g.fillStyle = halo; g.beginPath(); g.arc(orb.x, orb.y, orb.r * 1.9, 0, Math.PI * 2); g.fill();
   if (beat > 0) {
-    g.strokeStyle = `rgba(255,228,242,${.85 * beat})`; g.lineWidth = 2 / s;
-    g.beginPath(); g.arc(orb.x, orb.y, orb.r + (4 + 10 * (1 - beat)) / s, 0, Math.PI * 2); g.stroke();
+    softRing(g, orb.x, orb.y, orb.r + (4 + 10 * (1 - beat)) / s, 2.4 / s, 'rgba(255,228,242,1)', .85 * beat);
   }
   g.restore();
   return 1 + .08 * beat;

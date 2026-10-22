@@ -148,7 +148,11 @@ export class FantasyChapter {
       if (!img.naturalWidth) return;
       g.drawImage(img, 0, 0, img.naturalWidth, 2, 0, 0, this.W, this.hudTop + 1);
       g.drawImage(img, 0, this.hudTop, this.W, this.H - this.hudTop);
-      if (this.key === 'gatehouse') { g.globalAlpha = .42; g.fillStyle = '#050912'; g.fillRect(0, 0, this.W, this.H); g.globalAlpha = 1; }   // same shade the encounter paints
+      if (this.key === 'gatehouse') {   // same shade and vignette the encounter paints, so the margin under the home bar continues it
+        g.globalAlpha = .42; g.fillStyle = '#050912'; g.fillRect(0, 0, this.W, this.H); g.globalAlpha = 1;
+        const mh = this.m.height * this.k, cy = this.hudTop + mh * .45, vg = g.createRadialGradient(this.W / 2, cy, mh * .3, this.W / 2, cy, mh * .8);
+        vg.addColorStop(0, '#0000'); vg.addColorStop(1, '#02040a99'); g.fillStyle = vg; g.fillRect(0, 0, this.W, this.H);
+      }
     });
   }
   draw(g) {

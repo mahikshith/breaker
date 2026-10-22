@@ -3,7 +3,7 @@ import { SPR, ready, cached, text, loadImg } from '../gfx.js';
 import { drawCastleWindow } from '../castle-window.js';
 import { RIVAL_LUNGE, RIVALS_FLOORS, RIVALS_TIMING } from './rivals.js';
 import { glow, sparks, chips, dust, rnd, clamp01, smooth, gBanner, gPaddle, gBall, gWard, skinFor, CLIMB } from './render.js';
-import { EMERALD, drawBody, lbrick, star, lantern, ledge } from './lumi-render.js';
+import { EMERALD, drawBody, lbrick, star, lantern, ledge, wallDressing } from './lumi-render.js';
 
 // Serpent Rivals. Same window kit, tapered tube bodies and head-sheet path as Lumi Breaks Out (lumi-render.js), with Gnash emerald from the
 // left wall and Mooncoil violet from the right. The rendered props (assets/rivals) sit on the model rects: `contact` is the collider.
@@ -303,6 +303,7 @@ export function renderRivals(ctx, g, art) {
   for (let i = 0, y = ft - 54; y < g.paddle.y; y += 74, i++) { if (y < 20 || busy.some(b => Math.abs(b - y) < 46)) continue; lantern(ctx, g, i % 2 ? 334 : 26, y); }
   // Hall light: emerald down the left pillar, violet down the right, brighter where a serpent is out.
   for (const w of g.windows) windowLight(ctx, g, w, g.lunges.some(l => l.win === w));
+  wallDressing(ctx, g, 4, ft);
   gateFrame(ctx, g, ft, fb);
   if (g.phase === 'shatter') doorLight(ctx, g, ft, fb, RIVALS_TIMING.shatter - g.transition);
   if (g.chamber) drawChamber(ctx, g, st);

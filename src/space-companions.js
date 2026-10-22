@@ -1,5 +1,5 @@
 import { ART } from './vault-art.js';
-import { loadImg, ready, rrect, text, drawBall, NUM } from './gfx.js';
+import { loadImg, ready, rrect, text, drawBall, NUM, drawKitFace } from './gfx.js';
 import { drawChargeReady } from './kit.js';
 
 export const SPACE_POWERS = [
@@ -134,7 +134,7 @@ function drawSpaceLoadout(g, level) {
   g.translate(0, (1 - eased) * 18 / s); g.globalAlpha *= eased;
   metalPanel(g, a.x, a.y, a.w, a.h, 18 / s, id === 'vesper' ? '#6c749a' : '#8c6c8f');
   const title = id === 'vesper' ? 'VESPER + LATCH' : id === 'forge' ? 'FORGE ARSENAL' : 'NIX’S LOADOUT';
-  if (id === 'forge') drawCoreIcon(g, a.x + 30 / s, a.y + 29 / s, 15 / s);
+  if (id === 'forge') drawKitFace(g, a.x + 30 / s, a.y + 29 / s, 34 / s, 'Grin');
   else sprite(g, families[id], 'ready', 0, a.x + 30 / s, a.y + 29 / s, 38 / s, 38 / s);
   text(g, title, a.x + 57 / s, a.y + 23 / s, 16 / s, '#f8eaf8');
   label(g, 'ONE CHARGE · CHOOSE YOUR POWER', a.x + 57 / s, a.y + 42 / s, 9 / s, '#adb5d0');
@@ -182,13 +182,6 @@ function sprite(g, family, clip, age, x, y, w, h) {
     x - family.pivot[0] * w, y - family.pivot[1] * h, w, h);
 }
 
-function drawCoreIcon(g, x, y, r) {
-  const glow = g.createRadialGradient(x - r * .35, y - r * .4, 0, x, y, r);
-  glow.addColorStop(0, '#f2e5ff'); glow.addColorStop(.32, '#a68cd0'); glow.addColorStop(.7, '#54466e'); glow.addColorStop(1, '#283147');
-  g.fillStyle = glow; g.beginPath(); g.moveTo(x, y - r); g.lineTo(x + r * .82, y); g.lineTo(x, y + r); g.lineTo(x - r * .82, y); g.closePath(); g.fill();
-  g.strokeStyle = '#b8bdd0'; g.lineWidth = 1.2; g.stroke();
-}
-
 export function nixExpression(level) {
   if (level.state === 'lost') return 'loss';
   if (level.state === 'won' || level.phase === 'escape' || level.phase === 'retreat') return 'win';
@@ -198,6 +191,7 @@ export function nixExpression(level) {
   return level.canUseCorePower() ? 'ready' : 'idle';
 }
 
+const FORGE_FACE = { idle: 'Idle', ready: 'Grin', command: 'Focus', warning: 'Worried', secured: 'Cheer', win: 'Cheer', loss: 'Hurt' };
 export function drawNixControl(g, level) {
   const id = spaceCompanionId(level), family = families[id];
   if (id !== 'forge' && !ready(family)) return;
@@ -206,7 +200,9 @@ export function drawNixControl(g, level) {
   const swell = drawChargeReady(g, level, orb);
   g.save(); g.translate(orb.x, orb.y); g.scale(swell, swell); g.translate(-orb.x, -orb.y);
   g.fillStyle = '#30243e'; g.beginPath(); g.arc(orb.x, orb.y, orb.r, 0, Math.PI * 2); g.fill();
-  if (id === 'forge') drawCoreIcon(g, orb.x, orb.y, orb.r * .64);
+  // Shutter Forge has no companion sheet of its own: Kit's rendered face fills the orb, mood from the same clip.
+  if (id === 'forge') { g.save(); g.beginPath(); g.arc(orb.x, orb.y, orb.r - 3 / s, 0, Math.PI * 2); g.clip(); g.fillStyle = '#3d2b3d'; g.fillRect(orb.x - orb.r, orb.y - orb.r, orb.r * 2, orb.r * 2);
+    drawKitFace(g, orb.x, orb.y, orb.r * 2 - 6 / s, FORGE_FACE[clip] || 'Idle'); g.restore(); }
   else sprite(g, family, clip, age, orb.x, orb.y - 2 / s, orb.r * 2, orb.r * 2);
   g.strokeStyle = '#624362'; g.lineWidth = 3 / s;
   g.beginPath(); g.arc(orb.x, orb.y, orb.r - 1.5 / s, 0, Math.PI * 2); g.stroke();

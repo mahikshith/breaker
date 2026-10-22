@@ -1,6 +1,6 @@
 // Shared gameplay for every level: paddle, balls, serve and Focus aim, power-ups, lives, combo, juice.
 import { makeBall, stepBall, cellAt } from './physics.js';
-import { FX, drawBall, drawKitFace, capsule, POWER, rrect, shade, text, SHADOW, SPR, ready, loadImg, drawRamGlaze, drawRamPips } from './gfx.js';
+import { FX, drawBall, drawKitFace, capsule, POWER, rrect, shade, text, SHADOW, SPR, ready, loadImg, drawRamGlaze, drawRamPips, drawGem, drawGlint } from './gfx.js';
 import { ramStreak, tickRam, ramCount, endRam } from './fantasy/ram.js';
 import { ART } from './vault-art.js';
 import { sfx } from './audio.js';
@@ -566,7 +566,7 @@ export class Arena {
     }
     g.globalAlpha = 1;
     if (this.kitTime < this.aimReadyUntil && (this.ptr.down || this.keys[' '])) text(g, 'Aim ready', this.paddle.x, this.paddle.y - 23 / this.kitUIScale, 15 / this.kitUIScale, '#dfc2f1', 'center');
-    if (stop) { const [x, y] = P(sim.x, sim.y); g.strokeStyle = 'rgba(255,255,255,0.8)'; g.lineWidth = 1.5; g.beginPath(); g.arc(x, y, 7, 0, 7); g.stroke(); }
+    if (stop) { const [x, y] = P(sim.x, sim.y); if (!drawGlint(g, x, y, 9, .35, '#dff2ff', pulse + .3)) { g.fillStyle = 'rgba(255,255,255,0.6)'; g.beginPath(); g.arc(x, y, 3, 0, 7); g.fill(); } }
     if (!a.serve) { // remaining hold time
       g.strokeStyle = '#e3b6ff'; g.lineWidth = 2.5;
       const [bx, by] = P(a.ball.x, a.ball.y);
@@ -577,14 +577,12 @@ export class Arena {
     const s = this.kitUIScale, y = this.hudY + 18 / s;
     for (let i = 0; i < Math.max(3, Math.min(5, this.lives)); i++) drawBall(g, { x: (66 + i * 14) / s, y, r: 4.5 / s, vx: 0, vy: 0 }, i < this.lives ? 1 : 0.18);
     text(g, 'AIM', 150 / s, y, 12 / s, '#dfbaf5');
+    // Rendered gem sockets (the castle chapters' fx kit): lit rose for each stored aim, the next one glazing in as it charges.
     for (let i = 0; i < this.focusMax; i++) {
-      const x = (181 + i * 11) / s;
-      g.fillStyle = '#3f4059'; rrect(g, x, y - 3.5 / s, 8 / s, 7 / s, 3 / s); g.fill();
-      if (i < this.focus) {
-        g.fillStyle = '#dab1ee'; rrect(g, x, y - 3.5 / s, 8 / s, 7 / s, 3 / s); g.fill();
-      } else if (i === this.focus && this.focusFill > 0) {
-        g.fillStyle = '#9362ac'; rrect(g, x, y - 3.5 / s, 8 / s * this.focusFill / 14, 7 / s, 3 / s); g.fill();
-      }
+      const x = (185 + i * 12) / s, k = 1.05 / s;
+      drawGem(g, 'pip_empty', x, y, k);
+      if (i < this.focus) drawGem(g, 'pip_rose', x, y, k);
+      else if (i === this.focus && this.focusFill > 0) drawGem(g, 'pip_rose', x, y, k * (.6 + .4 * this.focusFill / 14), .25 + .5 * this.focusFill / 14);
     }
     const score = this.score < 1e6 ? this.score.toLocaleString('en-US') : compactScore.format(this.score);
     text(g, score, this.W - 12 / s, y, 18 / s, '#fff', 'right');

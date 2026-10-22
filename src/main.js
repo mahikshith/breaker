@@ -375,7 +375,7 @@ function draw() {
   else {
     if (top > 0 && scene !== 'menu' && level.drawTopInset) { g.save(); g.translate(0, top); level.drawTopInset(g, top + 1); g.restore(); }
     else if (top > 0) g.drawImage(bg, 0, 0, bg.width, k, 0, 0, W, top + 1);
-    if (inB) g.drawImage(bg, 0, bg.height - k, bg.width, k, 0, FH - inB - 1, W, inB + 1);
+    if (inB) bottomBleed(bg, k, FH - inB - 1, inB + 1);
   }
   g.translate(0, inT);
   if (scene === 'menu') drawMenu();
@@ -389,6 +389,22 @@ function draw() {
   }
   g.restore();
   fillMargins();
+}
+// Under the home indicator: mirror the plate's last 40 units (a floor reflection, not its edge row stretched) and let it
+// fade into the floor's own shadow colour, sampled once per plate from the band's darkest rows.
+const floorTone = new WeakMap();
+function bottomBleed(bg, k, y, h) {
+  const band = Math.min(40, h), src = Math.max(1, Math.round(band * k));
+  g.save(); g.translate(0, y * 2); g.scale(1, -1); g.drawImage(bg, 0, bg.height - src, bg.width, src, 0, y - band, W, band); g.restore();
+  let tone = floorTone.get(bg);
+  if (!tone) {
+    try { const c = document.createElement('canvas'); c.width = 8; c.height = 2; const x = c.getContext('2d'); x.drawImage(bg, 0, bg.height - Math.max(2, Math.round(4 * k)), bg.width, Math.max(2, Math.round(4 * k)), 0, 0, 8, 2);
+      const d = x.getImageData(0, 0, 8, 2).data; let r = 0, gg = 0, b = 0; for (let i = 0; i < d.length; i += 4) { r += d[i]; gg += d[i + 1]; b += d[i + 2]; }
+      tone = [r, gg, b].map(v => Math.round(v / 16 * .55)); } catch { tone = [8, 10, 16]; }
+    floorTone.set(bg, tone);
+  }
+  const fade = g.createLinearGradient(0, y, 0, y + h); fade.addColorStop(0, `rgba(${tone},0.25)`); fade.addColorStop(Math.min(1, band / h * .9), `rgba(${tone},0.92)`); fade.addColorStop(1, `rgb(${tone})`);
+  g.fillStyle = fade; g.fillRect(0, y, W, h + 1);
 }
 // Screens wider or taller than the frame: stretch the frame's outermost pixels into the margins so the scene runs to every edge
 function fillMargins() {

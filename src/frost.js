@@ -4,7 +4,7 @@ import { ART } from './vault-art.js';
 import { difficulty } from './difficulty.js';
 import { sweepTarget } from './carrier-physics.js';
 import { ejectBall, overlapsAny } from './clearance.js';
-import { brick, cached, loadImg, ready, text, rrect, SPR, drawKitCastFlight, drawKitBrickArmour } from './gfx.js';
+import { brick, cached, loadImg, ready, text, rrect, SPR, drawKitCastFlight, drawKitBrickArmour, drawShard, shardPalette, glazedBar } from './gfx.js';
 import { sfx } from './audio.js';
 import { RAM } from './fantasy/ram.js';
 
@@ -17,12 +17,21 @@ export const FROST_MODES = {
 const COLORS = ['#4f9dff', '#8f5cf0', '#22c4b0', '#ff6f91', '#4f9dff', '#b785ef'];
 const PAYLOADS = new Map([[2, 'wide'], [8, 'shield'], [14, 'split'], [21, 'slow'], [27, 'fire'], [33, 'laser']]);
 const PLATE = ART?.plate ? loadImg(ART.plate) : null;
-// Premium finish reuses existing renders: the keep hall (Bellforge/Gatehouse) graded cold, and the faceted
-// moonstone brick family (Mooncoil) per row. Collision sizes and positions are unchanged.
+// Fallback before the rampart plate decodes: the keep hall graded cold. Collision sizes and positions are unchanged.
 const KEEP = ART?.keepBackdrop ? loadImg(ART.keepBackdrop) : null;
-const MOONSTONE = Object.fromEntries(Object.entries(ART?.mooncoil?.bricks || {}).map(([k, s]) => [k, { ...s, img: loadImg(s.url) }]));
-const ROW_STONE = [6, 3, 4, 2, 6, 3]; // blue, violet, jade, coral moonstone
 const PRINCESS = ART?.princess ? { ...ART.princess, img: loadImg(ART.princess.url) } : null;
+// Premium pass (art/premium/premium.py): the night rampart plate (walk, Lumi's ledge and alcove baked in at the collider
+// coordinates below) and three rendered ward-post states. Rendered gems from the shared fx kit mark post health and payloads.
+const PREM = ART?.premium?.frost || {};
+const RAMPART = PREM.backdrop ? { ...PREM.backdrop, img: loadImg(PREM.backdrop.url) } : null;
+const POSTS = [0, 1, 2].map(k => PREM['post_' + k] && { ...PREM['post_' + k], img: loadImg(PREM['post_' + k].url) });
+const GEMS = Object.fromEntries(['pip_blue', 'pip_empty', 'pip_gold'].filter(k => ART?.fxKit?.[k]).map(k => [k, { ...ART.fxKit[k], img: loadImg(ART.fxKit[k].url) }]));
+const rampart = () => ready(RAMPART);
+function gem(g, key, x, y, scale = 1) { const p = GEMS[key]; if (!ready(p)) return; const w = p.uw * scale, h = p.uh * scale; g.drawImage(p.img, x - w / 2, y - h / 2, w, h); }
+function softGlow(g, x, y, rx, ry, colour, a) {
+  if (a <= 0) return; g.save(); g.globalAlpha *= Math.min(1, a); g.translate(x, y); g.scale(1, ry / rx);
+  const gr = g.createRadialGradient(0, 0, 0, 0, 0, rx); gr.addColorStop(0, colour); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(-rx, -rx, rx * 2, rx * 2); g.restore();
+}
 
 export class Frost extends Arena {
   constructor(W, H, uiScale = 1, modeId = 'easy', artData = ART?.frostWarden) {
@@ -198,7 +207,7 @@ export class Frost extends Arena {
       this.postShockUntil = this.clock + .8;
       if (!d.hp) {
         this.kitShockUntil = this.t + .85;
-        this.burst(d, '#8bacc2');
+        this.burst(d, '#8bacc2', 'ice'); this.fx.shatter(d.x, d.y, d.w, d.h, '#cfe8ff', 6, .8, 'ice');
         if (this.activeDefence === this.defences.length - 1) this.beginBreach();
       }
     }
@@ -269,12 +278,13 @@ export class Frost extends Arena {
   pointerMove(x, y) { if (this.phase === 'siege' && this.ptr.down) super.pointerMove(x, y); }
   pointerUp() { if (this.phase === 'siege' && this.ptr.down) super.pointerUp(); }
   key(k, down) { if (this.powerMenuOpen || this.phase === 'siege' || this.suppressedSpace) super.key(k, down); }
-  burst(rect, color) {
-    for (let i = 0; i < 7; i++) this.fragments.push({ x: rect.x + rect.w * (i + .5) / 7, y: rect.y + rect.h / 2, vx: (i - 3) * 16, vy: -25 - (i % 3) * 17, t: 0, color, size: 3 + i % 3 });
+  burst(rect, color, palette = shardPalette(color)) {
+    for (let i = 0; i < 7; i++) this.fragments.push({ x: rect.x + rect.w * (i + .5) / 7, y: rect.y + rect.h / 2, vx: (i - 3) * 16, vy: -25 - (i % 3) * 17, t: 0, color, palette, variant: i, size: 3 + i % 3 });
   }
   inspect() { return { state: this.state, phase: this.phase, stage: this.stage, clock: this.clock, hp: this.warden.hp, maxHP: this.warden.maxHP, defences: this.defences.map(d => ({ ...d })), activeDefence: this.activeDefence, windHits: this.windHits, ward: this.ward && { ...this.ward }, bodyPose: this.pose().body, fist: this.pose().fist, lives: this.lives, started: this.started, punches: this.punchCount, blocked: this.blockedPunches }; }
   background() {
     const keep = KEEP?.complete && KEEP.naturalWidth;
+    if (rampart()) return cached('frost-rampart-' + this.W + '-' + this.H, this.W, this.H, g => this.paintRampart(g, 0, this.H));
     return cached('frost-bg-' + this.W + '-' + this.H + '-' + !!PLATE?.complete + '-' + !!keep, this.W, this.H, g => {
       g.fillStyle = '#101622'; g.fillRect(0, 0, this.W, this.H);
       if (keep) {
@@ -296,7 +306,25 @@ export class Frost extends Arena {
       const v = g.createLinearGradient(0, 70, 0, this.H); v.addColorStop(0, 'rgba(14,24,38,.1)'); v.addColorStop(1, '#0a101b'); g.fillStyle = v; g.fillRect(0, 0, this.W, this.H);
     });
   }
-  drawFullBleedBackground(g, top, height) { g.fillStyle = '#101622'; g.fillRect(0, 0, this.W, height); }
+  // The rampart plate is registered to level y = 0 (walk 6..264 at y 214-238, ledge 266,202 64x14, alcove above it): never
+  // rescale it. Above it the night sky continues; below its frozen floor a mirrored band fades to the floor colour.
+  paintRampart(g, top, height) {
+    const img = RAMPART.img, [, , sw, sh] = RAMPART.screenRect, k = img.naturalWidth / sw;
+    g.fillStyle = '#0b111b'; g.fillRect(0, 0, this.W, height + Math.max(0, top));
+    if (top > 0) { const sky = g.createLinearGradient(0, 0, 0, top + 1); sky.addColorStop(0, '#070b14'); sky.addColorStop(1, '#0e1526'); g.fillStyle = sky; g.fillRect(0, 0, this.W, top + 1); }
+    g.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight, 0, top, sw, sh);
+    const end = top + sh;
+    if (end < height) {
+      const band = Math.min(height - end, 60);
+      g.save(); g.translate(0, end * 2); g.scale(1, -1); g.drawImage(img, 0, (sh - band) * k, img.naturalWidth, band * k, 0, end - band, sw, band); g.restore();
+      const fade = g.createLinearGradient(0, end, 0, end + band); fade.addColorStop(0, 'rgba(11,17,27,.35)'); fade.addColorStop(1, '#0b111b');
+      g.fillStyle = fade; g.fillRect(0, end, this.W, height - end);
+    }
+  }
+  drawFullBleedBackground(g, top, height) {
+    if (rampart()) { this.bleed = { top, height }; this.paintRampart(g, top, height); return; }
+    g.fillStyle = '#101622'; g.fillRect(0, 0, this.W, height);
+  }
   drawWarden(g) {
     const a = this.art, p = this.pose(); if (!a || !ready(a) || !p.c) return;
     const cell = Array.isArray(a.cell) ? a.cell : [a.cell, a.cell], unit = a.unit || [144, 128], u = Array.isArray(unit) ? unit : [unit, unit];
@@ -313,6 +341,7 @@ export class Frost extends Arena {
     g.drawImage(P.img, f * P.cell, a.row * P.cell, P.cell, P.cell, 299 - size / 2, 202 - size + P.feet, size, size);
   }
   drawWalkway(g) {
+    if (rampart()) { const p = this.pose(); softGlow(g, p.x, p.y + 1, 22, 4, 'rgba(0,0,0,.6)', 1); return; }   // the walk is baked into the plate
     // A recessed back-wall promenade: the ball crosses in the foreground, as it
     // does the castle plate. Only the posts, Warden and chamber lip are actors.
     const front = this.stance(0).y + 3, rear = 214;
@@ -330,39 +359,49 @@ export class Frost extends Arena {
     const p = this.pose(); g.fillStyle = 'rgba(0,0,0,.45)'; g.beginPath(); g.ellipse(p.x, p.y + 1, 19, 3.5, 0, 0, Math.PI * 2); g.fill();
   }
   draw(g) {
-    g.drawImage(this.background(), 0, 0, this.W, this.H);
+    if (!rampart() || !this.bleed) g.drawImage(this.background(), 0, 0, this.W, this.H);
     g.save(); g.beginPath(); g.rect(0, 65, this.W, this.playClipY - 65); g.clip();
     const [sx, sy] = this.shakeOffset(); g.translate(sx, sy);
     this.drawWalkway(g);
     // Chamber ledge is drawn behind Lumi; its physical face is explicit.
-    g.drawImage(brick('#42536e', 60, 12, { metal: true }), 268, 202, 60, 16);
+    if (!rampart()) g.drawImage(brick('#42536e', 60, 12, { metal: true }), 268, 202, 60, 16);
     for (const b of this.bricks) if (b.hp) {
-      const row = Math.floor((b.y - 266) / 26), stone = MOONSTONE[`${ROW_STONE[row]}_2_0`];
-      const art = ready(stone) ? stone : SPR[`brick_${['b', 'v', 't', 'c', 'b', 'v'][row]}_2_0`];
+      // The Vault's glazed ceramic per row (blue, violet, teal, coral): the castle family, not Mooncoil's moonstone.
+      const row = Math.floor((b.y - 266) / 26), art = SPR[`brick_${['b', 'v', 't', 'c', 'b', 'v'][row]}_2_0`];
       if (ready(art)) { const m = art.margin || 0, scaleX = b.w / (art.uw - m * 2), scaleY = b.h / (art.uh - m * 2); g.drawImage(art.img, b.x - m * scaleX, b.y - m * scaleY, art.uw * scaleX, art.uh * scaleY); }
       else g.drawImage(brick(b.color, b.w, b.h), b.x, b.y, b.w, b.h + 4);
-      if (b.payload) { g.fillStyle = '#e8d7ed'; g.beginPath(); g.moveTo(b.x + b.w / 2, b.y + 5); g.lineTo(b.x + b.w / 2 + 3, b.y + 9); g.lineTo(b.x + b.w / 2, b.y + 13); g.lineTo(b.x + b.w / 2 - 3, b.y + 9); g.closePath(); g.fill(); }
+      if (b.payload) { if (GEMS.pip_gold) { softGlow(g, b.x + b.w / 2, b.y + b.h / 2, 12, 8, 'rgba(255,214,150,.7)', 1); gem(g, 'pip_gold', b.x + b.w / 2, b.y + b.h / 2, 1.05); }
+        else { g.fillStyle = '#e8d7ed'; g.beginPath(); g.moveTo(b.x + b.w / 2, b.y + 5); g.lineTo(b.x + b.w / 2 + 3, b.y + 9); g.lineTo(b.x + b.w / 2, b.y + 13); g.lineTo(b.x + b.w / 2 - 3, b.y + 9); g.closePath(); g.fill(); } }
     }
-    this.drawPrincess(g); this.drawWarden(g);
+    this.drawPrincess(g);
+    // A cool shadow pool behind the Warden lifts his pale fur off the frosted stone (the sheet has no rim light yet).
+    if (rampart() && this.phase !== 'rescue') { const p = this.pose(); softGlow(g, p.body.x + p.body.w / 2, p.body.y + p.body.h * .45, p.body.w * 1.15, p.body.h * .7, 'rgba(4,8,18,.62)', 1); }
+    this.drawWarden(g);
     for (const d of this.defences) if (d.hp) {
-      const stone = SPR.brick_granite_1_0;
-      if (ready(stone)) {
+      const stone = SPR.brick_granite_1_0, f = d.hp / d.maxHP, post = POSTS[f > .67 ? 0 : f > .34 ? 1 : 2];
+      // The Warden's next target glows a warning red behind its post (a filled bloom, no outline).
+      if (this.stage === 'windup' && this.defences[this.activeDefence] === d) softGlow(g, d.x + d.w / 2, d.y + d.h / 2, 26, 48, 'rgba(255,120,130,.55)', .7 + .3 * Math.sin(this.clock * 14));
+      if (ready(post)) {
+        g.drawImage(post.img, d.x + d.w / 2 - post.uw / 2, d.y + d.h / 2 - post.uh / 2, post.uw, post.uh);
+        for (let i = 0; i < d.maxHP; i++) gem(g, i < d.hp ? 'pip_blue' : 'pip_empty', d.x + d.w / 2 + (i - (d.maxHP - 1) / 2) * 7.6, d.y - 12, .82);
+      } else if (ready(stone)) {
         const m = stone.margin || 0, xs = d.w / (stone.uw - m * 2), ys = (d.h / 4) / (stone.uh - m * 2);
         for (let i = 0; i < 4; i++) g.drawImage(stone.img, d.x - m * xs, d.y + i * d.h / 4 - m * ys, stone.uw * xs, stone.uh * ys);
       } else g.drawImage(brick('#66849a', d.w, d.h, { depth: 4, metal: true, crack: d.maxHP - d.hp }), d.x, d.y, d.w, d.h + 4);
-      if (d.hp < d.maxHP) { g.strokeStyle = '#202a40'; g.lineWidth = 1.1; g.beginPath(); g.moveTo(d.x + d.w * .7, d.y + 7); g.lineTo(d.x + 6, d.y + 27); g.lineTo(d.x + d.w - 3, d.y + 39); g.lineTo(d.x + 5, d.y + 58); g.stroke(); }
-      for (let i = 0; i < d.maxHP; i++) { g.fillStyle = i < d.hp ? '#bddce8' : '#273b4a'; g.fillRect(d.x + 5, d.y + 8 + i * 11, 8, 4); }
+      if (!ready(post) && d.hp < d.maxHP) { g.strokeStyle = '#202a40'; g.lineWidth = 1.1; g.beginPath(); g.moveTo(d.x + d.w * .7, d.y + 7); g.lineTo(d.x + 6, d.y + 27); g.lineTo(d.x + d.w - 3, d.y + 39); g.lineTo(d.x + 5, d.y + 58); g.stroke(); }
+      if (!ready(post)) for (let i = 0; i < d.maxHP; i++) { g.fillStyle = i < d.hp ? '#bddce8' : '#273b4a'; g.fillRect(d.x + 5, d.y + 8 + i * 11, 8, 4); }
       if (this.ward?.targetId === d.id) { g.save(); g.beginPath(); g.rect(d.x - 5, d.y - 5, d.w + 10, d.h + 10); g.clip(); drawKitBrickArmour(g, d.x + d.w / 2, d.y + d.h / 2, this.t - this.kitCastAt, 72); g.restore(); }
-      if (this.stage === 'windup' && this.defences[this.activeDefence] === d) { g.strokeStyle = '#efb5ba'; g.lineWidth = 2; g.strokeRect(d.x - 3, d.y - 3, d.w + 6, d.h + 6); }
     }
-    for (const f of this.fragments) { g.save(); g.globalAlpha = 1 - f.t / .45; g.translate(f.x, f.y); g.rotate(f.t * f.vx * .04); g.drawImage(brick(f.color, f.size, f.size), -f.size / 2, -f.size / 2, f.size, f.size + 2); g.restore(); }
+    for (const f of this.fragments) {
+      if (drawShard(g, f.palette, f.variant || 0, f.x, f.y, f.t * f.vx * .04 + (f.variant || 0), f.size * 2.6, 1 - f.t / .45)) continue;
+      g.save(); g.globalAlpha = 1 - f.t / .45; g.translate(f.x, f.y); g.rotate(f.t * f.vx * .04); g.drawImage(brick(f.color, f.size, f.size), -f.size / 2, -f.size / 2, f.size, f.size + 2); g.restore();
+    }
     this.drawDrops(g); this.drawAim(g); this.drawPaddle(g); this.drawBalls(g); this.fx.draw(g);
     g.restore();
     if (this.wardTarget) drawKitCastFlight(g, this.kitAnchor(), this.wardTarget, this.t - this.kitCastAt, this.kitUIScale);
     this.drawDeck(g); this.drawHUDBase(g);
     const x = 64 / this.kitUIScale, y = this.hudY + 35 / this.kitUIScale, w = this.W - 80 / this.kitUIScale;
-    g.fillStyle = '#29394e'; rrect(g, x, y, w, 4 / this.kitUIScale, 2); g.fill();
-    g.fillStyle = '#93bed6'; rrect(g, x, y, Math.max(.1, w * this.warden.hp / this.warden.maxHP), 4 / this.kitUIScale, 2); g.fill();
+    glazedBar(g, x, y, w, 5 / this.kitUIScale, this.warden.hp / this.warden.maxHP, '#d8f0ff', '#4f86b8');
     if (!this.started) text(g, 'Break the siege. Protect Lumi.', this.W / 2, 245, 14, '#d5e4ef', 'center');
     if (this.phase === 'breach') text(g, 'CHAMBER BREACHED', this.W / 2, 244, 18, '#efb5ba', 'center');
   }

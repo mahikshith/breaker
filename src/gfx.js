@@ -1,6 +1,8 @@
 // Rendering helpers. Light always comes from the top-left; every object casts a soft shadow down-right.
 
 import { ART } from './vault-art.js';
+import { softRing } from './glow.js';
+export { softRing };
 
 export const SHADOW = { dx: 3, dy: 5, a: 0.35 };
 // Blender-rendered sprites (ball, paddle, capsules, bricks...), shared by both levels; code-drawn fallbacks stay in place
@@ -236,9 +238,46 @@ export function drawRamBall(g, b, alpha = 1) {
 }
 
 // ---------- particles ----------
+// Premium crash pieces and impact glints (art/premium/premium.py): glazed shard sprites per palette and soft star glints.
+const PREM = ART?.premium || {};
+const SHARD_IMG = Object.fromEntries(Object.entries(PREM.shards || {}).map(([k, urls]) => [k, urls.map(loadImg)]));
+const GLINT_IMG = Object.fromEntries(Object.entries(PREM.glints || {}).map(([k, url]) => [k, loadImg(url)]));
+const imgReady = i => !!(i && i.complete && i.naturalWidth);
+const SHARD_PAL = { teal: [34, 196, 176], violet: [143, 92, 240], coral: [255, 111, 97], gold: [255, 199, 61], blue: [79, 157, 255], cyan: [26, 166, 224],
+  pink: [226, 69, 155], sage: [85, 135, 106], ivory: [232, 209, 179], plum: [125, 79, 196], ice: [200, 230, 255], hull: [150, 150, 170] };
+const rgbOf = c => { if (c[0] === '#') { const n = parseInt(c.slice(1, 7).padEnd(6, '0'), 16); return [n >> 16, n >> 8 & 255, n & 255]; } return (c.match(/[\d.]+/g) || [128, 128, 128]).slice(0, 3).map(Number); };
+const SHARD_ALIAS = [['hull', [74, 79, 110]], ['hull', [60, 64, 90]]];   // Vault granite and dark iron read as gunmetal, not sage
+const paletteMemo = new Map();
+// The nearest shard palette to a brick colour (Vault teal/violet/coral/gold/blue, Carrier cyan/pink, hull grey, Frost ice).
+export function shardPalette(color) {
+  if (SHARD_PAL[color]) return color;
+  let best = paletteMemo.get(color); if (best) return best;
+  const v = rgbOf(color); let bd = Infinity;
+  for (const [k, p] of [...Object.entries(SHARD_PAL), ...SHARD_ALIAS]) { const d = (p[0] - v[0]) ** 2 + (p[1] - v[1]) ** 2 + (p[2] - v[2]) ** 2; if (d < bd) { bd = d; best = k; } }
+  paletteMemo.set(color, best); return best;
+}
+// Warm for gold/orange, rose for pink/magenta/red, cool for cyan, blue and white.
+export function glintKind(color) {
+  const [r, g, b] = rgbOf(color);
+  if (r > b + 30) return g > 150 ? 'warm' : 'rose';
+  return r > 200 && b > 170 && g < 185 ? 'rose' : 'cool';
+}
+// One glazed shard sprite centred on (x, y), turned by rot; size is the drawn edge in units.
+export function drawShard(g, palette, variant, x, y, rot, size, alpha = 1) {
+  const img = SHARD_IMG[palette]?.[variant % 3]; if (!imgReady(img)) return false;
+  g.save(); g.globalAlpha *= alpha; g.translate(x, y); g.rotate(rot); g.drawImage(img, -size / 2, -size / 2, size, size); g.restore(); return true;
+}
+// An impact glint: the rendered star, additive, growing 0.7 -> 1.3 of the hit size and fading over its life.
+export function drawGlint(g, x, y, r, k, color = '#fff', a = 1) {
+  const img = GLINT_IMG[glintKind(color)]; if (!imgReady(img)) return false;
+  const s = r * (0.7 + 0.6 * k), turn = ((x * 7 + y * 13) % 10) * 0.05 - 0.25;   // a small fixed tilt per hit, so repeats don't stamp
+  g.save(); g.globalCompositeOperation = 'lighter'; g.globalAlpha *= a * (1 - k) * (1 - k * 0.4); g.translate(x, y); g.rotate(turn); g.drawImage(img, -s, -s, s * 2, s * 2); g.restore(); return true;
+}
 export class FX {
-  constructor() { this.shards = []; this.dust = []; this.pops = []; this.rings = []; }
-  shatter(x, y, w, h, color, n = 6, power = 1) {
+  constructor() { this.shards = []; this.dust = []; this.pops = []; this.rings = []; this.nShard = 0; }
+  // palette: a shard sprite family (teal, ice, hull...); by default the nearest one to the brick colour.
+  shatter(x, y, w, h, color, n = 6, power = 1, palette) {
+    const pal = palette || shardPalette(color);
     for (let i = 0; i < n; i++) {
       const sx = x + Math.random() * w, sy = y + Math.random() * h;
       const s = 2 + Math.random() * Math.min(w, h) * 0.45;
@@ -246,7 +285,8 @@ export class FX {
       const pts = [];
       const k = 3 + (Math.random() * 2 | 0);
       for (let j = 0; j < k; j++) { const t = j / k * Math.PI * 2 + Math.random() * 0.6; pts.push(Math.cos(t) * s * (0.6 + Math.random() * 0.5), Math.sin(t) * s * (0.6 + Math.random() * 0.5)); }
-      this.shards.push({ x: sx, y: sy, vx: Math.cos(a) * (40 + Math.random() * 90) * power, vy: Math.sin(a) * 60 * power - 60 - Math.random() * 60, rot: Math.random() * 6, vr: (Math.random() - 0.5) * 14, pts, color, light: shade(color, 0.35), dark: shade(color, -0.4), life: 1 + Math.random() * 0.5, t: 0 });
+      this.shards.push({ x: sx, y: sy, vx: Math.cos(a) * (40 + Math.random() * 90) * power, vy: Math.sin(a) * 60 * power - 60 - Math.random() * 60, rot: Math.random() * 6, vr: (Math.random() - 0.5) * 14, pts, color, light: shade(color, 0.35), dark: shade(color, -0.4), life: 1 + Math.random() * 0.5, t: 0,
+        pal, variant: this.nShard++ % 3, size: Math.max(5, Math.min(14, s * 2.6)) });
     }
     if (this.shards.length > 420) this.shards.splice(0, this.shards.length - 420);
     if (this.dust.length < 60) for (let i = 0; i < 3; i++) this.dust.push({ x: x + w / 2 + (Math.random() - 0.5) * w, y: y + h / 2, r: 4 + Math.random() * 6, vx: (Math.random() - 0.5) * 30, vy: -10 - Math.random() * 20, life: 0.6, t: 0, c: color });
@@ -268,7 +308,7 @@ export class FX {
   }
   draw(g, P, overlay) { // overlay: only rings and score pops, projected by P (the 3D view renders debris itself)
     if (overlay) {
-      for (const r of this.rings) { const [x, y] = P(r.x, r.y); bloom(g, x, y, r); }
+      for (const r of this.rings) { const [x, y] = P(r.x, r.y); impact(g, x, y, r); }
       g.globalAlpha = 1;
       for (const p of this.pops) {
         const k = p.t / p.life, sc = k < 0.15 ? 0.6 + k / 0.15 * 0.5 : 1.1 - Math.min(0.1, (k - 0.15)), [x, y] = p.screen ? [p.x, p.y] : P(p.x, p.y);
@@ -278,19 +318,21 @@ export class FX {
       g.globalAlpha = 1;
       return;
     }
-    for (const d of this.dust) {
-      g.globalAlpha = 0.18 * (1 - d.t / d.life); g.fillStyle = d.c;
-      g.beginPath(); g.arc(d.x, d.y, d.r, 0, 7); g.fill();
+    for (const d of this.dust) { // soft puffs, no hard disc edge
+      const gr = g.createRadialGradient(d.x, d.y, 0, d.x, d.y, d.r); gr.addColorStop(0, d.c); gr.addColorStop(1, 'rgba(0,0,0,0)');
+      g.globalAlpha = 0.2 * (1 - d.t / d.life); g.fillStyle = gr; g.fillRect(d.x - d.r, d.y - d.r, d.r * 2, d.r * 2);
     }
+    g.globalAlpha = 1;
     for (const s of this.shards) {
       const a = Math.min(1, (s.life - s.t) * 3);
+      if (drawShard(g, s.pal, s.variant, s.x, s.y, s.rot, s.size, a)) continue;
       g.globalAlpha = a * 0.3; g.fillStyle = '#000';
       poly(g, s.x + 2, s.y + 3, s.pts, s.rot); g.fill();
       g.globalAlpha = a;
       g.fillStyle = Math.cos(s.rot) > 0 ? s.light : s.color; poly(g, s.x, s.y, s.pts, s.rot); g.fill();
-      g.strokeStyle = s.dark; g.lineWidth = 0.6; g.stroke();
+      g.globalAlpha = 1;
     }
-    for (const r of this.rings) bloom(g, r.x, r.y, r);
+    for (const r of this.rings) impact(g, r.x, r.y, r);
     g.globalAlpha = 1;
     for (const p of this.pops) {
       const k = p.t / p.life, sc = k < 0.15 ? 0.6 + k / 0.15 * 0.5 : 1.1 - Math.min(0.1, (k - 0.15));
@@ -300,11 +342,16 @@ export class FX {
     g.globalAlpha = 1;
   }
 }
-// An impact 'ring' is a soft expanding bloom of light (filled, additive), never a stroked circle.
-function bloom(g, x, y, r) {
+// An impact 'ring' is a rendered glint over a faint soft bloom (both additive), never a stroked circle.
+function impact(g, x, y, r) {
+  const k = r.t / r.life;
+  bloom(g, x, y, r, 0.22);
+  if (!drawGlint(g, x, y, Math.max(6, r.r * 0.6), k, r.color, 0.9)) bloom(g, x, y, r, 0.2);
+}
+function bloom(g, x, y, r, a = 0.42) {
   const k = r.t / r.life, R = r.r * (0.45 + 0.75 * k);
   const gr = g.createRadialGradient(x, y, 0, x, y, R); gr.addColorStop(0, r.color); gr.addColorStop(1, 'rgba(0,0,0,0)');
-  g.save(); g.globalCompositeOperation = 'lighter'; g.globalAlpha = 0.42 * (1 - k) * (1 - k); g.fillStyle = gr; g.fillRect(x - R, y - R, R * 2, R * 2); g.restore();
+  g.save(); g.globalCompositeOperation = 'lighter'; g.globalAlpha = a * (1 - k) * (1 - k); g.fillStyle = gr; g.fillRect(x - R, y - R, R * 2, R * 2); g.restore();
 }
 function poly(g, x, y, pts, rot) {
   const c = Math.cos(rot), s = Math.sin(rot);
@@ -314,6 +361,28 @@ function poly(g, x, y, pts, rot) {
     i ? g.lineTo(px, py) : g.moveTo(px, py);
   }
   g.closePath();
+}
+
+// A glazed HUD bar: a recessed track and a lacquered fill with a gloss band and a soft lit tip (no flat line, no outline).
+export function glazedBar(g, x, y, w, h, frac, top, bottom) {
+  const r = h / 2 + 1;
+  g.fillStyle = 'rgba(3,6,14,0.55)'; rrect(g, x - 1, y - 1, w + 2, h + 2, r); g.fill();
+  const tr = g.createLinearGradient(0, y, 0, y + h); tr.addColorStop(0, 'rgba(0,0,0,0.5)'); tr.addColorStop(1, 'rgba(255,255,255,0.12)');
+  g.fillStyle = tr; rrect(g, x, y, w, h, h / 2); g.fill();
+  frac = Math.max(0, Math.min(1, frac)); if (frac <= 0) return;
+  const fw = Math.max(h, w * frac), fill = g.createLinearGradient(0, y, 0, y + h);
+  fill.addColorStop(0, top); fill.addColorStop(1, bottom);
+  g.fillStyle = fill; rrect(g, x, y, fw, h, h / 2); g.fill();
+  const gl = g.createLinearGradient(0, y, 0, y + h * 0.55); gl.addColorStop(0, 'rgba(255,255,255,0.6)'); gl.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = gl; rrect(g, x + h * 0.3, y + h * 0.08, Math.max(0, fw - h * 0.6), h * 0.42, h * 0.2); g.fill();
+  const tip = g.createRadialGradient(x + fw - h / 2, y + h / 2, 0, x + fw - h / 2, y + h / 2, h * 2.2);
+  tip.addColorStop(0, top); tip.addColorStop(1, 'rgba(0,0,0,0)');
+  g.save(); g.globalCompositeOperation = 'lighter'; g.globalAlpha = 0.45; g.fillStyle = tip; g.fillRect(x + fw - h * 2.7, y - h * 1.7, h * 4.4, h * 4.4); g.restore();
+}
+// A rendered fx-kit gem (pip_gold/blue/rose/empty) centred on (x, y).
+export function drawGem(g, key, x, y, scale = 1, alpha = 1) {
+  const p = FXK[key]; if (!p || !ready(p) || alpha <= 0) return;
+  const w = p.uw * scale, h = p.uh * scale; g.save(); g.globalAlpha *= alpha; g.drawImage(p.img, x - w / 2, y - h / 2, w, h); g.restore();
 }
 
 export const FONT = '"Lilita One", "Arial Rounded MT Bold", system-ui, sans-serif';
