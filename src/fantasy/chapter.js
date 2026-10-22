@@ -3,6 +3,7 @@
 import { Arena } from '../arena.js';
 import { Bellforge } from './bellforge.js';
 import { Tidewheel } from './tidewheel.js';
+import { Gatehouse, GATEHOUSE_FLOORS } from './gatehouse.js';
 import { makeArt, drawEncounter } from './render.js';
 import { cached, drawBall, text } from '../gfx.js';
 import { sfx } from '../audio.js';
@@ -15,6 +16,9 @@ const CHAPTERS = {
     preview: { x: 6, y: 68, w: 348, h: 74 }, stars: a => 1 + (a.lives >= 2) + (a.m.lumi.steps <= 2) },
   tidewheel: { Model: Tidewheel, powers: [{ id: 'anchor', label: 'ANCHOR', color: '#a9e7dd' }, { id: 'arrows', label: 'ARROWS', color: '#e3c6d1' }, { id: 'titan', label: 'STARFIRE', color: '#d3afe9' }],
     preview: { x: 20, y: 128, w: 320, h: 68 }, stars: a => 1 + (a.lives >= 2) + (a.floodMin >= a.m.water.limit + (a.m.water.initial - a.m.water.limit) / 2) },
+  // Stars: clear it, finish with 2+ balls, and take at most one paddle stun (a bell that lands on the paddle).
+  gatehouse: { Model: Gatehouse, name: 'Gatehouse Siege', kinds: { shield: 'ward' }, powers: [{ id: 'shield', label: 'WARD', color: '#a9cbf0' }],
+    preview: { x: 14, y: 88, w: 332, h: 68 }, stars: a => 1 + (a.lives >= 2) + (a.stuns <= 1) },
 };
 let art;
 
@@ -26,7 +30,7 @@ export class FantasyChapter {
     this.k = Math.min(1, (H - hudTop) / MIN_H); this.ox = (W - 360 * this.k) / 2;
     this.m = new c.Model({ width: 360, height, difficulty, paddleY: height - Math.min(120, Math.max(90, 126 / uiScale)) });
     art ||= makeArt();
-    this.name = key === 'bellforge' ? 'Bellforge Run' : 'Tidewheel Citadel';
+    this.name = c.name || (key === 'bellforge' ? 'Bellforge Run' : 'Tidewheel Citadel'); this.stuns = 0;
     this.paddle = { charge: 0, stun: 0 }; this.balls = this.m.balls;
     this.coreMode = 'ward'; this.kitPowers = true; this.powerChoices = c.powers; this.powerMenuOpen = false; this.powerMenuAt = 0;
     this.t = 0; this.kitTime = 0; this.kitMood = 'Idle'; this.kitAt = 0; this.kitShockUntil = 0; this.kitCastAt = -Infinity; this.kitReactionAt = -Infinity;
@@ -38,8 +42,8 @@ export class FantasyChapter {
   get phase() { return this.m.phase; }
   get lives() { return this.m.lives; }
   get score() { return this.m.score; }
-  get danger() { const m = this.m; return this.key === 'bellforge' ? m.lumi.steps / m.rules.mistakes : 1 - (m.water.y - m.water.limit) / (m.water.initial - m.water.limit); }
-  get reason() { const m = this.m; return this.key === 'bellforge' ? m.reason : m.loss === 'flood' ? 'The basin reached the refuge.' : 'The last ball slipped away.'; }
+  get danger() { const m = this.m; if (this.key === 'gatehouse') return m.bells.length || m.villain.stage === 'windup' ? .75 : m.floor / 3 * .6; return this.key === 'bellforge' ? m.lumi.steps / m.rules.mistakes : 1 - (m.water.y - m.water.limit) / (m.water.initial - m.water.limit); }
+  get reason() { const m = this.m; return this.key === 'bellforge' || this.key === 'gatehouse' ? m.reason : m.loss === 'flood' ? 'The basin reached the refuge.' : 'The last ball slipped away.'; }
   previewRect() { const r = this.c.preview; return { ...r, y: r.y + this.hudTop }; }
   // ---------- input (level coordinates; the model sits hudTop below the level's top, scaled by k on short screens) ----------
   toModel(x) { return (x - this.ox) / this.k; }
@@ -78,11 +82,12 @@ export class FantasyChapter {
     if (!this.powerMenuOpen) return;
     this.powerMenuOpen = false; this.inputEpoch++; this.pointerCancel(); this.keys = {};
   }
-  canChoosePower(id) { return !!KINDS[id] && this.m.canActivate(KINDS[id], { ignorePause: true }); }
+  kind(id) { return (this.c.kinds || KINDS)[id]; }
+  canChoosePower(id) { return !!this.kind(id) && this.m.canActivate(this.kind(id), { ignorePause: true }); }
   chooseSpacePower(id) {
     if (!this.powerMenuOpen || !this.canChoosePower(id)) return false;
     this.closePowerMenu();
-    if (!this.m.activate(KINDS[id])) return false;
+    if (!this.m.activate(this.kind(id))) return false;
     this.kitCastAt = this.t; sfx.power(); return true;
   }
   continueRun() {
@@ -96,11 +101,11 @@ export class FantasyChapter {
     this.t += dt; this.kitTime += dt;
     const nudge = (this.keys.ArrowRight ? 1 : 0) - (this.keys.ArrowLeft ? 1 : 0);
     if (nudge) m.setTarget(m.paddle.targetX + nudge * 460 * dt);
-    m.update(dt); this.balls = m.balls; this.paddle.charge = m.charge / 100;
+    m.update(dt); this.balls = m.balls; this.paddle.charge = m.charge / 100; this.paddle.stun = m.paddle.stun || 0;
     if (this.key === 'tidewheel') this.floodMin = Math.min(this.floodMin, m.water.y);
     for (const e of m.effects) if (!this.heard.has(e)) {
-      this.heard.add(e);
-      if (['bell-release', 'ratchet', 'surge'].includes(e.kind)) sfx.beat();
+      this.heard.add(e); if (e.kind === 'paddle-stun') this.stuns++;
+      if (['bell-release', 'ratchet', 'surge', 'bell-warning', 'housing-break', 'drawbridge-crash', 'gate-open', 'ram-launch'].includes(e.kind)) sfx.beat();
       else if (m.time - this.hitSoundAt > .06) { sfx.hit(); this.hitSoundAt = m.time; }
     }
     if (was === 'play' && m.state !== 'play') { m.state === 'won' ? sfx.win() : sfx.lose(); this.kitShockUntil = this.t + 1.1; }
@@ -111,7 +116,7 @@ export class FantasyChapter {
   result() {
     const m = this.m, won = m.state === 'won';
     return { stars: won ? this.c.stars(this) : 0,
-      lines: [['Score', Math.round(m.score).toLocaleString()], this.key === 'bellforge' ? ['Lift drops', `${m.lumi.steps} / ${m.rules.mistakes}`] : ['Flood margin', `${Math.max(0, Math.round((this.floodMin - m.water.limit) / (m.water.initial - m.water.limit) * 100))}%`], ['Balls left', m.lives]] };
+      lines: this.key === 'gatehouse' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Balls left', m.lives]] : [['Score', Math.round(m.score).toLocaleString()], this.key === 'bellforge' ? ['Lift drops', `${m.lumi.steps} / ${m.rules.mistakes}`] : ['Flood margin', `${Math.max(0, Math.round((this.floodMin - m.water.limit) / (m.water.initial - m.water.limit) * 100))}%`], ['Balls left', m.lives]] };
   }
   // ---------- drawing ----------
   background() {
@@ -121,6 +126,7 @@ export class FantasyChapter {
       if (!img.naturalWidth) return;
       g.drawImage(img, 0, 0, img.naturalWidth, 2, 0, 0, this.W, this.hudTop + 1);
       g.drawImage(img, 0, this.hudTop, this.W, this.H - this.hudTop);
+      if (this.key === 'gatehouse') { g.globalAlpha = .42; g.fillStyle = '#050912'; g.fillRect(0, 0, this.W, this.H); g.globalAlpha = 1; }   // same shade the encounter paints
     });
   }
   draw(g) {

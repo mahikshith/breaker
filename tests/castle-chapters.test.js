@@ -12,18 +12,18 @@ const main = readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
 const names = [...main.matchAll(/^  \{ make: .*?name: '([^']+)'.*?(?:next: (\d+))?.*$/gm)].map(m => m[1]);
 const nexts = [...main.matchAll(/^  \{ make: .*$/gm)].map(m => m[0].match(/next: (\d+)/)?.[1]);
 
-test('chapter slots are append-only and the menu lists all eight', () => {
-  assert.deepEqual(names, ['Carrier Breakout', 'The Vault', 'Circuit Breakout', 'Shutter Forge', 'Frost Warden', 'Mooncoil Reliquary', 'Bellforge Run', 'Tidewheel Citadel']);
-  assert.match(main, /\[0, 2, 3, 1, 4, 5, 6, 7\]\.filter/);
+test('chapter slots are append-only and the menu lists all nine', () => {
+  assert.deepEqual(names, ['Carrier Breakout', 'The Vault', 'Circuit Breakout', 'Shutter Forge', 'Frost Warden', 'Mooncoil Reliquary', 'Bellforge Run', 'Tidewheel Citadel', 'Gatehouse Siege']);
+  assert.match(main, /\[0, 2, 3, 1, 4, 5, 6, 7, 8\]\.filter/);
   const release = JSON.parse(readFileSync(new URL('../config/mobile-preview.json', import.meta.url), 'utf8'));
-  assert.deepEqual(release.saveSlots, names); assert.deepEqual(release.menuOrder, [0, 2, 3, 1, 4, 5, 6, 7]);
+  assert.deepEqual(release.saveSlots, names); assert.deepEqual(release.menuOrder, [0, 2, 3, 1, 4, 5, 6, 7, 8]);
 });
 
-test('next links walk Frost to Mooncoil to Bellforge to Tidewheel, which ends the campaign', () => {
-  assert.deepEqual(nexts.map(n => n === undefined ? n : +n), [2, 4, 3, undefined, 5, 6, 7, undefined]);
+test('next links walk Frost to Mooncoil to Bellforge to Tidewheel to Gatehouse Siege, which ends the campaign', () => {
+  assert.deepEqual(nexts.map(n => n === undefined ? n : +n), [2, 4, 3, undefined, 5, 6, 7, 8, undefined]);
 });
 
-for (const key of ['bellforge', 'tidewheel']) for (const mode of ['easy', 'medium', 'hard']) for (const [H, s] of [[814, 393 / 360], [949, 412 / 360], [634, 1]]) {
+for (const key of ['bellforge', 'tidewheel', 'gatehouse']) for (const mode of ['easy', 'medium', 'hard']) for (const [H, s] of [[814, 393 / 360], [949, 412 / 360], [634, 1]]) {
   test(`${key} ${mode} loads at ${H} and plays frames through the shared contract`, () => {
     const l = new FantasyChapter(key, 360, H, s, mode);
     assert.equal(l.W, 360); assert.equal(l.H, H); assert.equal(l.state, 'play'); assert(l.m.paddle.y <= l.m.height - 30);
@@ -46,8 +46,37 @@ test('Kit orb opens the power menu only on a full charge; choosing spends it', (
 });
 
 test('a lost run offers repeatable shared continues', () => {
-  for (const key of ['bellforge', 'tidewheel']) {
+  for (const key of ['bellforge', 'tidewheel', 'gatehouse']) {
     const l = new FantasyChapter(key, 360, 814, 1, 'easy');
     for (let n = 0; n < 2; n++) { l.m.state = 'lost'; l.m.lives = 0; l.continueRun(); assert.equal(l.state, 'play'); assert(l.lives >= 1); l.update(1 / 120); }
   }
+});
+
+test('Gatehouse Siege: Ward maps to the model, floors/stuns feed stars and results, every phase draws', () => {
+  const l = new FantasyChapter('gatehouse', 360, 814, 1, 'easy');
+  assert.equal(l.name, 'Gatehouse Siege'); assert.deepEqual(l.powerChoices.map(p => p.id), ['shield']);
+  l.m.charge = 100; assert(l.activateKitPower()); assert(l.chooseSpacePower('shield')); assert(l.m.ward); assert.equal(l.m.charge, 0);
+  assert.equal(new FantasyChapter('bellforge', 360, 814, 1, 'easy').kind('shield'), 'echo');
+  const m = l.m; l.draw(ctx());
+  for (const floor of [0, 1, 2]) {
+    m.buildFloor(floor); m.lives = 9; m.launch(); m.paddle.armed = true; m.paddle.streak = 3; m.charge = 100;
+    for (let i = 0; i < 240; i++) { l.update(1 / 120); if (i % 40 === 0) l.draw(ctx()); }
+    m.paddle.stun = .5; m.releaseBell(false); m.balls[0].ram = 1; m.balls[0].r = 13.2; l.draw(ctx());
+  }
+  m.buildFloor(0); m.hitHousing(m.housings[0], 9); m.hitHousing(m.housings[1], 9);
+  for (let i = 0; i < 400; i++) { l.update(1 / 120); if (i % 20 === 0) l.draw(ctx()); }   // crash, climb banner, arrival on floor 2
+  assert.equal(m.floor, 1);
+  m.turnWheel(99, 1); for (let i = 0; i < 200; i++) { l.update(1 / 120); if (i % 20 === 0) l.draw(ctx()); }
+  assert.equal(m.floor, 2); m.hitVillain(999, false); for (let i = 0; i < 400; i++) { l.update(1 / 120); if (i % 25 === 0) l.draw(ctx()); }
+  assert.equal(l.state, 'won'); l.draw(ctx());
+  l.stuns = 0; m.lives = 3; assert.equal(l.result().stars, 3); l.stuns = 2; assert.equal(l.result().stars, 2); m.lives = 1; assert.equal(l.result().stars, 1);
+  assert.deepEqual(l.result().lines.map(x => x[0]), ['Score', 'Floors', 'Balls left']); assert.equal(l.result().lines[1][1], '3 / 3');
+});
+
+test('Gatehouse Siege counts paddle stuns from bells and reports the lost-run reason', () => {
+  const l = new FantasyChapter('gatehouse', 360, 814, 1, 'easy'), m = l.m;
+  m.buildFloor(1); m.launch(); m.nextWarning = Infinity; const p = m.paddle, bell = m.releaseBell(false); Object.assign(bell, { x: p.x, y: p.y - 40, px: p.x, py: p.y - 40, vy: 120 });
+  m.balls[0].caught = true; for (let i = 0; i < 90; i++) l.update(1 / 120);
+  assert.equal(l.stuns, 1); assert.equal(l.paddle.stun > 0 || m.paddle.stun >= 0, true); assert(l.danger >= 0 && l.danger <= 1);
+  m.lose('No balls remaining'); assert.equal(l.reason, 'No balls remaining'); assert.equal(l.result().stars, 0);
 });

@@ -36,9 +36,9 @@ export class Gatehouse {
     this.villain = { x: 180, y: 100, foot: { x: 180, y: 100 }, hp: rules.hp, maxHP: rules.hp, stage: 'idle', stageAt: 0, until: 0, body: [], solid: false, defeat: null };
     this.nextWarning = 6; this.teachingDone = false; this.nextTeaching = false;
     const rows = [5, 4, 5][n], bricks = [];
-    for (let row = 0; row < rows; row++) for (let col = 0; col < 7; col++) {
+    for (let row = 0; row < rows; row++) for (let col = 0; col < 6; col++) {
       const armour = n === 2 && row < 2;
-      bricks.push({ id: `brick-${n}-${row}-${col}`, type: armour ? 'armour' : 'brick', x: (W - 300) / 2 + col * 44, y: bottom - (rows - row) * 24 + 6, w: 36, h: 18,
+      bricks.push({ id: `brick-${n}-${row}-${col}`, type: armour ? 'armour' : 'brick', x: (W - 256) / 2 + col * 44, y: bottom - (rows - row) * 24 + 6, w: 36, h: 18,
         hp: armour ? 2 : 1, maxHP: armour ? 2 : 1, colour: ['coral', 'ivory', 'sage'][(row + col) % 3] });
     }
     this.bricks = bricks;
@@ -55,13 +55,14 @@ export class Gatehouse {
       for (const r of [...this.gate.posts, this.gate.lintel]) this.solids.push({ id: `gate-${this.solids.length}`, type: 'rect', ...r });
       this.wheel = { x: 62, y: 206, r: 26, notches: 0, angle: 0, spin: 0 };
       this.holes = [{ x: 300, y: 158 }];
-      this.ramps = [ramp('ramp-r', 352, 226, 76, Math.PI - .2)];
+      // Bells roll outward and drop down a side lane, never through the brick field (which keeps to the middle six columns).
+      this.ramps = [ramp('ramp-r', 262, 226, 74, .2)];
       Object.assign(this.villain, { x: 300, y: 76, foot: { x: 300, y: 118 }, solid: false });
     }
     if (n === 2) {
       Object.assign(this.villain, { x: 180, y: 150, foot: { x: 180, y: 206 }, solid: true });
       this.holes = [{ x: 104, y: 214 }, { x: 256, y: 214 }];
-      this.ramps = [ramp('ramp-l', 8, 240, 74, .2), ramp('ramp-r', 352, 240, 74, Math.PI - .2)];
+      this.ramps = [ramp('ramp-l', 116, 236, 84, Math.PI - .2), ramp('ramp-r', 244, 236, 84, .2)];
       this.nextWarning = 5;
     }
     this.updateBody(); this.makeServe();
