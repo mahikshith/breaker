@@ -1,0 +1,147 @@
+{
+  "scope": "Actual Main phone touch and staged mechanism/ending fixtures; not earned victories or physical handset tests.",
+  "sha256": "6b21de2363df6969a4996028ce236488dcd67c22e1a9a48d2b681f75a066c8eb",
+  "devices": [
+    {
+      "name": "ios",
+      "checks": {
+        "name": "Mooncoil Reliquary",
+        "phase": "rescue",
+        "paddleY": 614,
+        "clearance": 198,
+        "bankTotals": [
+          58,
+          60,
+          60
+        ],
+        "enemyDestructionEarned": 0
+      },
+      "cast": {
+        "active": 7,
+        "charge": 0,
+        "menu": false
+      },
+      "mechanisms": {
+        "crystalAccepted": true,
+        "crystalCount": 2,
+        "crystalPositions": [
+          {
+            "x": 109.50000000000041,
+            "y": 502.5000000000023,
+            "vx": -235,
+            "vy": -325
+          },
+          {
+            "x": 250.49999999999932,
+            "y": 502.5000000000023,
+            "vx": 235,
+            "vy": -325
+          }
+        ],
+        "crystalDoesNotCharge": true,
+        "landed": [
+          {
+            "released": true,
+            "landed": true,
+            "y": 36,
+            "vy": 0
+          },
+          {
+            "released": true,
+            "landed": true,
+            "y": 36,
+            "vy": 0
+          },
+          {
+            "released": true,
+            "landed": true,
+            "y": 36,
+            "vy": 0
+          }
+        ],
+        "phase": "escape",
+        "final": "won",
+        "retreatDone": true
+      },
+      "pauseRetry": true,
+      "noInput": {
+        "state": "lost",
+        "phase": "caught",
+        "time": 239.99999999994606,
+        "eaten": 12
+      },
+      "errors": []
+    },
+    {
+      "name": "android",
+      "checks": {
+        "name": "Mooncoil Reliquary",
+        "phase": "rescue",
+        "paddleY": 675,
+        "clearance": 259,
+        "bankTotals": [
+          58,
+          60,
+          60
+        ],
+        "enemyDestructionEarned": 0
+      },
+      "cast": {
+        "active": 7,
+        "charge": 0,
+        "menu": false
+      },
+      "mechanisms": {
+        "crystalAccepted": true,
+        "crystalCount": 2,
+        "crystalPositions": [
+          {
+            "x": 109.50000000000041,
+            "y": 563.5000000000027,
+            "vx": -235,
+            "vy": -325
+          },
+          {
+            "x": 250.49999999999932,
+            "y": 563.5000000000027,
+            "vx": 235,
+            "vy": -325
+          }
+        ],
+        "crystalDoesNotCharge": true,
+        "landed": [
+          {
+            "released": true,
+            "landed": true,
+            "y": 36,
+            "vy": 0
+          },
+          {
+            "released": true,
+            "landed": true,
+            "y": 36,
+            "vy": 0
+          },
+          {
+            "released": true,
+            "landed": true,
+            "y": 36,
+            "vy": 0
+          }
+        ],
+        "phase": "escape",
+        "final": "won",
+        "retreatDone": true
+      },
+      "pauseRetry": true,
+      "noInput": {
+        "state": "lost",
+        "phase": "caught",
+        "time": 239.99999999994606,
+        "eaten": 12
+      },
+      "errors": []
+    }
+  ],
+  "pass": true
+}

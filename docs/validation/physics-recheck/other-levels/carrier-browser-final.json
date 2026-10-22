@@ -1,0 +1,159 @@
+{
+  "scope": "Actual bundled Main, genuine CDP serve/drag smoke, then explicitly staged LASER positions against the natural first-raid moving fighter. No target/callback substitutions, HP writes or resource grants. Not earned play or human balance.",
+  "htmlSHA256": "6b21de2363df6969a4996028ce236488dcd67c22e1a9a48d2b681f75a066c8eb",
+  "cases": [
+    {
+      "device": "ios",
+      "viewport": {
+        "width": 393,
+        "height": 852,
+        "top": 59,
+        "bottom": 34
+      },
+      "actualTouchSmoke": true,
+      "setup": {
+        "clock": 24.341666666665926,
+        "pose": {
+          "x": 19.717194733791715,
+          "y": 394,
+          "angle": -1.5707963267948966,
+          "w": 48,
+          "h": 40,
+          "age": 4.333333333333087
+        },
+        "from": {
+          "x": 31.817194733791716,
+          "y": 371.71
+        },
+        "dtReal": 0.008333333333333333,
+        "dt": 0.0020833333333333333,
+        "slow": 0,
+        "hp": 2,
+        "charge": 0,
+        "bank": 0
+      },
+      "after": {
+        "hp": 1,
+        "shots": 0,
+        "charge": 0,
+        "bank": 0
+      },
+      "errors": []
+    },
+    {
+      "device": "ios",
+      "viewport": {
+        "width": 393,
+        "height": 852,
+        "top": 59,
+        "bottom": 34
+      },
+      "actualTouchSmoke": true,
+      "setup": {
+        "clock": 24.341666666665926,
+        "pose": {
+          "x": 19.717194733791715,
+          "y": 394,
+          "angle": -1.5707963267948966,
+          "w": 48,
+          "h": 40,
+          "age": 4.333333333333087
+        },
+        "from": {
+          "x": 31.817194733791716,
+          "y": 371.71
+        },
+        "dtReal": 0.008333333333333333,
+        "dt": 0.0020833333333333333,
+        "slow": 2,
+        "hp": 2,
+        "charge": 0,
+        "bank": 0
+      },
+      "after": {
+        "hp": 1,
+        "shots": 0,
+        "charge": 0,
+        "bank": 0
+      },
+      "errors": []
+    },
+    {
+      "device": "android",
+      "viewport": {
+        "width": 412,
+        "height": 915,
+        "top": 32,
+        "bottom": 24
+      },
+      "actualTouchSmoke": true,
+      "setup": {
+        "clock": 24.341666666665926,
+        "pose": {
+          "x": 19.717194733791715,
+          "y": 455,
+          "angle": -1.5707963267948966,
+          "w": 48,
+          "h": 40,
+          "age": 4.333333333333087
+        },
+        "from": {
+          "x": 31.817194733791716,
+          "y": 432.71
+        },
+        "dtReal": 0.008333333333333333,
+        "dt": 0.0020833333333333333,
+        "slow": 0,
+        "hp": 2,
+        "charge": 0,
+        "bank": 0
+      },
+      "after": {
+        "hp": 1,
+        "shots": 0,
+        "charge": 0,
+        "bank": 0
+      },
+      "errors": []
+    },
+    {
+      "device": "android",
+      "viewport": {
+        "width": 412,
+        "height": 915,
+        "top": 32,
+        "bottom": 24
+      },
+      "actualTouchSmoke": true,
+      "setup": {
+        "clock": 24.341666666665926,
+        "pose": {
+          "x": 19.717194733791715,
+          "y": 455,
+          "angle": -1.5707963267948966,
+          "w": 48,
+          "h": 40,
+          "age": 4.333333333333087
+        },
+        "from": {
+          "x": 31.817194733791716,
+          "y": 432.71
+        },
+        "dtReal": 0.008333333333333333,
+        "dt": 0.0020833333333333333,
+        "slow": 2,
+        "hp": 2,
+        "charge": 0,
+        "bank": 0
+      },
+      "after": {
+        "hp": 1,
+        "shots": 0,
+        "charge": 0,
+        "bank": 0
+      },
+      "errors": []
+    }
+  ],
+  "complete": true
+}

@@ -1,0 +1,7 @@
+{
+  "command": "node --test tests/bellforge*.test.js",
+  "modelSHA256": "A36418F1A40E5B95521065D27F80497C241BC30BAA4E1789DA3E9BE7CE3693CF",
+  "failed": 0,
+  "scope": "Fresh focused execution; no runtime changes required by this audit.",
+  "passed": 22
+}

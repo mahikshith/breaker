@@ -1,0 +1,540 @@
+{
+  "version": 1,
+  "source": "art/mooncoil/brick_assets.py",
+  "rig": "art/render_vault_assets.py",
+  "scope": "Blender Cycles CPU4,24samples; same Vault ortho rig/AgX look; dedicated faceted moonstone/silver setting. Exact existing collision footprints and four-unit transparent registration margin. Runtime admission is separate.",
+  "sprites": {
+    "6_1_0": {
+      "path": "assets/mooncoil/brick_b_1_0.png",
+      "px": [
+        72,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        16,
+        16
+      ],
+      "drawSize": [
+        24,
+        24
+      ],
+      "margin": 4,
+      "kind": 6,
+      "width": 1,
+      "damage": 0,
+      "alphaBounds": [
+        12,
+        12,
+        60,
+        60
+      ],
+      "sha256": "cd93c9587c630a5fd2c8dc67111957cb26b9125a6675178a4adfb540dbb7ba74",
+      "encodedBytes": 5064
+    },
+    "6_1_1": {
+      "path": "assets/mooncoil/brick_b_1_1.png",
+      "px": [
+        72,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        16,
+        16
+      ],
+      "drawSize": [
+        24,
+        24
+      ],
+      "margin": 4,
+      "kind": 6,
+      "width": 1,
+      "damage": 1,
+      "alphaBounds": [
+        12,
+        12,
+        60,
+        60
+      ],
+      "sha256": "dfe10691f83f6eb891e9e28fa0521d14772a30ede4ffe3130a3573767bb99d60",
+      "encodedBytes": 5376
+    },
+    "6_2_0": {
+      "path": "assets/mooncoil/brick_b_2_0.png",
+      "px": [
+        120,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        32,
+        16
+      ],
+      "drawSize": [
+        40,
+        24
+      ],
+      "margin": 4,
+      "kind": 6,
+      "width": 2,
+      "damage": 0,
+      "alphaBounds": [
+        12,
+        12,
+        108,
+        60
+      ],
+      "sha256": "88deebf9544e9906887151ccfb44ffc810fb27962a7086ff7f1ef92e4581cccb",
+      "encodedBytes": 8130
+    },
+    "6_2_1": {
+      "path": "assets/mooncoil/brick_b_2_1.png",
+      "px": [
+        120,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        32,
+        16
+      ],
+      "drawSize": [
+        40,
+        24
+      ],
+      "margin": 4,
+      "kind": 6,
+      "width": 2,
+      "damage": 1,
+      "alphaBounds": [
+        12,
+        12,
+        108,
+        60
+      ],
+      "sha256": "7d00683944589a1a546bd99a44a89754e9b89ff4c4e07cc1d0a06f493aa04131",
+      "encodedBytes": 9212
+    },
+    "2_1_0": {
+      "path": "assets/mooncoil/brick_c_1_0.png",
+      "px": [
+        72,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        16,
+        16
+      ],
+      "drawSize": [
+        24,
+        24
+      ],
+      "margin": 4,
+      "kind": 2,
+      "width": 1,
+      "damage": 0,
+      "alphaBounds": [
+        12,
+        12,
+        60,
+        60
+      ],
+      "sha256": "91aac0f1b6a40925a816f0d93984f7eec14364dbc6afedc1e8bb44e46382be96",
+      "encodedBytes": 5051
+    },
+    "2_1_1": {
+      "path": "assets/mooncoil/brick_c_1_1.png",
+      "px": [
+        72,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        16,
+        16
+      ],
+      "drawSize": [
+        24,
+        24
+      ],
+      "margin": 4,
+      "kind": 2,
+      "width": 1,
+      "damage": 1,
+      "alphaBounds": [
+        12,
+        12,
+        60,
+        60
+      ],
+      "sha256": "38205a62ec74d0a6a8c20223dcf8afcb9ae1f71579d9e0bcab59d455fde40c58",
+      "encodedBytes": 5474
+    },
+    "2_2_0": {
+      "path": "assets/mooncoil/brick_c_2_0.png",
+      "px": [
+        120,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        32,
+        16
+      ],
+      "drawSize": [
+        40,
+        24
+      ],
+      "margin": 4,
+      "kind": 2,
+      "width": 2,
+      "damage": 0,
+      "alphaBounds": [
+        12,
+        12,
+        108,
+        60
+      ],
+      "sha256": "a1590c6c80af6b4437279791dc9e58ba44193812f00ee997b978fcd77e76fbbe",
+      "encodedBytes": 8068
+    },
+    "2_2_1": {
+      "path": "assets/mooncoil/brick_c_2_1.png",
+      "px": [
+        120,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        32,
+        16
+      ],
+      "drawSize": [
+        40,
+        24
+      ],
+      "margin": 4,
+      "kind": 2,
+      "width": 2,
+      "damage": 1,
+      "alphaBounds": [
+        12,
+        12,
+        108,
+        60
+      ],
+      "sha256": "8b5853226916d70482fa55051dbb18bcf10b6fd55ced118c4e6d14bd2b617689",
+      "encodedBytes": 8750
+    },
+    "4_1_0": {
+      "path": "assets/mooncoil/brick_t_1_0.png",
+      "px": [
+        72,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        16,
+        16
+      ],
+      "drawSize": [
+        24,
+        24
+      ],
+      "margin": 4,
+      "kind": 4,
+      "width": 1,
+      "damage": 0,
+      "alphaBounds": [
+        12,
+        12,
+        60,
+        60
+      ],
+      "sha256": "fc1cb14bc314e7a58156ad9193ab5fd0a045718de3e2392383fd94c41d9e73fd",
+      "encodedBytes": 5058
+    },
+    "4_1_1": {
+      "path": "assets/mooncoil/brick_t_1_1.png",
+      "px": [
+        72,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        16,
+        16
+      ],
+      "drawSize": [
+        24,
+        24
+      ],
+      "margin": 4,
+      "kind": 4,
+      "width": 1,
+      "damage": 1,
+      "alphaBounds": [
+        12,
+        12,
+        60,
+        60
+      ],
+      "sha256": "881c84e908057e83a4418961ef3790849bd450a0c9cb23fc5c3888a85b2f350c",
+      "encodedBytes": 5225
+    },
+    "4_2_0": {
+      "path": "assets/mooncoil/brick_t_2_0.png",
+      "px": [
+        120,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        32,
+        16
+      ],
+      "drawSize": [
+        40,
+        24
+      ],
+      "margin": 4,
+      "kind": 4,
+      "width": 2,
+      "damage": 0,
+      "alphaBounds": [
+        12,
+        12,
+        108,
+        60
+      ],
+      "sha256": "03163fb95792fcde299de4cbe5a157ca0e85cf615d6e39be1fa6f152344e1329",
+      "encodedBytes": 8174
+    },
+    "4_2_1": {
+      "path": "assets/mooncoil/brick_t_2_1.png",
+      "px": [
+        120,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        32,
+        16
+      ],
+      "drawSize": [
+        40,
+        24
+      ],
+      "margin": 4,
+      "kind": 4,
+      "width": 2,
+      "damage": 1,
+      "alphaBounds": [
+        12,
+        12,
+        108,
+        60
+      ],
+      "sha256": "aeb537b3f3423a9a4269108b9bd041ba8d73b5bb0fb84d38f96d69a61980177c",
+      "encodedBytes": 8788
+    },
+    "3_1_0": {
+      "path": "assets/mooncoil/brick_v_1_0.png",
+      "px": [
+        72,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        16,
+        16
+      ],
+      "drawSize": [
+        24,
+        24
+      ],
+      "margin": 4,
+      "kind": 3,
+      "width": 1,
+      "damage": 0,
+      "alphaBounds": [
+        12,
+        12,
+        60,
+        60
+      ],
+      "sha256": "feff942f2a1ee572b884f890eaa19eaffa9aea44e8f3137e4f0f147367e46582",
+      "encodedBytes": 4998
+    },
+    "3_1_1": {
+      "path": "assets/mooncoil/brick_v_1_1.png",
+      "px": [
+        72,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        16,
+        16
+      ],
+      "drawSize": [
+        24,
+        24
+      ],
+      "margin": 4,
+      "kind": 3,
+      "width": 1,
+      "damage": 1,
+      "alphaBounds": [
+        12,
+        12,
+        60,
+        60
+      ],
+      "sha256": "2a4144682255ab8dd3912c3fcfa1a7c949d2a7bdc4f0e700e7a2d682e3e00bb7",
+      "encodedBytes": 5257
+    },
+    "3_2_0": {
+      "path": "assets/mooncoil/brick_v_2_0.png",
+      "px": [
+        120,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        32,
+        16
+      ],
+      "drawSize": [
+        40,
+        24
+      ],
+      "margin": 4,
+      "kind": 3,
+      "width": 2,
+      "damage": 0,
+      "alphaBounds": [
+        12,
+        12,
+        108,
+        60
+      ],
+      "sha256": "6d1093e73baddb1f59ea71f05e4f015864a493bc127e24f558d26ba6a8e0f1df",
+      "encodedBytes": 7984
+    },
+    "3_2_1": {
+      "path": "assets/mooncoil/brick_v_2_1.png",
+      "px": [
+        120,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        32,
+        16
+      ],
+      "drawSize": [
+        40,
+        24
+      ],
+      "margin": 4,
+      "kind": 3,
+      "width": 2,
+      "damage": 1,
+      "alphaBounds": [
+        12,
+        12,
+        108,
+        60
+      ],
+      "sha256": "cddf41260d77abca25a03d6a4b69f28f5636d87ddb467be7a23a0a60df8910f1",
+      "encodedBytes": 8645
+    },
+    "9_1_0": {
+      "path": "assets/mooncoil/brick_slate_1_0.png",
+      "px": [
+        72,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        16,
+        16
+      ],
+      "drawSize": [
+        24,
+        24
+      ],
+      "margin": 4,
+      "kind": 9,
+      "width": 1,
+      "damage": 0,
+      "alphaBounds": [
+        12,
+        12,
+        60,
+        60
+      ],
+      "sha256": "f9f459763d015bb00c6f07ce11d53da13538d39ccb7f374b7de40d73c863fafa",
+      "encodedBytes": 4627
+    },
+    "9_2_0": {
+      "path": "assets/mooncoil/brick_slate_2_0.png",
+      "px": [
+        120,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        32,
+        16
+      ],
+      "drawSize": [
+        40,
+        24
+      ],
+      "margin": 4,
+      "kind": 9,
+      "width": 2,
+      "damage": 0,
+      "alphaBounds": [
+        12,
+        12,
+        108,
+        60
+      ],
+      "sha256": "509b928147fd7e547d52efc5bbedfff33d497b0a181cf4eb7c5354d07f5dc951",
+      "encodedBytes": 7526
+    },
+    "5_1_0": {
+      "path": "assets/mooncoil/brick_cache_1_0.png",
+      "px": [
+        72,
+        72
+      ],
+      "ppu": 3,
+      "footprint": [
+        16,
+        16
+      ],
+      "drawSize": [
+        24,
+        24
+      ],
+      "margin": 4,
+      "kind": 5,
+      "width": 1,
+      "damage": 0,
+      "alphaBounds": [
+        12,
+        12,
+        60,
+        60
+      ],
+      "sha256": "d78157e3e7cb25db59771d886a88f061fb823349a155a7adb80d62d64a59510e",
+      "encodedBytes": 5537
+    }
+  }
+}

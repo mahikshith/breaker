@@ -1,5 +1,10 @@
 # Continue here
 
+**Latest steering:** Let the owner play current Mooncoil first. Two distinct snakes, new traps/urgency and rendered themed armour/power icons are deferred until that feedback; the current room and snake movement intentionally still reuse Vault.
+
+**2026-10-20 — Fresh physics audit and Mooncoil Reliquary:** Pig and crab were rechecked with new model routes and phone-browser checks. Carrier had a moving-fighter laser miss during Focus; its projectile/actor clock conversion is now corrected and regression-tested. A new browser chapter is appended at index5 (`?level=6`): violet Mooncoil, three broad masonry banks, falling counterweights, Moonbind/Crystals/Cosmic. Read `docs/MOONCOIL_RELIQUARY.md` and `docs/validation/physics-recheck/`. Original Vault difficulty/layout are unchanged. The prior APK is a separate checkpoint.
+
+
 **Vault successful-rescue retreat (2026-10-20):** The owner approved the emerald snake/capture presentation. The final requested correction replaces backward cell stepping/fading with a head-led turn and return into the top tunnel, followed by the whole body and tail. The entrance remains visible, and the result cannot cut off departure. See `docs/FANTASY_REFINEMENT.md` and `docs/validation/snake-retreat/`. Difficulty and black-block removal remain deferred. The earlier capture receipts remain historical evidence for their pinned build.
 
 Last updated 2026-10-20. Active branch: `codex/starship-run-prototype`. The completed five-chapter APK branch is `codex/space-combat-apk` and has been incorporated here.

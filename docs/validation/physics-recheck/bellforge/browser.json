@@ -1,0 +1,163 @@
+{
+  "scope": "Fresh Chromium per case; real standalone page and touch controls at phone sizes. Kit charge fixture is staged. Earned routes read geometry and use only public launch/setTarget/update, with no charge, HP, positions, lives or progression writes. Not physical-device or human-balance proof.",
+  "before": {
+    "src/fantasy/bellforge.js": "a36418f1a40e5b95521065d27f80497c241bc30baa4e1789da3e9be7ce3693cf",
+    "prototypes/fantasy/main.js": "728bbc49adb17a215f7febfea85488185927819ee1210acce5d1eaec89be7542",
+    "prototypes/fantasy/render.js": "57d691a16acd59680f60bbffe698110245f3220369a8a01fc744029cf0dd148e",
+    "prototypes/fantasy/style.css": "8bfdbb1340027000e093cdc75064941e5778113a7bb78e77cc38f735d28a17b6",
+    "assets/fantasy-machinery/manifest.json": "b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13",
+    "assets/fantasy-machinery/nerra-v2-manifest.json": "defc7d7d75af13b50560cbabd79d5115cbeeafa997d9abc5452f5c5e0418fc69",
+    "tools/playtest/bellforge.mjs": "74b5823389c75c26ec07c58286e7d83b15cc0d96253e5b79ae7547a4e76226ee",
+    "tools/playtest/bellforge-policy.mjs": "8bb23d65e02e4caa178ee8cd23dbb59a06380c9281d872a51ceba40b25a32931"
+  },
+  "cases": [
+    {
+      "device": "ios",
+      "mode": "easy",
+      "touch": true,
+      "pauseFreeze": true,
+      "retry": true,
+      "menuReturn": true,
+      "kit": "staged full-charge actual tap, pause eligibility, freeze, consumption",
+      "bricks": 30,
+      "world": {
+        "height": 781,
+        "paddleY": 665.5801526717557
+      },
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "ios",
+      "mode": "medium",
+      "touch": true,
+      "pauseFreeze": true,
+      "retry": true,
+      "menuReturn": true,
+      "kit": "staged full-charge actual tap, pause eligibility, freeze, consumption",
+      "bricks": 30,
+      "world": {
+        "height": 781,
+        "paddleY": 665.5801526717557
+      },
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "ios",
+      "mode": "hard",
+      "touch": true,
+      "pauseFreeze": true,
+      "retry": true,
+      "menuReturn": true,
+      "kit": "staged full-charge actual tap, pause eligibility, freeze, consumption",
+      "bricks": 30,
+      "world": {
+        "height": 781,
+        "paddleY": 665.5801526717557
+      },
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "android",
+      "mode": "easy",
+      "touch": true,
+      "pauseFreeze": true,
+      "retry": true,
+      "menuReturn": true,
+      "kit": "staged full-charge actual tap, pause eligibility, freeze, consumption",
+      "bricks": 30,
+      "world": {
+        "height": 800,
+        "paddleY": 689.9029126213592
+      },
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "android",
+      "mode": "medium",
+      "touch": true,
+      "pauseFreeze": true,
+      "retry": true,
+      "menuReturn": true,
+      "kit": "staged full-charge actual tap, pause eligibility, freeze, consumption",
+      "bricks": 30,
+      "world": {
+        "height": 800,
+        "paddleY": 689.9029126213592
+      },
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "android",
+      "mode": "hard",
+      "touch": true,
+      "pauseFreeze": true,
+      "retry": true,
+      "menuReturn": true,
+      "kit": "staged full-charge actual tap, pause eligibility, freeze, consumption",
+      "bricks": 30,
+      "world": {
+        "height": 800,
+        "paddleY": 689.9029126213592
+      },
+      "errors": [],
+      "http": []
+    }
+  ],
+  "earned": [
+    {
+      "device": "ios",
+      "state": "won",
+      "time": 59.625000000020485,
+      "hp": 0,
+      "lives": 3,
+      "steps": 1,
+      "score": 930,
+      "continued": false,
+      "guard": null,
+      "captured": [
+        "windup",
+        "release",
+        "rolling",
+        "ratchet",
+        "rescue"
+      ],
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "android",
+      "state": "won",
+      "time": 45.183333333342325,
+      "hp": 0,
+      "lives": 3,
+      "steps": 0,
+      "score": 790,
+      "continued": false,
+      "guard": null,
+      "captured": [
+        "windup",
+        "release",
+        "rolling",
+        "rescue"
+      ],
+      "errors": [],
+      "http": []
+    }
+  ],
+  "complete": true,
+  "after": {
+    "src/fantasy/bellforge.js": "a36418f1a40e5b95521065d27f80497c241bc30baa4e1789da3e9be7ce3693cf",
+    "prototypes/fantasy/main.js": "728bbc49adb17a215f7febfea85488185927819ee1210acce5d1eaec89be7542",
+    "prototypes/fantasy/render.js": "57d691a16acd59680f60bbffe698110245f3220369a8a01fc744029cf0dd148e",
+    "prototypes/fantasy/style.css": "8bfdbb1340027000e093cdc75064941e5778113a7bb78e77cc38f735d28a17b6",
+    "assets/fantasy-machinery/manifest.json": "b810545f1c1cabbe6252fbae0ece8b4ccc1637946fd4bca35d97c3a09d41ff13",
+    "assets/fantasy-machinery/nerra-v2-manifest.json": "defc7d7d75af13b50560cbabd79d5115cbeeafa997d9abc5452f5c5e0418fc69",
+    "tools/playtest/bellforge.mjs": "74b5823389c75c26ec07c58286e7d83b15cc0d96253e5b79ae7547a4e76226ee",
+    "tools/playtest/bellforge-policy.mjs": "8bb23d65e02e4caa178ee8cd23dbb59a06380c9281d872a51ceba40b25a32931"
+  }
+}

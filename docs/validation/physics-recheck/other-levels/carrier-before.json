@@ -1,0 +1,52 @@
+{
+  "scope": "Staged LASER crossing diagnostic, natural first-raid approach and actual source fighter silhouette. No geometry or callback substitution; the projectile is positioned to isolate one physical crossing, not an earned shot or human play.",
+  "sourceSHA256": "685c4c8ed75891fc5918406eddc25ae4607e2f824f8565901bcf14e7bbc7f226",
+  "clock": 24.341666666665926,
+  "fighter": {
+    "id": "fighter0-0",
+    "stage": "approach",
+    "stageAt": 23.633333333332633,
+    "pose": {
+      "x": 19.717194733791715,
+      "y": 394,
+      "angle": -1.5707963267948966,
+      "w": 48,
+      "h": 40,
+      "age": 4.333333333333087
+    },
+    "realVelocity": {
+      "vx": 113.94512516680066,
+      "vy": 0
+    }
+  },
+  "timeScale": 0.25,
+  "dtReal": 0.008333333333333333,
+  "dt": 0.0020833333333333333,
+  "ray": {
+    "from": {
+      "x": 31.817194733791712,
+      "y": 371.71
+    },
+    "to": {
+      "x": 31.817194733791712,
+      "y": 370.5433333333333,
+      "r": 6.8,
+      "vy": -560
+    },
+    "correct": {
+      "id": "fighter0-0",
+      "hit": {
+        "t": 0.12674851647029575,
+        "x": 31.817194733791712,
+        "y": 371.56212673078466,
+        "nx": 0.8793598338554984,
+        "ny": -0.47615783370814135
+      }
+    },
+    "incorrect": null
+  },
+  "expected": true,
+  "actual": false,
+  "hpBefore": 2,
+  "hpAfter": 2
+}

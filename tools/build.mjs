@@ -3,6 +3,7 @@
 import { build } from 'esbuild';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 
+const directory = process.argv[2] || 'dist';
 const out = await build({ entryPoints: ['src/main.js'], bundle: true, minify: true, format: 'iife', write: false, target: 'es2022' });
 const js = out.outputFiles[0].text.replace(/<\/script/g, '<\\/script');
 const fonts = `<style>
@@ -14,9 +15,9 @@ const html = readFileSync('index.html', 'utf8')
   .replace(/<link[^>]*https:\/\/fonts\.(?:googleapis|gstatic)\.com[^>]*>\r?\n?/g, '')
   .replace('</head>', `${fonts}\n</head>`)
   .replace(/<script type="module"[^>]*><\/script>/, () => `<script>${js}</script>`);
-mkdirSync('dist', { recursive: true });
-writeFileSync('dist/breach.html', html);
+mkdirSync(directory, { recursive: true });
+writeFileSync(`${directory}/breach.html`, html);
 const head = html.match(/<head>([\s\S]*?)<\/head>/)[1].replace(/<meta charset[^>]*>|<meta name="viewport"[^>]*>/g, '');
 const body = html.match(/<body>([\s\S]*?)<\/body>/)[1].replace(/<div id="safe"[^>]*><\/div>/, '');
-writeFileSync('dist/breach-artifact.html', head.trim() + '\n' + body.trim() + '\n');
-console.log(`dist/breach.html ${(html.length / 1024).toFixed(1)} KB`);
+writeFileSync(`${directory}/breach-artifact.html`, head.trim() + '\n' + body.trim() + '\n');
+console.log(`${directory}/breach.html ${(html.length / 1024).toFixed(1)} KB`);

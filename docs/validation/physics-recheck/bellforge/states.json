@@ -1,0 +1,82 @@
+{
+  "scope": "Explicitly staged loss/progress fixtures in the real standalone page; final-life ball is physically drained, and an actual bell crosses the dock for the danger-stop loss. Actual touch Continue and Retry. No earned outcome claim.",
+  "before": {
+    "src/fantasy/bellforge.js": "a36418f1a40e5b95521065d27f80497c241bc30baa4e1789da3e9be7ce3693cf",
+    "prototypes/fantasy/main.js": "728bbc49adb17a215f7febfea85488185927819ee1210acce5d1eaec89be7542",
+    "prototypes/fantasy/render.js": "57d691a16acd59680f60bbffe698110245f3220369a8a01fc744029cf0dd148e",
+    "prototypes/fantasy/layout.js": "963ad5bd785d403c3cda3fbe9f020a2a5c431dbbe2bec113e8f81f10b06764f0"
+  },
+  "cases": [
+    {
+      "device": "ios",
+      "pass": true,
+      "lostFreeze": true,
+      "actualTouchContinue": true,
+      "preservedProgress": {
+        "hp": 19,
+        "score": 235,
+        "pin": "pin-ramp-0",
+        "angle": -0.32,
+        "charge": 42,
+        "bank": 1
+      },
+      "continued": {
+        "state": "play",
+        "phase": "serve",
+        "hp": 19,
+        "score": 235,
+        "pinHP": 0,
+        "angle": -0.32,
+        "steps": 1,
+        "lives": 2,
+        "charge": 42.115740740740726,
+        "bank": 0.9791666666666667,
+        "continued": true,
+        "grace": 2.9833333333333334
+      },
+      "freshRetry": true,
+      "physicalDockLoss": true,
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "android",
+      "pass": true,
+      "lostFreeze": true,
+      "actualTouchContinue": true,
+      "preservedProgress": {
+        "hp": 19,
+        "score": 235,
+        "pin": "pin-ramp-0",
+        "angle": -0.32,
+        "charge": 42,
+        "bank": 1
+      },
+      "continued": {
+        "state": "play",
+        "phase": "serve",
+        "hp": 19,
+        "score": 235,
+        "pinHP": 0,
+        "angle": -0.32,
+        "steps": 1,
+        "lives": 2,
+        "charge": 42.115740740740726,
+        "bank": 0.9791666666666667,
+        "continued": true,
+        "grace": 2.9833333333333334
+      },
+      "freshRetry": true,
+      "physicalDockLoss": true,
+      "errors": [],
+      "http": []
+    }
+  ],
+  "complete": true,
+  "after": {
+    "src/fantasy/bellforge.js": "a36418f1a40e5b95521065d27f80497c241bc30baa4e1789da3e9be7ce3693cf",
+    "prototypes/fantasy/main.js": "728bbc49adb17a215f7febfea85488185927819ee1210acce5d1eaec89be7542",
+    "prototypes/fantasy/render.js": "57d691a16acd59680f60bbffe698110245f3220369a8a01fc744029cf0dd148e",
+    "prototypes/fantasy/layout.js": "963ad5bd785d403c3cda3fbe9f020a2a5c431dbbe2bec113e8f81f10b06764f0"
+  }
+}

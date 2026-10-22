@@ -1,0 +1,54 @@
+{
+  "scope": "Conservative lower bound, not measured final brick inventory: assign all eaten bricks (maximum2cells each) to every unreleased bank independently. Player removals preserve hits+remaining; fixed rails disable collapse.",
+  "capacities": [
+    57,
+    60,
+    60
+  ],
+  "bounds": [
+    {
+      "device": "ios",
+      "mode": "medium",
+      "eaten": 12,
+      "quota": 26,
+      "conservativeUnreleasedMargin": [
+        7,
+        null,
+        null
+      ]
+    },
+    {
+      "device": "ios",
+      "mode": "hard",
+      "eaten": 12,
+      "quota": 32,
+      "conservativeUnreleasedMargin": [
+        1,
+        4,
+        null
+      ]
+    },
+    {
+      "device": "android",
+      "mode": "medium",
+      "eaten": 12,
+      "quota": 26,
+      "conservativeUnreleasedMargin": [
+        7,
+        10,
+        null
+      ]
+    },
+    {
+      "device": "android",
+      "mode": "hard",
+      "eaten": 12,
+      "quota": 32,
+      "conservativeUnreleasedMargin": [
+        1,
+        4,
+        null
+      ]
+    }
+  ]
+}

@@ -18,10 +18,11 @@ SOURCES = [
     ('sources', 'art/starflight-equipment'),
     ('sources', 'art/fantasy-machinery'),
     ('sources', 'art/snake-emerald'),
+    ('sources', 'art/mooncoil'),
     ('assets', 'design/phase1/weapon-vfx-v2'),
     ('assets', 'design/phase1/weapon-vfx-v3'),
     *[('assets', 'assets/' + name) for name in (
-        'space-a', 'space-b', 'space-c', 'space-common', 'space-companions', 'circuit-companions',
+        'mooncoil', 'space-a', 'space-b', 'space-c', 'space-common', 'space-companions', 'circuit-companions',
         'relay-circuit', 'orbital-forge', 'frost-warden', 'kit', 'kit-cast', 'snake-jade', 'snake-emerald', 'starflight', 'starflight-v2', 'starflight-arsenal', 'starflight-storm', 'starflight-equipment', 'fantasy-machinery')],
     *[('renders', 'out/' + name) for name in (
         'brum-proof', 'kit-proof', 'kit-cast-proof', 'cast',

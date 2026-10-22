@@ -1,0 +1,394 @@
+TAP version 13
+# Subtest: the actual last normal-ball contact beats extraction expiry and suppresses a second live ball
+ok 1 - the actual last normal-ball contact beats extraction expiry and suppresses a second live ball
+  ---
+  duration_ms: 94.39
+  type: 'test'
+  ...
+# Subtest: aerial fire reaches the first real ball on either side of intact housing without damaging that housing
+ok 2 - aerial fire reaches the first real ball on either side of intact housing without damaging that housing
+  ---
+  duration_ms: 2.2041
+  type: 'test'
+  ...
+# Subtest: a physically blocked radius route is ineligible even when its centre ray misses the friendly housing
+ok 3 - a physically blocked radius route is ineligible even when its centre ray misses the friendly housing
+  ---
+  duration_ms: 51.9416
+  type: 'test'
+  ...
+# Subtest: moving actor and bolt snapshots compensate for Focus plus SLOW without changing their real trajectory
+ok 4 - moving actor and bolt snapshots compensate for Focus plus SLOW without changing their real trajectory
+  ---
+  duration_ms: 25.8228
+  type: 'test'
+  ...
+# Subtest: interrupting a partial pull returns continuously while preserving its locked status
+ok 5 - interrupting a partial pull returns continuously while preserving its locked status
+  ---
+  duration_ms: 289.9918
+  type: 'test'
+  ...
+# Subtest: initial serve auto launches at8 seconds; replacement serve at3 without a frozen pressure clock
+ok 6 - initial serve auto launches at8 seconds; replacement serve at3 without a frozen pressure clock
+  ---
+  duration_ms: 183.3578
+  type: 'test'
+  ...
+# Subtest: one continuous bay launch, edge warning and reentry leads to a reachable2HP boarder
+ok 7 - one continuous bay launch, edge warning and reentry leads to a reachable2HP boarder
+  ---
+  duration_ms: 149.3089
+  type: 'test'
+  ...
+# Subtest: route selection excludes an intact friendly housing even when a breakable panel is closer
+ok 8 - route selection excludes an intact friendly housing even when a breakable panel is closer
+  ---
+  duration_ms: 3.7626
+  type: 'test'
+  ...
+# Subtest: enemy fire crosses intact panels and housing without damage, drops, score or core rewards
+ok 9 - enemy fire crosses intact panels and housing without damage, drops, score or core rewards
+  ---
+  duration_ms: 2.2754
+  type: 'test'
+  ...
+# Subtest: a clear route gets its full mode window, connected pull only in the last2, and loss freezes it
+ok 10 - a clear route gets its full mode window, connected pull only in the last2, and loss freezes it
+  ---
+  duration_ms: 164.981
+  type: 'test'
+  ...
+# Subtest: real ordinary ball contacts kill the raider in two episodes without rescuing its locked target
+ok 11 - real ordinary ball contacts kill the raider in two episodes without rescuing its locked target
+  ---
+  duration_ms: 20.4315
+  type: 'test'
+  ...
+# Subtest: a legal lock break on the expiry tick wins the tie and Tick secures only once
+ok 12 - a legal lock break on the expiry tick wins the tie and Tick secures only once
+  ---
+  duration_ms: 18.6838
+  type: 'test'
+  ...
+# Subtest: Focus and visual hit-stop cannot buy extraction time
+ok 13 - Focus and visual hit-stop cannot buy extraction time
+  ---
+  duration_ms: 221.0825
+  type: 'test'
+  ...
+# Subtest: linked gun damage counts actual removed HP once and optional shutdown cancels the raid
+ok 14 - linked gun damage counts actual removed HP once and optional shutdown cancels the raid
+  ---
+  duration_ms: 40.2951
+  type: 'test'
+  ...
+# Subtest: all five rescues latch success without hull grind, late life loss or same-tick laser creation
+ok 15 - all five rescues latch success without hull grind, late life loss or same-tick laser creation
+  ---
+  duration_ms: 6.3162
+  type: 'test'
+  ...
+# Subtest: capture Continue preserves every earned fact and clears only the failed capture/hostile pressure
+ok 16 - capture Continue preserves every earned fact and clears only the failed capture/hostile pressure
+  ---
+  duration_ms: 158.2134
+  type: 'test'
+  ...
+# Subtest: a lethal bolt costs one life, cannot repeat during fresh-serve grace, and SHIELD remains ball-only
+ok 17 - a lethal bolt costs one life, cannot repeat during fresh-serve grace, and SHIELD remains ball-only
+  ---
+  duration_ms: 1.1456
+  type: 'test'
+  ...
+# Subtest: mode construction keeps ordinary geometry and selects real HP, clock and finite manifests
+ok 18 - mode construction keeps ordinary geometry and selects real HP, clock and finite manifests
+  ---
+  duration_ms: 6.8625
+  type: 'test'
+  ...
+# Subtest: mode budget counts partial locks and linked guns once; self TITAN and dead targets earn nothing
+ok 19 - mode budget counts partial locks and linked guns once; self TITAN and dead targets earn nothing
+  ---
+  duration_ms: 2.6958
+  type: 'test'
+  ...
+# Subtest: earned credit fills at one contact per active second through Focus and hit-stop, and freezes during protected phases
+ok 20 - earned credit fills at one contact per active second through Focus and hit-stop, and freezes during protected phases
+  ---
+  duration_ms: 61.2375
+  type: 'test'
+  ...
+# Subtest: active-real jump time starts at launch, survives Focus/hit-stop and cannot expire during final release
+ok 21 - active-real jump time starts at launch, survives Focus/hit-stop and cannot expire during final release
+  ---
+  duration_ms: 99.3152
+  type: 'test'
+  ...
+# Subtest: expired jump is a single terminal outcome and Continue retains wave/resources with bounded time and grace
+ok 22 - expired jump is a single terminal outcome and Continue retains wave/resources with bounded time and grace
+  ---
+  duration_ms: 3.5667
+  type: 'test'
+  ...
+# Subtest: safe rebuild archives five unique secured identities and preserves multiball, HP and every power duration
+ok 23 - safe rebuild archives five unique secured identities and preserves multiball, HP and every power duration
+  ---
+  duration_ms: 2.5083
+  type: 'test'
+  ...
+# Subtest: second grid changes the centre route without overlapping pods or invading the return lane; caches have new IDs
+ok 24 - second grid changes the centre route without overlapping pods or invading the return lane; caches have new IDs
+  ---
+  duration_ms: 5.7486
+  type: 'test'
+  ...
+# Subtest: two complete manifests terminate once with ten safe identities; a defeated hull cancels new work without resurrection
+ok 25 - two complete manifests terminate once with ten safe identities; a defeated hull cancels new work without resurrection
+  ---
+  duration_ms: 13.0211
+  type: 'test'
+  ...
+# Subtest: nose, muzzle, moving collision and housing tractor share the actual48x40 pose at both phone heights
+ok 26 - nose, muzzle, moving collision and housing tractor share the actual48x40 pose at both phone heights
+  ---
+  duration_ms: 8.029
+  type: 'test'
+  ...
+# Subtest: uniform Carrier panels keep centred40x23 slots, finite cache identities and no added grey walls
+ok 27 - uniform Carrier panels keep centred40x23 slots, finite cache identities and no added grey walls
+  ---
+  duration_ms: 3.9133
+  type: 'test'
+  ...
+# Subtest: Nix chooser freezes Carrier pressure, serve and presentation clocks, closes without spending and rejects protected phases
+ok 28 - Nix chooser freezes Carrier pressure, serve and presentation clocks, closes without spending and rejects protected phases
+  ---
+  duration_ms: 4.6632
+  type: 'test'
+  ...
+# Subtest: LASER, pulses and active UNSTOPPABLE damage without farming charge; normal linked impacts earn one pip
+ok 29 - LASER, pulses and active UNSTOPPABLE damage without farming charge; normal linked impacts earn one pip
+  ---
+  duration_ms: 1.6493
+  type: 'test'
+  ...
+# Subtest: spent cannon metal shares the living hull episode and still accepts ordinary damage once
+ok 30 - spent cannon metal shares the living hull episode and still accepts ordinary damage once
+  ---
+  duration_ms: 19.245
+  type: 'test'
+  ...
+# Subtest: one ordinary cannon-and-rim overlap cannot double-damage or double-charge the ship contact
+ok 31 - one ordinary cannon-and-rim overlap cannot double-damage or double-charge the ship contact
+  ---
+  duration_ms: 13.3427
+  type: 'test'
+  ...
+# Subtest: curved beam endpoints track the actual emitter and captive; full pull stays outside both body footprints
+ok 32 - curved beam endpoints track the actual emitter and captive; full pull stays outside both body footprints
+  ---
+  duration_ms: 11.2339
+  type: 'test'
+  ...
+# Subtest: interrupt returns along the saved curve with no first-frame jump; opening the lock rescues from the pulled pose
+ok 33 - interrupt returns along the saved curve with no first-frame jump; opening the lock rescues from the pulled pose
+  ---
+  duration_ms: 51.5963
+  type: 'test'
+  ...
+# Subtest: selected funnel fills a real tapered curved volume around the moving worker and compression rings
+ok 34 - selected funnel fills a real tapered curved volume around the moving worker and compression rings
+  ---
+  duration_ms: 6.0287
+  type: 'test'
+  ...
+# Subtest: high-speed balls and moving thin targets cannot tunnel between substeps
+ok 35 - high-speed balls and moving thin targets cannot tunnel between substeps
+  ---
+  duration_ms: 12.2863
+  type: 'test'
+  ...
+# Subtest: compound hull leaves the real bay empty; only visible shutter leaves close it
+ok 36 - compound hull leaves the real bay empty; only visible shutter leaves close it
+  ---
+  duration_ms: 2.333
+  type: 'test'
+  ...
+# Subtest: inside starts/corners resolve outside with finite normals and conserve speed
+ok 37 - inside starts/corners resolve outside with finite normals and conserve speed
+  ---
+  duration_ms: 0.855
+  type: 'test'
+  ...
+# Subtest: adjoining hull sectors and separate bricks have no false seam normal
+ok 38 - adjoining hull sectors and separate bricks have no false seam normal
+  ---
+  duration_ms: 1.1108
+  type: 'test'
+  ...
+# Subtest: a concave inner corner resolves both exposed faces without extra damage or speed gain
+ok 39 - a concave inner corner resolves both exposed faces without extra damage or speed gain
+  ---
+  duration_ms: 0.8697
+  type: 'test'
+  ...
+# Subtest: piercing damage counts one episode until exit/reentry and solid materials still bounce
+ok 40 - piercing damage counts one episode until exit/reentry and solid materials still bounce
+  ---
+  duration_ms: 0.8347
+  type: 'test'
+  ...
+# Subtest: fresh snapshots keep episode IDs and dead/trigger callbacks cannot cause extra hits
+ok 41 - fresh snapshots keep episode IDs and dead/trigger callbacks cannot cause extra hits
+  ---
+  duration_ms: 1.1705
+  type: 'test'
+  ...
+# Subtest: swept laser queries agree with holes, moving circles and corners without side effects
+ok 42 - swept laser queries agree with holes, moving circles and corners without side effects
+  ---
+  duration_ms: 1.6014
+  type: 'test'
+  ...
+# Subtest: callbacks can deactivate another compound target before its pending damage dispatch
+ok 43 - callbacks can deactivate another compound target before its pending damage dispatch
+  ---
+  duration_ms: 1.4925
+  type: 'test'
+  ...
+# Subtest: aim simulation does not mutate live targets or share live-ball episode state
+ok 44 - aim simulation does not mutate live targets or share live-ball episode state
+  ---
+  duration_ms: 157.2527
+  type: 'test'
+  ...
+# Subtest: Carrier uses one continuous image transform through both signed safe-inset origins
+ok 45 - Carrier uses one continuous image transform through both signed safe-inset origins
+  ---
+  duration_ms: 8.7937
+  type: 'test'
+  ...
+# Subtest: Carrier dimensions persist through earned split, burst and TITAN expiry
+ok 46 - Carrier dimensions persist through earned split, burst and TITAN expiry
+  ---
+  duration_ms: 17.0157
+  type: 'test'
+  ...
+# Subtest: Carrier UNSTOPPABLE uses the existing cosmic sprite while ordinary balls retain their Carrier artwork
+ok 47 - Carrier UNSTOPPABLE uses the existing cosmic sprite while ordinary balls retain their Carrier artwork
+  ---
+  duration_ms: 3.9415
+  type: 'test'
+  ...
+# Subtest: an ordinary ball breaks visible panel cover, rebounds and drops one authored reward
+ok 48 - an ordinary ball breaks visible panel cover, rebounds and drops one authored reward
+  ---
+  duration_ms: 5.4942
+  type: 'test'
+  ...
+# Subtest: the open bay stays empty and disabled opaque machinery remains physical
+ok 49 - the open bay stays empty and disabled opaque machinery remains physical
+  ---
+  duration_ms: 5.3422
+  type: 'test'
+  ...
+# Subtest: aim preview cannot damage actual crew, carrier, guns or rewards
+ok 50 - aim preview cannot damage actual crew, carrier, guns or rewards
+  ---
+  duration_ms: 23.4835
+  type: 'test'
+  ...
+# Subtest: all five housings begin safe release while optional carrier damage remains unfinished
+ok 51 - all five housings begin safe release while optional carrier damage remains unfinished
+  ---
+  duration_ms: 5.4816
+  type: 'test'
+  ...
+# Subtest: loss freezes actors and Continue keeps earned progress with a fresh protected serve
+ok 52 - loss freezes actors and Continue keeps earned progress with a fresh protected serve
+  ---
+  duration_ms: 4.6356
+  type: 'test'
+  ...
+# Subtest: cannon warning precedes aerial fire; intact panels survive and direct paddle hits cost one life
+ok 53 - cannon warning precedes aerial fire; intact panels survive and direct paddle hits cost one life
+  ---
+  duration_ms: 6.5666
+  type: 'test'
+  ...
+# Subtest: fast enemy shots traverse the complete intact field and hit or miss the actual paddle without changing any cover/reward
+ok 54 - fast enemy shots traverse the complete intact field and hit or miss the actual paddle without changing any cover/reward
+  ---
+  duration_ms: 46.3263
+  type: 'test'
+  ...
+# Subtest: Carrier aerial boarding reaches extraction through an entirely intact field without a breach projectile
+ok 55 - Carrier aerial boarding reaches extraction through an entirely intact field without a breach projectile
+  ---
+  duration_ms: 140.2064
+  type: 'test'
+  ...
+# Subtest: Carrier batteries independently warn before staggered shots and rest when current WIDE has no escape
+ok 56 - Carrier batteries independently warn before staggered shots and rest when current WIDE has no escape
+  ---
+  duration_ms: 7.1001
+  type: 'test'
+  ...
+# Subtest: Forge both-gun salvos preserve delayed launch, full cleanup and paused/terminal clock invariants
+ok 57 - Forge both-gun salvos preserve delayed launch, full cleanup and paused/terminal clock invariants
+  ---
+  duration_ms: 5.3436
+  type: 'test'
+  ...
+# Subtest: a real final normal-ball contact wins the deadline tie in either manifest and suppresses a later miss
+ok 58 - a real final normal-ball contact wins the deadline tie in either manifest and suppresses a later miss
+  ---
+  duration_ms: 59.1603
+  type: 'test'
+  ...
+# Subtest: a held previous-wave pointer or Space cannot launch the replacement serve without a fresh press
+ok 59 - a held previous-wave pointer or Space cannot launch the replacement serve without a fresh press
+  ---
+  duration_ms: 28.3231
+  type: 'test'
+  ...
+# Subtest: second-wave Continue keeps archived identities, damaged modules and a consumed cache exactly once
+ok 60 - second-wave Continue keeps archived identities, damaged modules and a consumed cache exactly once
+  ---
+  duration_ms: 7.047
+  type: 'test'
+  ...
+# Subtest: destroying the hull in wave two cancels the jump without resetting earned manifest progress
+ok 61 - destroying the hull in wave two cancels the jump without resetting earned manifest progress
+  ---
+  duration_ms: 10.2978
+  type: 'test'
+  ...
+# Subtest: a docking or frozen-breach transition cannot teleport the moving fighter and its collision
+ok 62 - a docking or frozen-breach transition cannot teleport the moving fighter and its collision
+  ---
+  duration_ms: 259.2488
+  type: 'test'
+  ...
+# Subtest: menu migration preserves mapped legacy records while preventing cross-mode stars and persists the pick
+ok 63 - menu migration preserves mapped legacy records while preventing cross-mode stars and persists the pick
+  ---
+  duration_ms: 5.6958
+  type: 'test'
+  ...
+# Subtest: Carrier LASER hits the actual moving fighter during Focus, with or without SLOW, at both phone geometries
+ok 64 - Carrier LASER hits the actual moving fighter during Focus, with or without SLOW, at both phone geometries
+  ---
+  duration_ms: 224.6121
+  type: 'test'
+  ...
+1..64
+# tests 64
+# suites 0
+# pass 64
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1285.606

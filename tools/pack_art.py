@@ -13,6 +13,22 @@ def uri(im, q=88, lossless=False):
 art = {'sprites': {}}
 with Image.open(A('fantasy-machinery', 'bellforge-background.png')) as keep:
     art['keepBackdrop'] = uri(keep, 88)
+art['mooncoil'] = {'bricks': {}}
+moon_background = A('mooncoil', 'background.png')
+if os.path.exists(moon_background):
+    with Image.open(moon_background) as im:
+        assert not im.info, 'Mooncoil background metadata must be stripped'
+        art['mooncoil']['background'] = uri(im, 90)
+moon_manifest = A('mooncoil', 'bricks-manifest.json')
+if os.path.exists(moon_manifest):
+    manifest = json.load(open(moon_manifest, encoding='utf-8'))
+    for key, spec in manifest['sprites'].items():
+        path = os.path.join(ROOT, spec['path'])
+        with Image.open(path) as im:
+            assert im.mode == 'RGBA' and not im.info, f'Invalid Mooncoil brick: {key}'
+            assert list(im.size) == spec['px']
+            art['mooncoil']['bricks'][key] = {'url': uri(im, 100, lossless=True),
+                'margin': spec['margin'], 'uw': spec['drawSize'][0], 'uh': spec['drawSize'][1]}
 art['spaceWeapons'] = {}
 for name in ('shot', 'impact'):
     path = os.path.join(ROOT, 'design', 'phase1', 'weapon-vfx-v3', f'plasma-{name}-runtime.png')

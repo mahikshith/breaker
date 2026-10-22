@@ -1,0 +1,311 @@
+{
+  "scope": "One fixed seed/policy per phone/mode. Actual embedded Main and live Mooncoil; geometry-reading model input assistance through pointerDown/Move/Up, release, power menu/choice and update. Natural cache powers allowed and observed. No HP/resource/life/seal/grid/position/progress writes or Continue; not touch-only human balance or physical-device performance.",
+  "before": {
+    "out/mooncoil-layout-preview/breach.html": "921840f69a1e1af720b999140e3212cc6c1a1cd32a824adc50a8de01d6c0955c",
+    "src/mooncoil.js": "674fb260fd2be615f7d756d611166bef46deca273e34a4a9f08e73647dec6ab5",
+    "src/mooncoil-layout.js": "ed9efb7b2d00639a6ed1aa756be204eb1240171140dd2e6ffdd58dec36fac224",
+    "src/vault.js": "7c58e2f3184e6c8733f0490e7b68eb372702d32189977aae2001f36afdf5c8fc",
+    "src/arena.js": "9754b8db430b7e84a9c093103a06ce7f3c1a2b89846e4cf48d84bd5660533edf",
+    "src/physics.js": "091d241a8b2c106707c101871c5619e3dc295d15ce1ff0efc95a27f8df9a9cf2"
+  },
+  "useCore": true,
+  "policy": "Cosmic then Crystals then Moonbind",
+  "seed": 20261020,
+  "cases": [
+    {
+      "device": "ios",
+      "mode": "easy",
+      "time": 35.691666666665284,
+      "state": "won",
+      "phase": "frenzy",
+      "reason": null,
+      "lives": 3,
+      "score": 4420,
+      "cageHP": 0,
+      "cageMax": 6,
+      "gateOpen": true,
+      "snake": {
+        "eaten": 1,
+        "cost": 15.539994239807129
+      },
+      "brickHP": 0,
+      "charge": 1,
+      "balls": 13,
+      "finite": true,
+      "firstBrick": 3.383333333333324,
+      "firstCharge": 27.59166666666574,
+      "firstCageHit": 27.59166666666574,
+      "straightServe": null,
+      "tenSeconds": {
+        "cageHP": 6,
+        "phase": "rescue",
+        "gateOpen": false,
+        "score": 180
+      },
+      "casts": [
+        {
+          "time": 27.59166666666574,
+          "choice": "titan"
+        }
+      ],
+      "drops": [
+        {
+          "time": 19.274999999999547,
+          "kind": "slow"
+        }
+      ],
+      "returns": 25,
+      "samples": [],
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "ios",
+      "mode": "medium",
+      "time": 40.68333333333167,
+      "state": "won",
+      "phase": "frenzy",
+      "reason": null,
+      "lives": 3,
+      "score": 4522,
+      "cageHP": 0,
+      "cageMax": 8,
+      "gateOpen": true,
+      "snake": {
+        "eaten": 2,
+        "cost": 10.809999465942383
+      },
+      "brickHP": 0,
+      "charge": 1,
+      "balls": 13,
+      "finite": true,
+      "firstBrick": 3.383333333333324,
+      "firstCharge": 31.05833333333221,
+      "firstCageHit": 27.59166666666574,
+      "straightServe": null,
+      "tenSeconds": {
+        "cageHP": 8,
+        "phase": "rescue",
+        "gateOpen": false,
+        "score": 180
+      },
+      "casts": [
+        {
+          "time": 31.05833333333221,
+          "choice": "titan"
+        }
+      ],
+      "drops": [
+        {
+          "time": 19.274999999999547,
+          "kind": "slow"
+        }
+      ],
+      "returns": 29,
+      "samples": [],
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "ios",
+      "mode": "hard",
+      "time": 44.27499999999813,
+      "state": "won",
+      "phase": "frenzy",
+      "reason": null,
+      "lives": 3,
+      "score": 4647,
+      "cageHP": 0,
+      "cageMax": 10,
+      "gateOpen": true,
+      "snake": {
+        "eaten": 3,
+        "cost": 4.800000190734863
+      },
+      "brickHP": 0,
+      "charge": 1,
+      "balls": 13,
+      "finite": true,
+      "firstBrick": 3.383333333333324,
+      "firstCharge": 34.441666666665355,
+      "firstCageHit": 27.59166666666574,
+      "straightServe": null,
+      "tenSeconds": {
+        "cageHP": 10,
+        "phase": "rescue",
+        "gateOpen": false,
+        "score": 180
+      },
+      "casts": [
+        {
+          "time": 34.441666666665355,
+          "choice": "titan"
+        }
+      ],
+      "drops": [
+        {
+          "time": 19.274999999999547,
+          "kind": "slow"
+        },
+        {
+          "time": 44.22499999999813,
+          "kind": "split"
+        }
+      ],
+      "returns": 30,
+      "samples": [],
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "android",
+      "mode": "easy",
+      "time": 38.27499999999847,
+      "state": "won",
+      "phase": "frenzy",
+      "reason": null,
+      "lives": 3,
+      "score": 4591,
+      "cageHP": 0,
+      "cageMax": 6,
+      "gateOpen": true,
+      "snake": {
+        "eaten": 1,
+        "cost": 15.539994239807129
+      },
+      "brickHP": 0,
+      "charge": 1,
+      "balls": 13,
+      "finite": true,
+      "firstBrick": 4.258333333333335,
+      "firstCharge": 31.31666666666553,
+      "firstCageHit": 24.941666666665892,
+      "straightServe": null,
+      "tenSeconds": {
+        "cageHP": 6,
+        "phase": "rescue",
+        "gateOpen": false,
+        "score": 143
+      },
+      "casts": [
+        {
+          "time": 31.31666666666553,
+          "choice": "titan"
+        }
+      ],
+      "drops": [
+        {
+          "time": 11.674999999999978,
+          "kind": "slow"
+        }
+      ],
+      "returns": 30,
+      "samples": [],
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "android",
+      "mode": "medium",
+      "time": 42.40833333333157,
+      "state": "won",
+      "phase": "frenzy",
+      "reason": null,
+      "lives": 3,
+      "score": 4729,
+      "cageHP": 0,
+      "cageMax": 8,
+      "gateOpen": true,
+      "snake": {
+        "eaten": 2,
+        "cost": 10.809999465942383
+      },
+      "brickHP": 0,
+      "charge": 1,
+      "balls": 13,
+      "finite": true,
+      "firstBrick": 4.258333333333335,
+      "firstCharge": 35.44999999999863,
+      "firstCageHit": 24.941666666665892,
+      "straightServe": null,
+      "tenSeconds": {
+        "cageHP": 8,
+        "phase": "rescue",
+        "gateOpen": false,
+        "score": 143
+      },
+      "casts": [
+        {
+          "time": 35.44999999999863,
+          "choice": "titan"
+        }
+      ],
+      "drops": [
+        {
+          "time": 11.674999999999978,
+          "kind": "slow"
+        }
+      ],
+      "returns": 31,
+      "samples": [],
+      "errors": [],
+      "http": []
+    },
+    {
+      "device": "android",
+      "mode": "hard",
+      "time": 46.44166666666467,
+      "state": "won",
+      "phase": "frenzy",
+      "reason": null,
+      "lives": 3,
+      "score": 4853,
+      "cageHP": 0,
+      "cageMax": 10,
+      "gateOpen": true,
+      "snake": {
+        "eaten": 3,
+        "cost": 5.440000534057617
+      },
+      "brickHP": 0,
+      "charge": 1,
+      "balls": 13,
+      "finite": true,
+      "firstBrick": 4.258333333333335,
+      "firstCharge": 39.483333333331736,
+      "firstCageHit": 24.941666666665892,
+      "straightServe": null,
+      "tenSeconds": {
+        "cageHP": 10,
+        "phase": "rescue",
+        "gateOpen": false,
+        "score": 143
+      },
+      "casts": [
+        {
+          "time": 39.483333333331736,
+          "choice": "titan"
+        }
+      ],
+      "drops": [
+        {
+          "time": 11.674999999999978,
+          "kind": "slow"
+        }
+      ],
+      "returns": 33,
+      "samples": [],
+      "errors": [],
+      "http": []
+    }
+  ],
+  "complete": true,
+  "after": {
+    "out/mooncoil-layout-preview/breach.html": "921840f69a1e1af720b999140e3212cc6c1a1cd32a824adc50a8de01d6c0955c",
+    "src/mooncoil.js": "674fb260fd2be615f7d756d611166bef46deca273e34a4a9f08e73647dec6ab5",
+    "src/mooncoil-layout.js": "ed9efb7b2d00639a6ed1aa756be204eb1240171140dd2e6ffdd58dec36fac224",
+    "src/vault.js": "7c58e2f3184e6c8733f0490e7b68eb372702d32189977aae2001f36afdf5c8fc",
+    "src/arena.js": "9754b8db430b7e84a9c093103a06ce7f3c1a2b89846e4cf48d84bd5660533edf",
+    "src/physics.js": "091d241a8b2c106707c101871c5619e3dc295d15ce1ff0efc95a27f8df9a9cf2"
+  }
+}

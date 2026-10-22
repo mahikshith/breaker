@@ -17,7 +17,7 @@ export function spacePowerLayout(level) {
   const s = level.kitUIScale, kit = level.kitPowers;
   const w = Math.min(level.W - 24 / s, (kit ? 344 : 374) / s), h = (kit ? 122 : 238) / s;
   const x = kit ? 12 / s : (level.W - w) / 2, y = level.kitAnchor().y - level.kitAnchor().r - h - 8 / s;
-  const powers = level.kitPowers ? KIT_POWERS : SPACE_POWERS;
+  const powers = level.powerChoices || (level.kitPowers ? KIT_POWERS : SPACE_POWERS);
   const gap = (kit ? 8 : 10) / s, cw = (w - 24 / s - gap * (powers.length - 1)) / powers.length;
   return { x, y, w, h, close: { x: x + w - 44 / s, y, w: 44 / s, h: 44 / s },
     choices: powers.map((p, i) => ({ ...p, x: x + 12 / s + i * (cw + gap), y: y + (kit ? 44 : 64) / s, w: cw, h: (kit ? 66 : 142) / s })) };
@@ -43,7 +43,13 @@ export function drawSpacePowerMenu(g, level) {
     g.save(); if (!level.canChoosePower(c.id)) g.globalAlpha *= .4;
     g.fillStyle = level.kitPowers ? '#493447' : '#39304b'; rrect(g, c.x, c.y, c.w, c.h, 10 / s); g.fill();
     g.strokeStyle = c.color; g.fillStyle = c.color; g.lineWidth = 2 / s;
-    if (c.id === 'shield') {
+    if (c.id === 'moonbind') {
+      g.beginPath(); g.arc(cx, cy, 12 / s, -.8, 4.6); g.stroke();
+      g.beginPath(); g.moveTo(cx, cy - 8 / s); g.lineTo(cx, cy); g.lineTo(cx + 6 / s, cy + 3 / s); g.stroke();
+    } else if (c.id === 'ricochet') {
+      g.beginPath(); g.moveTo(cx - 11 / s, cy + 11 / s); g.lineTo(cx + 11 / s, cy); g.lineTo(cx - 11 / s, cy - 11 / s); g.stroke();
+      g.beginPath(); g.arc(cx - 11 / s, cy - 11 / s, 4 / s, 0, 7); g.fill();
+    } else if (c.id === 'shield') {
       g.beginPath(); g.moveTo(cx - 10 / s, cy - 12 / s); g.lineTo(cx + 10 / s, cy - 12 / s); g.lineTo(cx + 9 / s, cy + 2 / s);
       g.quadraticCurveTo(cx + 7 / s, cy + 10 / s, cx, cy + 14 / s); g.quadraticCurveTo(cx - 7 / s, cy + 10 / s, cx - 9 / s, cy + 2 / s); g.closePath(); g.fill(); g.stroke();
     } else if (c.id === 'arrows') {

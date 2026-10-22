@@ -46,3 +46,17 @@ tools/playtest/snake-*.mjs -text
 src/serpent-retreat.js -text
 tests/serpent-retreat.test.js -text
 docs/validation/snake-retreat/** -text
+
+# Preserve the new chapter and the shared files sealed by this physics review.
+src/mooncoil.js -text
+src/arena.js -text
+src/carrier.js -text
+src/main.js -text
+src/space-companions.js -text
+tests/physics-recheck-carrier.test.js -text
+tools/playtest/mooncoil*.mjs -text
+tools/playtest/physics-recheck*.mjs -text
+docs/validation/mooncoil/** -text
+docs/validation/physics-recheck/** -text
+art/mooncoil/** -text
+src/mooncoil-layout.js -text
