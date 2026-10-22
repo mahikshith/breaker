@@ -288,6 +288,39 @@ function rivals() {
   };
 }
 
+// Lumi Breaks Out: bricks yield to a ram ball; cage bars, the roof bell and Gnash's body circles stay solid.
+function lumitower() {
+  let C;
+  return {
+    name: 'lumitower', kind: 'fantasy',
+    async init() { C ||= await load('fantasy/lumitower.js', 'LumiTower'); },
+    make(phone, difficulty) {
+      const m = new C({ ...fantasyWorld(phone), difficulty });
+      return {
+        level: m, dt: 1 / 120, nominal: 345,
+        step() { m.update(this.dt); },
+        timeFactor() { return 1; },
+        get state() { return m.state; }, get lives() { return m.lives; }, get time() { return m.time; },
+        balls() { return m.balls; },
+        active(b) { return !b.dead && !b.caught && m.phase === 'play'; },
+        bounds() { return { left: 0, right: m.width, top: 12, bottom: m.height }; },
+        paddle() { const p = m.paddle; return { x: p.x, top: p.y, w: p.w, h: p.h, stunned: false }; },
+        serving() { return m.phase === 'serve' && m.state === 'play'; },
+        serve(angle) { m.launch(-Math.PI / 2 + angle); },
+        control(x) { if (x !== null) m.setTarget(x); },
+        continue() { m.continued = false; m.continue(); },
+        progress() { return m.score + m.floor * 1000 + (m.bell ? m.bell.rings * 50 : 0) + m.bricks.reduce((n, b) => n + Math.max(0, b.hp), 0); },
+        snapshot() {
+          const shapes = [];
+          for (const t of m.targets()) if (!(t.item?.hp <= 0)) shapes.push(...shapesOf(t, t.kind === 'brick' && t.item.type === 'brick').map(e => ({ ...e, pierceable: t.kind === 'brick' && t.item.type === 'brick' ? undefined : false })));
+          for (const s of m.snakeTargets()) shapes.push({ id: `gnash-${s.head ? 'head' : 'body'}`, pierceable: false, s: { type: 'circle', x: s.b.x, y: s.b.y, r: s.r } });
+          return { shapes };
+        },
+      };
+    },
+  };
+}
+
 export const ADAPTERS = [
   arena('carrier', 'carrier.js', 'Carrier'),
   arena('vault', 'vault.js', 'Vault', { shapes: serpent }),
@@ -298,5 +331,6 @@ export const ADAPTERS = [
   bellforge(),
   tidewheel(),
   gatehouse(),
+  lumitower(),
   rivals(),
 ];
