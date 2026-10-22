@@ -28,7 +28,7 @@ function tunnelling() {
       g.step(DT); if (b.dead) break; steps++;
       const deep = { ...b, r: b.r - 1.5 };
       for (const c of g.villain.body) if (Math.hypot(b.x - c.x, b.y - c.y) < b.r + c.r - 1.5) { pen++; kinds.korr = (kinds.korr || 0) + 1; }
-      for (const t of g.targets()) if (t.kind !== 'villain' && t.item?.hp !== 0 && !(t.kind === 'brick' && b.ram > 0) && overlapsTarget(deep, t)) { pen++; kinds[t.id] = (kinds[t.id] || 0) + 1; }
+      for (const t of g.targets()) if (t.kind !== 'villain' && t.item?.hp !== 0 && !(t.kind === 'brick' && t.item.type === 'brick' && b.ram > 0) && overlapsTarget(deep, t)) { pen++; kinds[t.id] = (kinds[t.id] || 0) + 1; }
       // The ramp collider is the whole drawn beam (q.body); fall back to the art line for older ramps.
       for (const q of g.ramps) { const c = q.body ? rampPose(q.body) : q, half = (q.body || q).thickness / 2; if (segDist(b.x, b.y, c.a, c.b) < b.r + half - 1.5) { pen++; kinds[q.id] = (kinds[q.id] || 0) + 1; } }
     }

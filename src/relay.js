@@ -4,6 +4,7 @@ import { Arena } from './arena.js';
 import { loadImg, ready, drawBall, drawStretchPaddle } from './gfx.js';
 import { sweepTarget } from './carrier-physics.js';
 import { sfx } from './audio.js';
+import { RAM } from './fantasy/ram.js';
 import { drawEnemyBolt, drawPlayerBolt, drawEnemyImpact, drawWeaponCharge, nextEnemyVolley, enemyEscapeLane } from './space-weapons.js';
 import { drawLatchJam } from './space-companions.js';
 import { drawLiveSkiff } from './skiff.js';
@@ -77,16 +78,18 @@ export class Relay extends Arena {
     for(const b of this.bolts)if(!b.dead)add(b.id,[{type:'circle',x:b.x,y:b.y,r:b.r}],{solid:false,vx:b.vx*rate,vy:b.vy*rate});
     return out;
   }
+  // Sweet-Spot Ram: one-hit panels plough; armoured panels, relay nodes, hull and cannons bounce it (villain parts take RAM.damage).
+  ramPierce(t){return!!t&&this.bricks.some(b=>b.id===t.id&&b.maxHP===1);}
   world(){const targets=this.targets(1/Math.max(.001,this.timeScale*(this.slowT>0?.68:1)));return{...super.world(),targets,onTarget:(id,b)=>{const live=this.hitTarget(id,b);if(!live)for(const t of targets)if(t.id===id)t.active=false;return live;}};}
   hitTarget(id,b){
     if(this.state!=='play'||!['relay','flight'].includes(this.phase))return true;
     const bolt=this.bolts.find(s=>s.id===id);if(bolt){if(!bolt.dead){bolt.dead=true;this.addScore(20);this.recordWeaponImpact(bolt,bolt);}return false;}
     if(id==='circuit-hull'){this.damageHull(b);return true;}
     const gun=this.guns.find(g=>g.id===id);
-    if(gun){if(gun.hp>0){gun.hp=Math.max(0,gun.hp-(b.shot?1:b.titan>0?4:b.fire?3:1));gun.hurt=.14;if(!gun.hp){const s=this.attack?.sources?.find(s=>s.id===id);if(s){s.cancelled=true;s.done=true;}else if(this.attack?.id===id)this.attack=null;}}this.damageHull(b);return true;}
+    if(gun){if(gun.hp>0){gun.hp=Math.max(0,gun.hp-(b.shot?1:b.titan>0?4:b.fire?3:b.ram>0?RAM.damage:1));gun.hurt=.14;if(!gun.hp){const s=this.attack?.sources?.find(s=>s.id===id);if(s){s.cancelled=true;s.done=true;}else if(this.attack?.id===id)this.attack=null;}}this.damageHull(b);return true;}
     const obj=this.bricks.find(o=>o.id===id)||this.nodes.find(o=>o.id===id)||this.guns.find(o=>o.id===id);if(!obj)return true;if(obj.hp<=0)return this.guns.includes(obj);
     if(b.pulse!==undefined&&obj.lastPulse===b.pulse)return true;obj.lastPulse=b.pulse;
-    const brick=this.bricks.includes(obj),node=this.nodes.includes(obj),damage=b.shot?1:b.titan>0?4:b.fire?(brick?obj.hp:3):1;
+    const brick=this.bricks.includes(obj),node=this.nodes.includes(obj),damage=b.shot?1:b.titan>0?4:b.fire?(brick?obj.hp:3):b.ram>0&&!brick&&!node?RAM.damage:1;
     obj.hp=Math.max(0,obj.hp-damage);obj.hurt=.14;this.addScore(brick?15:70);this.fx.ring(b.x,b.y,brick?'#a0dfff':'#e8a8ef',10);this.bump(.06,brick?0:.012);sfx.tough();
     this.chargeSpacePower(b);
     if(!obj.hp){if(brick||node){this.brokeBrick();if(obj.payload)this.dropPower(obj.art.rect.x+obj.art.rect.w/2,obj.art.rect.y+obj.art.rect.h,obj.payload);if(node)this.fx.ring(obj.x,obj.y,'#adbbeb',28);}else if(this.attack?.id===id)this.attack=null;}
@@ -96,7 +99,7 @@ export class Relay extends Arena {
     if(this.hp<=0||this.hullContacts.get(b)===this.clock)return;
     if(b.pulse!==undefined&&this.lastHullPulse===b.pulse)return;
     this.hullContacts.set(b,this.clock);this.lastHullPulse=b.pulse;
-    this.hp=Math.max(0,this.hp-(b.shot?1:b.titan>0?4:b.fire?3:1));this.chargeSpacePower(b);this.addScore(70);this.fx.ring(b.x,b.y,'#b9deff',16);sfx.tough();
+    this.hp=Math.max(0,this.hp-(b.shot?1:b.titan>0?4:b.fire?3:b.ram>0?RAM.damage:1));this.chargeSpacePower(b);this.addScore(70);this.fx.ring(b.x,b.y,'#b9deff',16);sfx.tough();
     if(!this.hp)this.finishCircuit();else if(this.hp<=this.maxHP/2&&!this.burstSpent){this.burstPending=true;if(this.phase==='relay'){this.phase='launch';this.freezeBalls();}}
   }
   freezeBalls(){this.aim=null;for(const b of this.balls)if(!b.dead){b.caught=true;b.trail.length=0;}this.shots.length=0;}
@@ -189,7 +192,7 @@ export class Relay extends Arena {
   continueRun(){if(this.state!=='lost')return;this.attack=null;this.bolts.length=this.shots.length=0;this.balls.length=0;this.aim=null;this.phase='relay';this.nextAttack=this.clock+3;super.continueRun();this.serveLimit=3;}
   drawDeck(g){super.drawDeck(g);}
   drawEnemyBolts(g){for(const b of this.bolts)drawEnemyBolt(g,b,this.clock-b.bornAt);for(const h of this.weaponImpacts)drawEnemyImpact(g,h,this.clock-h.at);}
-  drawBalls(g){if(this.phase!=='relay'||this.state!=='play')return;this.drawShots(g);for(const b of this.balls){if(b.dead)continue;if(b.titan>0){drawBall(g,b);continue;}const a=this.fit('ball',[b.x-b.r,b.y-b.r,b.r*2,b.r*2]);this.part(g,'ball',a.x,a.y,a.w,a.h);}}
+  drawBalls(g){if(this.phase!=='relay'||this.state!=='play')return;this.drawShots(g);for(const b of this.balls){if(b.dead)continue;if(b.titan>0||b.ram>0){drawBall(g,b);continue;}const a=this.fit('ball',[b.x-b.r,b.y-b.r,b.r*2,b.r*2]);this.part(g,'ball',a.x,a.y,a.w,a.h);}}
   drawNodeEnergy(g,n){
     // A projected phase coil, not a solid cartridge: scan gaps expose the window behind it.
     // Its projector retracts before the real port fires; the actual metal frame owns armour hits.

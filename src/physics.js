@@ -32,8 +32,8 @@ export function stepBall(b, dt, world) {
     if (b.x - b.r < world.left) { b.x = world.left + b.r; b.vx = Math.abs(b.vx); world.onWall?.(b); }
     if (b.x + b.r > world.right) { b.x = world.right - b.r; b.vx = -Math.abs(b.vx); world.onWall?.(b); }
     if (b.y - b.r < world.top) { b.y = world.top + b.r; b.vy = Math.abs(b.vy); world.onWall?.(b); }
-    if (G) collideGrid(b, G, world.onHit);
-    if (world.targets) collideTargets(b, world.targets, world.onTarget, (i + 1) * h);
+    if (G) collideGrid(b, G, world.onHit, world.ramCell);
+    if (world.targets) collideTargets(b, world.targets, world.onTarget, (i + 1) * h, world.ramTarget);
     if (b.dead) break;
     if (world.paddle) collidePaddle(b, world.paddle, world.onPaddle);
     if (b.y - b.r > world.bottom) { b.dead = true; world.onLost?.(b); }
@@ -49,28 +49,31 @@ function keepVertical(b) {
 }
 
 const hitBuf = [];
-export function collideGrid(b, G, onHit) {
+// ramCell(value, c, r): true for an ordinary brick a live Sweet-Spot Ram (b.ram > 0) ploughs through without bouncing.
+export function collideGrid(b, G, onHit, ramCell) {
   const c0 = Math.floor((b.x - b.r - G.ox) / G.cw), c1 = Math.floor((b.x + b.r - G.ox) / G.cw);
   const r0 = Math.floor((b.y - b.r - G.oy) / G.ch), r1 = Math.floor((b.y + b.r - G.oy) / G.ch);
   let nx = 0, ny = 0, pen = 0;
-  const piercing = b.fire || b.titan > 0;
+  const piercing = b.fire || b.titan > 0, ram = b.ram > 0 && ramCell;
+  const passes = (v, c, r) => (piercing && !G.unpierceable?.includes(v)) || (ram && ramCell(v, c, r));
   hitBuf.length = 0;
   for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
-    if (!cellAt(G, c, r)) continue;
+    const v = cellAt(G, c, r);
+    if (!v) continue;
     const x0 = G.ox + c * G.cw, y0 = G.oy + r * G.ch, x1 = x0 + G.cw, y1 = y0 + G.ch;
     const px = Math.min(Math.max(b.x, x0), x1), py = Math.min(Math.max(b.y, y0), y1);
     let dx = b.x - px, dy = b.y - py;
     const d = Math.hypot(dx, dy);
     if (d >= b.r) continue;
-    if (piercing && !G.unpierceable?.includes(cellAt(G, c, r))) { hitBuf.push(c, r); continue; }
+    if (passes(v, c, r)) { hitBuf.push(c, r); continue; }
     if (d === 0) { dx = -b.vx; dy = -b.vy; }
     else if (dx && dy) {
       // Corner contact. If the neighbour along one axis is solid this is really a flat face
       // made of many small bricks, so bounce off the face instead of the seam ("ghost edge").
       const sx = Math.sign(dx), sy = Math.sign(dy);
       const alongX = cellAt(G, c + sx, r), alongY = cellAt(G, c, r + sy);
-      if (alongX && (!piercing || G.unpierceable?.includes(alongX))) dx = 0;
-      else if (alongY && (!piercing || G.unpierceable?.includes(alongY))) dy = 0;
+      if (alongX && !passes(alongX, c + sx, r)) dx = 0;
+      else if (alongY && !passes(alongY, c, r + sy)) dy = 0;
     }
     const m = Math.hypot(dx, dy) || 1;
     nx += dx / m; ny += dy / m;

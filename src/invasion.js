@@ -7,6 +7,7 @@ import { drawInvader, drawMothership } from './characters.js';
 import { Debris } from './debris.js';
 import { ART } from './vault-art.js';
 import { sfx } from './audio.js';
+import { RAM } from './fantasy/ram.js';
 
 const COLS = 11, ROWS = 9, CW = 28, CH = 18;
 const EMPTY = 0, CANDY = 1, ARMOR = 2, POWERB = 3, BOT = 4;
@@ -79,6 +80,8 @@ export class Invasion extends Arena {
   }
 
   // ---------- rules ----------
+  // Sweet-Spot Ram: candy and power bricks plough; armour and the toy robots take a normal hit.
+  ramPierce(brick) { return brick?.cell === CANDY || brick?.cell === POWERB; }
   hitCell(c, r, b) {
     const G = this.grid, k = r * COLS + c, v = G.cells[k];
     if (!v) return;
@@ -252,7 +255,7 @@ export class Invasion extends Arena {
       const vn = b.vx * nx + b.vy * ny;
       if (vn < 0) { b.vx -= 2 * vn * nx; b.vy -= 2 * vn * ny; }
       b.x = B.x + dx / d * ex * 1.01; b.y = B.y - 2.8 + dy / d * ey * 1.01; b.hitBoss = B.t;
-      this.hitBoss(b.titan > 0 ? 4 : b.fire ? 3 : 1, b.x, b.y);
+      this.hitBoss(b.titan > 0 ? 4 : b.fire ? 3 : b.ram > 0 ? RAM.damage : 1, b.x, b.y);
       if (!this.boss) return;
     }
   }

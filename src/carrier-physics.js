@@ -83,15 +83,16 @@ export function overlapsTarget(ball, target, time = 0) {
 }
 
 // Geometry is sampled at tick start; vx/vy translate it within this step.
-export function collideTargets(ball, targets, onTarget, time = 0) {
+// ramTarget(target): true for an ordinary brick a live Sweet-Spot Ram (ball.ram > 0) ploughs through without bouncing.
+export function collideTargets(ball, targets, onTarget, time = 0, ramTarget) {
   let held = episodes.get(ball);
   if (!held) { held = new Set(); episodes.set(ball, held); }
   const touching = new Set(), hits = [], solid = [];
-  const powered = ball.fire || ball.titan > 0;
+  const powered = ball.fire || ball.titan > 0, ram = ball.ram > 0 && ramTarget;
   for (const target of targets) {
     if (!live(target)) continue;
     const list = entries(target, time), id = target.id ?? target;
-    if (target.solid !== false && !(powered && target.pierceable !== false)) solid.push(...list);
+    if (target.solid !== false && !(powered && target.pierceable !== false) && !(ram && ramTarget(target))) solid.push(...list);
     if (!contact(ball, list, SKIN)) continue;
     touching.add(id);
     if (!held.has(id) && contact(ball, list)) { held.add(id); hits.push(target); }

@@ -61,22 +61,25 @@ function gridDepth(G, x, y, solid) {
   if (open(0, 1)) d = Math.min(d, y0 + G.ch - y);
   return d === Infinity ? Math.min(G.cw, G.ch) : d; // fully enclosed cell: deep inside the wall
 }
-// Snapshot = { grid?, shapes: [{ id, s, dx?, dy?, pierceable }] } (dx/dy: the shape advanced along its velocity); returns deepest containment for a ball centre.
+// Snapshot = { grid?, ramCell?, shapes: [{ id, s, dx?, dy?, pierceable, ram }] } (dx/dy: the shape advanced along its velocity);
+// returns deepest containment for a ball centre. Fire/TITAN balls pass through pierceable shapes; a live Sweet-Spot Ram only
+// through what its level calls an ordinary brick (shape.ram / snap.ramCell), so armour, props, walls stay solid to it.
 export function deepest(snap, b) {
-  const powered = b.fire || b.titan > 0 || b.ram > 0; // fire/TITAN/ram balls pass through pierceable shapes
+  const powered = b.fire || b.titan > 0, ram = b.ram > 0;
   let best = null;
   if (snap.grid) {
-    const G = snap.grid, d = gridDepth(G, b.x, b.y, v => !powered || G.unpierceable?.includes(v));
+    const G = snap.grid, d = gridDepth(G, b.x, b.y, v => (!powered || G.unpierceable?.includes(v)) && !(ram && snap.ramCell?.(v)));
     if (d > 0) best = { id: 'grid', depth: d };
   }
   for (const e of snap.shapes) {
     if (powered && e.pierceable !== false) continue;
+    if (ram && e.ram) continue;
     const d = depthIn(e.s, b.x - (e.dx || 0), b.y - (e.dy || 0));
     if (d > 0 && (!best || d > best.depth)) best = { id: e.id, depth: d };
   }
   return best;
 }
-const shapesOf = t => (t.shapes || [t]).map(s => ({ id: t.id ?? '?', s, pierceable: t.pierceable }));
+const shapesOf = (t, ram = false) => (t.shapes || [t]).map(s => ({ id: t.id ?? '?', s, pierceable: t.pierceable, ram }));
 const liveSolid = t => t.active !== false && !(t.hp !== undefined && t.hp <= 0) && t.solid !== false;
 
 const HP_OBJECTS = ['carrier', 'hull', 'core', 'warden'], HP_LISTS = ['bricks', 'nodes', 'guns', 'crew', 'fighters', 'stations', 'defences'];
@@ -94,7 +97,8 @@ function arena(name, file, cls, extra = {}) {
       // Capture the exact world each Arena.update resolves against (no second targets() build), and check
       // live balls against it before they move: a collider that appeared or jumped onto a ball ("engulfed").
       let caps = [], engulfed = [];
-      const solidsOf = w => { const shapes = []; for (const t of w.targets || []) if (liveSolid(t)) shapes.push(...shapesOf(t)); extra.shapes?.(l, shapes); return { grid: w.grid, shapes }; };
+      const ramCell = v => l.ramPierce({ cell: v }), ramOf = t => !!l.ramPierce(t);
+      const solidsOf = w => { const shapes = []; for (const t of w.targets || []) if (liveSolid(t)) shapes.push(...shapesOf(t, ramOf(t))); extra.shapes?.(l, shapes); return { grid: w.grid, ramCell, shapes }; };
       l.world = function () {
         const w = proto.world.call(this), snap = solidsOf(w);
         caps.push({ w, scale: this.timeScale * (this.slowT > 0 ? .68 : 1) });
@@ -136,9 +140,9 @@ function arena(name, file, cls, extra = {}) {
         snapshot() {
           const c = caps.at(-1); if (!c) return null; // no ball physics ran this tick (cut-scene / flight phases)
           const time = this.dt / caps.length * c.scale, shapes = [];
-          for (const t of c.w.targets || []) if (liveSolid(t)) for (const e of shapesOf(t)) shapes.push(time && (t.vx || t.vy) ? { ...e, dx: (t.vx || 0) * time, dy: (t.vy || 0) * time } : e);
+          for (const t of c.w.targets || []) if (liveSolid(t)) for (const e of shapesOf(t, ramOf(t))) shapes.push(time && (t.vx || t.vy) ? { ...e, dx: (t.vx || 0) * time, dy: (t.vy || 0) * time } : e);
           extra.shapes?.(l, shapes);
-          return { grid: l.grid, shapes };
+          return { grid: l.grid, ramCell, shapes };
         },
       };
     },
@@ -178,7 +182,7 @@ function bellforge() {
         progress() { return m.score + m.villain.hp + m.bricks.reduce((n, b) => n + Math.max(0, b.hp), 0) + m.bells.reduce((n, b) => n + Math.max(0, b.hp), 0); },
         snapshot() {
           const shapes = [];
-          for (const b of m.bricks) if (b.hp > 0) shapes.push({ id: b.id, s: { type: 'rect', x: b.x, y: b.y, w: b.w, h: b.h } });
+          for (const b of m.bricks) if (b.hp > 0) shapes.push({ id: b.id, ram: b.type === 'brick', s: { type: 'rect', x: b.x, y: b.y, w: b.w, h: b.h } }); // ramp pins stay solid to a ram
           if (m.villain.hp > 0) for (const s of m.villain.body) shapes.push({ id: 'korr', s });
           for (const r of m.ramps) { const q = rampPose(r); shapes.push({ id: r.id, s: { type: 'capsule', a: q.a, b: q.b, r: r.thickness / 2 } }); }
           for (const b of m.bells) if (!b.dead && b.hp > 0) shapes.push({ id: `bell-${b.id}`, s: { type: 'circle', x: b.x, y: b.y, r: b.r } });
@@ -211,7 +215,7 @@ function tidewheel() {
         control(x) { if (x !== null) m.setTarget(x); },
         continue() { m.continued = false; m.continue(); }, // as src/fantasy/chapter.js continueRun
         progress() { return m.score + m.villain.hp + m.bricks.reduce((n, b) => n + Math.max(0, b.hp), 0) + m.gates.reduce((n, g) => n + Math.max(0, g.hp), 0) + m.rafts.reduce((n, r) => n + Math.max(0, r.braceHP), 0); },
-        snapshot() { return { shapes: m.targets(0).filter(liveSolid).flatMap(shapesOf) }; },
+        snapshot() { return { shapes: m.targets(0).filter(liveSolid).flatMap(t => shapesOf(t, t.kind === 'brick')) }; }, // a ram ploughs raft bricks only
       };
     },
   };
@@ -240,8 +244,8 @@ function gatehouse() {
         progress() { return m.score + m.floor * 1000 + m.villain.hp + (m.wheel?.notches || 0) + [...m.bricks, ...m.housings, ...m.bells].reduce((n, b) => n + Math.max(0, b.hp), 0); },
         snapshot() {
           const shapes = [];
-          // only bricks yield to a ram ball; housings, gate, wheel and Korr stay solid
-          for (const t of m.targets()) if (!(t.item?.hp <= 0)) shapes.push(...shapesOf(t).map(e => ({ ...e, pierceable: t.kind === 'brick' ? undefined : false })));
+          // only ordinary bricks yield to a ram ball; armour, housings, gate, wheel and Korr stay solid
+          for (const t of m.targets()) if (!(t.item?.hp <= 0)) shapes.push(...shapesOf(t, t.kind === 'brick' && t.item.type === 'brick').map(e => ({ ...e, pierceable: false })));
           for (const r of m.ramps) { const q = rampPose(r); shapes.push({ id: r.id, pierceable: false, s: { type: 'capsule', a: q.a, b: q.b, r: r.thickness / 2 } }); }
           for (const b of m.bells) if (!b.dead) shapes.push({ id: `bell-${b.id}`, pierceable: false, s: { type: 'circle', x: b.x, y: b.y, r: b.r } });
           return { shapes };
@@ -275,7 +279,7 @@ function rivals() {
         progress() { return m.score + m.floor * 1000 + (m.seal ? m.seal.hp + m.seal.ward : 0) + m.bricks.reduce((n, b) => n + Math.max(0, b.hp), 0); },
         snapshot() {
           const shapes = [];
-          for (const t of m.targets()) if (!(t.item?.hp <= 0)) shapes.push(...shapesOf(t).map(e => ({ ...e, pierceable: t.kind === 'brick' && t.item.type === 'brick' ? undefined : false })));
+          for (const t of m.targets()) if (!(t.item?.hp <= 0)) shapes.push(...shapesOf(t, t.kind === 'brick' && t.item.type === 'brick').map(e => ({ ...e, pierceable: t.kind === 'brick' && t.item.type === 'brick' ? undefined : false })));
           for (const s of m.snakeTargets()) shapes.push({ id: `${s.lunge.snake}-${s.head ? 'head' : 'body'}`, pierceable: false, s: { type: 'circle', x: s.b.x, y: s.b.y, r: s.r } });
           return { shapes };
         },

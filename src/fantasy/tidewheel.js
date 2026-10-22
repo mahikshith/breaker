@@ -1,5 +1,6 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { ejectBall } from '../clearance.js';
+import { RAM, ramStreak, tickRam, ramThrough, endRam } from './ram.js';
 import { TIDEWHEEL_V2_GEOMETRY } from './tidewheel-v2-geometry.js';
 import { TIDEWHEEL_REACTIONS_GEOMETRY } from './tidewheel-reaction-geometry.js';
 
@@ -30,7 +31,7 @@ export class Tidewheel {
     this.time=0;this.state='play';this.phase='serve';this.paused=false;this.started=false;this.lives=3;this.score=0;
     this.charge=0;this.chargeBank=0;this.serial=0;this.effects=[];this.pulses=[];this.anchor=null;
     this.shots=[];this.powerMaxTimes={anchor:8,volley:3,cosmic:6};this.powerTimers={anchor:0,volley:0,cosmic:0};this.volley=null;this.cosmic=null;
-    this.paddle={x:width/2,px:width/2,y:paddleY,w:100,h:14,targetX:width/2};
+    this.paddle={x:width/2,px:width/2,y:paddleY,w:100,h:14,targetX:width/2,streak:0,armed:false};
     const initial=Math.min(380,paddleY-265);
     this.water={y:initial+38,target:initial+38,initial:initial+38,limit:75+REFUGE_LIP_OFFSET,current:0};
     this.rafts=[0,1].map(n=>({id:'raft'+n,x:n?width-102:102,y:initial,px:n?width-102:102,py:initial,baseX:n?width-102:102,vx:0,vy:0,angle:0,previousAngle:0,omega:0,initial,stop:initial-20,braceHP:2,maxBraceHP:2}));
@@ -44,7 +45,7 @@ export class Tidewheel {
   }
   pause(value=true){this.paused=!!value;}
   setTarget(x){if(Number.isFinite(x))this.paddle.targetX=clamp(x,12+this.paddle.w/2,this.width-12-this.paddle.w/2);}
-  serve(){this.balls=[{id:++this.serial,x:this.paddle.x,y:this.paddle.y-15,px:this.paddle.x,py:this.paddle.y-15,vx:0,vy:0,r:6,caught:true,contacts:new Set()}];this.phase='serve';this.serveAt=this.started?this.time+3:Infinity;}
+  serve(){this.balls=[{id:++this.serial,x:this.paddle.x,y:this.paddle.y-15,px:this.paddle.x,py:this.paddle.y-15,vx:0,vy:0,r:6,caught:true,ram:0,ramBricks:0,contacts:new Set()}];this.phase='serve';this.serveAt=this.started?this.time+3:Infinity;}
   launch(angle=-Math.PI/2){
     if(this.paused||this.state!=='play')return false;
     const b=this.balls.find(b=>b.caught);if(!b)return false;
@@ -64,7 +65,7 @@ export class Tidewheel {
       this.cancelSurge();this.drain(24);this.effects.push({kind:'anchor',x:310,y:244,age:0,life:.6});
     }else if(kind==='volley')this.volley={time:3,maxTime:3,remaining:5,nextAt:0,age:0};
     else{
-      const b=this.balls.find(b=>!b.caught)||this.balls[0];b.titan=this.powerMaxTimes.cosmic;b.r=8;
+      const b=this.balls.find(b=>!b.caught)||this.balls[0];endRam(this,b);b.titan=this.powerMaxTimes.cosmic;b.r=8;
       this.cosmic={time:b.titan,maxTime:b.titan,ballId:b.id};
     }
     return true;
@@ -78,13 +79,13 @@ export class Tidewheel {
   drain(amount){this.water.target=Math.min(this.water.initial,this.water.target+amount);}
   cancelSurge(){const v=this.villain;if(v.enraged)v.anger=0;v.enraged=false;v.stage='recover';v.stageTime=0;v.clawHits=0;this.pulseWarning=null;this.pulses=[];this.nextSurge=Math.max(this.nextSurge,this.time+3);}
   creditHit(ball){
-    if(ball?.powerShot||ball?.titan>0||ball?.pierceExit?.size)return;
+    if(ball?.powerShot||ball?.titan>0||ball?.ram>0||ball?.pierceExit?.size)return;
     this.chargeBank=Math.min(100-this.charge,this.chargeBank+100/this.rules.credits);
   }
   clearPowers(){
     this.anchor=this.volley=this.cosmic=null;this.shots=[];
     for(const key of Object.keys(this.powerTimers))this.powerTimers[key]=0;
-    for(const b of this.balls||[]){b.titan=0;b.r=6;b.pierceExit?.clear();}
+    for(const b of this.balls||[]){b.titan=0;b.r=6;b.ram=0;b.ramBricks=0;b.pierceExit?.clear();}
   }
   updatePowers(dt){
     const launched=this.phase==='play'&&this.balls.some(b=>!b.caught);
@@ -168,7 +169,7 @@ export class Tidewheel {
     if(this.phase==='rescue'||this.state!=='play')return;
     this.pulses=[];this.clearPowers();this.cancelSurge();this.attackGrace=this.time+3;
     this.nextSurge=Math.max(this.nextSurge,this.attackGrace);this.nextPulse=Math.max(this.nextPulse,this.attackGrace);
-    if(--this.lives<=0){this.state='lost';this.loss=reason;}else this.serve();
+    this.paddle.streak=0;if(--this.lives<=0){this.state='lost';this.loss=reason;}else this.serve();
   }
   beginPull(){const v=this.villain;v.attack='pull';v.stage='pullWindup';v.stageTime=0;v.clawHits=0;v.side=1;v.enraged=this.teachingDone&&v.anger>=3&&this.time>=this.startedAt+3;}
   beginPulse(){
@@ -295,6 +296,7 @@ export class Tidewheel {
     if(c.reflected&&!b.contacts.has('nerra')&&this.time-(b.lastNerraHit??-Infinity)>=.1){b.contacts.add('nerra');b.lastNerraHit=this.time;this.hit(touched.t,b);}
   }
   moveBall(b,dt){
+    tickRam(this,b,dt);
     this.clearNerra(b,this.targets(dt));
     let left=dt;
     for(let bounce=0;bounce<5&&left>1e-7;bounce++){
@@ -314,9 +316,11 @@ export class Tidewheel {
       if(!first){b.x=end.x;b.y=end.y;break;}
       b.x+=b.vx*left*first.t;b.y+=b.vy*left*first.t;left*=1-first.t;
       const t=first.target,piercing=b.titan>0&&!!t.kind,normal=(b.vx-(t.vx||0))*first.nx+(b.vy-(t.vy||0))*first.ny;
+      // A ram ploughs through the raft bricks: they break and the flight continues unchanged (braces, gates, decks and Nerra bounce it).
+      if(t.kind==='brick'&&ramThrough(this,b,t,()=>this.hit(t,b))){if(this.phase==='rescue')return;if(first.t<1e-6)left=Math.max(0,left-1e-5);continue;}
       if(t.id==='paddle'){
         const u=clamp((b.x-this.paddle.x)/(this.paddle.w/2),-.9,.9),angle=-Math.PI/2+u*1.05;
-        b.vx=Math.cos(angle)*345;b.vy=Math.sin(angle)*345;
+        b.vx=Math.cos(angle)*345;b.vy=Math.sin(angle)*345;ramStreak(this,b,u);
       }else if(!piercing&&normal<0){b.vx-=2*normal*first.nx;b.vy-=2*normal*first.ny;this.normalize(b);}
       if(piercing){const speed=Math.hypot(b.vx,b.vy);b.x+=b.vx/speed*.06;b.y+=b.vy/speed*.06;}
       else{b.x+=first.nx*.06;b.y+=first.ny*.06;}
@@ -351,6 +355,7 @@ export class Tidewheel {
     this.pulses=this.pulses.filter(q=>q.age<q.life&&q.x>-40&&q.x<this.width+40&&q.y<this.height+30);
     this.shots=this.shots.filter(s=>!s.dead);
   }
+  ramPierce(target){return target.kind==='brick';}
   normalize(b){const s=Math.hypot(b.vx,b.vy)||345;b.vx*=345/s;b.vy*=345/s;if(Math.abs(b.vy)<75){b.vy=Math.sign(b.vy||-1)*75;b.vx=Math.sign(b.vx||1)*Math.sqrt(345**2-75**2);}}
   hit(target,b){
     this.effects.push({kind:'hit',x:b.x,y:b.y,age:0,life:.3});
@@ -373,7 +378,7 @@ export class Tidewheel {
       return;
     }
     if(!['shell','claw'].includes(target.kind)||this.phase==='rescue')return;
-    const v=this.villain;v.hp=Math.max(0,v.hp-1);this.score+=50;v.stunUntil=this.time+.4;v.anger=Math.min(3,v.anger+1);
+    const v=this.villain;v.hp=Math.max(0,v.hp-(b.ram>0?RAM.damage:1));this.score+=50;v.stunUntil=this.time+.4;v.anger=Math.min(3,v.anger+1);
     this.creditHit(b);
     if(target.kind==='claw'&&['pullWindup','pulseWindup'].includes(v.stage)&&(target.clawSide===v.side||target.id==='claw'+v.side)&&++v.clawHits>=2)this.cancelSurge();
     if(this.teachingDone&&v.anger>=3&&v.stage==='idle')this.nextSurge=Math.min(this.nextSurge,Math.max(this.time+3,this.attackGrace));

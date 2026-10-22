@@ -1,10 +1,11 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { KORR_BODIES, rampPose, sweepMovingSegment, circleSweep, reflect, lerpPoint } from './bellforge.js';
+import { SPEED, RAM, paddleBounce, tickRam, ramThrough } from './ram.js';
 
 // Gatehouse Siege: Kit storms three floors of the Menagerie gatehouse. Floor 1 drops the drawbridge (two counterweight
 // housings), floor 2 winches the portcullis while Korr drops bells through a murder hole, floor 3 is the duel with Korr.
 // Lives, score and Kit charge carry between floors; Continue keeps the current floor's progress.
-const STEP = 1 / 240, SPEED = 345, RAM = { r: 13.2, time: 2.5, bricks: 14, damage: 3 };
+const STEP = 1 / 240;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 export const GATEHOUSE_MODES = {
   easy: { hp: 24, housing: 4, notches: 8, interval: 10, tell: 1.8, bellCap: 1, coreHits: 18 },
@@ -199,7 +200,7 @@ export class Gatehouse {
       const bell = typeof id === 'number' && this.bells.find(v => v.id === id), target = !bell && targets.find(t => t.id === id);
       if (bell ? Math.hypot(b.x - bell.x, b.y - bell.y) > b.r + bell.r + .1 : !target || !overlapsTarget({ ...b, r: b.r + .1 }, target)) b.contacts.delete(id);
     }
-    if (b.ram > 0 && (b.ram -= dt) <= 0) this.endRam(b);
+    tickRam(this, b, dt);
     let left = dt;
     for (let pass = 0; pass < 8 && left > 1e-8 && !b.dead; pass++) {
       const from = { x: b.x, y: b.y }, to = { x: b.x + b.vx * left, y: b.y + b.vy * left }, hits = [], elapsed = 1 - left / dt;
@@ -216,14 +217,10 @@ export class Gatehouse {
       hits.sort((a, q) => a.t - q.t); const hit = hits[0];
       if (!hit) { b.x = to.x; b.y = to.y; break; }
       b.x += (to.x - from.x) * hit.t; b.y += (to.y - from.y) * hit.t;
-      // A ram ball ploughs through ordinary bricks: they break and the flight continues unchanged.
-      if (hit.kind === 'brick' && b.ram > 0) {
-        const brick = hit.item.item; brick.hp = 1; this.hitBrick(brick, b); b.ramBricks--;
-        if (b.ramBricks <= 0) this.endRam(b);
-        left *= 1 - hit.t; continue;
-      }
+      // A ram ball ploughs through ordinary bricks (not armour): they break and the flight continues unchanged.
+      if (hit.kind === 'brick' && ramThrough(this, b, hit.item.item)) { left *= 1 - hit.t; continue; }
       b.x += hit.nx * ((hit.depth || 0) + .015); b.y += hit.ny * ((hit.depth || 0) + .015);
-      if (hit.kind === 'paddle') this.paddleHit(b);
+      if (hit.kind === 'paddle') paddleBounce(this, b);
       else {
         const speed = Math.hypot(b.vx, b.vy); reflect(b, hit);
         const next = Math.hypot(b.vx, b.vy); if (next > 0) { b.vx *= speed / next; b.vy *= speed / next; }
@@ -243,19 +240,6 @@ export class Gatehouse {
     if (speed && Math.abs(b.vy) < speed * .22) { b.vy = Math.sign(b.vy || 1) * speed * .22; b.vx = Math.sign(b.vx || 1) * Math.sqrt(speed * speed - b.vy * b.vy); }
     if (b.y - b.r > this.height) b.dead = true;
   }
-  // Sweet spot: three centre-third paddle hits in a row arm the ram; the next centre hit launches it.
-  paddleHit(b) {
-    const p = this.paddle, offset = clamp((b.x - p.x) / (p.w / 2), -.95, .95), centre = Math.abs(offset) < 1 / 3;
-    const speed = Math.min(SPEED * 1.28, Math.hypot(b.vx, b.vy) * 1.012), a = offset * 1.08;
-    b.vx = Math.sin(a) * speed; b.vy = -Math.cos(a) * speed; this.effect(b.x, b.y, 'paddle', .12);
-    if (!centre) { if (!p.armed) p.streak = 0; return; }
-    if (p.armed && !(b.ram > 0)) {
-      p.armed = false; p.streak = 0; b.ram = RAM.time; b.ramBricks = RAM.bricks; b.y -= RAM.r - b.r; b.r = RAM.r;
-      this.effect(b.x, b.y, 'ram-launch', .5); return;
-    }
-    if (!p.armed && ++p.streak >= 3) { p.armed = true; this.effect(p.x, p.y, 'ram-armed', .6); }
-  }
-  endRam(b) { if (b.r !== 6) { b.r = 6; b.ram = 0; b.ramBricks = 0; this.effect(b.x, b.y, 'ram-end', .3); } }
   hitBrick(brick, ball) {
     if (brick.hp <= 0) return;
     brick.hp--; this.score += 10;

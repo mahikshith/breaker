@@ -6,6 +6,7 @@ import { sweepTarget } from './carrier-physics.js';
 import { ejectBall, overlapsAny } from './clearance.js';
 import { brick, cached, loadImg, ready, text, rrect, SPR, drawKitCastFlight, drawKitBrickArmour } from './gfx.js';
 import { sfx } from './audio.js';
+import { RAM } from './fantasy/ram.js';
 
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 export const FROST_MODES = {
@@ -131,6 +132,8 @@ export class Frost extends Arena {
       ...p.otherHands.map((h, i) => ({ id: 'warden', hp: this.warden.hp, type: 'circle', ...h, vx: ((ahead.otherHands[i]?.x ?? h.x) - h.x) * 120 * rate, vy: ((ahead.otherHands[i]?.y ?? h.y) - h.y) * 120 * rate, pierceable: true })),
     ];
   }
+  // Sweet-Spot Ram: the siege wall bricks plough; the ice posts, the chamber foot and the Warden bounce it (the Warden takes RAM.damage).
+  ramPierce(t) { return !!t && this.bricks.some(b => b.id === t.id); }
   world() {
     const w = super.world(), rate = 1 / (this.timeScale * (this.slowT > 0 ? .68 : 1));
     w.targets = this.targets(rate); w.onTarget = (id, ball) => this.hitTarget(id, ball); return w;
@@ -146,7 +149,7 @@ export class Frost extends Arena {
     }
     if (id !== 'warden') return true;
     if (this.warden.hp <= 0) return false;
-    this.warden.hp = Math.max(0, this.warden.hp - (b.titan > 0 ? 3 : 1));
+    this.warden.hp = Math.max(0, this.warden.hp - (b.titan > 0 ? 3 : b.ram > 0 ? RAM.damage : 1));
     this.addScore(75, b.x, b.y); this.fx.ring(b.x, b.y, '#d4f1ff', 13); sfx.tough();
     if (!b.shot && !b.pulse && !(b.titan > 0)) {
       this.chargeCore();

@@ -1,5 +1,6 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { ejectBall } from '../clearance.js';
+import { RAM, paddleBounce, tickRam, ramThrough } from './ram.js';
 
 const STEP = 1 / 240;
 // Inscribed alpha>=128 circles, measured at3px/u from the retained Korr poses.
@@ -77,7 +78,7 @@ export class Bellforge {
     this.rules = BELLFORGE_MODES[this.difficulty]; this.time = 0; this.serveTime = 0; this.active = false;
     this.state = 'play'; this.phase = 'serve'; this.paused = false; this.continued = false; this.lives = 3; this.score = 0; this.serial = 0;
     this.charge = 0; this.chargeBank = 0; this.guard = null; this.effects = []; this.bells = []; this.balls = [];
-    this.paddle = { x: width / 2, px: width / 2, y: paddleY, w: 100, h: 14, targetX: width / 2, vx: 0 };
+    this.paddle = { x: width / 2, px: width / 2, y: paddleY, w: 100, h: 14, targetX: width / 2, vx: 0, streak: 0, armed: false };
     this.villain = { x: 88, y: 105, foot: { x: 88, y: 161 }, w: 136, h: 112, hp: this.rules.hp, maxHP: this.rules.hp, stage: 'idle', stageTime: 0, until: 0, body: [], defeat: null };
     this.korrBodies = geometry.korrBodies || KORR_BODIES;
     this.fixedKorrBody = geometry.korrBody; this.updateBody();
@@ -118,7 +119,7 @@ export class Bellforge {
   pause(value) { this.paused = !!value; }
   makeServe() {
     this.phase = 'serve'; this.serveTime = 0;
-    this.balls = [{ id: ++this.serial, x: this.paddle.x, y: this.paddle.y - 8, px: this.paddle.x, py: this.paddle.y - 8, vx: 0, vy: 0, r: 6, caught: true, dead: false, contacts: new Set() }];
+    this.balls = [{ id: ++this.serial, x: this.paddle.x, y: this.paddle.y - 8, px: this.paddle.x, py: this.paddle.y - 8, vx: 0, vy: 0, r: 6, caught: true, dead: false, ram: 0, ramBricks: 0, contacts: new Set() }];
   }
   launch(angle = -Math.PI / 2) {
     if (this.paused || this.state !== 'play' || this.phase !== 'serve' || !Number.isFinite(angle)) return false;
@@ -183,7 +184,7 @@ export class Bellforge {
       this.bells = []; this.guard = null; this.villain.stage = 'disabled'; return;
     }
     this.balls = this.balls.filter(b => !b.dead);
-    if (!this.balls.length) { this.lives--; if (this.lives <= 0) this.lose('No balls remaining'); else this.makeServe(); }
+    if (!this.balls.length) { this.lives--; p.streak = 0; if (this.lives <= 0) this.lose('No balls remaining'); else this.makeServe(); }
   }
   updateVillain() {
     const v = this.villain; v.stageTime = Math.max(0, this.time - (v.stageAt || 0));
@@ -229,7 +230,8 @@ export class Bellforge {
   clearKorr() {
     const v = this.villain; if (v.hp <= 0 || !v.body.length) return;
     for (const b of this.balls) if (!b.caught && !b.dead && this.phase === 'play') {
-      const c = ejectBall(b, v.body, { ok: (x, y) => x >= b.r && x <= this.width - b.r && y >= 12 + b.r });
+      // never push it into a live bell (one can be released in the very step the pose swaps)
+      const c = ejectBall(b, v.body, { ok: (x, y) => x >= b.r && x <= this.width - b.r && y >= 12 + b.r && this.bells.every(q => q.dead || Math.hypot(x - q.x, y - q.y) > b.r + q.r) });
       if (c?.reflected && !b.contacts.has('korr')) { b.contacts.add('korr'); this.hitVillain(1, false); } // moving into him: a real contact
     }
   }
@@ -258,6 +260,7 @@ export class Bellforge {
       const target = staticTargets.find(t => t.id === id);
       if (!target || !overlapsTarget({ ...b, r: b.r + .1 }, target)) b.contacts.delete(id);
     }
+    tickRam(this, b, dt);
     let left = dt;
     for (let pass = 0; pass < 8 && left > 1e-8 && !b.dead; pass++) {
       const from = { x: b.x, y: b.y }, to = { x: b.x + b.vx * left, y: b.y + b.vy * left }, hits = [];
@@ -275,15 +278,15 @@ export class Bellforge {
       hits.sort((a, q) => a.t - q.t); const hit = hits[0];
       if (!hit) { b.x = to.x; b.y = to.y; break; }
       b.x += (to.x - from.x) * hit.t; b.y += (to.y - from.y) * hit.t;
+      // A ram ploughs through ordinary bricks (not the ramp pins): they break and the flight continues unchanged.
+      if (hit.kind === 'brick' && ramThrough(this, b, hit.item.item)) { left *= 1 - hit.t; continue; }
       b.x += hit.nx * ((hit.depth || 0) + .015); b.y += hit.ny * ((hit.depth || 0) + .015);
-      if (hit.kind === 'paddle') {
-        const speed = Math.min(345 * 1.28, Math.hypot(b.vx, b.vy) * 1.012), offset = clamp((b.x - this.paddle.x) / (this.paddle.w / 2), -.95, .95);
-        const a = offset * 1.08; b.vx = Math.sin(a) * speed; b.vy = -Math.cos(a) * speed; this.effect(b.x, b.y, 'paddle', .12);
-      } else {
+      if (hit.kind === 'paddle') paddleBounce(this, b);
+      else {
         const speed = Math.hypot(b.vx, b.vy); reflect(b, hit);
         const next = Math.hypot(b.vx, b.vy); if (next > 0) { b.vx *= speed / next; b.vy *= speed / next; }
         if (hit.kind === 'brick' && !b.contacts.has(hit.item.id)) { b.contacts.add(hit.item.id); this.hitBrick(hit.item.item, b); }
-        if (hit.kind === 'villain' && !b.contacts.has('korr')) { b.contacts.add('korr'); this.hitVillain(1, false); }
+        if (hit.kind === 'villain' && !b.contacts.has('korr')) { b.contacts.add('korr'); this.hitVillain(b.ram > 0 ? RAM.damage : 1, false); }
         if (hit.kind === 'bell') {
           const bell = hit.item, key = `bell-${bell.id}`;
           if (!b.contacts.has(key)) {
@@ -351,7 +354,7 @@ export class Bellforge {
   hitBrick(brick, ball) {
     if (brick.hp <= 0) return;
     brick.hp--; this.score += 10;
-    if (this.balls.includes(ball) && !ball.dead && !(ball.titan > 0) && !ball.fire && ball.source !== 'arrow')
+    if (this.balls.includes(ball) && !ball.dead && !(ball.titan > 0) && !(ball.ram > 0) && !ball.fire && ball.source !== 'arrow')
       this.chargeBank = Math.min((100 - this.charge) * this.rules.coreHits / 100, this.chargeBank + 1);
     this.effect(brick.x + brick.w / 2, brick.y + brick.h / 2, brick.hp ? 'brick-hit' : 'brick-break', brick.hp ? .35 : .7,
       { colour: brick.colour || 'pin', w: brick.w, h: brick.h, vx: (ball?.vx || 0) * .12, vy: (ball?.vy || 0) * .08 });
@@ -367,7 +370,7 @@ export class Bellforge {
       Object.assign(this.villain, { stage: 'defeated', stageAt: this.time, stageTime: 0, until: this.time + RESCUE_DURATION, body: [],
         defeat: { age: 0, stage: 'stagger', progress: 0, frame: 3, offsetX: 0, offsetY: 0, angle: 0, scaleX: 1, scaleY: 1, daze: 0 } });
       this.effects = this.effects.filter(e => !['bell-warning', 'bell-release', 'echo-deploy'].includes(e.kind));
-      for (const b of this.balls) { b.vx = 0; b.vy = 0; b.caught = true; }
+      for (const b of this.balls) { b.vx = 0; b.vy = 0; b.caught = true; b.ram = 0; b.r = 6; }
       this.effect(this.villain.x, this.villain.y, 'winch-stop', 1.2); return;
     }
     if (stagger) { this.villain.stage = 'stagger'; this.villain.stageAt = this.time; this.villain.until = this.time + 1.5; this.nextWarning = Math.max(this.nextWarning, this.time + 1.5); }

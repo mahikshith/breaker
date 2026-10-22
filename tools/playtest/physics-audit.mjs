@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 // Headless physics audit: every level x difficulty x phone x seeded run with an ordinary ball (no powers),
-// driven by a simple landing-predicting bot and by a no-input paddle. Flags NaN/out-of-bounds balls,
+// driven by a simple landing-predicting bot and by a no-input paddle. The 'ram' variant is the same bot aiming at the
+// paddle's sweet spot, so it arms and flies the Sweet-Spot Ram (src/fantasy/ram.js) over and over: the tunnel check then
+// holds the ram to its level's own ordinary-brick rule (armour, props and walls stay solid to it). Flags NaN/out-of-bounds balls,
 // tunnelling (ball centre ending a step inside a solid, or crossing the paddle face), stuck loops,
 // flat angles and speed drift. Writes docs/validation/physics-audit/report.json; exits 1 on any failure.
 //
 //   node tools/playtest/physics-audit.mjs                     full audit
 //   node tools/playtest/physics-audit.mjs --level carrier --difficulty hard --phone 393x852 --seed 3 --variant bot --trace
-//   options: --seeds N (bot runs per cell, default 3), --idle-seeds N (no-input runs, default 1), --cap S (sim seconds, default 240), --jobs N
+//   options: --seeds N (bot runs per cell, default 3), --idle-seeds N (no-input runs, default 1), --ram-seeds N (sweet-spot
+//   bot runs per cell, default 1), --cap S (sim seconds, default 240), --jobs N, --variant bot,idle,ram
 import { Worker, isMainThread, parentPort } from 'node:worker_threads';
 import { availableParallelism } from 'node:os';
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -40,7 +43,8 @@ export async function runOne({ level, difficulty, phone, seed, variant, cap, tra
     const prev = new WeakMap(), insideEp = new WeakMap(), flatSince = new WeakMap(), crawl = new WeakMap();
     let lastContinue = -Infinity;
     let lastProgress = g.progress(), idle = 0, serveSeen = null, serveDelay = 0, aimError = 0, wasDescending = false, prevSnap = null, prevPaddle = g.paddle();
-    let contacts = 0, peakSpeed = 0, continues = 0, firstLoss = null, livesLost = 0, lives = g.lives;
+    let contacts = 0, peakSpeed = 0, continues = 0, firstLoss = null, livesLost = 0, lives = g.lives, ramLaunches = 0, ramSeconds = 0;
+    const rammed = new WeakSet(), aims = variant === 'bot' || variant === 'ram';
     const phases = new Set();
     const flag = (type, detail) => {
       counts[type]++;
@@ -54,16 +58,17 @@ export async function runOne({ level, difficulty, phone, seed, variant, cap, tra
       // --- input ---
       const pad = g.paddle(), B = g.bounds();
       if (g.serving()) {
-        if (serveSeen === null) { serveSeen = simT; serveDelay = variant === 'bot' ? 0.25 + bot() * 0.75 : 8.5; }
-        if (simT - serveSeen >= serveDelay) g.serve(variant === 'bot' ? (bot() - 0.5) : 0);
+        if (serveSeen === null) { serveSeen = simT; serveDelay = aims ? 0.25 + bot() * 0.75 : 8.5; }
+        if (simT - serveSeen >= serveDelay) g.serve(aims ? (bot() - 0.5) : 0);
       } else serveSeen = null;
-      if (variant === 'bot') {
+      if (aims) {
         let best = null;
         for (const b of g.balls()) if (g.active(b) && b.vy > 0) {
           const t = (pad.top - b.r - b.y) / b.vy; if (t >= 0 && (!best || t < best.t)) best = { t, b };
         }
         const descending = !!best;
-        if (descending && !wasDescending) aimError = (bot() - 0.5) * 0.6 * pad.w; // new approach: fresh aim offset
+        // new approach: fresh aim offset. The ram bot lands most returns in the centre third, with an odd stray to reset streaks.
+        if (descending && !wasDescending) aimError = variant === 'ram' ? (bot() < .12 ? (bot() < .5 ? -1 : 1) * .32 : (bot() - 0.5) * .14) * pad.w : (bot() - 0.5) * 0.6 * pad.w;
         wasDescending = descending;
         let target;
         if (best) target = fold(best.b.x + best.b.vx * best.t, B.left + best.b.r, B.right - best.b.r) + aimError;
@@ -88,12 +93,14 @@ export async function runOne({ level, difficulty, phone, seed, variant, cap, tra
       const snap = g.snapshot(), now = g.paddle(), bounds = g.bounds();
       for (const { b, h, x, y } of g.engulfed?.() || []) if (!insideEp.has(b)) // a collider appeared or jumped onto the ball between steps
         insideEp.set(b, { cause: 'engulfed', max: h.depth, flagged: false, at: { x: +x.toFixed(2), y: +y.toFixed(2) } });
+      if (g.balls().some(b => g.active(b) && b.ram > 0)) ramSeconds += g.dt;
       for (const b of g.balls()) {
+        if (b.ram > 0 && !rammed.has(b)) { rammed.add(b); ramLaunches++; } else if (!(b.ram > 0)) rammed.delete(b);
         if (![b.x, b.y, b.vx, b.vy].every(Number.isFinite)) { flag('nan', { ball: { x: b.x, y: b.y, vx: b.vx, vy: b.vy } }); continue; }
         if (!g.active(b)) { insideEp.delete(b); flatSince.delete(b); crawl.delete(b); prev.delete(b); continue; }
         const speed = Math.hypot(b.vx, b.vy), ball = { x: +b.x.toFixed(2), y: +b.y.toFixed(2), vx: +b.vx.toFixed(1), vy: +b.vy.toFixed(1), r: b.r };
         peakSpeed = Math.max(peakSpeed, speed / g.nominal);
-        if (b.x < bounds.left - LIMITS.boundsEps || b.x > bounds.right + LIMITS.boundsEps || b.y < bounds.top - LIMITS.boundsEps || b.y > bounds.bottom + 60) flag('bounds', { ball, bounds });
+        if (b.x < bounds.left - LIMITS.boundsEps || b.x > bounds.right + LIMITS.boundsEps || b.y < bounds.top - LIMITS.boundsEps || b.y > bounds.bottom + 60) flag('bounds', { ball, bounds, ram: b.ram > 0 });
         // tunnelling: ball centre inside a solid at the end of the step. An episode starts at any depth (its cause is
         // judged then) and fails once deeper than depthEps; it ends when the centre is back outside.
         const hit = snap && deepest(snap, b);
@@ -108,7 +115,7 @@ export async function runOne({ level, difficulty, phone, seed, variant, cap, tra
           ep.max = Math.max(ep.max, hit.depth);
           if (!ep.flagged && ep.max > LIMITS.depthEps) {
             ep.flagged = true;
-            flag('tunnel', { subtype: ep.cause, collider: hit.id, depth: +hit.depth.toFixed(2), from: ep.at, ball, afterContinue: simT - lastContinue < 0.25 });
+            flag('tunnel', { subtype: ep.cause, collider: hit.id, depth: +hit.depth.toFixed(2), from: ep.at, ball, ram: b.ram > 0, afterContinue: simT - lastContinue < 0.25 });
           }
         } else if (snap) insideEp.delete(b);
         // crawl: a live ball whose actual path is far shorter than its velocity says (embedded, re-colliding at t=0)
@@ -143,7 +150,7 @@ export async function runOne({ level, difficulty, phone, seed, variant, cap, tra
       if (g.lives < lives) livesLost += lives - g.lives; lives = g.lives;
     }
     const outcome = g.state === 'won' ? 'win' : g.state === 'lost' ? 'lose' : 'timeout';
-    return { level, difficulty, phone, seed, variant, outcome, wallMs: Math.round(performance.now() - wall0), time: +simT.toFixed(2), livesLost, continues, firstLoss: firstLoss && +firstLoss.toFixed(2), phases: [...phases], contacts, peakSpeed: +peakSpeed.toFixed(3), counts, failures, reason: g.level.reason || g.level.loss || '' };
+    return { level, difficulty, phone, seed, variant, outcome, wallMs: Math.round(performance.now() - wall0), time: +simT.toFixed(2), livesLost, continues, firstLoss: firstLoss && +firstLoss.toFixed(2), phases: [...phases], contacts, peakSpeed: +peakSpeed.toFixed(3), ramLaunches, ramSeconds: +ramSeconds.toFixed(2), counts, failures, reason: g.level.reason || g.level.loss || '' };
   } catch (e) {
     return { level, difficulty, phone, seed, variant, outcome: 'error', time: 0, livesLost: 0, contacts: 0, counts: { ...counts, error: 1 }, failures: [{ type: 'error', t: +(simT || 0).toFixed(3), error: String(e.stack || e).split('\n').slice(0, 4).join(' | ') }] };
   } finally { Math.random = previous; }
@@ -163,12 +170,12 @@ function args() {
   return o;
 }
 async function main() {
-  const o = args(), cap = +(o.cap || 240), seeds = +(o.seeds || 3), idleSeeds = +(o['idle-seeds'] ?? 1);
+  const o = args(), cap = +(o.cap || 240), seeds = +(o.seeds || 3), idleSeeds = +(o['idle-seeds'] ?? 1), ramSeeds = +(o['ram-seeds'] ?? 1);
   const pick = (list, key) => o[key] ? list.filter(v => String(o[key]).split(',').includes(String(v))) : list;
   const levels = pick(ADAPTERS.map(a => a.name), 'level'), diffs = pick(DIFFICULTIES, 'difficulty'), phones = pick(PHONES.map(p => p.id), 'phone');
   const jobs = [];
-  for (const level of levels) for (const difficulty of diffs) for (const phone of phones) for (const variant of pick(['bot', 'idle'], 'variant')) {
-    const n = variant === 'bot' ? Math.min(seeds, o.seeds ? Infinity : ADAPTERS.find(a => a.name === level).seeds ?? Infinity) : idleSeeds;
+  for (const level of levels) for (const difficulty of diffs) for (const phone of phones) for (const variant of pick(['bot', 'idle', 'ram'], 'variant')) {
+    const n = variant === 'bot' ? Math.min(seeds, o.seeds ? Infinity : ADAPTERS.find(a => a.name === level).seeds ?? Infinity) : variant === 'ram' ? ramSeeds : idleSeeds;
     for (const seed of o.seed ? String(o.seed).split(',').map(Number) : Array.from({ length: n }, (_, i) => i + 1)) jobs.push({ level, difficulty, phone, seed, variant, cap, trace: !!o.trace });
   }
   const started = Date.now(), results = [];
@@ -189,7 +196,7 @@ async function main() {
 
   // ---------- report ----------
   const cells = [];
-  for (const level of levels) for (const difficulty of diffs) for (const phone of phones) for (const variant of ['bot', 'idle']) {
+  for (const level of levels) for (const difficulty of diffs) for (const phone of phones) for (const variant of ['bot', 'idle', 'ram']) {
     const rs = results.filter(r => r.level === level && r.difficulty === difficulty && r.phone === phone && r.variant === variant).sort((a, b) => a.seed - b.seed);
     if (!rs.length) continue;
     const failures = {};
@@ -200,11 +207,13 @@ async function main() {
     const wins = rs.filter(r => r.outcome === 'win');
     cells.push({ level, difficulty, phone, variant, runs: rs.length, wins: wins.length, losses: rs.filter(r => r.outcome === 'lose').length, timeouts: rs.filter(r => r.outcome === 'timeout').length,
       errors: rs.filter(r => r.outcome === 'error').length, medianTime: round(median(rs.map(r => r.time))), medianWinTime: round(median(wins.map(r => r.time))), medianLivesLost: median(rs.map(r => r.livesLost)),
-      failures, cleanWins: rs.filter(r => r.outcome === 'win' && !r.continues).length,
+      failures, cleanWins: rs.filter(r => r.outcome === 'win' && !r.continues).length, ramLaunches: rs.reduce((n, r) => n + (r.ramLaunches || 0), 0), ramSeconds: round(rs.reduce((n, r) => n + (r.ramSeconds || 0), 0)),
       runs_detail: rs.map(({ seed, outcome, wallMs, time, livesLost, continues, firstLoss, phases, contacts, peakSpeed, counts, failures, reason }) => ({ seed, outcome, wallMs, time, livesLost, continues, firstLoss, phases, contacts, peakSpeed, reason, counts: Object.fromEntries(Object.entries(counts).filter(([, n]) => n)), failures })) });
   }
   const totals = Object.fromEntries(TYPES.map(t => [t, results.reduce((n, r) => n + r.counts[t], 0)]));
-  const report = { config: { cap, seeds, idleSeeds, limits: LIMITS, phones: PHONES, difficulties: diffs, levels }, totals, failed: Object.values(totals).some(n => n > 0), cells };
+  const ram = { launches: results.reduce((n, r) => n + (r.ramLaunches || 0), 0), seconds: round(results.reduce((n, r) => n + (r.ramSeconds || 0), 0)),
+    levels: Object.fromEntries(levels.map(l => [l, results.filter(r => r.level === l).reduce((n, r) => n + (r.ramLaunches || 0), 0)])) };
+  const report = { config: { cap, seeds, idleSeeds, ramSeeds, limits: LIMITS, phones: PHONES, difficulties: diffs, levels }, totals, ram, failed: Object.values(totals).some(n => n > 0), cells };
   if (!o['no-write']) {
     const dir = new URL('../../docs/validation/physics-audit/', import.meta.url); mkdirSync(dir, { recursive: true });
     writeFileSync(new URL('report.json', dir), JSON.stringify(report, null, 1) + '\n');
@@ -217,6 +226,7 @@ async function main() {
   }
   for (const c of cells) for (const v of Object.values(c.failures).slice(0, 1))
     console.log(`repro: node tools/playtest/physics-audit.mjs --level ${c.level} --difficulty ${c.difficulty} --phone ${c.phone} --variant ${c.variant} --seed ${v.first.seed} --trace`);
+  console.log(`ram launches=${ram.launches} live=${ram.seconds}s  ${Object.entries(ram.levels).map(([l, n]) => `${l}=${n}`).join(' ')}`);
   console.log(`totals ${TYPES.map(t => `${t}=${totals[t]}`).join(' ')}  runs=${results.length}  ${((Date.now() - started) / 1000).toFixed(1)}s`);
   process.exitCode = report.failed ? 1 : 0;
 }

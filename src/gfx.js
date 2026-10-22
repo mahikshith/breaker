@@ -154,6 +154,7 @@ function ballSprite(fire) {
   });
 }
 export function drawBall(g, b, alpha = 1) {
+  if (b.ram > 0) { drawRamBall(g, b, alpha); return; }
   const s = b.r * 2 / 36;
   g.globalAlpha = alpha * 0.32; g.fillStyle = '#000';
   g.beginPath(); g.ellipse(b.x + SHADOW.dx, b.y + SHADOW.dy, b.r, b.r * 0.85, 0, 0, 7); g.fill();
@@ -177,6 +178,61 @@ export function drawBall(g, b, alpha = 1) {
   g.drawImage(spr, b.x - half, b.y - half, half * 2, half * 2);
   g.globalAlpha = 1;
   void sp;
+}
+
+// ---------- Sweet-Spot Ram (src/fantasy/ram.js) in the Arena levels ----------
+// Gem sockets come from the rendered fx kit (art/fx_kit), the same parts the castle chapters use; everything else is
+// soft filled light. Nothing here is a stroked ring.
+const FXK = Object.fromEntries(Object.entries(ART?.fxKit || {}).map(([k, v]) => [k, { img: loadImg(v.url), uw: v.uw, uh: v.uh }]));
+const GEM_BLOOM = { pip_gold: '#ffc98a', pip_rose: '#ff9ec0', pip_blue: '#9fd0ff' };
+function ramBloom(g, x, y, r, colour, a, rx = r, ry = r) {
+  if (a <= 0 || r <= 0) return;
+  g.save(); g.globalAlpha *= Math.min(1, a); g.translate(x, y); g.scale(rx / r, ry / r);
+  const gr = g.createRadialGradient(0, 0, 0, 0, 0, r); gr.addColorStop(0, colour); gr.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = gr; g.fillRect(-r, -r, r * 2, r * 2); g.restore();
+}
+function fxPart(g, key, x, y, scale = 1) {
+  const p = FXK[key]; if (!p || !ready(p)) return; const w = p.uw * scale, h = p.uh * scale;
+  g.drawImage(p.img, x - w / 2, y - h / 2, w, h);
+}
+// Armed paddle: a warm pool under it (under = true, before the paddle art) and a glazed centre third on top.
+export function drawRamGlaze(g, p, t, key = 'pip_gold', under = false) {
+  if (!p.armed) return;
+  const beat = .5 + .5 * Math.sin(t * 9), warm = GEM_BLOOM[key] || GEM_BLOOM.pip_gold, cy = p.y + p.h / 2;
+  if (under) { ramBloom(g, p.x, cy, p.w * .55, warm, .32 + .16 * beat, p.w * .55, 20); return; }
+  g.save(); g.globalCompositeOperation = 'lighter'; ramBloom(g, p.x, cy - 1, p.w / 6 + 4, warm, .45 + .3 * beat, p.w / 6 + 4, p.h * .55); g.restore();
+}
+// Three sockets under the paddle light 1/3, 2/3, 3/3 with the streak, then beat while the ram waits.
+export function drawRamPips(g, p, t, key = 'pip_gold') {
+  const lit = p.armed ? 3 : Math.min(3, p.streak || 0), pulse = p.armed ? .5 + .5 * Math.sin(t * 9) : 0, warm = GEM_BLOOM[key] || GEM_BLOOM.pip_gold;
+  const y = p.y + p.h + 8, gap = 9.5, scale = .86;
+  for (let i = 0; i < 3; i++) {
+    const x = p.x + (i - 1) * gap, on = i < lit;
+    if (on) ramBloom(g, x, y, 7 * scale + 2 * pulse, warm, .38 + .25 * pulse);
+    fxPart(g, on ? key : 'pip_empty', x, y, scale * (on ? 1 + .08 * pulse : 1));
+  }
+}
+// The ram ball: polished steel with a gold hoop, a blue-white halo that drains over its 2.5 s and a tapered slipstream.
+export function drawRamBall(g, b, alpha = 1) {
+  const r = b.r, x = b.x, y = b.y, ang = Math.atan2(b.vy, b.vx), t = performance.now() / 1000, left = Math.max(0, Math.min(1, b.ram / 2.5));
+  g.save(); g.globalAlpha = alpha;
+  ramBloom(g, x, y, r * (2 + 1.6 * left), '#8cc4ff', .55 + .1 * Math.sin(t * 14));
+  if (!b.caught && (b.vx || b.vy)) {
+    g.save(); g.translate(x, y); g.rotate(ang); const L = 60, tg = g.createLinearGradient(0, 0, -L, 0);
+    tg.addColorStop(0, 'rgba(207,232,255,0.8)'); tg.addColorStop(1, 'rgba(207,232,255,0)');
+    g.fillStyle = tg; g.beginPath(); g.moveTo(0, -r * .95); g.lineTo(-L, -r * .25); g.lineTo(-L, r * .25); g.lineTo(0, r * .95); g.closePath(); g.fill(); g.restore();
+  }
+  const sg = g.createRadialGradient(x - r * .35, y - r * .4, r * .1, x, y, r);
+  sg.addColorStop(0, '#fff'); sg.addColorStop(.25, '#d3e0ec'); sg.addColorStop(.62, '#6f8499'); sg.addColorStop(1, '#222c38');
+  g.fillStyle = sg; g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill();
+  // Gold hoop: a filled band clipped to the sphere, turned along the flight.
+  g.save(); g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.clip(); g.translate(x, y); g.rotate(ang + Math.PI / 2);
+  const band = (rx, ry, w, colour) => { g.fillStyle = colour; g.beginPath(); g.ellipse(0, 0, rx + w, ry + w, 0, 0, Math.PI * 2); g.ellipse(0, 0, Math.max(.1, rx - w), Math.max(.1, ry - w), 0, 0, Math.PI * 2); g.fill('evenodd'); };
+  band(r * 1.05, r * .34, 2, '#8a5f22'); band(r * 1.05, r * .34, 1.2, '#f0c56f'); g.restore();
+  g.fillStyle = 'rgba(255,255,255,0.8)'; g.beginPath(); g.ellipse(x - r * .36, y - r * .42, r * .2, r * .11, -.6, 0, Math.PI * 2); g.fill();
+  const rim = g.createRadialGradient(x, y, r * .7, x, y, r); rim.addColorStop(0, 'rgba(13,19,26,0)'); rim.addColorStop(1, 'rgba(13,19,26,0.6)');
+  g.fillStyle = rim; g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill();
+  g.restore();
 }
 
 // ---------- particles ----------

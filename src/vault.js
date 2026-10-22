@@ -172,6 +172,8 @@ export class Vault extends Arena {
   }
 
   // ---------- rules ----------
+  // Sweet-Spot Ram: one-hit coloured bricks (sun, coral, blue, gold) plough; two-hit violet/teal, granite and the cage bars bounce it.
+  ramPierce(brick) { return brick?.cell !== undefined && HP[brick.cell] === 1; }
   hitCell(c, r, b) {
     if (this.grid.cells[r * COLS + c] === BARS) { this.hitBars(b); return; }
     const br = this.brickAt(c, r);
@@ -514,9 +516,9 @@ export class Vault extends Arena {
           s.lastHit = this.t;
           if (this.cancelAttack()) { this.knockBack(3); this.stunSnake(4, 'DRIVEN OFF!', 500, p.x, p.y); break; }
           s.hits = s.hits.filter(t => this.t - t < 6); s.hits.push(this.t);
-          const big = s.hits.length >= 3; if (big) s.hits = [];
+          const big = s.hits.length >= 3 || b.ram > 0; if (big) s.hits = []; // a ram to the head always sends it reeling
           this.knockBack(big ? 4 : 1);
-          this.stunSnake(b.fire ? 5 : 3, big ? 'KNOCKED BACK!' : 'STUNNED', big ? 300 : 100, p.x, p.y);
+          this.stunSnake(b.fire || b.ram > 0 ? 5 : 3, big ? 'KNOCKED BACK!' : 'STUNNED', big ? 300 : 100, p.x, p.y);
         } else if (s.stun <= 0) { // body: a flinch costs it some chewing progress
           s.flinch = 1; s.chew *= 0.5; this.addScore(20, p.x, p.y); sfx.tough(); this.bump(0.1); this.mood('hiss', 0.5);
         }

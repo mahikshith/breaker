@@ -1,6 +1,7 @@
 // Shared gameplay for every level: paddle, balls, serve and Focus aim, power-ups, lives, combo, juice.
 import { makeBall, stepBall, cellAt } from './physics.js';
-import { FX, drawBall, drawKitFace, capsule, POWER, rrect, shade, text, SHADOW, SPR, ready, loadImg } from './gfx.js';
+import { FX, drawBall, drawKitFace, capsule, POWER, rrect, shade, text, SHADOW, SPR, ready, loadImg, drawRamGlaze, drawRamPips } from './gfx.js';
+import { ramStreak, tickRam, ramCount, endRam } from './fantasy/ram.js';
 import { ART } from './vault-art.js';
 import { sfx } from './audio.js';
 import { difficulty } from './difficulty.js';
@@ -33,7 +34,7 @@ export class Arena {
     this.left = opt.left ?? 12; this.right = W - (opt.right ?? 12); this.top = opt.top ?? 70;
     this.ballRadius = opt.ballRadius || 6;
     const paddleWidth = opt.paddleWidth || 74;
-    this.paddle = { x: W / 2, y: paddleY(H, opt.minPaddleY, this.kitUIScale), w: paddleWidth, h: opt.paddleHeight || 12, vx: 0, baseW: paddleWidth, wideT: 0, wideLevel: 0, shrinkT: 0, laserT: 0, laserCd: 0, stun: 0, charge: 0 };
+    this.paddle = { x: W / 2, y: paddleY(H, opt.minPaddleY, this.kitUIScale), w: paddleWidth, h: opt.paddleHeight || 12, vx: 0, baseW: paddleWidth, wideT: 0, wideLevel: 0, shrinkT: 0, laserT: 0, laserCd: 0, stun: 0, charge: 0, streak: 0, armed: false };
     this.drainY = this.paddle.y + 20; this.shieldY = this.paddle.y + 18;
     this.playClipY = H - 64 / this.kitUIScale;
     this.speed = BALL_SPEED * (opt.speed || 1);
@@ -113,7 +114,7 @@ export class Arena {
     }
     const live = this.balls.filter(b => !b.dead);
     const b = live.find(b => b.caught) || live.reduce((a, b) => a.y >= b.y ? a : b);
-    this.paddle.charge = 0; b.titan = 7; b.r = 10; this.coreCastAt = this.kitTime;
+    endRam(this, b); this.paddle.charge = 0; b.titan = 7; b.r = 10; this.coreCastAt = this.kitTime;
     this.fx.ring(b.x, b.y, '#e9b6ef', 24); sfx.power(); this.bump(.12, .015);
     return true;
   }
@@ -159,7 +160,7 @@ export class Arena {
       const ordinary = live.filter(b => !(b.titan > 0)), powered = live.filter(b => b.titan > 0);
       const candidates = ordinary.length && powered.length < (limits?.cosmic ?? Infinity) ? ordinary : powered.filter(b => b.titan < (limits?.maxTime ?? Infinity));
       const b = candidates.find(b => b.caught) || candidates.reduce((a, b) => a.y >= b.y ? a : b);
-      b.titan = Math.min(limits?.maxTime ?? Infinity, Math.max(0, b.titan || 0) + (limits?.duration ?? 10)); b.r = 10; this.fx.ring(b.x, b.y, '#e9b6ef', 24);
+      endRam(this, b); b.titan = Math.min(limits?.maxTime ?? Infinity, Math.max(0, b.titan || 0) + (limits?.duration ?? 10)); b.r = 10; this.fx.ring(b.x, b.y, '#e9b6ef', 24);
     } else {
       if (this.aim) this.release();
       const count = Math.min(4, (limits?.balls ?? 60) - live.length);
@@ -189,8 +190,43 @@ export class Arena {
   }
 
   // ---------- hooks for levels ----------
-  world() { return { grid: this.grid, left: this.left, right: this.right, top: this.top, bottom: this.drainY, paddle: this.paddle.stun > 0 ? null : this.paddle }; }
+  world() {
+    return { grid: this.grid, left: this.left, right: this.right, top: this.top, bottom: this.drainY, paddle: this.paddle.stun > 0 ? null : this.paddle,
+      ramCell: (cell, c, r) => this.ramPierce({ cell, c, r }), ramTarget: t => this.ramPierce(t) };
+  }
   hitCell(/* c, r, ball */) {}
+  // The world the live balls step through: level hooks plus scoring callbacks, with ram ploughs routed first.
+  liveWorld() {
+    const world = this.world(), onTarget = world.onTarget;
+    world.onHit = (c, r, b) => this.ramCellHit(c, r, b) || this.hitCell(c, r, b);
+    if (onTarget) world.onTarget = (id, b, t) => b.ram > 0 && this.ramPierce(t) ? this.ramTargetHit(onTarget, id, b, t) : onTarget(id, b, t);
+    world.onWall = () => sfx.wall();
+    world.onPaddle = b => this.onPaddle(b);
+    world.onLost = b => this.fx.ring(b.x, this.drainY, '#ff4d5e', 16);
+    return world;
+  }
+  // Sweet-Spot Ram (src/fantasy/ram.js): what a live ram ploughs through. brick is { cell, c, r } for a grid cell, or a
+  // physics target. Levels override it; the default ploughs any grid brick a fireball could pierce and no targets.
+  ramPierce(brick) { return brick?.cell !== undefined && !this.grid?.unpierceable?.includes(brick.cell); }
+  // A ploughed brick breaks outright (dealt as a fireball hit, the levels' own "breaks in one" rule) and costs the ram one brick.
+  ramCellHit(c, r, b) {
+    const v = this.grid && cellAt(this.grid, c, r);
+    if (!(b.ram > 0) || !v || !this.ramPierce({ cell: v, c, r })) return false;
+    const fire = b.fire; b.fire = true;
+    try { this.hitCell(c, r, b); } finally { b.fire = fire; }
+    ramCount(this, b); return true;
+  }
+  ramTargetHit(onTarget, id, b, target) {
+    const fire = b.fire; b.fire = true; let live;
+    try { live = onTarget(id, b, target); } finally { b.fire = fire; }
+    ramCount(this, b); return live;
+  }
+  ramEffect(kind, x, y) {
+    const p = this.paddle;
+    if (kind === 'ram-armed') { this.fx.pop(p.x, p.y - 30, 'RAM READY', '#ffd58a', 13); sfx.power(); }
+    else if (kind === 'ram-launch') { this.fx.pop(x, y - 28, 'RAM!', '#cfe8ff', 22); this.fx.shatter(x - 8, y - 8, 16, 16, '#cfe8ff', 6, 1); sfx.boom(); this.bump(.3, .04); }
+    else if (kind === 'ram-end') { this.fx.shatter(x - 6, y - 6, 12, 12, '#c9dff0', 3, .5); sfx.wall(); }
+  }
   updateLevel(/* dt */) {}
   shotHit(/* shot */) { return false; } // a laser shot reached something the level owns (boss, serpent): true consumes it
 
@@ -296,15 +332,12 @@ export class Arena {
     if (this.slowT > 0) this.slowT -= dt;
     if (this.shieldT > 0 && (this.shieldT -= dt) <= 0) this.shield = 0;
     const fire = this.fireT > 0, ballDt = dt * (this.slowT > 0 ? 0.68 : 1);
-    const world = this.world();
-    world.onHit = (c, r, b) => this.hitCell(c, r, b);
-    world.onWall = () => sfx.wall();
-    world.onPaddle = b => this.onPaddle(b);
-    world.onLost = b => this.fx.ring(b.x, this.drainY, '#ff4d5e', 16);
+    const world = this.liveWorld();
     for (const b of this.balls) {
       if (b.caught) continue;
       b.fire = fire;
       if (b.titan > 0 && (b.titan -= dt) <= 0) { b.titan = 0; b.r = this.ballRadius; }
+      tickRam(this, b, dt); // a Focus-caught ball skips this loop: its ram timer pauses until release
       stepBall(b, ballDt, world);
       if (this.shield > 0 && !b.dead && b.vy > 0 && b.y + b.r >= this.shieldY) { // the shield saves the ball once per charge
         b.y = this.shieldY - b.r; b.vy = -Math.abs(b.vy); this.shield--; if (!this.shield) this.shieldT = 0;
@@ -362,6 +395,7 @@ export class Arena {
       this.fx.ring(b.x, p.y, '#ff6fe0', 46); this.fx.pop(p.x, p.y - 34, 'TITAN!', '#ff9ef0', 26);
       sfx.boom(); sfx.power(); this.bump(0.45, 0.06);
     }
+    ramStreak(this, b, (b.x - p.x) / (p.w / 2)); // the Sweet-Spot Ram: centre-third streak; a TITAN ball never launches it
     const steady = (ptr.down && ptr.stillT > 0.12) || this.keys[' '];
     if (steady && this.focus >= 1 && !this.aim) { // Focus aim: catch the ball, slow time, let the player aim
       b.caught = true;
@@ -373,7 +407,7 @@ export class Arena {
   }
   loseBall() {
     this.kitShockUntil = this.t + 1.1;
-    this.lives--; sfx.lose(); this.bump(0.5); this.combo = 0; this.fireT = 0;
+    this.lives--; sfx.lose(); this.bump(0.5); this.combo = 0; this.fireT = 0; this.paddle.streak = 0;
     if (this.lives <= 0) { this.fail('Out of balls'); return; }
     this.serve();
   }
@@ -427,7 +461,10 @@ export class Arena {
       g.restore();
     }
     g.fillStyle = 'rgba(0,0,0,0.35)'; rrect(g, x + SHADOW.dx, y + SHADOW.dy + 2, p.w, h, h / 2); g.fill();
+    drawRamGlaze(g, p, this.t, this.ramGem(), true);
     this.drawPaddleArt(g, p);
+    drawRamGlaze(g, p, this.t, this.ramGem(), false);
+    drawRamPips(g, p, this.t, this.ramGem());
     if (p.laserT > 0) for (const s of [-1, 1]) {
       const ex = p.x + s * (p.w / 2 - 7), on = Math.max(0, 1 - p.laserCd / 0.3);
       if (this.kitPowers) {
@@ -442,6 +479,8 @@ export class Arena {
     if (p.shrinkT > 0) { g.globalAlpha = 0.25 + 0.1 * Math.sin(this.t * 10); g.fillStyle = '#ff4d5e'; rrect(g, x, y, p.w, h, h / 2); g.fill(); g.globalAlpha = 1; }
     if (stun) { g.globalAlpha = 0.45; g.fillStyle = '#ff4d5e'; rrect(g, x, y, p.w, h, h / 2); g.fill(); g.globalAlpha = 1; }
   }
+  // The ram's gem sockets: gold for Kit's levels, blue for the space companions.
+  ramGem() { return this.spacePowers ? 'pip_blue' : 'pip_gold'; }
   drawPaddleArt(g, p) {
     const skin = PADDLE_SKINS[this.paddleSkin], parts = skin && ready(skin.l) && ready(skin.m) && ready(skin.r) ? skin : null;
     const x = p.x - p.w / 2, y = p.y, h = p.h, L = parts?.l || SPR.paddle_l, M = parts?.m || SPR.paddle_m, R = parts?.r || SPR.paddle_r;
@@ -501,7 +540,7 @@ export class Arena {
     const a = this.aim; if (!a) return;
     // simulate the shot to show its first bounces
     const sim = makeBall(a.ball.x, a.ball.y, Math.sin(a.angle) * 300, -Math.cos(a.angle) * 300, a.ball.r);
-    sim.fire = this.fireT > 0; sim.titan = a.ball.titan || 0;
+    sim.fire = this.fireT > 0; sim.titan = a.ball.titan || 0; sim.ram = a.ball.ram || 0; sim.ramBricks = a.ball.ramBricks || 0;
     let bounces = 0, stop = false;
     const w = { ...this.world(), paddle: null, onWall: () => bounces++, onHit: () => { bounces++; if (bounces >= 2) stop = true; } };
     // A preview never dispatches live actor damage, drops, cooldowns or phase changes.

@@ -645,13 +645,20 @@ export function drawEncounter(ctx,g,art,level){
       const img=['cyan','plum'].includes(e.colour)?art.images[e.colour]:art.images['brick/'+key];
       if(img)for(let n=0;n<3;n++){const t=e.age,x=e.x+(n-1)*(8+t*45)+(e.vx||0)*t,y=e.y+(e.vy||0)*t-45*t+180*t*t;
         ctx.save();ctx.translate(x,y);ctx.rotate((n-1)*t*5);ctx.drawImage(img,n*img.width/3,0,img.width/3,img.height,-(e.w||34)/6,-(e.h||18)/2,(e.w||34)/3,e.h||18);ctx.restore();}
+    }else if(e.kind==='ram-armed'){ctx.globalAlpha=1;pool(ctx,e.x,e.y+7,64,14,'#ffd8a0',(1-q)*.6);sparks(ctx,e.x,e.y+4,e.age,6,150,[],2,35);
+    }else if(e.kind==='ram-launch'){ctx.globalAlpha=1;glow(ctx,e.x,e.y,60+e.age*60,'#9ed1ff',(1-q)*.7);sparks(ctx,e.x,e.y,e.age,10,230,[],2.4,37);
+    }else if(e.kind==='ram-end'){ctx.globalAlpha=1;glow(ctx,e.x,e.y,26,'#c9dff0',(1-q)*.5);sparks(ctx,e.x,e.y,e.age,4,90,[],1.7,41);
     }else{ctx.globalAlpha=1;sparks(ctx,e.x,e.y,e.age,4,80,[],1.5,7);}
     ctx.restore();
   }
-  // Kit's blue-enamel paddle, the same skin the Gatehouse uses.
+  // Kit's blue-enamel paddle, the same skin the Gatehouse uses, with the Sweet-Spot Ram's gold gem sockets under it.
   const p=g.paddle,h=p.h*20/12,py=p.y+(level==='bellforge'?p.h/2:0),[pl,pm,pr]=skinFor(art,'kit')||['paddleL','paddleM','paddleR'];
+  const beat=.5+.5*Math.sin(g.time*9);
   pool(ctx,p.x+2,py+h/2+2,p.w*.52,4,'#000',.4);
+  if(p.armed)pool(ctx,p.x,py,p.w*.55,20,'#ffc98a',.32+.16*beat);
   ctx.drawImage(art.images[pl],p.x-p.w/2-4,py-h/2,16,h);ctx.drawImage(art.images[pm],p.x-p.w/2+12,py-h/2,p.w-24,h);ctx.drawImage(art.images[pr],p.x+p.w/2-12,py-h/2,16,h);
+  if(p.armed){ctx.save();ctx.globalCompositeOperation='lighter';pool(ctx,p.x,py-1,p.w/6+4,h*.32,'#ffc98a',.45+.3*beat);ctx.restore();}
+  pips(ctx,p.x,py+h/2+5.5,3,p.armed?3:p.streak||0,{key:'pip_gold',gap:9.5,scale:.86,bloom:'#ffc98a',pulse:p.armed?beat:0});
   if(g.powerTimers?.volley>0){
     ctx.save();ctx.translate(p.x,py-8);ctx.lineCap='round';
     ctx.strokeStyle='#382e24';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(-20,2);ctx.quadraticCurveTo(0,-12,20,2);ctx.stroke();
@@ -666,6 +673,7 @@ export function drawEncounter(ctx,g,art,level){
     for(const side of[-1,1]){ctx.fillStyle='#b87861';ctx.beginPath();ctx.moveTo(0,10);ctx.lineTo(side*4,14);ctx.lineTo(side*4,19);ctx.lineTo(0,16);ctx.fill();}ctx.restore();
   }
   for(const b of g.balls)if(!b.dead){
+    if(b.ram>0){gBall(ctx,g,art,b);continue;}
     if(!b.caught){const speed=Math.hypot(b.vx,b.vy)||1;const trail=ctx.createLinearGradient(b.x,b.y,b.x-b.vx/speed*22,b.y-b.vy/speed*22);trail.addColorStop(0,b.titan?'#e5adffbb':'#eaf8ff99');trail.addColorStop(1,'#eaf8ff00');line(ctx,{x:b.x,y:b.y},{x:b.x-b.vx/speed*22,y:b.y-b.vy/speed*22},trail,b.titan?10:6);}
     const size=b.titan?34:20;ctx.save();ctx.translate(b.x,b.y);
     if(b.titan)ctx.rotate(g.time*2);
@@ -681,4 +689,4 @@ export function drawEncounter(ctx,g,art,level){
 // Paddle skin by hero: ['xSkinL','xSkinM','xSkinR'] when that skin has decoded, else the chrome paddle.
 export function skinFor(art,id){const k=[id+'SkinL',id+'SkinM',id+'SkinR'];return k.every(n=>art.images[n]?.naturalWidth)?k:undefined;}
 // Shared with the Lumi renderer (lumi-render.js).
-export {glow,sparks,chips,pips,fxPart,dust,rnd,clamp01,smooth,gBanner,gPaddle,hoistChain,sprite,slab,CLIMB};
+export {glow,sparks,chips,pips,fxPart,dust,rnd,clamp01,smooth,gBanner,gPaddle,gBall,gWard,hoistChain,sprite,slab,CLIMB};

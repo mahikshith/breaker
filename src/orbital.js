@@ -5,6 +5,7 @@ import { sweepTarget, overlapsTarget } from './carrier-physics.js';
 import { loadImg, ready, text, drawBall, drawStretchPaddle } from './gfx.js';
 import { ART } from './vault-art.js';
 import { sfx } from './audio.js';
+import { RAM } from './fantasy/ram.js';
 import { difficulty } from './difficulty.js';
 import { drawEnemyBolt, drawEnemyImpact, drawWeaponCharge, drawWeaponMuzzle, nextEnemyVolley, enemyEscapeLane } from './space-weapons.js';
 
@@ -128,6 +129,8 @@ export class Orbital extends Arena {
     for(const s of this.bolts)if(!s.dead)out.push({id:s.id,active:true,solid:false,vx:s.vx*rate,vy:s.vy*rate,shapes:[{type:'circle',x:s.x,y:s.y,r:s.r}]});
     return out;
   }
+  // Sweet-Spot Ram: plain panels plough; armour panels, coils, hull, guns and the core bounce it (villain parts take RAM.damage).
+  ramPierce(t) { return !!t&&this.bricks.some(b=>b.id===t.id&&b.kind!=='armour'); }
   world() {
     const targets=this.targets(1/Math.max(.001,this.timeScale*(this.slowT>0?.68:1)));
     const ship=targets.filter(t=>t.id==='hull'||t.id==='core'||this.guns.some(g=>t.id===g.id||t.id===g.id+':spent'));
@@ -146,7 +149,7 @@ export class Orbital extends Arena {
     const assembly=id==='hull'||id==='projector-arm'||!!gun;
     const obj=this.phase==='core'&&(id==='core'||assembly)?this.core:s||this.bricks.find(p=>p.id===id)||gun||(id==='hull'?this.hull:null);
     if(!obj||obj.hp<=0)return true;
-    const damage=(b.shot?1:b.titan>0?3:b.fire?2:1)*(s&&this.coilVulnerable(s)?2:1),wasOpen=s&&this.coverOpen(s);
+    const damage=(b.shot?1:b.titan>0?3:b.fire?2:b.ram>0&&!this.bricks.includes(obj)?RAM.damage:1)*(s&&this.coilVulnerable(s)?2:1),wasOpen=s&&this.coverOpen(s);
     obj.hp=Math.max(0,obj.hp-damage);obj.hurt=.12;this.addScore(s?70:obj===this.core?100:20);sfx.tough();
     this.chargeSpacePower(b);
     if(assembly||obj===this.core){this.hull.hurt=.14;this.hull.impact={x:b.x??180,y:b.y??190};if(obj===this.core)this.hull.hp=Math.max(0,this.hull.hp-damage);}
@@ -299,7 +302,7 @@ export class Orbital extends Arena {
   }
   drawPaddleArt(g,p) { drawStretchPaddle(g,this.parts.paddle,p); }
   drawEnemyBolts(g) { for(const b of this.bolts)drawEnemyBolt(g,b,this.clock-b.bornAt);if(this.state==='play')for(const h of this.enemyImpacts)drawEnemyImpact(g,h,this.clock-h.at); }
-  drawBalls(g) { for(const b of this.balls)if(!b.dead){if(b.titan>0)drawBall(g,b);else this.visiblePart(g,'ball',{x:b.x-b.r,y:b.y-b.r,w:b.r*2,h:b.r*2});}this.drawShots(g); }
+  drawBalls(g) { for(const b of this.balls)if(!b.dead){if(b.titan>0||b.ram>0)drawBall(g,b);else this.visiblePart(g,'ball',{x:b.x-b.r,y:b.y-b.r,w:b.r*2,h:b.r*2});}this.drawShots(g); }
   paintBackground(g,y,height) {
     const p=this.parts.background;if(!ready(p))return;
     const k=Math.max(this.W/p.size[0],height/p.size[1]);g.drawImage(p.img,this.W-p.size[0]*k,y+height-p.size[1]*k,p.size[0]*k,p.size[1]*k);

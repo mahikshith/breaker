@@ -3,6 +3,7 @@ import { ART } from './vault-art.js';
 import { cached, loadImg, ready, text, drawBall, drawStretchPaddle } from './gfx.js';
 import { sweepTarget, overlapsTarget } from './carrier-physics.js';
 import { sfx } from './audio.js';
+import { RAM } from './fantasy/ram.js';
 import { drawNixControl, drawTickSecure } from './space-companions.js';
 import { difficulty } from './difficulty.js';
 import { drawEnemyBolt, drawEnemyImpact, drawWeaponCharge, drawWeaponMuzzle, nextEnemyVolley, enemyEscapeLane } from './space-weapons.js';
@@ -230,6 +231,8 @@ export class Carrier extends Arena {
     for (const b of this.bolts) if (!b.dead) out.push({ id: b.id, active: true, solid: false, vx: b.vx * rate, vy: b.vy * rate, shapes: [{ type: 'circle', x: b.x, y: b.y, r: b.r }] });
     return out;
   }
+  // Sweet-Spot Ram: the panel bricks plough; crew pods, hull, cannons and fighters bounce it (villain parts take RAM.damage).
+  ramPierce(t) { return !!t && this.bricks.some(b => b.id === t.id); }
   hitTarget(id, b) {
     if (this.state !== 'play' || this.phase !== 'carrier') return false;
     if (id.startsWith('disabled-')) {
@@ -241,7 +244,7 @@ export class Carrier extends Arena {
     const obj = id === 'carrier' ? this.carrier : [...this.bricks, ...this.crew, ...this.guns, ...this.fighters].find(o => o.id === id);
     if (!obj || obj.hp <= 0) return false;
     const brick = this.bricks.includes(obj), crew = this.crew.includes(obj);
-    const damage = Math.min(obj.hp, brick || crew ? b.fire && !b.shot ? obj.hp : crew && b.titan > 0 ? 2 : 1 : b.shot ? 1 : b.titan > 0 ? 4 : b.fire ? 3 : 1);
+    const damage = Math.min(obj.hp, brick || crew ? b.fire && !b.shot ? obj.hp : crew && b.titan > 0 ? 2 : 1 : b.shot ? 1 : b.titan > 0 ? 4 : b.fire ? 3 : b.ram > 0 ? RAM.damage : 1);
     const pulled = crew && this.raid?.targetId === obj.id ? this.workerPose(obj) : null;
     obj.hp -= damage; obj.hurt = obj === this.carrier ? .1 : .14;
     this.chargeSpacePower(b);
@@ -505,7 +508,7 @@ export class Carrier extends Arena {
     this.drawShots(g);
     for (const b of this.balls) {
       if (this.phase !== 'carrier') continue;
-      if (b.titan > 0) { drawBall(g, b); continue; }
+      if (b.titan > 0 || b.ram > 0) { drawBall(g, b); continue; }
       if (b.fire) { g.strokeStyle = '#f3a76e'; g.lineWidth = 2; g.beginPath(); g.arc(b.x, b.y, b.r + 3, 0, TAU); g.stroke(); }
       const a = fit('ball', [b.x - b.r, b.y - b.r, b.r * 2, b.r * 2]); part(g, 'ball', a.x, a.y, a.w, a.h);
     }
