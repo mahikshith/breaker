@@ -17,7 +17,7 @@ export const LUMI_FLOORS = ['The cell', 'Serpent windows', 'Roof race'];
 // peek: eyes in the recess; hiss: the warned tell (mode length); strike: the bite along the row; chew; retreat head first.
 // Windows sit in the side walls (centre 24u from the edge, drawn 44x53u from the layered window kit); bricks keep to the middle six
 // columns so both 52u side lanes stay open. Distances below are measured from the window centre, the serpent's origin.
-export const LUNGE = { peek: .6, strike: .35, chew: .45, retreat: .6, reach: 250, lip: 10, out: 30, headR: 13, gap: 12, segments: 22, wall: 24, opening: 16 };
+export const LUNGE = { peek: .6, strike: .35, chew: .45, retreat: .6, reach: 250, lip: 10, out: 30, headR: 13, gap: 12, segments: 22, wall: 24, opening: 12 };
 export const LUMI_TIMING = { climb: 1.2, escape: 2.4, calm: 4, shield: 8, wide: 8, notes: 6 };
 export const NOTE_KINDS = ['wide', 'multi', 'ram'];
 
@@ -71,7 +71,7 @@ export class LumiTower {
   activate(id) {
     if (!this.canActivate(id)) return false;
     this.charge = 0; this.chargeBank = 0;
-    if (id === 'lullaby') { this.calm = LUMI_TIMING.calm; for (const l of this.lunges) this.retreat(l, false); this.effect(this.width / 2, 300, 'lullaby', .9); }
+    if (id === 'lullaby') { this.calm = LUMI_TIMING.calm; this.nextLunge = Math.max(this.nextLunge, this.floorTime + LUMI_TIMING.calm + 1.5); for (const l of this.lunges) this.retreat(l, false); this.effect(this.width / 2, 300, 'lullaby', .9); }
     if (id === 'songshield') { this.shield = { remaining: LUMI_TIMING.shield, used: false }; this.effect(this.paddle.x, this.paddle.y, 'songshield', .6); }
     if (id === 'starlight') { this.notes = LUMI_TIMING.notes; this.effect(this.paddle.x, this.paddle.y, 'starlight', .6); }
     return true;
@@ -239,7 +239,8 @@ export class LumiTower {
         if (fresh) b.contacts.add(key);
         if (fresh && hit.kind === 'brick') this.hitBrick(hit.item.item, b);
         if (fresh && hit.kind === 'bell') this.ringBell(b);
-        if (fresh && hit.kind === 'head') this.hitHead(hit.item.lunge);
+        // A head already retreating only deflects the ball: no score or charge to farm.
+        if (fresh && hit.kind === 'head' && hit.item.lunge.stage !== 'retreat') this.hitHead(hit.item.lunge);
       }
       if (this.phase !== 'play') return;
       left *= 1 - hit.t; if (hit.t < 1e-6) left = Math.max(0, left - 1e-5);

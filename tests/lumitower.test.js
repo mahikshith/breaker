@@ -93,3 +93,17 @@ test('floors climb in order: cell bars, then serpent hatch, then the roof bell',
   for (let i = 0; i < 1000 && m.state === 'play'; i++) m.step(1 / 240);
   assert.equal(m.state, 'won');
 });
+
+test('after Lullaby the calm ends with a gap before the next peek, and a retreating head gives no score', () => {
+  const m = tower(); park(m); m.charge = 100; m.nextLunge = 0;
+  assert(m.activate('lullaby')); m.lunges = [];
+  let peekAt = null;
+  for (let i = 0; i < 240 * 8 && peekAt === null; i++) { park(m); m.step(1 / 240); if (m.lunges.length) peekAt = m.floorTime; }
+  assert(peekAt === null || peekAt >= 4 + 1.5 - 1e-6, `next lunge waits past the calm (${peekAt})`);
+  const r = tower(); const win = r.windows[0], l = r.makeLunge(win); r.lunges = [l]; r.nextLunge = Infinity;
+  runLunge(r, () => l.stage === 'retreat'); runLunge(r, () => Math.abs(l.points[0].x - win.originX) > 60 || l.done, 1 / 240, 1);
+  r.bricks = []; const h = l.points[0], b = r.balls[0], score = r.score, hits = r.headHits;
+  Object.assign(b, { caught: false, x: h.x + 30, y: h.y, vx: -345, vy: 0 });
+  for (let i = 0; i < 40; i++) r.step(1 / 240);
+  assert.equal(r.score, score); assert.equal(r.headHits, hits);
+});

@@ -139,7 +139,7 @@ addEventListener('keydown', e => {
   if (suspended || document.hidden || scene === 'pause') return;
   if (scene === 'level' && !e.repeat) level.key(e.key, true);
   if (e.key === ' ' || e.key.startsWith('Arrow') || e.key.toLowerCase() === 'k') e.preventDefault();
-  if (scene === 'menu' && /^[1-9]$/.test(e.key) && +e.key <= LEVELS.length) start(+e.key - 1);
+  if (scene === 'menu' && /^[0-9]$/.test(e.key)) { const i = e.key === '0' ? 9 : +e.key - 1; if (i < LEVELS.length) start(i); }
 });
 addEventListener('keyup', e => {
   if (e.key === ' ' && level?.suppressedSpace) { level.key(e.key, false); return; }
