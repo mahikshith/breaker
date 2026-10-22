@@ -16,6 +16,11 @@ export const FROST_MODES = {
 const COLORS = ['#4f9dff', '#8f5cf0', '#22c4b0', '#ff6f91', '#4f9dff', '#b785ef'];
 const PAYLOADS = new Map([[2, 'wide'], [8, 'shield'], [14, 'split'], [21, 'slow'], [27, 'fire'], [33, 'laser']]);
 const PLATE = ART?.plate ? loadImg(ART.plate) : null;
+// Premium finish reuses existing renders: the keep hall (Bellforge/Gatehouse) graded cold, and the faceted
+// moonstone brick family (Mooncoil) per row. Collision sizes and positions are unchanged.
+const KEEP = ART?.keepBackdrop ? loadImg(ART.keepBackdrop) : null;
+const MOONSTONE = Object.fromEntries(Object.entries(ART?.mooncoil?.bricks || {}).map(([k, s]) => [k, { ...s, img: loadImg(s.url) }]));
+const ROW_STONE = [6, 3, 4, 2, 6, 3]; // blue, violet, jade, coral moonstone
 const PRINCESS = ART?.princess ? { ...ART.princess, img: loadImg(ART.princess.url) } : null;
 
 export class Frost extends Arena {
@@ -266,9 +271,21 @@ export class Frost extends Arena {
   }
   inspect() { return { state: this.state, phase: this.phase, stage: this.stage, clock: this.clock, hp: this.warden.hp, maxHP: this.warden.maxHP, defences: this.defences.map(d => ({ ...d })), activeDefence: this.activeDefence, windHits: this.windHits, ward: this.ward && { ...this.ward }, bodyPose: this.pose().body, fist: this.pose().fist, lives: this.lives, started: this.started, punches: this.punchCount, blocked: this.blockedPunches }; }
   background() {
-    return cached('frost-bg-' + this.W + '-' + this.H + '-' + !!PLATE?.complete, this.W, this.H, g => {
+    const keep = KEEP?.complete && KEEP.naturalWidth;
+    return cached('frost-bg-' + this.W + '-' + this.H + '-' + !!PLATE?.complete + '-' + !!keep, this.W, this.H, g => {
       g.fillStyle = '#101622'; g.fillRect(0, 0, this.W, this.H);
-      if (PLATE?.complete && PLATE.naturalWidth) {
+      if (keep) {
+        // The keep hall, frozen: cover-fit, cold colour grade, darkened so the actors stay in front.
+        const s = Math.max(this.W / KEEP.naturalWidth, this.H / KEEP.naturalHeight), w = KEEP.naturalWidth * s, h = KEEP.naturalHeight * s;
+        g.drawImage(KEEP, (this.W - w) / 2, (this.H - h) / 2, w, h);
+        g.globalCompositeOperation = 'color'; g.fillStyle = 'rgba(96,140,184,.6)'; g.fillRect(0, 0, this.W, this.H);
+        g.globalCompositeOperation = 'multiply'; g.fillStyle = '#93a7c0'; g.fillRect(0, 0, this.W, this.H);
+        g.globalCompositeOperation = 'source-over';
+        const frost = g.createLinearGradient(0, 0, 0, this.H * .4); frost.addColorStop(0, 'rgba(190,225,255,.10)'); frost.addColorStop(1, 'rgba(190,225,255,0)');
+        g.fillStyle = frost; g.fillRect(0, 0, this.W, this.H);
+        const vg = g.createRadialGradient(this.W / 2, this.H * .42, this.H * .2, this.W / 2, this.H * .42, this.H * .75);
+        vg.addColorStop(0, 'rgba(6,10,18,0)'); vg.addColorStop(1, 'rgba(6,10,18,.5)'); g.fillStyle = vg; g.fillRect(0, 0, this.W, this.H);
+      } else if (PLATE?.complete && PLATE.naturalWidth) {
         // The moon-free side of the existing plate is a background, never an invisible wall.
         g.drawImage(PLATE, 288, 0, 432, 212, 0, 0, this.W, 180);
         g.globalAlpha = .28; g.drawImage(PLATE, 0, 440, PLATE.naturalWidth, 900, 0, 180, this.W, this.H - 180); g.globalAlpha = 1;
@@ -296,10 +313,15 @@ export class Frost extends Arena {
     // A recessed back-wall promenade: the ball crosses in the foreground, as it
     // does the castle plate. Only the posts, Warden and chamber lip are actors.
     const front = this.stance(0).y + 3, rear = 214;
-    const slab = g.createLinearGradient(0, rear, 0, front + 5); slab.addColorStop(0, '#283440'); slab.addColorStop(1, '#151e2a');
+    // Frosted flagstones: warm key from the top left fading into cold shadow, a lit rim and a thin snow drift.
+    const slab = g.createLinearGradient(0, rear, 0, front + 5); slab.addColorStop(0, '#3c4b5e'); slab.addColorStop(.6, '#253244'); slab.addColorStop(1, '#162131');
     g.fillStyle = slab; g.beginPath(); g.moveTo(20, rear); g.lineTo(254, rear); g.lineTo(262, front); g.lineTo(8, front); g.closePath(); g.fill();
+    const key = g.createLinearGradient(8, 0, 262, 0); key.addColorStop(0, 'rgba(255,219,184,.10)'); key.addColorStop(1, 'rgba(140,166,255,0)');
+    g.fillStyle = key; g.fill();
     g.fillStyle = '#121b28'; g.fillRect(8, front, 254, 5);
-    g.strokeStyle = '#485563'; g.lineWidth = 1; g.beginPath(); g.moveTo(8, front); g.lineTo(262, front); g.stroke();
+    const drift = g.createLinearGradient(0, front - 3, 0, front + 1); drift.addColorStop(0, 'rgba(214,236,250,0)'); drift.addColorStop(1, 'rgba(214,236,250,.32)');
+    g.fillStyle = drift; g.fillRect(8, front - 3, 254, 4);
+    g.strokeStyle = 'rgba(207,230,245,.55)'; g.lineWidth = 1; g.beginPath(); g.moveTo(8, front); g.lineTo(262, front); g.stroke();
     g.strokeStyle = 'rgba(124,146,163,.16)';
     for (const x of [45, 91, 137, 183, 229]) { g.beginPath(); g.moveTo(x, rear + 1); g.lineTo(x - 4, front); g.stroke(); }
     const p = this.pose(); g.fillStyle = 'rgba(0,0,0,.45)'; g.beginPath(); g.ellipse(p.x, p.y + 1, 19, 3.5, 0, 0, Math.PI * 2); g.fill();
@@ -312,7 +334,8 @@ export class Frost extends Arena {
     // Chamber ledge is drawn behind Lumi; its physical face is explicit.
     g.drawImage(brick('#42536e', 60, 12, { metal: true }), 268, 202, 60, 16);
     for (const b of this.bricks) if (b.hp) {
-      const art = SPR[`brick_${['b', 'v', 't', 'c', 'b', 'v'][Math.floor((b.y - 266) / 26)]}_2_0`];
+      const row = Math.floor((b.y - 266) / 26), stone = MOONSTONE[`${ROW_STONE[row]}_2_0`];
+      const art = ready(stone) ? stone : SPR[`brick_${['b', 'v', 't', 'c', 'b', 'v'][row]}_2_0`];
       if (ready(art)) { const m = art.margin || 0, scaleX = b.w / (art.uw - m * 2), scaleY = b.h / (art.uh - m * 2); g.drawImage(art.img, b.x - m * scaleX, b.y - m * scaleY, art.uw * scaleX, art.uh * scaleY); }
       else g.drawImage(brick(b.color, b.w, b.h), b.x, b.y, b.w, b.h + 4);
       if (b.payload) { g.fillStyle = '#e8d7ed'; g.beginPath(); g.moveTo(b.x + b.w / 2, b.y + 5); g.lineTo(b.x + b.w / 2 + 3, b.y + 9); g.lineTo(b.x + b.w / 2, b.y + 13); g.lineTo(b.x + b.w / 2 - 3, b.y + 9); g.closePath(); g.fill(); }

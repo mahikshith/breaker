@@ -1,7 +1,7 @@
 {
   "scope": "Isolated phone texture sizing; original normalized collision/anchors remain authoritative",
   "manifest": "assets/orbital-forge/manifest.json",
-  "manifestSHA256": "5e0dbe523a6c5a0a27be2484252056c5b0933180c67c0853f4f3e153e82e0ecc",
+  "manifestSHA256": "f6d436e6c73c3be94628882ba15e6cd94d4cce346cdb1dad07faf11274e17680",
   "parts": [
     {
       "id": "station_body",
@@ -188,7 +188,7 @@
       "source": "assets/orbital-forge/background.png",
       "sourceSHA256": "8b0ef447970e5e1ee642b7f0577759ff0af1d68a47ccecec2111b8c734e53c78",
       "path": "assets/orbital-forge/runtime/background.webp",
-      "runtimeSHA256": "c954eec31a5c06b948c508bfbc40273245dfbdb757824a5a46fbff1c20aeb450",
+      "runtimeSHA256": "9233583cdfc096a614595573080523fb427fe05c4170d1ebe1ea1ad434b38eb3",
       "sourceSize": [
         900,
         1350
@@ -198,10 +198,11 @@
         1350
       ],
       "sourceBytes": 1640435,
-      "encodedBytes": 1094686,
+      "encodedBytes": 112876,
       "decodedRGBABytes": 4860000,
-      "nativeMeanChannelError": null,
-      "losslessRoundTrip": true
+      "nativeMeanChannelError": 1.1742759943008423,
+      "losslessRoundTrip": false,
+      "encoding": "lossy-q92-exact-alpha"
     },
     {
       "id": "hull",
@@ -248,7 +249,7 @@
       "source": "assets/space-c/doors_pair.png",
       "sourceSHA256": "cf4eb410bc8e94bc2fc5d56ce12551ccb9c0e6de033b72bff4b4a08f3f603054",
       "path": "assets/orbital-forge/runtime/doors_pair.webp",
-      "runtimeSHA256": "c55ccaabfd495e5e5cfb68b15e1cb87869f90c8bdff21cf07de19641494674e5",
+      "runtimeSHA256": "c72243b73f8c1738fd842c972195b68b65c01af222f610ddc34040835aa329f8",
       "sourceSize": [
         2022,
         689
@@ -258,17 +259,18 @@
         368
       ],
       "sourceBytes": 2047445,
-      "encodedBytes": 449388,
+      "encodedBytes": 107298,
       "decodedRGBABytes": 1589760,
-      "nativeMeanChannelError": 0.5572642087936401,
-      "losslessRoundTrip": true
+      "nativeMeanChannelError": 1.3062759637832642,
+      "losslessRoundTrip": false,
+      "encoding": "lossy-q92-exact-alpha"
     },
     {
       "id": "door_left",
       "source": "assets/space-c/door_left.png",
       "sourceSHA256": "0efe3cf550cf7f43dfe97c8f04d7d0f315bdb684b432e8e8fbd117591e7364e9",
       "path": "assets/orbital-forge/runtime/door_left.webp",
-      "runtimeSHA256": "fb2f4e4571564706bcdfc971d5f7d27fb3790d4455317c8c032da3bb31bfd428",
+      "runtimeSHA256": "959ccf36cdd8d784cde8e9417ced7b4b695e41e90a2b1a832ac1ee2d96c30dd2",
       "sourceSize": [
         1019,
         697
@@ -278,17 +280,18 @@
         697
       ],
       "sourceBytes": 1023204,
-      "encodedBytes": 698054,
+      "encodedBytes": 137728,
       "decodedRGBABytes": 2840972,
-      "nativeMeanChannelError": 0.0,
-      "losslessRoundTrip": true
+      "nativeMeanChannelError": 0.9589501619338989,
+      "losslessRoundTrip": false,
+      "encoding": "lossy-q92-exact-alpha"
     },
     {
       "id": "door_right",
       "source": "assets/space-c/door_right.png",
       "sourceSHA256": "31cddc13e703ea9288894f41d83ad0737faab9cbc1ebd9173c25ab5c404ac0af",
       "path": "assets/orbital-forge/runtime/door_right.webp",
-      "runtimeSHA256": "3dbf4f1f736cb42ab17e7ddc091e92e3341ad83f0fe3e9703f7a45a05482221d",
+      "runtimeSHA256": "09589121e559cd9547b4f2a3339ff8bdfbb8e1f30dc317f701cb0d3d403123b4",
       "sourceSize": [
         1019,
         697
@@ -298,17 +301,18 @@
         697
       ],
       "sourceBytes": 1031573,
-      "encodedBytes": 699376,
+      "encodedBytes": 141262,
       "decodedRGBABytes": 2840972,
-      "nativeMeanChannelError": 0.0,
-      "losslessRoundTrip": true
+      "nativeMeanChannelError": 0.9323859810829163,
+      "losslessRoundTrip": false,
+      "encoding": "lossy-q92-exact-alpha"
     },
     {
       "id": "bay_back",
       "source": "assets/space-c/bay_back.png",
       "sourceSHA256": "206e2e2f33b6aa0b2d819ad74396fd06abbbd11cc1c237a7db740614c24fc39a",
       "path": "assets/orbital-forge/runtime/bay_back.webp",
-      "runtimeSHA256": "41377b1a6bf9afaae6337bd2adfc04b2825b823f85e5553a816cbe439fd1c4fa",
+      "runtimeSHA256": "ba331ed33e7a851ab1d692446aac5973590becd14b09a0f399d0476dbe1690d9",
       "sourceSize": [
         1308,
         438
@@ -318,10 +322,11 @@
         362
       ],
       "sourceBytes": 761056,
-      "encodedBytes": 378576,
+      "encodedBytes": 63788,
       "decodedRGBABytes": 1563840,
-      "nativeMeanChannelError": 0.2678169310092926,
-      "losslessRoundTrip": true
+      "nativeMeanChannelError": 1.0443634986877441,
+      "losslessRoundTrip": false,
+      "encoding": "lossy-q92-exact-alpha"
     },
     {
       "id": "paddle",
@@ -364,6 +369,6 @@
       "losslessRoundTrip": true
     }
   ],
-  "encodedBytes": 4046686,
+  "encodedBytes": 1289558,
   "decodedRGBABytes": 18355204
 }

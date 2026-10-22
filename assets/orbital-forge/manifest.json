@@ -3428,6 +3428,7 @@
       ]
     },
     "background": {
+      "encode": "lossy",
       "path": "assets/orbital-forge/background.png",
       "size": [
         900,
@@ -5107,6 +5108,7 @@
       ]
     },
     "doors_pair": {
+      "encode": "lossy",
       "id": "doors_pair",
       "path": "assets/space-c/doors_pair.png",
       "size": [
@@ -5144,6 +5146,7 @@
       ]
     },
     "door_left": {
+      "encode": "lossy",
       "id": "door_left",
       "path": "assets/space-c/door_left.png",
       "size": [
@@ -5181,6 +5184,7 @@
       ]
     },
     "door_right": {
+      "encode": "lossy",
       "id": "door_right",
       "path": "assets/space-c/door_right.png",
       "size": [
@@ -5218,6 +5222,7 @@
       ]
     },
     "bay_back": {
+      "encode": "lossy",
       "id": "bay_back",
       "path": "assets/space-c/bay_back.png",
       "size": [

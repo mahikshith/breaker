@@ -33,10 +33,15 @@ for name, part in manifest['parts'].items():
     pixels[pixels[:, :, 3] == 0, :3] = 0
     image = Image.fromarray(pixels)
     encoded = io.BytesIO()
-    image.save(encoded, 'WEBP', lossless=True, exact=True, method=6)
+    # Large opaque plates may opt in to lossy colour ("encode": "lossy"); alpha must stay bit-exact so silhouettes
+    # and collision never move, and the native-size guard below still bounds the visible error.
+    lossy = part.get('encode') == 'lossy'
+    if lossy: image.save(encoded, 'WEBP', quality=92, alpha_quality=100, method=6)
+    else: image.save(encoded, 'WEBP', lossless=True, exact=True, method=6)
     data = encoded.getvalue()
     decoded = Image.open(io.BytesIO(data)).convert('RGBA')
-    assert decoded.tobytes() == image.tobytes(), f'{name}: lossless round trip drift'
+    if lossy: assert decoded.getchannel('A').tobytes() == image.getchannel('A').tobytes(), f'{name}: alpha drift'
+    else: assert decoded.tobytes() == image.tobytes(), f'{name}: lossless round trip drift'
     native_error = None
     if isinstance(display, list):
         size = tuple(max(1, round(n * 412 / 360)) for n in display)
@@ -46,6 +51,9 @@ for name, part in manifest['parts'].items():
             return np.array(backdrop.convert('RGB'), dtype=np.float32)
         native_error = float(np.abs(native(original) - native(decoded)).mean())
         assert native_error < 4, (name, native_error)
+    elif lossy:  # full-screen plates have no display size: bound the error at their own resolution
+        native_error = float(np.abs(np.array(image.convert('RGB'), dtype=np.float32) - np.array(decoded.convert('RGB'), dtype=np.float32)).mean())
+        assert native_error < 4, (name, native_error)
     path = output / f'{name}.webp'
     path.write_bytes(data)
     rows.append({'id': name, 'source': part['path'], 'sourceSHA256': sha(raw),
@@ -53,7 +61,7 @@ for name, part in manifest['parts'].items():
         'sourceSize': part['size'], 'runtimeSize': list(image.size),
         'sourceBytes': len(raw), 'encodedBytes': len(data),
         'decodedRGBABytes': image.width * image.height * 4,
-        'nativeMeanChannelError': native_error, 'losslessRoundTrip': True})
+        'nativeMeanChannelError': native_error, 'losslessRoundTrip': not lossy, **({'encoding': 'lossy-q92-exact-alpha'} if lossy else {})})
 report = {'scope': 'Isolated phone texture sizing; original normalized collision/anchors remain authoritative',
     'manifest': manifest_path.relative_to(ROOT).as_posix(), 'manifestSHA256': sha(manifest_path.read_bytes()),
     'parts': rows, 'encodedBytes': sum(p['encodedBytes'] for p in rows),
