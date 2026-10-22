@@ -1,0 +1,1 @@
+Vendored from github.com/Gvindor/casual-puzzle-skills @ 708feb7 (MIT): retention-monetization-loop, casual-game-ftue. Written for puzzle games; read "mistakes/lives" as ball loss for BREACH. Installer not used.

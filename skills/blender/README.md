@@ -1,0 +1,1 @@
+Vendored from github.com/EL4CTEO/blender-skills @ 71d031d (MIT): blender-core, -rendering, -pipeline-automation, -lighting-lookdev, -pbr-materials, -asset-qa (SKILL.md, references, bpy scripts). Installer not used. No sprite/ortho guidance: for BREACH 2D sprite renders follow art/*.py conventions.
