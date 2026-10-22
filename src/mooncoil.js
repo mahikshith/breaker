@@ -7,7 +7,8 @@ import { sfx } from './audio.js';
 const MOON_BACKGROUND = ART.mooncoil?.background ? loadImg(ART.mooncoil.background) : null;
 const MOON_BRICKS = Object.fromEntries(Object.entries(ART.mooncoil?.bricks || {}).map(([k, s]) => [k, { ...s, img: loadImg(s.url) }]));
 
-import { LAYOUT as MOONCOIL_LAYOUT, MODE as MOONCOIL_MODES, POCKET, bankFor } from './mooncoil-layout.js';
+import { LAYOUT as MOONCOIL_LAYOUT, MODE as MOONCOIL_MODES, POCKET, RIVAL, bankFor } from './mooncoil-layout.js';
+const GNASH_X = 20 + RIVAL.column * 16 + 8; // his tunnel mouth, beside Mooncoil's at x284
 export { MOONCOIL_LAYOUT, MOONCOIL_MODES };
 
 export class Mooncoil extends Vault {
@@ -27,6 +28,53 @@ export class Mooncoil extends Vault {
       { id: 'titan', label: 'COSMIC', color: '#efb7e8' },
     ];
     this.wardCoachSeen = true;
+    // Two serpents: violet Mooncoil leads; emerald Gnash follows from his own tunnel after a warned entrance.
+    this.mooncoil = this.snake; this.mooncoil.start = this.snakeStart;
+    this.gnash = null; this.gnashWarnAt = null; this.rescueT = 0; this.clashCD = 0; this.clashes = 0;
+  }
+  rivals() { return [this.mooncoil, this.gnash].filter(Boolean); } // empty while Vault's constructor plans the first route
+  withSnake(s, fn) { const prev = this.snake; this.snake = s; try { return fn(); } finally { this.snake = prev; } }
+  // The other serpent's body is a wall, and its head keeps a one-cell bubble: head sprites are wider than a cell.
+  otherSnakeCells() {
+    return this.rivals().filter(s => s !== this.snake && s.alpha > 0).flatMap(s => {
+      const [c, r] = s.cells[0];
+      return [...s.cells, [c + 1, r], [c - 1, r], [c, r + 1], [c, r - 1]].filter(([x]) => x >= 0 && x < 20);
+    });
+  }
+  // Gnash follows in single file: he only drops once Mooncoil's body, and its route ahead, have passed his mouth.
+  gnashMouthClear() {
+    const m = this.mooncoil, ahead = (m.path || []).slice(0, 6).map(k => [k % 20, Math.floor(k / 20)]), [hc, hr] = m.cells[0];
+    return Math.abs(hc - RIVAL.column) + Math.abs(hr - 1) > 3 && ![...m.cells, ...ahead].some(([c, r]) => Math.abs(c - RIVAL.column) <= 1 && r <= 2);
+  }
+  spawnGnash() {
+    const cells = Array.from({ length: 12 }, (_, i) => [RIVAL.column, 1 - i]);
+    this.gnash = Object.assign(this.newSnake(cells), { mouthX: GNASH_X, prog: 0 });
+    this.gnash.start = this.withSnake(this.gnash, () => this.snakePlan().cost);
+    this.withSnake(this.gnash, () => this.mood('hunt', 1));
+    sfx.boom(); this.bump(.3, .05);
+  }
+  // Heads meeting, or a recoil that drives one serpent onto the other, starts a fight: both reel back dizzy and it
+  // sheds a power-up. A follower simply blocked behind the leader's body waits, so idle play never earns a clash.
+  checkClash() {
+    const [a, b] = this.rivals();
+    if (!b || this.clashCD > 0 || a.attack || b.attack || a.retreat || b.retreat || a.stun > 0 || b.stun > 0) return false;
+    const [ha, hb] = [a.cells[0], b.cells[0]], same = (p, q) => p[0] === q[0] && p[1] === q[1];
+    // Side by side in a wide gallery is not a fight; heads must be adjacent and facing each other.
+    const headOn = Math.abs(ha[0] - hb[0]) + Math.abs(ha[1] - hb[1]) <= 1 && Math.cos(a.dir - b.dir) < -.3;
+    const overrun = b.cells.slice(1).some(p => same(p, ha)) || a.cells.slice(1).some(p => same(p, hb));
+    if (!headOn && !overrun) return false;
+    const [pa] = this.withSnake(a, () => this.snakePoints()), [pb] = this.withSnake(b, () => this.snakePoints());
+    const x = (pa.x + pb.x) / 2, y = (pa.y + pb.y) / 2;
+    for (const s of [a, b]) this.withSnake(s, () => {
+      this.knockBack(RIVAL.clashKnock); s.stun = Math.max(s.stun, RIVAL.clashStun); s.open = 1; s.chew = 0; this.mood('ouch', .5);
+    });
+    this.clashCD = RIVAL.clashCooldown; this.clashes++;
+    this.dropPower(x, y, ['split', 'wide', 'fire'][this.clashes % 3]);
+    this.addScore(250); this.combo++;
+    this.fx.pop(Math.max(70, Math.min(this.W - 70, x)), Math.max(110, y - 22), 'CLASH!', '#c9ff9e', 20);
+    this.fx.shatter(x - 8, y - 8, 16, 16, '#d9ffb8', 10, .9); sfx.boom(); sfx.hurt(); this.bump(.5, .07);
+    this.play('Cheer'); this.say('They’re fighting!', 1.3);
+    return true;
   }
   bankFor(c, r) { return bankFor(c, r); }
   art(br) {
@@ -54,7 +102,7 @@ export class Mooncoil extends Vault {
     super.removeBrick(br, ball);
     if (ball && br.kind === 3 && this.phase === 'rescue') {
       const x = br.x + br.w / 2, y = br.y + br.h / 2;
-      const reached = this.snakePoints().some(p => Math.hypot(p.x - x, p.y - y) <= 92);
+      const reached = this.rivals().some(s => this.withSnake(s, () => this.snakePoints()).some(p => Math.hypot(p.x - x, p.y - y) <= 92));
       this.moonPulses.push({ x, y, age: 0, reached });
       if (reached) { this.moonPulseT = Math.max(this.moonPulseT, 1.6); this.mood('shock', .6); }
     }
@@ -85,7 +133,22 @@ export class Mooncoil extends Vault {
     this.venom.contacts.reset(); this.venom.phase = 'idle'; this.wardCoach = false;
     return false;
   }
-  updateSnake(dt) { super.updateSnake(dt * (this.phase === 'rescue' ? this.moonbindT > 0 ? .18 : this.moonPulseT > 0 ? .35 : 1 : 1)); }
+  updateSnake(dt) {
+    const k = this.phase === 'rescue' ? this.moonbindT > 0 ? .18 : this.moonPulseT > 0 ? .35 : 1 : 1;
+    const attacker = this.rivals().find(s => s.attack);
+    for (const s of attacker ? [attacker] : this.rivals()) this.withSnake(s, () => super.updateSnake(dt * k * (s === this.gnash ? this.rules.rivalSpeed : 1)));
+    // Whichever serpent reaches the bars becomes the one the capture, camera and Continue follow.
+    this.snake = this.rivals().find(s => s.attack) || this.snake;
+  }
+  ballVsSnake() { for (const s of this.rivals()) this.withSnake(s, () => super.ballVsSnake()); }
+  crushCheck() { for (const s of this.rivals()) this.withSnake(s, () => super.crushCheck()); }
+  shotHit(shot) { return this.rivals().some(s => this.withSnake(s, () => super.shotHit(shot))); }
+  beginRetreat() { for (const s of this.rivals()) this.withSnake(s, () => super.beginRetreat()); }
+  continueRun() {
+    const others = this.rivals().filter(s => s !== this.snake);
+    super.continueRun();
+    for (const s of others) this.withSnake(s, () => { s.attack = null; this.knockBack(6); s.stun = Math.max(s.stun, 3); });
+  }
   canChoosePower(id) {
     if (id === 'moonbind') return this.canUseCorePower() && this.moonbindT <= 0;
     if (id === 'ricochet') return this.canUseCorePower() && !this.crystals.length;
@@ -113,7 +176,19 @@ export class Mooncoil extends Vault {
     for (const pulse of this.moonPulses) pulse.age += dt;
     this.moonPulses = this.moonPulses.filter(p => p.age < .6);
     this.cageFlash = Math.max(0, this.cageFlash - realDt);
-    if (this.phase === 'rescue') this.checkBreach();
+    for (const s of this.rivals()) if (s !== this.snake) this.withSnake(s, () => this.tickSnakePose(dt, realDt));
+    if (this.phase === 'rescue') {
+      this.rescueT += dt; this.clashCD = Math.max(0, this.clashCD - dt);
+      if (!this.gnash && this.gnashWarnAt === null && this.rescueT >= this.rules.rivalAt - RIVAL.tell && this.gnashMouthClear()) {
+        this.gnashWarnAt = this.rescueT; sfx.beat(); this.say('Another one!', 1.6); this.play('Interact');
+      }
+      if (!this.gnash && this.gnashWarnAt !== null && this.rescueT - this.gnashWarnAt >= RIVAL.tell && this.gnashMouthClear()) this.spawnGnash();
+      this.checkClash();
+      // Urgency follows whichever serpent is closer to her.
+      this.danger = Math.max(...this.rivals().map(s => Number.isFinite(s.start) ? Math.max(0, Math.min(1, 1 - (s.cost ?? s.start) / s.start)) : 0));
+      this.peakDanger = Math.max(this.peakDanger || 0, this.danger);
+      this.checkBreach();
+    }
     for (const b of this.crystals) {
       b.life -= dt; b.trail.push({ x: b.x, y: b.y }); if (b.trail.length > 12) b.trail.shift();
       if (this.phase !== 'rescue' || b.life <= 0) { b.dead = true; continue; }
@@ -130,13 +205,27 @@ export class Mooncoil extends Vault {
     g.save(); g.filter = 'none'; super.drawPrincess(g, ...args); g.restore();
   }
   drawSnake(g) {
-    g.save(); g.filter = 'hue-rotate(115deg) saturate(.78)';
-    super.drawSnake(g); g.restore();
-    if (this.moonbindT > 0 && this.phase === 'rescue') {
-      const p = this.snakePoints()[0];
-      g.save(); g.strokeStyle = '#c5aaff'; g.lineWidth = 2; g.globalAlpha = .65;
-      g.beginPath(); g.ellipse(p.x, p.y, 22, 13, this.t, 0, Math.PI * 2); g.stroke(); g.restore();
-    }
+    for (const s of this.rivals()) this.withSnake(s, () => {
+      if (s.alpha <= 0) return;
+      g.save(); if (s === this.mooncoil) g.filter = 'hue-rotate(115deg) saturate(.78)'; // Gnash keeps his own emerald
+      super.drawSnake(g); g.restore();
+      if (this.moonbindT > 0 && this.phase === 'rescue') {
+        const p = this.snakePoints()[0];
+        g.save(); g.strokeStyle = '#c5aaff'; g.lineWidth = 2; g.globalAlpha = .65;
+        g.beginPath(); g.ellipse(p.x, p.y, 22, 13, this.t, 0, Math.PI * 2); g.stroke(); g.restore();
+      }
+    });
+  }
+  drawEntrance(g) {
+    super.drawEntrance(g);
+    if (this.gnashWarnAt === null) return;
+    super.drawEntrance(g, GNASH_X);
+    if (this.gnash) return;
+    // The warning: his eyes glint in the dark mouth before he drops in.
+    const q = .5 + .5 * Math.sin((this.rescueT - this.gnashWarnAt) * 14);
+    g.save(); g.fillStyle = `rgba(170,255,120,${.45 + .55 * q})`; g.shadowColor = '#9dff6a'; g.shadowBlur = 8;
+    for (const dx of [-5, 5]) { g.beginPath(); g.ellipse(GNASH_X + dx, 86, 2.4, 1.5, 0, 0, Math.PI * 2); g.fill(); }
+    g.restore();
   }
   drawBars(g) {
     super.drawBars(g);
@@ -173,5 +262,6 @@ export class Mooncoil extends Vault {
     text(g, 'MOONCOIL RELIQUARY', this.W / 2, this.H - 170, 23, '#e4c9ff', 'center');
     text(g, 'Break Lumi’s cage before Mooncoil arrives.', this.W / 2, this.H - 142, 13, '#e8dcec', 'center');
     text(g, 'Shatter violet armour to slow it nearby.', this.W / 2, this.H - 121, 13, '#e8dcec', 'center');
+    text(g, 'A second serpent follows. Make them collide.', this.W / 2, this.H - 100, 13, '#c9ff9e', 'center');
   }
 }

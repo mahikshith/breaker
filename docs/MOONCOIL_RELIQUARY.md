@@ -58,6 +58,17 @@ Use the exact brick script CLI documented in its README if selecting a subset. P
 
 The owner proposed two differently skinned snakes with distinct roles, separate approach lanes, a shared confrontation area and possible rivalry. Preserve the separate level and simple rescue goal; do not just put two snakes in the same single-file corridor. Combined attacks need readable counterplay and a winnable Easy mode. This rivalry is deferred until the owner tests the current encounter. It is not implemented or advertised in the current APK.
 
+## Serpent Rivals (2026-10-22)
+
+Codex's deferred two-snake item is now built. Gnash, the emerald serpent, follows violet Mooncoil from his own tunnel (column 10, beside Mooncoil's at column 16).
+
+- **Warned entrance:** after `MODE[mode].rivalAt` seconds of rescue (12/9/6 s on easy/medium/hard), his eyes glow in his dark tunnel mouth and Lumi calls "Another one!" for `RIVAL.tell` (1.8 s) before he drops. He drops only once Mooncoil's body and its route ahead have cleared his mouth, so he follows in single file instead of landing on top of it.
+- **Bodies are walls:** each serpent plans around the other's body, and around a one-cell bubble at its head, so they never overlap. A follower that is blocked waits or chews another way round (on hard he often takes a longer lane through the bricks).
+- **Clash:** a fight starts only when the heads meet facing each other, or when a recoil drives one serpent onto the other. Both reel back 3 cells, are dizzy for 2.2 s, and a power-up drops (split, wide or fire in turn). There is a 6 s cooldown. Being blocked is not a clash, so idle play never earns one; hitting the leader's head to knock it back into the follower is the skill that does.
+- **Shared rules:** Moonbind and the moonstone burst slow both serpents. Danger, heartbeat and the red vignette follow whichever serpent is closer. Breaking the cage sends both home head first, each to its own tunnel. Continue resets the cage and throws both back.
+- **Code:** Vault gained small hooks (`newSnake`, `otherSnakeCells`, `tickSnakePose`, `beginRetreat` with each serpent's own tunnel, and `drawEntrance(g, x)`). Vault's own behaviour is unchanged. `Mooncoil.withSnake` runs the same proven serpent logic once per serpent. Tests: `tests/mooncoil-rivals.test.js`.
+- **Checks:** 445/445 unit tests. `tools/playtest/mooncoil.mjs` passes on both phone sizes, including idle play losing within 240 s. `mooncoil-routes.mjs --all-modes` wins all six assisted routes in 41-50 s with three lives. Screens: `docs/validation/mooncoil/rivals/`.
+
 ## Evidence boundaries
 
 `docs/validation/physics-recheck/` contains the fresh pig/crab/other-level audit and the Carrier Focus-laser fix. Earlier six-chapter hash6b21 receipts describe the rejected seal layout. Current cage-rescue/theme receipts must use a new build hash. Staged cage/power/ending checks are separate from earned routes. Browser-sized tests do not certify physical-phone frame rate or human enjoyment.

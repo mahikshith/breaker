@@ -6,11 +6,15 @@ export const BANKS = Object.freeze([
   Object.freeze({ c0: 10, c1: 17, r0: 9, r1: 11, color: 'c' }),
   Object.freeze({ c0: 0, c1: 7, r0: 15, r1: 17, color: 't' }),
 ]);
+// rivalAt: seconds of rescue before Gnash, the second serpent, drops from his own tunnel (warned RIVAL.tell earlier).
+// rivalSpeed scales his chewing against Mooncoil's.
 export const MODE = Object.freeze({
-  easy: Object.freeze({ cageHP: 6, speed: .40, charge: 10 }),
-  medium: Object.freeze({ cageHP: 8, speed: .54, charge: 12 }),
-  hard: Object.freeze({ cageHP: 10, speed: .70, charge: 14 }),
+  easy: Object.freeze({ cageHP: 6, speed: .40, charge: 10, rivalAt: 12, rivalSpeed: .8 }),
+  medium: Object.freeze({ cageHP: 8, speed: .54, charge: 12, rivalAt: 9, rivalSpeed: .9 }),
+  hard: Object.freeze({ cageHP: 10, speed: .70, charge: 14, rivalAt: 6, rivalSpeed: 1 }),
 });
+// When one serpent's head runs into the other, both reel back dizzy and the fight sheds a power-up.
+export const RIVAL = Object.freeze({ column: 10, tell: 1.8, clashStun: 2.2, clashKnock: 3, clashCooldown: 6 });
 export const bankFor = (c, r) => BANKS.findIndex(b => c >= b.c0 && c <= b.c1 && r >= b.r0 && r <= b.r1);
 export const LAYOUT = Object.freeze([
   '........#...........',
