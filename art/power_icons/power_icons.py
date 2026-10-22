@@ -178,7 +178,22 @@ def ram_song():  # RAM BALL (Lumi skin): pink pearl song sphere with an inlaid g
     return [sphere('song', 11, pearl, y=-1.2)] + note('i', gold, -2, -4, .75, -2.6)
 
 
+def moonbind():  # MOONBIND (Mooncoil): violet moonstone crescent wrapped by a silver binding ring
+    stone, silver = M('moonstone', '#9a73de', .14, .1, 1, emit='#b48cff', strength=.3), M('bind_silver', '#e6ecf8', .2, .55, .8)
+    outer, inner = ring_pts(12.5, 32, math.radians(60), math.radians(300)), ring_pts(10, 32, math.radians(300), math.radians(60))
+    inner = [(x + 5, z) for x, z in inner]
+    return [slab('crescent', outer + inner, 3, stone, -2, 0, -1.0, bevel=.18),
+            torus('bind', 11, .9, silver, -1, 0, -1.6, tilt=(math.radians(70), math.radians(35), 0))]
+
+
+def ricochet():  # CRYSTALS (Mooncoil): two faceted teal crystal bolts crossing
+    teal = M('crystal', '#39d6c2', .08, 0, 1, emit='#7ff5e4', strength=.5)
+    shard = [(0, 12), (3.2, 4), (2.2, -10), (0, -13), (-2.2, -10), (-3.2, 4)]
+    return [slab(f'shard{i}', shard, 3, teal, x, 0, -1.2 - i * .4, rot=a, bevel=.35, segs=1) for i, (x, a) in enumerate(((0, .55), (0, -.55)))]
+
+
 ICONS = {  # id -> (builder, owner, label)
+    'moonbind': (moonbind, 'kit', 'MOONBIND'), 'ricochet': (ricochet, 'kit', 'CRYSTALS'),
     'shield': (shield, 'kit', 'BRICK WARD'), 'arrows': (arrows, 'kit', 'ARROWS'), 'titan': (cosmic, 'kit', 'COSMIC'),
     'five': (five, 'kit', 'BALL FAN'), 'lullaby': (lullaby, 'lumi', 'LULLABY'), 'starlight': (starlight, 'lumi', 'STARLIGHT NOTES'),
     'songshield': (songshield, 'lumi', 'SONG SHIELD'), 'ram_steel': (ram_steel, 'kit', 'RAM BALL'), 'ram_song': (ram_song, 'lumi', 'RAM BALL'),
@@ -213,9 +228,9 @@ def main():
                                   'scope': 'Blender Cycles CPU4, 48 samples; shared Vault ortho rig and AgX look. Emblem only; menu cards stay code-drawn. Ids match level power ids.',
                                   'icons': icons}, indent=2) + '\n')
     # Proof: large renders on the Kit armoury card colour, then native menu size (about 30 px) beside each.
-    sheet = Image.new('RGBA', (5 * 150, 2 * 170), (48, 35, 51, 255)); d = ImageDraw.Draw(sheet)
+    sheet = Image.new('RGBA', (6 * 150, 2 * 170), (48, 35, 51, 255)); d = ImageDraw.Draw(sheet)
     for i, (key, item) in enumerate(icons.items()):
-        x, y = 10 + (i % 5) * 150, 10 + (i // 5) * 170
+        x, y = 10 + (i % 6) * 150, 10 + (i // 6) * 170
         d.rounded_rectangle((x, y, x + 140, y + 158), 12, fill=(73, 52, 71, 255))
         im = Image.open(ROOT / item['path']).convert('RGBA'); sheet.alpha_composite(im, (x + 10, y + 6))
         sheet.alpha_composite(im.resize((30, 30), Image.Resampling.LANCZOS), (x + 105, y + 120))
