@@ -1,9 +1,9 @@
 {
   "version": 1,
   "name": "BREACH — Eleven-chapter castle preview",
-  "sourceBranch": "codex/starship-run-prototype",
-  "androidVersionCode": 6,
-  "androidVersionName": "0.6-eight-chapter-preview",
+  "sourceBranch": "codex/castle-chapters",
+  "androidVersionCode": 7,
+  "androidVersionName": "0.7-eleven-chapter-preview",
   "reviewedCanonicalSha256": "5415515aa918987fb206d53e61334add32311a03e1a50e8411a367d5696cd8a1",
   "saveSlots": ["Carrier Breakout", "The Vault", "Circuit Breakout", "Shutter Forge", "Frost Warden", "Mooncoil Reliquary", "Bellforge Run", "Tidewheel Citadel", "Gatehouse Siege", "Lumi Breaks Out", "Serpent Rivals"],
   "menuOrder": [0, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10],
