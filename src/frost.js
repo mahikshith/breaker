@@ -3,6 +3,7 @@ import { Arena } from './arena.js';
 import { ART } from './vault-art.js';
 import { difficulty } from './difficulty.js';
 import { sweepTarget } from './carrier-physics.js';
+import { ejectBall, overlapsAny } from './clearance.js';
 import { brick, cached, loadImg, ready, text, rrect, SPR, drawKitCastFlight, drawKitBrickArmour } from './gfx.js';
 import { sfx } from './audio.js';
 
@@ -162,6 +163,15 @@ export class Frost extends Arena {
     if (!best) return false;
     this.hitTarget(best.target.id, { ...shot, x: best.hit.x, y: best.hit.y, shot: true }); return true;
   }
+  // Stage changes swap the Warden's measured keypose at once (e.g. a stagger mid-windup), which can land the fist or
+  // body on a ball between steps: push it clear along the contact normal before the ball moves. No hit is scored.
+  clearWarden() {
+    if (this.phase !== 'siege' || this.warden.hp <= 0) return;
+    const targets = this.targets(), shapes = t => t.shapes || [t];
+    const warden = targets.filter(t => t.id === 'warden').flatMap(shapes), others = targets.filter(t => t.id !== 'warden').flatMap(shapes);
+    for (const b of this.balls) if (!b.dead && !b.caught && !(this.fireT > 0) && !(b.titan > 0))
+      ejectBall(b, warden, { ok: (x, y) => x - b.r >= this.left && x + b.r <= this.right && y - b.r >= this.top && !overlapsAny(x, y, b.r, others) });
+  }
   setStage(stage) { this.stage = stage; this.stageAt = this.clock; this.lastFist = this.pose().fist; }
   startWindup() {
     if (!this.spacePowerAvailable() || !this.defences[this.activeDefence]?.hp) return false;
@@ -202,6 +212,7 @@ export class Frost extends Arena {
     if (this.phase !== 'siege') { this.kitTime += dtReal; this.t += dtReal; this.updateLevel(dtReal, dtReal); this.fx.update(dtReal, this.drainY); return; }
     const gain = Math.min(this.coreChargeBank, dtReal / this.coreHits);
     if (this.started && gain > 0) { this.coreChargeBank -= gain; super.chargeCore(gain); }
+    this.clearWarden();
     super.update(dtReal);
     if (!this.levelUpdated && this.state === 'play') this.updateLevel(dtReal, dtReal);
   }

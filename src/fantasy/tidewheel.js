@@ -1,4 +1,5 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
+import { ejectBall } from '../clearance.js';
 import { TIDEWHEEL_V2_GEOMETRY } from './tidewheel-v2-geometry.js';
 import { TIDEWHEEL_REACTIONS_GEOMETRY } from './tidewheel-reaction-geometry.js';
 
@@ -234,8 +235,10 @@ export class Tidewheel {
     this.previousBody=this.body||{x:v.footX,y:v.footY,circles:pose.circles};
     this.body={x:v.footX,y:v.footY,circles:pose.circles};v.frame=pose.frame||0;
     for(const c of this.claws){
-      c.previousRoot={...c.root};c.previousAngle=c.angle;
-      const socket=pose.sockets[c.side<0?'crusher':'gate'];c.root={x:v.footX+socket.x,y:v.footY+socket.y};
+      // Sockets belong to the discrete body keypose: a socket change is a jump at step start (cleared in moveBall),
+      // only the patrol translation and the claw's own rotation are swept.
+      const socket=pose.sockets[c.side<0?'crusher':'gate'];c.previousAngle=c.angle;
+      c.previousRoot={x:this.previousBody.x+socket.x,y:this.previousBody.y+socket.y};c.root={x:v.footX+socket.x,y:v.footY+socket.y};
       if(v.stage==='pullWindup')c.angle=c.side<0?mix(-.12,.5,smooth(v.stageTime/this.rules.warning)):.12;
       else if(v.stage==='pull')c.angle=c.side<0?mix(.5,-.12,smooth(v.stageTime/.22)):mix(.12,-.55,smooth(v.stageTime/.55));
       else if(c.side<0&&v.stage==='pulseWindup')c.angle=mix(-.12,.18,smooth(v.stageTime/this.rules.pulseWarning));
@@ -280,7 +283,19 @@ export class Tidewheel {
     for(const g of this.gates){const y=g.y-g.open*32,old=dt?(g.previousY??y):y;targets.push({id:g.id,kind:g.hp>0?'gate':undefined,type:'rect',x:g.x-g.w/2,y:old-g.h/2,w:g.w,h:g.h,vy:dt?(y-old)/dt:0});}
     return targets;
   }
+  // Nerra's shell and claws can land on a ball (keypose swap, a claw outpacing it): push it clear along the contact normal.
+  clearNerra(b,targets){
+    if(b.titan>0||b.pierceExit?.has('nerra'))return;
+    const ok=(x,y)=>x>=12+b.r&&x<=this.width-12-b.r&&y>=67+b.r&&!this.gates.some(g=>Math.abs(x-g.x)<g.w/2+b.r&&Math.abs(y-(g.y-g.open*32))<g.h/2+b.r);
+    const boss=targets.filter(t=>t.kind==='shell'||t.kind==='claw');
+    const touched=boss.map(t=>({t,d:t.r+b.r-Math.hypot(b.x-t.x,b.y-t.y)})).sort((p,q)=>q.d-p.d)[0];
+    const c=ejectBall(b,boss,{ok});if(!c)return;
+    this.normalize(b);
+    // Moving into it is a real contact and scores like a swept one (same one-hit-per-episode rule).
+    if(c.reflected&&!b.contacts.has('nerra')&&this.time-(b.lastNerraHit??-Infinity)>=.1){b.contacts.add('nerra');b.lastNerraHit=this.time;this.hit(touched.t,b);}
+  }
   moveBall(b,dt){
+    this.clearNerra(b,this.targets(dt));
     let left=dt;
     for(let bounce=0;bounce<5&&left>1e-7;bounce++){
       const targets=this.targets(dt);
@@ -312,6 +327,7 @@ export class Tidewheel {
       }
       if(first.t<1e-6)left=Math.max(0,left-1e-5);
     }
+    this.clearNerra(b,this.targets());
   }
   updatePulses(dt){
     for(const q of this.pulses){

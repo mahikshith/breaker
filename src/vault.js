@@ -2,7 +2,8 @@
 // chews its way down to her. Bricks that lose their hold on the tower fall out as rigid bodies.
 import { Arena } from './arena.js';
 import { difficulty } from './difficulty.js';
-import { makeGrid, makeBall } from './physics.js';
+import { makeGrid, makeBall, cellAt } from './physics.js';
+import { ejectBall } from './clearance.js';
 import { brick, cached, text, vignette, drawGrain, rrect, shade, NUM, SPR, ready, loadImg, drawKitCastFlight, drawKitBrickArmour } from './gfx.js';
 import { drawSerpent } from './characters.js';
 import { Debris } from './debris.js';
@@ -447,6 +448,25 @@ export class Vault extends Arena {
     for (let i = 0; i < safe; i++) { s.cells.shift(); s.cells.push(s.hist.pop()); }
     const [a, b] = s.cells; if (b) s.dir = Math.atan2(a[1] - b[1], a[0] - b[0]);
     s.chewing = null; s.prog = 1;
+    this.clearSnake();
+  }
+  // A ball may sit where a teleported collider (knocked-back serpent, rebuilt cage) now is: push it to the nearest
+  // spot clear of that shape, the masonry and the walls, along the contact normal. No hit is scored.
+  ballFits(x, y, r) {
+    if (x - r < this.left || x + r > this.right || y - r < this.top) return false;
+    const G = this.grid;
+    for (let row = Math.floor((y - r - G.oy) / G.ch); row <= Math.floor((y + r - G.oy) / G.ch); row++)
+      for (let c = Math.floor((x - r - G.ox) / G.cw); c <= Math.floor((x + r - G.ox) / G.cw); c++) {
+        if (!cellAt(G, c, row)) continue;
+        const x0 = G.ox + c * G.cw, y0 = G.oy + row * G.ch;
+        if (Math.hypot(x - Math.max(x0, Math.min(x0 + G.cw, x)), y - Math.max(y0, Math.min(y0 + G.ch, y))) < r) return false;
+      }
+    return true;
+  }
+  clearSnake() {
+    if (this.phase !== 'rescue') return;
+    const g = this.growth(), body = this.snakePoints().map((p, i) => ({ type: 'circle', x: p.x, y: p.y, r: (i === 0 ? 11 : Math.max(4, 8 - i * 0.5)) * g })).filter(c => c.y >= OY);
+    for (const b of this.balls) if (!b.dead && !b.caught) ejectBall(b, body, { ok: (x, y) => this.ballFits(x, y, b.r) });
   }
   stunSnake(secs, label, pts, x, y) {
     const s = this.snake;
@@ -571,6 +591,9 @@ export class Vault extends Arena {
     this.kitWardResult = null; this.kitReactionAt = -Infinity;
     if (this.phase === 'caught' || s.attack) {
       for (let r = this.pocket.r0; r <= this.pocket.r1; r++) for (let c = this.pocket.c0; c <= this.pocket.c1; c++) this.grid.cells[r * COLS + c] = BARS;
+      // The cage must not close over a live ball: push it out to open space, or serve it again if there is none.
+      const cage = [{ type: 'rect', x: OX + this.pocket.c0 * CELL, y: OY + this.pocket.r0 * CELL, w: (this.pocket.c1 - this.pocket.c0 + 1) * CELL, h: (this.pocket.r1 - this.pocket.r0 + 1) * CELL }];
+      for (const b of this.balls) if (!b.dead && !b.caught && ejectBall(b, cage, { ok: (x, y) => this.ballFits(x, y, b.r) }) && !this.ballFits(b.x, b.y, b.r)) b.dead = true;
       this.cageGone = false; s.attack = null; s.lunge = 0; this.phase = 'rescue';
       this.knockBack(6); s.stun = 3; this.mood('ouch', 0.6);
       this.pr.x = this.prisonX; this.pr.depth = 0; this.play('Cheer'); this.say('Phew!', 1.2);

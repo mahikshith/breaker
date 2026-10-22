@@ -1,4 +1,5 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
+import { ejectBall } from '../clearance.js';
 
 const STEP = 1 / 240;
 // Inscribed alpha>=128 circles, measured at3px/u from the retained Korr poses.
@@ -10,6 +11,7 @@ export const BELLFORGE_MODES = {
   hard: { hp: 40, interval: 7.5, bellCap: 2, mistakes: 5, coreHits: 26 },
 };
 export const BELLFORGE_ENDING = { stagger: .45, slump: .65, settle: .5, escape: 1.8 };
+const BELL_R = 14;
 const RESCUE_DELAY = BELLFORGE_ENDING.stagger + BELLFORGE_ENDING.slump + BELLFORGE_ENDING.settle;
 const RESCUE_DURATION = RESCUE_DELAY + BELLFORGE_ENDING.escape;
 const smooth = t => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
@@ -165,7 +167,7 @@ export class Bellforge {
       r.previousAngle = r.angle; r.angle += clamp(r.targetAngle - r.angle, -.85 * dt, .85 * dt); r.omega = (r.angle - r.previousAngle) / dt;
       Object.assign(r, rampPose(r));
     }
-    this.updateVillain(); this.updateBody(); this.pendingDocks = [];
+    this.updateVillain(); this.updateBody(); this.clearKorr(); this.pendingDocks = [];
     for (const b of this.bells) { this.moveBell(b, dt); if (this.phase === 'rescue') return; }
     if (this.phase === 'rescue') return;
     for (const b of this.balls) if (!b.caught && !b.dead) this.moveBall(b, dt);
@@ -192,7 +194,7 @@ export class Bellforge {
       v.stage = 'idle'; v.stageAt = this.time;
     }
     if (v.stage === 'windup') {
-      if (this.time < v.until) return;
+      if (this.time < v.until || !this.bellSpawnClear()) return; // the bell waits until no ball sits in its cradle
       this.releaseBell(this.nextTeaching); v.stage = 'release'; v.stageAt = this.time; v.until = this.time + .45;
       this.nextWarning = this.nextTeaching ? Math.max(10.7, this.time + 4) : this.time + this.rules.interval - 1.3;
       this.teachingDone = true; return;
@@ -223,12 +225,21 @@ export class Bellforge {
     this.lumi.escape = clamp((d.age - RESCUE_DELAY) / BELLFORGE_ENDING.escape, 0, 1);
     if (!this.rescueRemaining) this.state = 'won';
   }
+  // Korr's keyposes are discrete artwork, so a pose swap can land on a ball: push it clear before it moves.
+  clearKorr() {
+    const v = this.villain; if (v.hp <= 0 || !v.body.length) return;
+    for (const b of this.balls) if (!b.caught && !b.dead && this.phase === 'play') {
+      const c = ejectBall(b, v.body, { ok: (x, y) => x >= b.r && x <= this.width - b.r && y >= 12 + b.r });
+      if (c?.reflected && !b.contacts.has('korr')) { b.contacts.add('korr'); this.hitVillain(1, false); } // moving into him: a real contact
+    }
+  }
+  bellSpawnClear() { return this.balls.every(b => b.caught || b.dead || Math.hypot(b.x - this.bellSource.x, b.y - this.bellSource.y) > b.r + BELL_R + 2); }
   moveLift(dt) { this.lumi.y += clamp(this.lumi.targetY - this.lumi.y, -30 * dt, 30 * dt); }
   releaseBell(teaching = false) {
     if (this.state !== 'play' || this.villain.hp <= 0 || ['rescue', 'breach'].includes(this.phase)) return false;
     if (this.bells.filter(b => !b.dead).length >= this.rules.bellCap) return false;
     const b = { id: ++this.serial, x: this.bellSource.x, y: this.bellSource.y, px: this.bellSource.x, py: this.bellSource.y,
-      vx: 54, vy: 0, r: 14, hp: 2, angle: 0, spin: 0, returning: false, teaching, dead: false, contacts: new Set(), docked: false };
+      vx: 54, vy: 0, r: BELL_R, hp: 2, angle: 0, spin: 0, returning: false, teaching, dead: false, contacts: new Set(), docked: false };
     this.bells.push(b); this.lastRelease = this.time; this.effect(b.x, b.y, 'bell-release', .3); return b;
   }
   staticTargets() {
