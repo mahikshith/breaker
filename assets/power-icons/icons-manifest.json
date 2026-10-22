@@ -1,0 +1,206 @@
+{
+  "version": 1,
+  "source": "art/power_icons/power_icons.py",
+  "rig": "art/render_vault_assets.py",
+  "scope": "Blender Cycles CPU4, 48 samples; shared Vault ortho rig and AgX look. Emblem only; menu cards stay code-drawn. Ids match level power ids.",
+  "icons": {
+    "shield": {
+      "path": "assets/power-icons/shield.png",
+      "owner": "kit",
+      "label": "BRICK WARD",
+      "px": [
+        120,
+        120
+      ],
+      "ppu": 3,
+      "drawSize": [
+        40,
+        40
+      ],
+      "artBounds": [
+        0.1667,
+        0.1667,
+        0.6667,
+        0.7083
+      ],
+      "sha256": "2a0987a7b09043a325ec22a9e989b304ad5c9b5b7381add9d7378eae5964076d",
+      "encodedBytes": 9722
+    },
+    "arrows": {
+      "path": "assets/power-icons/arrows.png",
+      "owner": "kit",
+      "label": "ARROWS",
+      "px": [
+        120,
+        120
+      ],
+      "ppu": 3,
+      "drawSize": [
+        40,
+        40
+      ],
+      "artBounds": [
+        0.1667,
+        0.0667,
+        0.6667,
+        0.875
+      ],
+      "sha256": "e3ad26c8abbaf8dc3c3916322af820bc705e2e13708c69b60340651cbebb436c",
+      "encodedBytes": 9479
+    },
+    "titan": {
+      "path": "assets/power-icons/titan.png",
+      "owner": "kit",
+      "label": "COSMIC",
+      "px": [
+        120,
+        120
+      ],
+      "ppu": 3,
+      "drawSize": [
+        40,
+        40
+      ],
+      "artBounds": [
+        0.1083,
+        0.1167,
+        0.7833,
+        0.7667
+      ],
+      "sha256": "8e67ce9fc8da8eb272a0a4ec2a233fa53376778d346e9273277c22ac7995d8a9",
+      "encodedBytes": 14459
+    },
+    "five": {
+      "path": "assets/power-icons/five.png",
+      "owner": "kit",
+      "label": "BALL FAN",
+      "px": [
+        120,
+        120
+      ],
+      "ppu": 3,
+      "drawSize": [
+        40,
+        40
+      ],
+      "artBounds": [
+        0.1333,
+        0.225,
+        0.7333,
+        0.4083
+      ],
+      "sha256": "01f6d97cef417731ad3a92786dd7b65eaa5628ed4210dc1a48b5cfb306cc8806",
+      "encodedBytes": 7054
+    },
+    "lullaby": {
+      "path": "assets/power-icons/lullaby.png",
+      "owner": "lumi",
+      "label": "LULLABY",
+      "px": [
+        120,
+        120
+      ],
+      "ppu": 3,
+      "drawSize": [
+        40,
+        40
+      ],
+      "artBounds": [
+        0.1167,
+        0.1667,
+        0.6667,
+        0.6667
+      ],
+      "sha256": "8cc6d8c7d17e6945946d809c9a02595d4737b29938c5043d7fa1a15f4ebc46b6",
+      "encodedBytes": 6871
+    },
+    "starlight": {
+      "path": "assets/power-icons/starlight.png",
+      "owner": "lumi",
+      "label": "STARLIGHT NOTES",
+      "px": [
+        120,
+        120
+      ],
+      "ppu": 3,
+      "drawSize": [
+        40,
+        40
+      ],
+      "artBounds": [
+        0.1167,
+        0.1333,
+        0.7167,
+        0.7917
+      ],
+      "sha256": "8fb775128f8143bafa19af094d033c6a45279a51ee84915a162dea205c61f4f3",
+      "encodedBytes": 7131
+    },
+    "songshield": {
+      "path": "assets/power-icons/songshield.png",
+      "owner": "lumi",
+      "label": "SONG SHIELD",
+      "px": [
+        120,
+        120
+      ],
+      "ppu": 3,
+      "drawSize": [
+        40,
+        40
+      ],
+      "artBounds": [
+        0.1083,
+        0.3167,
+        0.7833,
+        0.35
+      ],
+      "sha256": "d18689187e5b2695564d133c2ab5698b01d929daa4314c6a6f942362647c40de",
+      "encodedBytes": 6478
+    },
+    "ram_steel": {
+      "path": "assets/power-icons/ram_steel.png",
+      "owner": "kit",
+      "label": "RAM BALL",
+      "px": [
+        120,
+        120
+      ],
+      "ppu": 3,
+      "drawSize": [
+        40,
+        40
+      ],
+      "artBounds": [
+        0.0833,
+        0.2417,
+        0.8333,
+        0.5167
+      ],
+      "sha256": "fb4a117b17aea3dd22355af1aa008addca46d5cba7aef8643fdf37e82bf15b18",
+      "encodedBytes": 9734
+    },
+    "ram_song": {
+      "path": "assets/power-icons/ram_song.png",
+      "owner": "lumi",
+      "label": "RAM BALL",
+      "px": [
+        120,
+        120
+      ],
+      "ppu": 3,
+      "drawSize": [
+        40,
+        40
+      ],
+      "artBounds": [
+        0.2167,
+        0.2167,
+        0.5667,
+        0.5667
+      ],
+      "sha256": "505a5a45c76ca8d25f8c5be7b2a499386ab15e8ca13975588223a5062f55e631",
+      "encodedBytes": 7238
+    }
+  }
+}
