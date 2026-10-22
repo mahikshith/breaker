@@ -13,18 +13,18 @@ const main = readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
 const names = [...main.matchAll(/^  \{ make: .*?name: '([^']+)'.*?(?:next: (\d+))?.*$/gm)].map(m => m[1]);
 const nexts = [...main.matchAll(/^  \{ make: .*$/gm)].map(m => m[0].match(/next: (\d+)/)?.[1]);
 
-test('chapter slots are append-only and the menu lists all ten', () => {
-  assert.deepEqual(names, ['Carrier Breakout', 'The Vault', 'Circuit Breakout', 'Shutter Forge', 'Frost Warden', 'Mooncoil Reliquary', 'Bellforge Run', 'Tidewheel Citadel', 'Gatehouse Siege', 'Lumi Breaks Out']);
-  assert.match(main, /\[0, 2, 3, 1, 4, 5, 6, 7, 8, 9\]\.filter/);
+test('chapter slots are append-only and the menu lists all eleven', () => {
+  assert.deepEqual(names, ['Carrier Breakout', 'The Vault', 'Circuit Breakout', 'Shutter Forge', 'Frost Warden', 'Mooncoil Reliquary', 'Bellforge Run', 'Tidewheel Citadel', 'Gatehouse Siege', 'Lumi Breaks Out', 'Serpent Rivals']);
+  assert.match(main, /\[0, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10\]\.filter/);
   const release = JSON.parse(readFileSync(new URL('../config/mobile-preview.json', import.meta.url), 'utf8'));
-  assert.deepEqual(release.saveSlots, names); assert.deepEqual(release.menuOrder, [0, 2, 3, 1, 4, 5, 6, 7, 8, 9]);
+  assert.deepEqual(release.saveSlots, names); assert.deepEqual(release.menuOrder, [0, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10]);
 });
 
-test('next links walk Frost to Mooncoil to Bellforge to Tidewheel to Gatehouse Siege to Lumi Breaks Out, which ends the campaign', () => {
-  assert.deepEqual(nexts.map(n => n === undefined ? n : +n), [2, 4, 3, undefined, 5, 6, 7, 8, 9, undefined]);
+test('next links walk Frost to Mooncoil to Bellforge to Tidewheel to Gatehouse Siege to Lumi Breaks Out to Serpent Rivals, which ends the campaign', () => {
+  assert.deepEqual(nexts.map(n => n === undefined ? n : +n), [2, 4, 3, undefined, 5, 6, 7, 8, 9, 10, undefined]);
 });
 
-for (const key of ['bellforge', 'tidewheel', 'gatehouse', 'lumitower']) for (const mode of ['easy', 'medium', 'hard']) for (const [H, s] of [[814, 393 / 360], [949, 412 / 360], [634, 1]]) {
+for (const key of ['bellforge', 'tidewheel', 'gatehouse', 'lumitower', 'rivals']) for (const mode of ['easy', 'medium', 'hard']) for (const [H, s] of [[814, 393 / 360], [949, 412 / 360], [634, 1]]) {
   test(`${key} ${mode} loads at ${H} and plays frames through the shared contract`, () => {
     const l = new FantasyChapter(key, 360, H, s, mode);
     assert.equal(l.W, 360); assert.equal(l.H, H); assert.equal(l.state, 'play'); assert(l.m.paddle.y <= l.m.height - 30);
@@ -47,7 +47,7 @@ test('Kit orb opens the power menu only on a full charge; choosing spends it', (
 });
 
 test('a lost run offers repeatable shared continues', () => {
-  for (const key of ['bellforge', 'tidewheel', 'gatehouse', 'lumitower']) {
+  for (const key of ['bellforge', 'tidewheel', 'gatehouse', 'lumitower', 'rivals']) {
     const l = new FantasyChapter(key, 360, 814, 1, 'easy');
     for (let n = 0; n < 2; n++) { l.m.state = 'lost'; l.m.lives = 0; l.continueRun(); assert.equal(l.state, 'play'); assert(l.lives >= 1); l.update(1 / 120); }
   }
@@ -112,4 +112,35 @@ test('Lumi Breaks Out: stars come from lives and bites, results list Score, Floo
   m.state = 'won'; m.lives = 3; m.bites = 0; assert.equal(l.result().stars, 3); m.bites = 2; assert.equal(l.result().stars, 2); m.lives = 1; assert.equal(l.result().stars, 1);
   assert.deepEqual(l.result().lines.map(x => x[0]), ['Score', 'Floors', 'Bites']); assert.equal(l.result().lines[1][1], '3 / 3'); assert.equal(l.result().lines[2][1], 2);
   m.state = 'play'; m.lose('No balls remaining'); assert.equal(l.reason, 'No balls remaining'); assert.equal(l.result().stars, 0);
+});
+
+test('Serpent Rivals: Kit holds the paddle, powers map to the model, every floor, lunge stage, clash and effect draws at every phone height', () => {
+  for (const [H, s] of [[814, 393 / 360], [949, 412 / 360], [634, 1]]) for (const mode of ['easy', 'medium', 'hard']) {
+    const l = new FantasyChapter('rivals', 360, H, s, mode), m = l.m;
+    assert.equal(l.name, 'Serpent Rivals'); assert.equal(l.kitFace, undefined, 'Kit is the hero'); assert.deepEqual(l.powerChoices.map(p => p.id), ['shield', 'arrows']);
+    assert.equal(l.kind('shield'), 'ward'); assert.equal(l.kind('arrows'), 'volley'); assert(l.previewRect().w > 0);
+    const card = new FantasyChapter('rivals', 360, H, s, mode), r = card.previewRect(); card.skipIntro(); assert.equal(card.m.floor, 2); assert(card.m.seal.ward === 3 && r.y > 0 && card.m.seal.y + 15 > r.y - 34 && card.m.seal.y + 15 < r.y - 34 + r.h, 'the menu card frames the Twin Seal'); card.draw(ctx());
+    m.charge = 100; assert(l.activateKitPower()); assert(l.chooseSpacePower('arrows')); assert(m.volley); assert.equal(m.charge, 0); l.draw(ctx());
+    for (const floor of [0, 1, 2]) {
+      m.buildFloor(floor); m.lives = 9; m.launch(); m.paddle.armed = true; m.paddle.streak = 3; m.charge = 100; m.balls[0].ram = 1; m.balls[0].r = 13.2;
+      assert(l.activateKitPower()); assert(l.chooseSpacePower('shield')); assert(m.ward); m.capsules.push({ id: 99, kind: 'ram', x: 180, y: 300, dead: false });
+      for (let i = 0; i < 1400; i++) { l.update(1 / 120); if (i % 50 === 0) l.draw(ctx()); }
+      for (const lure of m.lures) { lure.lit = true; l.draw(ctx()); m.strikeLure(lure); for (let i = 0; i < 700; i++) { l.update(1 / 120); if (i % 35 === 0) l.draw(ctx()); } }
+      if (m.seal) for (const hp of [.9, .6, .4, .2]) { m.seal.hp = Math.ceil(m.seal.maxHP * hp); m.seal.ward = 3; l.draw(ctx()); }
+      if (m.seal) for (const kind of ['ward-chip', 'ward-shatter', 'seal-hit', 'seal-feed']) { const e = m.effect(180, 200, kind, .5, { ward: 1, plates: 3, source: 'clash', to: { x: 180, y: 120 }, snake: 'gnash' }); e.age = .25; l.draw(ctx()); }
+      for (const kind of ['clash', 'dizzy-hit', 'lure-call', 'lure-dim', 'swallow', 'snake-hurt', 'hatch-open', 'seal-open', 'seal-shatter', 'volley', 'arrow-hit', 'ward-deploy', 'capsule-wide']) { const e = m.effect(180, 220, kind, .6, { heads: [{ x: 160, y: 220 }, { x: 200, y: 220 }], snake: 'mooncoil' }); e.age = .2; l.draw(ctx()); }
+    }
+    // A real clash: both serpents on the Crossing, then the dizzy heads, a hit on one, and the Seal falling through its stages to the shatter.
+    m.buildFloor(2); m.clashes = 0; m.ward = null; m.active = true; m.launch(); m.nextLunge = Infinity; m.lunges = m.windows.filter(w => w.cross).map(w => m.makeLunge(w));
+    const park = () => Object.assign(m.balls[0], { x: 180, y: m.paddle.y - 40, vx: 0, vy: 0, caught: true });   // the ball stays out of the way of the heads
+    for (let i = 0; i < 1200 && !m.clashes; i++) { park(); l.update(1 / 120); if (i % 40 === 0) l.draw(ctx()); }
+    assert.equal(m.clashes, 1, 'the two Crossing lunges clash'); assert(m.capsules.length || m.seal.hp < m.seal.maxHP);
+    for (let i = 0; i < 400; i++) { park(); l.update(1 / 120); if (i % 20 === 0) l.draw(ctx()); }
+    m.seal.hp = 1; m.damageSeal(1, 'ball'); assert.equal(m.phase, 'shatter');
+    for (let i = 0; i < 400; i++) { l.update(1 / 120); if (i % 25 === 0) l.draw(ctx()); }
+    assert.equal(l.state, 'won'); l.draw(ctx());
+    m.lives = 3; m.clashes = 1; assert.equal(l.result().stars, 3); m.clashes = 0; assert.equal(l.result().stars, 2); m.lives = 1; assert.equal(l.result().stars, 1);
+    assert.deepEqual(l.result().lines.map(x => x[0]), ['Score', 'Floors', 'Clashes']); assert.equal(l.result().lines[1][1], '3 / 3');
+    m.state = 'lost'; m.reason = 'No balls remaining'; assert.equal(l.reason, 'No balls remaining'); assert.equal(l.result().stars, 0);
+  }
 });

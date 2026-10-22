@@ -5,6 +5,7 @@ import { Bellforge } from './bellforge.js';
 import { Tidewheel } from './tidewheel.js';
 import { Gatehouse, GATEHOUSE_FLOORS } from './gatehouse.js';
 import { LumiTower } from './lumitower.js';
+import { SerpentRivals, RIVALS_KINDS } from './rivals.js';
 import { makeArt, drawEncounter } from './render.js';
 import { cached, drawBall, text } from '../gfx.js';
 import { sfx } from '../audio.js';
@@ -24,6 +25,9 @@ const CHAPTERS = {
   lumitower: { Model: LumiTower, name: 'Lumi Breaks Out', hero: 'Lumi', face: 'lumi', menuTitle: 'LUMI’S SONGS', kinds: { lullaby: 'lullaby', starlight: 'starlight', songshield: 'songshield' },
     powers: [{ id: 'lullaby', label: 'LULLABY', color: '#b9a8ef' }, { id: 'starlight', label: 'STARLIGHT', color: '#f4d98c' }, { id: 'songshield', label: 'SONG SHIELD', color: '#f0a7c4' }],
     preview: { x: -15, y: 98, w: 260, h: 46 }, stars: a => 1 + (a.lives >= 2) + (a.m.bites === 0) },
+  // Kit baits the twin serpents into the Clash Chamber. Stars: clear it, keep 2+ balls, and land at least one clash.
+  rivals: { Model: SerpentRivals, name: 'Serpent Rivals', kinds: RIVALS_KINDS, powers: [{ id: 'shield', label: 'WARD', color: '#a9cbf0' }, { id: 'arrows', label: 'ARROWS', color: '#e3c6d1' }],
+    preview: m => ({ x: -40, y: m.paddle.y - 512, w: 340, h: 44 }), stars: a => 1 + (a.lives >= 2) + (a.m.clashes >= 1) },
 };
 let art;
 
@@ -47,9 +51,11 @@ export class FantasyChapter {
   get phase() { return this.m.phase; }
   get lives() { return this.m.lives; }
   get score() { return this.m.score; }
-  get danger() { const m = this.m; if (this.key === 'lumitower') return m.lunges.some(l => l.stage !== 'peek' && l.stage !== 'retreat') ? .8 : 0; if (this.key === 'gatehouse') return m.bells.length || m.villain.stage === 'windup' ? .75 : m.floor / 3 * .6; return this.key === 'bellforge' ? m.lumi.steps / m.rules.mistakes : 1 - (m.water.y - m.water.limit) / (m.water.initial - m.water.limit); }
-  get reason() { const m = this.m; return this.key === 'bellforge' || this.key === 'gatehouse' || this.key === 'lumitower' ? m.reason : m.loss === 'flood' ? 'The basin reached the refuge.' : 'The last ball slipped away.'; }
-  previewRect() { const r = this.c.preview; return { ...r, y: r.y + this.hudTop }; }
+  get danger() { const m = this.m; if (this.key === 'lumitower' || this.key === 'rivals') return m.lunges.some(l => l.stage !== 'peek' && l.stage !== 'retreat') ? .8 : 0; if (this.key === 'gatehouse') return m.bells.length || m.villain.stage === 'windup' ? .75 : m.floor / 3 * .6; return this.key === 'bellforge' ? m.lumi.steps / m.rules.mistakes : 1 - (m.water.y - m.water.limit) / (m.water.initial - m.water.limit); }
+  get reason() { const m = this.m; return this.key === 'bellforge' || this.key === 'gatehouse' || this.key === 'lumitower' || this.key === 'rivals' ? m.reason : m.loss === 'flood' ? 'The basin reached the refuge.' : 'The last ball slipped away.'; }
+  // The menu card shows the Twin Seal with three ward plates and its first cracks.
+  skipIntro() { if (this.key === 'rivals') { this.m.buildFloor(2); this.m.floorTime = 5; this.m.seal.ward = 3; this.m.seal.hp = Math.round(this.m.seal.maxHP * .7); } }
+  previewRect() { const r = typeof this.c.preview === 'function' ? this.c.preview(this.m) : this.c.preview; return { ...r, y: r.y + this.hudTop }; }
   // ---------- input (level coordinates; the model sits hudTop below the level's top, scaled by k on short screens) ----------
   toModel(x) { return (x - this.ox) / this.k; }
   pointerDown(x) { const m = this.m; Object.assign(this.ptr, { down: true, x }); this.anchor = this.toModel(x); this.padAnchor = m.paddle.targetX; }
@@ -107,17 +113,17 @@ export class FantasyChapter {
     const nudge = (this.keys.ArrowRight ? 1 : 0) - (this.keys.ArrowLeft ? 1 : 0);
     if (nudge) m.setTarget(m.paddle.targetX + nudge * 460 * dt);
     m.update(dt); this.balls = m.balls; this.paddle.charge = m.charge / 100; this.paddle.stun = m.paddle.stun || (this.t < this.hurtUntil ? 1 : 0);
-    if (this.key === 'lumitower' && m.lives < this.lives0) this.hurtUntil = this.t + .9; this.lives0 = m.lives;
+    if ((this.key === 'lumitower' || this.key === 'rivals') && m.lives < this.lives0) this.hurtUntil = this.t + .9; this.lives0 = m.lives;
     if (this.key === 'tidewheel') this.floodMin = Math.min(this.floodMin, m.water.y);
     for (const e of m.effects) if (!this.heard.has(e)) {
       this.heard.add(e); if (e.kind === 'paddle-stun') this.stuns++;
-      if (this.key === 'lumitower') {
+      if (this.key === 'lumitower' || this.key === 'rivals') {
         if (e.kind === 'swallow') { this.kitShockUntil = this.t + .9; sfx.hurt(); }
-        else if (e.kind === 'snake-hurt' || e.kind === 'shield-block') { this.kitReactionAt = this.t; this.kitWardResult = 'held'; sfx.hit(); }
+        else if (e.kind === 'snake-hurt' || e.kind === 'shield-block' || e.kind === 'dizzy-hit' || e.kind === 'ward-bounce') { this.kitReactionAt = this.t; this.kitWardResult = 'held'; sfx.hit(); }
         else if (e.kind === 'chomp') sfx.chew();
-        else if (['bite-warning', 'hatch-open', 'rope-escape', 'ram-launch'].includes(e.kind)) sfx.beat();
+        else if (['bite-warning', 'hatch-open', 'rope-escape', 'ram-launch', 'clash', 'seal-open', 'seal-shatter', 'lure-call'].includes(e.kind)) sfx.beat();
         else if (e.kind === 'bell-ring') sfx.hit(Math.min(8, e.rings * 2));
-        else if (!['window-peek', 'lullaby', 'starlight', 'songshield'].includes(e.kind) && m.time - this.hitSoundAt > .06) { sfx.hit(); this.hitSoundAt = m.time; }
+        else if (!['window-peek', 'lullaby', 'starlight', 'songshield', 'seal-feed', 'lure-dim', 'volley', 'arrow-hit', 'ward-deploy'].includes(e.kind) && m.time - this.hitSoundAt > .06) { sfx.hit(); this.hitSoundAt = m.time; }
         continue;
       }
       if (['bell-release', 'ratchet', 'surge', 'bell-warning', 'housing-break', 'drawbridge-crash', 'gate-open', 'ram-launch'].includes(e.kind)) sfx.beat();
@@ -131,12 +137,12 @@ export class FantasyChapter {
   result() {
     const m = this.m, won = m.state === 'won';
     return { stars: won ? this.c.stars(this) : 0,
-      lines: this.key === 'lumitower' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Bites', m.bites]] : this.key === 'gatehouse' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Balls left', m.lives]] : [['Score', Math.round(m.score).toLocaleString()], this.key === 'bellforge' ? ['Lift drops', `${m.lumi.steps} / ${m.rules.mistakes}`] : ['Flood margin', `${Math.max(0, Math.round((this.floodMin - m.water.limit) / (m.water.initial - m.water.limit) * 100))}%`], ['Balls left', m.lives]] };
+      lines: this.key === 'rivals' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Clashes', m.clashes]] : this.key === 'lumitower' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Bites', m.bites]] : this.key === 'gatehouse' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Balls left', m.lives]] : [['Score', Math.round(m.score).toLocaleString()], this.key === 'bellforge' ? ['Lift drops', `${m.lumi.steps} / ${m.rules.mistakes}`] : ['Flood margin', `${Math.max(0, Math.round((this.floodMin - m.water.limit) / (m.water.initial - m.water.limit) * 100))}%`], ['Balls left', m.lives]] };
   }
   // ---------- drawing ----------
   background() {
     return cached(`fantasy-bg-${this.key}-${this.W}-${this.H}`, this.W, this.H, g => {
-      if (this.key === 'lumitower') { const gr = g.createLinearGradient(0, 0, 0, this.H); gr.addColorStop(0, '#171226'); gr.addColorStop(1, '#0c0a16'); g.fillStyle = gr; g.fillRect(0, 0, this.W, this.H); return; }
+      if (this.key === 'lumitower' || this.key === 'rivals') { const gr = g.createLinearGradient(0, 0, 0, this.H); gr.addColorStop(0, this.key === 'rivals' ? '#12162a' : '#171226'); gr.addColorStop(1, this.key === 'rivals' ? '#090b16' : '#0c0a16'); g.fillStyle = gr; g.fillRect(0, 0, this.W, this.H); return; }
       const img = art.images[this.key + '/background'];
       g.fillStyle = '#101622'; g.fillRect(0, 0, this.W, this.H);
       if (!img.naturalWidth) return;

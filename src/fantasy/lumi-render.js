@@ -106,7 +106,7 @@ function hatchBars(ctx, g) {
   const total = all.reduce((s, b) => s + b.maxHP, 0), done = total - all.reduce((s, b) => s + Math.max(0, b.hp), 0);
   if (bars.length || g.phase === 'play' || g.phase === 'serve') text(ctx, `HATCH ${done} / ${total}`, 180, 193, 11, '#f3dca8', 'center');
 }
-function lbrick(ctx, b) {
+export function lbrick(ctx, b) {
   const s = SPR[`brick_${BRICK[b.colour] || 'v'}_2_0`], k = b.w / 32;
   if (ready(s)) ctx.drawImage(s.img, b.x - 4 * k, b.y - 4 * k, 40 * k, 24 * k);
   else { ctx.fillStyle = '#6a5bb0'; ctx.fillRect(b.x, b.y, b.w, b.h); }
@@ -141,8 +141,10 @@ function bodyPath(l, ext) {
   for (let i = 1; i <= ext; i++) pts.push({ x: last.x - dir * 12 * i, y: l.win.y, w: Math.max(2.6, last.w * (1 - i / (ext + 2)) || 4) });
   return pts;
 }
-function drawBody(ctx, l, t) {
-  const P = bodyPath(l, 6), C = [];
+// Body colours; Lumi's tower serpent is emerald, Serpent Rivals passes its own palette for Mooncoil.
+export const EMERALD = { base: '#168f83', dark: '#0a635f', mid: '#239c89', belly: '#c9e8d2', seam: 'rgba(55,105,90,.38)', scaleDark: 'rgba(3,55,52,.55)', scaleRim: 'rgba(174,232,199,.36)', under: 'rgba(3,35,38,.34)', hi1: 'rgba(160,227,202,.2)', hi2: 'rgba(224,255,236,.35)', hi3: 'rgba(255,249,219,.65)', outline: '#052d31' };
+export function drawBody(ctx, l, t, C0 = EMERALD) {
+  const P = bodyPath(l, 6), C = [], K = C0;
   for (let i = 0; i < P.length - 1; i++) {
     const p0 = P[Math.max(0, i - 1)], p1 = P[i], p2 = P[i + 1], p3 = P[Math.min(P.length - 1, i + 2)];
     for (let j = 0; j < 6; j++) { const u = j / 6, u2 = u * u, u3 = u2 * u; C.push({ w: p1.w + (p2.w - p1.w) * u,
@@ -157,9 +159,9 @@ function drawBody(ctx, l, t) {
   const band = (k0, k1) => { const A = edge(k0), B = edge(k1).reverse(); ctx.beginPath(); A.concat(B).forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.closePath(); };
   const along = (ox, oy, wk, col) => { const A = S.map(p => [p.x + ox * p.w + p.nx * p.w * wk, p.y + oy * p.w + p.ny * p.w * wk]), B = S.map(p => [p.x + ox * p.w - p.nx * p.w * wk, p.y + oy * p.w - p.ny * p.w * wk]).reverse(); ctx.beginPath(); A.concat(B).forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.closePath(); ctx.fillStyle = col; ctx.fill(); };
   ctx.save(); ctx.translate(2.5, 4); band(-1, 1); ctx.fillStyle = '#0006'; ctx.fill(); ctx.restore();
-  ctx.save(); band(-1, 1); ctx.fillStyle = '#168f83'; ctx.fill(); ctx.clip();
-  band(-1, -.45); ctx.fillStyle = '#0a635f'; ctx.fill(); band(-.45, .38); ctx.fillStyle = '#239c89'; ctx.fill(); band(.42, 1.05); ctx.fillStyle = '#c9e8d2'; ctx.fill();
-  ctx.strokeStyle = 'rgba(55,105,90,.38)'; ctx.lineWidth = .7; ctx.beginPath();
+  ctx.save(); band(-1, 1); ctx.fillStyle = K.base; ctx.fill(); ctx.clip();
+  band(-1, -.45); ctx.fillStyle = K.dark; ctx.fill(); band(-.45, .38); ctx.fillStyle = K.mid; ctx.fill(); band(.42, 1.05); ctx.fillStyle = K.belly; ctx.fill();
+  ctx.strokeStyle = K.seam; ctx.lineWidth = .7; ctx.beginPath();
   for (let i = 0, next = 0; i < S.length; i++) if (S[i].a >= next) { next += 3.2; const p = S[i]; ctx.moveTo(p.x + p.nx * p.w * .44, p.y + p.ny * p.w * .44); ctx.lineTo(p.x + p.nx * p.w * 1.05, p.y + p.ny * p.w * 1.05); }
   ctx.stroke();
   const scales = new Path2D(), rims = new Path2D();
@@ -167,9 +169,9 @@ function drawBody(ctx, l, t) {
     for (const across of [-.65, -.12, .28]) { const cx = p.x + p.nx * p.w * across, cy = p.y + p.ny * p.w * across, r = p.w * .27;
       scales.moveTo(cx - p.nx * r, cy - p.ny * r); scales.quadraticCurveTo(cx - p.tx * 2.3, cy - p.ty * 2.3, cx + p.nx * r, cy + p.ny * r);
       rims.moveTo(cx - p.nx * r - .3, cy - p.ny * r - .4); rims.quadraticCurveTo(cx - p.tx * 1.8 - .3, cy - p.ty * 1.8 - .4, cx + p.nx * r - .3, cy + p.ny * r - .4); } }
-  ctx.strokeStyle = 'rgba(3,55,52,.55)'; ctx.lineWidth = .55; ctx.stroke(scales); ctx.strokeStyle = 'rgba(174,232,199,.36)'; ctx.lineWidth = .4; ctx.stroke(rims);
-  along(.5, .65, .75, 'rgba(3,35,38,.34)'); along(-.3, -.4, .4, 'rgba(160,227,202,.2)'); along(-.38, -.5, .14, 'rgba(224,255,236,.35)'); along(-.42, -.53, .04, 'rgba(255,249,219,.65)');
-  ctx.restore(); band(-1, 1); ctx.strokeStyle = '#052d31'; ctx.lineWidth = .7; ctx.stroke();
+  ctx.strokeStyle = K.scaleDark; ctx.lineWidth = .55; ctx.stroke(scales); ctx.strokeStyle = K.scaleRim; ctx.lineWidth = .4; ctx.stroke(rims);
+  along(.5, .65, .75, K.under); along(-.3, -.4, .4, K.hi1); along(-.38, -.5, .14, K.hi2); along(-.42, -.53, .04, K.hi3);
+  ctx.restore(); band(-1, 1); ctx.strokeStyle = K.outline; ctx.lineWidth = .7; ctx.stroke();
 }
 const MOODS = (g, l) => {
   const t = g.time, tell = g.rules.tell;
@@ -333,3 +335,5 @@ export function renderLumi(ctx, g, art) {
   if (climb) gBanner(ctx, g, `FLOOR ${n} / 3 · ${LUMI_FLOORS[Math.min(2, n - 1)].toUpperCase()}`, Math.min(1, (1 - g.transition / LUMI_TIMING.climb) * 4));
   else if (g.floorTime < 1.6 && g.phase !== 'escape' && g.state === 'play') gBanner(ctx, g, `FLOOR ${n} / 3 · ${LUMI_FLOORS[g.floor].toUpperCase()}`, g.floor ? Math.min(1, (1.6 - g.floorTime) * 1.6) : 1);
 }
+// Shared with the Serpent Rivals renderer (rivals-render.js).
+export { star, wave, note, lantern, ledge };
