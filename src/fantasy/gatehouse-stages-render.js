@@ -4,6 +4,7 @@
 // clocks, tips and banners) through the shared stage UI (stage-ui.js). render.js calls these hooks; bricks keep their
 // existing sprites, and every brick and bar carries `kind` so a themed brick set can map them.
 import { SPR, ready, drawCapsule, text, cached } from '../gfx.js';
+import { drawThemedBar } from '../themed-bricks.js';
 import { glow, sparks, chips, pips, fxPart, clamp01, smooth, hoistChain, sprite, slab, korr, rackWreck, pool, princessAt } from './render.js';
 import { pipTrack, stageCard, stageBanner } from './stage-ui.js';
 import { PORTCULLIS, HOIST, GATEHOUSE_TIMING } from './gatehouse.js';
@@ -15,18 +16,21 @@ const ga = ctx => typeof ctx.globalAlpha === 'number' ? ctx.globalAlpha : 1;
 const CAP_GLOW = { wide: '#7fc4ff', slow: '#a9e7dd', split: '#7fe0a0', shield: '#a9cbf0', fire: '#ff9a4a', laser: '#ff7a9a', burst: '#ffd27a', titan: '#cdadf1' };
 
 // ---------- iron ----------
-// A riveted portcullis bar: dark forged iron with a top-left key light, rivets along its length, a glint stripe on the
-// face next to its chamber's gap and a hairline crack once the safety valve has cracked it.
+// A riveted portcullis bar: the themed set's portcullis-iron bar (src/themed-bricks.js, tiled to the bar's length), or
+// drawn forged iron with rivets while that sprite is missing; then a glint stripe on the face next to its chamber's gap
+// and a hairline crack once the safety valve has cracked it.
 export function ironBar(ctx, g, b, { tell = 0 } = {}) {
   const { x, y, w, h } = b, vert = h > w;
   ctx.save();
   pool(ctx, x + w / 2 + 1.5, y + h / 2 + 2.5, Math.max(w, h) * .55, Math.min(w, h) * .9 + 2, '#000', .45);
-  const gr = vert ? ctx.createLinearGradient(x, 0, x + w, 0) : ctx.createLinearGradient(0, y, 0, y + h);
-  gr.addColorStop(0, '#8d949b'); gr.addColorStop(.35, '#4a5057'); gr.addColorStop(1, '#1c2026');
-  ctx.fillStyle = gr; ctx.beginPath(); ctx.roundRect(x, y, w, h, 2); ctx.fill();
-  ctx.strokeStyle = '#0b0d10'; ctx.lineWidth = .8; ctx.stroke();
-  const n = Math.max(1, Math.floor((vert ? h : w) / 14));
-  for (let i = 0; i < n; i++) { const t = (i + .5) / n; fxPart(ctx, 'pip_empty', vert ? x + w / 2 : x + w * t, vert ? y + h * t : y + h / 2, .42); }
+  if (!drawThemedBar(ctx, 'gatehouse', x, y, w, h)) {
+    const gr = vert ? ctx.createLinearGradient(x, 0, x + w, 0) : ctx.createLinearGradient(0, y, 0, y + h);
+    gr.addColorStop(0, '#8d949b'); gr.addColorStop(.35, '#4a5057'); gr.addColorStop(1, '#1c2026');
+    ctx.fillStyle = gr; ctx.beginPath(); ctx.roundRect(x, y, w, h, 2); ctx.fill();
+    ctx.strokeStyle = '#0b0d10'; ctx.lineWidth = .8; ctx.stroke();
+    const n = Math.max(1, Math.floor((vert ? h : w) / 14));
+    for (let i = 0; i < n; i++) { const t = (i + .5) / n; fxPart(ctx, 'pip_empty', vert ? x + w / 2 : x + w * t, vert ? y + h * t : y + h / 2, .42); }
+  }
   if (b.glint && !b.cracked) {
     const k = .55 + .45 * Math.sin(g.time * 2.4 + x * .05);
     ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = `rgba(255,226,170,${.35 * k})`;

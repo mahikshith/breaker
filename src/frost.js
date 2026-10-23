@@ -4,6 +4,7 @@ import { ART } from './vault-art.js';
 import { difficulty } from './difficulty.js';
 import { sweepTarget } from './carrier-physics.js';
 import { ejectBall, overlapsAny } from './clearance.js';
+import { drawThemed, drawThemedBar, themedChip, themedBreak } from './themed-bricks.js';
 import { brick, cached, loadImg, ready, text, rrect, SPR, drawKitCastFlight, drawKitBrickArmour, drawShard, shardPalette, glazedBar } from './gfx.js';
 import { sfx } from './audio.js';
 import { RAM } from './fantasy/ram.js';
@@ -16,6 +17,9 @@ export const FROST_MODES = {
   hard: { hp: 66, postHP: 4, first: 4.5, windup: 1.25, strike: .36, recover: 2.3, stun: 1.25, advance: 1, interrupt: 2, charge: 26 },
 };
 const COLORS = ['#4f9dff', '#8f5cf0', '#22c4b0', '#ff6f91', '#4f9dff', '#b785ef'];
+// Themed bricks (src/themed-bricks.js): rime-frosted ice glass, frozen blue and frost violet by row; steel is frost-rimed iron.
+const FROST_ROWS = ['ice', 'blue', 'violet', 'ice', 'blue', 'violet'];
+const frostMat = b => FROST_ROWS[Math.floor((b.y - 266) / 26)] || 'ice';
 const PAYLOADS = new Map([[2, 'wide'], [8, 'shield'], [14, 'split'], [21, 'slow'], [27, 'fire'], [33, 'laser']]);
 const PLATE = ART?.plate ? loadImg(ART.plate) : null;
 // Fallback before the rampart plate decodes: the keep hall graded cold. Collision sizes and positions are unchanged.
@@ -155,7 +159,7 @@ export class Frost extends Arena {
     if (br) {
       if (br.hp <= 0) return false;
       br.hp = 0; this.brokeBrick(b); this.addScore(90, br.x + br.w / 2, br.y);
-      this.burst(br, br.color); if (br.payload) this.dropPower(br.x + br.w / 2, br.y, br.payload);
+      this.burst(br, br.color, undefined, frostMat(br)); if (br.payload) this.dropPower(br.x + br.w / 2, br.y, br.payload);
       return false;
     }
     if (id !== 'warden') return true;
@@ -243,7 +247,7 @@ export class Frost extends Arena {
       return;
     }
     for (const f of this.fragments) { f.t += dtReal; f.x += f.vx * dtReal; f.vy += 200 * dtReal; f.y += f.vy * dtReal; }
-    this.fragments = this.fragments.filter(f => f.t < .45 && f.y < this.playClipY - 12);
+    this.fragments = this.fragments.filter(f => f.brk ? f.t < .6 : f.t < .45 && f.y < this.playClipY - 12);
     if (this.backHold) return; // back in action: the Warden waits for the serve
     this.clock += dtReal;
     if (this.phase === 'rescue') { if (this.clock - this.phaseAt >= 1.6) this.win(); return; }
@@ -281,8 +285,9 @@ export class Frost extends Arena {
   pointerMove(x, y) { if (this.phase === 'siege' && this.ptr.down) super.pointerMove(x, y); }
   pointerUp() { if (this.phase === 'siege' && this.ptr.down) super.pointerUp(); }
   key(k, down) { if (this.powerMenuOpen || this.phase === 'siege' || this.suppressedSpace) super.key(k, down); }
-  burst(rect, color, palette = shardPalette(color)) {
-    for (let i = 0; i < 7; i++) this.fragments.push({ x: rect.x + rect.w * (i + .5) / 7, y: rect.y + rect.h / 2, vx: (i - 3) * 16, vy: -25 - (i % 3) * 17, t: 0, color, palette, variant: i, size: 3 + i % 3 });
+  burst(rect, color, palette = shardPalette(color), mat) {
+    for (let i = 0; i < 7; i++) this.fragments.push({ x: rect.x + rect.w * (i + .5) / 7, y: rect.y + rect.h / 2, vx: (i - 3) * 16, vy: -25 - (i % 3) * 17, t: 0, color, palette, mat, variant: i, size: 3 + i % 3 });
+    if (mat) this.fragments.push({ brk: true, mat, bx: rect.x + rect.w / 2, by: rect.y + rect.h / 2, w: rect.w, h: rect.h, x: 0, y: 0, vx: 0, vy: 0, t: 0 });
   }
   inspect() { return { state: this.state, phase: this.phase, stage: this.stage, clock: this.clock, hp: this.warden.hp, maxHP: this.warden.maxHP, defences: this.defences.map(d => ({ ...d })), activeDefence: this.activeDefence, windHits: this.windHits, ward: this.ward && { ...this.ward }, bodyPose: this.pose().body, fist: this.pose().fist, lives: this.lives, started: this.started, punches: this.punchCount, blocked: this.blockedPunches }; }
   background() {
@@ -371,7 +376,8 @@ export class Frost extends Arena {
     for (const b of this.bricks) if (b.hp) {
       // The Vault's glazed ceramic per row (blue, violet, teal, coral): the castle family, not Mooncoil's moonstone.
       const row = Math.floor((b.y - 266) / 26), art = SPR[`brick_${['b', 'v', 't', 'c', 'b', 'v'][row]}_2_0`];
-      if (ready(art)) { const m = art.margin || 0, scaleX = b.w / (art.uw - m * 2), scaleY = b.h / (art.uh - m * 2); g.drawImage(art.img, b.x - m * scaleX, b.y - m * scaleY, art.uw * scaleX, art.uh * scaleY); }
+      if (b.type === 'steel' ? drawThemedBar(g, 'frost', b.x, b.y, b.w, b.h) : drawThemed(g, 'frost', frostMat(b), b.x, b.y, b.w, b.h)) { /* themed set */ }
+      else if (ready(art)) { const m = art.margin || 0, scaleX = b.w / (art.uw - m * 2), scaleY = b.h / (art.uh - m * 2); g.drawImage(art.img, b.x - m * scaleX, b.y - m * scaleY, art.uw * scaleX, art.uh * scaleY); }
       else g.drawImage(brick(b.color, b.w, b.h), b.x, b.y, b.w, b.h + 4);
       if (b.payload) { if (GEMS.pip_gold) { softGlow(g, b.x + b.w / 2, b.y + b.h / 2, 12, 8, 'rgba(255,214,150,.7)', 1); gem(g, 'pip_gold', b.x + b.w / 2, b.y + b.h / 2, 1.05); }
         else { g.fillStyle = '#e8d7ed'; g.beginPath(); g.moveTo(b.x + b.w / 2, b.y + 5); g.lineTo(b.x + b.w / 2 + 3, b.y + 9); g.lineTo(b.x + b.w / 2, b.y + 13); g.lineTo(b.x + b.w / 2 - 3, b.y + 9); g.closePath(); g.fill(); } }
@@ -396,6 +402,8 @@ export class Frost extends Arena {
       if (this.ward?.targetId === d.id) { g.save(); g.beginPath(); g.rect(d.x - 5, d.y - 5, d.w + 10, d.h + 10); g.clip(); drawKitBrickArmour(g, d.x + d.w / 2, d.y + d.h / 2, this.t - this.kitCastAt, 72); g.restore(); }
     }
     for (const f of this.fragments) {
+      if (f.brk) { themedBreak(g, 'frost', f.mat, f.bx, f.by, f.w, f.h, f.t, .6); continue; }
+      if (f.mat && themedChip(g, 'frost', f.mat, f.variant || 0, f.x, f.y, f.t * f.vx * .04 + (f.variant || 0), f.size * 2, 1 - f.t / .45)) continue;
       if (drawShard(g, f.palette, f.variant || 0, f.x, f.y, f.t * f.vx * .04 + (f.variant || 0), f.size * 2.6, 1 - f.t / .45)) continue;
       g.save(); g.globalAlpha = 1 - f.t / .45; g.translate(f.x, f.y); g.rotate(f.t * f.vx * .04); g.drawImage(brick(f.color, f.size, f.size), -f.size / 2, -f.size / 2, f.size, f.size + 2); g.restore();
     }

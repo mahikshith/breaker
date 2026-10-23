@@ -373,6 +373,21 @@ if os.path.exists(tg_atlas):
             assert im.mode == 'RGBA' and not im.info and list(im.size) == s['px'], f'Invalid Tidewheel glaze brick: {name}'
             art['tidewheelGlaze'][name] = {'url': uri(im, 88), 'uw': s['drawSize'][0], 'uh': s['drawSize'][1], 'margin': s['margin']}
 
+# Themed bricks (art/themed-bricks/build.py, re-glazed from the glaze v2 sheet): one set per princess chapter (frost, gatehouse,
+# bellforge, tower for Lumi and Rivals, mooncoil, vault), keyed <material>_<cells>_<state>, plus each material's FX palette.
+# Small soft sprites, so lossy colour (alpha stays lossless in WebP).
+tb_root = A('themed-bricks')
+if os.path.isdir(tb_root):
+    art['themedBricks'] = {}
+    for ch in sorted(os.listdir(tb_root)):
+        tb_atlas = os.path.join(tb_root, ch, 'atlas.json')
+        if not os.path.exists(tb_atlas): continue
+        atlas = json.load(open(tb_atlas, encoding='utf-8')); art['themedBricks'][ch] = {'palette': atlas['palette'], 'sprites': {}}
+        for name, s in atlas['sprites'].items():
+            with Image.open(os.path.join(tb_root, ch, s['file'])) as im:
+                assert im.mode == 'RGBA' and not im.info and list(im.size) == s['px'], f'Invalid themed brick: {ch}/{name}'
+                art['themedBricks'][ch]['sprites'][name] = {'url': uri(im, 84), 'uw': s['drawSize'][0], 'uh': s['drawSize'][1], 'margin': s['margin']}
+
 # Dragon's Hoard (art/hoard/build.py, from the M365 Copilot dragon kit): Ember's eight expression busts and the hoard props.
 # Each sprite is drawn at drawSize with `anchor` on its model point; `contact` is the collider rect inside it (the Crown chest).
 # Ember is scenery behind the cave ledge in this chapter: his measured circles travel with solid false for a later duel.

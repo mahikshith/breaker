@@ -1,0 +1,318 @@
+{
+ "source": "art/themed-bricks/build.py (re-glazed from art/glaze2/source/bricks.png)",
+ "chapter": "gatehouse",
+ "palette": {
+  "gules": [
+   "#ffd8d0",
+   "#cf3842",
+   "#5e0d16",
+   "enamel"
+  ],
+  "argent": [
+   "#fffdf8",
+   "#d6d0c4",
+   "#5f5a52",
+   "enamel"
+  ],
+  "vert": [
+   "#d7f5e2",
+   "#3ea56c",
+   "#0d4a2c",
+   "enamel"
+  ],
+  "iron": [
+   "#dde2ea",
+   "#5b6370",
+   "#1b1f26",
+   "iron"
+  ],
+  "bar": [
+   "#d2d8e2",
+   "#4b525e",
+   "#16191f",
+   "iron"
+  ]
+ },
+ "sprites": {
+  "gules_2_0": {
+   "file": "gules_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "gules",
+   "cells": 2,
+   "state": 0
+  },
+  "gules_2_1": {
+   "file": "gules_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "gules",
+   "cells": 2,
+   "state": 1
+  },
+  "gules_2_2": {
+   "file": "gules_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "gules",
+   "cells": 2,
+   "state": 2
+  },
+  "argent_2_0": {
+   "file": "argent_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "argent",
+   "cells": 2,
+   "state": 0
+  },
+  "argent_2_1": {
+   "file": "argent_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "argent",
+   "cells": 2,
+   "state": 1
+  },
+  "argent_2_2": {
+   "file": "argent_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "argent",
+   "cells": 2,
+   "state": 2
+  },
+  "vert_2_0": {
+   "file": "vert_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "vert",
+   "cells": 2,
+   "state": 0
+  },
+  "vert_2_1": {
+   "file": "vert_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "vert",
+   "cells": 2,
+   "state": 1
+  },
+  "vert_2_2": {
+   "file": "vert_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "vert",
+   "cells": 2,
+   "state": 2
+  },
+  "iron_2_0": {
+   "file": "iron_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "iron",
+   "cells": 2,
+   "state": 0
+  },
+  "iron_2_1": {
+   "file": "iron_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "iron",
+   "cells": 2,
+   "state": 1
+  },
+  "iron_2_2": {
+   "file": "iron_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "iron",
+   "cells": 2,
+   "state": 2
+  },
+  "bar_1_0": {
+   "file": "bar_1_0.png",
+   "px": [
+    78,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    18,
+    18
+   ],
+   "drawSize": [
+    26,
+    26
+   ],
+   "margin": 4,
+   "material": "bar",
+   "cells": 1,
+   "state": 0
+  },
+  "bar_2_0": {
+   "file": "bar_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "bar",
+   "cells": 2,
+   "state": 0
+  }
+ }
+}
