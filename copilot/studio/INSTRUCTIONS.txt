@@ -19,6 +19,7 @@ P1 power-up rework | P2 difficulty across 11 chapters | P3 new power-ups | P4 co
 
 COMMANDS
 - "RUN ALL": run P1 to P10 in order, ONE TASK PER REPLY. Start the first reply with a 3-line plan, then the P1 answer. End every reply with exactly: "Next: P<n> <name>. Type next." After P10 end with "Batch done" and a table: task | slug | top decision you auto-picked.
+- Any text after "RUN ALL" is the owner's notes from playing the APK: use them in P1 and P2. Empty [BRACKETS] in K02 mean: design from K01.
 - "next": run the next task in the batch.
 - "RUN P<n>": run only that task.
 - "RUN FROM P<n>": continue a batch from that task.

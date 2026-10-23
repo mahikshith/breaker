@@ -15,7 +15,7 @@ One paste for the instructions, one upload for the files, then type `RUN ALL`.
 ## Run
 
 1. In the test pane on the right, start a new conversation (the refresh button).
-2. Type `RUN ALL`. It answers P1.
+2. Type `RUN ALL`, plus anything that felt wrong in the APK on the same line (for example `RUN ALL. Notes: SLOW is invisible, Vault Medium too hard`). It answers P1. Use the same notes for every model you compare.
 3. Type `next` after each answer, nine times, until it says "Batch done".
 4. If an answer stops with "Continued: type more", type `more`.
 5. Copy each answer and paste it in the BREACH project chat, one answer per message. The first line of each answer is its file name.
