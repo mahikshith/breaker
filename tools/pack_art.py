@@ -369,13 +369,16 @@ if os.path.exists(glaze2_atlas):
 hoard_manifest = A('hoard', 'manifest.json')
 if os.path.exists(hoard_manifest):
     hm = json.load(open(hoard_manifest, encoding='utf-8')); art['hoard'] = {}
+    poses = {a for pose in hm['skins']['ember']['poses'].values() for a in pose['art'][:1]}
     for key, spec in hm['sprites'].items():
+        # The eight M365 busts are only fallbacks behind the R01 full-body poses; ship them only if a pose render is missing.
+        if key.startswith('ember_') and all(p in hm['sprites'] for p in poses): continue
         with Image.open(os.path.join(ROOT, spec['path'])) as im:
             assert im.mode == ('RGB' if key == 'cave' else 'RGBA') and not im.info and list(im.size) == spec['px'], f'Invalid hoard sprite: {key}'
             art['hoard'][key] = {k: spec[k] for k in ('anchor', 'contact', 'circles', 'solid', 'floor') if k in spec}
-            # The cave plate is an opaque backdrop (lossy, like the keep plate); the busts are large soft renders (lossy colour
-            # with exact alpha); props stay lossless.
-            url = uri(im, 84) if key == 'cave' else uri(im, 90) if key.startswith('ember') else uri(im, 100, lossless=True)
+            # The cave plate is an opaque backdrop (lossy, like the keep plate); Ember and the larger props (gate, chest) are soft
+            # renders (lossy colour, alpha stays lossless in WebP); small props stay lossless.
+            url = uri(im, 84) if key == 'cave' else uri(im, 90) if key.startswith('ember') or im.width * im.height > 20000 else uri(im, 100, lossless=True)
             art['hoard'][key].update({'url': url, 'uw': spec['drawSize'][0], 'uh': spec['drawSize'][1]})
 
 # Render round 2 (art/round2/build.py, owner renders R05 and R06): the glaze power-up capsules every chapter draws on its
