@@ -4,6 +4,7 @@ import { GATEHOUSE_FLOORS } from './gatehouse.js';
 import { renderLumi } from './lumi-render.js';
 import { renderRivals } from './rivals-render.js';
 import { renderHoard } from './hoard-render.js';
+import { siegeBoard, siegeBrick, raftSteel, nerraMotion, refugeChain, siegeEffect, siegeOverlay } from './tidewheel-stages-render.js';
 const damageStates=new WeakMap();
 // Machinery comes packed in ART.fantasy (tools/pack_art.py); the plates, ball, paddle, bricks and Lumi are the main game's own art.
 export function makeArt(){
@@ -144,7 +145,7 @@ function renderTidewheel(ctx,g,art){
   for(const sx of[78,375,650,944])for(let y=base-3;y<g.water.initial+28;y+=10)
     ctx.drawImage(wall,sx-40,393,80,29,wallX+(sx-40)*ws,y,80*ws,10.2);
   sprite(ctx,art,'tidewheel','sluiceWall',180,232,{width:390});
-  ctx.fillStyle='#08141c66';ctx.beginPath();ctx.ellipse(v.footX,233,62,5,0,0,Math.PI*2);ctx.fill();
+  if(!v.hidden&&Math.abs(v.footY-232)<4){ctx.fillStyle='#08141c66';ctx.beginPath();ctx.ellipse(v.footX,233,62,5,0,0,Math.PI*2);ctx.fill();}
   for(const gate of g.gates){
     const gy=gate.y-gate.open*32,m=art.manifest.tidewheel.gate,a=m.anchors.panelTopLeft,b=m.anchors.panelBottomRight;
     const fm=art.manifest.tidewheel.gateFrame,fa=fm.anchors.openingTopLeft,fb=fm.anchors.openingBottomRight,fw=gate.w/(fb[0]-fa[0]),fh=gate.h/(fb[1]-fa[1]);
@@ -159,10 +160,12 @@ function renderTidewheel(ctx,g,art){
   hoistChain(ctx,art,hand,g.chain.pulley,g.chain.scroll||0);
   hoistChain(ctx,art,{x:327,y:244},{x:327,y:282},-(g.chain.scroll||0));
   sprite(ctx,art,'tidewheel','wheel',310,244,{width:72,angle:g.chain.wheelAngle});
-  ctx.save();defeatTransform(ctx,v,v.footX,v.footY);
+  siegeBoard(ctx,g,art);   // Tidewheel Siege: the stage's bricks and brass sit behind Nerra (she walks over them as a ghost)
+  if(!v.hidden){   // Tidewheel Siege: Nerra can be away, mirrored (facing) and moved by code motion
+  ctx.save();defeatTransform(ctx,v,v.footX,v.footY);nerraMotion(ctx,g,v);
   const reaction=v.defeat&&v.defeat.age>.2?(v.defeat.age<.85?'dazed':'defeat'):v.pose==='fury'?'fury':null;
-  if(reaction)sprite(ctx,art,'nerraReaction',reaction,v.footX,v.footY,{width:v.w});
-  else sprite(ctx,art,'nerra','nerraBody',v.footX,v.footY,{width:v.w,frame:v.frame});
+  if(reaction)sprite(ctx,art,'nerraReaction',reaction,v.footX,v.footY,{width:v.w,mirror:v.facing<0});
+  else sprite(ctx,art,'nerra','nerraBody',v.footX,v.footY,{width:v.w,frame:v.frame,mirror:v.facing<0});
   for(const c of g.claws){
     const family=c.side<0?'tidewheel':'nerra',key=c.partKey,m=art.manifest[family][key];
     const socket=v.defeat&&reaction?art.manifest.nerraReaction[reaction].sockets[c.side<0?'crusher':'gate']:null;
@@ -171,6 +174,7 @@ function renderTidewheel(ctx,g,art){
     sprite(ctx,art,family,key,root.x,root.y,{angle,mirror:c.mirror,width:m.unit[0]*c.scale});
   }
   ctx.restore();dazed(ctx,g,v.footX,v.footY-99,v.defeat?.daze);
+  }
   // Ropes reach their stops before the rafts can overlap Nerra's moving claws.
   for(const r of g.rafts){
     for(const side of[-1,1]){
@@ -198,7 +202,8 @@ function renderTidewheel(ctx,g,art){
         ctx.strokeStyle='#e6bd7b';ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(-21,35);ctx.lineTo(-7,39);ctx.lineTo(-13,43);ctx.stroke();
       }
     }
-    for(const b of g.bricks)if(b.raft===+r.id.at(-1)&&b.hp>0)brick(ctx,art,b,b.lx,b.ly);
+    for(const b of g.bricks)if(b.raft===+r.id.at(-1)&&b.hp>0)siegeBrick(ctx,g,art,b,()=>brick(ctx,art,b,b.lx,b.ly));
+    raftSteel(ctx,g,art,r);
     ctx.restore();
   }
   const y=g.water.y;
@@ -248,7 +253,7 @@ function renderTidewheel(ctx,g,art){
     }ctx.restore();
   }
   for(const side of[-1,1]){
-    const x=g.lumi.x+side*25;chain(ctx,art,{x,y:47},{x,y:g.lumi.y+31});
+    const x=g.lumi.x+side*25;if(!refugeChain(ctx,g,art,side,x))chain(ctx,art,{x,y:47},{x,y:g.lumi.y+31});
     ctx.fillStyle='#332d28';ctx.strokeStyle='#bda77e';ctx.lineWidth=1;ctx.beginPath();ctx.roundRect(x-4,42,8,9,2);ctx.fill();ctx.stroke();
     ctx.fillStyle='#d8c9a5';ctx.beginPath();ctx.arc(x,46,1.5,0,Math.PI*2);ctx.fill();
   }
@@ -775,7 +780,7 @@ export function drawEncounter(ctx,g,art,level){
   }
   for(const e of g.effects){
     const q=e.age/e.life;ctx.save();ctx.globalAlpha=1-q;
-    if(e.kind==='water-hit'&&splash(ctx,e,q)){}else if(e.kind==='water-muzzle'){
+    if(siegeEffect(ctx,g,art,e,q)){}else if(e.kind==='water-hit'&&splash(ctx,e,q)){}else if(e.kind==='water-muzzle'){
       ctx.translate(e.x,e.y);ctx.rotate(e.angle);
       for(let n=0;n<8;n++){const t=e.age,a=(n-3.5)*.12;ctx.fillStyle=n%2?'#d4f8ee':'#75bfcc';ctx.beginPath();ctx.ellipse(Math.cos(a)*t*80,Math.sin(a)*t*80,1.4+q,1,0,0,Math.PI*2);ctx.fill();}
     }else if(e.kind==='brace-break'){
@@ -836,11 +841,12 @@ export function drawEncounter(ctx,g,art,level){
     ctx.fillStyle='#0c1923cc';ctx.beginPath();ctx.roundRect(x-27,y,54,3,2);ctx.fill();
     ctx.fillStyle=name==='cosmic'?'#cdadf1':'#d2bd8e';ctx.beginPath();ctx.roundRect(x-27,y,54*time/max,3,2);ctx.fill();
   }
+  if(level==='tidewheel')siegeOverlay(ctx,g,art);   // Tidewheel Siege: drops, timers, stage pips, card and banners
 }
 // Paddle skin by hero: ['xSkinL','xSkinM','xSkinR'] when that skin has decoded, else the chrome paddle.
 export function skinFor(art,id){const k=[id+'SkinL',id+'SkinM',id+'SkinR'];return k.every(n=>art.images[n]?.naturalWidth)?k:undefined;}
 // Shared with the Lumi renderer (lumi-render.js).
-export {glow,sparks,chips,pips,fxPart,dust,rnd,clamp01,smooth,gBanner,gPaddle,gBall,gWard,hoistChain,sprite,slab,CLIMB};
+export {glow,sparks,chips,pips,fxPart,dust,rnd,clamp01,smooth,gBanner,gPaddle,gBall,gWard,hoistChain,sprite,slab,CLIMB,brick,pool};
 // Tidewheel: a water pulse that meets the paddle or a ball bursts as the round-2 splash (four rendered frames over its life),
 // standing on the paddle line, or centred on the ball it hit; no drawn rings or dot spray.
 function splash(ctx,e,q){const k=Math.min(3,Math.floor(q*4));ctx.globalAlpha=q<.7?1:(1-q)/.3;return drawAt(ctx,`splash/${k}`,e.x,e.y+(e.blocked?14:4),1.15);}

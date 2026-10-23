@@ -193,31 +193,38 @@ function bellforge() {
   };
 }
 
-function tidewheel() {
+// Tidewheel Siege (src/fantasy/tidewheel-siege.js): one adapter per stage start, so every stage board gets the full
+// matrix even though a 240 s run seldom plays all four. 'tidewheel' starts at Low Tide and plays on through the stages;
+// 'tidewheel-s2'..'-s4' start at Floodworks, The Wheel and The Refuge (the original one-screen fight's coverage now
+// lives in -s4, its showdown). Baseline: capsules are never collected, the stage card is tapped away.
+function tidewheel(stage = 0) {
   let C;
   return {
-    name: 'tidewheel', kind: 'fantasy',
-    async init() { C ||= await load('fantasy/tidewheel.js', 'Tidewheel'); },
+    name: stage ? `tidewheel-s${stage + 1}` : 'tidewheel', kind: 'fantasy',
+    async init() { C ||= await load('fantasy/tidewheel-siege.js', 'TidewheelSiege'); },
     make(phone, difficulty) {
-      const m = new C({ ...fantasyWorld(phone), difficulty });
+      const m = new C({ ...fantasyWorld(phone), difficulty, stage });
       return {
-        level: m, dt: 1 / 120, nominal: 345,
-        step() { m.update(this.dt); },
+        level: m, dt: 1 / 120,
+        get nominal() { return m.speed; },   // each stage sets its own ball speed
+        step() { if (m.phase === 'card') m.skipCard(); m.capsules.length = 0; m.update(this.dt); },
         timeFactor() { return 1; },
         threats() { return m.pulses.filter(q => !q.reflected); },
         get state() { return m.state; }, get lives() { return m.lives; }, get time() { return m.time; },
         balls() { return m.balls; },
-        active(b) { return !b.dead && !b.caught && m.phase !== 'rescue' && m.phase !== 'complete'; }, // rescue freezes balls without catching them
+        active(b) { return !b.dead && !b.caught && !['rescue', 'complete', 'clear', 'card'].includes(m.phase); }, // rescue freezes balls without catching them
         bounds() { return { left: 12, right: m.width - 12, top: 67, bottom: m.height }; },
         paddle() { const p = m.paddle; return { x: p.x, top: p.y - p.h / 2, w: p.w, h: p.h, stunned: false }; },
-        serving() { return m.phase === 'serve' && m.state === 'play' && m.balls.some(b => b.caught); },
+        serving() { return (m.phase === 'serve' || m.phase === 'hook') && m.state === 'play' && m.balls.some(b => b.caught); },
         serve(angle) { m.launch(-Math.PI / 2 + angle); },
         control(x) { if (x !== null) m.setTarget(x); },
         continue() { m.continued = false; m.continue(); }, // as src/fantasy/chapter.js continueRun
-        progress() { return m.score + m.villain.hp + m.bricks.reduce((n, b) => n + Math.max(0, b.hp), 0) + m.gates.reduce((n, g) => n + Math.max(0, g.hp), 0) + m.rafts.reduce((n, r) => n + Math.max(0, r.braceHP), 0); },
-        snapshot() { return { shapes: m.targets(0).filter(liveSolid).flatMap(t => shapesOf(t, t.kind === 'brick')) }; }, // a ram ploughs raft bricks only
+        progress() { return m.score + m.stage * 1e4 + m.pool.hp + [...m.bricks, ...m.blocks].reduce((n, b) => n + Math.max(0, b.hp), 0) + m.gates.reduce((n, g) => n + Math.max(0, g.hp), 0) + m.rafts.reduce((n, r) => n + Math.max(0, r.braceHP), 0) + m.bars.filter(b => b.broken).length; },
+        snapshot() { return { shapes: m.targets(0).filter(liveSolid).flatMap(t => shapesOf(t, t.kind === 'brick')) }; }, // a ram ploughs bricks only; steel and spokes stay solid
       };
     },
+    // Board fairness (src/fantasy/reach.js): every steel chamber of this stage, judged on this phone.
+    async layouts(phone, difficulty) { const { judgeStage } = await import(new URL('fantasy/tidewheel-stages.js', SRC)); return judgeStage(stage, { paddleY: fantasyWorld(phone).paddleY, difficulty }); },
   };
 }
 
@@ -363,7 +370,7 @@ export const ADAPTERS = [
   arena('frost', 'frost.js', 'Frost'),
   arena('mooncoil', 'mooncoil.js', 'Mooncoil', { shapes: serpent }),
   bellforge(),
-  tidewheel(),
+  tidewheel(0), tidewheel(1), tidewheel(2), tidewheel(3),
   gatehouse(),
   lumitower(),
   rivals(),

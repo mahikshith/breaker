@@ -24,7 +24,7 @@ const LEVELS = [
   { make: (W, H, s) => new Frost(W, H, s, selectedDifficulty), name: 'Frost Warden', sub: 'Break the siege. Protect Lumi.', color: '#9bc9dd', next: 5, victory: 'LUMI PROTECTED!' },
   { make: (W, H, s) => new Mooncoil(W, H, s, selectedDifficulty), name: 'Mooncoil Reliquary', sub: 'Shatter the moonstone. Free Lumi.', color: '#cbb3ef', victory: 'RELIQUARY FREED!', next: 6 },
   { make: (W, H, s) => new FantasyChapter('bellforge', W, H, s, selectedDifficulty), name: 'Bellforge Run', sub: 'Break Korr\u2019s armour. Stop the winch.', color: '#d6a35f', next: 7, victory: 'LUMI IS FREE!' },
-  { make: (W, H, s) => new FantasyChapter('tidewheel', W, H, s, selectedDifficulty), name: 'Tidewheel Citadel', sub: 'Break Nerra\u2019s grip. Stop the flood.', color: '#7fc7cf', next: 8, victory: 'LUMI IS SAFE!' },
+  { make: (W, H, s) => new FantasyChapter('tidewheel', W, H, s, selectedDifficulty), name: 'Tidewheel Citadel', sub: 'Break Nerra\u2019s grip. Stop the flood.', color: '#7fc7cf', next: 8, victory: 'LUMI IS SAFE!', stages: 4, kind: 'Siege' },
   { make: (W, H, s) => new FantasyChapter('gatehouse', W, H, s, selectedDifficulty), name: 'Gatehouse Siege', sub: 'Kit breaks in. Korr holds the gate.', color: '#c98a5b', next: 9, victory: 'THE GATE IS OURS!' },
   { make: (W, H, s) => new FantasyChapter('lumitower', W, H, s, selectedDifficulty), name: 'Lumi Breaks Out', sub: 'Lumi breaks out. Gnash coils the tower.', color: '#e58fb4', next: 10, victory: 'LUMI BROKE OUT!' },
   { make: (W, H, s) => new FantasyChapter('rivals', W, H, s, selectedDifficulty), name: 'Serpent Rivals', sub: 'Bait the twin serpents. Break the Seal.', color: '#8fc9d6', next: 11, victory: 'THE SEAL IS BROKEN!' },
@@ -270,6 +270,12 @@ function drawMenu() {
     text(g, i === 1 ? 'V' : i === 4 ? 'F' : `${row + 1}`, x + 26, y + ch - 32, 15, '#fff', 'center');
     text(g, L.name, x + 50, y + ch - 34, 17, '#fff');
     text(g, L.sub, x + 16, y + ch - 13, 10, '#c9cfee');
+    if (L.stages) { // a staged chapter (src/fantasy/stages.js chapterKind): a small ribbon over the preview
+      const label = `${L.kind.toUpperCase()} · ${L.stages} STAGES`;
+      g.fillStyle = 'rgba(8,16,24,0.82)'; rrect(g, x + 12, y + 8, 116, 18, 9); g.fill();
+      g.strokeStyle = shade(L.color, 0.2); g.lineWidth = 1; rrect(g, x + 12, y + 8, 116, 18, 9); g.stroke();
+      text(g, label, x + 70, y + 17.5, 10, '#e6f6f4', 'center');
+    }
     for (let s = 0; s < 3; s++) star(x + cw - 66 + s * 22, y + 15, 7, s < bestByDifficulty[selectedDifficulty][i]);
 
   });

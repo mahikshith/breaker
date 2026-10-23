@@ -55,14 +55,16 @@ test('all eleven chapters (main.js slot list) have a near-miss line', () => {
     assert.ok(n.line.length > 6 && n.line === n.line.toUpperCase(), `${name}: ${n.line}`);
     assert.doesNotMatch(n.line, /(^|\D)0 |NaN|undefined|Infinity/, `${name}: ${n.line}`);
     assert.ok(n.progress >= 0 && n.progress < 1, `${name}: progress ${n.progress}`);
-    assert.match(n.detail, /^((FLOOR|WAVE) \d \/ \d · )?\d{1,2}% CLEARED$/, `${name}: ${n.detail}`);
+    assert.match(n.detail, /^((FLOOR|WAVE|STAGE) \d \/ \d · )?\d{1,2}% CLEARED$/, `${name}: ${n.detail}`);
   }
 });
 
 test('villain chapters name the villain and its HP; objective chapters say what is left', () => {
   const line = l => soClose(l).line;
   const bell = new FantasyChapter('bellforge', 360, 814, S, 'medium'); bell.m.villain.hp = 3; lose(bell); assert.equal(line(bell), 'KORR HAS 3 HP LEFT');
-  const tide = new FantasyChapter('tidewheel', 360, 814, S, 'medium'); tide.m.villain.hp = 7; lose(tide); assert.equal(line(tide), 'NERRA HAS 7 HP LEFT');
+  // Tidewheel Siege: before the showdown the line counts the stage's bricks; in the showdown it names Nerra's HP.
+  const tide1 = new FantasyChapter('tidewheel', 360, 814, S, 'medium'); lose(tide1); assert.match(line(tide1), /^\d+ BRICKS TO STAGE 2$/);
+  const tide = new FantasyChapter('tidewheel', 360, 814, S, 'medium'); tide.m.buildStage(3); tide.m.villain.hp = 7; lose(tide); assert.equal(line(tide), 'NERRA HAS 7 HP LEFT');
   const frost = new Frost(360, H, S, 'medium'); frost.warden.hp = 9; assert.equal(line(frost), 'THE FROST WARDEN HAS 9 HP LEFT');
   const relay = new Relay(360, H, S, 'medium'); relay.hp = 12; assert.equal(line(relay), 'THE RELAY HAS 12 HP LEFT');
   const forge = new Orbital(360, H, S, 'medium'); assert.equal(line(forge), '3 STABILISERS LEFT');

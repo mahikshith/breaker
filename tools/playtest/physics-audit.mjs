@@ -4,7 +4,7 @@
 // paddle's sweet spot, so it arms and flies the Sweet-Spot Ram (src/fantasy/ram.js) over and over: the tunnel check then
 // holds the ram to its level's own ordinary-brick rule (armour, props and walls stay solid to it). Flags NaN/out-of-bounds balls,
 // tunnelling (ball centre ending a step inside a solid, or crossing the paddle face), stuck loops,
-// flat angles and speed drift. Writes docs/validation/physics-audit/report.json; exits 1 on any failure.
+// flat angles and speed drift. Levels with steel chambers (Tidewheel Siege) also get the reach check on every board. Writes docs/validation/physics-audit/report.json; exits 1 on any failure.
 //
 //   node tools/playtest/physics-audit.mjs                     full audit
 //   node tools/playtest/physics-audit.mjs --level carrier --difficulty hard --phone 393x852 --seed 3 --variant bot --trace
@@ -178,12 +178,17 @@ async function main() {
     const n = variant === 'bot' ? Math.min(seeds, o.seeds ? Infinity : ADAPTERS.find(a => a.name === level).seeds ?? Infinity) : variant === 'ram' ? ramSeeds : idleSeeds;
     for (const seed of o.seed ? String(o.seed).split(',').map(Number) : Array.from({ length: n }, (_, i) => i + 1)) jobs.push({ level, difficulty, phone, seed, variant, cap, trace: !!o.trace });
   }
+  // Layout fairness: levels with steel chambers (adapter.layouts) are judged before any run; an unfair board fails the audit.
+  const layout = [];
+  for (const level of levels) { const ad = ADAPTERS.find(a => a.name === level); if (!ad.layouts) continue; await ad.init();
+    for (const difficulty of diffs) for (const phone of phones) for (const v of await ad.layouts(PHONES.find(p => p.id === phone), difficulty)) layout.push({ level, difficulty, phone, ...v }); }
+  const unfair = layout.filter(v => !v.pass);
   const started = Date.now(), results = [];
   if (o.trace || jobs.length === 1) for (const j of jobs) results.push(await runOne(j));
   else {
     const width = Math.min(+(o.jobs || availableParallelism()), jobs.length); let next = 0;
     // longest-first keeps the tail short (rough wall cost per run, measured)
-    const COST = { relay: 20, tidewheel: 6, orbital: 5, vault: 2, carrier: 1.5, mooncoil: 1, frost: .7, bellforge: .5, gatehouse: 1 };
+    const COST = { relay: 20, tidewheel: 6, 'tidewheel-s2': 6, 'tidewheel-s3': 7, 'tidewheel-s4': 6, orbital: 5, vault: 2, carrier: 1.5, mooncoil: 1, frost: .7, bellforge: .5, gatehouse: 1 };
     jobs.sort((a, b) => (COST[b.level] || 1) * (b.variant === 'bot' ? 1 : .7) - (COST[a.level] || 1) * (a.variant === 'bot' ? 1 : .7));
     await Promise.all(Array.from({ length: width }, () => new Promise((resolve, reject) => {
       const w = new Worker(fileURLToPath(import.meta.url));
@@ -213,7 +218,7 @@ async function main() {
   const totals = Object.fromEntries(TYPES.map(t => [t, results.reduce((n, r) => n + r.counts[t], 0)]));
   const ram = { launches: results.reduce((n, r) => n + (r.ramLaunches || 0), 0), seconds: round(results.reduce((n, r) => n + (r.ramSeconds || 0), 0)),
     levels: Object.fromEntries(levels.map(l => [l, results.filter(r => r.level === l).reduce((n, r) => n + (r.ramLaunches || 0), 0)])) };
-  const report = { config: { cap, seeds, idleSeeds, ramSeeds, limits: LIMITS, phones: PHONES, difficulties: diffs, levels }, totals, ram, failed: Object.values(totals).some(n => n > 0), cells };
+  const report = { config: { cap, seeds, idleSeeds, ramSeeds, limits: LIMITS, phones: PHONES, difficulties: diffs, levels }, totals, ram, layout: { chambers: layout.length, unfair }, failed: Object.values(totals).some(n => n > 0) || unfair.length > 0, cells };
   if (!o['no-write']) {
     const dir = new URL('../../docs/validation/physics-audit/', import.meta.url); mkdirSync(dir, { recursive: true });
     writeFileSync(new URL('report.json', dir), JSON.stringify(report, null, 1) + '\n');
@@ -227,6 +232,7 @@ async function main() {
   for (const c of cells) for (const v of Object.values(c.failures).slice(0, 1))
     console.log(`repro: node tools/playtest/physics-audit.mjs --level ${c.level} --difficulty ${c.difficulty} --phone ${c.phone} --variant ${c.variant} --seed ${v.first.seed} --trace`);
   console.log(`ram launches=${ram.launches} live=${ram.seconds}s  ${Object.entries(ram.levels).map(([l, n]) => `${l}=${n}`).join(' ')}`);
+  if (layout.length) console.log(`layout chambers=${layout.length} unfair=${unfair.length}` + unfair.map(v => `\n  UNFAIR ${v.level} ${v.difficulty} ${v.phone} ${v.chamber} lift ${v.lift}: reachable ${v.reachable} span ${v.span} gap ${v.gap}`).join(''));
   console.log(`totals ${TYPES.map(t => `${t}=${totals[t]}`).join(' ')}  runs=${results.length}  ${((Date.now() - started) / 1000).toFixed(1)}s`);
   process.exitCode = report.failed ? 1 : 0;
 }
