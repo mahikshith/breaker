@@ -1,0 +1,22 @@
+HOUSE STYLE (match exactly): premium glossy 3D render, as if made in Blender Cycles. Characters are glossy vinyl toys; props and bricks are glazed ceramic or polished metal with a thick clear coat, crisp highlight bands and slightly rounded bevels. People use chibi proportions (head about 40% of total height, stubby limbs). One soft warm key light from the top-left (about #FFDBB8), a cool blue fill from the right (#8CA6FF), a faint pink bounce from below (#FF80A6); shadows fall down and to the right. Saturated but never neon colours, very little yellow (gold is a small accent only). Plain calm dark navy background (#141831) that never outshines the subject. Faces are the most important part: big glossy eyes with lids, brows and a mouth that clearly changes between expressions, never blank or identical faces. Orthographic camera, no perspective distortion. NOT: pixel art, flat vector clip art, cel-shaded anime, photorealism, wisps or ghost blobs, snake bodies made of ball chains, round blob heads, one face copied onto every character, long dangly-armed creatures. No text, no watermark, no logo.
+
+Use case: production sprite sheet of shinier glazed ceramic bricks (bricks-glaze-v2).
+Asset type: 4 columns by 6 rows grid, portrait 2048x3072 (each cell 512x512 px), twenty-four WIDE bricks (2:1 aspect ratio, representing 32x16 game units), viewed straight on, orthographic, lit from the top-left (#FFDBB8).
+Look: thick wet-look glazed ceramic tile with a deep coloured body under a crystal-clear glossy coat, one crisp bright highlight band along the entire top edge, a tiny 4-pointed star sparkle glint at the top-left corner, a darker bottom under-bevel, slightly rounded corners, and a thin dark separator rim.
+Columns 1 to 3 (left to right):
+- Column 1: INTACT 1-HP brick (mirror-smooth glaze, crisp top highlight band).
+- Column 2: CRACKED 1-HP brick (thin forked cracks across the glaze and one small corner chip).
+- Column 3: BREAKING 1-HP brick (deep fracture lines, two missing edge chips, inner clay core peeking through, still one connected piece).
+- Column 4: 2-HP ARMORED BRICK (same colour family with a visibly recessed bevelled brass-or-steel inner core plate inset into the middle of the tile).
+Rows 1 to 6 (top to bottom):
+- Row 1: SUN (#FFC73D) — intact, cracked, breaking, and 2-HP with bronze inner core.
+- Row 2: CORAL (#FF6F61) — intact, cracked, breaking, and 2-HP with rose-copper inner core.
+- Row 3: VIOLET (#8F5CF0) — intact, cracked, breaking, and 2-HP with silver-lilac inner core.
+- Row 4: TEAL (#22C4B0) — intact, cracked, breaking, and 2-HP with seafoam inner core.
+- Row 5: BLUE (#4F9DFF) — intact, cracked, breaking, and 2-HP with brushed-steel inner core.
+- Row 6 (Specials):
+  - Cell (Row 6, Col 1): GOLD GEM CACHE intact (#F4C542 gold-trimmed tile with a faceted ruby-red gem in a raised brass socket).
+  - Cell (Row 6, Col 2): GOLD GEM CACHE breaking (cracked brass socket with the ruby gem popping slightly loose).
+  - Cell (Row 6, Col 3): GRANITE INDESTRUCTIBLE intact (#4A4F6E dark slate stone, clearly different CHAMFERED OCTAGON silhouette with 45-degree cut corners, four iron rivets, matte finish with NO gloss highlight band).
+  - Cell (Row 6, Col 4): GRANITE CRACKED / REINFORCED (same chamfered octagon shape with a heavy iron cross-strap and hairline seam).
+BACKGROUND: fully transparent (real alpha). If you cannot output transparency, use one flat solid pure magenta #FF00FF background with no gradient, no floor and no cast shadow on the ground, and no magenta anywhere in the subject. Leave an empty margin of at least 10% of the cell around every object; nothing may touch or cross a cell edge. No grid lines, no labels, no numbers.

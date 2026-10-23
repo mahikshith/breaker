@@ -1,0 +1,19 @@
+HOUSE STYLE (match exactly): premium glossy 3D render, as if made in Blender Cycles. Characters are glossy vinyl toys; props and bricks are glazed ceramic or polished metal with a thick clear coat, crisp highlight bands and slightly rounded bevels. People use chibi proportions (head about 40% of total height, stubby limbs). One soft warm key light from the top-left (about #FFDBB8), a cool blue fill from the right (#8CA6FF), a faint pink bounce from below (#FF80A6); shadows fall down and to the right. Saturated but never neon colours, very little yellow (gold is a small accent only). Plain calm dark navy background (#141831) that never outshines the subject. Faces are the most important part: big glossy eyes with lids, brows and a mouth that clearly changes between expressions, never blank or identical faces. Orthographic camera, no perspective distortion. NOT: pixel art, flat vector clip art, cel-shaded anime, photorealism, wisps or ghost blobs, snake bodies made of ball chains, round blob heads, one face copied onto every character, long dangly-armed creatures. No text, no watermark, no logo.
+
+Use case: expression sheet.
+Asset type: 4 columns by 3 rows grid, landscape 1536x1024, twelve head-and-shoulder close-ups of the SAME character: EMBER the hoard dragon (broad blunt snout, burnt-orange #B8402F glazed ceramic scales, charcoal #2A2D3E brow slabs, ivory crescent horns with brass #F4C542 caps, amber #FF9F1C eyes). Evenly spaced cells with generous gaps, slight three-quarter front turn, identical scale and top-left lighting (#FFDBB8).
+Expressions, left to right, top to bottom (covering all 8 game moments plus 4 hoard moods):
+1. idle (stirring watch): one amber slit eye half open, the other shut, level brow.
+2. taunt (smug): half-lidded eyes, one brow arched high, lopsided toothy smirk.
+3. windup (attack tell): wide blazing amber eyes, brows slammed in a V, cheeks puffed round, jaw cracked open with soft orange throat glow.
+4. attack (roar): jaw wide open 35 deg, fangs bared, brows driven forward.
+5. hurt (hit): eyes squeezed shut as > <, brows thrown high, open square yelp.
+6. stagger (dizzy): mismatched spiral eyes, drooping brows, slack jaw with pink tongue out.
+7. panic (cowardly low HP): huge wet round eyes, tiny pupils, worried upturned /\ brows, trembling wavy mouth, sweat drops.
+8. defeat (KO): closed downward arc eyes, relaxed brows, head flopped, tongue out.
+9. asleep: both eyes shut, a glossy snore bubble at one nostril.
+10. snort: nostrils flared with two chunky smoke puffs, narrowed eyes.
+11. greedy: wide round pupils, huge toothy grin, brows raised high.
+12. fake-out snore: eyes shut tight but one brow twitching up with a tiny sly smile.
+Rule: every face differs in eyes, brows AND mouth together and reads clearly at 56 px.
+BACKGROUND: fully transparent (real alpha). If you cannot output transparency, use one flat solid pure magenta #FF00FF background with no gradient, no floor and no cast shadow on the ground, and no magenta anywhere in the subject. Leave an empty margin of at least 10% of the cell around every object; nothing may touch or cross a cell edge. No grid lines, no labels, no numbers.

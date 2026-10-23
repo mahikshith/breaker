@@ -1,0 +1,11 @@
+HOUSE STYLE (match exactly): premium glossy 3D render, as if made in Blender Cycles. Characters are glossy vinyl toys; props and bricks are glazed ceramic or polished metal with a thick clear coat, crisp highlight bands and slightly rounded bevels. People use chibi proportions (head about 40% of total height, stubby limbs). One soft warm key light from the top-left (about #FFDBB8), a cool blue fill from the right (#8CA6FF), a faint pink bounce from below (#FF80A6); shadows fall down and to the right. Saturated but never neon colours, very little yellow (gold is a small accent only). Plain calm dark navy background (#141831) that never outshines the subject. Faces are the most important part: big glossy eyes with lids, brows and a mouth that clearly changes between expressions, never blank or identical faces. Orthographic camera, no perspective distortion. NOT: pixel art, flat vector clip art, cel-shaded anime, photorealism, wisps or ghost blobs, snake bodies made of ball chains, round blob heads, one face copied onto every character, long dangly-armed creatures. No text, no watermark, no logo.
+
+Use case: stylized-concept.
+Asset type: 3D diorama difficulty progression board across 11 chapters, landscape 1536x1024 on a plain calm dark navy #141831 background.
+Primary request: Eleven stepped glazed-ceramic plinth columns arranged left to right in a sawtooth pressure wave representing Chapters 1 to 11 of BREACH. Each plinth stack shows three glossy colour-coded ceramic height bars: teal #22C4B0 for Easy, blue #4F9DFF for Medium, and coral-red #FF4D5E for Hard.
+- Plinths 1 to 4 rise steadily from space gunmetal tiles into Plinth 5 (Frost Warden, ice-blue peak with a small silver boss crown).
+- Plinth 6 dips into a violet breather pedestal (#8F5CF0).
+- Plinths 7, 8 and 9 climb steeply in castle brick-red and bronze up to a tall three-tiered Gatehouse peak at Plinth 9 (with Korr's ruby-and-plum boar crest).
+- Plinth 10 dips into a rose-pink breather pedestal (#FF80A6, Lumi's tiara motif).
+- Plinth 11 towers highest with intertwined emerald (#168F83) and violet (#7A3CCC) serpent crests.
+Quality checks: thick clear-coat ceramic sheen, crisp top-left highlights (#FFDBB8), no flat 2D chart lines, no plain circles or rings, no text.

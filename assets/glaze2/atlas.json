@@ -1,0 +1,923 @@
+{
+ "source": "art/glaze2/build.py (M365 Copilot glaze v2 sheet, 2026-10-23)",
+ "sprites": {
+  "brick_y_1_0": {
+   "file": "brick_y_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_y_1_1": {
+   "file": "brick_y_1_1.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_y_1_2": {
+   "file": "brick_y_1_2.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_y_1_x": {
+   "file": "brick_y_1_x.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_y_2_0": {
+   "file": "brick_y_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_y_2_1": {
+   "file": "brick_y_2_1.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_y_2_2": {
+   "file": "brick_y_2_2.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_y_2_x": {
+   "file": "brick_y_2_x.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_c_1_0": {
+   "file": "brick_c_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_c_1_1": {
+   "file": "brick_c_1_1.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_c_1_2": {
+   "file": "brick_c_1_2.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_c_1_x": {
+   "file": "brick_c_1_x.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_c_2_0": {
+   "file": "brick_c_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_c_2_1": {
+   "file": "brick_c_2_1.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_c_2_2": {
+   "file": "brick_c_2_2.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_c_2_x": {
+   "file": "brick_c_2_x.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_v_1_0": {
+   "file": "brick_v_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_v_1_1": {
+   "file": "brick_v_1_1.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_v_1_2": {
+   "file": "brick_v_1_2.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_v_1_x": {
+   "file": "brick_v_1_x.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_v_2_0": {
+   "file": "brick_v_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_v_2_1": {
+   "file": "brick_v_2_1.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_v_2_2": {
+   "file": "brick_v_2_2.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_v_2_x": {
+   "file": "brick_v_2_x.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_t_1_0": {
+   "file": "brick_t_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_t_1_1": {
+   "file": "brick_t_1_1.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_t_1_2": {
+   "file": "brick_t_1_2.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_t_1_x": {
+   "file": "brick_t_1_x.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_t_2_0": {
+   "file": "brick_t_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_t_2_1": {
+   "file": "brick_t_2_1.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_t_2_2": {
+   "file": "brick_t_2_2.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_t_2_x": {
+   "file": "brick_t_2_x.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_b_1_0": {
+   "file": "brick_b_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_b_1_1": {
+   "file": "brick_b_1_1.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_b_1_2": {
+   "file": "brick_b_1_2.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_b_1_x": {
+   "file": "brick_b_1_x.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_b_2_0": {
+   "file": "brick_b_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_b_2_1": {
+   "file": "brick_b_2_1.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_b_2_2": {
+   "file": "brick_b_2_2.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_b_2_x": {
+   "file": "brick_b_2_x.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "brick"
+  },
+  "brick_gold_1_0": {
+   "file": "brick_gold_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "gold"
+  },
+  "brick_gold_1_1": {
+   "file": "brick_gold_1_1.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "gold"
+  },
+  "brick_gold_1_2": {
+   "file": "brick_gold_1_2.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "gold"
+  },
+  "brick_granite_1_0": {
+   "file": "brick_granite_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "kind": "granite"
+  },
+  "brick_gold_2_0": {
+   "file": "brick_gold_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "gold"
+  },
+  "brick_gold_2_1": {
+   "file": "brick_gold_2_1.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "gold"
+  },
+  "brick_gold_2_2": {
+   "file": "brick_gold_2_2.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "gold"
+  },
+  "brick_granite_2_0": {
+   "file": "brick_granite_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "granite"
+  },
+  "brick_coin_2_0": {
+   "file": "brick_coin_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "hoard"
+  },
+  "brick_chest_2_0": {
+   "file": "brick_chest_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "hoard"
+  },
+  "brick_chest_2_1": {
+   "file": "brick_chest_2_1.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "kind": "hoard"
+  }
+ }
+}

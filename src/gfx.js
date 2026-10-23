@@ -15,6 +15,9 @@ export const loadImg = url => {
 export const artLoaded = () => Promise.all(pending);   // resolves once every rendered image has decoded
 export const SPR = {};
 for (const [k, s] of Object.entries(ART?.sprites || {})) SPR[k] = { img: loadImg(s.url), ...s };
+// Glaze v2 bricks replace the Vault brick sprites key for key; ?glaze=v1 keeps the old set for side-by-side shots.
+const GLAZE_V1 = typeof location !== 'undefined' && /[?&]glaze=v1\b/.test(location.search);
+if (!GLAZE_V1) for (const [k, s] of Object.entries(ART?.glaze2 || {})) SPR[k] = { img: loadImg(s.url), ...s };
 export const ready = s => !!(s && s.img.complete && s.img.naturalWidth);
 export function drawStretchPaddle(g, part, p) {
   if (!ready(part)) return;

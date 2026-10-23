@@ -1,0 +1,12 @@
+HOUSE STYLE (match exactly): premium glossy 3D render, as if made in Blender Cycles. Characters are glossy vinyl toys; props and bricks are glazed ceramic or polished metal with a thick clear coat, crisp highlight bands and slightly rounded bevels. People use chibi proportions (head about 40% of total height, stubby limbs). One soft warm key light from the top-left (about #FFDBB8), a cool blue fill from the right (#8CA6FF), a faint pink bounce from below (#FF80A6); shadows fall down and to the right. Saturated but never neon colours, very little yellow (gold is a small accent only). Plain calm dark navy background (#141831) that never outshines the subject. Faces are the most important part: big glossy eyes with lids, brows and a mouth that clearly changes between expressions, never blank or identical faces. Orthographic camera, no perspective distortion. NOT: pixel art, flat vector clip art, cel-shaded anime, photorealism, wisps or ghost blobs, snake bodies made of ball chains, round blob heads, one face copied onto every character, long dangly-armed creatures. No text, no watermark, no logo.
+
+Use case: stylized-concept.
+Asset type: portrait phone UI mock-up (9:19.5 aspect ratio, 1080x2340 or tallest portrait available) showing the BREACH Continue & Unlock panel AT REST over a dimmed Gatehouse Siege playfield (#0A0C18 at 78% opacity).
+Primary request: A chunky bevelled dark-navy ceramic modal frame (#141831 with slate #4A4F6E trim and brass corner rivets) centred inside the safe area:
+- Top banner: glossy coral-red plaque (#FF4D5E) with rounded playful lettering "SO CLOSE!".
+- Almost-achieved card (#22284A): on the left, chibi knight Kit's worried face in his cobalt open-face helmet; on the right, ruby-and-plum armoured boar Korr looking hurt with only a tiny sliver left on a glowing teal ceramic progress bar (#22C4B0) labelled "3 HP LEFT".
+- Below the card: a slim horizontal teal crystal fuse bar (#2EC4B6).
+- Primary CTA button: wide chunky glazed mint-green button (#7BD88F) with a small brass clapperboard icon and bold dark text "WATCH 3s AD - CONTINUE", with two small chrome life-ball pips underneath.
+- Secondary Unlock card: royal blue glazed plaque (#4F9DFF) with thin brass trim (#F4C542) and a small knight crown emblem labelled "UNLOCK FULL GAME $2.99".
+- Bottom row: two side-by-side bevelled slate buttons (#3A3F55 and #22284A) labelled "RETRY" and "MENU".
+Quality checks: all buttons sit well inside top notch and bottom home-indicator safe zones; no plain circles or rings; minimal yellow.

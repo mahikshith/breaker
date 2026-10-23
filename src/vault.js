@@ -58,7 +58,9 @@ const SNAKE_DATA = ART?.snakeEmerald || ART?.snakeJade;
 const SNAKE = SNAKE_DATA ? { ...SNAKE_DATA, img: load(SNAKE_DATA.url) } : null;
 let snakeTurnCanvas = null;
 function brickArt(kind, cells, dmg) {
-  const s = IMG[`brick_${LETTER[kind]}_${cells}_${kind === GOLD || kind === GRANITE ? 0 : dmg}`];
+  const d = kind === GOLD || kind === GRANITE ? 0 : dmg;
+  // An unhit two-hit brick wears the glaze v2 glass frame (brick_*_x) when that set is loaded.
+  const s = (d === 0 && HP[kind] === 2 && IMG[`brick_${LETTER[kind]}_${cells}_x`]) || IMG[`brick_${LETTER[kind]}_${cells}_${d}`];
   if (ready(s)) return { img: s.img, ox: s.margin, oy: s.margin, iw: s.uw, ih: s.uh };
   const w = cells * CELL, h = CELL;
   const cv = brick(COLORS[kind], w - 1, h - 1, { depth: 4, crack: dmg, metal: kind === GRANITE, glyph: kind === GRANITE ? 'rivet' : kind === GOLD ? 'gem' : '' });

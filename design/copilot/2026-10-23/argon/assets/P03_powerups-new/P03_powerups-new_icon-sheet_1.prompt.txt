@@ -1,0 +1,16 @@
+HOUSE STYLE (match exactly): premium glossy 3D render, as if made in Blender Cycles. Characters are glossy vinyl toys; props and bricks are glazed ceramic or polished metal with a thick clear coat, crisp highlight bands and slightly rounded bevels. People use chibi proportions (head about 40% of total height, stubby limbs). One soft warm key light from the top-left (about #FFDBB8), a cool blue fill from the right (#8CA6FF), a faint pink bounce from below (#FF80A6); shadows fall down and to the right. Saturated but never neon colours, very little yellow (gold is a small accent only). Plain calm dark navy background (#141831) that never outshines the subject. Faces are the most important part: big glossy eyes with lids, brows and a mouth that clearly changes between expressions, never blank or identical faces. Orthographic camera, no perspective distortion. NOT: pixel art, flat vector clip art, cel-shaded anime, photorealism, wisps or ghost blobs, snake bodies made of ball chains, round blob heads, one face copied onto every character, long dangly-armed creatures. No text, no watermark, no logo.
+
+Use case: production sprite sheet of new power-up icons and falling capsules.
+Asset type: 3 columns by 3 rows, landscape 1536x1024, nine separate 3D objects, each centred in its own cell with a strong silhouette that reads at 48 px. Lit from the top-left (#FFDBB8) with thick clear-coat highlights.
+Top row (Top 3 physical power icons):
+1. SPARK ICON: a chunky faceted electric-mint crystal fork (#4CE0B3) set in a small copper coil cap with two sharp 4-pointed star glints.
+2. MAGNET ICON: a glossy rose-magenta horseshoe toy magnet (#E85D9A) with polished chrome pole tips and two tiny chrome ball bearings clinging to the tips.
+3. COLOSSUS ICON: a giant crimson-plum glazed armour sphere (#B8336A) with heavy twin brass horns and a bevelled steel brow plate.
+Middle and bottom rows (6 horizontal falling capsules, 1.85:1 aspect ratio, brushed steel end caps, coloured glossy body, thick clear coat, one small embossed symbol in the centre, no letters):
+4. SPARK CAPSULE: electric mint #4CE0B3 body, embossed jagged fork bolt symbol.
+5. MAGNET CAPSULE: rose magenta #E85D9A body, embossed horseshoe symbol.
+6. COLOSSUS CAPSULE: crimson plum #B8336A body, embossed horned sphere symbol.
+7. QUAKE CAPSULE: terracotta bronze #C87D55 body, embossed cracked brick symbol.
+8. ORBIT CAPSULE: periwinkle indigo #8E7CC3 body, embossed two small satellite dots flanking a paddle bar (no thin ring).
+9. PORTAL CAPSULE: royal sapphire #3B6EF6 body, embossed stone arch keystone symbol.
+BACKGROUND: fully transparent (real alpha). If you cannot output transparency, use one flat solid pure magenta #FF00FF background with no gradient, no floor and no cast shadow on the ground, and no magenta anywhere in the subject. Leave an empty margin of at least 10% of the cell around every object; nothing may touch or cross a cell edge. No grid lines, no labels, no numbers.
