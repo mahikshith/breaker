@@ -1,26 +1,31 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { reflect } from './bellforge.js';
-import { SPEED, RAM, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { SPEED, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { plural, hpLeft } from '../near-miss.js';
+import { Sitter } from './creatures/sitter.js';
+import { EMBER } from './creatures/ember.js';
 import { ejectBall } from '../clearance.js';
 
 // Dragon's Hoard: Kit robs Ember, a vain dragon asleep on his hoard behind the cave ledge (scenery: the ledge is the
 // ceiling, Ember never collides). Gold opens Ember's Wake eye; Hush Chimes close it. Floor 1 hides the Crown chest in the
 // coin mound, floor 2 ends on the greed choice (run now, or stay and loot for x1.5/x2 while the eye creeps open), floor 3
 // is the avalanche: the hoard slides down a row at a time while Kit breaks the cave gate in the ceiling.
+// Ember is the first "big sitter" boss (src/fantasy/creatures/sitter.js, skin src/fantasy/creatures/ember.js): his tells,
+// poses and moods run on the shared archetype; this file owns what is Ember's job here (the eye, greed, the hoard).
 // Design: design/phase2/dragons-hoard.md (merged spec at the top).
 const STEP = 1 / 240;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
 // wakeAt: gold units (coin 1, chest 2) from a closed eye to 100. chime: eye points a lit Hush Chime takes back.
-// tell: every Ember tell. roar: floor-2 roar interval. hazard: floor-3 breath/roar interval. march: floor-3 slide interval.
+// Ember's tell, release and calm are his skin's numbers. roar: floor-2 roar interval. hazard: floor-3 breath/roar interval. march: floor-3 slide interval.
 // crown / weight / gate: goal HP. molten: seconds before molten gold hardens. stay: eye points per second while greedy.
 export const HOARD_MODES = {
-  easy: { wakeAt: 12, chime: 25, tell: 1.8, roar: 9.5, hazard: 7.5, march: 5.6, crown: 5, weight: 4, gate: 12, molten: 5, stay: 1.6, coreHits: 18 },
-  medium: { wakeAt: 10, chime: 25, tell: 1.6, roar: 8.5, hazard: 6.5, march: 4.4, crown: 6, weight: 5, gate: 16, molten: 4, stay: 2.2, coreHits: 22 },
-  hard: { wakeAt: 8, chime: 20, tell: 1.4, roar: 7.5, hazard: 5.5, march: 3.9, crown: 7, weight: 6, gate: 20, molten: 3.2, stay: 2.8, coreHits: 26 },
+  easy: { wakeAt: 12, chime: 25, roar: 9.5, hazard: 7.5, march: 5.6, crown: 5, weight: 4, gate: 12, molten: 5, stay: 1.6, coreHits: 18 },
+  medium: { wakeAt: 10, chime: 25, roar: 8.5, hazard: 6.5, march: 4.4, crown: 6, weight: 5, gate: 16, molten: 4, stay: 2.2, coreHits: 22 },
+  hard: { wakeAt: 8, chime: 20, roar: 7.5, hazard: 5.5, march: 3.9, crown: 7, weight: 6, gate: 20, molten: 3.2, stay: 2.8, coreHits: 26 },
 };
 export const HOARD_FLOORS = ['Coin mound', 'Ember stirs', 'Avalanche'];
-export const HOARD_TIMING = { climb: 1.2, escape: 2.6, ward: 6, volley: 2.5, arrows: 5, wide: 8, chimeCool: 8, calm: 3, release: .6, scorch: 3, stripe: 72,
+export const HOARD_TIMING = { climb: 1.2, escape: 2.6, ward: 6, volley: 2.5, arrows: 5, wide: 8, chimeCool: 8, scorch: 3, stripe: 72,
   reset: 40, yawn: 6, slide: .35, lift: .6, liftRows: 3, firstHazard: 5 };
 // Greed: gold units collected after choosing to stay -> multiplier. Rage on floor 3 from the eye at the end of floor 2.
 export const GREED = { steps: [4, 8], mult: [1, 1.5, 2], spill: 10 };
@@ -84,7 +89,7 @@ export class DragonsHoard {
     this.state = 'play'; this.paused = false; this.continued = false; this.reason = ''; this.effects = [];
     this.charge = 0; this.chargeBank = 0; this.ward = null; this.volley = null; this.shots = []; this.capsules = [];
     this.wake = 0; this.wakes = 0; this.loot = 0; this.banked = 0; this.mult = 1; this.greed = null; this.rage = 0; this.capsuleSerial = 0;
-    this.taught = { roar: false, breath: false }; this.moods = { lost: -9, treasure: -9, chime: -9 };
+    this.taught = { roar: false, breath: false };
     this.paddle = { x: width / 2, px: width / 2, y: paddleY, w: 100, baseW: 100, wide: 0, scorch: 0, h: 14, targetX: width / 2, vx: 0, stun: 0, streak: 0, armed: false };
     this.buildFloor(clamp(floor | 0, 0, 2));
   }
@@ -96,7 +101,7 @@ export class DragonsHoard {
     const L = HOARD_LAYOUT, map = HOARD_MAPS[n], rows = map.length, C = L.ceiling;
     this.floor = n; this.floorTime = 0; this.active = false; this.phase = 'serve'; this.transition = 0;
     this.capsules = []; this.shots = []; this.slide = null; this.fieldDy = 0; this.march = null; this.gate = null; this.transitionKind = '';
-    this.ember = { stage: 'idle', kind: '', until: 0, at: 0, stripe: null, row: null, teaching: false, calm: 0 };
+    this.ember = new Sitter(EMBER, this.difficulty);
     this.nextHazard = n === 0 ? Infinity : HOARD_TIMING.firstHazard + (n === 1 ? 1 : 0);
     if (n === 2) { this.wake = 100; this.march = { next: this.rules.march * RAGE.march[this.rage] }; }
     const bottom = this.paddle.y - L.gap[n] + (n === 2 ? RAGE.rows[this.rage] * L.rowPitch : 0);
@@ -134,7 +139,7 @@ export class DragonsHoard {
     if (this.paused || this.state !== 'play' || this.phase !== 'serve' || !Number.isFinite(angle)) return false;
     const a = clamp(angle, -Math.PI + .25, -.25), b = this.balls[0];
     b.caught = false; b.vx = Math.cos(a) * SPEED; b.vy = Math.sin(a) * SPEED;
-    this.phase = 'play'; this.active = true; return true;
+    this.phase = 'play'; this.active = true; this.backHold = false; return true;
   }
   ramPierce(brick) { return ORDINARY.has(brick?.kind); }
   // ---------- Kit's powers ----------
@@ -191,7 +196,7 @@ export class DragonsHoard {
     if (this.phase === 'greed') { this.time += dt; return; }   // the choice card freezes play (balls hold their flight)
     if (this.phase === 'serve') {
       const b = this.balls[0]; b.px = b.x; b.py = b.y; b.x = p.x; b.y = p.y - 8;
-      this.serveTime += dt; if (this.serveTime >= (this.active ? 3 : 8)) this.launch(-Math.PI / 2 + .15);
+      if (!this.backHold) { this.serveTime += dt; if (this.serveTime >= (this.active ? 3 : 8)) this.launch(-Math.PI / 2 + .15); }   // after a Continue the serve waits for the player
     }
     if (!this.active) return;
     this.time += dt; this.floorTime += dt;
@@ -205,6 +210,7 @@ export class DragonsHoard {
     }
     if (this.greed && this.floor === 1) { this.addWake(this.rules.stay * dt, true); if (this.phase !== 'play' && this.phase !== 'serve') return; }
     this.updateEmber();
+    this.ember.setPose(this.emberFace(), this.balls, (x, y) => x >= 6 && x <= this.width - 6 && y >= this.ceiling + 6);
     if (this.floor === 2) { this.updateMarch(dt); if (this.state !== 'play') return; }
     for (const c of this.capsules) this.moveCapsule(c, dt);
     this.capsules = this.capsules.filter(c => !c.dead);
@@ -212,7 +218,7 @@ export class DragonsHoard {
     for (const b of this.balls) if (!b.caught && !b.dead) { this.moveBall(b, dt); if (this.phase !== 'play') return; }
     this.balls = this.balls.filter(b => !b.dead);
     if (!this.balls.length) {
-      this.lives--; p.streak = 0; this.moods.lost = this.time; this.effect(p.x, p.y, 'ball-lost', .6);
+      this.lives--; p.streak = 0; this.ember.feel('lost', this.time); this.effect(p.x, p.y, 'ball-lost', .6);
       if (this.lives <= 0) this.lose('Ember kept his gold'); else this.makeServe();
     }
   }
@@ -240,7 +246,7 @@ export class DragonsHoard {
   // Gold opens the eye (floors 1-2). While a chime has him calm, gold adds nothing. passive: the greedy stay's creep.
   addWake(points, passive = false) {
     if (this.floor === 2 || points <= 0) return;
-    if (!passive && this.floorTime < this.ember.calm) return;
+    if (!passive && this.ember.calmAt(this.floorTime)) return;
     this.wake = Math.min(100, this.wake + points);
     if (this.greed && this.wake >= 100) this.caught();
   }
@@ -249,9 +255,9 @@ export class DragonsHoard {
     this.effect(this.width / 2, this.ceiling, 'caught', 1.2); this.finishFloor('caught');
   }
   updateEmber() {
-    const e = this.ember, r = this.rules;
-    if (e.stage === 'windup') { if (this.floorTime >= e.until) this.release(); return; }
-    if (e.stage === 'release') { if (this.floorTime >= e.until) { e.stage = 'idle'; e.kind = ''; e.stripe = null; e.row = null; } return; }
+    const e = this.ember, ev = e.tick(this.floorTime);
+    if (ev === 'release') return this.release();
+    if (ev || e.busy) return;
     if (this.floor < 2 && this.wake >= 100 && !this.greed) return this.windup('wake');
     if (this.floorTime < this.nextHazard) return;
     if (this.floor === 1) return this.windup('roar');
@@ -261,25 +267,23 @@ export class DragonsHoard {
   set hazardTurn(v) { this._turn = v; }
   // A tell: a roar marks a scorch stripe where the paddle is now; a breath marks the row nearest the ball.
   windup(kind) {
-    const e = this.ember, p = this.paddle;
-    e.stage = 'windup'; e.kind = kind; e.at = this.floorTime; e.until = this.floorTime + this.rules.tell; e.stripe = null; e.row = null;
-    const fire = kind === 'breath' ? 'breath' : 'roar'; e.teaching = !this.taught[fire]; this.taught[fire] = true;
-    if (kind !== 'breath') e.stripe = { x: clamp(p.x, HOARD_TIMING.stripe / 2, this.width - HOARD_TIMING.stripe / 2), w: HOARD_TIMING.stripe };
-    if (kind !== 'roar') e.row = kind === 'breath' ? this.breathRow() : this.lowestRow();
-    this.effect(e.stripe ? e.stripe.x : this.width / 2, e.stripe ? p.y : this.rowY(e.row), kind === 'breath' ? 'breath-warning' : 'roar-warning', this.rules.tell, { teaching: e.teaching, row: e.row, kind });
+    const e = this.ember, p = this.paddle, fire = kind === 'breath' ? 'breath' : 'roar', teaching = !this.taught[fire]; this.taught[fire] = true;
+    const stripe = kind !== 'breath' ? { x: clamp(p.x, HOARD_TIMING.stripe / 2, this.width - HOARD_TIMING.stripe / 2), w: HOARD_TIMING.stripe } : null;
+    const row = kind !== 'roar' ? (kind === 'breath' ? this.breathRow() : this.lowestRow()) : null;
+    e.windup(kind, this.floorTime, { stripe, row }, teaching);
+    this.effect(stripe ? stripe.x : this.width / 2, stripe ? p.y : this.rowY(row), kind === 'breath' ? 'breath-warning' : 'roar-warning', e.n.tell, { teaching, row, kind });
   }
   release() {
-    const e = this.ember, p = this.paddle;
-    e.stage = 'release'; e.until = this.floorTime + HOARD_TIMING.release;
-    if (e.stripe) {
-      const hit = !e.teaching && Math.abs(p.x - e.stripe.x) < p.w / 2 + e.stripe.w / 2;
+    const e = this.ember, p = this.paddle, { stripe, row } = e.payload;
+    if (stripe) {
+      const hit = !e.teaching && Math.abs(p.x - stripe.x) < p.w / 2 + stripe.w / 2;
       if (hit) { p.scorch = HOARD_TIMING.scorch; this.effect(p.x, p.y, 'scorch', .8); }
-      this.effect(e.stripe.x, p.y, 'roar', .8, { teaching: e.teaching, hit });
+      this.effect(stripe.x, p.y, 'roar', .8, { teaching: e.teaching, hit });
     }
-    if (e.row !== null && !e.teaching) this.melt(e.row);
-    if (e.row !== null) this.effect(this.width / 2, this.rowY(e.row), 'breath', .7, { row: e.row, teaching: e.teaching });
+    if (row !== null && !e.teaching) this.melt(row);
+    if (row !== null) this.effect(this.width / 2, this.rowY(row), 'breath', .7, { row, teaching: e.teaching });
     if (e.kind === 'wake') { this.wake = HOARD_TIMING.reset; this.wakes++; }
-    else this.nextHazard = this.floorTime + HOARD_TIMING.release + (this.floor === 2 ? this.rules.hazard : this.rules.roar * (this.greed ? .8 : 1));
+    else this.nextHazard = this.floorTime + e.n.release + (this.floor === 2 ? this.rules.hazard : this.rules.roar * (this.greed ? .8 : 1));
     if (e.teaching) this.effect(this.width / 2, this.ceiling + 20, 'yawn', 1.2);
   }
   rowsWith(set) { const rows = new Map(); for (const b of this.bricks) if (b.hp > 0 && b.field && set.has(b.kind)) rows.set(b.row, (rows.get(b.row) || 0) + 1); return rows; }
@@ -298,19 +302,11 @@ export class DragonsHoard {
       this.effect(b.x + b.w / 2, b.y + b.h / 2, 'melt', .5);
     }
   }
-  // Pure: which of Ember's eight rendered busts shows now.
+  // Pure: Ember's pose now (a sitter pose name; the skin maps it to art). The Hoard's own moments override the archetype.
   emberFace() {
-    if (this.state === 'won' || this.phase === 'escape') return 'defeat';
-    const e = this.ember, t = this.time;
-    if (this.phase === 'climb' && this.transitionKind === 'caught') return 'attack';
-    if (e.stage === 'windup') return 'windup';
-    if (e.stage === 'release') return 'attack';
-    if (t - this.moods.chime < 1.6) return 'stagger';
-    if (t - this.moods.treasure < .9) return 'hurt';
-    if (t - this.moods.lost < 1.6) return 'taunt';
-    if (this.phase === 'greed') return 'panic';
-    if (this.floor === 2) return this.gate && this.gate.hp / this.gate.maxHP < .35 ? 'panic' : 'taunt';
-    return this.wake >= 60 ? 'taunt' : 'idle';
+    const over = this.state === 'won' || this.phase === 'escape' ? 'defeat' : this.phase === 'climb' && this.transitionKind === 'caught' ? 'breath' : this.phase === 'greed' ? 'panic' : null;
+    const rest = this.floor === 2 ? (this.gate && this.gate.hp / this.gate.maxHP < .35 ? 'panic' : 'stir') : this.wake >= 60 ? 'stir' : 'sleep';
+    return this.ember.choose({ t: this.time, override: over, rest });
   }
   // ---------- floor 3: the avalanche ----------
   updateMarch(dt) {
@@ -339,7 +335,7 @@ export class DragonsHoard {
   }
   // The hoard reached the line: Kit loses a ball's worth of life and the pile is shoved back up three rows.
   crash() {
-    this.lives--; this.moods.lost = this.time; this.effect(this.width / 2, this.dangerY, 'avalanche', .9);
+    this.lives--; this.ember.feel('crash', this.time); this.effect(this.width / 2, this.dangerY, 'avalanche', .9);
     if (this.lives <= 0) { this.lose('The hoard buried Kit'); return; }
     this.startSlide(-Math.min(HOARD_TIMING.liftRows * HOARD_LAYOUT.rowPitch, this.fieldDy), HOARD_TIMING.lift);
     this.march.next = Math.max(this.march.next, this.floorTime + HOARD_TIMING.lift + this.rules.march);
@@ -401,15 +397,15 @@ export class DragonsHoard {
   credit(n) { this.chargeBank = Math.min((100 - this.charge) * this.rules.coreHits / 100, this.chargeBank + n); }
   hitBrick(brick, ball) {
     if (brick.hp <= 0) return;
-    const free = !(ball?.ram > 0) && !ball?.arrow, cx = brick.x + brick.w / 2, cy = brick.y + brick.h / 2, fx = { w: brick.w, h: brick.h, colour: brick.colour, kind: brick.kind };
+    const free = !(ball?.ram > 0) && !ball?.arrow, cx = brick.x + brick.w / 2, cy = brick.y + brick.h / 2, fx = { w: brick.w, h: brick.h, colour: brick.colour, type: brick.kind };
     if (brick.kind === 'chime') return this.strikeChime(brick);
     if (brick.kind === 'crown' || brick.kind === 'weight') {
-      const n = Math.min(brick.hp, ball?.ram > 0 ? RAM.damage : 1); brick.hp -= n; this.score += 25 * n; this.moods.treasure = this.time;
+      const n = Math.min(brick.hp, ball?.ram > 0 ? RAM.damage : 1); brick.hp -= n; this.score += 25 * n; this.ember.feel('treasure', this.time);
       if (free) this.credit(1);
       this.effect(cx, cy, brick.hp ? `${brick.kind}-hit` : `${brick.kind}-break`, brick.hp ? .4 : 1, { ...fx, hp: brick.hp, maxHP: brick.maxHP });
       if (brick.hp) return;
       if (brick.kind === 'crown') return this.finishFloor('crown');
-      if (this.bricks.every(q => q.kind !== 'weight' || q.hp <= 0)) { this.phase = 'greed'; this.effect(this.width / 2, this.ceiling, 'exit-open', 1.2); }
+      if (this.bricks.every(q => q.kind !== 'weight' || q.hp <= 0)) { this.ember.reset(); this.nextHazard = Math.max(this.nextHazard, this.floorTime + 3); this.phase = 'greed'; this.effect(this.width / 2, this.ceiling, 'exit-open', 1.2); }
       return;
     }
     brick.hp--;
@@ -427,22 +423,22 @@ export class DragonsHoard {
     }
     // The pile picked clean: Kit runs on his own with the multiplier he earned.
     if (gold && this.greed && this.floor === 1 && !this.greed.caught && !this.goldLeft()) { this.effect(this.width / 2, this.ceiling, 'run', .8); this.effect(cx, cy, 'brick-break', .7, fx); return this.finishFloor('run'); }
-    if (brick.kind === 'chest') { this.moods.treasure = this.time; this.capsules.push({ id: ++this.serial, kind: CAPSULE_KINDS[this.capsuleSerial++ % CAPSULE_KINDS.length], x: cx, y: cy, dead: false }); }
+    if (brick.kind === 'chest') { this.ember.feel('treasure', this.time); this.capsules.push({ id: ++this.serial, kind: CAPSULE_KINDS[this.capsuleSerial++ % CAPSULE_KINDS.length], x: cx, y: cy, dead: false }); }
     this.effect(cx, cy, 'brick-break', .7, fx);
     this.rowCleared(brick.row);
   }
   strikeChime(c) {
     this.score += 15; this.effect(c.x + c.w / 2, c.y + c.h / 2, c.lit ? 'chime' : 'chime-dim', c.lit ? 1.2 : .25);
     if (!c.lit) return false;
-    c.lit = false; c.cool = HOARD_TIMING.chimeCool; this.moods.chime = this.time;
-    this.wake = Math.max(0, this.wake - this.rules.chime); this.ember.calm = this.floorTime + HOARD_TIMING.calm;
-    // A lullaby during a tell settles him: the roar fizzles, nothing lands.
-    const e = this.ember; if (e.stage === 'windup') { e.stage = 'idle'; e.kind = ''; e.stripe = null; e.row = null; this.nextHazard = Math.max(this.nextHazard, this.floorTime + 3); this.effect(this.width / 2, this.ceiling + 20, 'hush', 1); }
+    c.lit = false; c.cool = HOARD_TIMING.chimeCool; this.ember.feel('chime', this.time);
+    this.wake = Math.max(0, this.wake - this.rules.chime);
+    // A lullaby calms him; during a tell it settles him: the roar fizzles, nothing lands.
+    if (this.ember.hush(this.floorTime)) { this.nextHazard = Math.max(this.nextHazard, this.floorTime + 3); this.effect(this.width / 2, this.ceiling + 20, 'hush', 1); }
     return true;
   }
   hitGate(n, x = this.width / 2) {
     const g = this.gate; if (!g || g.hp <= 0) return;
-    g.hp = Math.max(0, g.hp - n); this.score += 30 * n; this.moods.treasure = this.time;
+    g.hp = Math.max(0, g.hp - n); this.score += 30 * n; this.ember.feel('treasure', this.time);
     this.effect(x, this.ceiling, g.hp ? 'gate-hit' : 'gate-break', g.hp ? .45 : 1.2, { hp: g.hp });
     if (!g.hp) this.finishFloor('gate');
   }
@@ -477,16 +473,27 @@ export class DragonsHoard {
     if (kind === 'multi' && this.balls.length < 4) { const a = -Math.PI / 2 - .5; this.balls.push(this.newBall(p.x, p.y - 8, Math.cos(a) * SPEED, Math.sin(a) * SPEED)); }
   }
   lose(reason) { if (this.state !== 'play') return; this.state = 'lost'; this.reason = reason; }
-  // Continue keeps the floor, the bricks, the eye, the loot and the greed; Ember settles and waits 3 s.
+  // Continue keeps the floor, the bricks, the eye, the loot and the greed; Ember settles and waits 3 s. Back in action: the
+  // ball waits on the paddle with a 3 s Ward under it, and every clock (march, hazards, molten timers) holds until the serve.
   continue() {
     if (this.continued || this.state !== 'lost') return false;
     this.continued = true; this.state = 'play'; this.reason = ''; this.lives = Math.max(2, this.lives);
-    this.capsules = []; this.shots = []; this.volley = null; this.ward = null; this.paddle.scorch = 0;
-    Object.assign(this.ember, { stage: 'idle', kind: '', stripe: null, row: null });
+    this.capsules = []; this.shots = []; this.volley = null; this.paddle.scorch = 0; this.slide = null;
+    this.ember.reset();
     if (this.floor < 2) this.wake = Math.min(this.wake, 100 - this.rules.chime);
     this.nextHazard = Math.max(this.nextHazard, this.floorTime + 3);
     if (this.march) this.march.next = Math.max(this.march.next, this.floorTime + 3 + this.rules.march);
-    this.makeServe(); return true;
+    this.makeServe(); this.ward = { y: this.paddle.y + 24, remaining: BACK_WARD }; this.active = false; this.backHold = true; return true;
+  }
+  // Continue panel copy: the Crown chest, then the counterweights (or the greed run), then the cave gate.
+  nearMiss() {
+    const goal = this.bricks.filter(b => b.kind === 'crown' || b.kind === 'weight'), hp = goal.reduce((n, b) => n + Math.max(0, b.hp), 0), max = goal.reduce((n, b) => n + b.maxHP, 0) || 1;
+    let line, part;
+    if (this.floor === 2) { line = hpLeft('THE CAVE GATE', this.gate.hp); part = 1 - this.gate.hp / this.gate.maxHP; }
+    else if (this.floor === 0) { line = hpLeft('THE CROWN CHEST', hp); part = 1 - hp / max; }
+    else if (hp > 0) { line = `${plural(hp, 'HIT')} TO DROP THE COUNTERWEIGHTS`; part = 1 - hp / max; }
+    else { line = `RUN WITH ${this.loot} LOOT`; part = .95; }
+    return { line, progress: Math.min(.99, (this.floor + part) / 3), stage: ['FLOOR', this.floor + 1, 3] };
   }
   effect(x, y, kind, life, details = {}) {
     const fx = { x, y, kind, age: 0, life, ...details }; this.effects.push(fx); if (this.effects.length > 80) this.effects.shift(); return fx;

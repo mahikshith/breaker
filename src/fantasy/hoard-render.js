@@ -4,13 +4,14 @@ import { HOARD_FLOORS, HOARD_TIMING, HOARD_LAYOUT, GREED, RAGE } from './hoard.j
 import { glow, sparks, chips, dust, rnd, clamp01, smooth, gBanner, gPaddle, gBall, gWard, skinFor, slab, pips, CLIMB } from './render.js';
 import { lbrick, star } from './lumi-render.js';
 import { rCapsule, rArrows } from './rivals-render.js';
+import { EMBER as SKIN, EMBER_ART } from './creatures/ember.js';
 
-// Dragon's Hoard. Ember is a lit bust behind the cave ledge (scenery, no collider): his eight rendered expressions crossfade
-// as the model's emberFace() changes. Every solid is drawn on its model rect: glazed bricks on the 32x16 cells, the Crown chest
+// Dragon's Hoard. Ember is a lit sitter behind the cave ledge (scenery, no collider): each pose draws the first packed art key
+// his skin names (round-2 renders first, the current busts as the fallback) and poses crossfade as the model's emberFace() changes. Every solid is drawn on its model rect: glazed bricks on the 32x16 cells, the Crown chest
 // fitted to its 100x52 block, the Gatehouse counterweight art on each weight's housing rect, and the cave gate's two leaves on
 // the ceiling span the ball strikes. Tells are filled light (a heat column for a roar, a glowing row for a breath), never rings.
 const HS = Object.fromEntries(Object.entries(ART.hoard || {}).map(([k, v]) => [k, { ...v, img: loadImg(v.url) }]));
-const EMBER = { x: 96, y: 147 }, EYE = { x: 306, y: 40, hw: 28, hh: 13 }, CHIP = 228, GOLD = '#ffe3a1', FIRE = '#ff8a3a';
+const EMBER = { x: SKIN.pivot[0], y: SKIN.pivot[1] }, EYE = { x: 306, y: 40, hw: 28, hh: 13 }, CHIP = 228, GOLD = '#ffe3a1', FIRE = '#ff8a3a';
 const COUNTERWEIGHT = [19, 21, 281, 311];
 const add = (ctx, fn) => { ctx.save(); ctx.globalCompositeOperation = 'lighter'; fn(); ctx.restore(); };
 const alpha = ctx => typeof ctx.globalAlpha === 'number' ? ctx.globalAlpha : 1;
@@ -21,6 +22,9 @@ function put(ctx, key, x, y, k = 1, a = 1, rot = 0) {
   else ctx.drawImage(s.img, x - s.anchor[0] * k, y - s.anchor[1] * k, s.uw * k, s.uh * k);
   ctx.globalAlpha = o; return true;
 }
+// The first named key that is packed and decoded (null when none is, so the caller draws its fallback).
+const first = keys => { for (const k of keys || []) if (HS[k] && ready(HS[k])) return k; return null; };
+const poseKey = pose => first(SKIN.poses[pose]?.art) || first(SKIN.poses[SKIN.rest].art);
 function pool(ctx, x, y, rx, ry, colour, a) { ctx.save(); ctx.translate(x, y); ctx.scale(1, ry / rx); glow(ctx, 0, 0, rx, colour, a); ctx.restore(); }
 
 // ---------- buttons (model space; chapter.js hit-tests them) ----------
@@ -32,19 +36,22 @@ export function hoardButtons(g) {
 }
 
 // ---------- cave ----------
-// TODO(art): the cave plate was never rendered. This is a calm placeholder: cool dark rock strata, a faint warm bloom
-// where the hoard sits, no yellow wash. Swap in assets/hoard/cave.png (drawn at width x height) when it lands.
+// The M365 cave plate (option A, rock pillars and the dais at the top): drawn 360 wide from the playfield top, so the dais
+// and terraces sit behind Ember. A taller phone extends the plate's own dark floor colour downward instead of stretching
+// it, and a night shade keeps it well below the bricks. Until the plate decodes, a calm gradient of the same colours.
 function cave(W, H) {
-  return cached(`hoard-cave-${W}-${H}`, W, H, c => {
-    const gr = c.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, '#16121c'); gr.addColorStop(.35, '#120f18'); gr.addColorStop(1, '#09080d'); c.fillStyle = gr; c.fillRect(0, 0, W, H);
-    // Rock strata: low-contrast slanted slabs.
-    for (let i = 0; i < 26; i++) {
-      const y = rnd(i, 1) * H, x = rnd(i, 2) * W - 60, w = 80 + rnd(i, 3) * 160, h = 18 + rnd(i, 4) * 40, l = 8 + rnd(i, 5) * 5;
-      c.fillStyle = `hsl(${250 + rnd(i, 6) * 30} 14% ${l}%)`; c.beginPath(); c.moveTo(x, y + h * .3); c.lineTo(x + w * .2, y); c.lineTo(x + w, y + h * .15); c.lineTo(x + w * .9, y + h); c.lineTo(x + w * .1, y + h * .9); c.closePath(); c.fill();
-      c.fillStyle = '#ffffff08'; c.fillRect(x + w * .25, y + 1, w * .5, 1.2);
+  const P = HS.cave, ok = ready(P);
+  return cached(`hoard-cave-${W}-${H}-${ok ? 1 : 0}`, W, H, c => {
+    const floor = P?.floor || '#040510', ph = ok ? P.uh * W / P.uw : 0;
+    const gr = c.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, '#0d0c1a'); gr.addColorStop(1, floor); c.fillStyle = gr; c.fillRect(0, 0, W, H);
+    if (ok) {
+      c.drawImage(P.img, 0, 0, W, ph);
+      // Feather the plate's bottom edge into the extended floor.
+      const fe = c.createLinearGradient(0, ph - 40, 0, ph); fe.addColorStop(0, floor + '00'); fe.addColorStop(1, floor); c.fillStyle = fe; c.fillRect(0, ph - 40, W, 40);
+      c.fillStyle = floor; c.fillRect(0, ph, W, Math.max(0, H - ph));
     }
-    // The hoard's warm bounce under the ledge, very soft.
-    const wb = c.createRadialGradient(W * .3, 150, 10, W * .3, 150, 260); wb.addColorStop(0, '#ff9a4a1c'); wb.addColorStop(1, '#ff9a4a00'); c.fillStyle = wb; c.fillRect(0, 0, W, H);
+    c.globalAlpha = .28; c.fillStyle = '#04030a'; c.fillRect(0, 0, W, H); c.globalAlpha = 1;
+    const top = c.createLinearGradient(0, 0, 0, 36); top.addColorStop(0, '#0b0a16'); top.addColorStop(1, '#0b0a1600'); c.fillStyle = top; c.fillRect(0, 0, W, 36);   // meets the HUD band without a seam
     const vg = c.createRadialGradient(W / 2, H * .46, H * .25, W / 2, H * .46, H * .8); vg.addColorStop(0, '#0000'); vg.addColorStop(1, '#03020699'); c.fillStyle = vg; c.fillRect(0, 0, W, H);
   });
 }
@@ -68,32 +75,34 @@ function coinPile(ctx, g, st) {
 function drawEmber(ctx, g, st) {
   const face = g.emberFace();
   if (face !== st.face) { st.prev = st.face; st.face = face; st.faceAt = st.clock; }
-  const q = clamp01((st.clock - st.faceAt) / .14), e = g.ember, t = st.clock;
+  const q = clamp01((st.clock - st.faceAt) / .14), e = g.ember, t = st.clock, attack = face === 'breath' || face === 'sweep';
   let dx = 0, dy = Math.sin(t * 1.6) * 1.2, k = 1 + .012 * Math.sin(t * 1.6), rot = 0;
-  if (face === 'windup') { const w = clamp01((g.floorTime - e.at) / g.rules.tell); dx = 3 * w; k *= 1 + .05 * w; dy -= 3 * w; }
-  else if (face === 'attack') { dx = 4; k *= 1.06; dy -= 4; }
-  else if (face === 'hurt' || face === 'stagger') { dx = Math.sin(t * 40) * 1.6 * (1 - clamp01((st.clock - st.faceAt) / .5)); rot = face === 'stagger' ? Math.sin(t * 5) * .05 : 0; }
+  if (face === 'windup') { const w = e.progress(g.floorTime); dx = 3 * w; k *= 1 + .05 * w; dy -= 3 * w; }
+  else if (attack) { dx = 4; k *= 1.06; dy -= 4; }
+  else if (face === 'hurt' || face === 'dizzy') { dx = Math.sin(t * 40) * 1.6 * (1 - clamp01((st.clock - st.faceAt) / .5)); rot = face === 'dizzy' ? Math.sin(t * 5) * .05 : 0; }
   else if (face === 'panic') { dx = Math.sin(t * 31) * .9; }
   else if (face === 'defeat') { dy += 5; }
   // Lit villain: a warm key light behind his head, a fire glow during tells, a soft shadow on the rock.
-  const hx = EMBER.x + dx, hy = EMBER.y - 72, heat = face === 'windup' ? .3 + .4 * clamp01((g.floorTime - e.at) / g.rules.tell) : face === 'attack' ? .65 : 0;
+  const hx = EMBER.x + dx, hy = EMBER.y - 72, heat = face === 'windup' ? .3 + .4 * e.progress(g.floorTime) : attack ? .65 : 0;
   pool(ctx, EMBER.x + 10, EMBER.y - 50, 70, 60, '#000', .45);
   glow(ctx, hx - 6, hy, 92, '#ffb46a', .16 + .06 * Math.sin(t * 1.3));
   if (heat) add(ctx, () => glow(ctx, hx + 30, hy + 22, 80, FIRE, heat * (.8 + .2 * Math.sin(t * 22))));
-  if (g.floorTime < e.calm) add(ctx, () => glow(ctx, hx, hy, 70, '#7fd7ff', .2 * clamp01(e.calm - g.floorTime)));
-  ctx.save(); ctx.translate(EMBER.x + dx, EMBER.y + dy); ctx.rotate(rot); ctx.scale(k, k);
-  if (st.prev && q < 1) put(ctx, `ember_${st.prev}`, 0, 0, 1, 1 - q);
-  put(ctx, `ember_${face}`, 0, 0, 1, st.prev ? q : 1);
+  if (e.calmAt(g.floorTime)) add(ctx, () => glow(ctx, hx, hy, 70, '#7fd7ff', .2 * clamp01(e.calm - g.floorTime)));
+  ctx.save(); ctx.translate(EMBER.x + dx, EMBER.y + dy); ctx.rotate(rot); ctx.scale(k * SKIN.scale, k * SKIN.scale);
+  if (st.prev && q < 1) put(ctx, poseKey(st.prev), 0, 0, 1, 1 - q);
+  put(ctx, poseKey(face), 0, 0, 1, st.prev ? q : 1);
   ctx.restore();
   // Snoring: drifting Z's while the eye is shut on floor 1.
-  if (face === 'idle' && g.wake < 30 && g.floor === 0) for (let i = 0; i < 2; i++) { const u = (t * .35 + i * .5) % 1; ctx.save(); ctx.globalAlpha = Math.sin(Math.PI * u) * .75; text(ctx, 'z', EMBER.x + 56 + u * 18, EMBER.y - 108 - u * 26, 9 + u * 6, '#cfe6ff', 'center'); ctx.restore(); }
+  if (face === 'sleep' && g.wake < 30 && g.floor === 0) for (let i = 0; i < 2; i++) { const u = (t * .35 + i * .5) % 1; ctx.save(); ctx.globalAlpha = Math.sin(Math.PI * u) * .75; text(ctx, 'z', EMBER.x + 56 + u * 18, EMBER.y - 108 - u * 26, 9 + u * 6, '#cfe6ff', 'center'); ctx.restore(); }
 }
 // The Wake eye: an almond socket whose lid lifts as the eye opens; a slim bar under it for the exact level.
 function wakeEye(ctx, g, st) {
-  const f = g.floor === 2 ? 1 : clamp01(g.wake / 100), e = g.ember, hot = e.stage === 'windup' || e.stage === 'release' || g.floor === 2, t = st.clock;
-  const { x, y, hw, hh } = EYE, calm = g.floorTime < e.calm, almond = () => { ctx.beginPath(); ctx.moveTo(x - hw, y); ctx.quadraticCurveTo(x, y - hh * 2, x + hw, y); ctx.quadraticCurveTo(x, y + hh * 2, x - hw, y); ctx.closePath(); };
+  const f = g.floor === 2 ? 1 : clamp01(g.wake / 100), e = g.ember, hot = e.busy || g.floor === 2, t = st.clock;
+  const { x, y, hw, hh } = EYE, calm = e.calmAt(g.floorTime), almond = () => { ctx.beginPath(); ctx.moveTo(x - hw, y); ctx.quadraticCurveTo(x, y - hh * 2, x + hw, y); ctx.quadraticCurveTo(x, y + hh * 2, x - hw, y); ctx.closePath(); };
   ctx.save(); ctx.fillStyle = '#0b0910cc'; ctx.beginPath(); ctx.roundRect(x - hw - 8, y - hh - 8, hw * 2 + 16, hh * 2 + 26, 12); ctx.fill(); ctx.strokeStyle = '#d6a35f66'; ctx.lineWidth = .8; ctx.stroke(); ctx.restore();
   glow(ctx, x, y, 40, calm ? '#7fd7ff' : hot ? '#ff5a2a' : '#ff9a4a', (calm ? .25 : .12) + .45 * f * f);
+  const cell = first([EMBER_ART.eye[Math.min(4, Math.floor(f * 5))]]);   // the R02 eye strip, when packed
+  if (cell) { const s = HS[cell], kk = (hw * 2 + 10) / s.uw; put(ctx, cell, x, y + 1, kk); } else {
   ctx.save(); almond(); ctx.fillStyle = '#1a0c08'; ctx.fill(); ctx.clip();
   const ix = x + (g.balls[0] ? clamp01(g.balls[0].x / g.width) - .5 : 0) * 8, ir = hh * 1.05;
   const iris = ctx.createRadialGradient(ix - 2, y - 3, 1, ix, y, ir); iris.addColorStop(0, '#fff2b0'); iris.addColorStop(.35, hot ? '#ff9a2a' : '#ffc84a'); iris.addColorStop(1, hot ? '#7a1406' : '#7a3a08');
@@ -105,7 +114,7 @@ function wakeEye(ctx, g, st) {
   const lg = ctx.createLinearGradient(0, top - 4, 0, lid); lg.addColorStop(0, '#4b4466'); lg.addColorStop(1, '#2a2440'); ctx.fillStyle = lg; ctx.fillRect(x - hw, top - 6, hw * 2, lid - top + 6);
   ctx.fillStyle = '#0c0812'; ctx.fillRect(x - hw, lid - 1.6, hw * 2, 2.2);
   const low = y + hh - (1 - open) * hh * .5; ctx.fillStyle = '#2a2440'; ctx.fillRect(x - hw, low, hw * 2, hh + 6);
-  ctx.restore();
+  ctx.restore(); }
   // Bar: teal (asleep) to amber to red; the floor-3 rage marks sit at 40 and 75.
   const bw = hw * 2, bx = x - hw, by = y + hh + 5;
   ctx.fillStyle = '#05060dcc'; ctx.beginPath(); ctx.roundRect(bx - 1.5, by - 1.5, bw + 3, 7, 3.5); ctx.fill();
@@ -140,18 +149,23 @@ function drawBrick(ctx, g, b, st) {
     case 'molten': {
       const left = clamp01(b.molten / (b.moltenFor || 1)), p = .5 + .5 * Math.sin(st.clock * 9 + b.col);
       add(ctx, () => glow(ctx, cx, cy + 2, 26, FIRE, (.25 + .3 * p) * (.4 + .6 * left)));
+      const mk = first([EMBER_ART.props.molten?.[left > .5 ? 0 : 1]]);   // R03 molten states, when packed
+      if (mk) { put(ctx, mk, cx, cy); return; }
       tile(ctx, 'brick_gold_2_0', b);
-      add(ctx, () => { ctx.globalAlpha = (.35 + .25 * p) * left; ctx.fillStyle = '#ff6a1a'; ctx.beginPath(); ctx.roundRect(b.x + 1, b.y + 1, b.w - 2, b.h - 2, 3); ctx.fill(); });
+      // Red-orange heat over the gold (normal blend, so it reads hot rather than lemon), with a brighter core while soft.
+      ctx.save(); ctx.globalAlpha = (.38 + .14 * p) * (.5 + .5 * left); ctx.fillStyle = '#e8480c'; ctx.beginPath(); ctx.roundRect(b.x + 1, b.y + 1, b.w - 2, b.h - 2, 3); ctx.fill(); ctx.restore();
+      add(ctx, () => glow(ctx, cx, cy, 9, '#ffb060', (.25 + .2 * p) * left));
       // A drip forming under the brick while it is still soft.
       const d = (st.clock * .8 + b.col * .3) % 1; ctx.save(); ctx.globalAlpha = left * Math.sin(Math.PI * d); ctx.fillStyle = '#ffb24a'; ctx.beginPath(); ctx.ellipse(b.x + 8 + (b.col * 7) % 16, b.y + b.h + 2 + d * 4, 1.6, 2.2 + d * 1.5, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
       return;
     }
-    case 'hard': return tile(ctx, b.hp < b.maxHP ? 'brick_gold_2_2' : 'brick_gold_2_1', b);
+    case 'hard': { const hk = first([EMBER_ART.props.molten?.[2]]); if (hk && b.hp === b.maxHP) return put(ctx, hk, cx, cy); return tile(ctx, b.hp < b.maxHP ? 'brick_gold_2_2' : 'brick_gold_2_1', b); }
     case 'chime': {
       const lit = b.lit, p = .5 + .5 * Math.sin(st.clock * 3 + b.col);
       if (lit) add(ctx, () => glow(ctx, cx, cy, 30, '#7fe8ff', .22 + .18 * p));
       tile(ctx, 'brick_t_2_x', b, lit ? 1 : .55);
-      bellIcon(ctx, cx, cy, lit ? 1 : .45, lit ? Math.sin(st.clock * 4 + b.col) * .12 : 0);
+      const ring = g.effects.some(f => f.kind === 'chime' && Math.abs(f.x - cx) < 1 && Math.abs(f.y - cy) < 1), ck = first([EMBER_ART.props.chime?.[ring ? 1 : 0], EMBER_ART.props.chime?.[0]]);
+      if (ck) put(ctx, ck, cx, cy, .7, lit ? 1 : .45); else bellIcon(ctx, cx, cy, lit ? 1 : .45, lit ? Math.sin(st.clock * 4 + b.col) * .12 : 0);
       if (!lit && b.cool > 0) { const f = 1 - b.cool / HOARD_TIMING.chimeCool; ctx.fillStyle = '#05060dcc'; ctx.fillRect(b.x + 4, b.y + b.h - 3.5, b.w - 8, 2.2); ctx.fillStyle = '#7fe8ff'; ctx.fillRect(b.x + 4, b.y + b.h - 3.5, (b.w - 8) * f, 2.2); }
       return;
     }
@@ -168,7 +182,7 @@ function drawBrick(ctx, g, b, st) {
 }
 // A small rendered-style bell for the Hush Chime: filled bronze body, lip and clapper; no outline.
 function bellIcon(ctx, x, y, a, rot) {
-  ctx.save(); ctx.globalAlpha *= a; ctx.translate(x, y - 1); ctx.rotate(rot);
+  ctx.save(); ctx.globalAlpha = alpha(ctx) * a; ctx.translate(x, y - 1); ctx.rotate(rot);
   const g = ctx.createLinearGradient(-5, 0, 5, 0); g.addColorStop(0, '#7a5a26'); g.addColorStop(.4, '#ffe7a0'); g.addColorStop(1, '#8a6224');
   ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(-1.6, -5); ctx.quadraticCurveTo(-4.4, -4.6, -4.6, 1); ctx.lineTo(-6, 3.4); ctx.lineTo(6, 3.4); ctx.lineTo(4.6, 1); ctx.quadraticCurveTo(4.4, -4.6, 1.6, -5); ctx.closePath(); ctx.fill();
   ctx.fillStyle = '#5a3e16'; ctx.beginPath(); ctx.ellipse(0, 4.4, 1.6, 1.4, 0, 0, Math.PI * 2); ctx.fill();
@@ -194,9 +208,11 @@ function drawGate(ctx, g, art, st) {
   const hit = g.effects.find(e => e.kind === 'gate-hit' && e.age < .25), sx = hit ? Math.sin(hit.age * 90) * 1.6 * (1 - hit.age / .25) : 0;
   // Recess and daylight behind the leaves.
   ctx.fillStyle = '#07060a'; ctx.fillRect(x - 10, y - 8, w + 20, h + 8);
-  const day = ctx.createLinearGradient(0, y, 0, y + h); day.addColorStop(0, '#fff0c8'); day.addColorStop(1, '#ffc87a'); ctx.save(); ctx.globalAlpha = clamp01(.15 + f * .5 + esc); ctx.fillStyle = day; ctx.fillRect(x, y, w, h); ctx.restore();
+  const day = ctx.createLinearGradient(0, y, 0, y + h); day.addColorStop(0, '#e8c48a'); day.addColorStop(1, '#c9853f'); ctx.save(); ctx.globalAlpha = Math.min(.8, .15 + f * .5 + esc * .65); ctx.fillStyle = day; ctx.fillRect(x, y, w, h); ctx.restore();
   const img = art.images['tidewheel/gate'], m = art.manifest.tidewheel.gate, open = smooth(esc * 1.6);
-  for (const side of [0, 1]) {
+  const gk = first([EMBER_ART.props.gate?.[esc ? 2 : f > .5 ? 1 : 0]]);   // R03 gate states, when packed
+  if (gk) put(ctx, gk, x + w / 2 + sx, y + h);
+  else for (const side of [0, 1]) {
     const lw = w / 2, lx = x + side * lw, sw = lw * (1 - .92 * open);
     ctx.save(); ctx.beginPath(); ctx.rect(side ? x + w - sw : lx, y, sw, h); ctx.clip();
     if (img && m) {
@@ -212,18 +228,18 @@ function drawGate(ctx, g, art, st) {
   slab(ctx, art, x - 12, y - 10, w + 24, 12);
   for (const px of [x - 10, x + w]) { const pg = ctx.createLinearGradient(px, 0, px + 10, 0); pg.addColorStop(0, '#2a2630'); pg.addColorStop(.4, '#6a6270'); pg.addColorStop(1, '#1c1a22'); ctx.fillStyle = pg; ctx.fillRect(px, y - 2, 10, h + 2); }
   if (!esc) {
-    const bw = 96, bx = x + w / 2 - bw / 2, by = y - 18, ff = clamp01(d.hp / d.maxHP);
+    const bw = 96, bx = x + w / 2 - bw / 2, by = y + h - 10, ff = clamp01(d.hp / d.maxHP);   // on the door's bottom rail
     ctx.fillStyle = '#05060dcc'; ctx.beginPath(); ctx.roundRect(bx - 1.5, by - 1.5, bw + 3, 7, 3.5); ctx.fill();
     const gr = ctx.createLinearGradient(bx, 0, bx + bw, 0); gr.addColorStop(0, '#c98a5b'); gr.addColorStop(1, '#ffe3a1'); ctx.fillStyle = gr; ctx.beginPath(); ctx.roundRect(bx, by, Math.max(4, bw * ff), 4, 2); ctx.fill();
-  } else add(ctx, () => { glow(ctx, x + w / 2, y + h, 160, '#fff0c8', .5 * open); });
+  } else add(ctx, () => { glow(ctx, x + w / 2, y + h, 160, '#ffe2b0', .32 * open); });
 }
 // ---------- tells ----------
 function tells(ctx, g, st) {
-  const e = g.ember, p = g.paddle; if (e.stage !== 'windup' && e.stage !== 'release') return;
-  const wind = e.stage === 'windup', q = wind ? clamp01((g.floorTime - e.at) / g.rules.tell) : 1 - clamp01((e.until - g.floorTime) / HOARD_TIMING.release), pulse = .75 + .25 * Math.sin(st.clock * (10 + 14 * q));
+  const e = g.ember, p = g.paddle; if (!e.busy) return;
+  const { stripe, row } = e.payload, wind = e.stage === 'windup', q = e.progress(g.floorTime), pulse = .75 + .25 * Math.sin(st.clock * (10 + 14 * q));
   const col = e.teaching ? '#9fd6ff' : FIRE;
-  if (e.stripe) {
-    const x = e.stripe.x, hw = e.stripe.w / 2, y0 = g.ceiling, y1 = p.y + p.h + 8;
+  if (stripe) {
+    const x = stripe.x, hw = stripe.w / 2, y0 = g.ceiling, y1 = p.y + p.h + 8;
     add(ctx, () => {
       const v = ctx.createLinearGradient(x - hw, 0, x + hw, 0), a = wind ? (.06 + .26 * q) * pulse : .55 * (1 - q);
       v.addColorStop(0, '#0000'); v.addColorStop(.5, e.teaching ? `rgba(140,200,255,${a})` : `rgba(255,120,50,${a})`); v.addColorStop(1, '#0000');
@@ -232,8 +248,8 @@ function tells(ctx, g, st) {
     });
     if (!wind && !e.teaching) { sparks(ctx, x, p.y, q * .42, 10, 140, [], 2.2, 71); }
   }
-  if (e.row !== null) {
-    const ry = g.rowY(e.row), h = 22;
+  if (row !== null && row !== undefined) {
+    const ry = g.rowY(row), h = 22;
     add(ctx, () => {
       const v = ctx.createLinearGradient(0, ry - h, 0, ry + h), a = wind ? (.08 + .3 * q) * pulse : .6 * (1 - q);
       v.addColorStop(0, '#0000'); v.addColorStop(.5, e.teaching ? `rgba(140,200,255,${a})` : `rgba(255,130,40,${a})`); v.addColorStop(1, '#0000');
@@ -256,7 +272,7 @@ function shards(ctx, e, key) {
     ctx.drawImage(s.img, m + n * (iw - 2 * m) / 3, ih * .17, (iw - 2 * m) / 3, ih * .66, -(e.w || 32) / 6, -(e.h || 16) / 2, (e.w || 32) / 3, e.h || 16); ctx.restore();
   }
 }
-const keyOf = e => e.kind === 'coin' ? 'brick_coin_2_0' : e.kind === 'chest' ? 'brick_chest_2_1' : e.kind === 'molten' || e.kind === 'hard' ? 'brick_gold_2_2' : e.kind === 'chime' ? 'brick_t_2_x' : `brick_${BRICK[e.colour] || 'v'}_2_0`;
+const keyOf = e => e.type === 'coin' ? 'brick_coin_2_0' : e.type === 'chest' ? 'brick_chest_2_1' : e.type === 'molten' || e.type === 'hard' ? 'brick_gold_2_2' : e.type === 'chime' ? 'brick_t_2_x' : `brick_${BRICK[e.colour] || 'v'}_2_0`;
 function coinsFly(ctx, e, n, to) {
   for (let i = 0; i < n; i++) {
     const d = i * .05, u = smooth(clamp01((e.age - d) / (e.life - d - .05))); if (u <= 0 || u >= 1) continue;
@@ -270,9 +286,9 @@ function hEffects(ctx, g, st) {
   for (const e of g.effects) {
     const q = e.age / e.life, a = 1 - q; ctx.save(); ctx.globalAlpha = a;
     switch (e.kind) {
-      case 'brick-break': ctx.globalAlpha = 1; shards(ctx, e, keyOf(e)); if (e.kind === 'chest') chips(ctx, e.x, e.y, e.age, e.life, 5, 80, .5, 3, .8); break;
+      case 'brick-break': ctx.globalAlpha = 1; shards(ctx, e, keyOf(e)); if (e.type === 'chest') chips(ctx, e.x, e.y, e.age, e.life, 5, 80, .5, 3, .8); break;
       case 'brick-hit': ctx.globalAlpha = 1; sparks(ctx, e.x, e.y, e.age, 5, 40, [], 1.5, 3); break;
-      case 'loot': ctx.globalAlpha = 1; coinsFly(ctx, e, e.loot >= 30 ? 6 : e.loot >= 10 ? 3 : 2, { x: CHIP - 32, y: 34 }); break;
+      case 'loot': ctx.globalAlpha = 1; { const bk = first([EMBER_ART.props.burst?.[0]]); if (bk && e.loot >= 30) put(ctx, bk, e.x, e.y - 10 * q, .6 + .6 * q, 1 - q); } coinsFly(ctx, e, e.loot >= 30 ? 6 : e.loot >= 10 ? 3 : 2, { x: CHIP - 32, y: 34 }); break;
       case 'spill': ctx.globalAlpha = 1; add(ctx, () => glow(ctx, e.x, e.y, 26, GOLD, .6 * a)); sparks(ctx, e.x, e.y, e.age, 5, 60, [], 1.6, 9); break;
       case 'melt': ctx.globalAlpha = 1; add(ctx, () => glow(ctx, e.x, e.y, 30, FIRE, .7 * a)); sparks(ctx, e.x, e.y - 4, e.age, 4, 50, [], 1.4, 13); break;
       case 'harden': ctx.globalAlpha = 1; dust(ctx, e.x, e.y - 6, e.age, e.life, 3, 12, 6, '#b9a88a'); break;
@@ -372,7 +388,7 @@ export function renderHoard(ctx, g, art) {
   for (const c of g.capsules) rCapsule(ctx, g, c);
   hEffects(ctx, g, st);
   const e = g.ember;
-  if (e.teaching && (e.stage === 'windup' || e.stage === 'release')) label(ctx, e.kind === 'breath' ? 'JUST A YAWN · WATCH THE ROW' : 'JUST A YAWN · MOVE NEXT TIME', 180, g.ceiling + 22, '#cfe6ff', 196);
+  if (e.teaching && e.busy) label(ctx, e.kind === 'breath' ? 'JUST A YAWN · WATCH THE ROW' : 'JUST A YAWN · MOVE NEXT TIME', 180, g.ceiling + 22, '#cfe6ff', 196);
   else if (g.floor === 0 && g.floorTime < 6 && g.state === 'play' && !climb) label(ctx, 'GOLD WAKES HIM · CHIMES HUSH HIM', 180, g.ceiling + 22, GOLD, 214);
   if (g.effects.some(f => f.kind === 'caught')) label(ctx, 'CAUGHT! THE BONUS IS GONE', 180, g.ceiling + 22, '#ffb0a0', 196);
   ctx.restore();

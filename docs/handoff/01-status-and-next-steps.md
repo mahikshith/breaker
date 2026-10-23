@@ -70,6 +70,14 @@ Read all three handoff docs before touching code: this one (status, rules, histo
 
 ## Progress log (newest first)
 
+- **2026-10-23 — Dragon's Hoard, chapter 12 (branch `codex/dragons-hoard`, from `codex/castle-chapters` with continue screen v2 merged in; not merged back).**
+  - Spec: the merged one at the top of `design/phase2/dragons-hoard.md` (Ember he/him, the Crown, the Wake eye, Hush Chimes, Hoard Roar, molten gold, cash-out greed, the avalanche escape).
+  - Slot 11 (`?level=12`, menu key `=`; `-` now starts slot 10). Rivals' `next` is 11. `config/mobile-preview.json` and `tools/prepare-android.mjs` list twelve slots; the reviewed SHA and the Android version are not bumped (owner's release step).
+  - Model `src/fantasy/hoard.js` (DragonsHoard), renderer `src/fantasy/hoard-render.js`, chapter wiring in `src/fantasy/chapter.js` (greed card and RUN pill are model-space buttons; keys 1/R run, 2/S stay, R runs during a stay), `nearMiss()` and back-in-action like Rivals.
+  - Ember runs on the new "big sitter" archetype (`src/fantasy/creatures/sitter.js`, skin `ember.js`): physics and pose state once per archetype, the creature is data.
+  - Art: `art/hoard/build.py` takes the R01 full-body Ember poses (one scale, body circles fitted to the alpha), cuts the M365 dragon kit (8 busts kept as fallbacks, Crown chest fitted to its 100x52 collider, coins) and copies the owner's cave plate A to `assets/hoard`; `tools/pack_art.py` packs it as `ART.hoard`. R02 eye and R03 props slot in by name when they arrive (code fallbacks until then).
+  - Tests: `tests/hoard.test.js` (17), `tests/sitter.test.js` (5, with a dummy solid skin); the chapter and continue-v2 tests cover the twelfth slot. Audit: adapter `hoard` (greed card answered at random). Review shots: `tools/playtest/hoard-review.mjs` (PERF=1 adds a frame-cost line).
+
 - **2026-10-23 — Continue screen v2 (branch `codex/continue-v2`, from `codex/castle-chapters`; not merged).**
   - Loss panel: a chapter-aware "so close" card (every level has a `nearMiss()` hook; copy in `src/near-miss.js`), e.g. "KORR HAS 3 HP LEFT", "LUMI IS 3 BRICKS FROM FREEDOM", "2 WINCH HITS TO RAISE THE GATE", with a glossy progress bar and "FLOOR 3 / 3 · 96% CLEARED". The title says SO CLOSE! from 50% progress, else CONTINUE?.
   - The countdown ring is gone: an 8 s glazed fuse bar (teal to coral in the last 2 s) with a soft timeout. At 0 s it reads TAKE YOUR TIME and every button stays live; only No thanks declines.
