@@ -10,10 +10,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # set: (longest side cap in px, sharpen, only these frames or None for all)
 SETS = {
     'nerra': (None, True, None),
-    'warden': (300, True, None),
+    'warden': (250, True, None),
     'korr': (220, True, None),
     'bricks': (150, False, None),
-    'fx': (180, False, None),
+    'fx': (180, False, {f'{n}_{i}' for n, k in (('splash', 8), ('ice', 6)) for i in range(k)}),   # only what the game draws so far
     'tidewheel-parts': (200, False, None),
 }
 out, kb = {}, {}
