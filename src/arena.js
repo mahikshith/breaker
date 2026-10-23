@@ -597,10 +597,14 @@ export class Arena {
     g.globalAlpha = 1;
     if (this.kitTime < this.aimReadyUntil && (this.ptr.down || this.keys[' '])) text(g, 'Aim ready', this.paddle.x, this.paddle.y - 23 / this.kitUIScale, 15 / this.kitUIScale, '#dfc2f1', 'center');
     if (stop) { const [x, y] = P(sim.x, sim.y); if (!drawGlint(g, x, y, 9, .35, '#dff2ff', pulse + .3)) { g.fillStyle = 'rgba(255,255,255,0.6)'; g.beginPath(); g.arc(x, y, 3, 0, 7); g.fill(); } }
-    if (!a.serve) { // remaining hold time
-      g.strokeStyle = '#e3b6ff'; g.lineWidth = 2.5;
-      const [bx, by] = P(a.ball.x, a.ball.y);
-      g.beginPath(); g.arc(bx, by, 12, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (1 - a.t / 1.6)); g.stroke();
+    if (!a.serve) { // remaining hold time: a small glossy lilac bar above the caught ball that drains from the right
+      const [bx, by] = P(a.ball.x, a.ball.y), w = 28, h = 5, x = bx - w / 2, y = by - 17, f = Math.max(0, 1 - a.t / 1.6);
+      g.fillStyle = 'rgba(12,10,28,0.75)'; rrect(g, x - 1.5, y - 1.5, w + 3, h + 3, 4); g.fill();
+      if (f > 0) {
+        const gr = g.createLinearGradient(0, y, 0, y + h); gr.addColorStop(0, '#f4dcff'); gr.addColorStop(0.5, '#c98cf0'); gr.addColorStop(1, '#8a4fc0');
+        g.fillStyle = gr; rrect(g, x, y, w * f, h, 2.5); g.fill();
+        g.fillStyle = 'rgba(255,255,255,0.55)'; rrect(g, x + 1, y + 0.6, Math.max(0, w * f - 2), 1.4, 0.7); g.fill();
+      }
     }
   }
   drawHUDBase(g) {
