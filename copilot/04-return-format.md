@@ -42,6 +42,7 @@ At most 5, each with your recommended answer.
 ## 2. File name and how to send it
 
 - File name: `breach-<kind>-<slug>-v<version>.md`, for example `breach-powerups-powerups-round2-v1.md`.
+- When the owner compares models, add the source at the end: `-m365-opus55`, `-studio-fable`, and so on. Always fill `tool:` in the header with the tool and the exact model name.
 - Images: `breach-<slug>-<what>-<n>.png`, for example `breach-ember-turnaround-1.png`. PNG only, biggest size offered, transparent or flat magenta #FF00FF for sprites.
 - Send: paste the drop (or attach the .md and PNGs) in the BREACH project chat, first line `Copilot drop: <file name>`. Claude takes it from there.
 

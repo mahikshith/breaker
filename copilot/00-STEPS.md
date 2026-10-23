@@ -38,6 +38,20 @@ Two tools, two jobs:
 8. **Publish** to the **Teams and Microsoft 365 Copilot** channel. The agent then appears inside M365 Copilot, and you can just type `Run P3`.
 9. Optional: make a second agent, **BREACH Critic**, with the short instructions at the end of `03-copilot-studio-agent.md`. Paste any answer into it before sending it to Claude. It replies PASS or FIX.
 
+## Part C: comparing models (same prompts, different models)
+
+Goal: run the same prompt through several models and let Claude compare the answers. Fairness rules: same prompt text, same files, a fresh chat each time.
+
+1. Set up the Copilot Studio agent once (Part B). It holds the instructions and files, so every model gets exactly the same context.
+2. Pick one prompt to compare, for example P1. Use the **same filled-in prompt text** (including your APK notes) for every model; keep it in a note so you paste the identical text each time.
+3. In Copilot Studio, open the agent's **Settings**, choose the model (for example Fable), and save.
+4. In the test pane, start a **new conversation** (the refresh button), then type `Run P1` and paste your APK notes. Do not answer its decisions yet; copy the first answer exactly as it came.
+5. Repeat steps 3 and 4 for each model you want to try. Then run the same prompt in M365 Copilot chat with Opus 5.5 (Part A).
+6. Paste all the answers here in one message per answer, each starting with `Copilot drop: <file name>-<source>`, for example `breach-powerups-powerups-round2-v1-studio-fable.md` or `...-m365-opus55.md`.
+7. Claude compares them: which numbers differ, which ideas only one model had, which broke a rule, which JSON is buildable. Then you lock the best one (or a mix) and Claude builds it.
+
+Why one prompt per conversation, even with a big context window: answers get vaguer and start mixing tasks in very long chats, and a fresh chat is the only fair comparison. When a prompt builds on an earlier one (P8 uses the P7 level, P2 uses the P1 power-ups), paste the locked earlier answer into the new chat first.
+
 ## Every time
 
 Copilot designs, you pick and say `locked`, you paste the answer here as `Copilot drop: <file name>`, and Claude builds it and sends screenshots.
