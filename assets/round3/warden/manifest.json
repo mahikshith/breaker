@@ -1,0 +1,280 @@
+{
+ "source": "M365 round 3 sheets (art/premium on main, 97a87c6), cut by art/round3/cut.py",
+ "frames": {
+  "idle_0": {
+   "file": "idle_0.png",
+   "size": [
+    309,
+    258
+   ],
+   "pivot": [
+    154.5,
+    258
+   ]
+  },
+  "idle_1": {
+   "file": "idle_1.png",
+   "size": [
+    314,
+    258
+   ],
+   "pivot": [
+    157.0,
+    258
+   ]
+  },
+  "idle_2": {
+   "file": "idle_2.png",
+   "size": [
+    304,
+    258
+   ],
+   "pivot": [
+    152.0,
+    258
+   ]
+  },
+  "idle_3": {
+   "file": "idle_3.png",
+   "size": [
+    314,
+    257
+   ],
+   "pivot": [
+    157.0,
+    257
+   ]
+  },
+  "pound_windup": {
+   "file": "pound_windup.png",
+   "size": [
+    358,
+    383
+   ],
+   "pivot": [
+    179.0,
+    383
+   ]
+  },
+  "pound_strike": {
+   "file": "pound_strike.png",
+   "size": [
+    475,
+    310
+   ],
+   "pivot": [
+    237.5,
+    310
+   ]
+  },
+  "pound_recover": {
+   "file": "pound_recover.png",
+   "size": [
+    382,
+    295
+   ],
+   "pivot": [
+    191.0,
+    295
+   ]
+  },
+  "flinch": {
+   "file": "flinch.png",
+   "size": [
+    341,
+    281
+   ],
+   "pivot": [
+    170.5,
+    281
+   ]
+  },
+  "dazed": {
+   "file": "dazed.png",
+   "size": [
+    276,
+    297
+   ],
+   "pivot": [
+    138.0,
+    297
+   ]
+  },
+  "recover": {
+   "file": "recover.png",
+   "size": [
+    320,
+    268
+   ],
+   "pivot": [
+    160.0,
+    268
+   ]
+  },
+  "defeated": {
+   "file": "defeated.png",
+   "size": [
+    319,
+    198
+   ],
+   "pivot": [
+    159.5,
+    198
+   ]
+  },
+  "dash_r_crouch": {
+   "file": "dash_r_crouch.png",
+   "size": [
+    272,
+    196
+   ],
+   "pivot": [
+    136.0,
+    196
+   ]
+  },
+  "dash_r_0": {
+   "file": "dash_r_0.png",
+   "size": [
+    253,
+    235
+   ],
+   "pivot": [
+    126.5,
+    235
+   ]
+  },
+  "dash_r_1": {
+   "file": "dash_r_1.png",
+   "size": [
+    260,
+    233
+   ],
+   "pivot": [
+    130.0,
+    233
+   ]
+  },
+  "dash_r_2": {
+   "file": "dash_r_2.png",
+   "size": [
+    264,
+    230
+   ],
+   "pivot": [
+    132.0,
+    230
+   ]
+  },
+  "dash_r_3": {
+   "file": "dash_r_3.png",
+   "size": [
+    238,
+    225
+   ],
+   "pivot": [
+    119.0,
+    225
+   ]
+  },
+  "dash_l_crouch": {
+   "file": "dash_l_crouch.png",
+   "size": [
+    250,
+    206
+   ],
+   "pivot": [
+    125.0,
+    206
+   ]
+  },
+  "dash_l_0": {
+   "file": "dash_l_0.png",
+   "size": [
+    268,
+    231
+   ],
+   "pivot": [
+    134.0,
+    231
+   ]
+  },
+  "dash_l_1": {
+   "file": "dash_l_1.png",
+   "size": [
+    253,
+    233
+   ],
+   "pivot": [
+    126.5,
+    233
+   ]
+  },
+  "dash_l_2": {
+   "file": "dash_l_2.png",
+   "size": [
+    260,
+    234
+   ],
+   "pivot": [
+    130.0,
+    234
+   ]
+  },
+  "dash_l_3": {
+   "file": "dash_l_3.png",
+   "size": [
+    263,
+    224
+   ],
+   "pivot": [
+    131.5,
+    224
+   ]
+  },
+  "smash_r": {
+   "file": "smash_r.png",
+   "size": [
+    317,
+    304
+   ],
+   "pivot": [
+    158.5,
+    304
+   ]
+  },
+  "dazed_r": {
+   "file": "dazed_r.png",
+   "size": [
+    336,
+    282
+   ],
+   "pivot": [
+    168.0,
+    282
+   ]
+  },
+  "smash_l": {
+   "file": "smash_l.png",
+   "size": [
+    315,
+    301
+   ],
+   "pivot": [
+    157.5,
+    301
+   ]
+  },
+  "dazed_l": {
+   "file": "dazed_l.png",
+   "size": [
+    302,
+    275
+   ],
+   "pivot": [
+    151.0,
+    275
+   ]
+  }
+ }
+}
