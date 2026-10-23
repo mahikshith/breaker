@@ -23,16 +23,19 @@ export const PARAPET = { top: 54, bottom: 72 };
 // A smashed bell rack: floor 2 bells come this many times slower, and the first one this much later.
 export const RACK = { slow: 1.5, delay: 4, x: 112 };
 export const GEM_SCORE = 50;
+export const DULL = { after: 4, turn: .14 };
 const GEM_CELLS = new Set(['0-1', '0-4', '2-0', '2-5', '4-2', '4-3']), GEM_KINDS = ['gold', 'blue', 'rose'];
 export const GATEHOUSE_FLOORS = ['Drawbridge', 'Murder holes', 'Inner gate'];
 export const GATEHOUSE_TIMING = { crash: 1.1, climb: 1.2, defeat: 2.4, stun: .8, ward: 6 };
 // Static ramps: a bell rolls down them and drops off the low end; balls rebound from them.
-// The art is anchored on the measured top-face line a..b; the collider (body) is the whole beam as drawn: 13.5u deep with
-// the top face 1.2u above that line, starting at the hinge roller 11u before a.
-const RAMP_BODY = { back: 11, drop: 5.55, thickness: 13.5 };
+// The art is anchored on the measured top-face line a..b and scales with its length; the collider (body) is the whole beam
+// as drawn. For a 74u ramp that is 13.5u deep with the top face 1.2u above that line, starting at the hinge roller 11u
+// before a; shorter ramps scale the same proportions, so the collider always matches the drawn beam.
+export const RAMP_BODY = { length: 74, back: 11, drop: 5.55, thickness: 13.5 };
 const ramp = (id, x, y, length, angle) => {
   const r = { id, pivot: { x, y }, contactOffset: { x: 0, y: 0 }, length, angle, previousAngle: angle, thickness: 8 };
-  r.body = { pivot: r.pivot, contactOffset: { x: -RAMP_BODY.back, y: RAMP_BODY.drop }, length: length + RAMP_BODY.back, angle, previousAngle: angle, thickness: RAMP_BODY.thickness };
+  const k = length / RAMP_BODY.length;
+  r.body = { pivot: r.pivot, contactOffset: { x: -RAMP_BODY.back * k, y: RAMP_BODY.drop * k }, length: length + RAMP_BODY.back * k, angle, previousAngle: angle, thickness: RAMP_BODY.thickness * k };
   return Object.assign(r, rampPose(r));
 };
 const BELL_R = 11.5, BELL_LIFE = 7;
@@ -81,7 +84,7 @@ export class Gatehouse {
       this.wheel = { x: 62, y: 206, r: 26, hitR: 28, notches: 0, angle: 0, spin: 0 };
       this.holes = [{ x: 300, y: 158 }];
       // Bells roll outward and drop down a side lane, never through the brick field (which keeps to the middle six columns).
-      this.ramps = [ramp('ramp-r', 262, 226, 54, .2)];
+      this.ramps = [ramp('ramp-r', 278, 224, 40, .3)];
       Object.assign(this.villain, { x: 300, y: 76, foot: { x: 300, y: 118 }, solid: false });
       // Korr's bell rack stands on the gallery (above the ceiling); smashed on floor 1, it slows his bells here.
       this.rack = { x: 70, y: 118, state: this.rackSmashed ? 'smashed' : 'loaded', at: 0 };
@@ -228,14 +231,24 @@ export class Gatehouse {
     if (v.pose !== pose) { v.pose = pose; for (const b of this.balls || []) if (!b.caught) this.eject(b, v.body); }
   }
   // A keypose swap must never leave a ball inside Korr: push it out along the deepest circle's normal, turning it away.
+  // In a crease between two circles that can ping-pong, so after a few tries the ball is pushed straight away from the
+  // centre of Korr's biggest circle until it is clear of every circle.
   eject(b, shapes) {
-    for (let i = 0; i < 4; i++) {
+    const deepest = () => {
       let worst = null;
       for (const c of shapes) { const d = Math.hypot(b.x - c.x, b.y - c.y), depth = c.r + b.r - d; if (depth > 0 && (!worst || depth > worst.depth)) worst = { c, d, depth }; }
-      if (!worst) return;
+      return worst;
+    };
+    for (let i = 0; i < 6; i++) {
+      const worst = deepest(); if (!worst) return;
       const nx = worst.d > 1e-6 ? (b.x - worst.c.x) / worst.d : 0, ny = worst.d > 1e-6 ? (b.y - worst.c.y) / worst.d : 1;
       b.x += nx * (worst.depth + .05); b.y += ny * (worst.depth + .05); reflect(b, { nx, ny });
     }
+    if (!deepest()) return;
+    const core = shapes.reduce((a, c) => c.r > a.r ? c : a), d = Math.hypot(b.x - core.x, b.y - core.y);
+    const nx = d > 1e-6 ? (b.x - core.x) / d : 0, ny = d > 1e-6 ? (b.y - core.y) / d : 1;
+    for (let i = 0; i < 200 && deepest(); i++) { b.x += nx; b.y += ny; }
+    b.x += nx * .05; b.y += ny * .05; reflect(b, { nx, ny });
   }
   releaseBell(teaching = false) {
     const h = this.villain.hole || this.holes[0];
@@ -259,7 +272,7 @@ export class Gatehouse {
       const bell = typeof id === 'number' && this.bells.find(v => v.id === id), target = !bell && targets.find(t => t.id === id);
       if (bell ? Math.hypot(b.x - bell.x, b.y - bell.y) > b.r + bell.r + .1 : !target || !overlapsTarget({ ...b, r: b.r + .1 }, target)) b.contacts.delete(id);
     }
-    tickRam(this, b, dt);
+    tickRam(this, b, dt); b.dull = (b.dull || 0) + dt;
     let left = dt;
     for (let pass = 0; pass < 8 && left > 1e-8 && !b.dead; pass++) {
       const from = { x: b.x, y: b.y }, to = { x: b.x + b.vx * left, y: b.y + b.vy * left }, hits = [], elapsed = 1 - left / dt;
@@ -279,10 +292,12 @@ export class Gatehouse {
       // A ram ball ploughs through ordinary bricks (not armour): they break and the flight continues unchanged.
       if (hit.kind === 'brick' && ramThrough(this, b, hit.item.item)) { left *= 1 - hit.t; continue; }
       b.x += hit.nx * ((hit.depth || 0) + .015); b.y += hit.ny * ((hit.depth || 0) + .015);
-      if (hit.kind === 'paddle') paddleBounce(this, b);
+      if (hit.kind === 'paddle') { paddleBounce(this, b); b.dull = 0; }
       else {
         const speed = Math.hypot(b.vx, b.vy); reflect(b, hit);
         const next = Math.hypot(b.vx, b.vy); if (next > 0) { b.vx *= speed / next; b.vy *= speed / next; }
+        if (['brick', 'housing', 'wheel', 'villain', 'bell'].includes(hit.kind)) b.dull = 0;
+        else if (b.dull > DULL.after) this.unloop(b, hit);
         const key = hit.kind === 'bell' ? hit.item.id : hit.item?.id, fresh = key !== undefined && !b.contacts.has(key);
         if (fresh) b.contacts.add(key);
         if (fresh && hit.kind === 'brick') this.hitBrick(hit.item.item, b);
@@ -298,6 +313,15 @@ export class Gatehouse {
     const speed = Math.hypot(b.vx, b.vy);
     if (speed && Math.abs(b.vy) < speed * .22) { b.vy = Math.sign(b.vy || 1) * speed * .22; b.vx = Math.sign(b.vx || 1) * Math.sqrt(speed * speed - b.vy * b.vy); }
     if (b.y - b.r > this.height) b.dead = true;
+  }
+  // Anti-loop: a ball that has gone DULL.after s without touching the paddle or anything it can damage (a billiard orbit in
+  // a scenery pocket, e.g. above the floor 2 ramp) leaves each wall, ledge or ramp bounce turned DULL.turn rad downward,
+  // in uneven steps, as long as it still leaves the surface. It breaks periodic orbits without pushing the ball into a solid.
+  unloop(b, hit) {
+    const speed = Math.hypot(b.vx, b.vy); if (!speed) return;
+    const k = DULL.turn * [1, 1.8, .55][(b.nudges = (b.nudges || 0) + 1) % 3];   // uneven steps, so no new orbit settles
+    const a = Math.atan2(b.vy, b.vx), turn = Math.cos(a) >= 0 ? k : -k, vx = Math.cos(a + turn) * speed, vy = Math.sin(a + turn) * speed;
+    if (vx * hit.nx + vy * hit.ny > speed * .2) { b.vx = vx; b.vy = vy; }
   }
   hitBrick(brick, ball) {
     if (brick.hp <= 0) return;

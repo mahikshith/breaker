@@ -79,7 +79,8 @@ Read all three handoff docs before touching code: this one (status, rules, histo
     - Six gem bricks bank loot that showers out of the crash.
     - Bridge and housings moved down 24u.
   - Fix: Gatehouse bells after the teaching bell were scheduled on the run clock, so floors 2 and 3 went nearly bell-free. They now use the floor clock (test measures the gap).
-  - Tests: `tests/gatehouse.test.js` (winch tell, jam, never heals destroyed, cap, ceiling, bot always clears, par payoff, gems). Captures: `node tools/playtest/floor-hooks.mjs <out>`.
+  - Fix: the physics audit caught a pre-existing ball orbit in the floor 2 pocket right of the gate (over 12 s with no contact). Ramp colliders now scale with the drawn beam (`RAMP_BODY` per 74u), the floor 2 ramp is shorter and steeper (278,224, 40u, .3 rad), and a ball that goes `DULL.after` (4 s) touching only scenery has each scenery bounce turned `DULL.turn` (.14 rad) toward the paddle, at the same speed. Worst escape went from 35 s to under 8 s over 3,200 random entries. Korr's pose-swap eject could also leave the ball in a crease between two body circles (112 of 17,202 swaps; the floor 3 ball then crawled out). It now falls back to pushing the ball straight out from his core circle, and a test sweeps every swap.
+  - Tests: `tests/gatehouse.test.js` (winch tell, jam, never heals destroyed, cap, ceiling, bot always clears, par payoff, gems, ramp collider scale, pocket escape, anti-loop nudge, pose-swap eject sweep). Captures: `node tools/playtest/floor-hooks.mjs <out>`.
 
 - **2026-10-23 — First-time coaching (branch `codex/coach`, from `codex/castle-chapters`; not merged).**
   - `src/coach.js`: one glossy chip under the paddle (between the ram tray and the Kit orb), one at a time, hidden while play is blocked (continue panel, power menu, Vault Ward coach, back-in-action hold, intros). Progress persists in the store: `coachServes`, `coachCatches`, `coachRam`, `coachAimHud`.

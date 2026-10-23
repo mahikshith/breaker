@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { Gatehouse, GATEHOUSE_MODES, GATEHOUSE_FLOORS, GATEHOUSE_TIMING, PARAPET, RACK, GEM_SCORE } from '../src/fantasy/gatehouse.js';
+import { Gatehouse, GATEHOUSE_MODES, GATEHOUSE_FLOORS, GATEHOUSE_TIMING, PARAPET, RACK, GEM_SCORE, DULL, RAMP_BODY } from '../src/fantasy/gatehouse.js';
 
 const tick = (g, seconds) => { for (let left = seconds; left > 1e-9; left -= 1 / 120) g.update(Math.min(left, 1 / 120)); };
 const park = g => { g.balls = [{ id: ++g.serial, x: 20, y: 300, px: 20, py: 300, vx: 0, vy: 0, r: 6, caught: true, dead: false, ram: 0, ramBricks: 0, contacts: new Set() }]; };
@@ -282,4 +282,60 @@ test('loot gems: floor-1 gem bricks bank a gem each, and the crash pays them out
   const score = g.score; for (const h of g.housings) g.hitHousing(h, 99);
   const shower = g.effects.find(e => e.kind === 'loot-shower'); assert(shower); assert.equal(shower.n, 4); assert.equal(g.score, score + 2 * 25 + 4 * GEM_SCORE);
   g.buildFloor(1); assert(g.bricks.every(b => !b.gem), 'gems are a floor-1 reward');
+});
+
+test('ramps: the collider scales with the drawn beam, so a short ramp is no bigger than its art', () => {
+  for (const floor of [1, 2]) {
+    const g = new Gatehouse({ difficulty: 'medium', floor });
+    for (const r of g.ramps) {
+      const k = r.length / RAMP_BODY.length;
+      assert.ok(Math.abs(r.body.thickness - RAMP_BODY.thickness * k) < 1e-9, `${floor} ${r.id} thickness`);
+      assert.ok(Math.abs(r.body.length - r.length - RAMP_BODY.back * k) < 1e-9, `${floor} ${r.id} hinge`);
+    }
+  }
+});
+
+test('anti-loop: a ball orbiting the scenery pocket above the floor-2 ramp drops out well inside the stuck limit', () => {
+  const rng = (s => () => (s = (s * 16807) % 2147483647) / 2147483647)(5);
+  let worst = 0;
+  for (let k = 0; k < 160; k++) {
+    const g = new Gatehouse({ difficulty: 'hard', floor: 1 }); g.phase = 'play'; g.active = true; g.nextWarning = Infinity; g.lives = 9;
+    const a = rng() * Math.PI * 2, sp = 345 * (1 + rng() * .25);
+    const b = { id: 99, x: 240 + rng() * 112, y: 152 + rng() * 60, px: 0, py: 0, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, r: 6, caught: false, dead: false, ram: 0, ramBricks: 0, contacts: new Set() };
+    b.px = b.x; b.py = b.y; g.balls = [b]; g.bricks = [];
+    let t = 0; for (; t < 20 && b.y < 268 && !b.dead; t += 1 / 240) g.step(1 / 240);
+    worst = Math.max(worst, t);
+  }
+  assert.ok(worst < 10, `worst pocket escape ${worst.toFixed(2)}s`);
+});
+
+test('anti-loop: the nudge only bends dull scenery bounces, keeps speed, and never turns the ball into the wall', () => {
+  const g = new Gatehouse({ difficulty: 'medium', floor: 1 });
+  for (const [vx, nx] of [[-300, -1], [300, 1]]) {   // off the right wall and off the left wall
+    const b = { vx, vy: -120, nudges: 0 }, speed = Math.hypot(b.vx, b.vy);
+    g.unloop(b, { nx, ny: 0 });
+    assert.ok(b.vy > -120, 'turned downward, toward the paddle');
+    assert.ok(Math.sign(b.vx) === Math.sign(vx), 'still leaving the wall');
+    assert.ok(Math.abs(Math.hypot(b.vx, b.vy) - speed) < 1e-9, 'speed kept');
+  }
+  const into = { vx: 0, vy: 300, nudges: 0 }; g.unloop(into, { nx: 0, ny: -1 });
+  assert.deepEqual([into.vx, into.vy], [0, 300], 'a bounce that would point into the wall is left alone');
+  assert.ok(DULL.after < 12 && DULL.turn > 0 && DULL.turn < .3);
+});
+
+test('Korr pose swaps never leave a ball inside him, even in a crease between two body circles', () => {
+  const poses = ['idle', 'windup', 'release', 'stagger'];
+  let checked = 0;
+  for (const from of poses) for (const to of poses) {
+    if (from === to) continue;
+    for (let x = 100; x <= 260; x += 3) for (let y = 80; y <= 230; y += 3) {
+      const g = new Gatehouse({ difficulty: 'hard', floor: 2 }), v = g.villain;
+      v.stage = from; g.updateBody();
+      const b = { x, y, vx: 200, vy: 300, r: 6, caught: false };
+      if (v.body.some(c => Math.hypot(b.x - c.x, b.y - c.y) < c.r + b.r)) continue;
+      g.balls = [b]; v.stage = to; g.updateBody(); checked++;
+      assert.ok(v.body.every(c => Math.hypot(b.x - c.x, b.y - c.y) >= c.r + b.r - 1e-6), `${from}->${to} at ${x},${y} left the ball inside`);
+    }
+  }
+  assert.ok(checked > 10000);
 });

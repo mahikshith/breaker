@@ -80,4 +80,6 @@ Hard used 2 to 4 cranks in most runs. Every run cleared. The par is roughly a co
 
 **Bug fixed alongside:** Gatehouse bells after the teaching bell were scheduled on the run clock (`time`) but checked against the floor clock (`floorTime`). On floors 2 and 3 the second bell therefore came only after a whole floor 1's worth of extra seconds. They now use the floor clock, and a test measures the bell gap.
 
+**Physics fix alongside:** the physics audit found a pre-existing billiard orbit in the floor 2 pocket right of the gate, above the ramp (a stuck run at 74 s). Ramp colliders now scale with the drawn beam (`RAMP_BODY` is measured at 74u). The floor 2 ramp is shorter and steeper (pivot 278,224, 40u, .3 rad). A ball that goes `DULL.after` (4 s) touching only scenery has each scenery bounce turned `DULL.turn` (.14 rad) toward the paddle, at the same speed. Over 3,200 random pocket entries the worst escape fell from 35 s to under 8 s. Korr's pose-swap eject could also leave the ball in a crease between two body circles (112 of 17,202 swaps; the floor 3 ball then crawled out). It now falls back to pushing the ball straight out from his core circle, and a test sweeps every swap.
+
 Screenshots (393x852): `/mnt/project-files/breaker/review-2026-10-23/floor-hooks/`, made with `tools/playtest/floor-hooks.mjs`.
