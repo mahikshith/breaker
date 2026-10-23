@@ -123,7 +123,7 @@ export function themedBreak(g, ch, mat, x, y, w, h, t, life, vx = 0, vy = 0) {
   const m = SETS[ch]?.[mat], s = themed(ch, mat, 2, 2); if (!m || !s) return false;
   const intact = themed(ch, mat, 2, 0) || s, fx = fxFor(m, intact), a = Math.min(1, (life - t) / .25), hold = Math.max(0, t - .05);
   const mg = s.margin, fw = s.uw - 2 * mg, fh = s.uh - 2 * mg, kx = w / fw, ky = h / fh;
-  g.save(); g.globalAlpha *= a;
+  g.save(); g.globalAlpha = (typeof g.globalAlpha === "number" ? g.globalAlpha : 1) * a;
   for (let i = 0; i < 3; i++) {
     const K = KICK[i], P = PIECES[i], px = x + (K[0] + vx) * hold, py = y + (K[1] + vy) * hold + 420 * hold * hold;
     g.save(); g.translate(px, py); g.rotate(K[2] * hold); g.translate(-w / 2, -h / 2);
