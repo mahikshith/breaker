@@ -3,6 +3,7 @@ import { SPR, loadImg, artLoaded, text, cached, drawGlint, drawRamPips } from '.
 import { GATEHOUSE_FLOORS } from './gatehouse.js';
 import { renderLumi } from './lumi-render.js';
 import { renderRivals } from './rivals-render.js';
+import { renderHoard } from './hoard-render.js';
 const damageStates=new WeakMap();
 // Machinery comes packed in ART.fantasy (tools/pack_art.py); the plates, ball, paddle, bricks and Lumi are the main game's own art.
 export function makeArt(){
@@ -654,6 +655,7 @@ export function drawEncounter(ctx,g,art,level){
   if(level==='gatehouse')return renderGatehouse(ctx,g,art);
   if(level==='lumitower')return renderLumi(ctx,g,art);
   if(level==='rivals')return renderRivals(ctx,g,art);
+  if(level==='hoard')return renderHoard(ctx,g,art);
   const plate=art.images[level+'/background'];ctx.drawImage(plate,0,0,g.width,g.height);
   ctx.fillStyle='#07101b1c';ctx.fillRect(0,0,g.width,g.height);
   if(level==='tidewheel')renderTidewheel(ctx,g,art);else renderBellforge(ctx,g,art);

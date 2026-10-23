@@ -123,6 +123,17 @@ test('castle chapters: player serves count (auto-serves do not), ram launch ends
   assert(c.backHold); assert.equal(c.coach.kind, null);
 });
 
+test("Dragon's Hoard gets the same serve and ram coaching; the greed card is modal, so it hides coaching", () => {
+  fresh();
+  const l = new FantasyChapter('hoard', 360, 814, 393 / 360, 'medium');
+  l.update(1 / 60); assert.equal(l.coach.kind, 'serve');
+  l.pointerDown(180); l.pointerUp(); assert.equal(coachProgress().serves, 1); assert.equal(l.m.phase, 'play');
+  l.m.paddle.streak = 1; l.update(1 / 60); assert.equal(l.coach.kind, 'ram-streak');
+  l.m.phase = 'greed'; l.update(1 / 60); assert.equal(l.coach.kind, null, 'nothing over the greed card'); l.m.phase = 'play';
+  l.m.effects.push({ kind: 'ram-launch', x: 0, y: 0, age: 0, life: .5 }); l.update(1 / 60);
+  assert.equal(coachProgress().ram, true);
+});
+
 test('main.js draws coaching only during play, never under the continue panel or the power menu', () => {
   const main = readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
   assert.match(main, /if \(scene === 'level' && level\.state === 'play' && !level\.powerMenuOpen\) level\.drawCoach\?\.\(g\)/);

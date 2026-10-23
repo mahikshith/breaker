@@ -4,8 +4,8 @@ Last updated 2026-10-22 (night). Branch `codex/castle-chapters`; `main` is untou
 
 ## State in five lines
 
-- 11 chapters are built (`LEVELS` in `src/main.js`; save slots never move): 0 Carrier, 1 Vault, 2 Circuit, 3 Forge, 4 Frost Warden, 5 Mooncoil Reliquary (with a second serpent, Gnash), 6 Bellforge Run, 7 Tidewheel Citadel, 8 Gatehouse Siege, 9 Lumi Breaks Out, 10 Serpent Rivals. `?level=N` is 1-based; menu key 0 starts slot 9.
-- Chapters 6 to 10 run through `src/fantasy/chapter.js`; Ram Ball (`src/fantasy/ram.js`), the power-ready pulse and `src/clearance.js` apply everywhere.
+- 12 chapters are built (`LEVELS` in `src/main.js`; save slots never move): 0 Carrier, 1 Vault, 2 Circuit, 3 Forge, 4 Frost Warden, 5 Mooncoil Reliquary (with a second serpent, Gnash), 6 Bellforge Run, 7 Tidewheel Citadel, 8 Gatehouse Siege, 9 Lumi Breaks Out, 10 Serpent Rivals, 11 Dragon's Hoard (branch `codex/dragons-hoard`). `?level=N` is 1-based; menu keys 0, - and = start slots 9, 10 and 11.
+- Chapters 6 to 11 run through `src/fantasy/chapter.js`; Ram Ball (`src/fantasy/ram.js`), the power-ready pulse and `src/clearance.js` apply everywhere.
 - Gates before anything ships: `npm test` (506 pass), `npm run audit:physics` (zero failures), `node tools/playtest/physics-audit-checks.mjs --quick`.
 - Release path: `npm run build` (dist/breach.html, about 14 MB), `node tools/pin-sha.mjs`, `node tools/prepare-android.mjs`, then one manual CI run (`workflow_dispatch` only). No APK of the 11-chapter game exists yet; the last APK is the old five-chapter one.
 - Art: `python3 tools/pack_art.py` (about 4.5 min) builds `src/vault-art.js`; never hand-merge it. Blender bpy 5.2.2 runs headless from `art/`.
@@ -15,7 +15,7 @@ Last updated 2026-10-22 (night). Branch `codex/castle-chapters`; `main` is untou
 1. Premium art wiring into the earlier levels (in progress).
 2. APK build plus one manual CI run.
 3. Owner playtest and tuning (harder but fair).
-4. Dragon's Hoard (needs dragon art from `prompt-library/`).
+4. Dragon's Hoard: built on `codex/dragons-hoard`; owner review of the shots in `review-2026-10-23/hoard/`, then merge.
 5. Starflight in its own thread later (separate prototype, not in the game).
 
 Pending owner decision: "compress the companions" saves about 2 MB but shifts faces by 4 to 7 out of 255.

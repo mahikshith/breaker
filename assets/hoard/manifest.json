@@ -1,0 +1,927 @@
+{
+ "source": "M365 Copilot dragon kit 2026-10-23 (sprites/ember, sprites/props); R01 Ember poses 2026-10-23; art/hoard/build.py",
+ "px": 3,
+ "sprites": {
+  "ember_idle": {
+   "path": "assets/hoard/ember_idle.png",
+   "px": [
+    333,
+    384
+   ],
+   "drawSize": [
+    111.0,
+    128.0
+   ],
+   "anchor": [
+    55.5,
+    128.0
+   ],
+   "circles": [
+    [
+     -4.0,
+     -68.5,
+     40.6
+    ],
+    [
+     -10.1,
+     -54.3,
+     32.9
+    ]
+   ],
+   "solid": false
+  },
+  "ember_taunt": {
+   "path": "assets/hoard/ember_taunt.png",
+   "px": [
+    347,
+    403
+   ],
+   "drawSize": [
+    115.667,
+    134.333
+   ],
+   "anchor": [
+    57.833,
+    134.333
+   ],
+   "circles": [
+    [
+     2.0,
+     -68.4,
+     39.0
+    ],
+    [
+     -0.0,
+     -58.2,
+     34.6
+    ]
+   ],
+   "solid": false
+  },
+  "ember_windup": {
+   "path": "assets/hoard/ember_windup.png",
+   "px": [
+    333,
+    381
+   ],
+   "drawSize": [
+    111.0,
+    127.0
+   ],
+   "anchor": [
+    55.5,
+    127.0
+   ],
+   "circles": [
+    [
+     0.0,
+     -73.5,
+     40.1
+    ],
+    [
+     -4.0,
+     -55.4,
+     30.0
+    ]
+   ],
+   "solid": false
+  },
+  "ember_attack": {
+   "path": "assets/hoard/ember_attack.png",
+   "px": [
+    337,
+    403
+   ],
+   "drawSize": [
+    112.333,
+    134.333
+   ],
+   "anchor": [
+    56.167,
+    134.333
+   ],
+   "circles": [
+    [
+     7.0,
+     -77.2,
+     38.9
+    ],
+    [
+     5.0,
+     -59.1,
+     33.6
+    ]
+   ],
+   "solid": false
+  },
+  "ember_hurt": {
+   "path": "assets/hoard/ember_hurt.png",
+   "px": [
+    308,
+    397
+   ],
+   "drawSize": [
+    102.667,
+    132.333
+   ],
+   "anchor": [
+    51.333,
+    132.333
+   ],
+   "circles": [
+    [
+     2.0,
+     -68.9,
+     42.7
+    ],
+    [
+     -0.0,
+     -56.8,
+     42.0
+    ]
+   ],
+   "solid": false
+  },
+  "ember_stagger": {
+   "path": "assets/hoard/ember_stagger.png",
+   "px": [
+    337,
+    417
+   ],
+   "drawSize": [
+    112.333,
+    139.0
+   ],
+   "anchor": [
+    56.167,
+    139.0
+   ],
+   "circles": [
+    [
+     3.0,
+     -71.8,
+     40.2
+    ],
+    [
+     1.0,
+     -61.8,
+     34.5
+    ]
+   ],
+   "solid": false
+  },
+  "ember_panic": {
+   "path": "assets/hoard/ember_panic.png",
+   "px": [
+    326,
+    420
+   ],
+   "drawSize": [
+    108.667,
+    140.0
+   ],
+   "anchor": [
+    54.333,
+    140.0
+   ],
+   "circles": [
+    [
+     -3.0,
+     -78.6,
+     41.4
+    ],
+    [
+     -3.0,
+     -38.4,
+     38.9
+    ]
+   ],
+   "solid": false
+  },
+  "ember_defeat": {
+   "path": "assets/hoard/ember_defeat.png",
+   "px": [
+    332,
+    389
+   ],
+   "drawSize": [
+    110.667,
+    129.667
+   ],
+   "anchor": [
+    55.333,
+    129.667
+   ],
+   "circles": [
+    [
+     6.0,
+     -70.3,
+     41.5
+    ],
+    [
+     6.0,
+     -56.2,
+     35.2
+    ]
+   ],
+   "solid": false
+  },
+  "crown_chest": {
+   "path": "assets/hoard/crown_chest.png",
+   "px": [
+    300,
+    156
+   ],
+   "drawSize": [
+    100.0,
+    52.0
+   ],
+   "anchor": [
+    50.0,
+    26.0
+   ],
+   "contact": [
+    0,
+    0,
+    100.0,
+    52.0
+   ]
+  },
+  "crown_chest_cracked": {
+   "path": "assets/hoard/crown_chest_cracked.png",
+   "px": [
+    300,
+    156
+   ],
+   "drawSize": [
+    100.0,
+    52.0
+   ],
+   "anchor": [
+    50.0,
+    26.0
+   ],
+   "contact": [
+    0,
+    0,
+    100.0,
+    52.0
+   ]
+  },
+  "coin": {
+   "path": "assets/hoard/coin.png",
+   "px": [
+    36,
+    36
+   ],
+   "drawSize": [
+    12.0,
+    12.0
+   ],
+   "anchor": [
+    6.0,
+    6.0
+   ]
+  },
+  "coin_chips_a": {
+   "path": "assets/hoard/coin_chips_a.png",
+   "px": [
+    90,
+    87
+   ],
+   "drawSize": [
+    30.0,
+    29.0
+   ],
+   "anchor": [
+    15.0,
+    14.5
+   ]
+  },
+  "coin_chips_b": {
+   "path": "assets/hoard/coin_chips_b.png",
+   "px": [
+    84,
+    90
+   ],
+   "drawSize": [
+    28.0,
+    30.0
+   ],
+   "anchor": [
+    14.0,
+    15.0
+   ]
+  },
+  "cave": {
+   "path": "assets/hoard/cave.png",
+   "px": [
+    1024,
+    1536
+   ],
+   "drawSize": [
+    360,
+    540.0
+   ],
+   "anchor": [
+    0,
+    0
+   ],
+   "floor": "#040510"
+  },
+  "ember/sleep": {
+   "path": "assets/hoard/ember__sleep.png",
+   "px": [
+    383,
+    279
+   ],
+   "drawSize": [
+    127.667,
+    93.0
+   ],
+   "anchor": [
+    63.667,
+    93.0
+   ],
+   "circles": [
+    [
+     -8.3,
+     -39.0,
+     36.6
+    ],
+    [
+     26.3,
+     -27.0,
+     27.5
+    ],
+    [
+     -39.0,
+     -17.7,
+     14.4
+    ],
+    [
+     25.0,
+     -55.0,
+     12.0
+    ],
+    [
+     -40.3,
+     -57.7,
+     10.7
+    ]
+   ],
+   "solid": false
+  },
+  "ember/stir": {
+   "path": "assets/hoard/ember__stir.png",
+   "px": [
+    383,
+    304
+   ],
+   "drawSize": [
+    127.667,
+    101.333
+   ],
+   "anchor": [
+    63.667,
+    101.333
+   ],
+   "circles": [
+    [
+     -5.7,
+     -39.3,
+     36.9
+    ],
+    [
+     30.3,
+     -27.3,
+     26.3
+    ],
+    [
+     -20.3,
+     -74.0,
+     16.7
+    ],
+    [
+     -36.3,
+     -18.0,
+     16.1
+    ],
+    [
+     -35.0,
+     -62.0,
+     13.6
+    ]
+   ],
+   "solid": false
+  },
+  "ember/windup": {
+   "path": "assets/hoard/ember__windup.png",
+   "px": [
+    367,
+    378
+   ],
+   "drawSize": [
+    122.333,
+    126.0
+   ],
+   "anchor": [
+    60.0,
+    126.0
+   ],
+   "circles": [
+    [
+     6.0,
+     -37.3,
+     31.7
+    ],
+    [
+     7.3,
+     -81.3,
+     29.1
+    ],
+    [
+     -23.3,
+     -24.0,
+     16.7
+    ],
+    [
+     32.7,
+     -20.0,
+     13.9
+    ],
+    [
+     42.0,
+     -56.0,
+     12.6
+    ]
+   ],
+   "solid": false
+  },
+  "ember/breath": {
+   "path": "assets/hoard/ember__breath.png",
+   "px": [
+    439,
+    304
+   ],
+   "drawSize": [
+    146.333,
+    101.333
+   ],
+   "anchor": [
+    73.0,
+    101.333
+   ],
+   "circles": [
+    [
+     -8.3,
+     -46.0,
+     28.3
+    ],
+    [
+     10.3,
+     -68.7,
+     21.7
+    ],
+    [
+     -32.3,
+     -30.0,
+     18.9
+    ],
+    [
+     -49.7,
+     -22.0,
+     12.0
+    ],
+    [
+     -44.3,
+     -68.7,
+     11.9
+    ]
+   ],
+   "solid": false
+  },
+  "ember/sweep": {
+   "path": "assets/hoard/ember__sweep.png",
+   "px": [
+    352,
+    341
+   ],
+   "drawSize": [
+    117.333,
+    113.667
+   ],
+   "anchor": [
+    61.333,
+    113.667
+   ],
+   "circles": [
+    [
+     -12.7,
+     -37.0,
+     28.6
+    ],
+    [
+     15.3,
+     -70.3,
+     26.7
+    ],
+    [
+     6.0,
+     -14.3,
+     12.3
+    ],
+    [
+     36.7,
+     -87.7,
+     11.4
+    ],
+    [
+     16.7,
+     -43.7,
+     11.0
+    ]
+   ],
+   "solid": false
+  },
+  "ember/defeat": {
+   "path": "assets/hoard/ember__defeat.png",
+   "px": [
+    351,
+    332
+   ],
+   "drawSize": [
+    117.0,
+    110.667
+   ],
+   "anchor": [
+    58.333,
+    110.667
+   ],
+   "circles": [
+    [
+     5.0,
+     -36.7,
+     28.0
+    ],
+    [
+     5.0,
+     -66.0,
+     23.3
+    ],
+    [
+     -21.7,
+     -23.3,
+     15.5
+    ],
+    [
+     -37.7,
+     -24.7,
+     11.9
+    ],
+    [
+     29.0,
+     -20.7,
+     11.0
+    ]
+   ],
+   "solid": false
+  }
+ },
+ "skins": {
+  "ember": {
+   "archetype": "sitter",
+   "solid": false,
+   "poses": {
+    "sleep": {
+     "art": [
+      "ember/sleep",
+      "ember_idle"
+     ],
+     "circles": [
+      [
+       -8.3,
+       -39.0,
+       36.6
+      ],
+      [
+       26.3,
+       -27.0,
+       27.5
+      ],
+      [
+       -39.0,
+       -17.7,
+       14.4
+      ],
+      [
+       25.0,
+       -55.0,
+       12.0
+      ],
+      [
+       -40.3,
+       -57.7,
+       10.7
+      ]
+     ]
+    },
+    "stir": {
+     "art": [
+      "ember/stir",
+      "ember_taunt"
+     ],
+     "circles": [
+      [
+       -5.7,
+       -39.3,
+       36.9
+      ],
+      [
+       30.3,
+       -27.3,
+       26.3
+      ],
+      [
+       -20.3,
+       -74.0,
+       16.7
+      ],
+      [
+       -36.3,
+       -18.0,
+       16.1
+      ],
+      [
+       -35.0,
+       -62.0,
+       13.6
+      ]
+     ]
+    },
+    "windup": {
+     "art": [
+      "ember/windup",
+      "ember_windup"
+     ],
+     "circles": [
+      [
+       6.0,
+       -37.3,
+       31.7
+      ],
+      [
+       7.3,
+       -81.3,
+       29.1
+      ],
+      [
+       -23.3,
+       -24.0,
+       16.7
+      ],
+      [
+       32.7,
+       -20.0,
+       13.9
+      ],
+      [
+       42.0,
+       -56.0,
+       12.6
+      ]
+     ]
+    },
+    "breath": {
+     "art": [
+      "ember/breath",
+      "ember_attack"
+     ],
+     "circles": [
+      [
+       -8.3,
+       -46.0,
+       28.3
+      ],
+      [
+       10.3,
+       -68.7,
+       21.7
+      ],
+      [
+       -32.3,
+       -30.0,
+       18.9
+      ],
+      [
+       -49.7,
+       -22.0,
+       12.0
+      ],
+      [
+       -44.3,
+       -68.7,
+       11.9
+      ]
+     ]
+    },
+    "sweep": {
+     "art": [
+      "ember/sweep",
+      "ember_attack"
+     ],
+     "circles": [
+      [
+       -12.7,
+       -37.0,
+       28.6
+      ],
+      [
+       15.3,
+       -70.3,
+       26.7
+      ],
+      [
+       6.0,
+       -14.3,
+       12.3
+      ],
+      [
+       36.7,
+       -87.7,
+       11.4
+      ],
+      [
+       16.7,
+       -43.7,
+       11.0
+      ]
+     ]
+    },
+    "hurt": {
+     "art": [
+      "ember/stir",
+      "ember_hurt"
+     ],
+     "circles": [
+      [
+       -5.7,
+       -39.3,
+       36.9
+      ],
+      [
+       30.3,
+       -27.3,
+       26.3
+      ],
+      [
+       -20.3,
+       -74.0,
+       16.7
+      ],
+      [
+       -36.3,
+       -18.0,
+       16.1
+      ],
+      [
+       -35.0,
+       -62.0,
+       13.6
+      ]
+     ]
+    },
+    "dizzy": {
+     "art": [
+      "ember/defeat",
+      "ember_stagger"
+     ],
+     "circles": [
+      [
+       5.0,
+       -36.7,
+       28.0
+      ],
+      [
+       5.0,
+       -66.0,
+       23.3
+      ],
+      [
+       -21.7,
+       -23.3,
+       15.5
+      ],
+      [
+       -37.7,
+       -24.7,
+       11.9
+      ],
+      [
+       29.0,
+       -20.7,
+       11.0
+      ]
+     ]
+    },
+    "panic": {
+     "art": [
+      "ember/windup",
+      "ember_panic"
+     ],
+     "circles": [
+      [
+       6.0,
+       -37.3,
+       31.7
+      ],
+      [
+       7.3,
+       -81.3,
+       29.1
+      ],
+      [
+       -23.3,
+       -24.0,
+       16.7
+      ],
+      [
+       32.7,
+       -20.0,
+       13.9
+      ],
+      [
+       42.0,
+       -56.0,
+       12.6
+      ]
+     ]
+    },
+    "defeat": {
+     "art": [
+      "ember/defeat",
+      "ember_defeat"
+     ],
+     "circles": [
+      [
+       5.0,
+       -36.7,
+       28.0
+      ],
+      [
+       5.0,
+       -66.0,
+       23.3
+      ],
+      [
+       -21.7,
+       -23.3,
+       15.5
+      ],
+      [
+       -37.7,
+       -24.7,
+       11.9
+      ],
+      [
+       29.0,
+       -20.7,
+       11.0
+      ]
+     ]
+    }
+   },
+   "eye": [
+    "eye/0",
+    "eye/1",
+    "eye/2",
+    "eye/3",
+    "eye/4"
+   ],
+   "props": {
+    "molten": [
+     "prop/molten_0",
+     "prop/molten_1",
+     "prop/molten_2"
+    ],
+    "chime": [
+     "prop/chime",
+     "prop/chime_ring"
+    ],
+    "gate": [
+     "prop/gate_0",
+     "prop/gate_1",
+     "prop/gate_2"
+    ],
+    "burst": [
+     "prop/burst_coin",
+     "prop/burst_gem"
+    ],
+    "sunstone": [
+     "prop/sunstone",
+     "prop/sunstone_cracked"
+    ]
+   }
+  }
+ }
+}

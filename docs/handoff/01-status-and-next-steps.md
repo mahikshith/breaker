@@ -70,6 +70,15 @@ Read all three handoff docs before touching code: this one (status, rules, histo
 
 ## Progress log (newest first)
 
+- **2026-10-23 — Dragon's Hoard, chapter 12 (branch `codex/dragons-hoard`, from `codex/castle-chapters` with continue screen v2 merged in; not merged back).**
+  - Spec: the merged one at the top of `design/phase2/dragons-hoard.md` (Ember he/him, the Crown, the Wake eye, Hush Chimes, Hoard Roar, molten gold, cash-out greed, the avalanche escape).
+  - Slot 11 (`?level=12`, menu key `=`; `-` now starts slot 10). Rivals' `next` is 11. `config/mobile-preview.json` and `tools/prepare-android.mjs` list twelve slots; the reviewed SHA and the Android version are not bumped (owner's release step).
+  - Model `src/fantasy/hoard.js` (DragonsHoard), renderer `src/fantasy/hoard-render.js`, chapter wiring in `src/fantasy/chapter.js` (greed card and RUN pill are model-space buttons; keys 1/R run, 2/S stay, R runs during a stay), `nearMiss()` and back-in-action like Rivals.
+  - Ember runs on the new "big sitter" archetype (`src/fantasy/creatures/sitter.js`, skin `ember.js`): physics and pose state once per archetype, the creature is data.
+  - Art: `art/hoard/build.py` takes the R01 full-body Ember poses (one scale, body circles fitted to the alpha), cuts the M365 dragon kit (8 busts kept as fallbacks, Crown chest fitted to its 100x52 collider, coins) and copies the owner's cave plate A to `assets/hoard`; `tools/pack_art.py` packs it as `ART.hoard`. R02 eye and R03 props slot in by name when they arrive (code fallbacks until then).
+  - First-time coaching (merged from `codex/castle-chapters`) reaches the Hoard through the shared chapter hooks (serve, Ram pips, burn-in Ward); the greed card and the escape block it.
+  - Tests: `tests/hoard.test.js` (17), `tests/sitter.test.js` (5, with a dummy solid skin); the chapter and continue-v2 tests cover the twelfth slot. Audit: adapter `hoard` (greed card answered at random). Review shots: `tools/playtest/hoard-review.mjs` (PERF=1 adds a frame-cost line).
+
 - **2026-10-23 — First-time coaching (branch `codex/coach`, from `codex/castle-chapters`; not merged).**
   - `src/coach.js`: one glossy chip under the paddle (between the ram tray and the Kit orb), one at a time, hidden while play is blocked (continue panel, power menu, Vault Ward coach, back-in-action hold, intros). Progress persists in the store: `coachServes`, `coachCatches`, `coachRam`, `coachAimHud`.
   - Serve: "Slide to aim · Lift to serve" with a thumb and chevrons, every chapter, until 3 player serves (auto-serves do not count).

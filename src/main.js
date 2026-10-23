@@ -27,7 +27,8 @@ const LEVELS = [
   { make: (W, H, s) => new FantasyChapter('tidewheel', W, H, s, selectedDifficulty), name: 'Tidewheel Citadel', sub: 'Break Nerra\u2019s grip. Stop the flood.', color: '#7fc7cf', next: 8, victory: 'LUMI IS SAFE!' },
   { make: (W, H, s) => new FantasyChapter('gatehouse', W, H, s, selectedDifficulty), name: 'Gatehouse Siege', sub: 'Kit breaks in. Korr holds the gate.', color: '#c98a5b', next: 9, victory: 'THE GATE IS OURS!' },
   { make: (W, H, s) => new FantasyChapter('lumitower', W, H, s, selectedDifficulty), name: 'Lumi Breaks Out', sub: 'Lumi breaks out. Gnash coils the tower.', color: '#e58fb4', next: 10, victory: 'LUMI BROKE OUT!' },
-  { make: (W, H, s) => new FantasyChapter('rivals', W, H, s, selectedDifficulty), name: 'Serpent Rivals', sub: 'Bait the twin serpents. Break the Seal.', color: '#8fc9d6', victory: 'THE SEAL IS BROKEN!' },
+  { make: (W, H, s) => new FantasyChapter('rivals', W, H, s, selectedDifficulty), name: 'Serpent Rivals', sub: 'Bait the twin serpents. Break the Seal.', color: '#8fc9d6', next: 11, victory: 'THE SEAL IS BROKEN!' },
+  { make: (W, H, s) => new FantasyChapter('hoard', W, H, s, selectedDifficulty), name: 'Dragon’s Hoard', sub: 'Rob the sleeping dragon. Mind his eye.', color: '#e0a54a', victory: 'KIT ESCAPED!' },
 ];
 const W = 360;
 let H = 740, scale = 1, FH = 740, inT = 0, inB = 0; // FH: full canvas height; H: playable height inside the safe area
@@ -142,7 +143,7 @@ addEventListener('keydown', e => {
   if (suspended || document.hidden || scene === 'pause') return;
   if (scene === 'level' && !e.repeat) level.key(e.key, true);
   if (e.key === ' ' || e.key.startsWith('Arrow') || e.key.toLowerCase() === 'k') e.preventDefault();
-  if (scene === 'menu' && /^[0-9]$/.test(e.key)) { const i = e.key === '0' ? 9 : +e.key - 1; if (i < LEVELS.length) start(i); }
+  if (scene === 'menu' && /^[0-9=-]$/.test(e.key)) { const i = e.key === '0' ? 9 : e.key === '-' ? 10 : e.key === '=' ? 11 : +e.key - 1; if (i < LEVELS.length) start(i); }
 });
 addEventListener('keyup', e => {
   if (e.key === ' ' && level?.suppressedSpace) { level.key(e.key, false); return; }
@@ -249,7 +250,7 @@ function drawMenu() {
   // level cards
   DIFFICULTY_IDS.forEach((id, i) => button(difficulty(id).label, 20 + i * 110, listTop - 54, 100, 42, id === selectedDifficulty ? '#9b6295' : '#414b65', () => selectDifficulty(id), true));
   const cw = W - 40, ch = Math.min(104, (H - listTop - 66) / LEVELS.length - 8);
-  [0, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10].filter(i => i < LEVELS.length).forEach((i, row) => {
+  [0, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10, 11].filter(i => i < LEVELS.length).forEach((i, row) => {
     const L = LEVELS[i], x = 20, y = listTop + row * (ch + 8);
     buttons.push({ x, y, w: cw, h: ch, fn: () => start(i) });
     g.fillStyle = 'rgba(0,0,0,0.45)'; rrect(g, x + 3, y + 6, cw, ch, 18); g.fill();
