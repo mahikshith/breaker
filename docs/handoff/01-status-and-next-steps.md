@@ -70,6 +70,12 @@ Read all three handoff docs before touching code: this one (status, rules, histo
 
 ## Progress log (newest first)
 
+- **2026-10-23 — Tidewheel look (branch `codex/tidewheel-look`, from `codex/castle-chapters`; not merged). Visuals only; stages, HP and rules unchanged.**
+  - Sea glaze bricks: `art/tidewheel-glaze/build.py` re-glazes the glaze v2 source sheet into sea-glass, coral, pearl and a brass-banded, barnacled steel bar (for future unbreakable bars, colour `'steel'`), each intact / cracked / breaking, at the rafts' 34x18 footprint (ppu 3, margin 4, glaze v2's contact shadow). Packed as `ART.tidewheelGlaze` (~45 KB). `render.js` draws raft bricks from them (cracked when `hp < maxHP`), falling back to the old sage/coral/ivory set if they are missing. Brick breaks show the breaking frame, its pieces cut along the frame's own gaps, glaze chips and a wet droplet spray.
+  - Water FX (`src/fantasy/tide-fx.js`) replace the four cartoon splash frames, the dot muzzle, the pulse's glow beads and the stroked sluice lines: white water, a crown of spray sheets, motion-blurred droplets under gravity, foam flecks and a lit perspective ripple only where the water lands on water. Closed-form particles (no allocation per frame, at most 60 droplets drawn), sprites and gradients baked once, no shadowBlur. `water-hit` and `water-muzzle` effects live 0.6 s and 0.4 s (visual only) so the droplets can land.
+  - Lumi: her cheer kept playing only while the model clock ran; it now runs on after the win, and the refuge chains run on up out of frame when the rescue hauls her above their blocks.
+  - Review shots and notes: `review-2026-10-23/tidewheel-look/` (made by `tools/playtest/tidewheel-look.mjs`).
+
 - **2026-10-23 — Floor hooks (branch `codex/floor-hooks`, from `codex/castle-chapters`; not merged).**
   - Rule from now on: every floor needs a stake on screen, pressure (a visible clock or threat) and a payoff that carries over. Audit of every floor and one-line fixes: `design/phase2/floor-hooks.md` (multi-floor chapters including Dragon's Hoard: 6 OK, 5 WEAK, 1 EMPTY; the worst were Gatehouse 1 and Lumi 1; all three Hoard floors are OK).
   - Gatehouse floor 1 rebuilt around the rule:
