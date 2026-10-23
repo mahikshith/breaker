@@ -1,0 +1,233 @@
+{
+ "source": "art/tidewheel-glaze/build.py (re-glazed from art/glaze2/source/bricks.png)",
+ "sprites": {
+  "tg_seaglass_0": {
+   "file": "tg_seaglass_0.png",
+   "px": [
+    126,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    34,
+    18
+   ],
+   "drawSize": [
+    42,
+    26
+   ],
+   "margin": 4,
+   "material": "seaglass",
+   "state": 0
+  },
+  "tg_seaglass_1": {
+   "file": "tg_seaglass_1.png",
+   "px": [
+    126,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    34,
+    18
+   ],
+   "drawSize": [
+    42,
+    26
+   ],
+   "margin": 4,
+   "material": "seaglass",
+   "state": 1
+  },
+  "tg_seaglass_2": {
+   "file": "tg_seaglass_2.png",
+   "px": [
+    126,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    34,
+    18
+   ],
+   "drawSize": [
+    42,
+    26
+   ],
+   "margin": 4,
+   "material": "seaglass",
+   "state": 2
+  },
+  "tg_coral_0": {
+   "file": "tg_coral_0.png",
+   "px": [
+    126,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    34,
+    18
+   ],
+   "drawSize": [
+    42,
+    26
+   ],
+   "margin": 4,
+   "material": "coral",
+   "state": 0
+  },
+  "tg_coral_1": {
+   "file": "tg_coral_1.png",
+   "px": [
+    126,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    34,
+    18
+   ],
+   "drawSize": [
+    42,
+    26
+   ],
+   "margin": 4,
+   "material": "coral",
+   "state": 1
+  },
+  "tg_coral_2": {
+   "file": "tg_coral_2.png",
+   "px": [
+    126,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    34,
+    18
+   ],
+   "drawSize": [
+    42,
+    26
+   ],
+   "margin": 4,
+   "material": "coral",
+   "state": 2
+  },
+  "tg_pearl_0": {
+   "file": "tg_pearl_0.png",
+   "px": [
+    126,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    34,
+    18
+   ],
+   "drawSize": [
+    42,
+    26
+   ],
+   "margin": 4,
+   "material": "pearl",
+   "state": 0
+  },
+  "tg_pearl_1": {
+   "file": "tg_pearl_1.png",
+   "px": [
+    126,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    34,
+    18
+   ],
+   "drawSize": [
+    42,
+    26
+   ],
+   "margin": 4,
+   "material": "pearl",
+   "state": 1
+  },
+  "tg_pearl_2": {
+   "file": "tg_pearl_2.png",
+   "px": [
+    126,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    34,
+    18
+   ],
+   "drawSize": [
+    42,
+    26
+   ],
+   "margin": 4,
+   "material": "pearl",
+   "state": 2
+  },
+  "tg_steel_0": {
+   "file": "tg_steel_0.png",
+   "px": [
+    126,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    34,
+    18
+   ],
+   "drawSize": [
+    42,
+    26
+   ],
+   "margin": 4,
+   "material": "steel",
+   "state": 0
+  },
+  "tg_steel_1": {
+   "file": "tg_steel_1.png",
+   "px": [
+    126,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    34,
+    18
+   ],
+   "drawSize": [
+    42,
+    26
+   ],
+   "margin": 4,
+   "material": "steel",
+   "state": 1
+  },
+  "tg_steel_2": {
+   "file": "tg_steel_2.png",
+   "px": [
+    126,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    34,
+    18
+   ],
+   "drawSize": [
+    42,
+    26
+   ],
+   "margin": 4,
+   "material": "steel",
+   "state": 2
+  }
+ }
+}
