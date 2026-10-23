@@ -474,7 +474,7 @@ export class Gatehouse {
       if (hit.kind === 'brick' && fire && !(b.ram > 0)) { const br = hit.item.item; while (br.hp > 0) this.hitBrick(br, b); if (this.phase !== 'play') return; left *= 1 - hit.t; continue; }
       if (hit.kind === 'steel' && hit.item.item.cracked && (fire || b.ram > 0)) { this.breakBar(hit.item.item); left *= 1 - hit.t; continue; }
       b.x += hit.nx * ((hit.depth || 0) + .015); b.y += hit.ny * ((hit.depth || 0) + .015);
-      if (hit.kind === 'paddle') { paddleBounce(this, b); b.dull = 0; }
+      if (hit.kind === 'paddle') { paddleBounce(this, b); b.dull = 0; b.wheeled = false; }
       else {
         const speed = Math.hypot(b.vx, b.vy); reflect(b, hit);
         const next = Math.hypot(b.vx, b.vy); if (next > 0) { b.vx *= speed / next; b.vy *= speed / next; }
@@ -484,7 +484,9 @@ export class Gatehouse {
         if (fresh) b.contacts.add(key);
         if (fresh && hit.kind === 'brick') this.hitBrick(hit.item.item, b);
         if (fresh && hit.kind === 'housing') this.hitHousing(hit.item.item, b.ram > 0 ? 2 : 1);
-        if (fresh && hit.kind === 'wheel') this.turnWheel(b.ram > 0 ? 2 : 1, hit.nx);
+        // One notch per shot: a ball turns the winch once between paddle touches, so a ball rattling in its chamber
+        // cannot wind the whole gate up on its own.
+        if (fresh && hit.kind === 'wheel') { if (!b.wheeled) { b.wheeled = true; this.turnWheel(b.ram > 0 ? 2 : 1, hit.nx); } else this.effect(b.x, b.y, 'iron-hit', .2); }
         if (fresh && hit.kind === 'villain') this.hitVillain(b.ram > 0 ? RAM.damage : 1, b.ram > 0 && this.villain.stage === 'windup');
         if (fresh && hit.kind === 'slot') this.hitSlot(b);
         if (fresh && hit.kind === 'bell') this.hitBell(hit.item, hit, speed);

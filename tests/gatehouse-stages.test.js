@@ -264,7 +264,9 @@ test('the sliding tooth snaps between its poses after a tell and pushes out any 
 });
 
 test('a full four-stage siege plays through with a tracking paddle on every mode, with no stuck ball', () => {
-  for (const mode of MODES) {
+  // Capsule drops roll Math.random: seed it so every run of the suite plays the same sieges.
+  let seed = 4243; const saved = Math.random; Math.random = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  try { for (const mode of MODES) {
     const g = make(0, mode); g.lives = 99; let o = 0, rnd = 7;
     const r = () => (rnd = (rnd * 16807) % 2147483647) / 2147483647;
     for (let i = 0; i < 240 * 900 && g.state === 'play'; i++) {
@@ -278,7 +280,7 @@ test('a full four-stage siege plays through with a tracking paddle on every mode
     }
     assert.equal(g.state, 'won', `${mode}: stage ${g.floor + 1} after ${g.time.toFixed(0)} s`);
     assert.equal(g.stageLog.length, 4); assert.ok(g.stageLog.every(s => s.time > 5 && s.time < 400), `${mode}: ${JSON.stringify(g.stageLog)}`);
-  }
+  } } finally { Math.random = saved; }
 });
 
 test('every stage keeps its brick geometry on the BRICK grid and the stage names read as the design', () => {

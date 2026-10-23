@@ -205,7 +205,7 @@ export function siegeOverlay(ctx, g, art) {
   }
   // Knock-downs and Korr's return.
   const kd = g.effects.find(e => e.kind === 'knockdown');
-  if (kd) stageBanner(ctx, { width: g.width, y: 300, text: 'KORR KNOCKED DOWN!', sub: '+1 DROP · LOOT CHEST · HE’LL BE BACK', t: kd.age, life: kd.life, theme: GATEHOUSE_THEME });
+  if (kd) stageBanner(ctx, { width: g.width, y: g.phase === 'crash' || g.phase === 'climb' ? 360 : 300, text: 'KORR KNOCKED DOWN!', sub: '+1 DROP · LOOT CHEST · HE’LL BE BACK', t: kd.age, life: kd.life, theme: GATEHOUSE_THEME });
   const roar = g.effects.find(e => e.kind === 'korr-roar');
   if (roar && g.phase !== 'card') stageBanner(ctx, { width: g.width, y: 300, text: 'KORR IS BACK, ENRAGED', sub: 'HE ATTACKS FASTER', t: roar.age, life: roar.life, theme: GATEHOUSE_THEME });
   const top = g.effects.find(e => e.kind === 'hoist-top');

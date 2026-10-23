@@ -252,7 +252,9 @@ test('hoist and drawbridge: Korr and his battlements sit above the ball ceiling;
 
 test('always winnable: the seeded tracking bot drops the bridge on every mode, cranks and all', () => {
   const rng = s => () => (s = (s * 16807) % 2147483647) / 2147483647;
-  for (const mode of ['easy', 'medium', 'hard']) {
+  // Capsule drops roll Math.random; seed it too so the run (and Korr's crank count) is the same every time.
+  const saved = Math.random; Math.random = rng(9974);
+  try { for (const mode of ['easy', 'medium', 'hard']) {
     let heals = 0;
     for (let seed = 1; seed <= 6; seed++) {
       const rnd = rng(seed * 77), g = new Gatehouse({ difficulty: mode, floor: BRIDGE }); g.lives = 99; g.skipCard(); let o = (rnd() - .5) * 70;
@@ -265,7 +267,7 @@ test('always winnable: the seeded tracking bot drops the bridge on every mode, c
       assert(g.winch.heals <= g.rules.crankCap); heals += g.winch.heals;
     }
     assert(heals > 0, `${mode}: Korr cranked in at least one run`);
-  }
+  } } finally { Math.random = saved; }
 });
 
 test('par payoff: a drop inside par smashes the bell rack and slows murder-hole bells; over par the rack is hauled off', () => {

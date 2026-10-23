@@ -463,7 +463,7 @@ function wheel(ctx,g,art,w){
     const a=-Math.PI/2+i*Math.PI*2/need,x=w.x+Math.cos(a)*(w.r+8),y=w.y+Math.sin(a)*(w.r+8),on=i<w.notches;
     if(on)glow(ctx,x,y,8,'#ffc98a',.45);fxPart(ctx,on?'pip_gold':'pip_empty',x,y,.78);
   }
-  text(ctx,`${w.notches} / ${need}`,w.x,w.y+w.r+22,11,'#f3dca8','center');
+  text(ctx,`${w.notches} / ${need}`,w.x+w.r+20,w.y+22,11,'#f3dca8','center');   // beside the wheel, clear of the iron sill under it
 }
 // Korr's crank telegraph on a housing: 0..1 over the tell (0 when he is not winding this one).
 const crankQ=(g,h)=>{const w=g.winch;return w&&w.stage==='crank'&&w.target===h?clamp01((g.floorTime-w.at)/Math.max(.01,w.until-w.at)):0;};
@@ -643,7 +643,7 @@ function floorDuel(ctx,g,art){
   if(v.stage==='stagger')dazed(ctx,g,v.foot.x,v.foot.y-124,1);
   else if(v.defeat&&v.defeat.age>.2&&v.defeat.age<1.6)dazed(ctx,g,v.foot.x,v.foot.y-92,Math.min(1,(1.6-v.defeat.age)*2));
   if(v.hp>0){
-    const x=v.foot.x-40,y=v.foot.y-156,f=clamp01(v.hp/v.maxHP);
+    const x=v.foot.x-40,y=v.foot.y-146,f=clamp01(v.hp/v.maxHP);   // under the stage clock chip
     ctx.fillStyle='#0d141cdd';ctx.beginPath();ctx.roundRect(x-2,y-2,84,9,4.5);ctx.fill();
     const bar=ctx.createLinearGradient(x,y,x,y+5);bar.addColorStop(0,'#f5d28f');bar.addColorStop(1,'#b3802f');ctx.fillStyle=bar;ctx.beginPath();ctx.roundRect(x,y,80*f,5,2.5);ctx.fill();
     ctx.strokeStyle='#e4c98a88';ctx.lineWidth=.7;ctx.beginPath();ctx.roundRect(x-2,y-2,84,9,4.5);ctx.stroke();
