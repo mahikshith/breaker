@@ -61,7 +61,7 @@ export class FantasyChapter {
   get phase() { return this.m.phase; }
   get lives() { return this.m.lives; }
   get score() { return this.m.score; }
-  get danger() { const m = this.m; if (this.key === 'hoard') return m.ember.stage === 'windup' ? .8 : m.floor === 2 ? Math.max(0, Math.min(.9, 1 - (m.dangerY - m.fieldBottom()) / 140)) : m.wake / 100 * .7; if (this.key === 'lumitower' || this.key === 'rivals') return m.lunges.some(l => l.stage !== 'peek' && l.stage !== 'retreat') ? .8 : 0; if (this.key === 'gatehouse') return m.bells.length || m.villain.stage === 'windup' ? .75 : m.floor / 3 * .6; return this.key === 'bellforge' ? m.lumi.steps / m.rules.mistakes : 1 - (m.water.y - m.water.limit) / (m.water.initial - m.water.limit); }
+  get danger() { const m = this.m; if (this.key === 'hoard') return m.ember.stage === 'windup' ? .8 : m.floor === 2 ? Math.max(0, Math.min(.9, 1 - (m.dangerY - m.fieldBottom()) / 140)) : m.wake / 100 * .7; if (this.key === 'lumitower' || this.key === 'rivals') return m.lunges.some(l => l.stage !== 'peek' && l.stage !== 'retreat') ? .8 : 0; if (this.key === 'gatehouse') return m.bells.length || m.villain.stage === 'windup' || m.winch?.stage === 'crank' ? .75 : m.floor / 3 * .6; return this.key === 'bellforge' ? m.lumi.steps / m.rules.mistakes : 1 - (m.water.y - m.water.limit) / (m.water.initial - m.water.limit); }
   get reason() { const m = this.m; return OWN_REASON.has(this.key) ? m.reason : m.loss === 'flood' ? 'The basin reached the refuge.' : 'The last ball slipped away.'; }
   // The menu card shows the Twin Seal with three ward plates and its first cracks.
   skipIntro() { if (this.key === 'hoard') this.m.wake = 64; if (this.key === 'rivals') { this.m.buildFloor(2); this.m.floorTime = 5; this.m.seal.ward = 3; this.m.seal.hp = Math.round(this.m.seal.maxHP * .7); } }
@@ -158,7 +158,7 @@ export class FantasyChapter {
         else if (!['window-peek', 'lullaby', 'starlight', 'songshield', 'seal-feed', 'lure-dim', 'volley', 'arrow-hit', 'ward-deploy'].includes(e.kind) && m.time - this.hitSoundAt > .06) { sfx.hit(); this.hitSoundAt = m.time; }
         continue;
       }
-      if (['bell-release', 'ratchet', 'surge', 'bell-warning', 'housing-break', 'drawbridge-crash', 'gate-open', 'ram-launch'].includes(e.kind)) sfx.beat();
+      if (['bell-release', 'ratchet', 'surge', 'bell-warning', 'housing-break', 'drawbridge-crash', 'gate-open', 'ram-launch', 'winch-tell', 'crank-jam', 'rack-smash', 'loot-shower'].includes(e.kind)) sfx.beat();
       else if (m.time - this.hitSoundAt > .06) { sfx.hit(); this.hitSoundAt = m.time; }
     }
     if (was === 'play' && m.state !== 'play') { m.state === 'won' ? sfx.win() : sfx.lose(); this.kitShockUntil = this.t + 1.1; }

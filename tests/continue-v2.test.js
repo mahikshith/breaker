@@ -73,7 +73,8 @@ test('villain chapters name the villain and its HP; objective chapters say what 
   assert.equal(line(carrier), `${plural(pods - 1, 'CREW POD')} LEFT`); assert.match(soClose(carrier).detail, /^WAVE 1 \/ \d/);
   // Gatehouse: drawbridge housings, the winch, then Korr
   const gate = new Gatehouse({ difficulty: 'medium' }); gate.housings[0].hp = 0; gate.housings[1].hp = 2;
-  assert.equal(gate.nearMiss().line, '2 HITS TO DROP THE DRAWBRIDGE');
+  assert.equal(gate.nearMiss().line, '2 HITS TO CRUSH KORR’S BELL RACK');   // inside par the drop smashes Korr's bell rack
+  gate.floorTime = gate.rules.par; gate.rack.state = 'gone'; assert.equal(gate.nearMiss().line, '2 HITS TO DROP THE DRAWBRIDGE');
   gate.buildFloor(1); gate.wheel.notches = gate.gate.need - 1; assert.equal(gate.nearMiss().line, '1 WINCH HIT TO RAISE THE GATE');
   gate.buildFloor(2); gate.villain.hp = 3; assert.equal(gate.nearMiss().line, hpLeft('KORR', 3));
   assert.deepEqual(gate.nearMiss().stage, ['FLOOR', 3, 3]); assert.ok(gate.nearMiss().progress > 2 / 3);

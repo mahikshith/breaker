@@ -70,6 +70,18 @@ Read all three handoff docs before touching code: this one (status, rules, histo
 
 ## Progress log (newest first)
 
+- **2026-10-23 — Floor hooks (branch `codex/floor-hooks`, from `codex/castle-chapters`; not merged).**
+  - Rule from now on: every floor needs a stake on screen, pressure (a visible clock or threat) and a payoff that carries over. Audit of every floor and one-line fixes: `design/phase2/floor-hooks.md` (multi-floor chapters including Dragon's Hoard: 6 OK, 5 WEAK, 1 EMPTY; the worst were Gatehouse 1 and Lumi 1; all three Hoard floors are OK).
+  - Gatehouse floor 1 rebuilt around the rule:
+    - Korr winches on a battlement parapet above the bridge. The parapet is a solid and the ball's ceiling; Korr has no collider there.
+    - A five-gem winch clock: after `crankIdle` s with no housing hit, Korr cranks. The telegraph lasts 1.2 to 1.8 s (red-hot housing, taut sparking chain, "HIT IT!"). Then the housing regains 1 HP. It never heals a destroyed housing and is capped per floor. A housing hit during the telegraph jams the crank.
+    - A par chip: dropping the bridge inside par smashes Korr's bell rack ("BELL RACK SMASHED!"). Floor 2 then shows the wreck and its bells come 1.5x slower.
+    - Six gem bricks bank loot that showers out of the crash.
+    - Bridge and housings moved down 24u.
+  - Fix: Gatehouse bells after the teaching bell were scheduled on the run clock, so floors 2 and 3 went nearly bell-free. They now use the floor clock (test measures the gap).
+  - Fix: the physics audit caught a pre-existing ball orbit in the floor 2 pocket right of the gate (over 12 s with no contact). Ramp colliders now scale with the drawn beam (`RAMP_BODY` per 74u), the floor 2 ramp is shorter and steeper (278,224, 40u, .3 rad), and a ball that goes `DULL.after` (4 s) touching only scenery has each scenery bounce turned `DULL.turn` (.14 rad) toward the paddle, at the same speed. Worst escape went from 35 s to under 8 s over 3,200 random entries. Korr's pose-swap eject could also leave the ball in a crease between two body circles (112 of 17,202 swaps; the floor 3 ball then crawled out). It now falls back to pushing the ball straight out from his core circle, and a test sweeps every swap.
+  - Tests: `tests/gatehouse.test.js` (winch tell, jam, never heals destroyed, cap, ceiling, bot always clears, par payoff, gems, ramp collider scale, pocket escape, anti-loop nudge, pose-swap eject sweep). Captures: `node tools/playtest/floor-hooks.mjs <out>`.
+
 - **2026-10-23 — Render round 2 integrated (branch `codex/art-round2`, from `codex/castle-chapters`; not merged).**
   - Sources: the owner's R02, R03, R05, R06 sheets in `art/round2/source` (same files as main's `art/R0x.png`). Cut by connected components: `art/hoard/build.py` (R02 eye, R03 props, extended cave plate) and `art/round2/build.py` (R05 capsules, R06 crates and splash; `assets/round2/manifest.json`, packed as `ART.round2`).
   - Hoard: the Wake eye is Ember's rendered eye (5 stages, crossfading) over the meter bar; molten bricks (molten, cooling, hardened 2-hit) on their 32x16 colliders; the Hush Chime rings with the R03 bell; the floor-3 gate is the R03 portcullis fitted to the 140x62 gate span (dented past half, broken on the escape); coin and gem bursts on loot. The cave plate now runs the full playfield (pillars down both sides, dark floor). The Sunstone and the heavy banded crate are not cut (unused).

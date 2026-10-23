@@ -351,6 +351,7 @@ function glazed(ctx,art,key,x,y,w,h){
 }
 function gbrick(ctx,art,b){
   const key=b.colour||'coral';glazed(ctx,art,key,b.x,b.y,b.w,b.h);
+  if(b.gem){const cx=b.x+b.w/2,cy=b.y+b.h/2;glow(ctx,cx,cy,16,{gold:'#ffcf7a',blue:'#8fc8ff',rose:'#ff9ec0'}[b.gem],.5);fxPart(ctx,'pip_'+b.gem,cx,cy,1.55);}
   if(b.type!=='armour')return;
   const hurt=b.hp<b.maxHP,plate=ctx.createLinearGradient(b.x,b.y,b.x,b.y+b.h);plate.addColorStop(0,'#d7e0e6');plate.addColorStop(.45,'#7f8c96');plate.addColorStop(1,'#3c464f');
   ctx.save();ctx.globalAlpha=hurt?.55:.82;ctx.fillStyle=plate;ctx.beginPath();ctx.roundRect(b.x+1,b.y+1,b.w-2,b.h-2,3);ctx.fill();
@@ -402,25 +403,91 @@ function wheel(ctx,g,art,w){
   }
   text(ctx,`${w.notches} / ${need}`,w.x,w.y+w.r+22,11,'#f3dca8','center');
 }
+// Korr's crank telegraph on a housing: 0..1 over the tell (0 when he is not winding this one).
+const crankQ=(g,h)=>{const w=g.winch;return w&&w.stage==='crank'&&w.target===h?clamp01((g.floorTime-w.at)/Math.max(.01,w.until-w.at)):0;};
 function counterweight(ctx,g,art,h){
-  const hit=g.effects.find(e=>e.kind==='housing-hit'&&Math.abs(e.x-(h.x+h.w/2))<1&&e.age<.3),sh=hit?Math.sin(hit.age*70)*3*(1-hit.age/.3):0,x=h.x+sh;
+  const hit=g.effects.find(e=>e.kind==='housing-hit'&&Math.abs(e.x-(h.x+h.w/2))<1&&e.age<.3),q=crankQ(g,h);
+  const sh=(hit?Math.sin(hit.age*70)*3*(1-hit.age/.3):0)+(q?Math.sin(g.time*61)*1.1*q:0),x=h.x+sh,lift=-3.5*smooth(q);
+  const beat=.75+.25*Math.sin(g.time*18);
+  if(q){ctx.save();ctx.globalCompositeOperation='lighter';glow(ctx,h.x+h.w/2,h.y+h.h*.5,74,'#ff5a1a',(.5+.5*q)*beat);glow(ctx,h.x+h.w/2,h.y+h.h*.45,40,'#ffb070',(.35+.4*q)*beat);ctx.restore();}
+  ctx.save();ctx.translate(0,lift);
   slice(ctx,art,'tidewheel/counterweight',art.manifest.tidewheel.counterweight,...COUNTERWEIGHT,x,h.y,h.w,h.h);
+  // Red-hot under Korr's crank: the housing itself flushes warm, pulsing faster as the telegraph runs out.
+  if(q&&art.images['tidewheel/counterweight']?.naturalWidth){
+    // A red-hot copy of the housing (the art tinted ember orange) fades in over it as the telegraph runs.
+    const hot=cached(`housing-hot-${h.w}-${h.h}`,h.w,h.h,c=>{slice(c,art,'tidewheel/counterweight',art.manifest.tidewheel.counterweight,...COUNTERWEIGHT,0,0,h.w,h.h);c.globalCompositeOperation='source-atop';
+      const gr=c.createLinearGradient(0,0,0,h.h);gr.addColorStop(0,'#ffb060');gr.addColorStop(1,'#ff4a12');c.fillStyle=gr;c.fillRect(0,0,h.w,h.h);});
+    ctx.save();ctx.globalAlpha=ga(ctx)*(.2+.5*q)*beat;ctx.drawImage(hot,x,h.y,h.w,h.h);ctx.restore();
+    // The hook strains: spark streaks spit from the chain eye in short bursts.
+    const cyc=.3,t=g.time%cyc;sparks(ctx,x+h.w/2,h.y+4,t,4,110,[],1.6,Math.floor(g.time/cyc)%97);}
   for(let i=0;i<h.maxHP-h.hp;i++){
     const rx=h.x+h.w*(.25+.5*rnd(i,Math.round(h.x)+1)),ry=h.y+h.h*(.2+.2*rnd(i,Math.round(h.x)+2));
     ctx.strokeStyle='#0e0b09';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(x+rx-h.x,ry);ctx.lineTo(x+rx-h.x+5,ry+10);ctx.lineTo(x+rx-h.x-3,ry+19);ctx.lineTo(x+rx-h.x+4,ry+30);ctx.stroke();
     ctx.strokeStyle='#d9c79e55';ctx.lineWidth=.5;ctx.stroke();
   }
+  ctx.restore();
   pips(ctx,h.x+h.w/2,h.y+h.h+7.5,h.maxHP,h.hp,{gap:8.6,scale:.82});
+  // The gem Korr is winding back glows hotter and hotter over the telegraph.
+  if(q){const px=h.x+h.w/2+(h.hp-(h.maxHP-1)/2)*8.6,py=h.y+h.h+7.5,beat=.6+.4*Math.sin(g.time*22);glow(ctx,px,py,9+5*q,'#ff7a3a',(.35+.5*q)*beat);ctx.save();ctx.globalAlpha=ga(ctx)*q*beat;fxPart(ctx,'pip_gold',px,py,.82);ctx.restore();
+    // The callout tells the counterplay: a hit on any housing now jams the crank.
+    ctx.save();ctx.globalAlpha=ga(ctx)*Math.min(1,q*5);text(ctx,'HIT IT!',Math.max(36,Math.min(g.width-36,h.x+h.w/2)),h.y+h.h+25+Math.sin(g.time*12)*1.2,14,'#ffb08a','center');ctx.restore();}
 }
-// The drawbridge hangs heavy: two hoist chains run up out of frame from its corners and the counterweight chains are a
-// thicker gauge. The slab is the plinth art fitted to the 168x24 collider; its shadow falls on the hall floor beneath.
+// ---------- floor 1 battlements: the parapet walk sits above the ball's ceiling (the model's parapet solid), so Korr, his
+// winch and his bell rack are scenery the ball can never reach. The left hoist chain runs over the bell rack's crossbar and
+// the right one onto Korr's winch; five gem sockets on the parapet face are the winch clock.
+const RACK_W=52,WINCH_W=34;
+function rackFrame(art){const m=art.manifest.bellforge.bellCradle;return m&&{m,w:RACK_W,h:RACK_W*m.size[1]/m.size[0]};}
+// The rack stands on its feet at (x, y); `bells` hang from the crossbar and sway.
+function bellRack(ctx,g,art,x,y,{bells=3,angle=0,alpha=1}={}){
+  const f=rackFrame(art);if(!f)return;const bar=y-f.h*(.95-.25);
+  ctx.save();ctx.globalAlpha=ga(ctx)*alpha;ctx.translate(x,y);ctx.rotate(angle);ctx.translate(-x,-y);
+  pool(ctx,x+2,y+1,f.w*.55,4,'#000',.45);
+  sprite(ctx,art,'bellforge','bellCradle',x,y,{width:f.w,pivot:[.5,.95]});
+  for(let i=0;i<bells;i++){const bx=x-6+i*9.5,sw=Math.sin(g.time*2.3+i*1.7)*.12;hoistChain(ctx,art,{x:bx,y:bar},{x:bx+Math.sin(sw)*5,y:bar+6},0,2.6);sprite(ctx,art,'bellforge','bell',bx+Math.sin(sw)*6,bar+12,{width:12,angle:sw});}
+  ctx.restore();
+}
+function battlements(ctx,g,art){
+  const P=g.ceiling,top=P-18,w=g.winch,r=g.rack,v=g.villain,db=g.drawbridge,crank=w.stage==='crank',f=rackFrame(art);
+  const barY=f?top-f.h*.7:top-27,axle={x:w.x,y:top-17};
+  // Hoist chains (behind the parapet): left over the rack's crossbar while it is hooked, right onto the winch drum.
+  if(db.down<.02){
+    const hooked=r.state==='loaded'||r.state==='gone'&&g.time-r.at<.5;
+    hoistChain(ctx,art,hooked?{x:r.x-2,y:barY}:{x:db.x+18,y:-60},{x:db.x+18,y:db.y+3},0,8.5);
+    hoistChain(ctx,art,axle,{x:db.x+db.w-18,y:db.y+3},crank?g.time*26:0,8.5);
+  }
+  else if(db.down<.5){const t=Math.min(1,db.down/.25);for(const [i,x] of[[0,db.x+18],[1,db.x+db.w-18]])hoistChain(ctx,art,{x:x+(i?6:-6)*t,y:top-40*t},{x:x+(i?10:-10)*t,y:db.y-26*t-30*t*t},0,8.5);}
+  // The walk: banded stone fitted to the parapet solid, with a soft shadow on the hall wall under it; merlons stand along its
+  // back edge (behind Korr, the winch and the rack), so the walk reads as battlements.
+  for(let x=4;x<g.width;x+=34){slab(ctx,art,x,top-11,20,12);ctx.fillStyle='#0006';ctx.fillRect(x,top-1,20,1.5);}
+  slab(ctx,art,0,top,g.width,P-top);
+  const sh=ctx.createLinearGradient(0,P,0,P+16);sh.addColorStop(0,'#0008');sh.addColorStop(1,'#0000');ctx.fillStyle=sh;ctx.fillRect(0,P,g.width,16);
+  // Bell rack: hooked and stocked until par runs out, hauled off along the walk, or ripped away by the falling bridge.
+  if(r.state==='loaded')bellRack(ctx,g,art,r.x,top);
+  else if(r.state==='gone'){const t=g.time-r.at;if(t<1.4)bellRack(ctx,g,art,r.x-110*smooth(t/1.4),top,{alpha:1-smooth((t-.7)/.7)});}
+  // Winch: the bellforge ratchet on its stand, juddering while Korr winds it.
+  const jud=crank?Math.sin(g.time*48)*.06:0;
+  pool(ctx,w.x+2,top+1,WINCH_W*.5,3.5,'#000',.45);
+  sprite(ctx,art,'bellforge','ratchet',w.x,top,{width:WINCH_W,angle:jud,pivot:art.manifest.bellforge.ratchet?.anchors?.base});
+  // Korr faces the winch: cranking (windup) during the telegraph, a gloat after a heal or when par runs out, a stagger when jammed.
+  const bob=crank?Math.abs(Math.sin(g.time*9))*-1.6:Math.sin(g.time*2.1)*.5;
+  if(crank){ctx.save();ctx.globalCompositeOperation='lighter';glow(ctx,v.foot.x,v.foot.y-22,44,'#ff6a2a',.3+.15*Math.sin(g.time*18));glow(ctx,axle.x,axle.y,22,'#ffb46a',.35+.2*Math.sin(g.time*30));ctx.restore();}
+  korr(ctx,g,art,v,{x:v.foot.x,y:v.foot.y+bob,width:72,mirror:true,lean:crank?Math.sin(g.time*9)*.05:0});
+  // Winch clock on a plaque under the winch: five gems fill while no housing is hit and a damaged housing stands; full, they
+  // burn and Korr cranks.
+  if(g.phase==='play'||g.phase==='serve'){
+    const need=g.rules.crankIdle,lit=crank?5:Math.min(5,Math.floor(w.idle/need*5+1e-9)),hot=crank?.5+.5*Math.sin(g.time*20):lit>=4?.3+.3*Math.sin(g.time*12):0;
+    ctx.save();ctx.globalAlpha=ga(ctx)*.9;ctx.fillStyle=crank?'#3a1208e6':'#0b111bd9';ctx.beginPath();ctx.roundRect(w.x-27,P-15,54,13,6.5);ctx.fill();ctx.strokeStyle=crank?'#ff8a5acc':'#d6a35f88';ctx.lineWidth=.8;ctx.stroke();ctx.restore();
+    pips(ctx,w.x,P-8.5,5,lit,{gap:10,scale:.9,bloom:lit>=4||crank?'#ff7a3a':'#ffcf7a',pulse:hot});
+  }
+}
+// The drawbridge hangs heavy from the battlements: the counterweight chains are a thicker gauge. The slab is the plinth art
+// fitted to the 168x24 collider; its shadow falls on the hall floor beneath.
 function floorDrawbridge(ctx,g,art){
   const db=g.drawbridge,fall=Math.min(1,db.down/.5),dy=fall*fall*230,alive=db.down<.5?1:clamp01(1-(db.down-.5)/.08);
-  if(db.down<.02)for(const x of[db.x+18,db.x+db.w-18]){hoistChain(ctx,art,{x,y:-60},{x,y:db.y+3},0,8.5);}
-  else if(alive>0)for(const [i,x] of[[0,db.x+18],[1,db.x+db.w-18]]){const t=Math.min(1,db.down/.25);hoistChain(ctx,art,{x:x+(i?6:-6)*t,y:-60-40*t},{x:x+(i?10:-10)*t,y:db.y-26*t-30*t*t},0,8.5);}
+  battlements(ctx,g,art);
   if(alive>0)for(const h of g.housings){
-    const left=h.x<180,a={x:h.x+h.w/2,y:h.y+4},end={x:left?db.x+3:db.x+db.w-3,y:db.y+12+dy};
-    if(h.hp>0||g.phase==='crash'){ctx.save();ctx.globalAlpha=alive;swayChain(ctx,art,a,end,5,g.time,left?0:2,8.5);ctx.restore();}
+    const left=h.x<180,q=crankQ(g,h),a={x:h.x+h.w/2+(q?Math.sin(g.time*61)*q:0),y:h.y+4-3.5*smooth(q)},end={x:left?db.x+3:db.x+db.w-3,y:db.y+12+dy};
+    if(h.hp>0||g.phase==='crash'){ctx.save();ctx.globalAlpha=alive;swayChain(ctx,art,a,end,5*(1-q),g.time,left?0:2,8.5);ctx.restore();}
     else swayChain(ctx,art,end,{x:end.x+(left?-8:8),y:end.y+34},3,g.time,left?0:2,8.5);
   }
   if(alive>0){
@@ -450,6 +517,17 @@ function farArcade(ctx,g,art,top,bottom){
   ctx.save();ctx.globalAlpha=ga(ctx)*fa;ctx.drawImage(far,x,y,w,h);ctx.restore();
   for(const lx of[g.width*.5-w*.24,g.width*.5+w*.24])glow(ctx,lx,y+h*.45,40,'#ff9a4a',.12*fa);
 }
+// The smashed rack on the gallery (floor 2): the cradle toppled and darkened, one cracked bell left lying beside it.
+function rackWreck(ctx,g,art,x,y){
+  const f=rackFrame(art);if(!f||!art.images['bellforge/bellCradle']?.naturalWidth)return;
+  const img=cached(`rack-wreck-${f.w}`,f.w*1.6,f.h*1.4,c=>{
+    c.save();c.translate(f.w*.8,f.h*1.25);c.rotate(-.42);sprite(c,art,'bellforge','bellCradle',0,0,{width:f.w,pivot:[.5,.95]});c.restore();
+    c.globalCompositeOperation='source-atop';c.fillStyle='#0b060670';c.fillRect(0,0,f.w*1.6,f.h*1.4);
+  });
+  pool(ctx,x,y+1,f.w*.7,4,'#000',.5);ctx.drawImage(img,x-f.w*.8,y-f.h*1.25,f.w*1.6,f.h*1.4);
+  sprite(ctx,art,'bellforge','bell',x+24,y-5,{width:12,angle:1.9});
+  fxPart(ctx,'chip_a',x-14,y-2,.7,.6);fxPart(ctx,'chip_c',x+8,y-1,.6,2.1);
+}
 function floorMurder(ctx,g,art){
   const G=g.gate,w=g.wheel;
   glow(ctx,180,212,92,'#ff9a45',.06);
@@ -461,6 +539,7 @@ function floorMurder(ctx,g,art){
   ctx.restore();
   wheel(ctx,g,art,w);
   for(const r of g.ramps)ramp(ctx,art,r);
+  if(g.rack)g.rack.state==='smashed'?rackWreck(ctx,g,art,g.rack.x,118):bellRack(ctx,g,art,g.rack.x,118);
   slab(ctx,art,0,118,g.width,26);
   const sh=ctx.createLinearGradient(0,144,0,166);sh.addColorStop(0,'#0007');sh.addColorStop(1,'#0000');ctx.fillStyle=sh;ctx.fillRect(0,144,g.width,22);
   holeFx(ctx,g,g.holes[0],144,19,7);
@@ -523,13 +602,32 @@ function gEffect(ctx,art,e){
       case'housing-break':ctx.globalAlpha=1;chunks(ctx,art,'tidewheel/counterweight',T.counterweight,COUNTERWEIGHT,e.x,e.y,e.age,e.life,12,190,16,7);chips(ctx,e.x,e.y,e.age,e.life,10,170,1.15,8);
         dust(ctx,e.x,e.y+8,e.age,e.life,6,34,16);glow(ctx,e.x,e.y,46,'#ffc98a',Math.max(0,1-e.age*4)*.5);sparks(ctx,e.x,e.y,e.age,9,190,[],2.2,8);break;
       case'drawbridge-crash':{
-        const t=e.age-.5;ctx.globalAlpha=1;
+        const t=e.age-.5,ly=e.y+214;ctx.globalAlpha=1;
         // The chains snap at the bridge ends, then the slab lands and breaks up.
-        if(e.age<.42)for(const sx of[96,264]){glow(ctx,sx,104,26,'#ffc98a',(1-e.age/.42)*.55);sparks(ctx,sx,104,e.age,7,170,[],2.2,Math.round(sx));}
-        if(t>0){chunks(ctx,art,'bellforge/plinth',B.plinth,PLINTH,180,318,t,.6,26,260,22,11);chunks(ctx,art,'tidewheel/counterweight',T.counterweight,COUNTERWEIGHT,180,318,t,.6,6,200,15,12);
-          chips(ctx,180,318,t,.6,18,240,1.4,13,.95);sparks(ctx,180,318,t,12,230,[],2.6,14);
-          dust(ctx,180,326,t,.6,10,96,22);glow(ctx,180,322,60+t*150,'#e8d7ae',(1-t/.6)*.4);}
+        if(e.age<.42)for(const sx of[96,264]){glow(ctx,sx,e.y,26,'#ffc98a',(1-e.age/.42)*.55);sparks(ctx,sx,e.y,e.age,7,170,[],2.2,Math.round(sx));}
+        if(t>0){chunks(ctx,art,'bellforge/plinth',B.plinth,PLINTH,180,ly,t,.6,26,260,22,11);chunks(ctx,art,'tidewheel/counterweight',T.counterweight,COUNTERWEIGHT,180,ly,t,.6,6,200,15,12);
+          chips(ctx,180,ly,t,.6,18,240,1.4,13,.95);sparks(ctx,180,ly,t,12,230,[],2.6,14);
+          dust(ctx,180,ly+8,t,.6,10,96,22);glow(ctx,180,ly+4,60+t*150,'#e8d7ae',(1-t/.6)*.4);}
         break;}
+      // Floor 1 hooks: Korr's crank, a jammed crank, the rack hauled off or smashed, and the loot gems.
+      case'winch-tell':break;   // drawn on the housing, the chain, the winch clock and Korr himself
+      case'housing-heal':{ctx.globalAlpha=1;const px=e.x+((e.pip??0)-((e.n??1)-1)/2)*8.6;glow(ctx,px,e.y,20,'#ff8a4a',a*.7);drawGlint(ctx,px,e.y,11,q,'#ffc070');sparks(ctx,px,e.y,e.age,6,120,[],1.8,51);
+        if(e.age<.8)text(ctx,'+1',e.x,e.y-70-e.age*16,13,'#ff9a6a','center');break;}
+      case'crank-jam':ctx.globalAlpha=1;glow(ctx,e.x,e.y,30,'#ffe0a0',a*.6);sparks(ctx,e.x,e.y,e.age,8,170,[],2,53);chips(ctx,e.x,e.y,e.age,e.life,4,90,.8,53);
+        if(e.age<.8){ctx.globalAlpha=Math.min(1,a*3);text(ctx,'JAMMED!',e.x-26,e.y+52-e.age*8,13,'#ffe08f','center');}break;
+      case'par-missed':ctx.globalAlpha=1;dust(ctx,e.x-40,e.y+18,e.age,e.life,4,30,12,'#9a8a74');
+        if(e.age<1){ctx.globalAlpha=Math.min(1,a*3);text(ctx,'TOO SLOW!',180,98-e.age*6,13,'#ff9a6a','center');}break;
+      case'rack-smash':{ctx.globalAlpha=1;const C=B.bellCradle;if(C)chunks(ctx,art,'bellforge/bellCradle',C,[60,40,640,500],e.x,e.y,e.age,1.1,14,200,14,61);
+        chunks(ctx,art,'bellforge/bell',B.bell,BELL,e.x,e.y+4,e.age,1.1,10,230,12,62);chips(ctx,e.x,e.y,e.age,1.1,8,160,1,63);sparks(ctx,e.x,e.y,e.age,12,220,[],2.4,64);
+        dust(ctx,e.x,e.y+16,e.age,e.life,6,40,16,'#9a8a74');glow(ctx,e.x,e.y,70,'#ffc46b',Math.max(0,1-e.age*2.5)*.6);break;}
+      case'gem-pop':{ctx.globalAlpha=1;const k=smooth(q),x=e.x+(180-e.x)*k,y=e.y+(33-e.y)*k-90*Math.sin(Math.PI*k);
+        glow(ctx,x,y,16,'#ffe6a8',.5*(1-q*.5));fxPart(ctx,'pip_'+(e.gem||'gold'),x,y,1.7-.7*k);if(q>.85)drawGlint(ctx,180,33,12,(q-.85)/.15,'#ffd88a');break;}
+      case'loot-shower':{ctx.globalAlpha=1;const n=Math.min(18,(e.n||1)*3),t=e.age;
+        glow(ctx,e.x,e.y,90,'#ffd88a',Math.max(0,1-t*1.6)*.5);
+        for(let i=0;i<n;i++){const ang=-Math.PI*(.12+.76*rnd(i,71)),v=180+170*rnd(i,72),x=e.x+Math.cos(ang)*v*t,y=e.y+Math.sin(ang)*v*t+300*t*t;
+          if(y>e.y+260)continue;ctx.save();ctx.globalAlpha=Math.min(1,(1-q)*2.5);glow(ctx,x,y,10,'#fff0c8',.35);fxPart(ctx,'pip_'+['gold','blue','rose'][i%3],x,y,2.1,(rnd(i,73)-.5)*6*t);ctx.restore();
+          if(rnd(i,74)>.6)drawGlint(ctx,x,y,9,clamp01((t-.15*rnd(i,75))*2),'#ffe6a8');}
+        if(t<1.3){ctx.globalAlpha=Math.min(1,(1.3-t)*3);text(ctx,`+${(e.n||0)*50} LOOT`,e.x,e.y+30-t*24,18,'#ffe3a1','center');}break;}
       case'gate-open':{ctx.globalAlpha=1;const k=Math.sin(Math.PI*clamp01(q));glow(ctx,180,250,130,'#ffc46b',.5*k);dust(ctx,180,262,e.age,e.life,6,70,14,'#b9a177');
         chips(ctx,180,164,e.age,e.life,10,90,1,15,.6);sparks(ctx,180,262,e.age,8,150,[],2.2,16);break;}
       case'bell-release':ctx.globalAlpha=1;dust(ctx,e.x,e.y,e.age,e.life,3,14,8,'#7e7769');glow(ctx,e.x,e.y,22,'#ffc98a',a*.45);chips(ctx,e.x,e.y,e.age,e.life,3,40,.7,9,.4);break;
@@ -621,7 +719,7 @@ function gBanner(ctx,g,label,a,y=284){
   text(ctx,label,g.width/2,y,16,'#ffe3a1','center');ctx.restore();
 }
 function gShake(g){
-  let a=0;const amp={'drawbridge-crash':[.5,5,.4],'housing-break':[0,3,.3],'korr-defeat':[0,3.5,.5],'bell-shoulder':[0,3,.25],'ram-launch':[0,1.6,.18],'bell-hit':[0,.8,.1]};
+  let a=0;const amp={'drawbridge-crash':[.5,5,.4],'rack-smash':[0,3,.3],'housing-break':[0,3,.3],'korr-defeat':[0,3.5,.5],'bell-shoulder':[0,3,.25],'ram-launch':[0,1.6,.18],'bell-hit':[0,.8,.1]};
   for(const e of g.effects){const s=amp[e.kind];if(!s)continue;const t=e.age-s[0];if(t>=0&&t<s[2])a=Math.max(a,s[1]*(1-t/s[2]));}
   return a?{x:Math.sin(g.time*95)*a,y:Math.cos(g.time*83)*a}:{x:0,y:0};
 }
@@ -637,7 +735,7 @@ function renderGatehouse(ctx,g,art){
   const vg=ctx.createRadialGradient(g.width/2,H*.45,H*.3,g.width/2,H*.45,H*.8);vg.addColorStop(0,'#0000');vg.addColorStop(1,'#02040a99');ctx.fillStyle=vg;ctx.fillRect(0,0,g.width,H);
   const sh=gShake(g);ctx.save();ctx.translate(sh.x,sh.y);
   ctx.save();ctx.translate(0,pan);ctx.globalAlpha=alpha;
-  if(g.floor===0){farArcade(ctx,g,art,176,Math.min(...g.bricks.map(b=>b.y))-6);floorDrawbridge(ctx,g,art);}else if(g.floor===1)floorMurder(ctx,g,art);else floorDuel(ctx,g,art);
+  if(g.floor===0){farArcade(ctx,g,art,200,Math.min(...g.bricks.map(b=>b.y))-6);floorDrawbridge(ctx,g,art);}else if(g.floor===1)floorMurder(ctx,g,art);else floorDuel(ctx,g,art);
   for(const b of g.bricks)if(b.hp>0)gbrick(ctx,art,b);
   for(const b of g.bells)ghBell(ctx,g,art,b);
   gEffects(ctx,g,art);ctx.restore();
@@ -647,8 +745,16 @@ function renderGatehouse(ctx,g,art){
   // Floor chip, plus the floor banner over the climb and the first moments of each floor.
   const n=g.floor+1+(climb?1:0);ctx.save();ctx.globalAlpha=.85;ctx.fillStyle='#0b111bcc';ctx.beginPath();ctx.roundRect(g.width/2-40,6,80,17,8.5);ctx.fill();ctx.strokeStyle='#d6a35f88';ctx.lineWidth=.8;ctx.stroke();ctx.restore();
   text(ctx,`FLOOR ${n} / 3`,g.width/2,15,10.5,'#f3dca8','center');
+  // Sub-chip: floor 1 counts down the par that smashes Korr's bell rack; floor 2 shows the payoff while it lasts.
+  const par=g.parLeft,sub=g.floor===0&&!climb&&g.phase!=='crash'&&par>0?`PAR 0:${String(Math.ceil(par)).padStart(2,'0')}`:g.floor===1&&!climb&&g.rackSmashed?'RACK SMASHED · SLOW BELLS':'';
+  if(sub){const urgent=g.floor===0&&par<6,w=g.floor===0?62:150,beat=urgent?.5+.5*Math.sin(g.time*10):0;
+    ctx.save();ctx.globalAlpha=.88;ctx.fillStyle=urgent?'#3a1208dd':'#0b111bcc';ctx.beginPath();ctx.roundRect(g.width/2-w/2,26,w,15,7.5);ctx.fill();ctx.strokeStyle=urgent?`rgba(255,138,90,${.5+.5*beat})`:'#d6a35f66';ctx.lineWidth=.8;ctx.stroke();ctx.restore();
+    if(g.floor===0)fxPart(ctx,'pip_gold',g.width/2-w/2+8,33.5,.55);
+    text(ctx,sub,g.width/2+(g.floor===0?5:0),33.5,9,urgent?'#ffb08a':g.floor===1?'#ffd2a0':'#f3dca8','center');}
+  if(g.phase==='crash'){const label=g.rackSmashed?'BELL RACK SMASHED!':g.gems?`+${g.gems} GEMS BANKED`:'';if(label)gBanner(ctx,g,label,Math.min(1,(g.drawbridge.down-.35)*5));}
   if(climb)gBanner(ctx,g,`FLOOR ${n} / 3 · ${GATEHOUSE_FLOORS[Math.min(2,n-1)].toUpperCase()}`,Math.min(1,(1-g.transition/1.2)*4));
   else if(g.floorTime<1.6&&g.phase!=='crash'&&g.phase!=='defeat'&&g.state==='play')gBanner(ctx,g,`FLOOR ${n} / 3 · ${GATEHOUSE_FLOORS[g.floor].toUpperCase()}`,g.floor?Math.min(1,(1.6-g.floorTime)*1.6):1);
+  else if(g.floor===1&&g.rackSmashed&&g.floorTime<3.6&&g.state==='play')gBanner(ctx,g,'RACK SMASHED: SLOW BELLS',Math.min(1,(g.floorTime-1.6)*4,(3.6-g.floorTime)*3));
 }
 export function drawEncounter(ctx,g,art,level){
   ctx.clearRect(0,0,g.width,g.height);
