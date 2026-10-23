@@ -13,11 +13,11 @@ const main = readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
 const names = [...main.matchAll(/^  \{ make: .*?name: '([^']+)'.*?(?:next: (\d+))?.*$/gm)].map(m => m[1]);
 const nexts = [...main.matchAll(/^  \{ make: .*$/gm)].map(m => m[0].match(/next: (\d+)/)?.[1]);
 
-test('chapter slots are append-only and the menu lists all twelve', () => {
+test('chapter slots are append-only and the menu lists the nine princess chapters in story order', () => {
   assert.deepEqual(names, ['Carrier Breakout', 'The Vault', 'Circuit Breakout', 'Shutter Forge', 'Frost Warden', 'Mooncoil Reliquary', 'Bellforge Run', 'Tidewheel Citadel', 'Gatehouse Siege', 'Lumi Breaks Out', 'Serpent Rivals', 'Dragon’s Hoard']);
-  assert.match(main, /\[0, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10, 11\]\.filter/);
+  assert.match(readFileSync(new URL('../src/home.js', import.meta.url), 'utf8'), /export const STORY = \[1, 4, 5, 6, 7, 8, 9, 10, 11\];/);
   const release = JSON.parse(readFileSync(new URL('../config/mobile-preview.json', import.meta.url), 'utf8'));
-  assert.deepEqual(release.saveSlots, names); assert.deepEqual(release.menuOrder, [0, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10, 11]);
+  assert.deepEqual(release.saveSlots, names); assert.deepEqual(release.menuOrder, [1, 4, 5, 6, 7, 8, 9, 10, 11]);
 });
 
 test('next links walk Frost to Mooncoil to Bellforge to Tidewheel to Gatehouse Siege to Lumi Breaks Out to Serpent Rivals to Dragon’s Hoard, which ends the campaign', () => {

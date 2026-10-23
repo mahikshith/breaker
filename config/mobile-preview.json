@@ -6,7 +6,7 @@
   "androidVersionName": "0.7-eleven-chapter-preview",
   "reviewedCanonicalSha256": "5415515aa918987fb206d53e61334add32311a03e1a50e8411a367d5696cd8a1",
   "saveSlots": ["Carrier Breakout", "The Vault", "Circuit Breakout", "Shutter Forge", "Frost Warden", "Mooncoil Reliquary", "Bellforge Run", "Tidewheel Citadel", "Gatehouse Siege", "Lumi Breaks Out", "Serpent Rivals", "Dragon’s Hoard"],
-  "menuOrder": [0, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10, 11],
+  "menuOrder": [1, 4, 5, 6, 7, 8, 9, 10, 11],
   "difficulties": ["easy", "medium", "hard"],
   "scope": "Twelve main chapters including Mooncoil Reliquary, Bellforge Run, Tidewheel Citadel, Gatehouse Siege, Lumi Breaks Out, Serpent Rivals, Dragon’s Hoard, the emerald serpent presentation, corrected Carrier Focus/LASER contact, distinct companion controls, bounded powers and offline fonts. Standalone Starflight/Gatebreak is not included.",
   "limitations": "Debug preview; ads and purchases are local simulations. Physical-phone performance and human difficulty require device testing."

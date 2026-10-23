@@ -5,6 +5,7 @@ Last updated 2026-10-22 (night). Branch `codex/castle-chapters`; `main` is untou
 ## State in five lines
 
 - 12 chapters are built (`LEVELS` in `src/main.js`; save slots never move): 0 Carrier, 1 Vault, 2 Circuit, 3 Forge, 4 Frost Warden, 5 Mooncoil Reliquary (with a second serpent, Gnash), 6 Bellforge Run, 7 Tidewheel Citadel, 8 Gatehouse Siege, 9 Lumi Breaks Out, 10 Serpent Rivals, 11 Dragon's Hoard (branch `codex/dragons-hoard`). `?level=N` is 1-based; menu keys 0, - and = start slots 9, 10 and 11.
+- Home and chapter map: `src/home.js` (hero from `store/key-art.png` packed by `tools/pack_home_art.py` into `src/home-art.js`). The menu lists the nine princess chapters in story order (`STORY`); the space chapters keep slots 0, 2, 3 and `?level=N`. PLAY starts the first chapter with no star; a chapter opens one past the furthest cleared (seven quick taps on the wordmark, or `?unlock=1`, opens all). No Full screen button in the native app.
 - Chapters 6 to 11 run through `src/fantasy/chapter.js`; Ram Ball (`src/fantasy/ram.js`), the power-ready pulse and `src/clearance.js` apply everywhere.
 - Gates before anything ships: `npm test` (506 pass), `npm run audit:physics` (zero failures), `node tools/playtest/physics-audit-checks.mjs --quick`.
 - Release path: `npm run build` (dist/breach.html, about 14 MB), `node tools/pin-sha.mjs`, `node tools/prepare-android.mjs`, then one manual CI run (`workflow_dispatch` only). No APK of the 11-chapter game exists yet; the last APK is the old five-chapter one.

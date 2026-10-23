@@ -1,5 +1,5 @@
 // Entry: canvas sizing, fixed-step loop, input mapping and the three scenes (menu, level, results).
-import { setDPR, text, rrect, shade, vignette, drawGrain, cached, brick, FONT, NUM, artLoaded, SPR, ready, glazedBar, drawGem } from './gfx.js';
+import { setDPR, text, rrect, shade, cached, FONT, NUM, artLoaded, SPR, ready, glazedBar, drawGem } from './gfx.js';
 import { unlockAudio, setMuted, isMuted, sfx } from './audio.js';
 import { Mooncoil } from './mooncoil.js';
 import { FantasyChapter } from './fantasy/chapter.js';
@@ -7,14 +7,14 @@ import { Carrier } from './carrier.js';
 import { Relay } from './relay.js';
 import { Orbital } from './orbital.js';
 import { Frost } from './frost.js';
-import { Vault, drawPrincessIcon } from './vault.js';
-import { drawInvader } from './characters.js';
+import { Vault } from './vault.js';
 import { store } from './prefs.js';
 import { PRICE, AD_SECONDS, AD_CONTINUES, continueOffer, watchAd, buyFullGame, noteLoss, lifetimeLosses, showUnlock } from './monetize.js';
 import { soClose, fuse } from './near-miss.js';
 import { kitOrbContains, kitTap } from './kit.js';
 import { DIFFICULTY_IDS, difficulty } from './difficulty.js';
 import { spacePowerAt, drawSpacePowerMenu } from './space-companions.js';
+import { createHome } from './home.js';
 
 const LEVELS = [
   { make: (W, H, s) => new Carrier(W, H, s, selectedDifficulty), name: 'Carrier Breakout', sub: 'Rescue the crew before the jump.', color: '#e58fcb', next: 2 },
@@ -96,6 +96,7 @@ cv.addEventListener('pointerdown', e => {
   unlockAudio(); cv.setPointerCapture(e.pointerId);
   const [x, y] = toWorld(e);
   const b = buttons.find(b => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h);
+  if (scene === 'menu' && home().down(e.pointerId, x, y, b)) return; // the chapter list: scroll, and tap on release
   if (b) { sfx.paddle(); b.fn(); return; }
   if (scene === 'level' && level.state === 'play') {
     if (level.powerMenuOpen) {
@@ -111,11 +112,13 @@ cv.addEventListener('pointerdown', e => {
   }
 });
 cv.addEventListener('pointermove', e => {
+  if (scene === 'menu') { home().move(e.pointerId, toWorld(e)[1]); return; }
   if (powerPress?.id === e.pointerId) { if (Math.hypot(e.clientX - powerPress.clientX, e.clientY - powerPress.clientY) > 8) powerPress.cancelled = true; return; }
   if (kitPress?.id === e.pointerId) { if (Math.hypot(e.clientX - kitPress.clientX, e.clientY - kitPress.clientY) > 8) kitPress.cancelled = true; return; }
   if (scene === 'level' && paddlePointer === e.pointerId && paddleEpoch === level.inputEpoch && level.ptr.down) { const [x, y] = toWorld(e); level.pointerMove(x, y + LIFT); }
 });
 const up = e => {
+  if (scene === 'menu') { home().up(e.pointerId, e.type === 'pointercancel'); return; }
   if (powerPress?.id === e.pointerId) {
     const [x, y] = toWorld(e), press = powerPress; powerPress = null;
     if (e.type !== 'pointercancel' && !press.cancelled && Math.hypot(e.clientX - press.clientX, e.clientY - press.clientY) <= 8
@@ -139,6 +142,7 @@ addEventListener('focus', () => { suspended = false; acc = 0; last = performance
 document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); acc = 0; last = performance.now(); });
 addEventListener('keydown', e => {
   unlockAudio();
+  if (e.key === 'Escape' && scene === 'menu') { home().open('home'); return; }
   if (e.key === 'Escape') { if (level?.powerMenuOpen) { clearInput(); return; } scene === 'pause' ? resume() : pause(); return; }
   if (suspended || document.hidden || scene === 'pause') return;
   if (scene === 'level' && !e.repeat) level.key(e.key, true);
@@ -164,6 +168,7 @@ function frame(now) {
 function tick(dt) {
   if (suspended || document.hidden || scene === 'pause') return;
   menuT += dt;
+  if (scene === 'menu') home().tick(dt);
   if (scene !== 'level') return;
   if (cont.ad) { cont.ad.t += dt; if (cont.ad.earned && cont.ad.t >= AD_SECONDS) doContinue(); }
   level.update(dt);
@@ -216,74 +221,19 @@ function preview(i, w, h) { // the level's opening playfield, cropped to fill th
   return previews[i];
 }
 
-function menuBg() {
-  return cached('menu-bg' + H, W, H, mg => {
-    const bg = mg.createLinearGradient(0, 0, 0, H);
-    bg.addColorStop(0, '#22284a'); bg.addColorStop(0.55, '#141831'); bg.addColorStop(1, '#0a0c18');
-    mg.fillStyle = bg; mg.fillRect(0, 0, W, H);
-    vignette(mg, W, H, 0.6); drawGrain(mg, W, H);
-  });
-}
-
-function drawMenu() {
-  g.drawImage(menuBg(), 0, 0, W, H);
-  // floating glossy bricks behind the logo
-  const C = ['#ff5d8f', '#ffd23f', '#3fa8f5', '#5ccf6a', '#c46bf0', '#ff8a3d'];
-  for (let i = 0; i < 9; i++) {
-    const x = 30 + ((i * 67) % 300), y = 56 + ((i * 41) % 90) + Math.sin(menuT * 1.3 + i) * 4;
-    g.save(); g.translate(x, y); g.rotate(Math.sin(i * 3.1) * 0.35 + Math.sin(menuT + i) * 0.04);
-    g.globalAlpha = 0.9; g.drawImage(brick(C[i % C.length], 26, 14, { depth: 4 }), -13, -7, 26, 18); g.restore();
-  }
-  g.globalAlpha = 1;
-  // logo
-  const listTop = Math.min(248, Math.max(164, H - LEVELS.length * 76 - 66));
-  const ly = listTop - 120 + Math.sin(menuT * 2) * 2;
-  g.font = `64px ${FONT}`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineJoin = 'round';
-  g.fillStyle = 'rgba(0,0,0,0.45)'; g.fillText('BREACH', W / 2 + 3, ly + 7);
-  g.strokeStyle = '#1a1030'; g.lineWidth = 10; g.strokeText('BREACH', W / 2, ly);
-  const lg = g.createLinearGradient(0, ly - 30, 0, ly + 30);
-  lg.addColorStop(0, '#fff6c8'); lg.addColorStop(0.45, '#ffc93c'); lg.addColorStop(0.55, '#ff8a3d'); lg.addColorStop(1, '#d9481f');
-  g.fillStyle = lg; g.fillText('BREACH', W / 2, ly);
-  g.save(); g.beginPath(); g.rect(0, ly - 30, W, 16); g.clip(); g.fillStyle = 'rgba(255,255,255,0.35)'; g.fillText('BREACH', W / 2, ly); g.restore();
-  text(g, 'Break in. Break out.', W / 2, ly + 44, 15, '#cfd6f5', 'center');
-
-  // level cards
-  DIFFICULTY_IDS.forEach((id, i) => button(difficulty(id).label, 20 + i * 110, listTop - 54, 100, 42, id === selectedDifficulty ? '#9b6295' : '#414b65', () => selectDifficulty(id), true));
-  const cw = W - 40, ch = Math.min(104, (H - listTop - 66) / LEVELS.length - 8);
-  [0, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10, 11].filter(i => i < LEVELS.length).forEach((i, row) => {
-    const L = LEVELS[i], x = 20, y = listTop + row * (ch + 8);
-    buttons.push({ x, y, w: cw, h: ch, fn: () => start(i) });
-    g.fillStyle = 'rgba(0,0,0,0.45)'; rrect(g, x + 3, y + 6, cw, ch, 18); g.fill();
-    g.fillStyle = '#0f1226'; rrect(g, x, y, cw, ch, 18); g.fill();
-    g.save(); rrect(g, x, y, cw, ch, 18); g.clip();
-    const pw = cw, ph = ch;
-    g.globalAlpha = 0.9; g.drawImage(preview(i, pw, ph), x, y, pw, ph); g.globalAlpha = 1;
-    const sh = g.createLinearGradient(0, y + ch * 0.35, 0, y + ch);
-    sh.addColorStop(0, 'rgba(10,12,28,0)'); sh.addColorStop(1, 'rgba(10,12,28,0.95)');
-    g.fillStyle = sh; g.fillRect(x, y, cw, ch);
-    g.restore();
-    g.strokeStyle = shade(L.color, -0.1); g.lineWidth = 2.5; rrect(g, x, y, cw, ch, 18); g.stroke();
-    g.strokeStyle = 'rgba(255,255,255,0.15)'; g.lineWidth = 1; rrect(g, x + 3, y + 3, cw - 6, ch - 6, 15); g.stroke();
-    // level number badge
-    g.fillStyle = L.color; g.beginPath(); g.arc(x + 26, y + ch - 33, 13, 0, 7); g.fill();
-    g.fillStyle = 'rgba(255,255,255,0.4)'; g.beginPath(); g.ellipse(x + 22, y + ch - 39, 6, 3, -0.4, 0, 7); g.fill();
-    text(g, i === 1 ? 'V' : i === 4 ? 'F' : `${row + 1}`, x + 26, y + ch - 32, 15, '#fff', 'center');
-    text(g, L.name, x + 50, y + ch - 34, 17, '#fff');
-    text(g, L.sub, x + 16, y + ch - 13, 10, '#c9cfee');
-    if (L.stages) { // a staged chapter (src/fantasy/stages.js chapterKind): a small ribbon over the preview
-      const label = `${L.kind.toUpperCase()} · ${L.stages} STAGES`;
-      g.fillStyle = 'rgba(8,16,24,0.82)'; rrect(g, x + 12, y + 8, 116, 18, 9); g.fill();
-      g.strokeStyle = shade(L.color, 0.2); g.lineWidth = 1; rrect(g, x + 12, y + 8, 116, 18, 9); g.stroke();
-      text(g, label, x + 70, y + 17.5, 10, '#e6f6f4', 'center');
-    }
-    for (let s = 0; s < 3; s++) star(x + cw - 66 + s * 22, y + 15, 7, s < bestByDifficulty[selectedDifficulty][i]);
-
-  });
-  if (canFull()) {
-    button(isMuted() ? 'Sound: off' : 'Sound: on', W / 2 - 128, H - 38, 120, 30, '#4b5370', () => setMuted(!isMuted()), true);
-    button('Full screen', W / 2 + 8, H - 38, 120, 30, '#3f6fd1', goFull, true);
-  } else button(isMuted() ? 'Sound: off' : 'Sound: on', W / 2 - 60, H - 38, 120, 30, '#4b5370', () => setMuted(!isMuted()), true);
-}
+// Home and the chapter map live in src/home.js; main.js hands it the save data, the hit list and the actions.
+// play(): PLAY and every chapter card start a chapter here, so a first-run tutorial hooks in at this one function.
+// A further menu button (How to play) is one entry in topIcons() in src/home.js.
+let homeUI = null;
+const home = () => homeUI ??= createHome({
+  W, H: () => H, t: () => menuT, LEVELS, best: () => bestByDifficulty, diff: () => selectedDifficulty, selectDifficulty,
+  play: i => start(i), buttons: () => buttons, preview, hasPreview: i => !!previews[i], tap: () => sfx.paddle(),
+  isMuted, toggleSound: () => setMuted(!isMuted()), canFull, goFull, native: isNative,
+  locked: (n, prev) => { cont.toast = { text: `Clear ${prev} to unlock`, t: menuT }; },
+});
+const menuBg = () => home().bg();
+const drawMenu = () => home().draw(g);
+const toMenu = () => { scene = 'menu'; home().open('home'); };
 
 // ---------- continue offer (after a loss, before the results) ----------
 // "So close" near-miss card, a glossy fuse bar for urgency and a soft timeout: at 0 s the fuse is spent but every
@@ -403,9 +353,9 @@ function drawResults() {
     button('Next', x + pw - 130, by, 110, 40, '#5ccf6a', () => start(LEVELS[levelIdx].next));
   } else if (won) {
     button('Retry', x + 20, by, 110, 40, '#4b5370', () => start(levelIdx));
-    button('Menu', x + pw - 130, by, 110, 40, '#3fa8f5', () => { scene = 'menu'; });
+    button('Menu', x + pw - 130, by, 110, 40, '#3fa8f5', toMenu);
   } else {
-    button('Menu', x + 20, by, 110, 40, '#4b5370', () => { scene = 'menu'; });
+    button('Menu', x + 20, by, 110, 40, '#4b5370', toMenu);
     button('Try again', x + pw - 140, by, 120, 40, '#ff5d8f', () => start(levelIdx));
   }
 }
@@ -423,7 +373,7 @@ function draw() {
     if (inB) bottomBleed(bg, k, FH - inB - 1, inB + 1);
   }
   g.translate(0, inT);
-  if (scene === 'menu') drawMenu();
+  if (scene === 'menu') { drawMenu(); drawToast(); }
   else {
     g.save(); g.translate(0, -LIFT); level.draw(g);
     if (scene === 'level' && level.state === 'play' && !level.powerMenuOpen) level.drawCoach?.(g); // first-time coaching (src/coach.js)
@@ -463,6 +413,14 @@ function fillMargins() {
   g.restore();
 }
 // Full screen where the browser allows it (Android Chrome, desktop); iOS gets it from Add to Home Screen
+// Inside the app shell (Android WebView, an installed web app, the file:// APK page) the OS owns full screen: no Full screen button.
+function isNative() {
+  try {
+    const q = new URLSearchParams(location.search).get('native'); if (q !== null) return q !== '0';
+    const ua = navigator.userAgent || '', mm = q => !!matchMedia?.(q).matches;
+    return /; wv\)/.test(ua) || navigator.standalone === true || mm('(display-mode: standalone)') || mm('(display-mode: fullscreen)') || location.protocol === 'file:' && /Android|iPhone|iPad/.test(ua);
+  } catch { return false; }
+}
 const canFull = () => !!(document.fullscreenEnabled && !document.fullscreenElement);
 function goFull() { document.documentElement.requestFullscreen?.({ navigationUI: 'hide' }).then(() => screen.orientation?.lock?.('portrait').catch(() => {})).catch(() => {}); }
 function pauseButton() { // Icon only; the invisible target remains44 CSS pixels.
@@ -475,11 +433,11 @@ function drawPause() {
   text(g, 'PAUSED', W / 2, H / 2 - 104, 30, '#edb0d6', 'center');
   button('Resume', 70, H / 2 - 62, 220, 48, '#9b6295', resume);
   button('Retry', 70, H / 2, 220, 48, '#4b5370', () => start(levelIdx));
-  button('Menu', 100, H / 2 + 62, 160, 44, '#4b5370', () => { clearInput(); scene = 'menu'; });
+  button('Menu', 100, H / 2 + 62, 160, 44, '#4b5370', () => { clearInput(); toMenu(); });
 }
 
 // test hook for automated playtests
-window.__breach = { start, get ready() { return assetsReady; }, get level() { return level; }, get difficulty() { return selectedDifficulty; }, get scene() { return scene; }, set scene(s) { scene = s; }, get buttons() { return buttons; } };
+window.__breach = { start, get home() { return home(); }, get ready() { return assetsReady; }, get level() { return level; }, get difficulty() { return selectedDifficulty; }, get scene() { return scene; }, set scene(s) { scene = s; }, get buttons() { return buttons; } };
 
 resize();
 (document.fonts ? Promise.race([Promise.all([document.fonts.load('16px "Lilita One"'), document.fonts.load('600 12px Rubik')]).catch(() => {}), new Promise(r => setTimeout(r, 2500))]) : Promise.resolve()).then(async () => {

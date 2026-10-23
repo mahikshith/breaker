@@ -9,7 +9,7 @@ const release = JSON.parse(readFileSync('config/mobile-preview.json', 'utf8'));
 const reviewedHash = release.reviewedCanonicalSha256;
 assert.equal(sha256(html), reviewedHash, 'source differs from the reviewed mobile checkpoint');
 assert.deepEqual(release.saveSlots, ['Carrier Breakout', 'The Vault', 'Circuit Breakout', 'Shutter Forge', 'Frost Warden', 'Mooncoil Reliquary', 'Bellforge Run', 'Tidewheel Citadel', 'Gatehouse Siege', 'Lumi Breaks Out', 'Serpent Rivals', 'Dragon’s Hoard'], 'twelve-chapter save slots must retain their original indices');
-assert.deepEqual(release.menuOrder, [0, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10, 11], 'twelve-chapter menu order');
+assert.deepEqual(release.menuOrder, [1, 4, 5, 6, 7, 8, 9, 10, 11], 'nine princess chapters in story order (the space chapters keep their slots, hidden)');
 const gradle = readFileSync('android/app/build.gradle', 'utf8');
 assert.ok(Number.isInteger(release.androidVersionCode) && gradle.includes(`versionCode ${release.androidVersionCode}`), 'Android version code differs from release metadata');
 assert.ok(typeof release.androidVersionName === 'string' && gradle.includes(`versionName '${release.androidVersionName}'`), 'Android version name differs from release metadata');
