@@ -1,6 +1,7 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { circleSweep, reflect } from './bellforge.js';
-import { SPEED, RAM, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { SPEED, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { plural, hpLeft } from '../near-miss.js';
 import { LUNGE } from './lumitower.js';
 
 // Serpent Rivals: Kit climbs the twin-serpent hall. Gnash (emerald) lunges from the left-wall windows, Mooncoil (violet)
@@ -103,7 +104,7 @@ export class SerpentRivals {
     if (this.paused || this.state !== 'play' || this.phase !== 'serve' || !Number.isFinite(angle)) return false;
     const a = clamp(angle, -Math.PI + .25, -.25), b = this.balls[0];
     b.caught = false; b.vx = Math.cos(a) * SPEED; b.vy = Math.sin(a) * SPEED;
-    this.phase = 'play'; this.active = true; return true;
+    this.phase = 'play'; this.active = true; this.backHold = false; return true;
   }
   // ---------- Kit's powers ----------
   canActivate(id = 'ward', { ignorePause = false } = {}) {
@@ -133,7 +134,7 @@ export class SerpentRivals {
     if (this.phase === 'climb' || this.phase === 'shatter') return this.updateTransition(dt);
     if (this.phase === 'serve') {
       const b = this.balls[0]; b.px = b.x; b.py = b.y; b.x = p.x; b.y = p.y - 8;
-      this.serveTime += dt; if (this.serveTime >= (this.active ? 3 : 8)) this.launch(-Math.PI / 2 + .15);
+      if (!this.backHold) { this.serveTime += dt; if (this.serveTime >= (this.active ? 3 : 8)) this.launch(-Math.PI / 2 + .15); } // after a Continue the serve waits for the player
     }
     if (!this.active) return;
     this.time += dt; this.floorTime += dt;
@@ -430,8 +431,16 @@ export class SerpentRivals {
   continue() {
     if (this.continued || this.state !== 'lost') return false;
     this.continued = true; this.state = 'play'; this.reason = ''; this.lives = Math.max(2, this.lives);
-    this.lunges = []; this.capsules = []; this.shots = []; this.volley = null; this.ward = null; this.teachClash = false;
-    this.nextLunge = this.floorTime + 3; for (const l of this.lures) l.cool = 0; this.updateLures(); this.makeServe(); return true;
+    this.lunges = []; this.capsules = []; this.shots = []; this.volley = null; this.teachClash = false;
+    this.nextLunge = this.floorTime + 3; for (const l of this.lures) l.cool = 0; this.updateLures(); this.makeServe();
+    this.ward = { y: this.paddle.y + 24, remaining: BACK_WARD }; this.active = false; this.backHold = true; return true;
+  }
+  // Continue panel copy: floor 1's hatch bars, then the Twin Seal's HP; progress runs over all three floors.
+  nearMiss() {
+    let line, part;
+    if (this.seal) { line = hpLeft('THE TWIN SEAL', this.seal.hp); part = 1 - this.seal.hp / this.seal.maxHP; }
+    else { const bars = this.bricks.filter(b => b.type === 'bar'), left = Math.max(1, bars.reduce((n, b) => n + Math.max(0, b.hp), 0)); line = `${plural(left, 'HIT')} TO OPEN THE HATCH`; part = 1 - left / (bars.reduce((n, b) => n + b.maxHP, 0) || 1); }
+    return { line, progress: (this.floor + part) / 3, stage: ['FLOOR', this.floor + 1, 3] };
   }
   effect(x, y, kind, life, details = {}) {
     const fx = { x, y, kind, age: 0, life, ...details }; this.effects.push(fx); if (this.effects.length > 80) this.effects.shift(); return fx;

@@ -8,6 +8,7 @@ import { RAM } from './fantasy/ram.js';
 import { drawEnemyBolt, drawPlayerBolt, drawEnemyImpact, drawWeaponCharge, nextEnemyVolley, enemyEscapeLane } from './space-weapons.js';
 import { drawLatchJam } from './space-companions.js';
 import { drawLiveSkiff } from './skiff.js';
+import { hpLeft } from './near-miss.js';
 
 const TAU = Math.PI * 2;
 const clamp = v => Math.max(0, Math.min(1, v));
@@ -125,7 +126,7 @@ export class Relay extends Arena {
     if(!this.levelUpdated&&this.state==='play'&&this.phase==='relay')this.updateLevel(0,dtReal);
     if(this.burstPending)this.beginBurst();
   }
-  updateLevel(dt,dtReal=dt){this.levelUpdated=true;if(this.state!=='play'||this.phase!=='relay')return;if(this.aim?.serve){this.serveAge+=dtReal;if(this.serveAge>=this.serveLimit)this.release();}if(!this.started)return;this.clock+=dtReal;this.updateCircuit(dtReal);this.updateBolts(dtReal);}
+  updateLevel(dt,dtReal=dt){this.levelUpdated=true;if(this.state!=='play'||this.phase!=='relay')return;if(this.aim?.serve&&!this.backHold){this.serveAge+=dtReal;if(this.serveAge>=this.serveLimit)this.release();}if(!this.started||this.backHold)return;this.clock+=dtReal;this.updateCircuit(dtReal);this.updateBolts(dtReal);}
   updateCircuit(dt){
     this.weaponImpacts=this.weaponImpacts.filter(h=>this.clock-h.at<.32);
     for(const o of [...this.nodes,...this.guns,...this.bricks])o.hurt=Math.max(0,o.hurt-dt);
@@ -232,6 +233,7 @@ export class Relay extends Arena {
   drawCraft(g){drawLiveSkiff(g,this);if(this.phase==='flight')for(const s of this.shots)drawPlayerBolt(g,s,this.clock-s.bornAt);}
   drawHUD(g){this.drawHUDBase(g);const s=this.kitUIScale,y=this.hudY+39/s;glazedBar(g,110/s,y-1/s,140/s,5/s,this.hp/this.maxHP,'#ecdcff','#8a63d0');if(this.phase==='flight'){g.fillStyle='#a4d8f1';g.fillRect(135/s,y+9/s,80/s*Math.min(this.burstRemaining/this.rules.burst,this.skiffAmmo/12),2/s);}}
   inspect(){return{state:this.state,phase:this.phase,difficulty:this.difficulty,clock:this.clock,hp:this.hp,maxHP:this.maxHP,nodes:this.nodes.map(n=>({id:n.id,hp:n.hp,port:this.portPose(n)})),guns:this.guns.map(c=>({id:c.id,hp:c.hp})),burstSpent:this.burstSpent,burstRemaining:this.burstRemaining,queued:[...this.queuedPowers],iris:this.irisPose(),attack:this.attack&&{...this.attack},paddle:{...this.paddle},targets:this.targets()};}
+  nearMiss(){return{line:hpLeft('THE RELAY',this.hp),progress:1-this.hp/this.maxHP};} // continue panel copy
   result(){return{stars:this.state==='won'?1+(this.lives>=2?1:0)+(this.guns.every(g=>g.hp===0)?1:0):0,lines:[['Score',this.score.toLocaleString()],['Mothership',this.hp===0?'Disabled':`${this.hp} / ${this.maxHP}`],['Lives left',this.lives]]};}
   part(g, id, x, y, w, h, angle = 0, alpha = 1) {
     const p = this.parts[id]; if (!ready(p) || alpha <= 0) return;

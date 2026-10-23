@@ -1,6 +1,7 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { ejectBall } from '../clearance.js';
-import { RAM, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { hpLeft } from '../near-miss.js';
 
 const STEP = 1 / 240;
 // Inscribed alpha>=128 circles, measured at3px/u from the retained Korr poses.
@@ -125,7 +126,7 @@ export class Bellforge {
     if (this.paused || this.state !== 'play' || this.phase !== 'serve' || !Number.isFinite(angle)) return false;
     const a = clamp(angle, -Math.PI + .25, -.25), b = this.balls[0];
     b.caught = false; b.vx = Math.cos(a) * 345; b.vy = Math.sin(a) * 345;
-    this.phase = 'play'; this.active = true; return true;
+    this.phase = 'play'; this.active = true; this.backHold = false; return true;
   }
   canActivate(id = 'echo', { ignorePause = false } = {}) {
     return id === 'echo' && (ignorePause || !this.paused) && this.state === 'play' && ['play', 'serve'].includes(this.phase) && this.charge >= 100 - 1e-7 && !this.guard
@@ -156,7 +157,7 @@ export class Bellforge {
     }
     if (this.phase === 'serve') {
       const b = this.balls[0]; b.px = b.x; b.py = b.y; b.x = p.x; b.y = p.y - 8;
-      this.serveTime += dt; if (this.serveTime >= (this.active ? 3 : 8)) this.launch(-Math.PI / 2 + .15);
+      if (!this.backHold) { this.serveTime += dt; if (this.serveTime >= (this.active ? 3 : 8)) this.launch(-Math.PI / 2 + .15); } // after a Continue the serve waits for the player
     }
     if (!this.active) return;
     this.time += dt; this.moveLift(dt);
@@ -164,6 +165,7 @@ export class Bellforge {
     this.chargeBank -= credit; this.charge = Math.min(100, this.charge + credit / this.rules.coreHits * 100);
     if (this.charge > 100 - 1e-7) { this.charge = 100; this.chargeBank = 0; }
     if (this.guard) { this.guard.age += dt; this.guard.remaining -= dt; if (this.guard.remaining <= 0) this.guard = null; }
+    if (this.ward && (this.ward.remaining -= dt) <= 0) this.ward = null;
     for (const r of this.ramps) {
       r.previousAngle = r.angle; r.angle += clamp(r.targetAngle - r.angle, -.85 * dt, .85 * dt); r.omega = (r.angle - r.previousAngle) / dt;
       Object.assign(r, rampPose(r));
@@ -181,7 +183,7 @@ export class Bellforge {
     this.bells = this.bells.filter(b => !b.dead);
     if (this.lumi.steps >= this.rules.mistakes) {
       this.phase = 'breach'; this.breachRemaining = Math.abs(this.lumi.targetY - this.lumi.y) / 30;
-      this.bells = []; this.guard = null; this.villain.stage = 'disabled'; return;
+      this.bells = []; this.guard = null; this.ward = null; this.villain.stage = 'disabled'; return;
     }
     this.balls = this.balls.filter(b => !b.dead);
     if (!this.balls.length) { this.lives--; p.streak = 0; if (this.lives <= 0) this.lose('No balls remaining'); else this.makeServe(); }
@@ -272,6 +274,7 @@ export class Bellforge {
       const elapsed = 1 - left / dt;
       for (const r of this.ramps) add(sweepMovingSegment(from, to, b.r, rampSlice(r, elapsed), left), 'ramp', r);
       for (const bell of this.bells) if (!bell.dead && bell.hp > 0) add(circleSweep(from, to, b.r, lerpPoint({ x: bell.px, y: bell.py }, bell, elapsed), bell, bell.r), 'bell', bell);
+      if (this.ward && b.vy > 0 && to.y > this.ward.y - b.r) add({ t: Math.max(0, (this.ward.y - b.r - b.y) / (to.y - b.y)), nx: 0, ny: -1 }, 'ward');
       if (b.vy > 0 && b.y <= this.paddle.y + b.r) {
         const p = this.paddle; add(sweepTarget(from, to, b.r, { type: 'rect', x: p.px - p.w / 2, y: p.y, w: p.w, h: p.h, vx: p.vx }, elapsed * dt, left), 'paddle', p);
       }
@@ -366,7 +369,7 @@ export class Bellforge {
     this.villain.hp -= dealt; this.score += dealt * 25;
     if (!this.villain.hp) {
       this.phase = 'rescue'; this.rescueRemaining = RESCUE_DURATION; this.rescueDelayRemaining = RESCUE_DELAY;
-      this.bells = []; this.pendingDocks = []; this.guard = null; this.nextWarning = Infinity; this.nextTeaching = false;
+      this.bells = []; this.pendingDocks = []; this.guard = null; this.ward = null; this.nextWarning = Infinity; this.nextTeaching = false;
       Object.assign(this.villain, { stage: 'defeated', stageAt: this.time, stageTime: 0, until: this.time + RESCUE_DURATION, body: [],
         defeat: { age: 0, stage: 'stagger', progress: 0, frame: 3, offsetX: 0, offsetY: 0, angle: 0, scaleX: 1, scaleY: 1, daze: 0 } });
       this.effects = this.effects.filter(e => !['bell-warning', 'bell-release', 'echo-deploy'].includes(e.kind));
@@ -382,8 +385,10 @@ export class Bellforge {
     this.continued = true;
     this.state = 'play'; this.reason = ''; this.lives = Math.max(2, this.lives); this.lumi.steps = Math.max(0, this.lumi.steps - 2);
     this.lumi.y = this.lumi.targetY = this.lumi.baseY + this.lumi.steps * 12; this.lumi.worried = this.rules.mistakes - this.lumi.steps <= 2;
-    this.bells = []; this.guard = null; this.nextWarning = this.time + 3; this.villain.stage = 'idle'; this.makeServe(); return true;
+    this.bells = []; this.guard = null; this.nextWarning = this.time + 3; this.villain.stage = 'idle'; this.makeServe();
+    this.ward = { y: this.paddle.y + 24, remaining: BACK_WARD }; this.active = false; this.backHold = true; return true;
   }
+  nearMiss() { return { line: hpLeft('KORR', this.villain.hp), progress: 1 - this.villain.hp / this.villain.maxHP }; } // continue panel copy
   effect(x, y, kind, life, details = {}) {
     const fx = { x, y, kind, age: 0, life, ...details }; this.effects.push(fx); if (this.effects.length > 80) this.effects.shift(); return fx;
   }

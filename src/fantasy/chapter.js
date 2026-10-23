@@ -6,7 +6,7 @@ import { Tidewheel } from './tidewheel.js';
 import { Gatehouse, GATEHOUSE_FLOORS } from './gatehouse.js';
 import { LumiTower } from './lumitower.js';
 import { SerpentRivals, RIVALS_KINDS } from './rivals.js';
-import { makeArt, drawEncounter } from './render.js';
+import { makeArt, drawEncounter, gWard } from './render.js';
 import { cached, drawBall, text } from '../gfx.js';
 import { sfx } from '../audio.js';
 import { kitExpression, updateKitPresence } from '../kit.js';
@@ -103,8 +103,11 @@ export class FantasyChapter {
   }
   continueRun() {
     this.resultSaved = false; this.m.continued = false;   // how many continues are offered is the shared monetization policy's call
-    if (this.m.continue()) { this.kitShockUntil = 0; this.hint = { text: 'BACK IN!', until: this.t + 1.5 }; sfx.power(); }
+    if (this.m.continue()) { this.kitShockUntil = 0; this.hint = null; this.pointerCancel(); sfx.power(); }
   }
+  // Back in action (main.js draws the banner): the ball waits on the paddle and the model's clocks hold until the serve.
+  get backHold() { return !!this.m.backHold; }
+  nearMiss() { return this.m.nearMiss(); }
   // ---------- simulation ----------
   update(dt) {
     if (this.powerMenuOpen) return;
@@ -159,6 +162,7 @@ export class FantasyChapter {
     g.drawImage(this.background(), 0, 0, this.W, this.H);
     g.save(); g.translate(this.ox, this.hudTop); g.scale(this.k, this.k);
     drawEncounter(g, this.m, art, this.key);
+    if (this.key === 'bellforge' || this.key === 'tidewheel' || this.key === 'lumitower') gWard(g, this.m, art); // their renderers have no Ward of their own
     g.restore();
     const s = this.kitUIScale, y = this.hudY + 18 / s;
     Arena.prototype.drawDeck.call(this, g);

@@ -122,7 +122,10 @@ test('capture Continue preserves every earned fact and clears only the failed ca
   assert(saved.secured && saved.securedAt === savedAt); assert.equal(l.carrier.hp, hp); assert.equal(l.paddle.charge, .75);
   assert.equal(l.fighters.length, 0); assert.equal(l.raid, null); assert.equal(l.attack, null); assert.equal(l.bolts.length, 0);
   assert.equal(l.balls.length, 1); assert(l.aim?.serve && l.balls[0].caught); assert.equal(l.shield, 2); assert.equal(l.shieldT, 10);
-  advance(l, 3.02, true); assert(!l.aim); assert(l.nextSquad >= l.clock + 5.96);
+  // back in action: the serve waits for the player and the jump clock holds; the 6 s grace starts with the serve
+  const clock = l.clock, wave = l.waveRemaining; advance(l, 5, true);
+  assert(l.aim?.serve && l.backHold); assert.equal(l.clock, clock); assert.equal(l.waveRemaining, wave); assert.equal(l.shieldT, 10);
+  l.release(); assert(!l.aim && !l.backHold); assert(l.nextSquad >= l.clock + 5.96);
 });
 
 test('a lethal bolt costs one life, cannot repeat during fresh-serve grace, and SHIELD remains ball-only', () => {

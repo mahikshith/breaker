@@ -37,7 +37,7 @@ test('Carrier/Vault pause Retry creates a fresh same-level/mode attempt without 
   if(old.carrier){old.carrier.hp=1;old.crew[0].hp=1;old.encounterWave=2;old.archivedCrew=[{id:'fixture-secured',secured:true}];old.waveRemaining=.5;}
   const storage=copy(h.values);r.pause();assert.equal(r.scene,'pause');const paused=snapshot(old);r.tick(10);assert.deepEqual(snapshot(old),paused,'paused frames cannot advance old gameplay');
   retryButton(h).fn();assert.notEqual(r.level,old);assert.equal(r.scene,'level');assert.equal(r.index,index);assert.equal(r.mode,mode);assert.deepEqual(snapshot(r.level),baseline);
-  assert.deepEqual(copy(r.control.cont),{used:0,declined:false,ad:null,toast:null});assert.equal(r.control.resultT,0);assert.equal(r.control.acc,0);assert.equal(r.control.last,12345);assert.equal(r.control.paddlePointer,null);assert.equal(r.control.kitPress,null);
+  assert.deepEqual(copy(r.control.cont),{used:0,declined:false,ad:null,toast:null,near:null,losses:null,backAt:null});assert.equal(r.control.resultT,0);assert.equal(r.control.acc,0);assert.equal(r.control.last,12345);assert.equal(r.control.paddlePointer,null);assert.equal(r.control.kitPress,null);
   assert.deepEqual(h.values,storage);assert.deepEqual(h.writes,[]);assert.deepEqual(snapshot(old),paused,'replaced level remains unchanged');
  }
 });
