@@ -1110,14 +1110,8 @@ export class Vault extends Arena {
       if(KEEP_BACKDROP?.complete&&KEEP_BACKDROP.naturalWidth){
         g.drawImage(KEEP_BACKDROP,0,0,W,H);
         // Keep the registered brick field readable; the lit hall continues beneath it.
-        const recess=g.createLinearGradient(0,OY-12,0,OY+ROWS*CELL+18);
-        recess.addColorStop(0,'#071018d9');recess.addColorStop(.8,'#071018b5');recess.addColorStop(1,'#07101888');
-        g.fillStyle=recess;g.fillRect(OX-3,OY-6,COLS*CELL+6,ROWS*CELL+12);
-        for(const x of[OX-7,OX+COLS*CELL+1]){
-          const edge=g.createLinearGradient(x,0,x+6,0);edge.addColorStop(0,'#111922');edge.addColorStop(.45,'#6d6e66');edge.addColorStop(1,'#25303a');g.fillStyle=edge;g.fillRect(x,OY-6,6,ROWS*CELL+12);
-          for(let y=OY+12;y<OY+ROWS*CELL;y+=24){g.fillStyle='#070e16';g.fillRect(x,y,6,1);g.fillStyle='#a9a08b44';g.fillRect(x,y+1,6,.6);}
-        }
-        const sill=g.createLinearGradient(0,OY+ROWS*CELL,0,OY+ROWS*CELL+9);sill.addColorStop(0,'#a9997b');sill.addColorStop(.2,'#414b50');sill.addColorStop(1,'#101b27');g.fillStyle=sill;g.fillRect(OX-7,OY+ROWS*CELL+1,COLS*CELL+14,8);
+        // Light, translucent recess only: the hall art stays visible, no steel frame or hard sill.
+        g.fillStyle='#07101840';g.fillRect(OX-3,OY-6,COLS*CELL+6,ROWS*CELL+12);
         vignette(g,W,H,.24);
         return;
       }
