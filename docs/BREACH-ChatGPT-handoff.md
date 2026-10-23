@@ -4,8 +4,8 @@ This one file contains everything another assistant needs to design for, or take
 
 - **Game:** BREACH, a premium portrait brick breaker for iOS and Android. Tagline: "Break in. Break out."
 - **Owner:** mykee (GitHub `mahikshith`).
-- **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `codex/castle-chapters` is this working branch.
-- **Assembled at:** repo commit `04adf5d`.
+- **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `claude/project-thread-r3m42j` is this working branch.
+- **Assembled at:** repo commit `8bde6e0`.
 
 ## How to read this file
 
@@ -177,7 +177,7 @@ Last updated 2026-10-22 (night). Branch `codex/castle-chapters`; `main` is untou
 
 1. Premium art wiring into the earlier levels (in progress).
 2. APK build plus one manual CI run.
-3. Owner playtest and tuning (harder but fair).
+3. Owner playtest and tuning (harder but fair). Power-up and difficulty designs arrive as Copilot drops (`copilot/README.md`, "For Claude: taking in a drop").
 4. Dragon's Hoard (needs dragon art from `prompt-library/`).
 5. Starflight in its own thread later (separate prototype, not in the game).
 
@@ -188,6 +188,7 @@ Pending owner decision: "compress the companions" saves about 2 MB but shifts fa
 - `docs/handoff/01-status-and-next-steps.md`: full "Current state", owner rules, progress log.
 - `docs/handoff/02-architecture-and-pipeline.md` and `03-environment-skills-ux.md`: code, art, build, tests, tools, UX.
 - `docs/BACKLOG.md` and `design/phase2/*.md`: plans and to-dos.
+- `copilot/`: design work the owner runs in M365 Copilot and Copilot Studio, and how Claude takes in the results.
 - Per-chapter notes: `docs/MOONCOIL_RELIQUARY.md`, `docs/BRUM_LEVEL_PLAN.md`, `docs/BELLFORGE_PHYSICS.md`, `docs/TIDEWHEEL_PHYSICS.md`, `docs/FANTASY_REFINEMENT.md`.
 - Older docs (`SPACE_COMBAT_HANDOFF.md`, `MOBILE_PREVIEW.md`, `NEXT_LEVELS.md`, `STARFLIGHT_*.md`) describe the five-chapter space release and the Starflight prototype. They are history for anything castle-related.
 
@@ -3476,6 +3477,8 @@ Chapters 7 to 11 run through the `FantasyChapter` adapter in `src/fantasy/chapte
 - Strip PNG metadata before committing renders (doc 02, section 3).
 - The owner generates art with M365 Copilot using `prompt-library/` (copy also at `/mnt/project-files/breaker/prompt-library/`) and posts renders back in the project chat.
 
+**Design work is offloaded to Copilot (from 2026-10-23)** to save Claude tokens: `copilot/` (copy at `/mnt/project-files/breaker/copilot/`). Copilot (M365 Copilot chat for images, a Copilot Studio agent "BREACH Design Studio" for text) designs power-ups, difficulty, levels, characters, assets, UI and critiques; Claude builds. Copilot answers come back as "drops" (`copilot/04-return-format.md`: header, fixed sections, one JSON block per kind). Take one in: save it to `design/copilot/`, run `node copilot/tools/check-drop.mjs <file>`, read only the header, owner decisions and JSON, then build and run the gates. The landing map per kind is in `copilot/README.md`. Keep `copilot/01-context-brief.md` true to the game (it holds real numbers); when chapters or numbers change, update it and ask the owner to re-upload it to the agent. First prompts queued for the owner: P1 power-up rework and P2 difficulty rework (round-2 APK feedback).
+
 **Where the plans are:** `docs/BACKLOG.md` (every saved to-do, checked against code), `design/phase2/` (`kit-and-lumi-levels.md`, `serpent-rivals.md`, `dragons-hoard.md`, `premium-pass.md`, `new-concepts.md`), `docs/MOONCOIL_RELIQUARY.md`, `docs/BELLFORGE_PHYSICS.md`, `docs/TIDEWHEEL_PHYSICS.md`.
 
 **Owner rules (short; full list in section 1)**: commits authored and committed as `mahikshith <mahikshith97@gmail.com>`; no AI attribution anywhere in the repo; strip PNG metadata; show screenshots after anything finishes; short single-path instructions; physics first; harder but fair; premium look, never vibe-coded.
@@ -3483,7 +3486,7 @@ Chapters 7 to 11 run through the `FantasyChapter` adapter in `src/fantasy/chapte
 **Next, in order**
 1. Premium art wiring into the earlier levels (in progress; see `design/phase2/premium-pass.md`).
 2. Build the APK of the 11-chapter game and run the manual CI once.
-3. Owner playtest and tuning: harder but fair (the continue screen is the safety net).
+3. Owner playtest and tuning: harder but fair (the continue screen is the safety net). The owner is running Copilot prompts P1 (power-ups) and P2 (difficulty); build from their drops when they arrive.
 4. Dragon's Hoard (`design/phase2/dragons-hoard.md`); needs dragon art from the prompt library first.
 5. Starflight in its own thread later (`docs/STARFLIGHT_*.md`; it is a separate browser prototype, not in the game).
 
@@ -3496,6 +3499,8 @@ Chapters 7 to 11 run through the `FantasyChapter` adapter in `src/fantasy/chapte
 Read all three handoff docs before touching code: this one (status, rules, history), `02-architecture-and-pipeline.md` and `03-environment-skills-ux.md`. Keep them current at the end of every session.
 
 ### Progress log (newest first)
+
+- **2026-10-23 — Copilot design offload.** The owner tested the APK: power-ups and difficulty need a rework. To save tokens, design moves to M365 Copilot and Copilot Studio; Claude keeps code, physics, Blender and builds. Added `copilot/`: context brief, prompt pack P1 to P10 (power-ups and difficulty first), Copilot Studio agent setup, the drop return format with JSON schemas per kind, an example drop and `copilot/tools/check-drop.mjs`. No gameplay change.
 
 - **2026-10-22 (night) — Eleven chapters, Ram Ball everywhere, physics gates, handoff refresh.**
   - Shipped on `codex/castle-chapters`: Lumi Breaks Out (chapter 10), Serpent Rivals (chapter 11), a second serpent in Mooncoil, Ram Ball in every level, the power-ready pulse and buzz, and the premium pass on the castle chapters (rendered gems, chips and sparks, glazed and ceramic bricks, Frost rampart, Korr's dais, Kit and Lumi paddle skins, rendered arrows and bow).
@@ -4131,6 +4136,7 @@ This document covers where everything lives and how the work has been done. Any 
 | ChatGPT design partner | Brief: `docs/handoff/04-chatgpt-design-brief.md`. Steering prompts: `docs/handoff/05-chatgpt-steering-prompts.md`. Art scripts bundle: `docs/BREACH-blender-scripts.md`. Single upload file: `docs/BREACH-ChatGPT-handoff.md`, which concatenates the brief, `STORY_PLAN.md`, `GAME_PLAN.md`, docs 01–03 and a file map. Regenerate it after editing any of those: `python3 tools/make_handoff.py`. |
 | Game-dev skills | In the repo at `skills/gamedev/` and `skills/ponytail/` (also `/mnt/project-files/skills/`). `AGENTS.md` says which skill to read for which kind of work. |
 | Prompt library for the owner | `prompt-library/` in the repo (copy at `/mnt/project-files/breaker/prompt-library/`): copy-paste prompts for Copilot art and design. Start at its `README.md`. |
+| Copilot design offload | `copilot/` (copy at `/mnt/project-files/breaker/copilot/`): context brief, prompt pack, Copilot Studio agent setup, drop return format and `copilot/tools/check-drop.mjs`. Copilot designs; Claude builds. Start at its `README.md`. |
 | Backlog and design notes | `docs/BACKLOG.md` (all to-dos), `design/phase2/*.md` (levels, Rivals, Dragon's Hoard, premium pass, new concepts) |
 | Assistant memory (Claude Projects) | `/tmp/claude/memory/team/silo/MEMORY.md` (index) and `breaker-project.md` (project facts, rules, art direction). Their content is summarised in this document. |
 | Third-party assets | KayKit Adventurers (CC0) GLB models in `assets/models/`. Fonts: Google Fonts Lilita One and Rubik (OFL). Everything else is original Blender renders or code. |
@@ -4250,6 +4256,13 @@ assets/snake-jade: 26 PNG renders
 assets/vault: 53 PNG renders
 assets/invasion: 78 PNG renders
 
+copilot/01-context-brief.md
+copilot/02-prompt-pack.md
+copilot/03-copilot-studio-agent.md
+copilot/04-return-format.md
+copilot/README.md
+copilot/examples/breach-powerups-example-v1.md
+copilot/tools/check-drop.mjs
 .gitattributes
 .github/workflows/mobile-preview.yml
 .gitignore
@@ -6386,6 +6399,10 @@ docs/validation/mooncoil/model-pre-tuning-easy.json
 docs/validation/mooncoil/model-pre-tuning-mh.json
 docs/validation/mooncoil/model-quota-bound.json
 docs/validation/mooncoil/model-review.md
+docs/validation/mooncoil/recheck-2026-10-22/android-play.png
+docs/validation/mooncoil/recheck-2026-10-22/android-rescued.png
+docs/validation/mooncoil/recheck-2026-10-22/ios-powers.png
+docs/validation/mooncoil/recheck-2026-10-22/report.json
 docs/validation/mooncoil/report.json
 docs/validation/mooncoil/rivals/1-warning.png
 docs/validation/mooncoil/rivals/2-both.png
@@ -6691,6 +6708,7 @@ src/fantasy/tidewheel-v2-geometry.js
 src/fantasy/tidewheel.js
 src/frost.js
 src/gfx.js
+src/glow.js
 src/invasion.js
 src/kit.js
 src/main.js

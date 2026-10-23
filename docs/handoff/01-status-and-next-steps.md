@@ -49,6 +49,8 @@ Chapters 7 to 11 run through the `FantasyChapter` adapter in `src/fantasy/chapte
 - Strip PNG metadata before committing renders (doc 02, section 3).
 - The owner generates art with M365 Copilot using `prompt-library/` (copy also at `/mnt/project-files/breaker/prompt-library/`) and posts renders back in the project chat.
 
+**Design work is offloaded to Copilot (from 2026-10-23)** to save Claude tokens: `copilot/` (copy at `/mnt/project-files/breaker/copilot/`). Copilot (M365 Copilot chat for images, a Copilot Studio agent "BREACH Design Studio" for text) designs power-ups, difficulty, levels, characters, assets, UI and critiques; Claude builds. Copilot answers come back as "drops" (`copilot/04-return-format.md`: header, fixed sections, one JSON block per kind). Take one in: save it to `design/copilot/`, run `node copilot/tools/check-drop.mjs <file>`, read only the header, owner decisions and JSON, then build and run the gates. The landing map per kind is in `copilot/README.md`. Keep `copilot/01-context-brief.md` true to the game (it holds real numbers); when chapters or numbers change, update it and ask the owner to re-upload it to the agent. First prompts queued for the owner: P1 power-up rework and P2 difficulty rework (round-2 APK feedback).
+
 **Where the plans are:** `docs/BACKLOG.md` (every saved to-do, checked against code), `design/phase2/` (`kit-and-lumi-levels.md`, `serpent-rivals.md`, `dragons-hoard.md`, `premium-pass.md`, `new-concepts.md`), `docs/MOONCOIL_RELIQUARY.md`, `docs/BELLFORGE_PHYSICS.md`, `docs/TIDEWHEEL_PHYSICS.md`.
 
 **Owner rules (short; full list in section 1)**: commits authored and committed as `mahikshith <mahikshith97@gmail.com>`; no AI attribution anywhere in the repo; strip PNG metadata; show screenshots after anything finishes; short single-path instructions; physics first; harder but fair; premium look, never vibe-coded.
@@ -56,7 +58,7 @@ Chapters 7 to 11 run through the `FantasyChapter` adapter in `src/fantasy/chapte
 **Next, in order**
 1. Premium art wiring into the earlier levels (in progress; see `design/phase2/premium-pass.md`).
 2. Build the APK of the 11-chapter game and run the manual CI once.
-3. Owner playtest and tuning: harder but fair (the continue screen is the safety net).
+3. Owner playtest and tuning: harder but fair (the continue screen is the safety net). The owner is running Copilot prompts P1 (power-ups) and P2 (difficulty); build from their drops when they arrive.
 4. Dragon's Hoard (`design/phase2/dragons-hoard.md`); needs dragon art from the prompt library first.
 5. Starflight in its own thread later (`docs/STARFLIGHT_*.md`; it is a separate browser prototype, not in the game).
 
@@ -69,6 +71,8 @@ Chapters 7 to 11 run through the `FantasyChapter` adapter in `src/fantasy/chapte
 Read all three handoff docs before touching code: this one (status, rules, history), `02-architecture-and-pipeline.md` and `03-environment-skills-ux.md`. Keep them current at the end of every session.
 
 ## Progress log (newest first)
+
+- **2026-10-23 — Copilot design offload.** The owner tested the APK: power-ups and difficulty need a rework. To save tokens, design moves to M365 Copilot and Copilot Studio; Claude keeps code, physics, Blender and builds. Added `copilot/`: context brief, prompt pack P1 to P10 (power-ups and difficulty first), Copilot Studio agent setup, the drop return format with JSON schemas per kind, an example drop and `copilot/tools/check-drop.mjs`. No gameplay change.
 
 - **2026-10-22 (night) — Eleven chapters, Ram Ball everywhere, physics gates, handoff refresh.**
   - Shipped on `codex/castle-chapters`: Lumi Breaks Out (chapter 10), Serpent Rivals (chapter 11), a second serpent in Mooncoil, Ram Ball in every level, the power-ready pulse and buzz, and the premium pass on the castle chapters (rendered gems, chips and sparks, glazed and ceramic bricks, Frost rampart, Korr's dais, Kit and Lumi paddle skins, rendered arrows and bow).

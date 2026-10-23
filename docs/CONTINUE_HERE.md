@@ -14,7 +14,7 @@ Last updated 2026-10-22 (night). Branch `codex/castle-chapters`; `main` is untou
 
 1. Premium art wiring into the earlier levels (in progress).
 2. APK build plus one manual CI run.
-3. Owner playtest and tuning (harder but fair).
+3. Owner playtest and tuning (harder but fair). Power-up and difficulty designs arrive as Copilot drops (`copilot/README.md`, "For Claude: taking in a drop").
 4. Dragon's Hoard (needs dragon art from `prompt-library/`).
 5. Starflight in its own thread later (separate prototype, not in the game).
 
@@ -25,6 +25,7 @@ Pending owner decision: "compress the companions" saves about 2 MB but shifts fa
 - `docs/handoff/01-status-and-next-steps.md`: full "Current state", owner rules, progress log.
 - `docs/handoff/02-architecture-and-pipeline.md` and `03-environment-skills-ux.md`: code, art, build, tests, tools, UX.
 - `docs/BACKLOG.md` and `design/phase2/*.md`: plans and to-dos.
+- `copilot/`: design work the owner runs in M365 Copilot and Copilot Studio, and how Claude takes in the results.
 - Per-chapter notes: `docs/MOONCOIL_RELIQUARY.md`, `docs/BRUM_LEVEL_PLAN.md`, `docs/BELLFORGE_PHYSICS.md`, `docs/TIDEWHEEL_PHYSICS.md`, `docs/FANTASY_REFINEMENT.md`.
 - Older docs (`SPACE_COMBAT_HANDOFF.md`, `MOBILE_PREVIEW.md`, `NEXT_LEVELS.md`, `STARFLIGHT_*.md`) describe the five-chapter space release and the Starflight prototype. They are history for anything castle-related.
 
