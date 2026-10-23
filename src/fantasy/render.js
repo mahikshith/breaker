@@ -6,15 +6,14 @@ import { GATEHOUSE_FLOORS } from './gatehouse.js';
 import { renderLumi } from './lumi-render.js';
 import { renderRivals } from './rivals-render.js';
 import { renderHoard } from './hoard-render.js';
-import { R3 } from '../round3-art.js';
+import { r3, preloadR3 } from './r3.js';
+import { tideSceneBack, tideSceneFront } from './tide-scene.js';
 import { siegeBoard, siegeBrick, raftSteel, nerraMotion, refugeChain, siegeEffect, siegeOverlay } from './tidewheel-stages-render.js';
 const damageStates=new WeakMap();
 // Round-3 Nerra (M365 painted sheet cut by art/round3/cut.py): one whole-body frame per pose, picked from the model's
 // state and drawn over the unchanged collision geometry. ?nerra=v1 brings back the old body-and-claws puppet.
-const R3IMG={};
-export function r3(who,key){const s=R3?.[who]?.[key];if(!s)return null;return R3IMG[who+'/'+key]??=Object.assign(loadImg(s.url),{fw:s.w,fh:s.h});}
 const NERRA_V1=typeof location!=='undefined'&&/[?&]nerra=v1\b/.test(location.search);
-const NERRA_K=1.7;   // game units per source pixel: the front-on pose spans the bridge like the old body plus claws
+const NERRA_K=1.31;   // game units per source pixel: the front-on pose spans the bridge like the old body plus claws
 export function nerraFrame(g,v){
   const a=v.act||{},t=a.t||0,q=a.dur?Math.min(1,t/a.dur):0,right=(v.facing||1)>0,beat=Math.floor(g.time*10);
   if(v.defeat){const d=v.defeat.age;return d<.2?'flinch':d<.5?'stagger':d<1.2?'dazed':'defeated';}
@@ -46,6 +45,7 @@ function drawNerraR3(ctx,g,v){
 }
 // Machinery comes packed in ART.fantasy (tools/pack_art.py); the plates, ball, paddle, bricks and Lumi are the main game's own art.
 export function makeArt(){
+  preloadR3();
   const F=ART.fantasy,manifest={bellforge:{},tidewheel:{},nerra:{},nerraReaction:{},korrReaction:{}},images={};
   const add=(family,key,item)=>{manifest[family][key]=item;if(item.url)images[family+'/'+key]=loadImg(item.url);};
   for(const family of ['bellforge','tidewheel','nerra'])for(const [key,item] of Object.entries(F[family]))if(key!=='bricks')add(family,key,item);
@@ -230,6 +230,7 @@ function renderBellforge(ctx,g,art){
 const SLUICES=[79,180,278];
 function renderTidewheel(ctx,g,art){
   const v=g.villain;
+  tideSceneBack(ctx,g);   // round-3 scenery: flames, pennant, the stage set pieces
   // Reuse the wall's stone courses for submerged foundations; piers never hang above the water.
   const wall=art.images['tidewheel/sluiceWall'],wm=art.manifest.tidewheel.sluiceWall,ws=390/wm.size[0];
   const wallX=180-wm.pivot[0]*390,base=232+(430-wm.pivot[1]*wm.size[1])*ws;
@@ -309,6 +310,7 @@ function renderTidewheel(ctx,g,art){
     ctx.beginPath();for(let x=0;x<=g.width;x+=4){const yy=y+row*14+Math.sin(x*.055+g.time*2+row)*2.5;x?ctx.lineTo(x,yy):ctx.moveTo(x,yy);}
     ctx.strokeStyle=row===0?'#a6e0dc80':'#58c2d023';ctx.lineWidth=row===0?1.2:.7;ctx.stroke();
   }ctx.restore();
+  tideSceneFront(ctx,g);
   // Water gathers at the animated pincer. The landing ring marks its locked aim.
   if(g.pulseWarning){
     const w=g.pulseWarning,q=Math.min(1,w.age/w.life);

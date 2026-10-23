@@ -8,6 +8,8 @@ import { SPR, ready, cached, text, drawCapsule, drawAt } from '../gfx.js';
 import { glow, sparks, chips, pips, fxPart, dust, rnd, clamp01, smooth, sprite, hoistChain, brick, pool, seaBrick } from './render.js';
 import { STAGES } from './tidewheel-stages.js';
 import { pipTrack, stageCard, stageBanner } from './stage-ui.js';
+import { paintedSplash } from './tide-scene.js';
+import { r3, r3ok } from './r3.js';
 
 const TAU = Math.PI * 2;
 // One barnacle: a squat shell cone lit from the top-left, its plates closed to a short slit at the top.
@@ -97,7 +99,8 @@ function pearl(ctx, x, y, r, t = 0) {
   const rim = ctx.createRadialGradient(x, y, r * .6, x, y, r); rim.addColorStop(0, '#ffd6ec00'); rim.addColorStop(1, '#ffd6ec55'); ctx.fillStyle = rim; ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
 }
 function prize(ctx, g, art, b, x = b.x, y = b.y) {
-  if (b.type === 'chest') return tile(ctx, b.hp < b.maxHP ? 'brick_chest_2_1' : 'brick_chest_2_0', x, y, b.w, b.h);
+  if (b.type === 'chest') return seaTile(ctx, b.hp < b.maxHP ? 'chest_cracked' : 'chest', x, y, b.w, b.h) || tile(ctx, b.hp < b.maxHP ? 'brick_chest_2_1' : 'brick_chest_2_0', x, y, b.w, b.h);
+  if (b.type === 'pearl' && seaTile(ctx, 'coin', x, y, b.w, b.h)) { glow(ctx, x + b.w / 2, y + b.h / 2, 12, '#f1ecff', .2 + .12 * Math.sin(g.time * 3 + x)); return; }
   if (b.type === 'pearl') { tile(ctx, 'brick_t_2_0', x, y, b.w, b.h); pearl(ctx, x + b.w / 2, y + b.h / 2, 6.2, g.time); return; }
   if (b.type === 'valve') {
     // The sluice valve: a brass plate with the hoist wheel as its hand wheel, water spitting from the seam while it is open.
@@ -136,14 +139,26 @@ export function siegeBrick(ctx, g, art, b, draw) {
 }
 // The sea-glaze bricks (assets/tidewheel-glaze): sea-glass and coral for one-hit bricks, the steel glaze for 2-hit armour
 // (its cracked frame after the first hit), and the sea-mine composed on a coral tile. Barnacle shield wears a crust.
+// The round-3 painted sea set (assets/round3/bricks, sea row): chest, pearl coin, sea-mine and barnacle armour, with a
+// soft drop shadow so they sit on the board like the glaze bricks. False while the image is still decoding.
+function seaTile(ctx, key, x, y, w, h) {
+  const img = r3('bricks', 'sea_' + key); if (!r3ok(img)) return false;
+  ctx.save(); ctx.shadowColor = '#000000a0'; ctx.shadowBlur = 4; ctx.shadowOffsetY = 2;
+  ctx.drawImage(img, x - 1, y - 1, w + 2, h + 2); ctx.restore(); return true;
+}
 function glazed(ctx, g, art, b, x, y, draw) {
   if (b.type === 'mine') return mine(ctx, g, art, b, x, y);
+  if (b.maxHP > 1 && !b.regrow && seaTile(ctx, b.hp < b.maxHP ? 'armour_cracked' : 'armour', x, y, b.w, b.h)) return;
   const armour = b.maxHP > 1, mat = armour ? 'steel' : ['seaglass', 'coral'][((b.colour | 0) % 2 + 2) % 2];
   if (!seaBrick(ctx, art, mat, armour && b.hp < b.maxHP ? 1 : 0, x, y, b.w, b.h)) draw();
   if (b.regrow) crust(ctx, b, x, y);
 }
 // A sea-mine: an iron sphere in a coral cradle, six brass-capped horns and a red lamp that blinks faster on its fuse.
 function mine(ctx, g, art, b, x, y) {
+  if (seaTile(ctx, 'mine', x, y, b.w, b.h)) {   // the painted mine; its red core still blinks faster on the fuse
+    const fuse = g.effects.some(e => e.kind === 'mine-fuse' && Math.abs(e.x - (x + b.w / 2)) < 1 && Math.abs(e.y - (y + b.h / 2)) < 1), blink = fuse ? 1 : .5 + .5 * Math.sin(g.time * 4 + x * .1);
+    glow(ctx, x + b.w / 2, y + b.h / 2, 7 + 5 * blink, '#ff3b2a', .25 + .45 * blink); return;
+  }
   seaBrick(ctx, art, 'coral', 0, x, y, b.w, b.h) || (ctx.fillStyle = '#b8564a', ctx.beginPath(), ctx.roundRect(x, y, b.w, b.h, 3), ctx.fill());
   const cx = x + b.w / 2, cy = y + b.h / 2, r = Math.min(b.w, b.h) * .36;
   ctx.fillStyle = '#2a161299'; ctx.beginPath(); ctx.ellipse(cx, cy + r * .55, r * 1.25, r * .55, 0, 0, TAU); ctx.fill();   // the cradle's shadow
@@ -265,14 +280,14 @@ export function siegeEffect(ctx, g, art, e, q) {
     case 'nerra-splash': case 'tide-surge': {
       if (e.kind === 'tide-surge') { ctx.globalAlpha = 1; pool(ctx, g.width / 2, g.water.y, 170, 10, '#bdf1ea', (1 - q) * .5); return true; }
       ctx.globalAlpha = 1; const k = Math.min(3, Math.floor(q * 4)); ctx.globalAlpha = q < .7 ? 1 : (1 - q) / .3;
-      drawAt(ctx, `splash/${k}`, e.x, g.water.y + 4, 1.3 * (e.size || 1)); return true;
+      if (!paintedSplash(ctx, e.x, g.water.y + 6, q, .5 * (e.size || 1))) drawAt(ctx, `splash/${k}`, e.x, g.water.y + 4, 1.3 * (e.size || 1)); return true;
     }
     case 'knockdown': ctx.globalAlpha = 1; glow(ctx, e.x, e.y, 70, '#ffd27a', (1 - q) * .55); sparks(ctx, e.x, e.y, Math.min(t, .41), 14, 260, GOLD, 2.6, 61); return true;
     case 'nerra-shrug': ctx.globalAlpha = 1; glow(ctx, e.x, e.y, 12, '#cfe8ff', (1 - q) * .5); return true;
     case 'pearl': ctx.globalAlpha = 1; pearl(ctx, e.x, e.y - 40 * smooth(q), 6 * (1 - q * .4), g.time); glow(ctx, e.x, e.y, 30, '#f1ecff', (1 - q) * .5); sparks(ctx, e.x, e.y, t, 6, 120, ['#fff', '#e6dcff'], 1.8, 63); return true;
     case 'valve-turn': ctx.globalAlpha = 1; sparks(ctx, e.x, e.y, t, 5, 110, GOLD, 1.8, 65); return true;
     case 'valve-shut': ctx.globalAlpha = 1; glow(ctx, e.x, e.y, 34, '#bdf1ea', (1 - q) * .6); sparks(ctx, e.x, e.y, t, 10, 190, GOLD, 2.2, 67);
-      if (q < .6) { ctx.globalAlpha = 1 - q / .6; drawAt(ctx, `splash/${Math.min(3, Math.floor(q / .6 * 4))}`, e.x, e.y + 6, .7); } return true;
+      if (q < .6) { ctx.globalAlpha = 1; paintedSplash(ctx, e.x, e.y + 10, q / .6, .26); } return true;
     case 'brick-chip': ctx.globalAlpha = 1; chips(ctx, e.x, e.y, t, e.life, 3, 70, .6, 69); return true;
     case 'bar-knock': ctx.globalAlpha = 1; glow(ctx, e.x, e.y, 9, '#ffe2a8', (1 - q) * .6); return true;
     case 'bar-crack': return true;
@@ -289,7 +304,7 @@ export function siegeEffect(ctx, g, art, e, q) {
       glow(ctx, e.x, e.y, 16 * (1 - q) + 4, '#fff6dc', (1 - q) * .95);
       sparks(ctx, e.x, e.y, Math.min(t, .41), 16, 300, ['#ffe2a8', '#ff9a5a', '#fff2c4'], 2.6, 91);
       chips(ctx, e.x, e.y, t, e.life, 7, 190, 1, 93, 1.6);
-      if (q < .7) { ctx.globalAlpha = 1 - q / .7; drawAt(ctx, `splash/${Math.min(3, Math.floor(q / .7 * 4))}`, e.x, e.y + 8, .8); }
+      if (q < .7) { ctx.globalAlpha = 1; paintedSplash(ctx, e.x, e.y + 12, q / .7, .3); }
       return true;
     }
     case 'plate-chip': ctx.globalAlpha = 1; glow(ctx, e.x, e.y, 14, '#ffb1d0', (1 - q) * .7); sparks(ctx, e.x, e.y, t, 6, 150, GOLD, 1.8, 95); return true;
@@ -333,7 +348,7 @@ export function siegeOverlay(ctx, g, art) {
   for (const c of g.capsules) {
     const bob = Math.sin(g.time * 6 + c.id) * 1.2;
     glow(ctx, c.x, c.y, 20, c.kind === 'chest' ? '#ffd27a' : '#fff2c4', .35);
-    if (c.kind === 'chest') tile(ctx, 'brick_chest_2_0', c.x - 13, c.y - 7 + bob, 26, 14);
+    if (c.kind === 'chest') seaTile(ctx, 'chest', c.x - 13, c.y - 7 + bob, 26, 14) || tile(ctx, 'brick_chest_2_0', c.x - 13, c.y - 7 + bob, 26, 14);
     else if (c.kind === 'titan') { glow(ctx, c.x, c.y, 16, '#d3afe9', .6); ctx.save(); ctx.translate(c.x, c.y + bob); ctx.rotate(g.time * 2); ctx.drawImage(art.images.titan, -10, -10, 20, 20); ctx.restore(); }
     else if (!drawCapsule(ctx, CAP[c.kind] || 'focus', c.x, c.y + bob, 32, 15)) { ctx.fillStyle = '#d9b36a'; ctx.beginPath(); ctx.roundRect(c.x - 14, c.y - 6, 28, 12, 6); ctx.fill(); }
   }
