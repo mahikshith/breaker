@@ -21,6 +21,7 @@ Rule of thumb: if the answer is a document or a picture, Copilot. If it is code,
 
 | File | What it is |
 |---|---|
+| `00-STEPS.md` | **Start here:** step by step for M365 Copilot and Copilot Studio. |
 | `01-context-brief.md` | Everything Copilot needs to know about BREACH. Upload or attach it. |
 | `02-prompt-pack.md` | The prompts, P1 to P10, plus steering prompts. Power-ups and difficulty first. |
 | `03-copilot-studio-agent.md` | How to set up the **BREACH Design Studio** agent, once (about 10 minutes). |
@@ -30,8 +31,8 @@ Rule of thumb: if the answer is a document or a picture, Copilot. If it is code,
 
 ## One path
 
-1. Set up the agent with `03-copilot-studio-agent.md`.
-2. In the agent, run **P1** (power-ups), then **P2** (difficulty). Add what felt wrong in the APK where the prompt asks.
+1. Follow `00-STEPS.md`: M365 Copilot first (a notebook with the brief), the Copilot Studio agent when you have 10 minutes.
+2. Run **P1** (power-ups), then **P2** (difficulty). Add what felt wrong in the APK where the prompt asks.
 3. Read the "Decisions for the owner", answer with your picks, then type `locked`.
 4. Paste the locked answer in the BREACH project chat, starting with `Copilot drop: <file name>`. Attach any PNGs.
 5. Claude checks it, builds it, runs the physics gates and sends you screenshots.
