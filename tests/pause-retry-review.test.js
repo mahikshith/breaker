@@ -17,7 +17,7 @@ function mainHarness(mode='medium') {
   const source=readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
   const listeners={},canvasListeners={},labels=[],writes=[],values={difficulty:mode,bestByDifficulty:{easy:[2,1],medium:[1,2],hard:[3,1]}};
   const canvas={getContext:()=>context,addEventListener:(k,fn)=>canvasListeners[k]=fn,setPointerCapture(){},getBoundingClientRect:()=>({left:0,top:0})};
-  const sandbox={Carrier,Vault,Relay,Orbital,Frost,difficulty,DIFFICULTY_IDS,URLSearchParams,window:{},location:{search:'',reload(){throw Error('Retry must not reload the browser');}},performance:{now:()=>12345},document:{getElementById:()=>canvas,addEventListener:(k,fn)=>listeners[k]=fn,hidden:false},
+  const sandbox={Carrier,Vault,Relay,Orbital,Frost,difficulty,DIFFICULTY_IDS,tutorialDone:()=>true,openPurpose:()=>null,drawPurpose(){},PURPOSE_AUTO:6,URLSearchParams,window:{},location:{search:'',reload(){throw Error('Retry must not reload the browser');}},performance:{now:()=>12345},document:{getElementById:()=>canvas,addEventListener:(k,fn)=>listeners[k]=fn,hidden:false},
     addEventListener:(k,fn)=>listeners[k]=fn,requestAnimationFrame(){},store:{get:k=>values[k],set:(k,v)=>writes.push([k,v])},unlockAudio(){},sfx:new Proxy({},{get:()=>()=>{}}),
     kitOrbContains:(o,x,y)=>Math.hypot(o.x-x,o.y-y)<=o.r,kitTap:()=>true,MODE:'free',PRICE:'',AD_SECONDS:1,continueOffer:()=>null,isUnlocked:()=>true,
     setDPR(){},text:(_g,label)=>labels.push(label),rrect(){},shade:c=>c,SPR:{},ready:()=>false,FONT:'Lilita One',isMuted:()=>false,setMuted(){},drawInvader(){},drawPrincessIcon(){},cached:()=>({}),vignette(){},drawGrain(){},brick:()=>({})};

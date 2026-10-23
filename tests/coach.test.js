@@ -136,7 +136,7 @@ test("Dragon's Hoard gets the same serve and ram coaching; the greed card is mod
 
 test('main.js draws coaching only during play, never under the continue panel or the power menu', () => {
   const main = readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
-  assert.match(main, /if \(scene === 'level' && level\.state === 'play' && !level\.powerMenuOpen\) level\.drawCoach\?\.\(g\)/);
+  assert.match(main, /if \(scene === 'level' && level\.state === 'play' && !level\.powerMenuOpen && !purpose\) \{[^}]*level\.drawCoach\?\.\(g\)/);
 });
 
 // A recording context: fillRect/stroke spans and drawImage calls.

@@ -94,6 +94,7 @@ export class Vault extends Arena {
     this.wardCoach = false; this.wardCoachSeen = !!store.get('wardCoachAck');
     this.venom = { contacts: new FuryContacts(), phase: 'idle', t: 0, target: null, ward: null, resolved: false, record: null, searchT: 0 };
     this.snakeStart = this.snakePlan().cost; this.freeStart = this.freeCost();
+    if (options.tutorial) this.coach.startTutorial();   // src/tutorial.js: a first play, or "How to play"
     this.phase = 'intro'; this.introT = 0; this.peakDanger = 0; this.foxT = 0; this.frenzyT = 0; this.beatT = 0; this.collapseDirty = false; this.collapseT = 0;
     this.bubble = null; this.barsWob = 0; this.zc = { z: 1, ax: W / 2, ay: this.paddle.y };
     this.pr = { anim: 'Idle', t: 0, loop: true, flip: false, x: this.prisonX, pace: 1, pause: 0, th: 0, fps: 14 };
@@ -651,7 +652,7 @@ export class Vault extends Arena {
     }
     if (this.phase !== 'rescue') { this.venom.phase = 'idle'; this.venom.contacts.reset(); this.wardCoach = false; }
     if (this.phase === 'rescue') {
-      if (!this.backHold) this.updateSnake(dt); // back in action: the serpent waits for the serve
+      if (!this.backHold && !this.coach.tutorial) this.updateSnake(dt); // back in action: the serpent waits for the serve; so does it while the tutorial runs
       this.ballVsSnake();
       const cost = this.snake.cost ?? this.snakeStart;
       this.danger = Math.max(0, Math.min(1, 1 - cost / this.snakeStart)); this.peakDanger = Math.max(this.peakDanger || 0, this.danger);
