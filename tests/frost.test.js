@@ -23,7 +23,8 @@ test('first serve has no siege progress or opening attack; auto serve is bounded
 test('all modes keep equal coloured bricks, open flank routes and full lower reaction space', () => {
   for (const mode of Object.keys(FROST_MODES)) for (const [H, s] of [[729, 393 / 360], [785, 412 / 360]]) {
     const l = level(mode, H, s);
-    assert.equal(l.bricks.length, 36); assert(l.bricks.every(b => b.w === 36 && b.h === 18 && b.hp === 1));
+    assert.equal(l.bricks.length, 36); assert(l.bricks.every(b => b.w === 36 && b.h === 18 && b.hp === b.maxHP && b.hp >= 1 && b.hp <= 2));
+    assert.equal(l.bricks.filter(b => b.hp === 2).length, 5); assert.equal(l.bricks.filter(b => b.type === 'mine').length, 2);
     assert.equal(Math.max(...l.bricks.map(b => b.y + b.h)), 414);
     assert(l.paddle.y - 414 >= 190); assert(l.bricks[0].x - l.left >= 40);
     assert(l.right - (l.bricks[5].x + l.bricks[5].w) >= 40);
@@ -158,4 +159,14 @@ test('real incoming ordinary ball can stagger before the measured windup deadlin
     if (late) { assert.equal(l.stage, 'strike'); tick(l, l.rules.strike + .05); assert.equal(l.defences[0].hp, l.rules.postHP - 1); }
     else { assert.equal(l.stage, 'stun'); tick(l, .6); assert.equal(l.defences[0].hp, l.rules.postHP); assert.equal(l.punchCount, 0); }
   }
+});
+
+test('round-3 specials: rime armour takes two hits, a frost mine shatters its neighbours', () => {
+  const l = level('medium', 729, 393 / 360);
+  const a = l.bricks.find(b => b.maxHP === 2);
+  assert.equal(l.hitTarget(a.id, { x: 0, y: 0 }), true); assert.equal(a.hp, 1);
+  assert.equal(l.hitTarget(a.id, { x: 0, y: 0 }), false); assert.equal(a.hp, 0);
+  const m = l.bricks.find(b => b.type === 'mine'), near = l.bricks.filter(b => b !== m && Math.hypot(b.x - m.x, b.y - m.y) <= 46);
+  assert.ok(near.length >= 2); l.hitTarget(m.id, { x: 0, y: 0 });
+  assert.ok(near.every(b => b.hp === 0), 'every brick within the blast shatters');
 });

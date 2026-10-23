@@ -9,6 +9,8 @@ import { brick, cached, loadImg, ready, text, rrect, SPR, drawKitCastFlight, dra
 import { sfx } from './audio.js';
 import { RAM } from './fantasy/ram.js';
 import { hpLeft } from './near-miss.js';
+import { R3 } from './round3-art.js';
+import { r3, r3ok } from './fantasy/r3.js';
 
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 export const FROST_MODES = {
@@ -21,6 +23,9 @@ const COLORS = ['#4f9dff', '#8f5cf0', '#22c4b0', '#ff6f91', '#4f9dff', '#b785ef'
 const FROST_ROWS = ['ice', 'blue', 'violet', 'ice', 'blue', 'violet'];
 const frostMat = b => FROST_ROWS[Math.floor((b.y - 266) / 26)] || 'ice';
 const PAYLOADS = new Map([[2, 'wide'], [8, 'shield'], [14, 'split'], [21, 'slow'], [27, 'fire'], [33, 'laser']]);
+// Round-3 specials (assets/round3/bricks, frost row): rime-armoured 2-hit bricks guard the top rows, and two frost mines
+// burst the bricks around them. Payload bricks wear the frost chest.
+const ARMOUR = new Set([0, 3, 5, 7, 10]), MINES = new Set([16, 25]), MINE_R = 46;
 const PLATE = ART?.plate ? loadImg(ART.plate) : null;
 // Fallback before the rampart plate decodes: the keep hall graded cold. Collision sizes and positions are unchanged.
 const KEEP = ART?.keepBackdrop ? loadImg(ART.keepBackdrop) : null;
@@ -38,8 +43,27 @@ function softGlow(g, x, y, rx, ry, colour, a) {
   const gr = g.createRadialGradient(0, 0, 0, 0, 0, rx); gr.addColorStop(0, colour); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(-rx, -rx, rx * 2, rx * 2); g.restore();
 }
 
+// Round-3 Warden (the M365 sheet, assets/round3/warden): idle breathing, a frost-gathering crouch as the tell, a
+// shoulder-first dash that ends in a wall smash against the post, dazed with stars when Kit's ward holds. The collision
+// comes from the frames themselves (art/round3/fit_shapes.py): circles in the body, the leading fist or shoulder as the
+// punch. WK: world units per source pixel before artScale. ?warden=v1 brings back the old sheet.
+const WK = .3;
+const WARDEN_V1 = typeof location !== 'undefined' && /[?&]warden=v1\b/.test(location.search);
+const R3_CLIPS = { idle: ['idle_0', 'idle_1', 'idle_2', 'idle_3'], windup: ['dash_r_crouch'], strike: ['dash_r_0', 'dash_r_2', 'smash_r', 'smash_r'],
+  recover: ['smash_r', 'recover'], stun: ['dazed_r'], advance: ['dash_r_0', 'dash_r_1', 'dash_r_2', 'dash_r_3'], defeated: ['defeated'] };
+function r3Warden() {
+  const S = R3?._shapes?.warden;
+  if (WARDEN_V1 || !S || !R3?.warden) return null;
+  const k = v => Math.round(v * WK * 100) / 100;
+  const anchors = key => ({ fist: S[key].lead.map(k), body: S[key].body.map(k), bodyShapes: S[key].circles.map(([x, y, r]) => ({ type: 'circle', x: k(x), y: k(y), r: k(r) })) });
+  const clips = Object.fromEntries(Object.entries(R3_CLIPS).map(([id, keys]) => [id, { n: keys.length, keys, fps: id === 'idle' ? 5 : 10, anchors: keys.map(anchors) }]));
+  // The idle body's right edge: the stance keeps it clear of the post, and the strike lunges the rest of the way.
+  const idleRight = Math.max(...S.idle_0.circles.map(([x, , r]) => x + r)) * WK;
+  return { r3: true, clips, idleRight };
+}
+
 export class Frost extends Arena {
-  constructor(W, H, uiScale = 1, modeId = 'easy', artData = ART?.frostWarden) {
+  constructor(W, H, uiScale = 1, modeId = 'easy', artData = r3Warden() || ART?.frostWarden) {
     super(W, H, { uiScale, top: 78, minPaddleY: 500, paddleWidth: 100, paddleHeight: 14, ballRadius: 6, accent: '#92cce0' });
     this.difficulty = difficulty(modeId).id; this.rules = FROST_MODES[this.difficulty];
     this.name = 'Frost Warden'; this.subtitle = 'Break the siege. Protect Lumi.';
@@ -51,7 +75,8 @@ export class Frost extends Arena {
     this.defences = [148, 192, 236].map((x, i) => ({ id: 'defence' + i, x, y: 146, w: 18, h: 68, hp: this.rules.postHP, maxHP: this.rules.postHP }));
     this.activeDefence = 0; this.windHits = 0; this.strikeResolved = false; this.punchCount = 0; this.blockedPunches = 0;
     this.ward = null; this.wardTarget = null; this.kitWardResult = null;
-    this.bricks = Array.from({ length: 36 }, (_, i) => ({ id: 'brick' + i, x: 54 + i % 6 * 42, y: 266 + Math.floor(i / 6) * 26, w: 36, h: 18, hp: 1, color: COLORS[Math.floor(i / 6)], payload: PAYLOADS.get(i) }));
+    this.bricks = Array.from({ length: 36 }, (_, i) => ({ id: 'brick' + i, x: 54 + i % 6 * 42, y: 266 + Math.floor(i / 6) * 26, w: 36, h: 18, hp: ARMOUR.has(i) ? 2 : 1, maxHP: ARMOUR.has(i) ? 2 : 1, type: MINES.has(i) ? 'mine' : undefined, color: COLORS[Math.floor(i / 6)], payload: PAYLOADS.get(i) }));
+    this.blasts = [];
     this.fragments = []; this.records = []; this.nextStrike = this.rules.first; this.enemyGraceUntil = 0;
     this.walkFrom = this.stance(0); this.walkTo = this.walkFrom; this.lastFist = this.pose().fist;
   }
@@ -112,6 +137,7 @@ export class Frost extends Arena {
   }
   reach() {
     const c = this.clipFor('strike'), n = c?.n || c?.frames?.length || 1;
+    if (this.art?.r3) { const [x, y, r] = c.anchors[n - 1].fist; return { x, y, r }; }   // the smash frame lands on the post
     let best = null;
     for (let f = 0; f < n; f++) {
       const frame = typeof c?.frames?.[f] === 'number' ? c.frames[f] : (c?.start || 0) + f;
@@ -124,12 +150,16 @@ export class Frost extends Arena {
   }
   stance(index) {
     const d = this.defences?.[Math.min(index, 2)] || { x: 148, y: 146, h: 68 }, f = this.reach(), s = this.artScale;
-    return { x: d.x - (f.x + f.r) * s + 2, y: d.y + d.h / 2 - f.y * s };
+    return { x: d.x - (f.x + f.r) * s + 2 - this.lunge(), y: d.y + d.h / 2 - f.y * s };
   }
+  // Round-3 Warden: how far the dash carries him forward, so his idle body stands clear of the post he smashes.
+  lunge() { const a = this.art; return a?.r3 ? Math.max(0, (a.idleRight - this.reach().x - this.reach().r) * this.artScale + 6) : 0; }
   pose(stage = this.stage, age = this.clock - this.stageAt) {
     const q = this.localPose(stage, age), s = this.artScale;
     let root = this.stance(this.activeDefence);
     if (stage === 'advance') { const t = clamp(age / this.rules.advance, 0, 1), u = t * t * (3 - 2 * t); root = { x: this.walkFrom.x + (this.walkTo.x - this.walkFrom.x) * u, y: this.walkFrom.y + (this.walkTo.y - this.walkFrom.y) * u }; }
+    else if (stage === 'strike') root = { x: root.x + this.lunge() * clamp(age / this.rules.strike * 1.5, 0, 1), y: root.y };   // in at the smash frame
+    else if (stage === 'recover' && age < .55) root = { x: root.x + this.lunge() * (1 - clamp(age / .55, 0, 1)), y: root.y };
     return { ...q, x: root.x, y: root.y, fist: { x: root.x + q.fist.x * s, y: root.y + q.fist.y * s, r: q.fist.r * s },
       body: { x: root.x + q.body.x * s, y: root.y + q.body.y * s, w: q.body.w * s, h: q.body.h * s },
       bodyShapes: q.bodyShapes?.map(v => v.type === 'circle' ? { type: 'circle', x: root.x + v.x * s, y: root.y + v.y * s, r: v.r * s } : { type: 'rect', x: root.x + v.x * s, y: root.y + v.y * s, w: v.w * s, h: v.h * s }),
@@ -158,14 +188,16 @@ export class Frost extends Arena {
     const br = this.bricks.find(v => v.id === id);
     if (br) {
       if (br.hp <= 0) return false;
-      br.hp = 0; this.brokeBrick(b); this.addScore(90, br.x + br.w / 2, br.y);
-      this.burst(br, br.color, undefined, frostMat(br)); if (br.payload) this.dropPower(br.x + br.w / 2, br.y, br.payload);
+      br.hp = b.fire || b.titan > 0 || b.ram > 0 ? 0 : br.hp - 1;
+      if (br.hp > 0) { this.addScore(30, br.x + br.w / 2, br.y); sfx.tough(); return true; }   // the rime cracks
+      this.breakBrick(br, b);
+      if (br.type === 'mine') this.mineBlast(br, b);
       return false;
     }
     if (id !== 'warden') return true;
     if (this.warden.hp <= 0) return false;
     this.warden.hp = Math.max(0, this.warden.hp - (b.titan > 0 ? 3 : b.ram > 0 ? RAM.damage : 1));
-    this.addScore(75, b.x, b.y); this.fx.ring(b.x, b.y, '#d4f1ff', 13); sfx.tough();
+    this.addScore(75, b.x, b.y); this.fx.ring(b.x, b.y, '#d4f1ff', 13); sfx.tough(); this.hitFlashUntil = this.clock + .22;
     if (!b.shot && !b.pulse && !(b.titan > 0)) {
       this.chargeCore();
       if (this.stage === 'windup' && ++this.windHits >= this.rules.interrupt) {
@@ -174,6 +206,16 @@ export class Frost extends Arena {
     }
     if (!this.warden.hp) this.finishSiege();
     return this.warden.hp > 0;
+  }
+  breakBrick(br, b) {
+    br.hp = 0; this.brokeBrick(b); this.addScore(90, br.x + br.w / 2, br.y);
+    this.burst(br, br.color, undefined, frostMat(br)); if (br.payload) this.dropPower(br.x + br.w / 2, br.y, br.payload);
+  }
+  // A frost mine shatters every brick whose centre is within MINE_R of it (armour included), chaining into other mines.
+  mineBlast(m, b) {
+    const cx = m.x + m.w / 2, cy = m.y + m.h / 2;
+    this.blasts.push({ x: cx, y: cy, at: this.clock }); this.bump(.3, .05); sfx.boom();
+    for (const o of this.bricks) if (o.hp > 0 && Math.hypot(o.x + o.w / 2 - cx, o.y + o.h / 2 - cy) <= MINE_R) { this.breakBrick(o, b); if (o.type === 'mine') this.mineBlast(o, b); }
   }
   shotHit(shot, previousY = shot.y, dt = 0) {
     if (this.phase !== 'siege') return false;
@@ -213,7 +255,7 @@ export class Frost extends Arena {
       this.postShockUntil = this.clock + .8;
       if (!d.hp) {
         this.kitShockUntil = this.t + .85;
-        this.burst(d, '#8bacc2', 'ice'); this.fx.shatter(d.x, d.y, d.w, d.h, '#cfe8ff', 6, .8, 'ice');
+        this.burst(d, '#8bacc2', 'ice'); this.fx.shatter(d.x, d.y, d.w, d.h, '#cfe8ff', 6, .8, 'ice'); this.blasts.push({ x: d.x + d.w / 2, y: d.y + d.h * .7, at: this.clock, k: .6 });
         if (this.activeDefence === this.defences.length - 1) this.beginBreach();
       }
     }
@@ -248,6 +290,7 @@ export class Frost extends Arena {
     }
     for (const f of this.fragments) { f.t += dtReal; f.x += f.vx * dtReal; f.vy += 200 * dtReal; f.y += f.vy * dtReal; }
     this.fragments = this.fragments.filter(f => f.brk ? f.t < .6 : f.t < .45 && f.y < this.playClipY - 12);
+    this.blasts = this.blasts.filter(e => this.clock - e.at < .5);
     if (this.backHold) return; // back in action: the Warden waits for the serve
     this.clock += dtReal;
     if (this.phase === 'rescue') { if (this.clock - this.phaseAt >= 1.6) this.win(); return; }
@@ -334,7 +377,16 @@ export class Frost extends Arena {
     g.fillStyle = '#101622'; g.fillRect(0, 0, this.W, height);
   }
   drawWarden(g) {
-    const a = this.art, p = this.pose(); if (!a || !ready(a) || !p.c) return;
+    const a = this.art, p = this.pose();
+    if (a?.r3) {
+      // A hit flinches him for a beat; the collision keeps the stage's frame.
+      const key = this.hitFlashUntil > this.clock && ['idle', 'advance'].includes(this.stage) ? 'flinch' : p.c?.keys?.[p.f], img = r3('warden', key);
+      if (!r3ok(img)) return;
+      const k = WK * this.artScale, w = img.fw * k, h = img.fh * k;
+      g.save(); if (this.phase === 'rescue') g.globalAlpha *= Math.max(.25, 1 - (this.clock - this.phaseAt) * .3);
+      g.drawImage(img, p.x - w / 2, p.y - h, w, h); g.restore(); return;
+    }
+    if (!a || !ready(a) || !p.c) return;
     const cell = Array.isArray(a.cell) ? a.cell : [a.cell, a.cell], unit = a.unit || [144, 128], u = Array.isArray(unit) ? unit : [unit, unit];
     const pivot = a.pivot || [u[0] / 2, a.feet || u[1] - 12], pw = pivot[0] <= 1 ? pivot[0] * u[0] : pivot[0], ph = pivot[1] <= 1 ? pivot[1] * u[1] : pivot[1];
     const frame = p.c.frames?.[p.f];
@@ -376,12 +428,17 @@ export class Frost extends Arena {
     for (const b of this.bricks) if (b.hp) {
       // The Vault's glazed ceramic per row (blue, violet, teal, coral): the castle family, not Mooncoil's moonstone.
       const row = Math.floor((b.y - 266) / 26), art = SPR[`brick_${['b', 'v', 't', 'c', 'b', 'v'][row]}_2_0`];
+      const special = b.type === 'mine' ? 'frost_mine' : b.payload ? 'frost_chest' : b.maxHP > 1 ? (b.hp < b.maxHP ? 'frost_armour_cracked' : 'frost_armour') : null, sp = special && r3('bricks', special);
+      if (r3ok(sp)) { g.save(); g.shadowColor = '#000000a0'; g.shadowBlur = 4; g.shadowOffsetY = 2; g.drawImage(sp, b.x - 1, b.y - 1, b.w + 2, b.h + 2); g.restore();
+        if (b.type === 'mine') softGlow(g, b.x + b.w / 2, b.y + b.h / 2, 12, 9, 'rgba(90,170,255,.8)', .35 + .3 * Math.sin(this.t * 5 + b.x)); continue; }
       if (b.type === 'steel' ? drawThemedBar(g, 'frost', b.x, b.y, b.w, b.h) : drawThemed(g, 'frost', frostMat(b), b.x, b.y, b.w, b.h)) { /* themed set */ }
       else if (ready(art)) { const m = art.margin || 0, scaleX = b.w / (art.uw - m * 2), scaleY = b.h / (art.uh - m * 2); g.drawImage(art.img, b.x - m * scaleX, b.y - m * scaleY, art.uw * scaleX, art.uh * scaleY); }
       else g.drawImage(brick(b.color, b.w, b.h), b.x, b.y, b.w, b.h + 4);
       if (b.payload) { if (GEMS.pip_gold) { softGlow(g, b.x + b.w / 2, b.y + b.h / 2, 12, 8, 'rgba(255,214,150,.7)', 1); gem(g, 'pip_gold', b.x + b.w / 2, b.y + b.h / 2, 1.05); }
         else { g.fillStyle = '#e8d7ed'; g.beginPath(); g.moveTo(b.x + b.w / 2, b.y + 5); g.lineTo(b.x + b.w / 2 + 3, b.y + 9); g.lineTo(b.x + b.w / 2, b.y + 13); g.lineTo(b.x + b.w / 2 - 3, b.y + 9); g.closePath(); g.fill(); } }
     }
+    // Frost-mine bursts and smashed posts: the painted ice shatter (6 frames over half a second).
+    for (const e of this.blasts) { const q = (this.clock - e.at) / .5; if (q < 1) { const img = r3('fx', 'ice_' + Math.min(5, Math.floor(q * 6))); if (r3ok(img)) { const w = img.fw * (e.k || .5), h = img.fh * (e.k || .5); g.drawImage(img, e.x - w / 2, e.y - h * .6, w, h); } } }
     this.drawPrincess(g);
     // A cool shadow pool behind the Warden lifts his pale fur off the frosted stone (the sheet has no rim light yet).
     if (rampart() && this.phase !== 'rescue') { const p = this.pose(); softGlow(g, p.body.x + p.body.w / 2, p.body.y + p.body.h * .45, p.body.w * 1.15, p.body.h * .7, 'rgba(4,8,18,.62)', 1); }

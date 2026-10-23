@@ -11,7 +11,7 @@ export function r3(set, key) {
   return IMG[set + '/' + key] ??= Object.assign(loadImg(s.url), { fw: s.w, fh: s.h });
 }
 export const r3ok = img => !!img && img.complete && img.naturalWidth > 0;
-export function preloadR3() { for (const set in R3) for (const key in R3[set]) r3(set, key); }
+export function preloadR3() { for (const set in R3) if (set[0] !== '_') for (const key in R3[set]) r3(set, key); }
 // Draw a sprite by its bottom centre (or centre with mid), k game units per source pixel.
 export function r3draw(ctx, set, key, x, y, k, { mid = false, alpha = 1, angle = 0, mirror = false } = {}) {
   const img = r3(set, key);
