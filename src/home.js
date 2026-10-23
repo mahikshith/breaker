@@ -205,9 +205,10 @@ export function createHome(env) {
   // ----- shared pieces -----
   function topIcons(g, y) {
     const items = [];
-    // HOW TO PLAY: add { icon: 'help', fn: () => ... } to this list (ICONS.help is drawn and ready); icons stack leftwards from the edge.
+    // Icons stack leftwards from the edge.
     if (env.canFull() && !env.native()) items.push({ icon: 'full', fn: env.goFull });
     items.push({ icon: 'sound', arg: !env.isMuted(), fn: env.toggleSound });
+    if (env.howTo) items.push({ icon: 'help', fn: env.howTo });   // How to play: replays the ball-control tutorial
     items.forEach((it, i) => iconButton(g, env, it.icon, W - 14 - 44 - i * 52, y, it.fn, it.arg));
   }
   function difficultyPills(g, y, w = 96, gap = 8) {

@@ -15,10 +15,12 @@ import { kitOrbContains, kitTap } from './kit.js';
 import { DIFFICULTY_IDS, difficulty } from './difficulty.js';
 import { spacePowerAt, drawSpacePowerMenu } from './space-companions.js';
 import { createHome } from './home.js';
+import { openPurpose, drawPurpose, AUTO as PURPOSE_AUTO } from './purpose.js';
+import { tutorialDone } from './tutorial.js';
 
 const LEVELS = [
   { make: (W, H, s) => new Carrier(W, H, s, selectedDifficulty), name: 'Carrier Breakout', sub: 'Rescue the crew before the jump.', color: '#e58fcb', next: 2 },
-  { make: (W, H, s) => new Vault(W, H, s, selectedDifficulty), name: 'The Vault', sub: 'Protect Lumi from the serpent.', color: '#d99db8', next: 4, victory: 'PRINCESS SAVED!' },
+  { make: (W, H, s) => new Vault(W, H, s, selectedDifficulty, { tutorial: tutorialWanted() }), name: 'The Vault', sub: 'Protect Lumi from the serpent.', color: '#d99db8', next: 4, victory: 'PRINCESS SAVED!' },
   { make: (W, H, s) => new Relay(W, H, s, selectedDifficulty), name: 'Circuit Breakout', sub: 'Disable the relay. Launch the skiff.', color: '#9eb6ef', next: 3, victory: 'CIRCUIT CLEARED!' },
   { make: (W, H, s) => new Orbital(W, H, s, selectedDifficulty), name: 'Shutter Forge', sub: 'Crack the armour. Stop the reactor.', color: '#efb295', victory: 'FORGE DISABLED!' },
   { make: (W, H, s) => new Frost(W, H, s, selectedDifficulty), name: 'Frost Warden', sub: 'Break the siege. Protect Lumi.', color: '#9bc9dd', next: 5, victory: 'LUMI PROTECTED!' },
@@ -47,6 +49,9 @@ for (const id of DIFFICULTY_IDS) bestByDifficulty[id] = LEVELS.map((_, i) => {
 });
 function selectDifficulty(id) { selectedDifficulty = difficulty(id).id; store.set('difficulty', selectedDifficulty); previews = []; }
 
+// The ball-control tutorial (src/tutorial.js) runs in the Vault on a first play, and whenever "How to play" asks for it.
+let forceTutorial = false, purpose = null;   // purpose: the open chapter card (src/purpose.js)
+const tutorialWanted = () => forceTutorial || !tutorialDone();
 let scene = 'menu', level = null, levelIdx = 0, resultT = 0, buttons = [], menuT = 0, previews = [], assetsReady = false;
 const freshCont = () => ({ used: 0, declined: false, ad: null, toast: null, near: null, losses: null, backAt: -Infinity });
 let cont = freshCont(); // continue offers for the current attempt
@@ -73,11 +78,16 @@ function resize() {
   setDPR(scale * dpr);
   g.setTransform(scale * dpr, 0, 0, scale * dpr, offX * scale * dpr, offY * scale * dpr);
   previews = [];
-  if (level && (level.W !== W || level.H !== H + LIFT || level.kitUIScale !== scale)) start(levelIdx);
+  if (level && (level.W !== W || level.H !== H + LIFT || level.kitUIScale !== scale)) start(levelIdx, { keep: true });
 }
 
-function start(i) {
-  levelIdx = i; level = LEVELS[i].make(W, H + LIFT, scale); level.hudY = LIFT; level.inB = inB; scene = 'level'; resultT = 0;
+// o.card: open the chapter's purpose card first (a menu start); o.tutorial: run the tutorial; o.keep: a rebuild, nothing changes.
+function start(i, o = {}) {
+  if (!o.keep) forceTutorial = !!o.tutorial;
+  levelIdx = i; level = LEVELS[i].make(W, H + LIFT, scale);
+  // a tutorial comes first; its card opens when it ends
+  if (!o.keep) purpose = o.card && !level.coach?.tutorial ? openPurpose(i) : null;
+  level.hudY = LIFT; level.inB = inB; scene = 'level'; resultT = 0;
   paddlePointer = null; kitPress = null; powerPress = null;
   cont = freshCont();
   acc = 0; last = performance.now();
@@ -94,6 +104,7 @@ function pause() { clearInput(); if (scene === 'level' && level.state === 'play'
 function resume() { scene = 'level'; acc = 0; last = performance.now(); }
 cv.addEventListener('pointerdown', e => {
   unlockAudio(); cv.setPointerCapture(e.pointerId);
+  if (scene === 'level' && purpose) { if (purpose.t > .3) purpose = null; return; }   // a tap starts the chapter
   const [x, y] = toWorld(e);
   const b = buttons.find(b => x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h);
   if (scene === 'menu' && home().down(e.pointerId, x, y, b)) return; // the chapter list: scroll, and tap on release
@@ -145,9 +156,10 @@ addEventListener('keydown', e => {
   if (e.key === 'Escape' && scene === 'menu') { home().open('home'); return; }
   if (e.key === 'Escape') { if (level?.powerMenuOpen) { clearInput(); return; } scene === 'pause' ? resume() : pause(); return; }
   if (suspended || document.hidden || scene === 'pause') return;
+  if (scene === 'level' && purpose) { if (purpose.t > .3) purpose = null; e.preventDefault(); return; }
   if (scene === 'level' && !e.repeat) level.key(e.key, true);
   if (e.key === ' ' || e.key.startsWith('Arrow') || e.key.toLowerCase() === 'k') e.preventDefault();
-  if (scene === 'menu' && /^[0-9=-]$/.test(e.key)) { const i = e.key === '0' ? 9 : e.key === '-' ? 10 : e.key === '=' ? 11 : +e.key - 1; if (i < LEVELS.length) start(i); }
+  if (scene === 'menu' && /^[0-9=-]$/.test(e.key)) { const i = e.key === '0' ? 9 : e.key === '-' ? 10 : e.key === '=' ? 11 : +e.key - 1; if (i < LEVELS.length) start(i, { card: true }); }
 });
 addEventListener('keyup', e => {
   if (e.key === ' ' && level?.suppressedSpace) { level.key(e.key, false); return; }
@@ -170,8 +182,10 @@ function tick(dt) {
   menuT += dt;
   if (scene === 'menu') home().tick(dt);
   if (scene !== 'level') return;
+  if (purpose) { purpose.t += dt; if (purpose.t > PURPOSE_AUTO) purpose = null; return; }   // the chapter waits on its card
   if (cont.ad) { cont.ad.t += dt; if (cont.ad.earned && cont.ad.t >= AD_SECONDS) doContinue(); }
   level.update(dt);
+  if (level.coach?.tutEnded) { level.coach.tutEnded = false; forceTutorial = false; purpose = openPurpose(levelIdx); clearInput(); }   // the tutorial is over: now the chapter's card
   if (level.state !== 'play') {
     // the tick a run is lost: count it (the unlock rule) and freeze the "so close" copy for the panel
     if (resultT === 0 && level.state === 'lost') { cont.losses = noteLoss(); cont.near = soClose(level); }
@@ -227,7 +241,7 @@ function preview(i, w, h) { // the level's opening playfield, cropped to fill th
 let homeUI = null;
 const home = () => homeUI ??= createHome({
   W, H: () => H, t: () => menuT, LEVELS, best: () => bestByDifficulty, diff: () => selectedDifficulty, selectDifficulty,
-  play: i => start(i), buttons: () => buttons, preview, hasPreview: i => !!previews[i], tap: () => sfx.paddle(),
+  play: i => start(i, { card: true }), howTo: () => startTutorial(), buttons: () => buttons, preview, hasPreview: i => !!previews[i], tap: () => sfx.paddle(),
   isMuted, toggleSound: () => setMuted(!isMuted()), canFull, goFull, native: isNative,
   locked: (n, prev) => { cont.toast = { text: `Clear ${prev} to unlock`, t: menuT }; },
 });
@@ -350,7 +364,7 @@ function drawResults() {
   const by = y + ph - 58;
   if (won && LEVELS[levelIdx].next !== undefined) {
     button('Retry', x + 20, by, 110, 40, '#4b5370', () => start(levelIdx));
-    button('Next', x + pw - 130, by, 110, 40, '#5ccf6a', () => start(LEVELS[levelIdx].next));
+    button('Next', x + pw - 130, by, 110, 40, '#5ccf6a', () => start(LEVELS[levelIdx].next, { card: true }));
   } else if (won) {
     button('Retry', x + 20, by, 110, 40, '#4b5370', () => start(levelIdx));
     button('Menu', x + pw - 130, by, 110, 40, '#3fa8f5', toMenu);
@@ -376,12 +390,17 @@ function draw() {
   if (scene === 'menu') { drawMenu(); drawToast(); }
   else {
     g.save(); g.translate(0, -LIFT); level.draw(g);
-    if (scene === 'level' && level.state === 'play' && !level.powerMenuOpen) level.drawCoach?.(g); // first-time coaching (src/coach.js)
+    if (scene === 'level' && level.state === 'play' && !level.powerMenuOpen && !purpose) { // first-time coaching (src/coach.js)
+      level.drawCoach?.(g);
+      const sr = level.coach?.tutorial && level.coach.skipRect;   // the tutorial's Skip pill
+      if (sr) buttons.push({ x: sr.x - 10, y: sr.y - LIFT - 10, w: sr.w + 20, h: sr.h + 20, fn: () => level.coach.skipTutorial() });
+    }
     g.restore();
     if (scene === 'level' && level.powerMenuOpen) { g.save(); g.translate(0, -LIFT); drawSpacePowerMenu(g, level); g.restore(); }
     if (scene === 'pause') drawPause();
     else if (level.state === 'play') { pauseButton(); if (level.backHold) drawBackIn(); }
     else drawResults();
+    if (purpose && scene === 'level') drawPurpose(g, W, H, purpose);
     drawToast();
   }
   g.restore();
@@ -437,7 +456,9 @@ function drawPause() {
 }
 
 // test hook for automated playtests
-window.__breach = { start, get home() { return home(); }, get ready() { return assetsReady; }, get level() { return level; }, get difficulty() { return selectedDifficulty; }, get scene() { return scene; }, set scene(s) { scene = s; }, get buttons() { return buttons; } };
+// startTutorial(): the ball-control tutorial from the top (the home screen's "How to play" calls this).
+function startTutorial() { start(1, { tutorial: true }); }
+window.__breach = { start, startTutorial, get home() { return home(); }, get purpose() { return purpose; }, get ready() { return assetsReady; }, get level() { return level; }, get difficulty() { return selectedDifficulty; }, get scene() { return scene; }, set scene(s) { scene = s; }, get buttons() { return buttons; } };
 
 resize();
 (document.fonts ? Promise.race([Promise.all([document.fonts.load('16px "Lilita One"'), document.fonts.load('600 12px Rubik')]).catch(() => {}), new Promise(r => setTimeout(r, 2500))]) : Promise.resolve()).then(async () => {
@@ -447,6 +468,6 @@ resize();
   await artLoaded();
   assetsReady = true;
   const q = new URLSearchParams(location.search).get('level');
-  if (q && Number.isInteger(+q) && +q >= 1 && +q <= LEVELS.length) start(+q - 1);
+  if (q && Number.isInteger(+q) && +q >= 1 && +q <= LEVELS.length) start(+q - 1, { card: true, tutorial: new URLSearchParams(location.search).has('tutorial') });
   requestAnimationFrame(t => { last = t; frame(t); });
 });

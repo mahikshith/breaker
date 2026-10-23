@@ -3,6 +3,7 @@ import { makeBall, stepBall, cellAt } from './physics.js';
 import { FX, drawBall, drawKitFace, capsule, POWER, rrect, shade, text, SHADOW, SPR, ready, loadImg, drawRamGlaze, drawRamPips, drawGem, drawGlint, ramTeach, R2, drawCapsule, capsuleArtWidth } from './gfx.js';
 import { ramStreak, tickRam, ramCount, endRam } from './fantasy/ram.js';
 import { Coach, landIn } from './coach.js';
+import { drawGesture } from './tutorial-draw.js';
 import { ART } from './vault-art.js';
 import { sfx } from './audio.js';
 import { difficulty } from './difficulty.js';
@@ -97,14 +98,25 @@ export class Arena {
     const p = this.paddle, a = this.aim;
     return { blocked: this.state !== 'play' || !!this.wardCoach || !!this.powerMenuOpen || !!this.backHold || !this.coachLive(),
       serveWaiting: !!a?.serve, focusAim: !!a && !a.serve, focusReady: !a && this.focus >= 1 && p.stun <= 0,
-      landIn: landIn(this.balls, p.y), streak: p.streak || 0, armed: !!p.armed };
+      landIn: landIn(this.balls, p.y), streak: p.streak || 0, armed: !!p.armed,
+      holding: !!a?.serve && (this.ptr.down || !!this.keys[' ']), paddleX: p.x, drops: this.drops.length };
   }
-  updateCoach(dt) { this.coach.update(dt, this.coachMoment()); ramTeach(this.paddle, this.coach.ramPulse); }
+  updateCoach(dt) {
+    this.coach.update(dt, this.coachMoment()); ramTeach(this.paddle, this.coach.ramPulse);
+    if (this.coach.takeDrop()) {   // the tutorial's capsule: off to one side, so catching it takes a slide
+      const p = this.paddle, side = p.x < (this.left + this.right) / 2 ? 1 : -1;
+      this.dropPower(Math.max(this.left + 30, Math.min(this.right - 30, p.x + side * 95)), Math.max(this.top + 10, p.y - 250), 'wide');
+    }
+  }
   // main.js draws this over the level, in level space, only while play runs (never under the continue panel).
   drawCoach(g) {
     const p = this.paddle, s = this.kitUIScale;
-    this.coach.draw(g, p.x, p.y + p.h + 14, s, { width: this.W, lit: p.armed ? 3 : Math.min(3, p.streak || 0), gem: this.ramGem() });
+    this.coach.draw(g, p.x, p.y + p.h + (this.coach.tutorial ? 40 : 14), s, { width: this.W, lit: p.armed ? 3 : Math.min(3, p.streak || 0), gem: this.ramGem() });
     this.coach.drawAimHud(g, 180 / s, this.hudY + 38 / s, s);
+    if (this.coach.tutorial && this.coach.a > 0) {
+      const a = this.aim, drop = this.drops[0];
+      drawGesture(g, this.coach.tut.shown({ serveWaiting: !!a?.serve }), { x: p.x, y: p.y, w: p.w, h: p.h, k: 1 / s, t: this.coach.time, a: this.coach.a, held: this.ptr.down, left: this.left, right: this.right, drop, ball: a?.ball });
+    }
   }
   kitAnchor() { return kitLayout(this); }
   canUseKitPower() { return false; }
@@ -283,7 +295,7 @@ export class Arena {
   dropPower(x, y, kind) { this.drops.push({ x, y, kind, vy: 60 }); }
   applyPower(kind) {
     const p = this.paddle, P = POWER[kind];
-    if (P.bad) { sfx.hurt(); this.bump(0.2); } else sfx.power();
+    if (P.bad) { sfx.hurt(); this.bump(0.2); } else { sfx.power(); this.coach.capsuleCaught(); }
     this.fx.pop(p.x, p.y - 26, P.label, P.bad ? '#ff8a8a' : '#fff', 16);
     if (kind === 'split') {
       const add = [];
@@ -418,9 +430,10 @@ export class Arena {
       this.fx.ring(b.x, p.y, '#ff6fe0', 46); this.fx.pop(p.x, p.y - 34, 'TITAN!', '#ff9ef0', 26);
       sfx.boom(); sfx.power(); this.bump(0.45, 0.06);
     }
+    this.coach.hit((b.x - p.x) / (p.w / 2));
     ramStreak(this, b, (b.x - p.x) / (p.w / 2)); // the Sweet-Spot Ram: centre-third streak; a TITAN ball never launches it
     const steady = (ptr.down && ptr.stillT > 0.12) || this.keys[' '];
-    if (steady && this.focus >= 1 && !this.aim) { // Focus aim: catch the ball, slow time, let the player aim
+    if (steady && this.focus >= 1 && !this.aim && !this.coach.tutorial) { // Focus aim: catch the ball, slow time, let the player aim
       b.caught = true;
       const base = Math.atan2(b.vx, -b.vy);
       this.aim = { ball: b, angle: base, base, serve: false, t: 0, anchorX: ptr.x };
@@ -431,7 +444,8 @@ export class Arena {
   }
   loseBall() {
     this.kitShockUntil = this.t + 1.1;
-    this.lives--; sfx.lose(); this.bump(0.5); this.combo = 0; this.fireT = 0; this.paddle.streak = 0;
+    if (!this.coach.tutorial) this.lives--;   // while the tutorial runs a dropped ball is free
+    sfx.lose(); this.bump(0.5); this.combo = 0; this.fireT = 0; this.paddle.streak = 0;
     if (this.lives <= 0) { this.fail('Out of balls'); return; }
     this.serve();
   }

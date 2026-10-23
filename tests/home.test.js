@@ -97,6 +97,6 @@ test('the chapter list taps on release and a drag scrolls instead of starting a 
 
 test('main.js leaves a clean menu seam: one PLAY entry, no Full screen label, and the old twelve-card list is gone', () => {
   assert.doesNotMatch(main, /'Full screen'|'Sound: o/);
-  assert.match(main, /play: i => start\(i\)/);
+  assert.match(main, /play: i => start\(i, \{ card: true \}\)/);   // every chapter opens on its purpose card
   assert.doesNotMatch(main, /\[0, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10, 11\]\.filter/);
 });
