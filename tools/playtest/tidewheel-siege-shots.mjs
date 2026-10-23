@@ -36,11 +36,16 @@ try {
   await snap('06-stage2-opening', () => { const m = SH.begin(1); m.skipCard(); SH.step(.4); });
   await snap('07-stage2-peek', () => { const m = SH.begin(1); m.skipCard(); SH.play(20, m => m.peek?.state === 'aim' && m.peek.t > .5); });
   await snap('08-stage3-opening', () => { const m = SH.begin(2); m.skipCard(); SH.step(2); });
-  await snap('09-steel-chamber-gap', () => { const m = SH.begin(2); m.skipCard(); SH.step(2); for (const s of m.spokes) { s.pose = 1; s.shown = 1; s.next = Infinity; s.tell = 0; } m.spokes[1].pose = m.spokes[1].shown = 0; m.spokes[1].tell = .9; SH.draw(); }, { x: 0, y: 330, width: 393, height: 210 });
+  await snap('09-steel-chamber-gap', () => { const m = SH.begin(2); m.skipCard(); SH.step(2); for (const s of m.spokes) { s.pose = 1; s.shown = 1; s.next = Infinity; s.tell = 0; } m.spokes[1].pose = m.spokes[1].shown = 0; m.spokes[1].tell = .9; SH.draw(); }, { x: 0, y: 380, width: 393, height: 200 });
   await snap('10-escape-leap', () => { const m = SH.begin(2); m.skipCard(); SH.play(2.5); SH.strike(80); SH.step(1.25); });
   await snap('11-stage4-opening', () => { const m = SH.begin(3); m.skipCard(); SH.step(2); });
   await snap('12-stage4-cage-close', () => { const m = SH.begin(3); m.skipCard(); SH.step(2); m.rafts[0].steel[1].cracked = true; SH.draw(); }, { x: 20, y: 300, width: 360, height: 180 });
   await snap('13-stage-clear-banner', () => { const m = SH.begin(0); m.skipCard(); SH.step(6.2); for (const b of m.blocks) if (b.prize) m.hitBlock(b, m.balls[0]); for (const b of [...m.blocks, ...m.bricks]) if (b.hp > 0 && !b.prize) { b.hp = 1; b.raft === undefined ? m.hitBlock(b, m.balls[0]) : m.hitRaftBrick(b, m.balls[0]); } SH.step(.3); });
+  await snap('14-mine-blast', () => { const m = SH.begin(0); m.skipCard(); SH.step(6.2); const mine = m.blocks.find(b => b.type === 'mine'); m.hitBlock(mine, m.balls[0]); SH.step(.2); });
+  await snap('15-flood-danger', () => { const m = SH.begin(1); m.skipCard(); SH.play(3); m.water.target = m.water.y = m.water.limit + (m.water.initial - m.water.limit) * .22; SH.play(.6); });
+  await snap('16-stage3-dome-plate-fire', () => { const m = SH.begin(2); m.skipCard(); SH.play(2); m.timers.fire = 6; for (const b of m.blocks.filter(b => b.regrow).slice(0, 3)) { b.hp = 0; b.downAt = m.time; } SH.step(.05); }, { x: 0, y: 150, width: 393, height: 290 });
+  await snap('17-barnacle-regrow', () => { const m = SH.begin(3); m.skipCard(); SH.step(2); const plug = m.blocks.find(b => b.regrow); m.effects.push({ kind: 'barnacle-grow', x: plug.x + plug.w / 2, y: plug.y + plug.h / 2, w: plug.w, h: plug.h, age: .25, life: .6 }); SH.draw(); }, { x: 0, y: 200, width: 393, height: 260 });
+  await snap('18-special-bricks', () => { const m = SH.begin(1); m.skipCard(); SH.step(.4); for (const b of m.blocks.filter(b => b.maxHP > 1).slice(0, 2)) b.hp = 1; SH.draw(); }, { x: 0, y: 120, width: 393, height: 330 });
   if (errors.length) throw Error(errors.join('\n'));
   console.log(shots.join('\n'));
 } finally { await browser.close(); }

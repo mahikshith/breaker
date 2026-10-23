@@ -142,7 +142,7 @@ function wheel() {
     };
   };
   const L = pit(-1), R = pit(1), D = { w: 30, h: 16, regrow: true };
-  const dome = [{ x: 131, y: 252, ...D, ...MINE }, { x: 99, y: 264, ...D }, { x: 67, y: 276, ...D }, { x: 35, y: 288, ...D }, { x: 12, y: 300, ...D, w: 21 }];
+  const dome = [{ x: 131, y: 252, ...D, ...MINE }, { x: 99, y: 264, ...D }, { x: 67, y: 276, ...D }, { x: 39, y: 284, ...D }, { x: 12, y: 262, ...D, w: 25 }];   // the wall end sits right under the gate: no pocket
   return {
     rafts: [],
     fixed: [...dome, ...mirror(dome)],

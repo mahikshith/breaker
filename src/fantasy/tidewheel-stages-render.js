@@ -171,7 +171,7 @@ function mine(ctx, g, art, b, x, y) {
 function plate(ctx, g, b, i) {
   brassBar(ctx, b, b.x, b.y, 40 + i, g.time);
   const live = g.timers?.fire > 0 || g.timers?.laser > 0 || g.cosmic || g.balls?.some(q => q.titan > 0 || q.ram > 0);
-  if (live) glow(ctx, b.x + b.w / 2, b.y + b.h / 2, b.w * .8, '#ff9a5a', .35 + .25 * Math.sin(g.time * 9));
+  if (live) glow(ctx, b.x + b.w / 2, b.y + b.h / 2, b.w, '#ff9a5a', .55 + .3 * Math.sin(g.time * 9));
   for (const k of [.18, .5, .82]) hub(ctx, b.x + b.w * k, b.y + b.h / 2, 1.9, live ? .6 : 0);
   const dmg = 3 - (b.hp ?? 3);
   ctx.lineCap = 'round';
@@ -354,6 +354,14 @@ export function siegeOverlay(ctx, g, art) {
 // surface runs red, the screen edges warm, and it pulses.
 function tide(ctx, g) {
   const W = g.water, danger = g.floodDanger, beat = .5 + .5 * Math.sin(g.time * 7);
+  // The flood front: a teal sheet that fades out 110 units below the surface, under a glossy wavy crest, so the water
+  // line reads as it climbs the scene.
+  const front = ctx.createLinearGradient(0, W.y, 0, W.y + 110); front.addColorStop(0, danger ? '#3fa6b866' : '#3fa6b84d'); front.addColorStop(1, '#3fa6b800');
+  ctx.fillStyle = front; ctx.fillRect(12, W.y, g.width - 24, 110);
+  ctx.save(); ctx.beginPath(); ctx.moveTo(12, W.y + 3);
+  for (let x = 12; x <= g.width - 12; x += 6) ctx.lineTo(x, W.y + Math.sin(x * .06 + g.time * 2.6) * 1.6 - 1.2);
+  for (let x = g.width - 12; x >= 12; x -= 6) ctx.lineTo(x, W.y + 2.4 + Math.sin(x * .06 + g.time * 2.6 + .8) * 1.2);
+  ctx.closePath(); ctx.fillStyle = danger ? '#ffd2c4b0' : '#dff8f4a0'; ctx.fill(); ctx.restore();
   if (g.stage <= 1 && g.rules.tideSurge > 0 && g.started) {
     const y = W.target - g.rules.tideSurge, a = .16 + .1 * Math.sin(g.time * 2.4);
     const foam = ctx.createLinearGradient(0, y - 3, 0, y + 3); foam.addColorStop(0, '#dff8f400'); foam.addColorStop(.5, '#dff8f4'); foam.addColorStop(1, '#dff8f400');

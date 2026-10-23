@@ -27,8 +27,8 @@ export const SIEGE_HP = 1.25;
 export const SPOKE_PERIOD = [2.4, 3.4];   // seconds a spoke stays shut, then open
 export const SIEGE_TIMING = { card: 1.2, clear: 2.4, notch: 10, spokeTell: .8, crackAfter: 25, selfBreak: 6, dull: 4, dullTurn: .3, chain: .09 };
 // Seconds from a stage's opening water to the refuge on medium if nothing pushes the tide back (easy x1.3, hard x0.85).
-// Stages 1-2 split it between a steady creep and surges; in 3-4 the creep carries `share` and Nerra's hauls the rest.
-export const FLOOD_CLOCK = { seconds: [72, 84, 105, 90], creep: [.6, .6, .45, .45], danger: .7 };
+// Stages 1-2 split it between a steady creep and surges; in 3-4 the creep carries most of it and Nerra's hauls add more.
+export const FLOOD_CLOCK = { seconds: [40, 62, 58, 40], creep: [.6, .6, .8, .8], danger: .7 };
 // Sea-mine blast radius, damage to Nerra; barnacle plate takes three laser bolts (blasts do not move it); shield bricks
 // grow back after (s). A plain ball hurts Nerra once per return: it is armed by the paddle and spent by the hit, so she
 // is never juggled from above. Laser bolts glance off her shell; the titan, a ram and mine blasts are not limited.
@@ -332,7 +332,13 @@ export class TidewheelSiege extends Tidewheel {
       if (--bar.hp > 0) { this.effects.push({ kind: 'plate-chip', id: bar.id, x: b.x, y: b.y, age: 0, life: .35 }); return; }
       return this.breakBar(t.id);
     }
-    if (!(b?.ram > 0 || b?.fire > 0 || b?.titan > 0 || this.timers.fire > 0 && !b?.powerShot)) { this.effects.push({ kind: 'bar-knock', x: b.x, y: b.y, age: 0, life: .3 }); return; }
+    if (!(b?.ram > 0 || b?.fire > 0 || b?.titan > 0 || this.timers.fire > 0 && !b?.powerShot)) {
+      this.effects.push({ kind: 'bar-knock', x: b.x, y: b.y, age: 0, life: .3 });
+      // Barnacle plate is rough: a knock kicks the ball a little off its line (alternating sides), so a ball cannot
+      // ride the same paddle-to-plate line forever.
+      if (bar?.power && b && !b.powerShot && this.balls.includes(b)) { const k = (bar.knocks = (bar.knocks || 0) + 1) % 2 ? .16 : -.12, c = Math.cos(k), s = Math.sin(k); [b.vx, b.vy] = [b.vx * c - b.vy * s, b.vx * s + b.vy * c]; this.normalize(b); }
+      return;
+    }
     this.breakBar(t.id);
   }
   breakBar(id) {
