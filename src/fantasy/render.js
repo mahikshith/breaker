@@ -7,6 +7,7 @@ import { renderLumi } from './lumi-render.js';
 import { renderRivals } from './rivals-render.js';
 import { renderHoard } from './hoard-render.js';
 import { r3, preloadR3 } from './r3.js';
+import { drawSpecial } from '../castle-art.js';
 import { tideSceneBack, tideSceneFront } from './tide-scene.js';
 import { siegeBoard, siegeBrick, raftSteel, nerraMotion, refugeChain, siegeEffect, siegeOverlay } from './tidewheel-stages-render.js';
 const damageStates=new WeakMap();
@@ -220,7 +221,7 @@ function renderBellforge(ctx,g,art){
   for(const r of g.ramps){
     ramp(ctx,art,r);
   }
-  for(const b of g.bricks)if(b.hp>0&&!forgeBrick(ctx,art,b))brick(ctx,art,b);
+  for(const b of g.bricks)if(b.hp>0&&!(b.sp&&drawSpecial(ctx,b,g.time))&&!forgeBrick(ctx,art,b))brick(ctx,art,b);
   if(g.guard){
     const a=g.guard.a,b=g.guard.b;line(ctx,a,b,'#493f30',10);line(ctx,a,b,'#e3cf9b',6);line(ctx,a,b,'#6c8b9b',3);
     const mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2};ctx.drawImage(art.images.shield,mid.x-14,mid.y-14,28,28);
@@ -838,7 +839,7 @@ function renderGatehouse(ctx,g,art){
   const sh=gShake(g);ctx.save();ctx.translate(sh.x,sh.y);
   ctx.save();ctx.translate(0,pan);ctx.globalAlpha=alpha;
   if(g.floor===0){farArcade(ctx,g,art,200,Math.min(...g.bricks.map(b=>b.y))-6);floorDrawbridge(ctx,g,art);}else if(g.floor===1)floorMurder(ctx,g,art);else floorDuel(ctx,g,art);
-  for(const b of g.bricks)if(b.hp>0)gbrick(ctx,art,b);
+  for(const b of g.bricks)if(b.hp>0&&!(b.sp&&drawSpecial(ctx,b,g.time)))gbrick(ctx,art,b);
   for(const b of g.bells)ghBell(ctx,g,art,b);
   gEffects(ctx,g,art);ctx.restore();
   gWard(ctx,g,art);gPaddle(ctx,g,art,skinFor(art,'kit'));

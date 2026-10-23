@@ -2,6 +2,7 @@ import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { ejectBall } from '../clearance.js';
 import { RAM, BALL_R, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
 import { hpLeft } from '../near-miss.js';
+import { tagSpecials, brickSpecial, armourOutright } from '../castle-specials.js';
 
 const STEP = 1 / 240;
 // Inscribed alpha>=128 circles, measured at3px/u from the retained Korr poses.
@@ -14,6 +15,11 @@ export const BELLFORGE_MODES = {
 };
 export const BELLFORGE_ENDING = { stagger: .45, slump: .65, settle: .5, escape: 1.8 };
 const BELL_R = 14;
+// Round-3 castle specials (src/castle-specials.js), [row, col] of the wall's six columns by six rows: armour (two hits; a ram
+// still breaks it outright) hugs Korr's side of the top rows, two mines sit in clusters mid-wall (a blast reaches the bricks
+// above, below and beside it: MINE_R is a hair over one column pitch and never touches the ramp pins), coins pay a bonus.
+export const BELLFORGE_SPECIALS = { armour: [[0, 0], [0, 2], [1, 0], [2, 1]], mine: [[3, 1], [4, 4]], coin: [[5, 0], [2, 3], [5, 5]] };
+const MINE_R = 52, blastable = b => b.type === 'brick';
 const RESCUE_DELAY = BELLFORGE_ENDING.stagger + BELLFORGE_ENDING.slump + BELLFORGE_ENDING.settle;
 const RESCUE_DURATION = RESCUE_DELAY + BELLFORGE_ENDING.escape;
 const smooth = t => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
@@ -101,7 +107,7 @@ export class Bellforge {
     for (let row = 0; row < 6; row++) for (let col = 0; col < 6; col++) {
       // Upper-right cells remain open for the bell route and visible ratchet.
       if ((row < 2 && col >= 4) || (row === 1 && (col === 2 || col === 3))) continue;
-      this.bricks.push({ id: `brick-${row}-${col}`, type: 'brick', x: (width - 276) / 2 + col * 48, y: top + row * 25, w: 36, h: 18, hp: 1, maxHP: 1, colour: ['cyan', 'rose', 'plum'][(row + col) % 3] });
+      this.bricks.push({ id: `brick-${row}-${col}`, row, col, type: 'brick', x: (width - 276) / 2 + col * 48, y: top + row * 25, w: 36, h: 18, hp: 1, maxHP: 1, colour: ['cyan', 'rose', 'plum'][(row + col) % 3] });
     }
     for (const r of this.ramps) this.bricks.push({ id: `pin-${r.id}`, type: 'pin', x: r.pivot.x + 8, y: r.pivot.y - 4, w: 30, h: 18, hp: 2, maxHP: 2, rampId: r.id });
     const pins = this.bricks.filter(b => b.type === 'pin');
@@ -113,6 +119,7 @@ export class Bellforge {
       return !this.ramps.some(r => [r.angle, -.32].some(angle => sweepMovingSegment(centre, centre,
         Math.hypot(b.w, b.h) / 2, { ...r, previousAngle: angle, angle }, 0)));
     });
+    tagSpecials(this.bricks, BELLFORGE_SPECIALS);
     this.nextWarning = 1.5; this.teachingDone = false; this.pendingDocks = []; this.lastRelease = -Infinity;
     this.rescueRemaining = 0; this.rescueDelayRemaining = 0; this.breachRemaining = 0; this.reason = ''; this.makeServe();
   }
@@ -356,11 +363,12 @@ export class Bellforge {
   }
   hitBrick(brick, ball) {
     if (brick.hp <= 0) return;
-    brick.hp--; this.score += 10;
+    brick.hp = brick.sp === 'armour' && armourOutright(ball) ? 0 : brick.hp - 1; this.score += 10;
     if (this.balls.includes(ball) && !ball.dead && !(ball.titan > 0) && !(ball.ram > 0) && !ball.fire && ball.source !== 'arrow')
       this.chargeBank = Math.min((100 - this.charge) * this.rules.coreHits / 100, this.chargeBank + 1);
     this.effect(brick.x + brick.w / 2, brick.y + brick.h / 2, brick.hp ? 'brick-hit' : 'brick-break', brick.hp ? .35 : .7,
-      { colour: brick.colour || 'pin', w: brick.w, h: brick.h, vx: (ball?.vx || 0) * .12, vy: (ball?.vy || 0) * .08 });
+      { colour: brick.sp ? 'pin' : brick.colour || 'pin', w: brick.w, h: brick.h, vx: (ball?.vx || 0) * .12, vy: (ball?.vy || 0) * .08 });
+    if (brick.hp === 0 && brick.sp) brickSpecial(this, brick, ball, MINE_R, blastable);
     if (brick.hp === 0 && brick.rampId) { const r = this.ramps.find(r => r.id === brick.rampId); r.targetAngle = -.32; }
   }
   hitVillain(damage, stagger) {

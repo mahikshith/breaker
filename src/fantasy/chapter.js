@@ -13,6 +13,7 @@ import { cached, drawBall, text, ramTeach } from '../gfx.js';
 import { Coach } from '../coach.js';
 import { sfx } from '../audio.js';
 import { kitExpression, updateKitPresence } from '../kit.js';
+import { drawCastleFx } from '../castle-art.js';
 
 const MIN_H = 700;   // the models need their full portrait world; shorter screens draw it scaled down
 const KINDS = { shield: 'echo', anchor: 'anchor', arrows: 'volley', titan: 'cosmic' };   // menu id -> model power
@@ -145,6 +146,7 @@ export class FantasyChapter {
     if (this.key === 'tidewheel') this.floodMin = Math.min(this.floodMin, m.water.y);
     for (const e of m.effects) if (!this.heard.has(e)) {
       this.heard.add(e); if (e.kind === 'paddle-stun') this.stuns++; if (e.kind === 'ram-launch') this.coach.ramLaunched();
+      if (e.kind === 'mine-blast') { sfx.boom(); continue; } if (e.kind === 'coin-pop') { sfx.hit(6); continue; }
       if (this.key === 'hoard') {
         if (e.kind === 'scorch' || e.kind === 'avalanche' || e.kind === 'caught') { this.kitShockUntil = this.t + .9; sfx.hurt(); }
         else if (e.kind === 'chime' || e.kind === 'ward-bounce') { this.kitReactionAt = this.t; this.kitWardResult = 'held'; sfx.hit(6); }
@@ -205,6 +207,7 @@ export class FantasyChapter {
     g.drawImage(this.background(), 0, 0, this.W, this.H);
     g.save(); g.translate(this.ox, this.hudTop); g.scale(this.k, this.k);
     drawEncounter(g, this.m, art, this.key);
+    drawCastleFx(g, this.m.effects);
     if (this.key === 'bellforge' || this.key === 'tidewheel' || this.key === 'lumitower') gWard(g, this.m, art); // their renderers have no Ward of their own
     g.restore();
     const s = this.kitUIScale, y = this.hudY + 18 / s;

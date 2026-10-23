@@ -2,6 +2,7 @@ import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { KORR_BODIES, rampPose, sweepMovingSegment, circleSweep, reflect, lerpPoint } from './bellforge.js';
 import { SPEED, BALL_R, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
 import { plural, hpLeft } from '../near-miss.js';
+import { tagSpecials, brickSpecial } from '../castle-specials.js';
 
 // Gatehouse Siege: Kit storms three floors of the Menagerie gatehouse. Floor 1 drops the drawbridge (two counterweight
 // housings), floor 2 winches the portcullis while Korr drops bells through a murder hole, floor 3 is the duel with Korr.
@@ -24,6 +25,17 @@ export const PARAPET = { top: 54, bottom: 72 };
 export const RACK = { slow: 1.5, delay: 4, x: 112 };
 export const GEM_SCORE = 50;
 export const DULL = { after: 4, turn: .14 };
+// Round-3 castle specials (src/castle-specials.js), [row, col] of each floor's six-column wall. The floor-3 armour already
+// shields Korr (its ram rule stays: heavy plate bounces a ram), so the other floors gain the same plate (type 'armour') over what
+// they guard: floor 1's two housings sit above the outer columns, floor 2's door above columns 2-3. Mines sit in clusters (a blast
+// takes the bricks beside, above and below: MINE_R is a hair over one column pitch; floor 3's mines sit under the armour); the loot-gem bricks are
+// the payload chests; coins pay a bonus.
+export const GATEHOUSE_SPECIALS = [
+  { armour: [[0, 0], [0, 5], [1, 0], [1, 5]], mine: [[2, 3], [3, 1]], coin: [[1, 2], [3, 5], [4, 0]] },
+  { armour: [[0, 0], [0, 2], [0, 3], [1, 5]], mine: [[2, 2], [3, 4]], coin: [[1, 3], [3, 0], [2, 5]] },
+  { mine: [[2, 1], [2, 4]], coin: [[3, 0], [3, 5], [4, 2]] },
+];
+const MINE_R = 48, blastable = b => b.type === 'brick' || b.type === 'armour';
 const GEM_CELLS = new Set(['0-1', '0-4', '2-0', '2-5', '4-2', '4-3']), GEM_KINDS = ['gold', 'blue', 'rose'];
 export const GATEHOUSE_FLOORS = ['Drawbridge', 'Murder holes', 'Inner gate'];
 export const GATEHOUSE_TIMING = { crash: 1.1, climb: 1.2, defeat: 2.4, stun: .8, ward: 6 };
@@ -59,10 +71,13 @@ export class Gatehouse {
     const rows = [5, 4, 5][n], bricks = [];
     for (let row = 0; row < rows; row++) for (let col = 0; col < 6; col++) {
       const armour = n === 2 && row < 2;
-      bricks.push({ id: `brick-${n}-${row}-${col}`, type: armour ? 'armour' : 'brick', x: (W - 256) / 2 + col * 44, y: bottom - (rows - row) * 24 + 6, w: 36, h: 18,
+      bricks.push({ id: `brick-${n}-${row}-${col}`, row, col, type: armour ? 'armour' : 'brick', x: (W - 256) / 2 + col * 44, y: bottom - (rows - row) * 24 + 6, w: 36, h: 18,
         hp: armour ? 2 : 1, maxHP: armour ? 2 : 1, colour: ['coral', 'ivory', 'sage'][(row + col) % 3] });
-      if (n === 0 && GEM_CELLS.has(`${row}-${col}`)) bricks.at(-1).gem = GEM_KINDS[bricks.filter(b => b.gem).length % 3];
+      if (n === 0 && GEM_CELLS.has(`${row}-${col}`)) { bricks.at(-1).gem = GEM_KINDS[bricks.filter(b => b.gem).length % 3]; bricks.at(-1).sp = 'chest'; }
     }
+    tagSpecials(bricks, GATEHOUSE_SPECIALS[n], b => b.type === 'brick' && !b.gem);
+    for (const b of bricks) if (b.sp === 'armour') b.type = 'armour'; // plate keeps this level's armour rules (a ram bounces off it)
+    for (const b of bricks) if (b.type === 'armour') b.sp = 'armour';
     this.bricks = bricks;
     this.winch = null; this.rack = null;
     if (n === 0) {
@@ -330,6 +345,7 @@ export class Gatehouse {
     if (this.balls.includes(ball) && !(ball.ram > 0)) this.chargeBank = Math.min((100 - this.charge) * this.rules.coreHits / 100, this.chargeBank + 1);
     this.effect(brick.x + brick.w / 2, brick.y + brick.h / 2, brick.hp ? 'brick-hit' : 'brick-break', brick.hp ? .35 : .7,
       { colour: brick.colour, type: brick.type, w: brick.w, h: brick.h, vx: (ball?.vx || 0) * .12, vy: (ball?.vy || 0) * .08 });
+    if (!brick.hp && brick.sp) brickSpecial(this, brick, ball, MINE_R, blastable);
   }
   hitHousing(h, damage) {
     h.hp = Math.max(0, h.hp - damage); this.score += 25;
