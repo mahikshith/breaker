@@ -3,6 +3,8 @@
 // An off-centre hit resets an unarmed streak; once armed, the ram waits for its centre hit. A level decides what is an
 // ordinary brick with ramPierce(brick) (default: type === 'brick'); everything else takes a normal hit and the ram bounces.
 export const SPEED = 345;
+// Ball radius every level shares (owner 2026-10-23: a slightly bigger ball reads better on a phone).
+export const BALL_R = 7;
 // Back in action: seconds of Ward under the paddle after a Continue. It counts from the serve, not from the tap.
 export const BACK_WARD = 3;
 export const RAM = { r: 13.2, time: 2.5, bricks: 14, damage: 3 };
@@ -38,7 +40,7 @@ export function launchRam(level, b) {
 }
 export function endRam(level, b) {
   if (!(b.ram > 0) && b.r !== RAM.r) return;
-  b.r = b.ramBaseR || 6; b.ram = 0; b.ramBricks = 0; delete b.ramBaseR;
+  b.r = b.ramBaseR || BALL_R; b.ram = 0; b.ramBricks = 0; delete b.ramBaseR;
   fx(level, b.x, b.y, 'ram-end', .3);
 }
 // Called before a ball's sweep each step; true while the ram is live.

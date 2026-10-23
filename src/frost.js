@@ -47,7 +47,7 @@ function softGlow(g, x, y, rx, ry, colour, a) {
 
 export class Frost extends Arena {
   constructor(W, H, uiScale = 1, modeId = 'easy', artData = ART?.frostWarden) {
-    super(W, H, { uiScale, top: 78, minPaddleY: 500, paddleWidth: 100, paddleHeight: 14, ballRadius: 6, accent: '#92cce0' });
+    super(W, H, { uiScale, top: 78, minPaddleY: 500, paddleWidth: 100, paddleHeight: 14, accent: '#92cce0' });
     this.difficulty = difficulty(modeId).id; this.rules = FROST_MODES[this.difficulty];
     this.name = 'Frost Warden'; this.subtitle = 'Break the siege. Protect Lumi.';
     this.coreMode = 'ward'; this.kitPowers = true; this.coreHits = this.rules.charge;

@@ -1,6 +1,6 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { ejectBall } from '../clearance.js';
-import { RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { RAM, BALL_R, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
 import { hpLeft } from '../near-miss.js';
 
 const STEP = 1 / 240;
@@ -120,7 +120,7 @@ export class Bellforge {
   pause(value) { this.paused = !!value; }
   makeServe() {
     this.phase = 'serve'; this.serveTime = 0;
-    this.balls = [{ id: ++this.serial, x: this.paddle.x, y: this.paddle.y - 8, px: this.paddle.x, py: this.paddle.y - 8, vx: 0, vy: 0, r: 6, caught: true, dead: false, ram: 0, ramBricks: 0, contacts: new Set() }];
+    this.balls = [{ id: ++this.serial, x: this.paddle.x, y: this.paddle.y - 8, px: this.paddle.x, py: this.paddle.y - 8, vx: 0, vy: 0, r: BALL_R, caught: true, dead: false, ram: 0, ramBricks: 0, contacts: new Set() }];
   }
   launch(angle = -Math.PI / 2) {
     if (this.paused || this.state !== 'play' || this.phase !== 'serve' || !Number.isFinite(angle)) return false;
@@ -373,7 +373,7 @@ export class Bellforge {
       Object.assign(this.villain, { stage: 'defeated', stageAt: this.time, stageTime: 0, until: this.time + RESCUE_DURATION, body: [],
         defeat: { age: 0, stage: 'stagger', progress: 0, frame: 3, offsetX: 0, offsetY: 0, angle: 0, scaleX: 1, scaleY: 1, daze: 0 } });
       this.effects = this.effects.filter(e => !['bell-warning', 'bell-release', 'echo-deploy'].includes(e.kind));
-      for (const b of this.balls) { b.vx = 0; b.vy = 0; b.caught = true; b.ram = 0; b.r = 6; }
+      for (const b of this.balls) { b.vx = 0; b.vy = 0; b.caught = true; b.ram = 0; b.r = BALL_R; }
       this.effect(this.villain.x, this.villain.y, 'winch-stop', 1.2); return;
     }
     if (stagger) { this.villain.stage = 'stagger'; this.villain.stageAt = this.time; this.villain.until = this.time + 1.5; this.nextWarning = Math.max(this.nextWarning, this.time + 1.5); }

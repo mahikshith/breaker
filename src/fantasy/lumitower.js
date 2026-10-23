@@ -1,6 +1,6 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { circleSweep, reflect } from './bellforge.js';
-import { SPEED, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { SPEED, BALL_R, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
 import { plural } from '../near-miss.js';
 
 // Lumi Breaks Out: Lumi holds the paddle and climbs the Menagerie tower. Floor 1 is her cell (teach), floor 2 the serpent
@@ -55,7 +55,7 @@ export class LumiTower {
     this.phase = 'serve'; this.serveTime = 0;
     this.balls = [this.newBall(this.paddle.x, this.paddle.y - 8, 0, 0, true)];
   }
-  newBall(x, y, vx, vy, caught = false) { return { id: ++this.serial, x, y, px: x, py: y, vx, vy, r: 6, caught, dead: false, ram: 0, ramBricks: 0, contacts: new Set() }; }
+  newBall(x, y, vx, vy, caught = false) { return { id: ++this.serial, x, y, px: x, py: y, vx, vy, r: BALL_R, caught, dead: false, ram: 0, ramBricks: 0, contacts: new Set() }; }
   launch(angle = -Math.PI / 2) {
     if (this.paused || this.state !== 'play' || this.phase !== 'serve' || !Number.isFinite(angle)) return false;
     const a = clamp(angle, -Math.PI + .25, -.25), b = this.balls[0];
@@ -114,7 +114,7 @@ export class LumiTower {
   }
   finishFloor() {
     this.lunges = []; this.capsules = []; this.shield = null; this.ward = null;
-    for (const b of this.balls) { b.vx = 0; b.vy = 0; b.caught = true; b.ram = 0; b.r = 6; }
+    for (const b of this.balls) { b.vx = 0; b.vy = 0; b.caught = true; b.ram = 0; b.r = BALL_R; }
     this.balls = this.balls.slice(0, 1);
     this.phase = this.floor === 2 ? 'escape' : 'climb'; this.transition = this.floor === 2 ? LUMI_TIMING.escape : LUMI_TIMING.climb;
     this.effect(this.width / 2, 140, this.floor === 2 ? 'rope-escape' : 'hatch-open', this.transition);

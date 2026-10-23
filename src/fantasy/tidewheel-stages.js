@@ -6,6 +6,7 @@
 // band and move with the phone height: their y is shifted by dy = raft rest height - 320 (raft rest = min(380, paddleY - 265)).
 import { stagePlan } from './stages.js';
 import { chamberReach } from './reach.js';
+import { BALL_R } from './ram.js';
 
 export const STAGE_COUNT = 4;
 // The shared plan scaled by difficulty: bricks and 2-hit share, drop chance, ball speed, villain attack interval, tide.
@@ -35,7 +36,7 @@ const RAFT_ORDER = [[1, 3], [0, 3], [2, 3], [1, 2], [0, 2], [2, 2], [1, 1], [0, 
 
 // A cage raft (stage 4): two cargo rows on top, a brass cage over the bottom-centre hold with the chest inside, two side
 // cells either side of the cage. The cage's open floor is the raft's breakable brace: break it and thread the gap.
-const CAGE = { post: 4, roofY: -10, roofH: 6, x: 22 };
+const CAGE = { post: 4, roofY: -10, roofH: 6, x: 26 };   // x 26 (was 22): the bigger ball keeps a 6 degree way into the cage
 function cageRaft() {
   // The two cargo rows carry four narrower bricks each.
   const cells = [1, 2, 0, 3].flatMap(c => [1, 0].map(r => ({ lx: -54 + c * 27.5, ly: ROW(r), w: 25, h: H, ...(c === 1 && r === 0 ? { type: 'mine' } : {}) }))).sort((p, q) => q.ly - p.ly);
@@ -227,7 +228,7 @@ export const REACH_RULES = { bounces: 2, minSpan: 6, minGap: 2.2 * 12 };
 // ball can use at least 2.2 ball diameters wide.
 export function judgeStage(index, phone) {
   return reachCases(index, phone).map(c => {
-    const r = chamberReach({ field: c.field, bars: c.bars, chamber: c.chamber, from: c.from, r: 6, bounces: REACH_RULES.bounces });
+    const r = chamberReach({ field: c.field, bars: c.bars, chamber: c.chamber, from: c.from, r: BALL_R, bounces: REACH_RULES.bounces });
     const gap = gapOf(index, c.chamber.id ?? c.chamber, phone);
     return { stage: index, chamber: c.chamber.id || c.chamber, lift: c.lift, reachable: r.reachable, span: r.span, gap,
       pass: r.reachable && r.span >= REACH_RULES.minSpan && gap >= REACH_RULES.minGap };

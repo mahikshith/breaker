@@ -72,17 +72,17 @@ test('ram: an off-centre hit resets the streak, but never while the ring is arme
   drop(g, 0); drop(g, 0); drop(g, 0); assert(g.paddle.armed); drop(g, 40); assert(g.paddle.armed, 'armed ring survives a stray hit');
 });
 
-test('ram: ploughs through at most 14 bricks, then shrinks back to r=6', () => {
+test('ram: ploughs through at most 14 bricks, then shrinks back to the ball radius', () => {
   const g = live(new Gatehouse({ difficulty: 'easy' }), 0);
   g.bricks = Array.from({ length: 20 }, (_, i) => ({ id: `col-${i}`, type: 'brick', x: g.paddle.x - 18, y: 520 - i * 22, w: 36, h: 18, hp: 1, maxHP: 1, colour: 'coral' }));
   const b = { id: 99, x: g.paddle.x, y: 560, px: g.paddle.x, py: 560, vx: 0, vy: -345, r: 13.2, caught: false, dead: false, ram: 2.5, ramBricks: 14, contacts: new Set() }; g.balls = [b]; const seen = new Set(), fx = g.effect.bind(g); g.effect = (x, y, kind, ...r) => { seen.add(kind); return fx(x, y, kind, ...r); };
-  tick(g, 1.2); assert.equal(g.bricks.filter(x => x.hp > 0).length, 20 - 14 - 1, '14 ploughed, then the plain ball breaks one and rebounds'); assert.equal(b.r, 6); assert.equal(b.ram, 0); assert(seen.has('ram-end'));
+  tick(g, 1.2); assert.equal(g.bricks.filter(x => x.hp > 0).length, 20 - 14 - 1, '14 ploughed, then the plain ball breaks one and rebounds'); assert.equal(b.r, 7); assert.equal(b.ram, 0); assert(seen.has('ram-end'));
 });
 
 test('ram: a ram that finds no bricks ends after 2.5 s', () => {
   const g = live(new Gatehouse({ difficulty: 'easy' }), 0);
   const b = { id: 99, x: 180, y: 400, px: 180, py: 400, vx: 120, vy: -300, r: 13.2, caught: false, dead: false, ram: 2.5, ramBricks: 14, contacts: new Set() }; g.balls = [b];
-  tick(g, 2.3); assert.equal(b.r, 13.2); tick(g, .4); assert.equal(b.r, 6); assert.equal(b.ram, 0);
+  tick(g, 2.3); assert.equal(b.r, 13.2); tick(g, .4); assert.equal(b.r, 7); assert.equal(b.ram, 0);
 });
 
 test('ram: housings take 2, Korr takes 3 and a ram in the windup staggers him', () => {

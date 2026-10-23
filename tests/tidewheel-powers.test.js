@@ -85,7 +85,7 @@ test('Cosmic expiry finishes an embedded exit without a second hit then restores
   Object.assign(b,{x:180,y:200,vx:0,vy:-345,contacts:new Set(['nerra'])});
   g.powerTimers.cosmic=.001;g.updatePowers(.01);const hp=g.villain.hp;
   for(let n=0;n<50;n++){g.time+=1/240;g.moveBall(b,1/240);}
-  assert.equal(b.r,6);assert.equal(b.titan,0);assert.equal(g.villain.hp,hp);assert.equal(b.pierceExit.size,0);
+  assert.equal(b.r,7);assert.equal(b.titan,0);assert.equal(g.villain.hp,hp);assert.equal(b.pierceExit.size,0);
   Object.assign(b,{x:180,y:150,vx:0,vy:345});g.time+=1;g.moveBall(b,.1);
   assert.equal(g.villain.hp,hp-1);assert(b.vy<0);assert(g.chargeBank>0);
 });

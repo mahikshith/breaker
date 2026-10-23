@@ -1,6 +1,6 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { KORR_BODIES, rampPose, sweepMovingSegment, circleSweep, reflect, lerpPoint } from './bellforge.js';
-import { SPEED, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { SPEED, BALL_R, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
 import { plural, hpLeft } from '../near-miss.js';
 
 // Gatehouse Siege: Kit storms three floors of the Menagerie gatehouse. Floor 1 drops the drawbridge (two counterweight
@@ -108,7 +108,7 @@ export class Gatehouse {
   pause(value) { this.paused = !!value; }
   makeServe() {
     this.phase = 'serve'; this.serveTime = 0;
-    this.balls = [{ id: ++this.serial, x: this.paddle.x, y: this.paddle.y - 8, px: this.paddle.x, py: this.paddle.y - 8, vx: 0, vy: 0, r: 6, caught: true, dead: false, ram: 0, ramBricks: 0, contacts: new Set() }];
+    this.balls = [{ id: ++this.serial, x: this.paddle.x, y: this.paddle.y - 8, px: this.paddle.x, py: this.paddle.y - 8, vx: 0, vy: 0, r: BALL_R, caught: true, dead: false, ram: 0, ramBricks: 0, contacts: new Set() }];
   }
   launch(angle = -Math.PI / 2) {
     if (this.paused || this.state !== 'play' || this.phase !== 'serve' || !Number.isFinite(angle)) return false;
@@ -160,7 +160,7 @@ export class Gatehouse {
   // Floor clear: freeze play, show the crash or Korr's defeat, then climb to the next floor.
   finishFloor() {
     this.bells = []; this.ward = null; this.nextWarning = Infinity;
-    for (const b of this.balls) { b.vx = 0; b.vy = 0; b.caught = true; b.ram = 0; b.r = 6; }
+    for (const b of this.balls) { b.vx = 0; b.vy = 0; b.caught = true; b.ram = 0; b.r = BALL_R; }
     if (this.floor === 2) { this.phase = 'defeat'; this.transition = GATEHOUSE_TIMING.defeat; this.villain.stage = 'defeated'; this.villain.body = []; this.villain.defeat = { age: 0 }; this.effect(this.villain.x, this.villain.y, 'korr-defeat', GATEHOUSE_TIMING.defeat); return; }
     this.phase = this.floor === 0 ? 'crash' : 'climb';
     this.transition = this.floor === 0 ? GATEHOUSE_TIMING.crash : GATEHOUSE_TIMING.climb;
