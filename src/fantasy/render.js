@@ -6,8 +6,44 @@ import { GATEHOUSE_FLOORS } from './gatehouse.js';
 import { renderLumi } from './lumi-render.js';
 import { renderRivals } from './rivals-render.js';
 import { renderHoard } from './hoard-render.js';
+import { R3 } from '../round3-art.js';
 import { siegeBoard, siegeBrick, raftSteel, nerraMotion, refugeChain, siegeEffect, siegeOverlay } from './tidewheel-stages-render.js';
 const damageStates=new WeakMap();
+// Round-3 Nerra (M365 painted sheet cut by art/round3/cut.py): one whole-body frame per pose, picked from the model's
+// state and drawn over the unchanged collision geometry. ?nerra=v1 brings back the old body-and-claws puppet.
+const R3IMG={};
+export function r3(who,key){const s=R3?.[who]?.[key];if(!s)return null;return R3IMG[who+'/'+key]??=Object.assign(loadImg(s.url),{fw:s.w,fh:s.h});}
+const NERRA_V1=typeof location!=='undefined'&&/[?&]nerra=v1\b/.test(location.search);
+const NERRA_K=1.7;   // game units per source pixel: the front-on pose spans the bridge like the old body plus claws
+export function nerraFrame(g,v){
+  const a=v.act||{},t=a.t||0,q=a.dur?Math.min(1,t/a.dur):0,right=(v.facing||1)>0,beat=Math.floor(g.time*10);
+  if(v.defeat){const d=v.defeat.age;return d<.2?'flinch':d<.5?'stagger':d<1.2?'dazed':'defeated';}
+  const gaze=p=>{const b=g.balls?.find(b=>!b.dead)||g.paddle,dx=(p||b).x-v.footX,dy=(p||b).y-(v.footY-60);
+    const h=dx<-40?'l':dx>40?'r':'',vv=dy>120?'d':dy<-20?'u':'';return 'gaze_'+((vv+h)||'c');};
+  switch(a.pose){
+    case'walk':return `walk_${right?'r':'l'}_${beat%8}`;
+    case'jump':return q<.15?'jump_crouch':q<.85?'jump_takeoff':'jump_land';
+    case'slam':return'jump_land';
+    case'snap':return `snap_${right?'r':'l'}_${t<.3?'windup':'strike'}`;
+    case'look':return gaze(a.gaze);
+    case'furious':return Math.floor(g.time*2)%2?'roar':'furious';
+    case'hurt':return t<.12?'flinch':'hurt';
+    case'dizzy':return'dizzy';
+    case'defeated':return'defeated';
+  }
+  if(g.time<v.stunUntil)return'hurt';
+  if(v.pose==='fury'||v.enraged)return Math.floor(g.time*2)%2?'roar':'furious';
+  if(v.stage==='pullWindup'||v.stage==='pull')return'chain_yank';
+  if(v.stage==='pulseWindup')return'snap_l_windup';
+  if(v.stage==='pulse')return'snap_l_strike';
+  if(v.pose==='step')return `walk_${right?'r':'l'}_${beat%8}`;
+  return Math.floor(g.time/3.2)%4===3?'smug':gaze();
+}
+function drawNerraR3(ctx,g,v){
+  if(NERRA_V1)return false;
+  const img=r3('nerra',nerraFrame(g,v));if(!img?.complete||!img.naturalWidth)return false;
+  const w=img.fw*NERRA_K,h=img.fh*NERRA_K;ctx.drawImage(img,v.footX-w/2,v.footY+8-h,w,h);return true;
+}
 // Machinery comes packed in ART.fantasy (tools/pack_art.py); the plates, ball, paddle, bricks and Lumi are the main game's own art.
 export function makeArt(){
   const F=ART.fantasy,manifest={bellforge:{},tidewheel:{},nerra:{},nerraReaction:{},korrReaction:{}},images={};
@@ -219,6 +255,7 @@ function renderTidewheel(ctx,g,art){
   if(!v.hidden){   // Tidewheel Siege: Nerra can be away, mirrored (facing) and moved by code motion
   ctx.save();defeatTransform(ctx,v,v.footX,v.footY);nerraMotion(ctx,g,v);
   const reaction=v.defeat&&v.defeat.age>.2?(v.defeat.age<.85?'dazed':'defeat'):v.pose==='fury'?'fury':null;
+  if(drawNerraR3(ctx,g,v)){ctx.restore();}else{
   if(reaction)sprite(ctx,art,'nerraReaction',reaction,v.footX,v.footY,{width:v.w,mirror:v.facing<0});
   else sprite(ctx,art,'nerra','nerraBody',v.footX,v.footY,{width:v.w,frame:v.frame,mirror:v.facing<0});
   for(const c of g.claws){
@@ -229,7 +266,7 @@ function renderTidewheel(ctx,g,art){
     sprite(ctx,art,family,key,root.x,root.y,{angle,mirror:c.mirror,width:m.unit[0]*c.scale});
   }
   ctx.restore();dazed(ctx,g,v.footX,v.footY-99,v.defeat?.daze);
-  }
+  }}
   // Ropes reach their stops before the rafts can overlap Nerra's moving claws.
   for(const r of g.rafts){
     for(const side of[-1,1]){
