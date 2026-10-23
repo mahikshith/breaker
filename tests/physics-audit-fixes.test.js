@@ -110,7 +110,12 @@ test('Frost: a stagger mid-windup that swaps the fist onto a ball pushes it clea
   const l = new Frost(360, 729, 393 / 360, 'hard'); l.release(); l.aim = null; l.clock = 14;
   l.setStage('windup'); l.stageAt = l.clock - 1.217;
   const warden = () => l.targets().filter(t => t.id === 'warden').flatMap(t => t.shapes || [t]);
-  const b = l.balls[0]; Object.assign(b, { x: 89.11, y: 215.33, vx: -8, vy: 362 });
+  // A ball spot the stun keypose covers but the windup pose leaves clear (measured on whichever rig ships).
+  const b = l.balls[0], windup = warden(); l.setStage('stun'); const stun = warden(); l.setStage('windup'); l.stageAt = l.clock - 1.217;
+  let spot = null;
+  for (let y = 120; y < 260 && !spot; y += 1) for (let x = 20; x < 340 && !spot; x += 1) if (overlapsAny(x, y, b.r, stun) && !overlapsAny(x, y, b.r, windup) && !overlapsAny(x, y, b.r + 8, windup)) spot = { x, y };
+  assert.ok(spot, 'the stagger swaps the Warden onto new space');
+  Object.assign(b, { ...spot, vx: -8, vy: 362 });
   assert.ok(!overlapsAny(b.x, b.y, b.r, warden()), 'clear of the windup pose');
   l.setStage('stun');
   assert.ok(overlapsAny(b.x, b.y, b.r, warden()), 'the stun pose lands on the ball');

@@ -14,7 +14,7 @@ mkdirSync(out,{recursive:true});
 const sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
 const report={scope:'Actual five-level Main, native phone geometry and CDP touch. Kit charge/attack starts are staged UI fixtures, not earned wins, human balance or physical-device performance.',html,sha256:sha(html),cases:[]};
 assert(ART.frostWarden?.url,'pack the dedicated Frost Warden art before this playtest');
-assert.deepEqual(ART.frostWarden.cell,[256,228]);assert.equal(ART.frostWarden.columns,7);assert.equal(Object.keys(ART.frostWarden.clips).length,7);assert.equal(ART.frostWarden.anchors.length,28);
+assert.deepEqual(ART.frostWarden.cell,[256,228]);assert.equal(ART.frostWarden.columns,7);for(const c of['idle','walk','windup','strike','recover','hurt','victory','crouch','dash','smash','dazed','defeated'])assert(ART.frostWarden.clips[c],'clip '+c);assert.equal(ART.frostWarden.anchors.length,ART.frostWarden.columns*ART.frostWarden.rows);
 assert(readFileSync(html,'utf8').includes(ART.frostWarden.url),'source atlas and tested embedded bundle match');
 report.wardenAssetSHA256=createHash('sha256').update(Buffer.from(ART.frostWarden.url.split(',')[1],'base64')).digest('hex');
 const browser=await chromium.launch({executablePath:process.env.PW_CHROMIUM,args:['--mute-audio']});
@@ -52,7 +52,7 @@ try{
    const title=menu.find(t=>t.value==='Frost Warden');await tap({x:title.x+40,y:title.y});await page.evaluate(()=>FQ.frame(1));
    assert.equal(await page.evaluate(()=>__breach.scene),'level');assert.equal(await page.evaluate(()=>__breach.level.difficulty),mode);
    assert(await page.evaluate(()=>__breach.level.kitPowers&&!__breach.level.spacePowers&&__breach.level.warden),'Frost uses Kit and the actual Warden, not a space companion');
-   const raster=await page.evaluate(()=>__frostWardenDraws.at(-1));assert(raster?.decoded&&raster.naturalWidth===1792&&raster.naturalHeight===912&&raster.sw===256&&raster.sh===228,'actual decoded dedicated Warden frame is rendered');
+   const raster=await page.evaluate(()=>__frostWardenDraws.at(-1));assert(raster?.decoded&&raster.naturalWidth===ART.frostWarden.size[0]&&raster.naturalHeight===ART.frostWarden.size[1]&&raster.sw===256&&raster.sh===228,'actual decoded dedicated Warden frame is rendered');
    const geometry=await page.evaluate(()=>{const l=__breach.level;return{W:l.W,H:l.H,kitUIScale:l.kitUIScale,orb:l.kitAnchor(),kitPowers:l.kitPowers};});
    const css=(x,y)=>({x:x*geometry.kitUIScale,y:D.top+(y-34)*geometry.kitUIScale}),orb=css(geometry.orb.x,geometry.orb.y),layout=spacePowerLayout({...geometry,kitAnchor:()=>geometry.orb});
    assert(orb.x>=26&&orb.y<D.height-D.bottom&&orb.y>D.height*.65);

@@ -12,10 +12,13 @@ import { hpLeft } from './near-miss.js';
 
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 export const FROST_MODES = {
-  easy: { hp: 40, postHP: 5, first: 7, windup: 1.8, strike: .48, recover: 3.5, stun: 2.1, advance: 1.35, interrupt: 1, charge: 18 },
-  medium: { hp: 52, postHP: 4, first: 5.5, windup: 1.5, strike: .42, recover: 2.8, stun: 1.6, advance: 1.15, interrupt: 2, charge: 22 },
-  hard: { hp: 66, postHP: 4, first: 4.5, windup: 1.25, strike: .36, recover: 2.3, stun: 1.25, advance: 1, interrupt: 2, charge: 26 },
+  easy: { hp: 40, postHP: 5, first: 7, windup: 1.8, strike: .48, recover: 3.5, stun: 2.1, advance: 1.35, interrupt: 1, charge: 18, crouch: 1.6, dash: .5, dazed: 2.6 },
+  medium: { hp: 52, postHP: 4, first: 5.5, windup: 1.5, strike: .42, recover: 2.8, stun: 1.6, advance: 1.15, interrupt: 2, charge: 22, crouch: 1.35, dash: .42, dazed: 2.2 },
+  hard: { hp: 66, postHP: 4, first: 4.5, windup: 1.25, strike: .36, recover: 2.3, stun: 1.25, advance: 1, interrupt: 2, charge: 26, crouch: 1.1, dash: .36, dazed: 1.8 },
 };
+// Dash: every DASH.every-th attack the Warden backs off, gathers frost (the warned crouch), charges the post and
+// shoulder-smashes it for DASH.damage, then stays dazed; ball hits on a dazed Warden count DASH.dazedHit times.
+export const DASH = { every: 3, backoff: 62, minX: 58, overshoot: 6, smash: .32, damage: 2, dazedHit: 2 }; // minX keeps him on screen
 const COLORS = ['#4f9dff', '#8f5cf0', '#22c4b0', '#ff6f91', '#4f9dff', '#b785ef'];
 // Themed bricks (src/themed-bricks.js): rime-frosted ice glass, frozen blue and frost violet by row; steel is frost-rimed iron.
 const FROST_ROWS = ['ice', 'blue', 'violet', 'ice', 'blue', 'violet'];
@@ -73,7 +76,7 @@ export class Frost extends Arena {
     this.coreChargeBank = Math.min(Math.max(0, 1 - this.paddle.charge), (this.coreChargeBank || 0) + amount);
   }
   canUseKitPower() {
-    return this.spacePowerAvailable() && this.paddle.charge >= 1 && ['windup', 'strike'].includes(this.stage)
+    return this.spacePowerAvailable() && this.paddle.charge >= 1 && ['windup', 'strike', 'crouch', 'dash'].includes(this.stage)
       && !this.strikeResolved && this.defences[this.activeDefence]?.hp > 0 && !this.ward;
   }
   useKitPower() {
@@ -129,6 +132,12 @@ export class Frost extends Arena {
   pose(stage = this.stage, age = this.clock - this.stageAt) {
     const q = this.localPose(stage, age), s = this.artScale;
     let root = this.stance(this.activeDefence);
+    if (stage === 'crouch' || stage === 'dash') {
+      // Back off during the first part of the crouch, then charge to the post (a small overshoot sells the impact).
+      const back = { x: Math.max(DASH.minX, root.x - DASH.backoff), y: root.y }, t = stage === 'crouch' ? clamp(age / .35, 0, 1) : clamp(age / this.rules.dash, 0, 1);
+      const u = t * t * (3 - 2 * t), from = stage === 'crouch' ? root : back, to = stage === 'crouch' ? back : this.dashEnd(root);
+      root = { x: from.x + (to.x - from.x) * (stage === 'dash' ? t * t : u), y: root.y };
+    }
     if (stage === 'advance') { const t = clamp(age / this.rules.advance, 0, 1), u = t * t * (3 - 2 * t); root = { x: this.walkFrom.x + (this.walkTo.x - this.walkFrom.x) * u, y: this.walkFrom.y + (this.walkTo.y - this.walkFrom.y) * u }; }
     return { ...q, x: root.x, y: root.y, fist: { x: root.x + q.fist.x * s, y: root.y + q.fist.y * s, r: q.fist.r * s },
       body: { x: root.x + q.body.x * s, y: root.y + q.body.y * s, w: q.body.w * s, h: q.body.h * s },
@@ -166,9 +175,12 @@ export class Frost extends Arena {
     if (this.warden.hp <= 0) return false;
     this.warden.hp = Math.max(0, this.warden.hp - (b.titan > 0 ? 3 : b.ram > 0 ? RAM.damage : 1));
     this.addScore(75, b.x, b.y); this.fx.ring(b.x, b.y, '#d4f1ff', 13); sfx.tough();
+    if (this.stage === 'dazed' && this.warden.hp > 0) {   // the punish window after a dash
+      this.warden.hp = Math.max(0, this.warden.hp - (DASH.dazedHit - 1)); this.fx.pop(b.x, b.y - 12, 'CRITICAL', '#bfe9ff', 11);
+    }
     if (!b.shot && !b.pulse && !(b.titan > 0)) {
       this.chargeCore();
-      if (this.stage === 'windup' && ++this.windHits >= this.rules.interrupt) {
+      if ((this.stage === 'windup' || this.stage === 'crouch') && ++this.windHits >= this.rules.interrupt) {
         this.setStage('stun'); this.fx.pop(this.pose().x, 116, 'STAGGERED', '#d8e8ff', 12);
       }
     }
@@ -200,24 +212,48 @@ export class Frost extends Arena {
     if (!this.spacePowerAvailable() || !this.defences[this.activeDefence]?.hp) return false;
     this.windHits = 0; this.strikeResolved = false; this.setStage('windup'); return true;
   }
+  // Where the charge ends: the dash frames' leading body band reaches the post face, plus a small overshoot.
+  dashEnd(root) {
+    const d = this.defences[this.activeDefence] || this.defences.at(-1), q = this.localPose('dash', 0), s = this.artScale;
+    const front = Math.max(q.body.x + q.body.w, ...(q.bodyShapes || []).map(v => (v.x ?? 0) + (v.w ?? 0))) * s;
+    return { x: Math.max(root.x, d.x - front + DASH.overshoot), y: root.y };
+  }
+  startDash() {
+    if (!this.spacePowerAvailable() || !this.defences[this.activeDefence]?.hp) return false;
+    this.windHits = 0; this.strikeResolved = false; this.dashed = (this.dashed || 0) + 1; this.setStage('crouch'); sfx.zap(); return true;
+  }
+  // The charge lands when the leading shoulder (rightmost body band) sweeps into the post.
+  resolveDash() {
+    const d = this.defences[this.activeDefence];
+    if (this.strikeResolved || !d?.hp || this.phase !== 'siege') return false;
+    const p = this.pose(), front = Math.max(p.body.x + p.body.w, ...(p.bodyShapes || []).map(s => s.x + s.w));
+    if (front < d.x) return false;
+    this.strikeResolved = true; this.attacks = (this.attacks || 0) + 1;
+    const warded = this.ward?.targetId === d.id && this.ward.until >= this.clock;
+    this.records.push({ at: this.clock, post: d.id, warded, dash: true });
+    if (warded) { this.blockedPunches++; this.ward = null; this.kitWardResult = 'held'; this.kitReactionAt = this.t; this.fx.ring(d.x, d.y + d.h / 2, '#f2aec7', 36); sfx.power(); this.setStage('stun'); }
+    else { this.hitPost(d, DASH.damage); this.setStage('smash'); }
+    this.bump(.5, .06); return true;
+  }
   resolvePunch(from, to) {
     const d = this.defences[this.activeDefence];
     if (this.strikeResolved || !d?.hp || this.phase !== 'siege') return false;
     if (!sweepTarget(from, to, to.r, { ...d, type: 'rect' })) return false;
-    this.strikeResolved = true; this.punchCount++;
+    this.strikeResolved = true; this.punchCount++; this.attacks = (this.attacks || 0) + 1;
     const warded = this.ward?.targetId === d.id && this.ward.until >= this.clock;
     this.records.push({ at: this.clock, post: d.id, warded, from: { ...from }, to: { ...to } });
     if (warded) { this.blockedPunches++; this.ward = null; this.kitWardResult = 'held'; this.kitReactionAt = this.t; this.fx.ring(d.x, d.y + d.h / 2, '#f2aec7', 32); sfx.power(); }
-    else {
-      d.hp--; this.bump(.34, .04); sfx.boom(); this.fx.ring(d.x + d.w / 2, d.y + d.h / 2, '#d6e8ff', 28);
-      this.postShockUntil = this.clock + .8;
-      if (!d.hp) {
-        this.kitShockUntil = this.t + .85;
-        this.burst(d, '#8bacc2', 'ice'); this.fx.shatter(d.x, d.y, d.w, d.h, '#cfe8ff', 6, .8, 'ice');
-        if (this.activeDefence === this.defences.length - 1) this.beginBreach();
-      }
-    }
+    else this.hitPost(d, 1);
     return true;
+  }
+  hitPost(d, damage) {
+    d.hp = Math.max(0, d.hp - damage); this.bump(.34, .04); sfx.boom(); this.fx.ring(d.x + d.w / 2, d.y + d.h / 2, '#d6e8ff', 28);
+    this.postShockUntil = this.clock + .8;
+    if (!d.hp) {
+      this.kitShockUntil = this.t + .85;
+      this.burst(d, '#8bacc2', 'ice'); this.fx.shatter(d.x, d.y, d.w, d.h, '#cfe8ff', 6, .8, 'ice');
+      if (this.activeDefence === this.defences.length - 1) this.beginBreach();
+    }
   }
   finishSiege() {
     if (this.phase !== 'siege') return;
@@ -255,7 +291,17 @@ export class Frost extends Arena {
     if (this.aim?.serve && this.clock >= this.autoServeAt) this.release();
     if (this.ward && this.clock > this.ward.until) { this.ward = null; this.kitWardResult = 'missed'; this.kitReactionAt = this.t; }
     const age = this.clock - this.stageAt;
-    if (this.stage === 'idle') { if (this.clock >= Math.max(this.nextStrike, this.enemyGraceUntil) && !this.aim?.serve) this.startWindup(); }
+    if (this.stage === 'idle') {
+      if (this.clock >= Math.max(this.nextStrike, this.enemyGraceUntil) && !this.aim?.serve)
+        (((this.attacks || 0) + 1) % DASH.every === 0 ? this.startDash() : this.startWindup());
+    }
+    else if (this.stage === 'crouch' && age >= this.rules.crouch) this.setStage('dash');
+    else if (this.stage === 'dash') { this.resolveDash(); if (this.stage === 'dash' && age >= this.rules.dash) this.resolveDash() || this.setStage('recover'); }
+    else if (this.stage === 'smash' && age >= DASH.smash) this.setStage('dazed');
+    else if (this.stage === 'dazed' && age >= this.rules.dazed) {
+      if (!this.defences[this.activeDefence].hp) { this.walkFrom = this.stance(this.activeDefence); this.activeDefence++; this.walkTo = this.stance(this.activeDefence); this.setStage('advance'); }
+      else { this.setStage('idle'); this.nextStrike = this.clock + .4; }
+    }
     else if (this.stage === 'windup' && age >= this.rules.windup) this.setStage('strike');
     else if (this.stage === 'strike') {
       const fist = this.pose().fist; this.resolvePunch(this.lastFist, fist); this.lastFist = fist;
@@ -335,6 +381,11 @@ export class Frost extends Arena {
   }
   drawWarden(g) {
     const a = this.art, p = this.pose(); if (!a || !ready(a) || !p.c) return;
+    if (this.stage === 'crouch') { // warned charge: an icy lane runs from his feet to the target post
+      const d = this.defences[this.activeDefence], k = .55 + .45 * Math.sin(this.clock * 16);
+      if (d) { const g2 = g.createLinearGradient(p.x, 0, d.x, 0); g2.addColorStop(0, 'rgba(160,220,255,0)'); g2.addColorStop(1, `rgba(190,235,255,${.45 * k})`);
+        g.fillStyle = g2; g.fillRect(p.x, p.y - 7, d.x - p.x, 9); }
+    }
     const cell = Array.isArray(a.cell) ? a.cell : [a.cell, a.cell], unit = a.unit || [144, 128], u = Array.isArray(unit) ? unit : [unit, unit];
     const pivot = a.pivot || [u[0] / 2, a.feet || u[1] - 12], pw = pivot[0] <= 1 ? pivot[0] * u[0] : pivot[0], ph = pivot[1] <= 1 ? pivot[1] * u[1] : pivot[1];
     const frame = p.c.frames?.[p.f];
@@ -344,7 +395,7 @@ export class Frost extends Arena {
   }
   drawPrincess(g) {
     if (!PRINCESS || !ready(PRINCESS)) return;
-    const P = PRINCESS, name = this.phase === 'rescue' ? 'Cheer' : this.phase === 'breach' || this.stage === 'strike' || this.clock < this.postShockUntil ? 'Scared' : this.stage === 'windup' ? 'Blocking' : this.danger > .7 ? 'Nervous' : 'Idle', a = P.anims[name] || P.anims.Idle;
+    const P = PRINCESS, name = this.phase === 'rescue' ? 'Cheer' : this.phase === 'breach' || ['strike', 'dash', 'smash'].includes(this.stage) || this.clock < this.postShockUntil ? 'Scared' : ['windup', 'crouch'].includes(this.stage) ? 'Blocking' : this.danger > .7 ? 'Nervous' : 'Idle', a = P.anims[name] || P.anims.Idle;
     const f = Math.floor(this.clock * (a.fps || 14)) % a.n, size = P.unit;
     g.drawImage(P.img, f * P.cell, a.row * P.cell, P.cell, P.cell, 299 - size / 2, 202 - size + P.feet, size, size);
   }
@@ -389,7 +440,7 @@ export class Frost extends Arena {
     for (const d of this.defences) if (d.hp) {
       const stone = SPR.brick_granite_1_0, f = d.hp / d.maxHP, post = POSTS[f > .67 ? 0 : f > .34 ? 1 : 2];
       // The Warden's next target glows a warning red behind its post (a filled bloom, no outline).
-      if (this.stage === 'windup' && this.defences[this.activeDefence] === d) softGlow(g, d.x + d.w / 2, d.y + d.h / 2, 26, 48, 'rgba(255,120,130,.55)', .7 + .3 * Math.sin(this.clock * 14));
+      if (['windup', 'crouch', 'dash'].includes(this.stage) && this.defences[this.activeDefence] === d) softGlow(g, d.x + d.w / 2, d.y + d.h / 2, 26, 48, 'rgba(255,120,130,.55)', .7 + .3 * Math.sin(this.clock * 14));
       if (ready(post)) {
         g.drawImage(post.img, d.x + d.w / 2 - post.uw / 2, d.y + d.h / 2 - post.uh / 2, post.uw, post.uh);
         for (let i = 0; i < d.maxHP; i++) gem(g, i < d.hp ? 'pip_blue' : 'pip_empty', d.x + d.w / 2 + (i - (d.maxHP - 1) / 2) * 7.6, d.y - 12, .82);

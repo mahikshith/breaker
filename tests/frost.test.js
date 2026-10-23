@@ -132,7 +132,7 @@ test('actual princess metadata without fps still yields finite visible source re
 
 test('shipping rig anchors sweep into each of the three posts once across modes and phone geometries', () => {
   const measured = JSON.parse(readFileSync(new URL('../assets/frost-warden/manifest.json', import.meta.url)));
-  assert.equal(measured.forwardHand, 'R'); assert.equal(measured.anchors.length, 28);
+  assert.equal(measured.forwardHand, 'R'); assert.equal(measured.anchors.length, measured.columns * measured.rows);
   assert(measured.anchors.every(a => a.bodyShapes?.length && a.bodyShapes.every(s => s.w > 0 && s.h > 0)));
   for (const mode of Object.keys(FROST_MODES)) for (const [H, s] of [[729, 393 / 360], [785, 412 / 360]]) for (let post = 0; post < 3; post++) {
     const l = new Frost(360, H, s, mode, measured); l.release(); l.balls[0].caught = true; l.aim = null; l.activeDefence = post;
