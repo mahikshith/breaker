@@ -185,8 +185,8 @@ export function splashOver(ctx, g, e) {
   ctx.restore();
 }
 // Sheet sets: [angle off vertical (rad, + leans right), height, width, delay, alpha]. Mirrored sheets peel left.
-const SHEETS_PADDLE = [[-.36, 26, 18, 0, 1], [.4, 28, 19, .012, 1]];
-const SHEETS_BURST = [[-.3, 20, 13, 0, .85], [.36, 18, 12, .015, .8]];
+const SHEETS_PADDLE = [[-.36, 36, 25, 0, 1], [.4, 38, 26, .012, 1]];
+const SHEETS_BURST = [[-.3, 28, 18, 0, .9], [.36, 26, 17, .015, .85]];
 function sheets(ctx, b, x0, y0, t, base, seed, set) {
   for (let i = 0; i < set.length; i++) {
     const [ang, H, W, delay, alpha] = set[i], tt = t - delay; if (tt <= 0) continue;
