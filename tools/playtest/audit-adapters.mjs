@@ -235,7 +235,7 @@ function gatehouse() {
         get state() { return m.state; }, get lives() { return m.lives; }, get time() { return m.time; },
         balls() { return m.balls; },
         active(b) { return !b.dead && !b.caught && m.phase === 'play'; },
-        bounds() { return { left: 0, right: m.width, top: m.floor === 1 ? 144 : 12, bottom: m.height }; },
+        bounds() { return { left: 0, right: m.width, top: m.ceiling, bottom: m.height }; },
         paddle() { const p = m.paddle; return { x: p.x, top: p.y, w: p.w, h: p.h, stunned: p.stun > 0 }; },
         serving() { return m.phase === 'serve' && m.state === 'play'; },
         serve(angle) { m.launch(-Math.PI / 2 + angle); },

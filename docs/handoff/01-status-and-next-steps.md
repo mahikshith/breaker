@@ -70,6 +70,17 @@ Read all three handoff docs before touching code: this one (status, rules, histo
 
 ## Progress log (newest first)
 
+- **2026-10-23 — Floor hooks (branch `codex/floor-hooks`, from `codex/castle-chapters`; not merged).**
+  - Rule from now on: every floor needs a stake on screen, pressure (a visible clock or threat) and a payoff that carries over. Audit of every floor and one-line fixes: `design/phase2/floor-hooks.md` (multi-floor chapters: 3 OK, 5 WEAK, 1 EMPTY; the worst were Gatehouse 1 and Lumi 1).
+  - Gatehouse floor 1 rebuilt around the rule:
+    - Korr winches on a battlement parapet above the bridge. The parapet is a solid and the ball's ceiling; Korr has no collider there.
+    - A five-gem winch clock: after `crankIdle` s with no housing hit, Korr cranks. The telegraph lasts 1.2 to 1.8 s (red-hot housing, taut sparking chain, "HIT IT!"). Then the housing regains 1 HP. It never heals a destroyed housing and is capped per floor. A housing hit during the telegraph jams the crank.
+    - A par chip: dropping the bridge inside par smashes Korr's bell rack ("BELL RACK SMASHED!"). Floor 2 then shows the wreck and its bells come 1.5x slower.
+    - Six gem bricks bank loot that showers out of the crash.
+    - Bridge and housings moved down 24u.
+  - Fix: Gatehouse bells after the teaching bell were scheduled on the run clock, so floors 2 and 3 went nearly bell-free. They now use the floor clock (test measures the gap).
+  - Tests: `tests/gatehouse.test.js` (winch tell, jam, never heals destroyed, cap, ceiling, bot always clears, par payoff, gems). Captures: `node tools/playtest/floor-hooks.mjs <out>`.
+
 - **2026-10-23 — First-time coaching (branch `codex/coach`, from `codex/castle-chapters`; not merged).**
   - `src/coach.js`: one glossy chip under the paddle (between the ram tray and the Kit orb), one at a time, hidden while play is blocked (continue panel, power menu, Vault Ward coach, back-in-action hold, intros). Progress persists in the store: `coachServes`, `coachCatches`, `coachRam`, `coachAimHud`.
   - Serve: "Slide to aim · Lift to serve" with a thumb and chevrons, every chapter, until 3 player serves (auto-serves do not count).
