@@ -98,7 +98,8 @@ test('Continue preserves refuge and combat progress, creates visible flood headr
   g.lumi.steps=3;g.lumi.y=g.lumi.targetY=93;g.water.limit=93+REFUGE_LIP_OFFSET;g.water.y=g.water.limit;g.state='lost';
   assert(g.continue());assert.equal(g.lumi.steps,3);assert.equal(g.villain.hp,9);assert.equal(g.bricks[0].hp,0);assert.equal(g.gates[0].hp,0);assert.equal(g.rafts[0].braceHP,0);
   assert(g.water.y>=g.lumi.y+REFUGE_LIP_OFFSET+40);assert(g.attackGrace>=g.time+6);
-  advance(g,3.1);assert.equal(g.state,'play');assert.equal(g.phase,'play');assert.equal(g.pulses.length,0);
+  advance(g,3.1);assert.equal(g.state,'play');assert.equal(g.phase,'serve','back in action: the serve waits for the player');assert.equal(g.pulses.length,0);
+  assert(g.launch());assert(g.attackGrace>=g.time+6,'the grace starts with the serve');assert.equal(g.phase,'play');assert(g.ward);
 });
 
 test('an actual final body contact owns the tick over a simultaneous water pulse and flood',()=>{

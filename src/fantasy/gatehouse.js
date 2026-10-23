@@ -1,6 +1,7 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { KORR_BODIES, rampPose, sweepMovingSegment, circleSweep, reflect, lerpPoint } from './bellforge.js';
-import { SPEED, RAM, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { SPEED, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { plural, hpLeft } from '../near-miss.js';
 
 // Gatehouse Siege: Kit storms three floors of the Menagerie gatehouse. Floor 1 drops the drawbridge (two counterweight
 // housings), floor 2 winches the portcullis while Korr drops bells through a murder hole, floor 3 is the duel with Korr.
@@ -85,7 +86,7 @@ export class Gatehouse {
     if (this.paused || this.state !== 'play' || this.phase !== 'serve' || !Number.isFinite(angle)) return false;
     const a = clamp(angle, -Math.PI + .25, -.25), b = this.balls[0];
     b.caught = false; b.vx = Math.cos(a) * SPEED; b.vy = Math.sin(a) * SPEED;
-    this.phase = 'play'; this.active = true; return true;
+    this.phase = 'play'; this.active = true; this.backHold = false; return true;
   }
   canActivate(id = 'ward', { ignorePause = false } = {}) {
     return ['ward', 'echo'].includes(id) && (ignorePause || !this.paused) && this.state === 'play' && ['play', 'serve'].includes(this.phase) && this.charge >= 100 - 1e-7 && !this.ward;
@@ -111,7 +112,7 @@ export class Gatehouse {
     if (this.phase === 'crash' || this.phase === 'climb' || this.phase === 'defeat') return this.updateTransition(dt);
     if (this.phase === 'serve') {
       const b = this.balls[0]; b.px = b.x; b.py = b.y; b.x = p.x; b.y = p.y - 8;
-      this.serveTime += dt; if (this.serveTime >= (this.active ? 3 : 8)) this.launch(-Math.PI / 2 + .15);
+      if (!this.backHold) { this.serveTime += dt; if (this.serveTime >= (this.active ? 3 : 8)) this.launch(-Math.PI / 2 + .15); } // after a Continue the serve waits for the player
     }
     if (!this.active) return;
     this.time += dt; this.floorTime += dt;
@@ -314,7 +315,17 @@ export class Gatehouse {
   continue() {
     if (this.continued || this.state !== 'lost') return false;
     this.continued = true; this.state = 'play'; this.reason = ''; this.lives = Math.max(2, this.lives);
-    this.bells = []; this.ward = null; this.paddle.stun = 0; this.nextWarning = this.floorTime + 3; this.villain.stage = 'idle'; this.makeServe(); return true;
+    this.bells = []; this.paddle.stun = 0; this.nextWarning = this.floorTime + 3; this.villain.stage = 'idle'; this.makeServe();
+    this.ward = { y: this.paddle.y + 24, remaining: BACK_WARD }; this.active = false; this.backHold = true; return true;
+  }
+  // Continue panel copy: what is left of this floor's goal; progress runs over all three floors.
+  nearMiss() {
+    const f = this.floor, sum = (list, k) => list.reduce((n, o) => n + Math.max(0, o[k]), 0);
+    let line, part;
+    if (f === 0) { const left = Math.max(1, sum(this.housings, 'hp')); line = `${plural(left, 'HIT')} TO DROP THE DRAWBRIDGE`; part = 1 - left / Math.max(1, sum(this.housings, 'maxHP')); }
+    else if (f === 1) { const left = Math.max(1, this.gate.need - this.wheel.notches); line = `${plural(left, 'WINCH HIT')} TO RAISE THE GATE`; part = 1 - left / this.gate.need; }
+    else { line = hpLeft('KORR', this.villain.hp); part = 1 - this.villain.hp / this.villain.maxHP; }
+    return { line, progress: (f + part) / 3, stage: ['FLOOR', f + 1, 3] };
   }
   effect(x, y, kind, life, details = {}) {
     const fx = { x, y, kind, age: 0, life, ...details }; this.effects.push(fx); if (this.effects.length > 80) this.effects.shift(); return fx;

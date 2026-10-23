@@ -8,6 +8,7 @@ import { sfx } from './audio.js';
 import { RAM } from './fantasy/ram.js';
 import { difficulty } from './difficulty.js';
 import { drawEnemyBolt, drawEnemyImpact, drawWeaponCharge, drawWeaponMuzzle, nextEnemyVolley, enemyEscapeLane } from './space-weapons.js';
+import { plural, hpLeft } from './near-miss.js';
 
 const DATA = typeof FORGE_DATA === 'undefined' ? ART.orbitalForge : FORGE_DATA;
 const TAU = Math.PI * 2, OPEN_TIME = .4, COLLAPSE = .8, PROJECT = 1.2;
@@ -241,9 +242,9 @@ export class Orbital extends Arena {
   }
   updateLevel(dt,dtReal=dt) {
     this.levelUpdated=true;if(!this.combat())return;
-    if(this.aim?.serve){this.serveAge+=dtReal;if(this.serveAge>=this.serveLimit)this.release();}
+    if(this.aim?.serve&&!this.backHold){this.serveAge+=dtReal;if(this.serveAge>=this.serveLimit)this.release();}
     if(this.fanServe&&this.aim?.serve)this.balls.slice(1).forEach((b,i)=>{b.x=this.paddle.x+(i%2?-18:18);b.y=this.paddle.y-b.r-1;});
-    if(!this.started)return;
+    if(!this.started||this.backHold)return;
     this.clock+=dtReal;
     this.enemyImpacts=this.enemyImpacts.filter(h=>this.clock-h.at<.32);
     for(const a of [...this.stations,...this.guns,...this.bricks,this.core,this.hull])a.hurt=Math.max(0,a.hurt-dtReal);
@@ -366,5 +367,11 @@ export class Orbital extends Arena {
     if(this.debugGeometry){g.strokeStyle='#8bffb9';g.lineWidth=.5;for(const t of this.targets())for(const s of t.shapes||[])if(s.type==='polygon'){g.beginPath();for(const ring of[s.points,...(s.holes||[])]){ring.forEach(([x,y],i)=>i?g.lineTo(x,y):g.moveTo(x,y));g.closePath();}g.stroke();}}
   }
   inspect() { return{state:this.state,phase:this.phase,stage:this.stage,clock:this.clock,difficulty:this.difficulty,activeIndex:this.activeIndex,teachDone:this.teachDone,rewardGranted:this.rewardGranted,hull:{...this.hull},core:{...this.core},stations:this.stations.map(s=>({...s})),guns:this.guns.map(g=>({...g})),bricks:this.bricks.map(b=>({id:b.id,hp:b.hp,payload:b.payload})),attack:this.attack&&{...this.attack},bolts:this.bolts.map(b=>({...b})),lives:this.lives}; }
+  // Continue panel copy: the stabilisers still up, then the reactor core's HP. The stabilisers are 60% of the job.
+  nearMiss() {
+    const st=this.stations,up=st.filter(s=>s.hp>0).length,armour=st.reduce((n,s)=>n+Math.max(0,s.hp),0)/st.reduce((n,s)=>n+s.maxHP,0);
+    if(this.phase==='forge'&&up)return{line:`${plural(up,'STABILISER')} LEFT`,progress:.6*(1-armour)};
+    return{line:hpLeft('THE REACTOR',this.core.hp),progress:.6+.4*(1-this.core.hp/this.core.maxHP)};
+  }
   result() { return{stars:this.state==='won'?1+(this.lives>=2)+(this.lives>=3):0,lines:[['Score',this.score.toLocaleString()],['Stabilisers',this.stations.filter(s=>s.hp<=0).length+' / 3'],['Lives left',this.lives]]}; }
 }

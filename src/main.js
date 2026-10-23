@@ -1,5 +1,5 @@
 // Entry: canvas sizing, fixed-step loop, input mapping and the three scenes (menu, level, results).
-import { setDPR, text, rrect, shade, vignette, drawGrain, cached, brick, FONT, artLoaded, SPR, ready } from './gfx.js';
+import { setDPR, text, rrect, shade, vignette, drawGrain, cached, brick, FONT, NUM, artLoaded, SPR, ready, glazedBar, drawGem } from './gfx.js';
 import { unlockAudio, setMuted, isMuted, sfx } from './audio.js';
 import { Mooncoil } from './mooncoil.js';
 import { FantasyChapter } from './fantasy/chapter.js';
@@ -10,7 +10,8 @@ import { Frost } from './frost.js';
 import { Vault, drawPrincessIcon } from './vault.js';
 import { drawInvader } from './characters.js';
 import { store } from './prefs.js';
-import { MODE, PRICE, AD_SECONDS, continueOffer, isUnlocked, watchAd, buyFullGame } from './monetize.js';
+import { PRICE, AD_SECONDS, AD_CONTINUES, continueOffer, watchAd, buyFullGame, noteLoss, lifetimeLosses, showUnlock } from './monetize.js';
+import { soClose, fuse } from './near-miss.js';
 import { kitOrbContains, kitTap } from './kit.js';
 import { DIFFICULTY_IDS, difficulty } from './difficulty.js';
 import { spacePowerAt, drawSpacePowerMenu } from './space-companions.js';
@@ -46,7 +47,8 @@ for (const id of DIFFICULTY_IDS) bestByDifficulty[id] = LEVELS.map((_, i) => {
 function selectDifficulty(id) { selectedDifficulty = difficulty(id).id; store.set('difficulty', selectedDifficulty); previews = []; }
 
 let scene = 'menu', level = null, levelIdx = 0, resultT = 0, buttons = [], menuT = 0, previews = [], assetsReady = false;
-let cont = { used: 0, declined: false, ad: null, toast: null }; // continue offers for the current attempt
+const freshCont = () => ({ used: 0, declined: false, ad: null, toast: null, near: null, losses: null, backAt: -Infinity });
+let cont = freshCont(); // continue offers for the current attempt
 
 // Notch / Dynamic Island / home indicator / Android cutouts, in CSS px. ?safe=top,bottom fakes them for testing.
 function safeInsets() {
@@ -76,7 +78,7 @@ function resize() {
 function start(i) {
   levelIdx = i; level = LEVELS[i].make(W, H + LIFT, scale); level.hudY = LIFT; level.inB = inB; scene = 'level'; resultT = 0;
   paddlePointer = null; kitPress = null; powerPress = null;
-  cont = { used: 0, declined: false, ad: null, toast: null };
+  cont = freshCont();
   acc = 0; last = performance.now();
 }
 
@@ -165,6 +167,8 @@ function tick(dt) {
   if (cont.ad) { cont.ad.t += dt; if (cont.ad.earned && cont.ad.t >= AD_SECONDS) doContinue(); }
   level.update(dt);
   if (level.state !== 'play') {
+    // the tick a run is lost: count it (the unlock rule) and freeze the "so close" copy for the panel
+    if (resultT === 0 && level.state === 'lost') { cont.losses = noteLoss(); cont.near = soClose(level); }
     resultT += dt;
     if (resultT > 1.1 && !level.resultSaved && !offering()) {
       level.resultSaved = true;
@@ -177,7 +181,7 @@ function tick(dt) {
 
 // ---------- drawing ----------
 function button(label, x, y, w, h, color, fn, small) {
-  buttons.push({ x, y, w, h, fn });
+  buttons.push({ x, y, w, h, fn, label });
   g.fillStyle = 'rgba(0,0,0,0.4)'; rrect(g, x + 2, y + 5, w, h, h / 2); g.fill();
   g.fillStyle = shade(color, -0.5); rrect(g, x, y + 3, w, h, h / 2); g.fill();
   const gr = g.createLinearGradient(0, y, 0, y + h);
@@ -275,35 +279,53 @@ function drawMenu() {
 }
 
 // ---------- continue offer (after a loss, before the results) ----------
-const CONT_AT = 0.9, CONT_SECS = 9;
+// "So close" near-miss card, a glossy fuse bar for urgency and a soft timeout: at 0 s the fuse is spent but every
+// button stays live, so a distracted player is never kicked to the results.
+const CONT_AT = 0.9;
 const offering = () => level.state === 'lost' && !cont.declined && !!continueOffer(cont.used);
-function doContinue() { cont.used++; cont.ad = null; level.continueRun(); resultT = 0; }
+function doContinue() { cont.used++; cont.ad = null; cont.near = null; level.continueRun(); resultT = 0; cont.backAt = menuT; }
+const mix = (a, b, t) => '#' + [1, 3, 5].map(i => Math.round(parseInt(a.slice(i, i + 2), 16) * (1 - t) + parseInt(b.slice(i, i + 2), 16) * t).toString(16).padStart(2, '0')).join('');
+function fitText(str, x, y, size, maxW, color, font) { g.font = `${size}px ${font || FONT}`; const w = g.measureText(str).width; text(g, str, x, y, w > maxW ? Math.floor(size * maxW / w) : size, color, 'center', font); }
 function drawContinue() {
   const k = Math.min(1, (resultT - CONT_AT) / 0.25); if (k <= 0) return;
   g.fillStyle = `rgba(6,8,20,${0.72 * k})`; g.fillRect(0, 0, W, H);
   if (cont.ad) return drawAdPlaceholder();
-  const left = CONT_SECS - (resultT - CONT_AT);
-  if (left <= 0) { cont.declined = true; resultT = 1.1; return; }
-  const offer = continueOffer(cont.used), pw = W - 48, ph = offer === 'ad' ? 330 : 280, x = 24, y = H / 2 - ph / 2 + (1 - k) * 40;
+  const f = fuse(resultT - CONT_AT), left = f.left; // soft timeout: never declines on its own
+  const near = cont.near || (cont.near = soClose(level)), offer = continueOffer(cont.used);
+  const unlock = offer === 'ad' && showUnlock(cont.losses ?? lifetimeLosses());
+  const pw = W - 48, x = 24, ph = 300 + (offer === 'ad' ? 24 : 0) + (unlock ? 54 : 0), y = Math.max(8, H / 2 - ph / 2) + (1 - k) * 40;
   g.globalAlpha = k;
   g.fillStyle = 'rgba(0,0,0,0.5)'; rrect(g, x + 4, y + 8, pw, ph, 22); g.fill();
   const pg = g.createLinearGradient(0, y, 0, y + ph); pg.addColorStop(0, '#2c3360'); pg.addColorStop(1, '#171b36');
   g.fillStyle = pg; rrect(g, x, y, pw, ph, 22); g.fill();
   g.strokeStyle = 'rgba(255,255,255,0.18)'; g.lineWidth = 1.5; rrect(g, x + 1, y + 1, pw - 2, ph - 2, 21); g.stroke();
-  text(g, 'CONTINUE?', W / 2, y + 36, 30, '#ffd36b', 'center');
-  text(g, level.reason || '', W / 2, y + 64, 13, '#c9cfee', 'center');
-  // countdown ring
-  const cx = W / 2, cy = y + 112;
-  g.strokeStyle = 'rgba(0,0,0,0.45)'; g.lineWidth = 7; g.beginPath(); g.arc(cx, cy, 26, 0, 7); g.stroke();
-  g.strokeStyle = '#ff7a8a'; g.beginPath(); g.arc(cx, cy, 26, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (left / CONT_SECS)); g.stroke();
-  text(g, String(Math.ceil(left)), cx, cy + 1, 26, '#fff', 'center');
+  const pop = Math.min(1, Math.max(0, (resultT - CONT_AT) / 0.28)), s = 0.85 + 0.15 * (1 + 2.70158 * (pop - 1) ** 3 + 1.70158 * (pop - 1) ** 2); // easeOutBack
+  g.save(); g.translate(W / 2, y + 34); g.scale(s, s); text(g, near.title, 0, 0, 30, near.title === 'SO CLOSE!' ? '#ff8a96' : '#ffdbb8', 'center'); g.restore();
+  text(g, level.reason || '', W / 2, y + 62, 13, '#c9cfee', 'center');
+  // near-miss card: what is left, in words, over a glossy progress bar
+  const cx = x + 16, cw = pw - 32, cy = y + 78;
+  const cg = g.createLinearGradient(0, cy, 0, cy + 80); cg.addColorStop(0, '#262d55'); cg.addColorStop(1, '#1a1f3e');
+  g.fillStyle = cg; rrect(g, cx, cy, cw, 80, 14); g.fill();
+  if (near.line) {
+    fitText(near.line, W / 2, cy + 22, 19, cw - 20, '#ffdbb8');
+    const fill = Math.min(1, near.progress * Math.min(1, Math.max(0, (resultT - CONT_AT - 0.18) / 0.35)));
+    glazedBar(g, cx + 18, cy + 42, cw - 36, 12, fill, '#7ff5e6', '#1f9e90');
+    text(g, near.detail, W / 2, cy + 66, 12, '#9fb3e8', 'center', NUM);
+  } else text(g, 'One more try?', W / 2, cy + 40, 17, '#ffdbb8', 'center');
+  // fuse: drains over FUSE_SECS, teal to coral in the last 2 s; spent, it waits calmly
+  const fy = y + 180, ft = f.frac, hot = f.heat, fc = mix('#2ec4b6', '#ff4d5e', hot);
+  text(g, left > 0 ? 'QUICK CONTINUE' : 'TAKE YOUR TIME', x + 26, fy - 12, 12, left > 0 ? '#9fe8de' : '#8c95bd', 'left', NUM);
+  if (left > 0) text(g, `${left.toFixed(1)}s`, x + pw - 26, fy - 12, 12, mix('#9fe8de', '#ff8a96', hot), 'right', NUM);
+  glazedBar(g, x + 24, fy, pw - 48, 11, ft, mix('#8ff7ea', '#ffa0a8', hot), fc);
   g.globalAlpha = 1;
-  let by = y + 160;
+  let by = y + 210;
   if (offer === 'ad') {
     button('▶  Watch ad · Continue', x + 24, by, pw - 48, 48, '#5ccf6a', () => { cont.ad = { t: 0 }; watchAd().then(ok => { if (ok && cont.ad) cont.ad.earned = true; else cont.ad = null; }); });
-    by += 62;
-    if (MODE !== 'free' && !isUnlocked()) button(`Unlock full game · ${PRICE}`, x + 24, by, pw - 48, 40, '#9b4fd1', () => buyFullGame().then(ok => { if (ok) { cont.toast = { text: 'Full game unlocked · no more ads', t: menuT }; doContinue(); } }), true);
-    by += 54;
+    const n = AD_CONTINUES - cont.used; // continues left this attempt, as fx-kit gems
+    for (let i = 0; i < AD_CONTINUES; i++) drawGem(g, i < n ? 'pip_rose' : 'pip_empty', W / 2 - 74 + i * 16, by + 64, 1.5);
+    text(g, `${n} of ${AD_CONTINUES} continues left`, W / 2 - 46, by + 64, 12, '#c9cfee', 'left', NUM);
+    by += 84;
+    if (unlock) { button(`Unlock full game · ${PRICE}`, x + 24, by, pw - 48, 40, '#9b4fd1', () => buyFullGame().then(ok => { if (ok) { cont.toast = { text: 'Full game unlocked · no more ads', t: menuT }; doContinue(); } }), true); by += 54; }
   } else {
     button('Continue', x + 24, by, pw - 48, 48, '#5ccf6a', doContinue);
     by += 62;
@@ -311,13 +333,29 @@ function drawContinue() {
   buttons.push({ x: W / 2 - 60, y: by - 6, w: 120, h: 32, fn: () => { cont.declined = true; resultT = 1.1; } });
   text(g, 'No thanks', W / 2, by + 10, 15, 'rgba(220,226,255,0.7)', 'center');
 }
+// Back in action: until the serve, the ball waits on the paddle and the chapter's clocks hold (see Arena.continueRun).
+function drawBackIn() {
+  const py = (level.m ? level.hudTop + level.m.paddle.y * level.k : level.paddle.y) - LIFT; // the paddle, in screen units
+  const a = Math.min(1, (menuT - cont.backAt) / 0.22), s = 0.8 + 0.2 * (1 + 2.70158 * (a - 1) ** 3 + 1.70158 * (a - 1) ** 2), y = Math.max(H * 0.45, py - 130);
+  g.save(); g.globalAlpha = Math.min(1, a * 1.5); g.translate(W / 2, y); g.scale(s, s);
+  g.fillStyle = 'rgba(0,0,0,0.4)'; rrect(g, -120, -24, 240, 56, 18); g.fill();
+  const pg = g.createLinearGradient(0, -28, 0, 28); pg.addColorStop(0, 'rgba(32,58,74,0.94)'); pg.addColorStop(1, 'rgba(14,24,40,0.94)');
+  g.fillStyle = pg; rrect(g, -120, -28, 240, 56, 18); g.fill();
+  g.fillStyle = 'rgba(127,245,230,0.16)'; rrect(g, -112, -25, 224, 12, 6); g.fill();
+  text(g, 'BACK IN ACTION!', 0, -7, 22, '#9ff7ec', 'center');
+  text(g, 'Slide to aim · lift to serve', 0, 15, 12, `rgba(220,236,255,${0.65 + 0.25 * Math.sin(menuT * 4)})`, 'center', NUM);
+  g.restore();
+}
 function drawAdPlaceholder() { // stands in for a rewarded ad until a real SDK is wired up in monetize.js
   const left = Math.max(0, AD_SECONDS - cont.ad.t);
   g.fillStyle = '#0b0d1c'; g.fillRect(0, 0, W, H);
-  g.strokeStyle = 'rgba(255,255,255,0.15)'; g.setLineDash([6, 6]); g.lineWidth = 2; rrect(g, 24, H / 2 - 120, W - 48, 240, 18); g.stroke(); g.setLineDash([]);
-  text(g, 'AD PLACEHOLDER', W / 2, H / 2 - 40, 26, '#c9cfee', 'center');
-  text(g, 'A rewarded video plays here', W / 2, H / 2 - 8, 13, 'rgba(220,226,255,0.6)', 'center');
-  text(g, `Reward in ${Math.ceil(left)}`, W / 2, H / 2 + 40, 20, '#7bf2c8', 'center');
+  const pg = g.createLinearGradient(0, H / 2 - 120, 0, H / 2 + 120); pg.addColorStop(0, '#1d2244'); pg.addColorStop(1, '#141831');
+  g.fillStyle = pg; rrect(g, 40, H / 2 - 120, W - 80, 240, 18); g.fill();
+  g.strokeStyle = 'rgba(255,255,255,0.14)'; g.lineWidth = 1.5; rrect(g, 41, H / 2 - 119, W - 82, 238, 17); g.stroke();
+  text(g, 'AD PLACEHOLDER', W / 2, H / 2 - 64, 24, '#c9cfee', 'center');
+  text(g, 'A rewarded video plays here', W / 2, H / 2 - 34, 13, 'rgba(220,226,255,0.6)', 'center', NUM);
+  for (let i = 0; i < AD_SECONDS; i++) drawGem(g, cont.ad.t >= i + 1 ? 'pip_blue' : 'pip_empty', W / 2 + (i - (AD_SECONDS - 1) / 2) * 34, H / 2 + 8, 2.2); // one gem lights per second
+  text(g, `Reward in ${Math.ceil(left)}`, W / 2, H / 2 + 62, 20, '#7bf2c8', 'center');
 }
 function drawToast() {
   if (!cont.toast) return;
@@ -383,7 +421,7 @@ function draw() {
     g.save(); g.translate(0, -LIFT); level.draw(g); g.restore();
     if (scene === 'level' && level.powerMenuOpen) { g.save(); g.translate(0, -LIFT); drawSpacePowerMenu(g, level); g.restore(); }
     if (scene === 'pause') drawPause();
-    else if (level.state === 'play') pauseButton();
+    else if (level.state === 'play') { pauseButton(); if (level.backHold) drawBackIn(); }
     else drawResults();
     drawToast();
   }
@@ -432,7 +470,7 @@ function drawPause() {
 }
 
 // test hook for automated playtests
-window.__breach = { start, get ready() { return assetsReady; }, get level() { return level; }, get difficulty() { return selectedDifficulty; }, get scene() { return scene; }, set scene(s) { scene = s; } };
+window.__breach = { start, get ready() { return assetsReady; }, get level() { return level; }, get difficulty() { return selectedDifficulty; }, get scene() { return scene; }, set scene(s) { scene = s; }, get buttons() { return buttons; } };
 
 resize();
 (document.fonts ? Promise.race([Promise.all([document.fonts.load('16px "Lilita One"'), document.fonts.load('600 12px Rubik')]).catch(() => {}), new Promise(r => setTimeout(r, 2500))]) : Promise.resolve()).then(async () => {

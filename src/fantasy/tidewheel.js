@@ -1,6 +1,7 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { ejectBall } from '../clearance.js';
-import { RAM, ramStreak, tickRam, ramThrough, endRam } from './ram.js';
+import { RAM, BACK_WARD, ramStreak, tickRam, ramThrough, endRam } from './ram.js';
+import { hpLeft } from '../near-miss.js';
 import { TIDEWHEEL_V2_GEOMETRY } from './tidewheel-v2-geometry.js';
 import { TIDEWHEEL_REACTIONS_GEOMETRY } from './tidewheel-reaction-geometry.js';
 
@@ -50,6 +51,8 @@ export class Tidewheel {
     if(this.paused||this.state!=='play')return false;
     const b=this.balls.find(b=>b.caught);if(!b)return false;
     const a=clamp(angle,-Math.PI+.28,-.28);b.vx=Math.cos(a)*345;b.vy=Math.sin(a)*345;b.caught=false;this.phase='play';
+    // back in action: the continue's 6 s grace starts with this serve (the claws and the flood waited for it)
+    if(this.backHold){this.backHold=false;this.attackGrace=Math.max(this.attackGrace,this.time+6);this.nextSurge=Math.max(this.nextSurge,this.attackGrace);this.nextPulse=Math.max(this.nextPulse,this.attackGrace);}
     if(!this.started){this.started=true;this.startedAt=this.time;this.nextSurge=this.time+12;this.nextPulse=this.time+22;}
     else{this.attackGrace=Math.max(this.attackGrace,this.time+3);this.nextSurge=Math.max(this.nextSurge,this.attackGrace);this.nextPulse=Math.max(this.nextPulse,this.attackGrace);}
     return true;
@@ -74,8 +77,10 @@ export class Tidewheel {
     if(this.state!=='lost'||this.continued)return false;
     this.continued=true;this.state='play';this.lives=Math.max(1,this.lives);
     this.water.y=Math.min(this.water.initial,Math.max(this.water.y+48,this.lumi.y+REFUGE_LIP_OFFSET+40));this.water.target=this.water.y;
-    this.pulses=[];this.clearPowers();this.cancelSurge();this.attackGrace=this.time+6;this.nextSurge=this.nextPulse=this.attackGrace;this.serve();return true;
+    this.pulses=[];this.clearPowers();this.cancelSurge();this.attackGrace=this.time+6;this.nextSurge=this.nextPulse=this.attackGrace;this.serve();
+    this.serveAt=Infinity;this.ward={y:this.paddle.y+20,remaining:BACK_WARD};this.backHold=true;return true;
   }
+  nearMiss(){return{line:hpLeft('NERRA',this.villain.hp),progress:1-this.villain.hp/this.villain.maxHP};} // continue panel copy
   drain(amount){this.water.target=Math.min(this.water.initial,this.water.target+amount);}
   cancelSurge(){const v=this.villain;if(v.enraged)v.anger=0;v.enraged=false;v.stage='recover';v.stageTime=0;v.clawHits=0;this.pulseWarning=null;this.pulses=[];this.nextSurge=Math.max(this.nextSurge,this.time+3);}
   creditHit(ball){
@@ -151,7 +156,8 @@ export class Tidewheel {
       const b=this.balls[0];b.x=b.px=p.x;b.y=b.py=p.y-15;
       if(this.time>=this.serveAt)this.launch();
     }
-    if(this.started)this.updateMachinery(dt);
+    if(this.started&&!this.backHold)this.updateMachinery(dt); // after a Continue the claws and the flood wait for the serve
+    if(this.ward&&!this.backHold&&(this.ward.remaining-=dt)<=0)this.ward=null;
     for(const b of this.balls){
       if(b.caught)continue;
       b.px=b.x;b.py=b.y;
@@ -307,6 +313,7 @@ export class Tidewheel {
       for(const id of b.pierceExit||[])if(!targets.some(t=>(id==='nerra'?['shell','claw'].includes(t.kind):t.id===id)&&overlapsTarget({...b,r:b.r+2},t)))b.pierceExit.delete(id);
       targets.push({id:'left',type:'rect',x:-20,y:0,w:32,h:this.height},{id:'right',type:'rect',x:this.width-12,y:0,w:32,h:this.height},{id:'top',type:'rect',x:0,y:0,w:this.width,h:67});
       if(b.vy>0)targets.push({id:'paddle',type:'rect',x:this.paddle.x-this.paddle.w/2,y:this.paddle.y-this.paddle.h/2,w:this.paddle.w,h:this.paddle.h});
+      if(b.vy>0&&this.ward)targets.push({id:'ward',type:'rect',x:12,y:this.ward.y,w:this.width-24,h:4}); // the continue Ward: a plain wall, no hit
       const end={x:b.x+b.vx*left,y:b.y+b.vy*left};let first=null;
       for(const t of targets){
         const episode=['shell','claw'].includes(t.kind)?'nerra':t.id;

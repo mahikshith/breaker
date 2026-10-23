@@ -70,6 +70,13 @@ Read all three handoff docs before touching code: this one (status, rules, histo
 
 ## Progress log (newest first)
 
+- **2026-10-23 — Continue screen v2 (branch `codex/continue-v2`, from `codex/castle-chapters`; not merged).**
+  - Loss panel: a chapter-aware "so close" card (every level has a `nearMiss()` hook; copy in `src/near-miss.js`), e.g. "KORR HAS 3 HP LEFT", "LUMI IS 3 BRICKS FROM FREEDOM", "2 WINCH HITS TO RAISE THE GATE", with a glossy progress bar and "FLOOR 3 / 3 · 96% CLEARED". The title says SO CLOSE! from 50% progress, else CONTINUE?.
+  - The countdown ring is gone: an 8 s glazed fuse bar (teal to coral in the last 2 s) with a soft timeout. At 0 s it reads TAKE YOUR TIME and every button stays live; only No thanks declines.
+  - Back in action: after Continue the ball waits on the paddle in the serve aim, a BACK IN ACTION! plaque shows, and the chapter's hazard clocks and auto-serve hold until the player releases (`backHold`). Arena chapters keep their existing 2-save, 10 s shield (its timer now starts at the serve); the castle chapters get a 3 s Ward at the paddle line (Gatehouse and Rivals reuse theirs; Bellforge, Tidewheel and Lumi got the same swept Ward).
+  - $2.99 card: one rule, never on the player's first lifetime loss (`showUnlock` in `src/monetize.js`). Lives restored are unchanged.
+  - Tests: `tests/continue-v2.test.js` (near-miss copy for all 11 chapters, Vault brick count agrees with the breach rule, soft timeout, unlock rule, hold and Ward per chapter). Captures: `node tools/playtest/continue-v2.mjs <out>`.
+
 - **2026-10-22 (night) — Eleven chapters, Ram Ball everywhere, physics gates, handoff refresh.**
   - Shipped on `codex/castle-chapters`: Lumi Breaks Out (chapter 10), Serpent Rivals (chapter 11), a second serpent in Mooncoil, Ram Ball in every level, the power-ready pulse and buzz, and the premium pass on the castle chapters (rendered gems, chips and sparks, glazed and ceramic bricks, Frost rampart, Korr's dais, Kit and Lumi paddle skins, rendered arrows and bow).
   - Physics: the audit found and fixed six traps (pose swaps and spawns now eject the ball); Gatehouse bells, ramps, Ward and colliders were corrected; Lumi had its score-farming, post-Lullaby gap and collider fixes; Lumi Easy spits the ball back so the next serve cannot softlock. Gate commands are in "Current state".

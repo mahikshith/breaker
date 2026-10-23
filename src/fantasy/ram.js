@@ -3,6 +3,8 @@
 // An off-centre hit resets an unarmed streak; once armed, the ram waits for its centre hit. A level decides what is an
 // ordinary brick with ramPierce(brick) (default: type === 'brick'); everything else takes a normal hit and the ram bounces.
 export const SPEED = 345;
+// Back in action: seconds of Ward under the paddle after a Continue. It counts from the serve, not from the tap.
+export const BACK_WARD = 3;
 export const RAM = { r: 13.2, time: 2.5, bricks: 14, damage: 3 };
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 

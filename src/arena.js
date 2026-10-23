@@ -189,6 +189,7 @@ export class Arena {
     const b = a.ball, s = a.serve ? this.speed : Math.max(this.speed, Math.hypot(b.vx, b.vy));
     b.caught = false; b.vx = Math.sin(a.angle) * s; b.vy = -Math.cos(a.angle) * s; b.spin = 0;
     if (!a.serve) this.focus = Math.max(0, this.focus - 1);
+    if (a.serve) this.backHold = false; // back in action: the level's clocks restart with this serve
     this.aim = null; this.timeScale = 1; sfx.paddle();
   }
 
@@ -333,7 +334,7 @@ export class Arena {
 
     if (this.fireT > 0) this.fireT -= dt;
     if (this.slowT > 0) this.slowT -= dt;
-    if (this.shieldT > 0 && (this.shieldT -= dt) <= 0) this.shield = 0;
+    if (!this.backHold && this.shieldT > 0 && (this.shieldT -= dt) <= 0) this.shield = 0; // the continue shield waits for the serve
     const fire = this.fireT > 0, ballDt = dt * (this.slowT > 0 ? 0.68 : 1);
     const world = this.liveWorld();
     for (const b of this.balls) {
@@ -416,13 +417,15 @@ export class Arena {
   }
   fail(reason) { if (this.state !== 'play') return; this.state = 'lost'; this.reason = reason; this.timeScale = 1; this.aim = null; }
   win() { if (this.state !== 'play') return; this.state = 'won'; this.timeScale = 1; this.aim = null; }
-  // after a continue (ad, purchase, or free): back in play with a fresh ball; levels also undo what beat you
+  // After a continue (ad, purchase, or free): "back in action". A fresh ball waits on the paddle in the serve aim,
+  // the shield sits under the paddle, and backHold freezes each level's hazard clocks (and any auto-serve) until the
+  // player releases the serve. Levels also undo what beat you.
   continueRun() {
-    this.state = 'play'; this.reason = ''; this.resultSaved = false; this.timeScale = 1;
-    this.lives = Math.max(this.lives, 1); this.balls = this.balls.filter(b => !b.dead);
-    if (!this.balls.length) this.serve();
+    this.state = 'play'; this.reason = ''; this.resultSaved = false; this.timeScale = 1; this.hitStop = 0;
+    this.lives = Math.max(this.lives, 1); this.balls.length = 0; this.aim = null;
+    this.serve(); this.backHold = true;
     this.shield = 2; this.shieldT = 10; this.paddle.stun = 0;
-    this.fx.pop(this.W / 2, this.paddle.y - 60, 'BACK IN!', '#7bf2c8', 26); sfx.power();
+    sfx.power();
   }
 
   // ---------- drawing ----------
