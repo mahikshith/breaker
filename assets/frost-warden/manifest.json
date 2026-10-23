@@ -145,7 +145,7 @@
    "loop": false
   }
  },
- "source": "assets/round3/warden (M365 round-3 sheets, cut by art/round3/cut.py)",
+ "source": "assets/round3/warden",
  "derivedScript": "art/round3/build_warden_atlas.py",
  "atlas": "assets/frost-warden/warden.png",
  "sha256": "bcb927519924568bfda91aa7702c54be96effabfe7a0747f23d93f20cb3fa664",
