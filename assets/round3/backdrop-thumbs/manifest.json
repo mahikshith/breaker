@@ -1,0 +1,106 @@
+{
+ "source": [
+  "main e92a987"
+ ],
+ "frames": {
+  "tidewheel_1": {
+   "file": "tidewheel_1.png",
+   "size": [
+    245,
+    360
+   ],
+   "pivot": [
+    122,
+    360
+   ]
+  },
+  "tidewheel_2": {
+   "file": "tidewheel_2.png",
+   "size": [
+    263,
+    360
+   ],
+   "pivot": [
+    131,
+    360
+   ]
+  },
+  "tidewheel_3": {
+   "file": "tidewheel_3.png",
+   "size": [
+    263,
+    360
+   ],
+   "pivot": [
+    131,
+    360
+   ]
+  },
+  "tidewheel_4": {
+   "file": "tidewheel_4.png",
+   "size": [
+    247,
+    360
+   ],
+   "pivot": [
+    123,
+    360
+   ]
+  },
+  "frost_1": {
+   "file": "frost_1.png",
+   "size": [
+    255,
+    309
+   ],
+   "pivot": [
+    127,
+    309
+   ]
+  },
+  "frost_2": {
+   "file": "frost_2.png",
+   "size": [
+    253,
+    309
+   ],
+   "pivot": [
+    126,
+    309
+   ]
+  },
+  "frost_3": {
+   "file": "frost_3.png",
+   "size": [
+    260,
+    309
+   ],
+   "pivot": [
+    130,
+    309
+   ]
+  },
+  "frost_4": {
+   "file": "frost_4.png",
+   "size": [
+    250,
+    309
+   ],
+   "pivot": [
+    125,
+    309
+   ]
+  },
+  "gatehouse_1": {
+   "file": "gatehouse_1.png",
+   "size": [
+    385,
+    386
+   ],
+   "pivot": [
+    192,
+    386
+   ]
+  }
+ }
+}

@@ -1,0 +1,216 @@
+{
+ "source": [
+  "main e92a987"
+ ],
+ "frames": {
+  "torch_0": {
+   "file": "torch_0.png",
+   "size": [
+    38,
+    73
+   ],
+   "pivot": [
+    19,
+    73
+   ]
+  },
+  "torch_1": {
+   "file": "torch_1.png",
+   "size": [
+    30,
+    66
+   ],
+   "pivot": [
+    15,
+    66
+   ]
+  },
+  "torch_2": {
+   "file": "torch_2.png",
+   "size": [
+    29,
+    65
+   ],
+   "pivot": [
+    14,
+    65
+   ]
+  },
+  "torch_3": {
+   "file": "torch_3.png",
+   "size": [
+    29,
+    53
+   ],
+   "pivot": [
+    14,
+    53
+   ]
+  },
+  "torch_4": {
+   "file": "torch_4.png",
+   "size": [
+    34,
+    55
+   ],
+   "pivot": [
+    17,
+    55
+   ]
+  },
+  "torch_5": {
+   "file": "torch_5.png",
+   "size": [
+    34,
+    55
+   ],
+   "pivot": [
+    17,
+    55
+   ]
+  },
+  "drift": {
+   "file": "drift.png",
+   "size": [
+    272,
+    47
+   ],
+   "pivot": [
+    136,
+    47
+   ]
+  },
+  "banner_0": {
+   "file": "banner_0.png",
+   "size": [
+    52,
+    84
+   ],
+   "pivot": [
+    26,
+    84
+   ]
+  },
+  "banner_1": {
+   "file": "banner_1.png",
+   "size": [
+    54,
+    83
+   ],
+   "pivot": [
+    27,
+    83
+   ]
+  },
+  "banner_2": {
+   "file": "banner_2.png",
+   "size": [
+    55,
+    83
+   ],
+   "pivot": [
+    27,
+    83
+   ]
+  },
+  "banner_3": {
+   "file": "banner_3.png",
+   "size": [
+    61,
+    83
+   ],
+   "pivot": [
+    30,
+    83
+   ]
+  },
+  "crack_0": {
+   "file": "crack_0.png",
+   "size": [
+    89,
+    76
+   ],
+   "pivot": [
+    44,
+    76
+   ]
+  },
+  "crack_1": {
+   "file": "crack_1.png",
+   "size": [
+    105,
+    76
+   ],
+   "pivot": [
+    52,
+    76
+   ]
+  },
+  "crack_2": {
+   "file": "crack_2.png",
+   "size": [
+    106,
+    76
+   ],
+   "pivot": [
+    53,
+    76
+   ]
+  },
+  "crack_3": {
+   "file": "crack_3.png",
+   "size": [
+    117,
+    76
+   ],
+   "pivot": [
+    58,
+    76
+   ]
+  },
+  "crumble_0": {
+   "file": "crumble_0.png",
+   "size": [
+    103,
+    82
+   ],
+   "pivot": [
+    51,
+    82
+   ]
+  },
+  "crumble_1": {
+   "file": "crumble_1.png",
+   "size": [
+    112,
+    81
+   ],
+   "pivot": [
+    56,
+    81
+   ]
+  },
+  "crumble_2": {
+   "file": "crumble_2.png",
+   "size": [
+    129,
+    82
+   ],
+   "pivot": [
+    64,
+    82
+   ]
+  },
+  "crumble_3": {
+   "file": "crumble_3.png",
+   "size": [
+    130,
+    89
+   ],
+   "pivot": [
+    65,
+    89
+   ]
+  }
+ }
+}

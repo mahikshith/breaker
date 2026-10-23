@@ -1,0 +1,359 @@
+{
+ "source": [
+  "main e92a987"
+ ],
+ "frames": {
+  "splash_0": {
+   "file": "splash_0.png",
+   "size": [
+    174,
+    55
+   ],
+   "pivot": [
+    87,
+    55
+   ]
+  },
+  "splash_1": {
+   "file": "splash_1.png",
+   "size": [
+    176,
+    69
+   ],
+   "pivot": [
+    88,
+    69
+   ]
+  },
+  "splash_2": {
+   "file": "splash_2.png",
+   "size": [
+    192,
+    87
+   ],
+   "pivot": [
+    96,
+    87
+   ]
+  },
+  "splash_3": {
+   "file": "splash_3.png",
+   "size": [
+    194,
+    106
+   ],
+   "pivot": [
+    97,
+    106
+   ]
+  },
+  "splash_4": {
+   "file": "splash_4.png",
+   "size": [
+    194,
+    107
+   ],
+   "pivot": [
+    97,
+    107
+   ]
+  },
+  "splash_5": {
+   "file": "splash_5.png",
+   "size": [
+    176,
+    97
+   ],
+   "pivot": [
+    88,
+    97
+   ]
+  },
+  "splash_6": {
+   "file": "splash_6.png",
+   "size": [
+    190,
+    70
+   ],
+   "pivot": [
+    95,
+    70
+   ]
+  },
+  "splash_7": {
+   "file": "splash_7.png",
+   "size": [
+    161,
+    62
+   ],
+   "pivot": [
+    80,
+    62
+   ]
+  },
+  "ice_0": {
+   "file": "ice_0.png",
+   "size": [
+    184,
+    83
+   ],
+   "pivot": [
+    92,
+    83
+   ]
+  },
+  "ice_1": {
+   "file": "ice_1.png",
+   "size": [
+    205,
+    81
+   ],
+   "pivot": [
+    102,
+    81
+   ]
+  },
+  "ice_2": {
+   "file": "ice_2.png",
+   "size": [
+    213,
+    81
+   ],
+   "pivot": [
+    106,
+    81
+   ]
+  },
+  "ice_3": {
+   "file": "ice_3.png",
+   "size": [
+    198,
+    81
+   ],
+   "pivot": [
+    99,
+    81
+   ]
+  },
+  "ice_4": {
+   "file": "ice_4.png",
+   "size": [
+    228,
+    86
+   ],
+   "pivot": [
+    114,
+    86
+   ]
+  },
+  "ice_5": {
+   "file": "ice_5.png",
+   "size": [
+    197,
+    78
+   ],
+   "pivot": [
+    98,
+    78
+   ]
+  },
+  "debris_0": {
+   "file": "debris_0.png",
+   "size": [
+    194,
+    89
+   ],
+   "pivot": [
+    97,
+    89
+   ]
+  },
+  "debris_1": {
+   "file": "debris_1.png",
+   "size": [
+    208,
+    93
+   ],
+   "pivot": [
+    104,
+    93
+   ]
+  },
+  "debris_2": {
+   "file": "debris_2.png",
+   "size": [
+    217,
+    98
+   ],
+   "pivot": [
+    108,
+    98
+   ]
+  },
+  "debris_3": {
+   "file": "debris_3.png",
+   "size": [
+    258,
+    87
+   ],
+   "pivot": [
+    129,
+    87
+   ]
+  },
+  "debris_4": {
+   "file": "debris_4.png",
+   "size": [
+    257,
+    75
+   ],
+   "pivot": [
+    128,
+    75
+   ]
+  },
+  "debris_5": {
+   "file": "debris_5.png",
+   "size": [
+    221,
+    60
+   ],
+   "pivot": [
+    110,
+    60
+   ]
+  },
+  "coins_0": {
+   "file": "coins_0.png",
+   "size": [
+    148,
+    88
+   ],
+   "pivot": [
+    74,
+    88
+   ]
+  },
+  "coins_1": {
+   "file": "coins_1.png",
+   "size": [
+    193,
+    93
+   ],
+   "pivot": [
+    96,
+    93
+   ]
+  },
+  "coins_2": {
+   "file": "coins_2.png",
+   "size": [
+    194,
+    93
+   ],
+   "pivot": [
+    97,
+    93
+   ]
+  },
+  "coins_3": {
+   "file": "coins_3.png",
+   "size": [
+    212,
+    88
+   ],
+   "pivot": [
+    106,
+    88
+   ]
+  },
+  "coins_4": {
+   "file": "coins_4.png",
+   "size": [
+    236,
+    85
+   ],
+   "pivot": [
+    118,
+    85
+   ]
+  },
+  "coins_5": {
+   "file": "coins_5.png",
+   "size": [
+    200,
+    70
+   ],
+   "pivot": [
+    100,
+    70
+   ]
+  },
+  "dust_0": {
+   "file": "dust_0.png",
+   "size": [
+    168,
+    107
+   ],
+   "pivot": [
+    84,
+    107
+   ]
+  },
+  "dust_1": {
+   "file": "dust_1.png",
+   "size": [
+    258,
+    115
+   ],
+   "pivot": [
+    129,
+    115
+   ]
+  },
+  "dust_2": {
+   "file": "dust_2.png",
+   "size": [
+    258,
+    120
+   ],
+   "pivot": [
+    129,
+    120
+   ]
+  },
+  "dust_3": {
+   "file": "dust_3.png",
+   "size": [
+    258,
+    110
+   ],
+   "pivot": [
+    129,
+    110
+   ]
+  },
+  "dust_4": {
+   "file": "dust_4.png",
+   "size": [
+    258,
+    110
+   ],
+   "pivot": [
+    129,
+    110
+   ]
+  },
+  "dust_5": {
+   "file": "dust_5.png",
+   "size": [
+    210,
+    102
+   ],
+   "pivot": [
+    105,
+    102
+   ]
+  }
+ }
+}

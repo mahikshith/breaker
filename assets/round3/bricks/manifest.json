@@ -1,0 +1,271 @@
+{
+ "source": [
+  "main e92a987"
+ ],
+ "frames": {
+  "sea_chest": {
+   "file": "sea_chest.png",
+   "size": [
+    150,
+    100
+   ],
+   "pivot": [
+    75,
+    100
+   ]
+  },
+  "sea_chest_cracked": {
+   "file": "sea_chest_cracked.png",
+   "size": [
+    156,
+    101
+   ],
+   "pivot": [
+    78,
+    101
+   ]
+  },
+  "sea_coin": {
+   "file": "sea_coin.png",
+   "size": [
+    169,
+    106
+   ],
+   "pivot": [
+    84,
+    106
+   ]
+  },
+  "sea_mine": {
+   "file": "sea_mine.png",
+   "size": [
+    174,
+    129
+   ],
+   "pivot": [
+    87,
+    129
+   ]
+  },
+  "sea_key": {
+   "file": "sea_key.png",
+   "size": [
+    160,
+    100
+   ],
+   "pivot": [
+    80,
+    100
+   ]
+  },
+  "sea_armour": {
+   "file": "sea_armour.png",
+   "size": [
+    170,
+    108
+   ],
+   "pivot": [
+    85,
+    108
+   ]
+  },
+  "sea_armour_cracked": {
+   "file": "sea_armour_cracked.png",
+   "size": [
+    166,
+    107
+   ],
+   "pivot": [
+    83,
+    107
+   ]
+  },
+  "sea_steel": {
+   "file": "sea_steel.png",
+   "size": [
+    209,
+    106
+   ],
+   "pivot": [
+    104,
+    106
+   ]
+  },
+  "frost_chest": {
+   "file": "frost_chest.png",
+   "size": [
+    150,
+    106
+   ],
+   "pivot": [
+    75,
+    106
+   ]
+  },
+  "frost_chest_cracked": {
+   "file": "frost_chest_cracked.png",
+   "size": [
+    156,
+    106
+   ],
+   "pivot": [
+    78,
+    106
+   ]
+  },
+  "frost_coin": {
+   "file": "frost_coin.png",
+   "size": [
+    167,
+    105
+   ],
+   "pivot": [
+    83,
+    105
+   ]
+  },
+  "frost_mine": {
+   "file": "frost_mine.png",
+   "size": [
+    176,
+    129
+   ],
+   "pivot": [
+    88,
+    129
+   ]
+  },
+  "frost_key": {
+   "file": "frost_key.png",
+   "size": [
+    160,
+    105
+   ],
+   "pivot": [
+    80,
+    105
+   ]
+  },
+  "frost_armour": {
+   "file": "frost_armour.png",
+   "size": [
+    170,
+    105
+   ],
+   "pivot": [
+    85,
+    105
+   ]
+  },
+  "frost_armour_cracked": {
+   "file": "frost_armour_cracked.png",
+   "size": [
+    166,
+    105
+   ],
+   "pivot": [
+    83,
+    105
+   ]
+  },
+  "frost_steel": {
+   "file": "frost_steel.png",
+   "size": [
+    209,
+    109
+   ],
+   "pivot": [
+    104,
+    109
+   ]
+  },
+  "castle_chest": {
+   "file": "castle_chest.png",
+   "size": [
+    150,
+    103
+   ],
+   "pivot": [
+    75,
+    103
+   ]
+  },
+  "castle_chest_cracked": {
+   "file": "castle_chest_cracked.png",
+   "size": [
+    155,
+    103
+   ],
+   "pivot": [
+    77,
+    103
+   ]
+  },
+  "castle_coin": {
+   "file": "castle_coin.png",
+   "size": [
+    167,
+    102
+   ],
+   "pivot": [
+    83,
+    102
+   ]
+  },
+  "castle_mine": {
+   "file": "castle_mine.png",
+   "size": [
+    174,
+    129
+   ],
+   "pivot": [
+    87,
+    129
+   ]
+  },
+  "castle_key": {
+   "file": "castle_key.png",
+   "size": [
+    161,
+    103
+   ],
+   "pivot": [
+    80,
+    103
+   ]
+  },
+  "castle_armour": {
+   "file": "castle_armour.png",
+   "size": [
+    170,
+    105
+   ],
+   "pivot": [
+    85,
+    105
+   ]
+  },
+  "castle_armour_cracked": {
+   "file": "castle_armour_cracked.png",
+   "size": [
+    167,
+    105
+   ],
+   "pivot": [
+    83,
+    105
+   ]
+  },
+  "castle_steel": {
+   "file": "castle_steel.png",
+   "size": [
+    209,
+    107
+   ],
+   "pivot": [
+    104,
+    107
+   ]
+  }
+ }
+}
