@@ -107,6 +107,7 @@ test('Arena: ram coach from the first lit pip until the first ram launch; the wa
 test('castle chapters: player serves count (auto-serves do not), ram launch ends the ram coach, Continue hides coaching', () => {
   fresh();
   const l = new FantasyChapter('gatehouse', 360, 814, 393 / 360, 'medium');
+  l.update(1 / 60); assert.equal(l.coach.kind, null, 'the stage card hides coaching'); l.m.skipCard();
   l.update(1 / 60); assert.equal(l.coach.kind, 'serve');
   l.pointerDown(180); l.pointerUp(); assert.equal(coachProgress().serves, 1);
   l.pointerUp(); assert.equal(coachProgress().serves, 1, 'no serve without a ball waiting');

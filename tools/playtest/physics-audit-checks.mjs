@@ -3,7 +3,8 @@
 import { overlapsTarget } from '../../src/carrier-physics.js';
 import { rampPose } from '../../src/fantasy/bellforge.js';
 
-const LEVEL = { name: 'gatehouse', module: '../../src/fantasy/gatehouse.js', cls: 'Gatehouse', floors: [0, 1, 2], bellFloors: [1, 2] };
+// Gatehouse Siege's four stages: 0 The Hoist, 1 Drawbridge, 2 Murder holes, 3 Inner gate (bells drop on 2 and 3).
+const LEVEL = { name: 'gatehouse', module: '../../src/fantasy/gatehouse.js', cls: 'Gatehouse', floors: [0, 1, 2, 3], bellFloors: [2, 3] };
 const quick = process.argv.includes('--quick'), DT = 1 / 240;
 const { [LEVEL.cls]: Game } = await import(LEVEL.module);
 const L = { ...LEVEL, Game };
@@ -12,7 +13,7 @@ const rng = seed => () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967
 const segDist = (x, y, a, b) => { const dx = b.x - a.x, dy = b.y - a.y, u = Math.max(0, Math.min(1, ((x - a.x) * dx + (y - a.y) * dy) / (dx * dx + dy * dy))); return Math.hypot(x - a.x - dx * u, y - a.y - dy * u); };
 const ball = (x, y, vx, vy, r = 6) => ({ id: 999, x, y, px: x, py: y, vx, vy, r, caught: false, dead: false, ram: r > 6 ? 2.5 : 0, ramBricks: 0, contacts: new Set() });
 // Live game with play started and warnings off, so only what the check injects moves.
-const arena = (opts, floor) => { const g = new L.Game({ ...opts, floor }); g.phase = 'play'; g.active = true; g.nextWarning = Infinity; return g; };
+const arena = (opts, floor) => { const g = new L.Game({ ...opts, floor }); g.skipCard?.(); g.phase = 'play'; g.active = true; g.nextWarning = Infinity; return g; };
 
 // 1. Tunnelling: random launches in free air; a ball may never sit >1.5u inside a solid, brick, housing, wheel, Korr or ramp.
 function tunnelling() {
@@ -22,7 +23,7 @@ function tunnelling() {
     if (Date.now() - t0 > budgetMs) { truncated = true; break outer; }
     const g = arena({ difficulty: 'hard' }, floor); g.lives = 9; g.paddle.x = g.paddle.targetX = 120 + rnd() * 120;
     let x, y, tries = 0;
-    do { x = 20 + rnd() * 320; y = 20 + rnd() * 560; tries++; } while (tries < 200 && (g.targets().some(t => t.kind !== 'villain' && overlapsTarget({ x, y, r: r + 6 }, t)) || g.villain.body.some(c => Math.hypot(x - c.x, y - c.y) < c.r + r + 6) || g.ramps.some(q => { const c = q.body ? rampPose(q.body) : q; return segDist(x, y, c.a, c.b) < r + 14; }) || (floor === 1 && y < 150 + r)));
+    do { x = 20 + rnd() * 320; y = 20 + rnd() * 560; tries++; } while (tries < 200 && (g.targets().some(t => t.kind !== 'villain' && overlapsTarget({ x, y, r: r + 6 }, t)) || g.villain.body.some(c => Math.hypot(x - c.x, y - c.y) < c.r + r + 6) || g.ramps.some(q => { const c = q.body ? rampPose(q.body) : q; return segDist(x, y, c.a, c.b) < r + 14; }) || (floor === 2 && y < 150 + r)));
     const a = rnd() * Math.PI * 2, b = ball(x, y, Math.cos(a) * sp, Math.sin(a) * sp, r); g.balls = [b];
     for (let i = 0; i < 240 && !b.dead && g.phase === 'play'; i++) {
       g.step(DT); if (b.dead) break; steps++;
@@ -68,13 +69,16 @@ function wardVsBell() {
 }
 
 // 4. Clearable: bot tracks the ball with seeded aim error; every floor must clear in time, no 30 s without score/floor progress.
+// Four stages take longer than the old three floors: the limit covers the whole siege.
 function clearable() {
-  const seeds = quick ? [1] : [1, 2, 3, 4], limit = 400, runs = [];
+  const seeds = quick ? [1] : [1, 2, 3, 4], limit = 900, runs = [];
   for (const difficulty of ['easy', 'hard']) for (const sd of seeds) {
     const rnd = rng(sd * 77), g = new L.Game({ difficulty }); g.lives = 99;
     let o = (rnd() - .5) * 70, last = g.score, lastFloor = g.floor, lastT = 0, gap = 0;
     for (let i = 0; i < limit * 240 && g.state === 'play'; i++) {
+      if (g.phase === 'card') g.skipCard();
       if (g.phase === 'serve') g.launch(-Math.PI / 2 + (rnd() - .5) * 1.2);
+      g.capsules.length = 0;   // baseline: no power-ups collected
       const b = g.balls[0]; if (b && !b.caught) { if (rnd() < .01) o = (rnd() - .5) * 70; g.setTarget(b.x + o); }
       g.step(DT);
       if (g.score !== last || g.floor !== lastFloor) { last = g.score; lastFloor = g.floor; lastT = g.time; }

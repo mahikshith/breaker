@@ -1,10 +1,10 @@
 import { ART } from '../vault-art.js';
 import { SPR, loadImg, artLoaded, text, cached, drawGlint, drawRamPips } from '../gfx.js';
 import { tideFrame, splashUnder, splashOver, muzzle, wetHit, pulseTrail, pour } from './tide-fx.js';
-import { GATEHOUSE_FLOORS } from './gatehouse.js';
 import { renderLumi } from './lumi-render.js';
 import { renderRivals } from './rivals-render.js';
 import { renderHoard } from './hoard-render.js';
+import { siegeBrick, drawIron, stageHoist, korrWalk, murderSlot, daisPayoffs, siegeProjectiles, siegeEffect, siegeOverlay } from './gatehouse-stages-render.js';
 const damageStates=new WeakMap();
 // Machinery comes packed in ART.fantasy (tools/pack_art.py); the plates, ball, paddle, bricks and Lumi are the main game's own art.
 export function makeArt(){
@@ -144,6 +144,11 @@ function princess(ctx,g,art,x,y){
   const clip=g.phase==='rescue'||g.state==='won'?'Cheer':/windup/i.test(g.villain.stage)||worried?'Nervous':'Idle';
   const L=art.lumi,a=L.anims[clip];
   // Existing character frames share the centred feet baseline.
+  ctx.drawImage(L.img,Math.floor(lumiTime(g)*10)%a.n*L.cell,a.row*L.cell,L.cell,L.cell,x-29,y-55,58,58);
+}
+// Lumi in a named clip at (x, y) (feet baseline), for the Gatehouse hoist.
+function princessAt(ctx,g,art,x,y,clip='Idle'){
+  const L=art.lumi,a=L.anims[clip]||L.anims.Idle;if(!L.img?.naturalWidth)return;
   ctx.drawImage(L.img,Math.floor(lumiTime(g)*10)%a.n*L.cell,a.row*L.cell,L.cell,L.cell,x-29,y-55,58,58);
 }
 function ramp(ctx,art,r){
@@ -513,10 +518,12 @@ function battlements(ctx,g,art){
   // Korr faces the winch: cranking (windup) during the telegraph, a gloat after a heal or when par runs out, a stagger when jammed.
   const bob=crank?Math.abs(Math.sin(g.time*9))*-1.6:Math.sin(g.time*2.1)*.5;
   if(crank){ctx.save();ctx.globalCompositeOperation='lighter';glow(ctx,v.foot.x,v.foot.y-22,44,'#ff6a2a',.3+.15*Math.sin(g.time*18));glow(ctx,axle.x,axle.y,22,'#ffb46a',.35+.2*Math.sin(g.time*30));ctx.restore();}
-  korr(ctx,g,art,v,{x:v.foot.x,y:v.foot.y+bob,width:72,mirror:true,lean:crank?Math.sin(g.time*9)*.05:0});
+  if(v.escape)korrWalk(ctx,g,art,v,72);
+  else if(!v.gone)korr(ctx,g,art,v,{x:v.foot.x,y:v.foot.y+bob,width:72,mirror:true,lean:crank?Math.sin(g.time*9)*.05:0});
+  if(w.pinned&&w.stage!=='crank'){glow(ctx,w.x,top-14,14,'#ff9ec0',.35+.15*Math.sin(g.time*4));fxPart(ctx,'pip_rose',w.x+6,top-16,.6);}
   // Winch clock on a plaque under the winch: five gems fill while no housing is hit and a damaged housing stands; full, they
   // burn and Korr cranks.
-  if(g.phase==='play'||g.phase==='serve'){
+  if((g.phase==='play'||g.phase==='serve')&&!v.gone&&!v.escape){
     const need=g.rules.crankIdle,lit=crank?5:Math.min(5,Math.floor(w.idle/need*5+1e-9)),hot=crank?.5+.5*Math.sin(g.time*20):lit>=4?.3+.3*Math.sin(g.time*12):0;
     ctx.save();ctx.globalAlpha=ga(ctx)*.9;ctx.fillStyle=crank?'#3a1208e6':'#0b111bd9';ctx.beginPath();ctx.roundRect(w.x-27,P-15,54,13,6.5);ctx.fill();ctx.strokeStyle=crank?'#ff8a5acc':'#d6a35f88';ctx.lineWidth=.8;ctx.stroke();ctx.restore();
     pips(ctx,w.x,P-8.5,5,lit,{gap:10,scale:.9,bloom:lit>=4||crank?'#ff7a3a':'#ffcf7a',pulse:hot});
@@ -577,7 +584,8 @@ function floorMurder(ctx,g,art){
   hoistChain(ctx,art,{x:w.x+w.r-2,y:196},{x:G.posts[0].x+1,y:196},0);
   const v=g.villain;ctx.save();
   const warn=v.stage==='windup',peer=warn?smooth((g.time-v.stageAt)/.5):v.stage==='release'?1:0;
-  korr(ctx,g,art,v,{x:v.foot.x,y:v.foot.y,width:112,mirror:true,lean:-.17*peer});
+  if(v.escape)korrWalk(ctx,g,art,v,112);
+  else if(!v.gone)korr(ctx,g,art,v,{x:v.foot.x,y:v.foot.y,width:112,mirror:true,lean:-.17*peer});
   ctx.restore();
   wheel(ctx,g,art,w);
   for(const r of g.ramps)ramp(ctx,art,r);
@@ -585,6 +593,7 @@ function floorMurder(ctx,g,art){
   slab(ctx,art,0,118,g.width,26);
   const sh=ctx.createLinearGradient(0,144,0,166);sh.addColorStop(0,'#0007');sh.addColorStop(1,'#0000');ctx.fillStyle=sh;ctx.fillRect(0,144,g.width,22);
   holeFx(ctx,g,g.holes[0],144,19,7);
+  murderSlot(ctx,g);
 }
 // Korr's recessed dais (scenery only, no collider): a sunken stone disc in the plinth's banded stone, lit from the top-left,
 // its far inner wall in shadow and a warm under-glow. Drawn as filled shapes; the bell vents at its ends stay soft shadows.
@@ -614,6 +623,7 @@ function floorDuel(ctx,g,art){
   for(const h of g.holes)holeFx(ctx,g,h);
   for(const r of g.ramps)ramp(ctx,art,r);
   dais(ctx,g,art,g.dais||{x:v.foot.x-60,y:v.foot.y,w:120,h:16});
+  daisPayoffs(ctx,g,art);
   korr(ctx,g,art,v,{x:v.foot.x,y:v.foot.y,width:170.6667});
   if(v.stage==='stagger')dazed(ctx,g,v.foot.x,v.foot.y-124,1);
   else if(v.defeat&&v.defeat.age>.2&&v.defeat.age<1.6)dazed(ctx,g,v.foot.x,v.foot.y-92,Math.min(1,(1.6-v.defeat.age)*2));
@@ -626,11 +636,12 @@ function floorDuel(ctx,g,art){
 }
 // Brick break stays quiet (three crumbs). Structural crashes throw rendered stone chips, gold spark streaks, plate fragments and soft dust;
 // small impacts are a brief warm bloom plus a few streaks. Nothing here is a stroked ring.
-function gEffects(ctx,g,art){for(const e of g.effects)gEffect(ctx,art,e);}
+function gEffects(ctx,g,art){for(const e of g.effects)gEffect(ctx,art,e,g);}
 // Bellforge shares the Gatehouse's rendered bell, Korr and ratchet hits (it used to fall through to four bare sparks).
 const SHARED_FX=new Set(['bell-hit','bell-break','bell-shoulder','bell-release','korr-hit','ratchet']);
-function gEffect(ctx,art,e){
+function gEffect(ctx,art,e,g){
   const T=art.manifest.tidewheel,B=art.manifest.bellforge;
+  if(g){ctx.save();const done=siegeEffect(ctx,g,art,e);ctx.restore();if(done)return;}
   {
     const q=e.age/e.life,a=1-q;ctx.save();ctx.globalAlpha=a;
     switch(e.kind){
@@ -766,8 +777,9 @@ function gShake(g){
   return a?{x:Math.sin(g.time*95)*a,y:Math.cos(g.time*83)*a}:{x:0,y:0};
 }
 function renderGatehouse(ctx,g,art){
-  const climb=g.phase==='climb',arrive=g.floor>0&&!climb&&g.phase!=='crash'&&g.floorTime<.7;
-  const pan=climb?smooth(1-g.transition/1.2)*CLIMB:arrive?-(1-smooth(g.floorTime/.7))*CLIMB:0,alpha=climb||arrive?1-.85*Math.abs(pan)/CLIMB:1;
+  // Stage changes: the camera climbs over the clear, then settles in under the stage card.
+  const climb=g.phase==='climb',arrive=g.floor>0&&g.phase==='card'&&g.card&&g.card.t<.7;
+  const pan=climb?smooth(1-g.transition/1.2)*CLIMB:arrive?-(1-smooth(g.card.t/.7))*CLIMB:0,alpha=climb||arrive?1-.85*Math.abs(pan)/CLIMB:1;
   // Backdrop: the keep plate under a night shade, scrolling at half speed (mirrored copies keep the seam out of sight) while the camera climbs.
   const bg=art.images['gatehouse/background'],by=pan*.45,H=g.height;
   ctx.drawImage(bg,0,by,g.width,H);
@@ -777,26 +789,22 @@ function renderGatehouse(ctx,g,art){
   const vg=ctx.createRadialGradient(g.width/2,H*.45,H*.3,g.width/2,H*.45,H*.8);vg.addColorStop(0,'#0000');vg.addColorStop(1,'#02040a99');ctx.fillStyle=vg;ctx.fillRect(0,0,g.width,H);
   const sh=gShake(g);ctx.save();ctx.translate(sh.x,sh.y);
   ctx.save();ctx.translate(0,pan);ctx.globalAlpha=alpha;
-  if(g.floor===0){farArcade(ctx,g,art,200,Math.min(...g.bricks.map(b=>b.y))-6);floorDrawbridge(ctx,g,art);}else if(g.floor===1)floorMurder(ctx,g,art);else floorDuel(ctx,g,art);
-  for(const b of g.bricks)if(b.hp>0)gbrick(ctx,art,b);
+  // Stages: 1 the hoist, 2 the drawbridge, 3 the murder holes, 4 the inner gate.
+  const live=g.bricks.filter(b=>b.hp>0);
+  if(g.floor===0)stageHoist(ctx,g,art);
+  else if(g.floor===1){if(live.length)farArcade(ctx,g,art,200,Math.min(...live.map(b=>b.y))-6);floorDrawbridge(ctx,g,art);}
+  else if(g.floor===2)floorMurder(ctx,g,art);else floorDuel(ctx,g,art);
+  for(const b of live)if(!siegeBrick(ctx,g,b))gbrick(ctx,art,b);
+  drawIron(ctx,g);
   for(const b of g.bells)ghBell(ctx,g,art,b);
   gEffects(ctx,g,art);ctx.restore();
   gWard(ctx,g,art);gPaddle(ctx,g,art,skinFor(art,'kit'));
   for(const b of g.balls)if(!b.dead)gBall(ctx,g,art,b);
+  siegeProjectiles(ctx,g);
   ctx.restore();
-  // Floor chip, plus the floor banner over the climb and the first moments of each floor.
-  const n=g.floor+1+(climb?1:0);ctx.save();ctx.globalAlpha=.85;ctx.fillStyle='#0b111bcc';ctx.beginPath();ctx.roundRect(g.width/2-40,6,80,17,8.5);ctx.fill();ctx.strokeStyle='#d6a35f88';ctx.lineWidth=.8;ctx.stroke();ctx.restore();
-  text(ctx,`FLOOR ${n} / 3`,g.width/2,15,10.5,'#f3dca8','center');
-  // Sub-chip: floor 1 counts down the par that smashes Korr's bell rack; floor 2 shows the payoff while it lasts.
-  const par=g.parLeft,sub=g.floor===0&&!climb&&g.phase!=='crash'&&par>0?`PAR 0:${String(Math.ceil(par)).padStart(2,'0')}`:g.floor===1&&!climb&&g.rackSmashed?'RACK SMASHED · SLOW BELLS':'';
-  if(sub){const urgent=g.floor===0&&par<6,w=g.floor===0?62:150,beat=urgent?.5+.5*Math.sin(g.time*10):0;
-    ctx.save();ctx.globalAlpha=.88;ctx.fillStyle=urgent?'#3a1208dd':'#0b111bcc';ctx.beginPath();ctx.roundRect(g.width/2-w/2,26,w,15,7.5);ctx.fill();ctx.strokeStyle=urgent?`rgba(255,138,90,${.5+.5*beat})`:'#d6a35f66';ctx.lineWidth=.8;ctx.stroke();ctx.restore();
-    if(g.floor===0)fxPart(ctx,'pip_gold',g.width/2-w/2+8,33.5,.55);
-    text(ctx,sub,g.width/2+(g.floor===0?5:0),33.5,9,urgent?'#ffb08a':g.floor===1?'#ffd2a0':'#f3dca8','center');}
-  if(g.phase==='crash'){const label=g.rackSmashed?'BELL RACK SMASHED!':g.gems?`+${g.gems} GEMS BANKED`:'';if(label)gBanner(ctx,g,label,Math.min(1,(g.drawbridge.down-.35)*5));}
-  if(climb)gBanner(ctx,g,`FLOOR ${n} / 3 · ${GATEHOUSE_FLOORS[Math.min(2,n-1)].toUpperCase()}`,Math.min(1,(1-g.transition/1.2)*4));
-  else if(g.floorTime<1.6&&g.phase!=='crash'&&g.phase!=='defeat'&&g.state==='play')gBanner(ctx,g,`FLOOR ${n} / 3 · ${GATEHOUSE_FLOORS[g.floor].toUpperCase()}`,g.floor?Math.min(1,(1.6-g.floorTime)*1.6):1);
-  else if(g.floor===1&&g.rackSmashed&&g.floorTime<3.6&&g.state==='play')gBanner(ctx,g,'RACK SMASHED: SLOW BELLS',Math.min(1,(g.floorTime-1.6)*4,(3.6-g.floorTime)*3));
+  if(g.phase==='crash'){const label=g.rackSmashed?'BELL RACK SMASHED!':g.stageGems?`+${g.stageGems} GEMS BANKED`:'';if(label)gBanner(ctx,g,label,Math.min(1,(g.drawbridge.down-.35)*5));}
+  // HUD: the pip track ending in Korr's crest, the stage clock, banners, tips, power timers and the stage card.
+  siegeOverlay(ctx,g,art);
 }
 export function drawEncounter(ctx,g,art,level){
   ctx.clearRect(0,0,g.width,g.height);
@@ -884,4 +892,4 @@ export function drawEncounter(ctx,g,art,level){
 // Paddle skin by hero: ['xSkinL','xSkinM','xSkinR'] when that skin has decoded, else the chrome paddle.
 export function skinFor(art,id){const k=[id+'SkinL',id+'SkinM',id+'SkinR'];return k.every(n=>art.images[n]?.naturalWidth)?k:undefined;}
 // Shared with the Lumi renderer (lumi-render.js).
-export {glow,sparks,chips,pips,fxPart,dust,rnd,clamp01,smooth,gBanner,gPaddle,gBall,gWard,hoistChain,sprite,slab,CLIMB};
+export {glow,sparks,chips,pips,fxPart,dust,rnd,clamp01,smooth,gBanner,gPaddle,gBall,gWard,hoistChain,sprite,slab,CLIMB,korr,rackWreck,pool,princessAt};

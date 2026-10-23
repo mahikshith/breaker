@@ -55,7 +55,7 @@ test('all eleven chapters (main.js slot list) have a near-miss line', () => {
     assert.ok(n.line.length > 6 && n.line === n.line.toUpperCase(), `${name}: ${n.line}`);
     assert.doesNotMatch(n.line, /(^|\D)0 |NaN|undefined|Infinity/, `${name}: ${n.line}`);
     assert.ok(n.progress >= 0 && n.progress < 1, `${name}: progress ${n.progress}`);
-    assert.match(n.detail, /^((FLOOR|WAVE) \d \/ \d · )?\d{1,2}% CLEARED$/, `${name}: ${n.detail}`);
+    assert.match(n.detail, /^((FLOOR|WAVE|STAGE) \d \/ \d · )?\d{1,2}% CLEARED$/, `${name}: ${n.detail}`);
   }
 });
 
@@ -71,13 +71,15 @@ test('villain chapters name the villain and its HP; objective chapters say what 
   const moon = vault(Mooncoil); moon.cageHP = 3; assert.equal(line(moon), 'THE MOONSTONE HAS 3 HP LEFT');
   const carrier = new Carrier(360, H, S, 'medium'), pods = carrier.crew.length; carrier.crew[0].releasedAt = 0;
   assert.equal(line(carrier), `${plural(pods - 1, 'CREW POD')} LEFT`); assert.match(soClose(carrier).detail, /^WAVE 1 \/ \d/);
-  // Gatehouse: drawbridge housings, the winch, then Korr
-  const gate = new Gatehouse({ difficulty: 'medium' }); gate.housings[0].hp = 0; gate.housings[1].hp = 2;
+  // Gatehouse Siege: the hoist arch, the drawbridge housings, the winch, then Korr
+  const gate = new Gatehouse({ difficulty: 'medium' }); assert.match(gate.nearMiss().line, /^\d+ BRICKS TO JAM KORR’S HOIST$/);
+  gate.hoist.lost = true; assert.match(gate.nearMiss().line, /^\d+ BRICKS TO CLEAR THE ARCH$/);
+  gate.buildFloor(1); gate.housings[0].hp = 0; gate.housings[1].hp = 2;
   assert.equal(gate.nearMiss().line, '2 HITS TO CRUSH KORR’S BELL RACK');   // inside par the drop smashes Korr's bell rack
   gate.floorTime = gate.rules.par; gate.rack.state = 'gone'; assert.equal(gate.nearMiss().line, '2 HITS TO DROP THE DRAWBRIDGE');
-  gate.buildFloor(1); gate.wheel.notches = gate.gate.need - 1; assert.equal(gate.nearMiss().line, '1 WINCH HIT TO RAISE THE GATE');
-  gate.buildFloor(2); gate.villain.hp = 3; assert.equal(gate.nearMiss().line, hpLeft('KORR', 3));
-  assert.deepEqual(gate.nearMiss().stage, ['FLOOR', 3, 3]); assert.ok(gate.nearMiss().progress > 2 / 3);
+  gate.buildFloor(2); gate.wheel.notches = gate.gate.need - 1; assert.equal(gate.nearMiss().line, '1 WINCH HIT TO RAISE THE GATE');
+  gate.buildFloor(3); gate.pool.hp = 3; assert.equal(gate.nearMiss().line, hpLeft('KORR', 3));
+  assert.deepEqual(gate.nearMiss().stage, ['STAGE', 4, 4]); assert.ok(gate.nearMiss().progress > 3 / 4);
   // Lumi: hatch bars, then the roof bell
   const lumi = new LumiTower({ difficulty: 'medium' }); for (const b of lumi.bricks) if (b.type === 'bar') b.hp = 0; lumi.bricks.find(b => b.type === 'bar').hp = 1;
   assert.equal(lumi.nearMiss().line, 'LUMI IS 1 HIT FROM FLOOR 2');

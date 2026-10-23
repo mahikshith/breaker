@@ -53,30 +53,41 @@ test('a lost run offers repeatable shared continues', () => {
   }
 });
 
-test('Gatehouse Siege: Ward maps to the model, floors/stuns feed stars and results, every phase draws', () => {
+test('Gatehouse Siege: Ward maps to the model, stage flags feed stars and results, every stage and phase draws', () => {
   const l = new FantasyChapter('gatehouse', 360, 814, 1, 'easy');
   assert.equal(l.name, 'Gatehouse Siege'); assert.deepEqual(l.powerChoices.map(p => p.id), ['shield']);
   l.m.charge = 100; assert(l.activateKitPower()); assert(l.chooseSpacePower('shield')); assert(l.m.ward); assert.equal(l.m.charge, 0);
   assert.equal(new FantasyChapter('bellforge', 360, 814, 1, 'easy').kind('shield'), 'echo');
   const m = l.m; l.draw(ctx());
-  for (const floor of [0, 1, 2]) {
-    m.buildFloor(floor); m.lives = 9; m.launch(); m.paddle.armed = true; m.paddle.streak = 3; m.charge = 100;
+  // The stage card draws, and a tap skips it.
+  const c = new FantasyChapter('gatehouse', 360, 814, 1, 'easy'); assert.equal(c.m.phase, 'card'); c.update(1 / 120); c.draw(ctx()); c.pointerDown(180); assert.equal(c.m.phase, 'serve'); c.pointerUp();
+  assert.equal(m.phase, 'serve', 'tapping the Kit orb dismissed the card too');
+  for (const floor of [0, 1, 2, 3]) {
+    m.buildFloor(floor); l.draw(ctx()); m.skipCard(); m.lives = 9; m.launch(); m.paddle.armed = true; m.paddle.streak = 3; m.charge = 100;
     for (let i = 0; i < 240; i++) { l.update(1 / 120); if (i % 40 === 0) l.draw(ctx()); }
-    m.paddle.stun = .5; m.releaseBell(false); m.balls[0].ram = 1; m.balls[0].r = 13.2; l.draw(ctx());
+    m.paddle.stun = .5; m.releaseBell(false); m.balls[0].ram = 1; m.balls[0].r = 13.2;
+    for (const kind of ['wide', 'fire', 'laser', 'shield']) m.applyPower(kind); m.dropPower(180, 300, 'split'); l.draw(ctx());
   }
-  m.buildFloor(0); m.hitHousing(m.housings[0], 9); m.hitHousing(m.housings[1], 9);
-  for (let i = 0; i < 400; i++) { l.update(1 / 120); if (i % 20 === 0) l.draw(ctx()); }   // crash, climb banner, arrival on floor 2
-  assert.equal(m.floor, 1);
-  m.turnWheel(99, 1); for (let i = 0; i < 200; i++) { l.update(1 / 120); if (i % 20 === 0) l.draw(ctx()); }
-  assert.equal(m.floor, 2); m.hitVillain(999, false); for (let i = 0; i < 400; i++) { l.update(1 / 120); if (i % 25 === 0) l.draw(ctx()); }
+  // The hoist: clear the arch before the top and Lumi jams it.
+  m.buildFloor(0); m.skipCard(); m.launch(); for (let i = 0; i < 600; i++) { l.update(1 / 120); if (i % 40 === 0) l.draw(ctx()); }
+  for (const b of m.bricks) while (b.hp > 0) m.hitBrick(b, null);
+  for (let i = 0; i < 400 && m.floor === 0; i++) { l.update(1 / 120); if (i % 20 === 0) l.draw(ctx()); }
+  assert.equal(m.floor, 1); assert(m.hairpin); assert(m.winch.pinned);
+  m.hitHousing(m.housings[0], 9); m.hitHousing(m.housings[1], 9);
+  for (let i = 0; i < 400; i++) { l.update(1 / 120); if (i % 20 === 0) l.draw(ctx()); }   // crash, knock-down, climb banner, card
+  assert.equal(m.floor, 2); assert.equal(m.knockdowns, 1);
+  m.skipCard(); m.launch(); m.hurtKorr(99, false); for (let i = 0; i < 120; i++) { l.update(1 / 120); if (i % 20 === 0) l.draw(ctx()); }   // Korr flees the gallery
+  assert.equal(m.knockdowns, 2);
+  m.turnWheel(99, 1); for (let i = 0; i < 400; i++) { l.update(1 / 120); if (i % 20 === 0) l.draw(ctx()); }
+  assert.equal(m.floor, 3); assert(m.enraged); assert(m.ventJammed); m.hitVillain(999, false); for (let i = 0; i < 400; i++) { l.update(1 / 120); if (i % 25 === 0) l.draw(ctx()); }
   assert.equal(l.state, 'won'); l.draw(ctx());
-  l.stuns = 0; m.lives = 3; assert.equal(l.result().stars, 3); l.stuns = 2; assert.equal(l.result().stars, 2); m.lives = 1; assert.equal(l.result().stars, 1);
-  assert.deepEqual(l.result().lines.map(x => x[0]), ['Score', 'Floors', 'Balls left']); assert.equal(l.result().lines[1][1], '3 / 3');
+  assert.equal(l.result().stars, 3); m.knockdowns = 1; assert.equal(l.result().stars, 2); m.hairpin = false; assert.equal(l.result().stars, 1);
+  assert.deepEqual(l.result().lines.map(x => x[0]), ['Score', 'Stages', 'Knock-downs', 'Balls left']); assert.equal(l.result().lines[1][1], '4 / 4');
 });
 
 test('Gatehouse Siege counts paddle stuns from bells and reports the lost-run reason', () => {
   const l = new FantasyChapter('gatehouse', 360, 814, 1, 'easy'), m = l.m;
-  m.buildFloor(1); m.launch(); m.nextWarning = Infinity; const p = m.paddle, bell = m.releaseBell(false); Object.assign(bell, { x: p.x, y: p.y - 40, px: p.x, py: p.y - 40, vy: 120 });
+  m.buildFloor(2); m.skipCard(); m.launch(); m.nextWarning = Infinity; const p = m.paddle, bell = m.releaseBell(false); Object.assign(bell, { x: p.x, y: p.y - 40, px: p.x, py: p.y - 40, vy: 120 });
   m.balls[0].caught = true; for (let i = 0; i < 90; i++) l.update(1 / 120);
   assert.equal(l.stuns, 1); assert.equal(l.paddle.stun > 0 || m.paddle.stun >= 0, true); assert(l.danger >= 0 && l.danger <= 1);
   m.lose('No balls remaining'); assert.equal(l.reason, 'No balls remaining'); assert.equal(l.result().stars, 0);

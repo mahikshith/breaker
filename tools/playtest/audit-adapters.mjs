@@ -221,16 +221,21 @@ function tidewheel() {
   };
 }
 
-function gatehouse() {
-  let C, rampPose;
+// Gatehouse Siege (src/fantasy/gatehouse.js): one adapter per stage start, so every stage board gets the full matrix even
+// though a 240 s run seldom plays all four. 'gatehouse' starts at The Hoist and plays on through the stages;
+// 'gatehouse-s2'..'-s4' start at the Drawbridge, the Murder holes and the Inner gate. Baseline: capsules are never
+// collected, the stage card is tapped away.
+function gatehouse(stage = 0) {
+  let C, rampPose, reach;
   return {
-    name: 'gatehouse', kind: 'fantasy',
-    async init() { const m = await import(new URL('fantasy/gatehouse.js', SRC)); C = m.Gatehouse; rampPose = (await import(new URL('fantasy/bellforge.js', SRC))).rampPose; },
+    name: stage ? `gatehouse-s${stage + 1}` : 'gatehouse', kind: 'fantasy',
+    async init() { const m = await import(new URL('fantasy/gatehouse.js', SRC)); C = m.Gatehouse; rampPose = (await import(new URL('fantasy/bellforge.js', SRC))).rampPose; reach = (await import(new URL('fantasy/reach.js', SRC))).chamberReach; },
     make(phone, difficulty) {
-      const m = new C({ ...fantasyWorld(phone), difficulty });
+      const m = new C({ ...fantasyWorld(phone), difficulty, floor: stage });
       return {
-        level: m, dt: 1 / 120, nominal: 345,
-        step() { m.update(this.dt); },
+        level: m, dt: 1 / 120,
+        get nominal() { return m.ballSpeed; },   // each stage sets its own ball speed
+        step() { if (m.phase === 'card') m.skipCard(); m.capsules.length = 0; m.update(this.dt); },
         timeFactor() { return 1; },
         get state() { return m.state; }, get lives() { return m.lives; }, get time() { return m.time; },
         balls() { return m.balls; },
@@ -241,16 +246,22 @@ function gatehouse() {
         serve(angle) { m.launch(-Math.PI / 2 + angle); },
         control(x) { if (x !== null) m.setTarget(x); },
         continue() { m.continued = false; m.continue(); },
-        progress() { return m.score + m.floor * 1000 + m.villain.hp + (m.wheel?.notches || 0) + [...m.bricks, ...m.housings, ...m.bells].reduce((n, b) => n + Math.max(0, b.hp), 0); },
+        progress() { return m.score + m.floor * 1000 + m.pool.hp + (m.wheel?.notches || 0) + m.bars.filter(b => b.broken).length + [...m.bricks, ...m.housings, ...m.bells].reduce((n, b) => n + Math.max(0, b.hp), 0); },
         snapshot() {
           const shapes = [];
-          // only ordinary bricks yield to a ram ball; armour, housings, gate, wheel and Korr stay solid
-          for (const t of m.targets()) if (!(t.item?.hp <= 0)) shapes.push(...shapesOf(t, t.kind === 'brick' && t.item.type === 'brick').map(e => ({ ...e, pierceable: false })));
+          // only ordinary bricks (and cracked iron) yield to a ram ball; armour, chests, steel, housings, gate, wheel and Korr stay solid
+          for (const t of m.targets()) if (!(t.item?.hp <= 0) && !t.item?.broken) shapes.push(...shapesOf(t, t.kind === 'brick' && t.item.type === 'brick' || t.kind === 'steel' && !!t.item.cracked).map(e => ({ ...e, pierceable: false })));
           for (const r of m.ramps) { const q = rampPose(r); shapes.push({ id: r.id, pierceable: false, s: { type: 'capsule', a: q.a, b: q.b, r: r.thickness / 2 } }); }
           for (const b of m.bells) if (!b.dead) shapes.push({ id: `bell-${b.id}`, pierceable: false, s: { type: 'circle', x: b.x, y: b.y, r: b.r } });
           return { shapes };
         },
       };
+    },
+    // Board fairness (src/fantasy/reach.js): every steel chamber of this stage, judged on this phone.
+    async layouts(phone, difficulty) {
+      const v = new C({ ...fantasyWorld(phone), difficulty, floor: stage }).reachView();
+      return v.chambers.map(c => { const r = reach({ field: v.field, bars: v.bars, chamber: c, from: v.from });
+        return { chamber: c.id, lift: 0, reachable: r.reachable, span: r.span, gap: c.gap, pass: r.reachable && r.span >= 6 && c.gap >= 26.4 }; });
     },
   };
 }
@@ -364,7 +375,7 @@ export const ADAPTERS = [
   arena('mooncoil', 'mooncoil.js', 'Mooncoil', { shapes: serpent }),
   bellforge(),
   tidewheel(),
-  gatehouse(),
+  gatehouse(0), gatehouse(1), gatehouse(2), gatehouse(3),
   lumitower(),
   rivals(),
   hoard(),

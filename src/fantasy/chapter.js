@@ -3,7 +3,7 @@
 import { Arena } from '../arena.js';
 import { Bellforge } from './bellforge.js';
 import { Tidewheel } from './tidewheel.js';
-import { Gatehouse, GATEHOUSE_FLOORS } from './gatehouse.js';
+import { Gatehouse } from './gatehouse.js';
 import { LumiTower } from './lumitower.js';
 import { SerpentRivals, RIVALS_KINDS } from './rivals.js';
 import { DragonsHoard, HOARD_KINDS } from './hoard.js';
@@ -21,9 +21,10 @@ const CHAPTERS = {
     preview: { x: 6, y: 68, w: 348, h: 74 }, stars: a => 1 + (a.lives >= 2) + (a.m.lumi.steps <= 2) },
   tidewheel: { Model: Tidewheel, powers: [{ id: 'anchor', label: 'ANCHOR', color: '#a9e7dd' }, { id: 'arrows', label: 'ARROWS', color: '#e3c6d1' }, { id: 'titan', label: 'STARFIRE', color: '#d3afe9' }],
     preview: { x: 20, y: 128, w: 320, h: 68 }, stars: a => 1 + (a.lives >= 2) + (a.floodMin >= a.m.water.limit + (a.m.water.initial - a.m.water.limit) / 2) },
-  // Stars: clear it, finish with 2+ balls, and take at most one paddle stun (a bell that lands on the paddle).
-  gatehouse: { Model: Gatehouse, name: 'Gatehouse Siege', kinds: { shield: 'ward' }, powers: [{ id: 'shield', label: 'WARD', color: '#a9cbf0' }],
-    preview: { x: 14, y: 88, w: 332, h: 68 }, stars: a => 1 + (a.lives >= 2) + (a.stuns <= 1) },
+  // Gatehouse Siege: four stages building to Korr (gatehouse.js). Stars: take the gate, jam Lumi's hoist on stage 1, and
+  // knock Korr down on both stages 2 and 3.
+  gatehouse: { Model: Gatehouse, name: 'Gatehouse Siege', stages: 4, kinds: { shield: 'ward' }, powers: [{ id: 'shield', label: 'WARD', color: '#a9cbf0' }],
+    preview: { x: 14, y: 88, w: 332, h: 68 }, stars: a => { const f = a.m.starFlags(); return 1 + f.hoist + f.knockdown; } },
   // Lumi holds the paddle: her face fills Kit's orb and her songs map 1:1 to the model. Stars: clear it, keep 2+ balls, never get bitten.
   lumitower: { Model: LumiTower, name: 'Lumi Breaks Out', hero: 'Lumi', face: 'lumi', menuTitle: 'LUMI’S SONGS', kinds: { lullaby: 'lullaby', starlight: 'starlight', songshield: 'songshield' },
     powers: [{ id: 'lullaby', label: 'LULLABY', color: '#b9a8ef' }, { id: 'starlight', label: 'STARLIGHT', color: '#f4d98c' }, { id: 'songshield', label: 'SONG SHIELD', color: '#f0a7c4' }],
@@ -61,7 +62,7 @@ export class FantasyChapter {
   get phase() { return this.m.phase; }
   get lives() { return this.m.lives; }
   get score() { return this.m.score; }
-  get danger() { const m = this.m; if (this.key === 'hoard') return m.ember.stage === 'windup' ? .8 : m.floor === 2 ? Math.max(0, Math.min(.9, 1 - (m.dangerY - m.fieldBottom()) / 140)) : m.wake / 100 * .7; if (this.key === 'lumitower' || this.key === 'rivals') return m.lunges.some(l => l.stage !== 'peek' && l.stage !== 'retreat') ? .8 : 0; if (this.key === 'gatehouse') return m.bells.length || m.villain.stage === 'windup' || m.winch?.stage === 'crank' ? .75 : m.floor / 3 * .6; return this.key === 'bellforge' ? m.lumi.steps / m.rules.mistakes : 1 - (m.water.y - m.water.limit) / (m.water.initial - m.water.limit); }
+  get danger() { const m = this.m; if (this.key === 'hoard') return m.ember.stage === 'windup' ? .8 : m.floor === 2 ? Math.max(0, Math.min(.9, 1 - (m.dangerY - m.fieldBottom()) / 140)) : m.wake / 100 * .7; if (this.key === 'lumitower' || this.key === 'rivals') return m.lunges.some(l => l.stage !== 'peek' && l.stage !== 'retreat') ? .8 : 0; if (this.key === 'gatehouse') return m.bells.length || m.villain.stage === 'windup' || m.winch?.stage === 'crank' ? .75 : m.hoist && m.hoist.level >= 4 && !m.hoist.jammed && !m.hoist.lost ? .7 : m.floor / (m.stageCount - 1) * .6; return this.key === 'bellforge' ? m.lumi.steps / m.rules.mistakes : 1 - (m.water.y - m.water.limit) / (m.water.initial - m.water.limit); }
   get reason() { const m = this.m; return OWN_REASON.has(this.key) ? m.reason : m.loss === 'flood' ? 'The basin reached the refuge.' : 'The last ball slipped away.'; }
   // The menu card shows the Twin Seal with three ward plates and its first cracks.
   skipIntro() { if (this.key === 'hoard') this.m.wake = 64; if (this.key === 'rivals') { this.m.buildFloor(2); this.m.floorTime = 5; this.m.seal.ward = 3; this.m.seal.hp = Math.round(this.m.seal.maxHP * .7); } }
@@ -77,7 +78,8 @@ export class FantasyChapter {
     if (on(B.flee)) return this.m.run(), true;
     return this.m.phase === 'greed';   // the card is modal: other taps do nothing
   }
-  pointerDown(x, y) { const m = this.m; if (this.hoardTap(x, y)) return; Object.assign(this.ptr, { down: true, x }); this.anchor = this.toModel(x); this.padAnchor = m.paddle.targetX; }
+  // A tap on a stage card skips it; its release serves as usual.
+  pointerDown(x, y) { const m = this.m; if (this.hoardTap(x, y)) return; m.skipCard?.(); Object.assign(this.ptr, { down: true, x }); this.anchor = this.toModel(x); this.padAnchor = m.paddle.targetX; }
   pointerMove(x) {
     if (!this.ptr.down) return;
     const m = this.m, lo = m.paddle.w / 2 + 12, hi = m.width - lo;
@@ -103,6 +105,7 @@ export class FantasyChapter {
   kitAnchor() { return { x: 38 / this.kitUIScale, y: this.H - 30 / this.kitUIScale, r: 26 / this.kitUIScale }; }
   activateKitPower() {
     if (this.state !== 'play' || this.powerMenuOpen) return false;
+    this.m.skipCard?.();   // tapping the orb also dismisses a stage card
     if (this.m.charge < 100) {
       this.hint = { text: `Break bricks to charge ${this.c.hero || 'Kit'}`, until: this.t + 2.2 };
       return false;
@@ -158,7 +161,7 @@ export class FantasyChapter {
         else if (!['window-peek', 'lullaby', 'starlight', 'songshield', 'seal-feed', 'lure-dim', 'volley', 'arrow-hit', 'ward-deploy'].includes(e.kind) && m.time - this.hitSoundAt > .06) { sfx.hit(); this.hitSoundAt = m.time; }
         continue;
       }
-      if (['bell-release', 'ratchet', 'surge', 'bell-warning', 'housing-break', 'drawbridge-crash', 'gate-open', 'ram-launch', 'winch-tell', 'crank-jam', 'rack-smash', 'loot-shower'].includes(e.kind)) sfx.beat();
+      if (['bell-release', 'ratchet', 'surge', 'chain-snap', 'knockdown', 'valve-shut', 'bar-break', 'nerra-slam', 'tide-surge', 'bell-warning', 'housing-break', 'drawbridge-crash', 'gate-open', 'ram-launch', 'winch-tell', 'crank-jam', 'rack-smash', 'loot-shower', 'hoist-crank', 'hoist-top', 'hoist-jam', 'vent-jam', 'chest-open', 'bar-crack', 'korr-roar', 'power'].includes(e.kind)) sfx.beat();
       else if (m.time - this.hitSoundAt > .06) { sfx.hit(); this.hitSoundAt = m.time; }
     }
     if (was === 'play' && m.state !== 'play') { m.state === 'won' ? sfx.win() : sfx.lose(); this.kitShockUntil = this.t + 1.1; }
@@ -166,7 +169,7 @@ export class FantasyChapter {
     const mood = kitExpression(this);
     if (mood !== this.kitMood) { this.kitMood = mood; this.kitAt = this.kitTime; }
     const p = m.paddle;
-    this.coach.update(dt, { blocked: m.state !== 'play' || !!m.backHold || m.phase === 'intro' || m.phase === 'greed' || m.phase === 'escape' || this.powerMenuOpen,   // the Hoard's greed card is modal
+    this.coach.update(dt, { blocked: m.state !== 'play' || !!m.backHold || m.phase === 'intro' || m.phase === 'card' || m.phase === 'hook' || m.phase === 'clear' || m.phase === 'greed' || m.phase === 'escape' || this.powerMenuOpen,   // the Hoard's greed card is modal
       serveWaiting: m.phase === 'serve' && m.balls.some(b => b.caught && !b.dead), streak: p.streak || 0, armed: !!p.armed });
     ramTeach(p, this.coach.ramPulse);
   }
@@ -179,7 +182,7 @@ export class FantasyChapter {
   result() {
     const m = this.m, won = m.state === 'won';
     return { stars: won ? this.c.stars(this) : 0,
-      lines: this.key === 'hoard' ? [['Score', Math.round(m.score).toLocaleString()], ['Loot banked', won ? `${m.banked}${m.mult > 1 ? ` (×${m.mult})` : ''}` : `${m.loot}`], ['Ember woke', m.wakes]] : this.key === 'rivals' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Clashes', m.clashes]] : this.key === 'lumitower' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Bites', m.bites]] : this.key === 'gatehouse' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Balls left', m.lives]] : [['Score', Math.round(m.score).toLocaleString()], this.key === 'bellforge' ? ['Lift drops', `${m.lumi.steps} / ${m.rules.mistakes}`] : ['Flood margin', `${Math.max(0, Math.round((this.floodMin - m.water.limit) / (m.water.initial - m.water.limit) * 100))}%`], ['Balls left', m.lives]] };
+      lines: this.key === 'hoard' ? [['Score', Math.round(m.score).toLocaleString()], ['Loot banked', won ? `${m.banked}${m.mult > 1 ? ` (×${m.mult})` : ''}` : `${m.loot}`], ['Ember woke', m.wakes]] : this.key === 'rivals' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Clashes', m.clashes]] : this.key === 'lumitower' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Bites', m.bites]] : this.key === 'gatehouse' ? [['Score', Math.round(m.score).toLocaleString()], ['Stages', `${won ? m.stageCount : m.stagesCleared} / ${m.stageCount}`], ['Knock-downs', m.knockdowns], ['Balls left', m.lives]] : [['Score', Math.round(m.score).toLocaleString()], this.key === 'bellforge' ? ['Lift drops', `${m.lumi.steps} / ${m.rules.mistakes}`] : ['Flood margin', `${Math.max(0, Math.round((this.floodMin - m.water.limit) / (m.water.initial - m.water.limit) * 100))}%`], ['Balls left', m.lives]] };
   }
   // ---------- drawing ----------
   background() {
