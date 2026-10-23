@@ -39,7 +39,8 @@ export function hoardButtons(g) {
 // The M365 cave plate (option A, rock pillars and the dais at the top): drawn 360 wide from the playfield top, so the dais
 // and terraces sit behind Ember. A taller phone extends the plate's own dark floor colour downward instead of stretching
 // it, and a night shade keeps it well below the bricks. Until the plate decodes, a calm gradient of the same colours.
-function cave(W, H) {
+export const caveReady = () => ready(HS.cave);
+export function cave(W, H) {
   const P = HS.cave, ok = ready(P);
   return cached(`hoard-cave-${W}-${H}-${ok ? 1 : 0}`, W, H, c => {
     const floor = P?.floor || '#040510', ph = ok ? P.uh * W / P.uw : 0;
@@ -50,9 +51,13 @@ function cave(W, H) {
       const fe = c.createLinearGradient(0, ph - 40, 0, ph); fe.addColorStop(0, floor + '00'); fe.addColorStop(1, floor); c.fillStyle = fe; c.fillRect(0, ph - 40, W, 40);
       c.fillStyle = floor; c.fillRect(0, ph, W, Math.max(0, H - ph));
     }
-    c.globalAlpha = .28; c.fillStyle = '#04030a'; c.fillRect(0, 0, W, H); c.globalAlpha = 1;
-    const top = c.createLinearGradient(0, 0, 0, 36); top.addColorStop(0, '#0b0a16'); top.addColorStop(1, '#0b0a1600'); c.fillStyle = top; c.fillRect(0, 0, W, 36);   // meets the HUD band without a seam
-    const vg = c.createRadialGradient(W / 2, H * .46, H * .25, W / 2, H * .46, H * .8); vg.addColorStop(0, '#0000'); vg.addColorStop(1, '#03020699'); c.fillStyle = vg; c.fillRect(0, 0, W, H);
+    c.globalAlpha = .18; c.fillStyle = '#04030a'; c.fillRect(0, 0, W, H); c.globalAlpha = 1;
+    const top = c.createLinearGradient(0, 0, 0, 36); top.addColorStop(0, '#0b0a1688'); top.addColorStop(1, '#0b0a1600'); c.fillStyle = top; c.fillRect(0, 0, W, 36);   // meets the HUD band without a seam
+    const vg = c.createRadialGradient(W / 2, H * .46, H * .25, W / 2, H * .46, H * .8); vg.addColorStop(0, '#0000'); vg.addColorStop(1, '#03020666'); c.fillStyle = vg; c.fillRect(0, 0, W, H);
+    // Ambient glow from the hoard: warm low in the cave, a cool lift on the near-black walls and the empty middle. Calm, no pulse.
+    c.globalCompositeOperation = 'lighter';
+    const warm = c.createRadialGradient(W / 2, H * .72, 0, W / 2, H * .72, H * .5); warm.addColorStop(0, 'rgba(120,76,40,.16)'); warm.addColorStop(1, 'rgba(120,76,40,0)'); c.fillStyle = warm; c.fillRect(0, 0, W, H);
+    c.fillStyle = 'rgba(34,40,64,.2)'; c.fillRect(0, 0, W, H); c.globalCompositeOperation = 'source-over';
   });
 }
 // The ledge Ember lies behind; on floor 3 the gate takes the middle-right span.
