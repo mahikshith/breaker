@@ -379,22 +379,24 @@ export class Frost extends Arena {
     });
   }
   // The rampart plate is registered to level y = 0 (walk 6..264 at y 214-238, ledge 266,202 64x14, alcove above it): never
-  // rescale it. Above it the night sky continues; below its frozen floor a mirrored band fades to the floor colour.
-  paintRampart(g, top, height) {
-    const img = RAMPART.img, [, , sw, sh] = RAMPART.screenRect, k = img.naturalWidth / sw;
-    g.fillStyle = '#0b111b'; g.fillRect(0, 0, this.W, height + Math.max(0, top));
-    if (top > 0) { const sky = g.createLinearGradient(0, 0, 0, top + 1); sky.addColorStop(0, '#070b14'); sky.addColorStop(1, '#0e1526'); g.fillStyle = sky; g.fillRect(0, 0, this.W, top + 1); }
-    g.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight, 0, top, sw, sh);
-    const end = top + sh;
-    if (end < height) {
-      const band = Math.min(height - end, 60);
-      g.save(); g.translate(0, end * 2); g.scale(1, -1); g.drawImage(img, 0, (sh - band) * k, img.naturalWidth, band * k, 0, end - band, sw, band); g.restore();
-      const fade = g.createLinearGradient(0, end, 0, end + band); fade.addColorStop(0, 'rgba(11,17,27,.35)'); fade.addColorStop(1, '#0b111b');
-      g.fillStyle = fade; g.fillRect(0, end, this.W, height - end);
-    }
+  // rescale it. Its own edge pixels extend it sideways and upward; below the walk the castle fades into calm night mist, so
+  // no pillar, floor or bar can pull the eye off the ball. [x0, x1, y0, y1] is the screen span to cover (more than 360 x height on odd ratios).
+  paintRampart(g, top, height, x0 = 0, x1 = this.W, y0 = Math.min(0, top), y1 = height) {
+    const img = RAMPART.img, [, , sw, sh] = RAMPART.screenRect, nw = img.naturalWidth, nh = img.naturalHeight, bot = Math.max(y1, top + 800);
+    g.fillStyle = '#0b111b'; g.fillRect(x0, y0, x1 - x0, bot - y0);
+    if (top > y0) g.drawImage(cached('frost-sky', 1, 1, c => c.drawImage(img, 0, 0, nw, 6, 0, 0, 1, 1)), 0, 0, 1, 1, x0, y0, x1 - x0, top - y0 + 1);   // the plate's own top colour, flat: no seam, no streaks
+    g.drawImage(img, 0, 0, nw, nh, 0, top, sw, sh);
+    if (x0 < 0) g.drawImage(img, 0, 0, 1, nh, x0, top, -x0 + 1, sh);
+    if (x1 > sw) g.drawImage(img, nw - 1, 0, 1, nh, sw - 1, top, x1 - sw + 1, sh);
+    const mist = g.createLinearGradient(0, top + 250, 0, top + 400);
+    mist.addColorStop(0, 'rgba(12,19,32,0)'); mist.addColorStop(.5, 'rgba(12,19,32,.82)'); mist.addColorStop(1, '#0c1320');
+    g.fillStyle = mist; g.fillRect(x0, top + 250, x1 - x0, 150);
+    const night = g.createLinearGradient(0, top + 400, 0, bot); night.addColorStop(0, '#0c1320'); night.addColorStop(1, '#09101a');
+    g.fillStyle = night; g.fillRect(x0, top + 399, x1 - x0, bot - top - 399);
   }
   drawFullBleedBackground(g, top, height) {
-    if (rampart()) { this.bleed = { top, height }; this.paintRampart(g, top, height); return; }
+    if (rampart()) { const t = g.getTransform(), k = t.a || 1; this.bleed = { top, height };
+      this.paintRampart(g, top, height, -t.e / k, (g.canvas.width - t.e) / k, -t.f / k, (g.canvas.height - t.f) / k); return; }
     g.fillStyle = '#101622'; g.fillRect(0, 0, this.W, height);
   }
   drawWarden(g) {

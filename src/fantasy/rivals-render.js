@@ -4,7 +4,7 @@ import { drawCastleWindow } from '../castle-window.js';
 import { RIVAL_LUNGE, RIVALS_FLOORS, RIVALS_TIMING } from './rivals.js';
 import { glow, sparks, chips, dust, rnd, clamp01, smooth, gBanner, gPaddle, gBall, gWard, skinFor, CLIMB } from './render.js';
 import { themedBreak } from '../themed-bricks.js';
-import { EMERALD, drawBody, lbrick, star, lantern, ledge, wallDressing } from './lumi-render.js';
+import { EMERALD, drawBody, lbrick, star, lantern, ledge, recess, wallDressing } from './lumi-render.js';
 
 // Serpent Rivals. Same window kit, tapered tube bodies and head-sheet path as Lumi Breaks Out (lumi-render.js), with Gnash emerald from the
 // left wall and Mooncoil violet from the right. The rendered props (assets/rivals) sit on the model rects: `contact` is the collider.
@@ -36,19 +36,11 @@ function wallTile() {
   return cached('rivals-wall', 360, 88, c => {
     c.fillStyle = '#161a2a'; c.fillRect(0, 0, 360, 88);
     for (let row = 0; row < 4; row++) for (let i = -1; i < 9; i++) {
-      const w = 44, x = i * w + (row % 2 ? w / 2 : 0), y = row * 22, n = rnd(row * 11 + i, 5), side = x + w < 52 || x > 308;
-      const l = side ? 14 + n * 4 : 19 + n * 6;
-      c.fillStyle = `hsl(${232 + n * 14} ${side ? 18 : 18}% ${l}%)`; c.fillRect(x + 1, y + 1, w - 2, 20);
+      const w = 44, x = i * w + (row % 2 ? w / 2 : 0), y = row * 22, n = rnd(row * 11 + i, 5);
+      c.fillStyle = `hsl(${232 + n * 14} 18% ${19 + n * 6}%)`; c.fillRect(x + 1, y + 1, w - 2, 20);
       c.fillStyle = '#ffffff0c'; c.fillRect(x + 1, y + 1, w - 2, 1.4); c.fillStyle = '#00000044'; c.fillRect(x + 1, y + 19, w - 2, 2);
       if (n > .7) { c.fillStyle = '#0000002a'; c.fillRect(x + 6 + n * 12, y + 5, 10, 8); }
     }
-    c.fillStyle = '#080a14'; for (const x of [0, 308]) c.fillRect(x, 0, 52, 88);
-    for (const x of [0, 308]) for (let row = 0; row < 4; row++) for (let i = 0; i < 2; i++) {
-      const n = rnd(row * 5 + i + x, 9), bx = x + i * 26, by = row * 22; c.fillStyle = `hsl(${x ? 262 + n * 8 : 176 + n * 8} 22% ${11 + n * 4}%)`; c.fillRect(bx + 1, by + 1, 24, 20);
-      c.fillStyle = '#ffffff10'; c.fillRect(bx + 1, by + 1, 24, 1.3); c.fillStyle = '#00000066'; c.fillRect(bx + 1, by + 19, 24, 2);
-    }
-    c.fillStyle = '#4fd6b466'; c.fillRect(51, 0, 1.4, 88); c.fillStyle = '#9a80ff66'; c.fillRect(307.6, 0, 1.4, 88);
-    c.fillStyle = '#00000055'; c.fillRect(52, 0, 6, 88); c.fillRect(302, 0, 6, 88);
   });
 }
 function vignette(W, H) {
@@ -57,9 +49,8 @@ function vignette(W, H) {
 // A recess between two cornices: the hatch (floor 1) and the Twin Seal (floors 2-3) both sit in one.
 function gateFrame(ctx, g, y0, y1) {
   ledge(ctx, 0, y0 - 18, g.width, 16); ledge(ctx, 0, y1, g.width, 14);
-  ctx.fillStyle = '#06070f'; ctx.fillRect(0, y0 - 2, g.width, y1 - y0 + 2);
-  const gr = ctx.createLinearGradient(0, y0 - 2, 0, y1); gr.addColorStop(0, '#00000099'); gr.addColorStop(1, '#0000'); ctx.fillStyle = gr; ctx.fillRect(0, y0 - 2, g.width, y1 - y0 + 2);
-  const sh = ctx.createLinearGradient(0, y1 + 14, 0, y1 + 34); sh.addColorStop(0, '#0009'); sh.addColorStop(1, '#0000'); ctx.fillStyle = sh; ctx.fillRect(0, y1 + 14, g.width, 20);
+  recess(ctx, g.width, y0 - 2, y1 - y0 + 2, '#9ad8c8');
+  const sh = ctx.createLinearGradient(0, y1 + 14, 0, y1 + 34); sh.addColorStop(0, '#0006'); sh.addColorStop(1, '#0000'); ctx.fillStyle = sh; ctx.fillRect(0, y1 + 14, g.width, 20);
 }
 function hatchBars(ctx, g) {
   const all = g.bricks.filter(b => b.type === 'bar'); if (!all.length) return;

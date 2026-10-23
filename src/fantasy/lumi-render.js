@@ -29,19 +29,11 @@ function wallTile() {
   return cached('lumi-wall', 360, 88, c => {
     c.fillStyle = '#1d1730'; c.fillRect(0, 0, 360, 88);
     for (let row = 0; row < 4; row++) for (let i = -1; i < 9; i++) {
-      const w = 44, x = i * w + (row % 2 ? w / 2 : 0), y = row * 22, n = rnd(row * 11 + i, 3), side = x + w < 52 || x > 308;
-      const l = side ? 15 + n * 4 : 21 + n * 6;
-      c.fillStyle = `hsl(${268 + n * 14} ${side ? 22 : 26}% ${l}%)`; c.fillRect(x + 1, y + 1, w - 2, 20);
+      const w = 44, x = i * w + (row % 2 ? w / 2 : 0), y = row * 22, n = rnd(row * 11 + i, 3);
+      c.fillStyle = `hsl(${268 + n * 14} 26% ${21 + n * 6}%)`; c.fillRect(x + 1, y + 1, w - 2, 20);
       c.fillStyle = '#ffffff0b'; c.fillRect(x + 1, y + 1, w - 2, 1.4); c.fillStyle = '#00000044'; c.fillRect(x + 1, y + 19, w - 2, 2);
       if (n > .7) { c.fillStyle = '#0000002a'; c.fillRect(x + 6 + n * 12, y + 5, 10, 8); }
     }
-    c.fillStyle = '#0a0714'; for (const x of [0, 308]) c.fillRect(x, 0, 52, 88);
-    for (const x of [0, 308]) for (let row = 0; row < 4; row++) for (let i = 0; i < 2; i++) {
-      const n = rnd(row * 5 + i + x, 9), bx = x + i * 26, by = row * 22; c.fillStyle = `hsl(${262 + n * 10} 20% ${11 + n * 4}%)`; c.fillRect(bx + 1, by + 1, 24, 20);
-      c.fillStyle = '#ffffff10'; c.fillRect(bx + 1, by + 1, 24, 1.3); c.fillStyle = '#00000066'; c.fillRect(bx + 1, by + 19, 24, 2);
-    }
-    c.fillStyle = '#8b73c455'; c.fillRect(51, 0, 1.4, 88); c.fillRect(307.6, 0, 1.4, 88);
-    c.fillStyle = '#00000055'; c.fillRect(52, 0, 6, 88); c.fillRect(302, 0, 6, 88);
   });
 }
 function skyPlate(W, H) {
@@ -89,11 +81,20 @@ function ledge(ctx, x, y, w, h) {
   ctx.fillStyle = '#00000044'; for (let bx = x - ((x + 20) % 44), r = 0; bx < x + w; bx += 44, r++) ctx.fillRect(Math.max(x, bx + (Math.floor(y) % 2 ? 22 : 0)), y + 2, 1.6, h - 3);
   ctx.fillStyle = '#ffffff22'; ctx.fillRect(x, y, w, 1.5); ctx.fillStyle = '#0008'; ctx.fillRect(x, y + h - 2, w, 2);
 }
+// A lit iron-grated recess between two cornices: the wall shows through, warm light rises from below. Shared with Rivals.
+export function recess(ctx, w, y, h, warm = '#ffb888') {
+  ctx.fillStyle = '#100a2260'; ctx.fillRect(0, y, w, h);
+  const sh = ctx.createLinearGradient(0, y, 0, y + h); sh.addColorStop(0, '#00000066'); sh.addColorStop(.5, '#0000'); ctx.fillStyle = sh; ctx.fillRect(0, y, w, h);
+  const lit = ctx.createLinearGradient(0, y + h, 0, y + h * .3); lit.addColorStop(0, warm + '30'); lit.addColorStop(1, warm + '00'); ctx.fillStyle = lit; ctx.fillRect(0, y, w, h);
+  for (let x = 14; x < w; x += 28) {
+    const gr = ctx.createLinearGradient(x - 2, 0, x + 2, 0); gr.addColorStop(0, '#2a2640'); gr.addColorStop(.4, '#8e92ac'); gr.addColorStop(1, '#262338');
+    ctx.fillStyle = '#0004'; ctx.fillRect(x + 1.5, y, 3, h); ctx.globalAlpha = .55; ctx.fillStyle = gr; ctx.fillRect(x - 2, y, 4, h); ctx.globalAlpha = 1;
+  }
+  ctx.fillStyle = '#ffffff1c'; ctx.fillRect(0, y + h - 1.5, w, 1.5);
+}
 function hatchFrame(ctx, art, g) {
-  ledge(ctx, 0, 70, g.width, 20); ledge(ctx, 0, 160, g.width, 20);
-  ctx.fillStyle = '#07050f'; ctx.fillRect(0, 90, g.width, 70);
-  const gr = ctx.createLinearGradient(0, 90, 0, 160); gr.addColorStop(0, '#00000099'); gr.addColorStop(1, '#0000'); ctx.fillStyle = gr; ctx.fillRect(0, 90, g.width, 70);
-  const sh = ctx.createLinearGradient(0, 180, 0, 204); sh.addColorStop(0, '#0009'); sh.addColorStop(1, '#0000'); ctx.fillStyle = sh; ctx.fillRect(0, 180, g.width, 24);
+  ledge(ctx, 0, 70, g.width, 20); ledge(ctx, 0, 160, g.width, 20); recess(ctx, g.width, 90, 70);
+  const sh = ctx.createLinearGradient(0, 180, 0, 204); sh.addColorStop(0, '#0006'); sh.addColorStop(1, '#0000'); ctx.fillStyle = sh; ctx.fillRect(0, 180, g.width, 24);
 }
 function floorCell(ctx, art, g) {
   wallDressing(ctx, g, -20, 70);

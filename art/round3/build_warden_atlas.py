@@ -2,16 +2,17 @@
 Same contract as the old rig atlas: 256x228 px cells, unit [144,128] world units, feet pivot [0.5, 0.90625],
 7 columns, numeric clip frames, and per-frame anchors measured from each frame's own alpha so the ball
 collides with what is drawn. Row 5 adds the dash moves (crouch, smash, dazed) and a defeated slump.
-Run from repo root: python art/round3/build_warden_atlas.py
+Run from repo root: python art/round3/build_warden_atlas.py [frames_dir] [out_dir]
+Any brute (bull, bison, ape...) drawn with the same frame names reuses the Warden physics: point it at that folder.
 """
 from pathlib import Path
-import hashlib, json
+import hashlib, json, sys
 import numpy as np
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
-SRC = ROOT / 'assets' / 'round3' / 'warden'
-OUT = ROOT / 'assets' / 'frost-warden'
+SRC = ROOT / (sys.argv[1] if len(sys.argv) > 1 else 'assets/round3/warden')
+OUT = ROOT / (sys.argv[2] if len(sys.argv) > 2 else 'assets/frost-warden')
 CELL, UNIT, PIVOT, COLS = (256, 228), (144, 128), (0.5, 0.90625), 7
 PPU = CELL[0] / UNIT[0]          # pixels per world unit inside a cell
 SCALE = 0.5                      # one scale for every frame: the tallest pose (pound windup) still fits the cell
@@ -75,12 +76,13 @@ def main():
         out.append({'index': i, 'file': meta[name]['file'], 'clip': next((k for k, (f, _, _) in CLIPS.items() if i in f), None), **anchors(a, ox, oy)})
     px = np.asarray(atlas).copy(); px[px[:, :, 3] == 0, :3] = 0; atlas = Image.fromarray(px)
     path = OUT / 'warden.png'; atlas.save(path, optimize=True)
-    old = json.loads((OUT / 'manifest.json').read_text(encoding='utf-8'))
+    OUT.mkdir(parents=True, exist_ok=True)
+    old = json.loads((OUT / 'manifest.json').read_text(encoding='utf-8')) if (OUT / 'manifest.json').exists() else {}
     manifest = {'unit': list(UNIT), 'pivot': list(PIVOT), 'nativeHeight': 72, 'forward': 'right', 'forwardHand': 'R',
                 'anchorSpace': 'world units relative to feet pivot; x right, y down',
                 'clips': {k: {'frames': f, 'n': len(f), 'start': f[0], 'fps': fps, 'loop': loop} for k, (f, fps, loop) in CLIPS.items()},
-                'source': 'assets/round3/warden (M365 round-3 sheets, cut by art/round3/cut.py)', 'derivedScript': 'art/round3/build_warden_atlas.py',
-                'atlas': 'assets/frost-warden/warden.png', 'sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
+                'source': SRC.relative_to(ROOT).as_posix(), 'derivedScript': 'art/round3/build_warden_atlas.py',
+                'atlas': path.relative_to(ROOT).as_posix(), 'sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
                 'cell': list(CELL), 'columns': COLS, 'rows': rows, 'size': list(atlas.size), 'anchors': out,
                 'frames': [{'index': i, 'file': meta[n]['file']} for i, n in enumerate(SLOTS)],
                 'palette': old.get('palette'), 'collision': 'Per-frame alpha>=192 contiguous bands (6 units), forward fist at the rightmost drawn pixel, conservative torso box',
