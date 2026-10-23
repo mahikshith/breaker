@@ -54,7 +54,7 @@ test('Vault modes preserve both phone geometries, starting grid/path, balls, pad
       assert.equal(l.difficulty, difficulty(l.difficulty).id);
       assert.equal(l.snakeSpeed, difficulty(l.difficulty).vaultSpeed);
       assert.equal(l.phase, 'intro');
-      assert.equal(l.ballRadius, 6); assert.equal(l.speed, 345);
+      assert.equal(l.ballRadius, 7); assert.equal(l.speed, 345);
       assert.equal(l.paddle.w, 70); assert.equal(l.paddle.h, 12);
       assert.deepEqual(l.snake.cells[0], [16, 1]);
       assert.deepEqual(l.snake.cells.at(-1), [16, -10]);

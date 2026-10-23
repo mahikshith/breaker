@@ -1,6 +1,6 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { circleSweep, reflect } from './bellforge.js';
-import { SPEED, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { SPEED, BALL_R, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
 import { plural, hpLeft } from '../near-miss.js';
 import { LUNGE } from './lumitower.js';
 
@@ -99,7 +99,7 @@ export class SerpentRivals {
   setTarget(x) { if (!Number.isFinite(x)) return false; this.paddle.targetX = clamp(x, this.paddle.w / 2 + 6, this.width - this.paddle.w / 2 - 6); return true; }
   pause(value) { this.paused = !!value; }
   makeServe() { this.phase = 'serve'; this.serveTime = 0; this.balls = [this.newBall(this.paddle.x, this.paddle.y - 8, 0, 0, true)]; }
-  newBall(x, y, vx, vy, caught = false) { return { id: ++this.serial, x, y, px: x, py: y, vx, vy, r: 6, caught, dead: false, ram: 0, ramBricks: 0, contacts: new Set() }; }
+  newBall(x, y, vx, vy, caught = false) { return { id: ++this.serial, x, y, px: x, py: y, vx, vy, r: BALL_R, caught, dead: false, ram: 0, ramBricks: 0, contacts: new Set() }; }
   launch(angle = -Math.PI / 2) {
     if (this.paused || this.state !== 'play' || this.phase !== 'serve' || !Number.isFinite(angle)) return false;
     const a = clamp(angle, -Math.PI + .25, -.25), b = this.balls[0];
@@ -156,7 +156,7 @@ export class SerpentRivals {
   }
   finishFloor() {
     this.lunges = []; this.capsules = []; this.shots = []; this.volley = null; this.ward = null;
-    for (const b of this.balls) { b.vx = 0; b.vy = 0; b.caught = true; b.ram = 0; b.r = 6; }
+    for (const b of this.balls) { b.vx = 0; b.vy = 0; b.caught = true; b.ram = 0; b.r = BALL_R; }
     this.balls = this.balls.slice(0, 1); this.updateLures();
     const last = this.floor === 2; this.phase = last ? 'shatter' : 'climb'; this.transition = last ? RIVALS_TIMING.shatter : RIVALS_TIMING.climb;
     this.effect(this.width / 2, this.seal ? this.seal.y + 15 : this.rowTop(0) - 32, last ? 'seal-shatter' : this.floor ? 'seal-open' : 'hatch-open', this.transition);

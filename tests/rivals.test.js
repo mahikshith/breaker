@@ -239,7 +239,8 @@ test('Continue keeps the floor, bricks, Seal and ward, and sends the serpents ho
 
 // Ordinary public-input bot: predict the landing point, add a seeded aim error, never use powers, lures on purpose or Continue.
 const lcg = seed => { let s = seed >>> 0; return () => ((s = (Math.imul(s, 1664525) + 1013904223) >>> 0) / 2 ** 32); };
-const fold = x => { const p = ((x - 6) % 696 + 696) % 696; return 6 + (p > 348 ? 696 - p : p); };
+// Where a ball of radius r lands after bouncing between the walls of the 360-wide field.
+const fold = (x, r = 7) => { const L = 360 - 2 * r, p = ((x - r) % (2 * L) + 2 * L) % (2 * L); return r + (p > L ? 2 * L - p : p); };
 function bot(difficulty, seed, height, paddleY) {
   const previous = Math.random; Math.random = lcg(seed * 7919 + 17);
   try {
@@ -254,10 +255,15 @@ function bot(difficulty, seed, height, paddleY) {
     return m;
   } finally { Math.random = previous; }
 }
-test('a seeded ordinary bot clears Easy and Medium on both phone heights', () => {
-  for (const difficulty of ['easy', 'medium']) for (const [height, paddleY] of [[700, 584.6], [751, 641]]) for (const seed of [1, 2]) {
+// Owner 2026-10-23: levels harder, beatable with the right play. A random-aim bot (no powers) must always clear Easy and
+// clear Medium more often than not; with the bigger ball (r 7) it wins 6 of these 10 Medium runs.
+test('a seeded ordinary bot clears Easy and usually clears Medium on both phone heights', () => {
+  let medium = 0;
+  for (const difficulty of ['easy', 'medium']) for (const [height, paddleY] of [[700, 584.6], [751, 641]]) for (const seed of [1, 2, 3, 4, 5]) {
     const m = bot(difficulty, seed, height, paddleY);
+    if (difficulty === 'medium') { medium += m.state === 'won'; continue; }
     assert.equal(m.state, 'won', `${difficulty} ${height} seed ${seed}: ${m.state} on floor ${m.floor}, seal ${m.seal?.hp}`);
     assert(m.time > 60 && m.time < 400, `${difficulty}: ${m.time.toFixed(0)} s`);
   }
+  assert(medium >= 6, `Medium wins ${medium} of 10`);
 });

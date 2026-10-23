@@ -32,7 +32,7 @@ test('Carrier dimensions persist through earned split, burst and TITAN expiry', 
   const b = l.balls[0]; Object.assign(b, { titan: .01, r: 10 }); l.update(.02);
   assert.equal(b.r, 7.5); assert.equal(b.titan, 0);
   const ordinary = new Arena(360, 729);
-  assert.deepEqual([ordinary.paddle.w, ordinary.paddle.h, ordinary.balls[0].r], [74, 12, 6]);
+  assert.deepEqual([ordinary.paddle.w, ordinary.paddle.h, ordinary.balls[0].r], [74, 12, 7]);
 });
 
 test('Carrier UNSTOPPABLE uses the existing cosmic sprite while ordinary balls retain their Carrier artwork', () => {

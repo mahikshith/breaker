@@ -12,7 +12,7 @@ const underside = (g, x = 80) => Math.max(...g.villain.body.filter(s => Math.abs
 test('Bellforge world metrics preserve normal input sizes, return runway and finite mode pressure', () => {
   for (const height of [700, 760]) for (const mode of Object.keys(BELLFORGE_MODES)) {
     const g = new Bellforge({ height, difficulty: mode });
-    assert.equal(g.paddle.y, height - 90); assert.equal(g.paddle.w, 100); assert.equal(g.balls[0].r, 6);
+    assert.equal(g.paddle.y, height - 90); assert.equal(g.paddle.w, 100); assert.equal(g.balls[0].r, 7);
     assert.equal(Math.max(...g.bricks.filter(b => b.type === 'brick').map(b => b.y + b.h)), g.paddle.y - 210);
     assert.ok(g.bricks.filter(b => b.type === 'brick').every(b => b.w === 36 && b.h === 18 && b.x >= 42 && b.x + b.w <= 318));
     g.setTarget(-100); assert.equal(g.paddle.targetX, 56); g.setTarget(1000); assert.equal(g.paddle.targetX, 304);
@@ -124,7 +124,8 @@ test('one normal bell contact imparts momentum, held overlap cannot farm HP, sep
 });
 
 test('a real first-hit reversal before dock contact cancels arrival; later contact cannot undo the ratchet', () => {
-  for (const [bellY, ballY, expected] of [[297.8, 318.1, 0], [297.9, 319, 1]]) {
+  // Ball spots sit one unit lower than with the old r 6 ball, so contact lands at the same instant (ball r 7).
+  for (const [bellY, ballY, expected] of [[297.8, 319.1, 0], [297.9, 320, 1]]) {
     const g = new Bellforge(); g.launch(); g.ramps = []; g.bricks = [];
     const bell = g.releaseBell(false); Object.assign(bell, { x: 310, px: 310, y: bellY, py: bellY, vx: 0, vy: 100 });
     Object.assign(g.balls[0], { x: 310, y: ballY, vx: 0, vy: -345 });

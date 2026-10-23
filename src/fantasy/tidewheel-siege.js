@@ -15,7 +15,7 @@
 import { Tidewheel, raftPoint, REFUGE_LIP_OFFSET, CRUSHER_WATER_TIP } from './tidewheel.js';
 import { overlapsTarget, sweepTarget } from '../carrier-physics.js';
 import { ejectBall } from '../clearance.js';
-import { RAM, endRam } from './ram.js';
+import { RAM, BALL_R, endRam } from './ram.js';
 import { hpLeft, plural } from '../near-miss.js';
 import { VillainPool, stageLabel } from './stages.js';
 import { STAGES, STAGE_COUNT, siegePlan, stageBoard } from './tidewheel-stages.js';
@@ -413,7 +413,7 @@ export class TidewheelSiege extends Tidewheel {
       const b = live()[0]; if (b) { endRam(this, b); b.titan = 6; b.r = 8; this.powerTimers.cosmic = 6; this.cosmic = { time: 6, maxTime: 6, ballId: b.id }; }
     }
   }
-  newBall(x, y, vx, vy) { return { id: ++this.serial, x, y, px: x, py: y, vx, vy, r: 6, caught: false, ram: 0, ramBricks: 0, contacts: new Set(), useful: this.time }; }
+  newBall(x, y, vx, vy) { return { id: ++this.serial, x, y, px: x, py: y, vx, vy, r: BALL_R, caught: false, ram: 0, ramBricks: 0, contacts: new Set(), useful: this.time }; }
   updateTimers(dt) {
     const T = this.timers, p = this.paddle, live = this.phase === 'play';
     for (const k of ['wide', 'slow', 'fire', 'laser']) if (T[k] > 0 && live) T[k] = Math.max(0, T[k] - dt);

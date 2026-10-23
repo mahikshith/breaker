@@ -10,7 +10,7 @@ test('lower geometry includes the full TITAN halo and keeps shield before drain'
   for (const [H, s, expected] of [[729, 393 / 360, 614], [785, 915 / 800, 675]]) {
     const l = new Arena(360, H, { uiScale: s });
     assert.equal(l.paddle.y, expected);
-    assert.equal(l.balls[0].y, l.paddle.y - 6, 'serve uses final geometry');
+    assert.equal(l.balls[0].y, l.paddle.y - l.ballRadius, 'serve uses final geometry');
     assert.equal(l.drainY - l.paddle.y, 20); assert.equal(l.shieldY - l.paddle.y, 18);
     const orb = l.kitAnchor();
     assert((orb.y - orb.r - (l.drainY + 10 + 21)) * s >= 8, 'last-live TITAN halo clears Kit');

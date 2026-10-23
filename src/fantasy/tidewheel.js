@@ -1,6 +1,6 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { ejectBall } from '../clearance.js';
-import { RAM, BACK_WARD, ramStreak, tickRam, ramThrough, endRam } from './ram.js';
+import { RAM, BALL_R, BACK_WARD, ramStreak, tickRam, ramThrough, endRam } from './ram.js';
 import { hpLeft } from '../near-miss.js';
 import { TIDEWHEEL_V2_GEOMETRY } from './tidewheel-v2-geometry.js';
 import { TIDEWHEEL_REACTIONS_GEOMETRY } from './tidewheel-reaction-geometry.js';
@@ -46,7 +46,7 @@ export class Tidewheel {
   }
   pause(value=true){this.paused=!!value;}
   setTarget(x){if(Number.isFinite(x))this.paddle.targetX=clamp(x,12+this.paddle.w/2,this.width-12-this.paddle.w/2);}
-  serve(){this.balls=[{id:++this.serial,x:this.paddle.x,y:this.paddle.y-15,px:this.paddle.x,py:this.paddle.y-15,vx:0,vy:0,r:6,caught:true,ram:0,ramBricks:0,contacts:new Set()}];this.phase='serve';this.serveAt=this.started?this.time+3:Infinity;}
+  serve(){this.balls=[{id:++this.serial,x:this.paddle.x,y:this.paddle.y-15,px:this.paddle.x,py:this.paddle.y-15,vx:0,vy:0,r:BALL_R,caught:true,ram:0,ramBricks:0,contacts:new Set()}];this.phase='serve';this.serveAt=this.started?this.time+3:Infinity;}
   launch(angle=-Math.PI/2){
     if(this.paused||this.state!=='play')return false;
     const b=this.balls.find(b=>b.caught);if(!b)return false;
@@ -90,7 +90,7 @@ export class Tidewheel {
   clearPowers(){
     this.anchor=this.volley=this.cosmic=null;this.shots=[];
     for(const key of Object.keys(this.powerTimers))this.powerTimers[key]=0;
-    for(const b of this.balls||[]){b.titan=0;b.r=6;b.ram=0;b.ramBricks=0;b.pierceExit?.clear();}
+    for(const b of this.balls||[]){b.titan=0;b.r=BALL_R;b.ram=0;b.ramBricks=0;b.pierceExit?.clear();}
   }
   updatePowers(dt){
     const launched=this.phase==='play'&&this.balls.some(b=>!b.caught);
@@ -110,7 +110,7 @@ export class Tidewheel {
       if(b)b.titan=this.cosmic.time;
       if(this.cosmic.time<=0){
         if(b){
-          b.r=6;b.pierceExit=new Set(this.targets().filter(t=>t.kind&&overlapsTarget({...b,r:b.r+2},t)).map(t=>['shell','claw'].includes(t.kind)?'nerra':t.id));
+          b.r=BALL_R;b.pierceExit=new Set(this.targets().filter(t=>t.kind&&overlapsTarget({...b,r:b.r+2},t)).map(t=>['shell','claw'].includes(t.kind)?'nerra':t.id));
         }
         this.cosmic=null;
       }

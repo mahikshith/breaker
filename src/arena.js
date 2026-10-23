@@ -1,7 +1,7 @@
 // Shared gameplay for every level: paddle, balls, serve and Focus aim, power-ups, lives, combo, juice.
 import { makeBall, stepBall, cellAt } from './physics.js';
 import { FX, drawBall, drawKitFace, capsule, POWER, rrect, shade, text, SHADOW, SPR, ready, loadImg, drawRamGlaze, drawRamPips, drawGem, drawGlint, ramTeach, R2, drawCapsule, capsuleArtWidth } from './gfx.js';
-import { ramStreak, tickRam, ramCount, endRam } from './fantasy/ram.js';
+import { ramStreak, tickRam, ramCount, endRam, BALL_R } from './fantasy/ram.js';
 import { Coach, landIn } from './coach.js';
 import { drawGesture } from './tutorial-draw.js';
 import { ART } from './vault-art.js';
@@ -37,7 +37,7 @@ export class Arena {
     this.kitUIScale = opt.uiScale || 1;
     this.accent = opt.accent || '#3fa8f5';
     this.left = opt.left ?? 12; this.right = W - (opt.right ?? 12); this.top = opt.top ?? 70;
-    this.ballRadius = opt.ballRadius || 6;
+    this.ballRadius = opt.ballRadius || BALL_R;
     const paddleWidth = opt.paddleWidth || 74;
     this.paddle = { x: W / 2, y: paddleY(H, opt.minPaddleY, this.kitUIScale), w: paddleWidth, h: opt.paddleHeight || 12, vx: 0, baseW: paddleWidth, wideT: 0, wideLevel: 0, shrinkT: 0, laserT: 0, laserCd: 0, stun: 0, charge: 0, streak: 0, armed: false };
     this.drainY = this.paddle.y + 20; this.shieldY = this.paddle.y + 18;

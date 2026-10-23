@@ -1,6 +1,6 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { reflect } from './bellforge.js';
-import { SPEED, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { SPEED, BALL_R, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
 import { plural, hpLeft } from '../near-miss.js';
 import { Sitter } from './creatures/sitter.js';
 import { EMBER } from './creatures/ember.js';
@@ -134,7 +134,7 @@ export class DragonsHoard {
   setTarget(x) { if (!Number.isFinite(x)) return false; this.paddle.targetX = clamp(x, this.paddle.w / 2 + 6, this.width - this.paddle.w / 2 - 6); return true; }
   pause(value) { this.paused = !!value; }
   makeServe() { this.phase = 'serve'; this.serveTime = 0; this.balls = [this.newBall(this.paddle.x, this.paddle.y - 8, 0, 0, true)]; }
-  newBall(x, y, vx, vy, caught = false) { return { id: ++this.serial, x, y, px: x, py: y, vx, vy, r: 6, caught, dead: false, ram: 0, ramBricks: 0, contacts: new Set() }; }
+  newBall(x, y, vx, vy, caught = false) { return { id: ++this.serial, x, y, px: x, py: y, vx, vy, r: BALL_R, caught, dead: false, ram: 0, ramBricks: 0, contacts: new Set() }; }
   launch(angle = -Math.PI / 2) {
     if (this.paused || this.state !== 'play' || this.phase !== 'serve' || !Number.isFinite(angle)) return false;
     const a = clamp(angle, -Math.PI + .25, -.25), b = this.balls[0];
@@ -225,7 +225,7 @@ export class DragonsHoard {
   // Floor clear: freeze play, then climb (floors 1-2) or run for the cave mouth (floor 3).
   finishFloor(kind = '') {
     this.capsules = []; this.shots = []; this.volley = null; this.ward = null; this.slide = null;
-    for (const b of this.balls) { b.vx = 0; b.vy = 0; b.caught = true; b.ram = 0; b.r = 6; }
+    for (const b of this.balls) { b.vx = 0; b.vy = 0; b.caught = true; b.ram = 0; b.r = BALL_R; }
     this.balls = this.balls.slice(0, 1); this.transitionKind = kind;
     if (this.floor === 2) {
       this.banked = Math.round(this.loot * this.mult); this.score += this.banked;

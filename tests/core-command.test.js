@@ -97,7 +97,7 @@ test('Vault Quick Volley K opens four choices and Brick Ward preserves its real 
   assert(l.powerMenuOpen); assert.equal(l.paddle.charge, 1); assert.equal(l.venom.ward, null);
   l.key('1', true);
   assert.equal(l.coreMode, 'ward'); assert.equal(l.paddle.charge, 0); assert.equal(l.venom.ward.id, 77); assert.equal(l.kitCastAt, 12);
-  assert(!(l.balls[0].titan > 0)); assert.equal(l.balls[0].r, 6);
+  assert(!(l.balls[0].titan > 0)); assert.equal(l.balls[0].r, 7);
 });
 
 test('Kit menu fits four single-row phone targets and keeps the face clear', () => {
