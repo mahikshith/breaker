@@ -159,7 +159,7 @@ function tile(ctx, key, b, a = 1) {
 function drawBrick(ctx, g, b, st) {
   const cx = b.x + b.w / 2, cy = b.y + b.h / 2;
   switch (b.kind) {
-    case 'brick': return lbrick(ctx, b);
+    case 'brick': return lbrick(ctx, b, null);   // glaze v2, matching the coin and chest bricks
     case 'coin': if (b.spilled) glow(ctx, cx, cy, 20, GOLD, .14); return tile(ctx, 'brick_coin_2_0', b);
     case 'chest': return tile(ctx, b.hp < b.maxHP ? 'brick_chest_2_1' : 'brick_chest_2_0', b);
     case 'molten': {

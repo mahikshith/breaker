@@ -1,0 +1,516 @@
+{
+ "source": "art/themed-bricks/build.py (re-glazed from art/glaze2/source/bricks.png)",
+ "chapter": "tower",
+ "palette": {
+  "stone": [
+   "#e6ddf6",
+   "#7d68a8",
+   "#33244f",
+   "stone"
+  ],
+  "rose": [
+   "#fbe0e8",
+   "#bd627c",
+   "#5a1f2d",
+   "stone"
+  ],
+  "slate": [
+   "#dce8f8",
+   "#4b70aa",
+   "#16294d",
+   "stone"
+  ],
+  "jade": [
+   "#dcfaea",
+   "#3fae7e",
+   "#0d4a33",
+   "rune"
+  ],
+  "amber": [
+   "#f4dcc6",
+   "#a2653a",
+   "#4a2510",
+   "stone"
+  ],
+  "emerald": [
+   "#d4f6e0",
+   "#2c9b5e",
+   "#0b4426",
+   "stone"
+  ],
+  "amethyst": [
+   "#ece0ff",
+   "#8458c4",
+   "#371a63",
+   "stone"
+  ],
+  "bar": [
+   "#dcd8ea",
+   "#575270",
+   "#1b1826",
+   "iron"
+  ]
+ },
+ "sprites": {
+  "stone_2_0": {
+   "file": "stone_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "stone",
+   "cells": 2,
+   "state": 0
+  },
+  "stone_2_1": {
+   "file": "stone_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "stone",
+   "cells": 2,
+   "state": 1
+  },
+  "stone_2_2": {
+   "file": "stone_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "stone",
+   "cells": 2,
+   "state": 2
+  },
+  "rose_2_0": {
+   "file": "rose_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "rose",
+   "cells": 2,
+   "state": 0
+  },
+  "rose_2_1": {
+   "file": "rose_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "rose",
+   "cells": 2,
+   "state": 1
+  },
+  "rose_2_2": {
+   "file": "rose_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "rose",
+   "cells": 2,
+   "state": 2
+  },
+  "slate_2_0": {
+   "file": "slate_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "slate",
+   "cells": 2,
+   "state": 0
+  },
+  "slate_2_1": {
+   "file": "slate_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "slate",
+   "cells": 2,
+   "state": 1
+  },
+  "slate_2_2": {
+   "file": "slate_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "slate",
+   "cells": 2,
+   "state": 2
+  },
+  "jade_2_0": {
+   "file": "jade_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "jade",
+   "cells": 2,
+   "state": 0
+  },
+  "jade_2_1": {
+   "file": "jade_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "jade",
+   "cells": 2,
+   "state": 1
+  },
+  "jade_2_2": {
+   "file": "jade_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "jade",
+   "cells": 2,
+   "state": 2
+  },
+  "amber_2_0": {
+   "file": "amber_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "amber",
+   "cells": 2,
+   "state": 0
+  },
+  "amber_2_1": {
+   "file": "amber_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "amber",
+   "cells": 2,
+   "state": 1
+  },
+  "amber_2_2": {
+   "file": "amber_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "amber",
+   "cells": 2,
+   "state": 2
+  },
+  "emerald_2_0": {
+   "file": "emerald_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "emerald",
+   "cells": 2,
+   "state": 0
+  },
+  "emerald_2_1": {
+   "file": "emerald_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "emerald",
+   "cells": 2,
+   "state": 1
+  },
+  "emerald_2_2": {
+   "file": "emerald_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "emerald",
+   "cells": 2,
+   "state": 2
+  },
+  "amethyst_2_0": {
+   "file": "amethyst_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "amethyst",
+   "cells": 2,
+   "state": 0
+  },
+  "amethyst_2_1": {
+   "file": "amethyst_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "amethyst",
+   "cells": 2,
+   "state": 1
+  },
+  "amethyst_2_2": {
+   "file": "amethyst_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "amethyst",
+   "cells": 2,
+   "state": 2
+  },
+  "bar_1_0": {
+   "file": "bar_1_0.png",
+   "px": [
+    78,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    18,
+    18
+   ],
+   "drawSize": [
+    26,
+    26
+   ],
+   "margin": 4,
+   "material": "bar",
+   "cells": 1,
+   "state": 0
+  },
+  "bar_2_0": {
+   "file": "bar_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "bar",
+   "cells": 2,
+   "state": 0
+  }
+ }
+}

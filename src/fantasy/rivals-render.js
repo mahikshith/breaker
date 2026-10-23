@@ -3,6 +3,7 @@ import { SPR, ready, cached, text, loadImg, drawCapsule } from '../gfx.js';
 import { drawCastleWindow } from '../castle-window.js';
 import { RIVAL_LUNGE, RIVALS_FLOORS, RIVALS_TIMING } from './rivals.js';
 import { glow, sparks, chips, dust, rnd, clamp01, smooth, gBanner, gPaddle, gBall, gWard, skinFor, CLIMB } from './render.js';
+import { themedBreak } from '../themed-bricks.js';
 import { EMERALD, drawBody, lbrick, star, lantern, ledge, wallDressing } from './lumi-render.js';
 
 // Serpent Rivals. Same window kit, tapered tube bodies and head-sheet path as Lumi Breaks Out (lumi-render.js), with Gnash emerald from the
@@ -17,6 +18,8 @@ const RS = Object.fromEntries(Object.entries(ART.rivals?.sprites || {}).map(([k,
 const WP = Object.fromEntries(Object.entries(ART.castleWindow || {}).map(([k, v]) => [k, { ...v, img: loadImg(v.url) }]));
 const SLOTS = ART.rivals?.wardSlots || [];
 const BRICK = { t: 't', v: 'v', c: 'c', y: 'y', b: 'b', gold: 'y' };
+// Themed tower bricks (set 'tower'): the twin serpents' own scales (emerald Gnash, amethyst Mooncoil), amber scale, rose and slate stone-glaze.
+const RIVALS_MAT = { t: 'emerald', v: 'amethyst', c: 'rose', y: 'amber', b: 'slate', gold: 'amber' };
 const ease = t => smooth(t);
 const alpha = ctx => typeof ctx.globalAlpha === 'number' ? ctx.globalAlpha : 1;
 // A rendered prop at drawSize with its anchor on (x, y).
@@ -209,9 +212,10 @@ function rEffects(ctx, g, art, pre) {
     switch (e.kind) {
       case 'window-peek': { const w = g.windows.find(w => Math.abs(w.originX - e.x) < 1 && Math.abs(w.y - e.y) < 1); if (w) { ctx.globalAlpha = 1; glow(ctx, w.originX + w.dir * 5, w.y, 32, col, (e.lured ? .7 : .45) * Math.sin(Math.PI * q)); } break; }
       case 'bite-warning': case 'paddle': break;
-      case 'chomp': { const k = 1 - q * .35; ctx.save(); ctx.translate(e.x, e.y); ctx.scale(k, k); lbrick(ctx, { x: -e.w / 2, y: -e.h / 2, w: e.w, h: e.h, colour: e.colour }); ctx.restore(); ctx.globalAlpha = a; crumbs(ctx, e, 4, 34, e.snake === 'mooncoil' ? '#7a68b8' : '#4f9a86'); break; }
+      case 'chomp': { const k = 1 - q * .35; ctx.save(); ctx.translate(e.x, e.y); ctx.scale(k, k); lbrick(ctx, { x: -e.w / 2, y: -e.h / 2, w: e.w, h: e.h, colour: e.colour }, RIVALS_MAT); ctx.restore(); ctx.globalAlpha = a; crumbs(ctx, e, 4, 34, e.snake === 'mooncoil' ? '#7a68b8' : '#4f9a86'); break; }
       case 'brick-break': {
         if (e.type === 'bar') { for (let n = 0; n < 4; n++) { const t = e.age, x = e.x + (n - 1.5) * (7 + t * 40), y = e.y - 40 * t + 260 * t * t; ctx.save(); ctx.translate(x, y); ctx.rotate((n - 1.5) * t * 6); ctx.fillStyle = '#9aa2bc'; ctx.fillRect(-1.3, -8, 2.6, 16); ctx.fillStyle = '#e4e8f6'; ctx.fillRect(-1.3, -8, .9, 16); ctx.restore(); } sparks(ctx, e.x, e.y, e.age, 6, 60, [], 1.6, 3); break; }
+        ctx.globalAlpha = 1; if (themedBreak(ctx, 'tower', RIVALS_MAT[e.colour] || 'stone', e.x, e.y, e.w, e.h, e.age, e.life)) break; ctx.globalAlpha = a;
         const s = SPR[`brick_${BRICK[e.colour] || 'v'}_2_0`]; if (!ready(s)) break;
         for (let n = 0; n < 3; n++) { const t = e.age, x = e.x + (n - 1) * (8 + t * 45), y = e.y - 45 * t + 180 * t * t, iw = s.img.naturalWidth, ih = s.img.naturalHeight, m = iw * .1; ctx.save(); ctx.translate(x, y); ctx.rotate((n - 1) * t * 5);
           ctx.drawImage(s.img, m + n * (iw - 2 * m) / 3, ih * .17, (iw - 2 * m) / 3, ih * .66, -e.w / 6, -e.h / 2, e.w / 3, e.h); ctx.restore(); }
@@ -316,7 +320,7 @@ export function renderRivals(ctx, g, art) {
     drawCastleWindow(ctx, 0, 0, l ? gi => { gi.save(); gi.scale(1 / WS, 1 / WS); gi.translate(-x, -y); glow(gi, x + w.dir * 4, y, 24, COL[w.snake], .22); drawLunge(gi, g, l); gi.restore(); } : null);
     ctx.restore();
   }
-  for (const b of g.bricks) if (b.hp > 0 && b.type === 'brick') lbrick(ctx, b);
+  for (const b of g.bricks) if (b.hp > 0 && (b.type === 'brick' || b.type === 'steel')) lbrick(ctx, b, RIVALS_MAT);
   for (const l of g.lures) drawLure(ctx, g, l, st);
   hatchBars(ctx, g); drawSeal(ctx, g, st);
   rEffects(ctx, g, art, true);

@@ -1,0 +1,398 @@
+{
+ "source": "art/themed-bricks/build.py (re-glazed from art/glaze2/source/bricks.png)",
+ "chapter": "mooncoil",
+ "palette": {
+  "moonstone": [
+   "#e8f1fc",
+   "#6e92bf",
+   "#1d3256",
+   "moon"
+  ],
+  "rosemoon": [
+   "#fae6ee",
+   "#b77690",
+   "#57263a",
+   "moon"
+  ],
+  "silver": [
+   "#eef2f7",
+   "#828d9b",
+   "#2a323d",
+   "moon"
+  ],
+  "starlit": [
+   "#e6dcff",
+   "#6a4cc0",
+   "#24135a",
+   "moon"
+  ],
+  "bar": [
+   "#c8cee6",
+   "#343a52",
+   "#0d0f1a",
+   "moon"
+  ]
+ },
+ "sprites": {
+  "moonstone_1_0": {
+   "file": "moonstone_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "material": "moonstone",
+   "cells": 1,
+   "state": 0
+  },
+  "moonstone_1_1": {
+   "file": "moonstone_1_1.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "material": "moonstone",
+   "cells": 1,
+   "state": 1
+  },
+  "moonstone_2_0": {
+   "file": "moonstone_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "material": "moonstone",
+   "cells": 2,
+   "state": 0
+  },
+  "moonstone_2_1": {
+   "file": "moonstone_2_1.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "material": "moonstone",
+   "cells": 2,
+   "state": 1
+  },
+  "rosemoon_1_0": {
+   "file": "rosemoon_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "material": "rosemoon",
+   "cells": 1,
+   "state": 0
+  },
+  "rosemoon_1_1": {
+   "file": "rosemoon_1_1.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "material": "rosemoon",
+   "cells": 1,
+   "state": 1
+  },
+  "rosemoon_2_0": {
+   "file": "rosemoon_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "material": "rosemoon",
+   "cells": 2,
+   "state": 0
+  },
+  "rosemoon_2_1": {
+   "file": "rosemoon_2_1.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "material": "rosemoon",
+   "cells": 2,
+   "state": 1
+  },
+  "silver_1_0": {
+   "file": "silver_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "material": "silver",
+   "cells": 1,
+   "state": 0
+  },
+  "silver_1_1": {
+   "file": "silver_1_1.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "material": "silver",
+   "cells": 1,
+   "state": 1
+  },
+  "silver_2_0": {
+   "file": "silver_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "material": "silver",
+   "cells": 2,
+   "state": 0
+  },
+  "silver_2_1": {
+   "file": "silver_2_1.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "material": "silver",
+   "cells": 2,
+   "state": 1
+  },
+  "starlit_1_0": {
+   "file": "starlit_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "material": "starlit",
+   "cells": 1,
+   "state": 0
+  },
+  "starlit_1_1": {
+   "file": "starlit_1_1.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "material": "starlit",
+   "cells": 1,
+   "state": 1
+  },
+  "starlit_2_0": {
+   "file": "starlit_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "material": "starlit",
+   "cells": 2,
+   "state": 0
+  },
+  "starlit_2_1": {
+   "file": "starlit_2_1.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "material": "starlit",
+   "cells": 2,
+   "state": 1
+  },
+  "bar_1_0": {
+   "file": "bar_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "material": "bar",
+   "cells": 1,
+   "state": 0
+  },
+  "bar_2_0": {
+   "file": "bar_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "material": "bar",
+   "cells": 2,
+   "state": 0
+  }
+ }
+}

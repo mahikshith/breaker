@@ -4,6 +4,7 @@ import { Arena } from './arena.js';
 import { difficulty } from './difficulty.js';
 import { makeGrid, makeBall, cellAt } from './physics.js';
 import { ejectBall } from './clearance.js';
+import { themedArt } from './themed-bricks.js';
 import { brick, cached, text, vignette, drawGrain, rrect, shade, NUM, SPR, ready, loadImg, drawKitCastFlight, drawKitBrickArmour, glazedBar, softRing, drawGem } from './gfx.js';
 import { drawSerpent } from './characters.js';
 import { Debris } from './debris.js';
@@ -59,6 +60,8 @@ const SNAKE_DATA = ART?.snakeEmerald || ART?.snakeJade;
 const SNAKE = SNAKE_DATA ? { ...SNAKE_DATA, img: load(SNAKE_DATA.url) } : null;
 let snakeTurnCanvas = null;
 function brickArt(kind, cells, dmg) {
+  // Granite is the themed vault-iron bar (src/themed-bricks.js) when that set is packed; the gold stays the glaze-v2 gem brick.
+  const iron = kind === GRANITE && themedArt('vault', 'bar', cells); if (iron) return iron;
   const d = kind === GOLD || kind === GRANITE ? 0 : dmg;
   // An unhit two-hit brick wears the glaze v2 glass frame (brick_*_x) when that set is loaded.
   const s = (d === 0 && HP[kind] === 2 && IMG[`brick_${LETTER[kind]}_${cells}_x`]) || IMG[`brick_${LETTER[kind]}_${cells}_${d}`];

@@ -329,7 +329,7 @@ export class Gatehouse {
     if (!brick.hp && brick.gem) { this.gems++; this.effect(brick.x + brick.w / 2, brick.y + brick.h / 2, 'gem-pop', .8, { gem: brick.gem }); }
     if (this.balls.includes(ball) && !(ball.ram > 0)) this.chargeBank = Math.min((100 - this.charge) * this.rules.coreHits / 100, this.chargeBank + 1);
     this.effect(brick.x + brick.w / 2, brick.y + brick.h / 2, brick.hp ? 'brick-hit' : 'brick-break', brick.hp ? .35 : .7,
-      { colour: brick.colour, w: brick.w, h: brick.h, vx: (ball?.vx || 0) * .12, vy: (ball?.vy || 0) * .08 });
+      { colour: brick.colour, type: brick.type, w: brick.w, h: brick.h, vx: (ball?.vx || 0) * .12, vy: (ball?.vy || 0) * .08 });
   }
   hitHousing(h, damage) {
     h.hp = Math.max(0, h.hp - damage); this.score += 25;

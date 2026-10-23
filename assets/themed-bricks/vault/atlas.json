@@ -1,0 +1,54 @@
+{
+ "source": "art/themed-bricks/build.py (re-glazed from art/glaze2/source/bricks.png)",
+ "chapter": "vault",
+ "palette": {
+  "bar": [
+   "#dedbeb",
+   "#59556f",
+   "#1c1a28",
+   "iron"
+  ]
+ },
+ "sprites": {
+  "bar_1_0": {
+   "file": "bar_1_0.png",
+   "px": [
+    72,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    16,
+    16
+   ],
+   "drawSize": [
+    24,
+    24
+   ],
+   "margin": 4,
+   "material": "bar",
+   "cells": 1,
+   "state": 0
+  },
+  "bar_2_0": {
+   "file": "bar_2_0.png",
+   "px": [
+    120,
+    72
+   ],
+   "ppu": 3,
+   "footprint": [
+    32,
+    16
+   ],
+   "drawSize": [
+    40,
+    24
+   ],
+   "margin": 4,
+   "material": "bar",
+   "cells": 2,
+   "state": 0
+  }
+ }
+}

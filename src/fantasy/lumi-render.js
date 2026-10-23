@@ -2,6 +2,7 @@ import { ART } from '../vault-art.js';
 import { SPR, ready, cached, text, drawKit, loadImg, drawCapsule } from '../gfx.js';
 import { drawCastleWindow } from '../castle-window.js';
 import { LUMI_FLOORS, LUNGE, LUMI_TIMING } from './lumitower.js';
+import { drawThemed, drawThemedBar, themedBreak } from '../themed-bricks.js';
 import { glow, sparks, chips, pips, dust, rnd, clamp01, smooth, gBanner, gPaddle, hoistChain, sprite, skinFor, CLIMB } from './render.js';
 
 // Lumi Breaks Out. Windows are the layered castle-window kit scaled to 44u; the serpent is one sampled path drawn twice:
@@ -10,6 +11,8 @@ import { glow, sparks, chips, pips, dust, rnd, clamp01, smooth, gBanner, gPaddle
 const WS = 44 / 60, HALF = 16 * WS, HEAD = 1.5, RX = 322, LEDGE = 112, ROPE_TOP = 92;
 const SN = ART.snakeEmerald ? { ...ART.snakeEmerald, img: loadImg(ART.snakeEmerald.url) } : null;
 const BRICK = { t: 't', v: 'v', c: 'c', y: 'y', b: 'b', gold: 'y' };
+// Themed tower bricks (src/themed-bricks.js, set 'tower'): stone-glaze, rune-lit jade and serpent scale. Rivals passes its own map.
+export const LUMI_MAT = { t: 'jade', v: 'stone', c: 'rose', y: 'amber', b: 'slate', gold: 'amber' };
 const ease = t => smooth(t);
 const note = (ctx, x, y, s, col) => {
   ctx.fillStyle = col; ctx.beginPath(); ctx.ellipse(x, y, s * .34, s * .26, -.5, 0, 7); ctx.fill(); ctx.fillRect(x + s * .26, y - s * .95, s * .12, s * .95);
@@ -138,9 +141,11 @@ function glazedTile(key, w, h) {
     c.save(); c.translate(P + 5, P + 3.4); c.scale(1.8, .7); c.translate(-P - 5, -P - 3.4); c.fillRect(P, P, 10, 8); c.restore();
   });
 }
-export function lbrick(ctx, b) {
+export function lbrick(ctx, b, mats = LUMI_MAT) {
   const key = BRICK[b.colour] || 'v', s = SPR[`brick_${key}_2_0`];
-  if (ready(s)) ctx.drawImage(glazedTile(key, b.w, b.h), b.x - 6, b.y - 6, b.w + 12, b.h + 14);
+  // mats null (the Hoard) keeps the glaze-v2 brick beside its coin and chest bricks.
+  if (mats && (b.type === 'steel' ? drawThemedBar(ctx, 'tower', b.x, b.y, b.w, b.h) : drawThemed(ctx, 'tower', mats[b.colour] || 'stone', b.x, b.y, b.w, b.h))) { /* themed set */ }
+  else if (ready(s)) ctx.drawImage(glazedTile(key, b.w, b.h), b.x - 6, b.y - 6, b.w + 12, b.h + 14);
   else { ctx.fillStyle = '#6a5bb0'; ctx.fillRect(b.x, b.y, b.w, b.h); }
   if (b.colour === 'gold') { const cx = b.x + b.w / 2, cy = b.y + b.h / 2; glow(ctx, cx, cy, 11, '#ff5a6a', .55); ctx.fillStyle = '#ff3d55'; ctx.beginPath(); ctx.moveTo(cx, cy - 5); ctx.lineTo(cx + 6, cy); ctx.lineTo(cx, cy + 5); ctx.lineTo(cx - 6, cy); ctx.fill(); ctx.fillStyle = '#ffd0d6aa'; ctx.beginPath(); ctx.moveTo(cx - 1, cy - 3.5); ctx.lineTo(cx + 2.5, cy - 1); ctx.lineTo(cx - 1, cy); ctx.fill(); }
 }
@@ -261,6 +266,7 @@ function lEffects(ctx, g, art, pre) {
       case 'chomp': { const k = 1 - q * .35; ctx.save(); ctx.translate(e.x, e.y); ctx.scale(k, k); lbrick(ctx, { x: -e.w / 2, y: -e.h / 2, w: e.w, h: e.h, colour: e.colour }); ctx.restore(); ctx.globalAlpha = a; crumbs(ctx, e, 4, 34); dust(ctx, e.x, e.y, e.age, e.life, 3, 14, 7, '#9a8fb8'); break; }
       case 'brick-break': {
         if (e.type === 'bar') { for (let n = 0; n < 4; n++) { const t = e.age, x = e.x + (n - 1.5) * (7 + t * 40), y = e.y - 40 * t + 260 * t * t; ctx.save(); ctx.translate(x, y); ctx.rotate((n - 1.5) * t * 6); ctx.fillStyle = '#9aa2bc'; ctx.fillRect(-1.3, -8, 2.6, 16); ctx.fillStyle = '#e4e8f6'; ctx.fillRect(-1.3, -8, .9, 16); ctx.restore(); } sparks(ctx, e.x, e.y, e.age, 6, 60, ['#ffe3a1', '#fff'], 1.6, 3); break; }
+        ctx.globalAlpha = 1; if (themedBreak(ctx, 'tower', LUMI_MAT[e.colour] || 'stone', e.x, e.y, e.w, e.h, e.age, e.life)) break; ctx.globalAlpha = a;
         const s = SPR[`brick_${BRICK[e.colour] || 'v'}_2_0`]; if (!ready(s)) break;
         for (let n = 0; n < 3; n++) { const t = e.age, x = e.x + (n - 1) * (8 + t * 45), y = e.y - 45 * t + 180 * t * t, iw = s.img.naturalWidth, ih = s.img.naturalHeight, m = iw * .1; ctx.save(); ctx.translate(x, y); ctx.rotate((n - 1) * t * 5);
           ctx.drawImage(s.img, m + n * (iw - 2 * m) / 3, ih * .17, (iw - 2 * m) / 3, ih * .66, -e.w / 6, -e.h / 2, e.w / 3, e.h); ctx.restore(); }
