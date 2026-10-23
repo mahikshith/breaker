@@ -2,6 +2,7 @@ import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { circleSweep, reflect } from './bellforge.js';
 import { SPEED, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
 import { plural } from '../near-miss.js';
+import { tagSpecials, brickSpecial, armourOutright } from '../castle-specials.js';
 
 // Lumi Breaks Out: Lumi holds the paddle and climbs the Menagerie tower. Floor 1 is her cell (teach), floor 2 the serpent
 // windows, floor 3 the roof bell. Gnash lunges out of side-wall windows: every lunge starts at a fixed origin inside the
@@ -21,6 +22,16 @@ export const LUMI_FLOORS = ['The cell', 'Serpent windows', 'Roof race'];
 export const LUNGE = { peek: .6, strike: .35, chew: .45, retreat: .6, reach: 250, lip: 10, out: 30, headR: 13, gap: 12, segments: 22, wall: 24, opening: 12 };
 export const LUMI_TIMING = { climb: 1.2, escape: 2.4, calm: 4, shield: 8, wide: 8, notes: 6 };
 export const NOTE_KINDS = ['wide', 'multi', 'ram'];
+// Round-3 castle specials (src/castle-specials.js), [row, col] of each floor's six-column wall. Armour (two hits; a ram breaks it
+// outright; the serpent's jaw skips it, so floor 2 keeps it off the window rows) screens what the climb is for: the hatch bars above
+// the top row (floors 1-2) and the roof bell (floor 3). Mines sit in clusters, MINE_R a hair over one column pitch (a blast takes
+// the bricks beside, above and below, never the hatch bars); coins pay a bonus.
+export const LUMI_SPECIALS = [
+  { armour: [[0, 2], [0, 3]], mine: [[2, 2]], coin: [[3, 0], [3, 5]] },
+  { armour: [[1, 1], [1, 2], [1, 3], [1, 4], [4, 0], [4, 5]], mine: [[1, 0], [4, 2]], coin: [[0, 3], [4, 1], [4, 4]] },
+  { armour: [[0, 2], [0, 3], [1, 1], [1, 4]], mine: [[3, 1], [3, 4]], coin: [[5, 0], [5, 5], [1, 2]] },
+];
+const MINE_R = 48, blastable = b => b.type === 'brick';
 
 export class LumiTower {
   constructor({ width = 360, height = 700, difficulty = 'easy', paddleY = height - 90, floor = 0 } = {}) {
@@ -39,10 +50,11 @@ export class LumiTower {
     const rows = n === 0 ? 4 : 6, bricks = [];
     this.rowY = row => bottom - (rows - row) * 22 + 6 + 9;
     for (let row = 0; row < rows; row++) for (let col = 0; col < 6; col++)
-      bricks.push({ id: `brick-${n}-${row}-${col}`, type: 'brick', x: (W - 256) / 2 + col * 44, y: bottom - (rows - row) * 22 + 6, w: 36, h: 18, hp: 1, maxHP: 1, colour: ['t', 'v', 'c', 'y', 'b', 'gold'][(row + col * 2) % 6] });
+      bricks.push({ id: `brick-${n}-${row}-${col}`, row, col, type: 'brick', x: (W - 256) / 2 + col * 44, y: bottom - (rows - row) * 22 + 6, w: 36, h: 18, hp: 1, maxHP: 1, colour: ['t', 'v', 'c', 'y', 'b', 'gold'][(row + col * 2) % 6] });
     // The hatch above: bars that open the way up (floors 1 and 2) or the roof bell (floor 3).
     if (n < 2) for (let i = 0; i < 6; i++) bricks.push({ id: `bar-${n}-${i}`, type: 'bar', x: 62 + i * 40, y: 132, w: 36, h: 16, hp: n ? rules.hatch : 1, maxHP: n ? rules.hatch : 1 });
     else this.bell = { x: W / 2, y: 132, r: 22, rings: 0, need: rules.rings, swing: 0 };
+    tagSpecials(bricks, LUMI_SPECIALS[n]);
     this.bricks = bricks;
     // Windows: three per wall on the serpent floor (alternating rows), two per wall on the roof; none in the cell.
     const rowsBySide = n === 1 ? [[0, 3], [2, 5]] : n === 2 ? [[2], [4]] : [[], []];
@@ -184,7 +196,7 @@ export class LumiTower {
   // The open jaw eats the bricks it passes on its own row (the jaw's centre line), never the rows above or below: quiet single vanishes, no score or charge for the player.
   chomp(l) {
     const h = l.points[0]; if (!h) return;
-    for (const b of this.bricks) if (b.hp > 0 && b.type === 'brick' && h.x + h.r > b.x && h.x - h.r < b.x + b.w && h.y >= b.y - 2 && h.y <= b.y + b.h + 2) {
+    for (const b of this.bricks) if (b.hp > 0 && b.type === 'brick' && b.sp !== 'armour' && h.x + h.r > b.x && h.x - h.r < b.x + b.w && h.y >= b.y - 2 && h.y <= b.y + b.h + 2) {
       b.hp = 0; this.effect(b.x + b.w / 2, b.y + b.h / 2, 'chomp', .45, { colour: b.colour, w: b.w, h: b.h });
     }
   }
@@ -270,9 +282,10 @@ export class LumiTower {
   }
   hitBrick(brick, ball) {
     if (brick.hp <= 0) return;
-    brick.hp--; this.score += brick.type === 'bar' ? 20 : 10;
+    brick.hp = brick.sp === 'armour' && armourOutright(ball) ? 0 : brick.hp - 1; this.score += brick.type === 'bar' ? 20 : 10;
     if (!(ball?.ram > 0)) this.chargeBank = Math.min((100 - this.charge) * this.rules.coreHits / 100, this.chargeBank + 1);
     this.effect(brick.x + brick.w / 2, brick.y + brick.h / 2, brick.hp ? 'brick-hit' : 'brick-break', brick.hp ? .35 : .7, { colour: brick.colour, w: brick.w, h: brick.h, type: brick.type });
+    if (!brick.hp && brick.sp) brickSpecial(this, brick, ball, MINE_R, blastable);
     if (!brick.hp && brick.type === 'brick' && this.notes > 0) { this.notes--; this.capsules.push({ id: ++this.serial, kind: NOTE_KINDS[this.serial % 3], x: brick.x + brick.w / 2, y: brick.y + brick.h / 2, dead: false }); }
     if (!brick.hp && brick.type === 'bar' && this.bricks.every(b => b.type !== 'bar' || b.hp <= 0)) this.finishFloor();
   }

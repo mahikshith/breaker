@@ -3,6 +3,7 @@ import { SPR, ready, cached, text, loadImg } from '../gfx.js';
 import { HOARD_FLOORS, HOARD_TIMING, HOARD_LAYOUT, GREED, RAGE } from './hoard.js';
 import { glow, sparks, chips, dust, rnd, clamp01, smooth, gBanner, gPaddle, gBall, gWard, skinFor, slab, pips, CLIMB } from './render.js';
 import { lbrick, star } from './lumi-render.js';
+import { drawSpecial } from '../castle-art.js';
 import { rCapsule, rArrows } from './rivals-render.js';
 import { EMBER as SKIN, EMBER_ART } from './creatures/ember.js';
 
@@ -159,9 +160,9 @@ function tile(ctx, key, b, a = 1) {
 function drawBrick(ctx, g, b, st) {
   const cx = b.x + b.w / 2, cy = b.y + b.h / 2;
   switch (b.kind) {
-    case 'brick': return lbrick(ctx, b, null);   // glaze v2, matching the coin and chest bricks
-    case 'coin': if (b.spilled) glow(ctx, cx, cy, 20, GOLD, .14); return tile(ctx, 'brick_coin_2_0', b);
-    case 'chest': return tile(ctx, b.hp < b.maxHP ? 'brick_chest_2_1' : 'brick_chest_2_0', b);
+    case 'brick': return lbrick(ctx, b, null);   // glaze v2; armour and mines draw their round-3 castle sprite inside lbrick
+    case 'coin': if (b.spilled) glow(ctx, cx, cy, 20, GOLD, .14); if (drawSpecial(ctx, b, st.clock)) return; return tile(ctx, 'brick_coin_2_0', b);
+    case 'chest': if (drawSpecial(ctx, b, st.clock)) return; return tile(ctx, b.hp < b.maxHP ? 'brick_chest_2_1' : 'brick_chest_2_0', b);
     case 'molten': {
       const left = clamp01(b.molten / (b.moltenFor || 1)), p = .5 + .5 * Math.sin(st.clock * 9 + b.col);
       add(ctx, () => glow(ctx, cx, cy + 2, 26, FIRE, (.25 + .3 * p) * (.4 + .6 * left)));

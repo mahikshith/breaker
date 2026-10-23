@@ -38,3 +38,7 @@ export const LAYOUT = Object.freeze([
   '....................',
   '....................',
 ]);
+// Round-3 castle specials (src/castle-specials.js), [row, col] of a two-cell, one-hit brick's left cell. The two blue and
+// coral galleries are the serpents' chewing checkpoints: armour makes them chew longer (and costs the ball two hits), a mine in
+// each bank shatters the bricks round it (and so opens the serpents' road too), coins pay a bonus. Gold bricks are chests.
+export const SPECIALS = Object.freeze({ armour: [[4, 12], [6, 18], [10, 10], [11, 13]], mine: [[5, 15], [10, 14]], coin: [[4, 16], [9, 13]] });

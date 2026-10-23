@@ -12,13 +12,13 @@ const MOON_MAT = { 6: 'moonstone', 2: 'rosemoon', 4: 'silver', 3: 'starlit', 9: 
 const MOON_BACKGROUND = ART.mooncoil?.background ? loadImg(ART.mooncoil.background) : null;
 const MOON_BRICKS = Object.fromEntries(Object.entries(ART.mooncoil?.bricks || {}).map(([k, s]) => [k, { ...s, img: loadImg(s.url) }]));
 
-import { LAYOUT as MOONCOIL_LAYOUT, MODE as MOONCOIL_MODES, POCKET, RIVAL, bankFor } from './mooncoil-layout.js';
+import { LAYOUT as MOONCOIL_LAYOUT, MODE as MOONCOIL_MODES, POCKET, RIVAL, SPECIALS, bankFor } from './mooncoil-layout.js';
 const GNASH_X = 20 + RIVAL.column * 16 + 8; // his tunnel mouth, beside Mooncoil's at x284
 export { MOONCOIL_LAYOUT, MOONCOIL_MODES };
 
 export class Mooncoil extends Vault {
   constructor(W, H, scale = 1, mode = 'easy') {
-    super(W, H, scale, mode, { layout: MOONCOIL_LAYOUT, pocket: POCKET });
+    super(W, H, scale, mode, { layout: MOONCOIL_LAYOUT, pocket: POCKET, specials: SPECIALS });
     this.name = 'Mooncoil Reliquary';
     this.subtitle = 'Break Lumi’s cage before Mooncoil reaches her';
     this.rules = MOONCOIL_MODES[this.difficulty];

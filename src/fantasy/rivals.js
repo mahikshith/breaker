@@ -3,6 +3,7 @@ import { circleSweep, reflect } from './bellforge.js';
 import { SPEED, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
 import { plural, hpLeft } from '../near-miss.js';
 import { LUNGE } from './lumitower.js';
+import { tagSpecials, brickSpecial, armourOutright } from '../castle-specials.js';
 
 // Serpent Rivals: Kit climbs the twin-serpent hall. Gnash (emerald) lunges from the left-wall windows, Mooncoil (violet)
 // from the right. Each serpent owns its lane rows; both own one window on the Crossing row, which ends in the Clash
@@ -32,6 +33,16 @@ export const RIVALS_TIMING = { climb: 1.2, shatter: 2.4, ward: 6, volley: 2.5, a
 export const CAPSULE_KINDS = ['multi', 'ram', 'wide'];
 // Kit's menu ids -> model powers, for src/fantasy/chapter.js `kinds`.
 export const RIVALS_KINDS = { shield: 'ward', arrows: 'volley' };
+// Round-3 castle specials (src/castle-specials.js), [row, col] of each floor's wall. Armour (two hits; a ram breaks it outright)
+// screens the hatch bars (floor 1) and the Twin Seal (floors 2-3) from below, and a serpent's jaw skips it, so it never feeds the
+// Seal a ward plate (so it keeps off the window rows). Mines sit in clusters (MINE_R reaches the bricks beside, above and below, never the bars, lures or Seal);
+// coins pay a bonus. Cells that the chamber, shaft or a window mouth open are skipped.
+export const RIVALS_SPECIALS = [
+  { armour: [[0, 2], [0, 3], [0, 4], [2, 1], [2, 5]], mine: [[3, 2], [6, 4]], coin: [[2, 3], [5, 5], [8, 3]] },
+  { armour: [[0, 2], [0, 3], [0, 4], [1, 1], [1, 5]], mine: [[3, 2], [7, 4]], coin: [[4, 5], [6, 1], [9, 5]] },
+  { armour: [[0, 2], [0, 3], [0, 4], [3, 0], [3, 6], [4, 3]], mine: [[3, 2], [8, 4]], coin: [[4, 1], [8, 5], [11, 0]] },
+];
+const MINE_R = 40, blastable = b => b.type === 'brick';
 // Board: seven 32u columns on a 36u pitch keep both 56u side lanes open; 22u rows. Floors 2-3 carve the chamber
 // (3x3 cells round the centre column) and a one-column shaft from it down to the bottom row. Every window row keeps its
 // edge cell open (the lane mouth), so the head can push out to its hiss lip without trapping a ball against a brick.
@@ -82,6 +93,7 @@ export class SerpentRivals {
     this.seal = null;
     if (n === 0) for (let i = 0; i < 6; i++) bricks.push({ id: `bar-${n}-${i}`, type: 'bar', x: 62 + i * 40, y: this.rowTop(0) - 40, w: 36, h: 16, hp: this.rules.hatch, maxHP: this.rules.hatch });
     else { const hp = n === 1 ? this.rules.seal2 : this.rules.seal; this.seal = { id: 'seal', x: W / 2 - 70, y: this.rowTop(0) - 56, w: 140, h: 30, hp, maxHP: hp, ward: 0, cracks: 0 }; }
+    tagSpecials(bricks, RIVALS_SPECIALS[n]);
     this.bricks = bricks; this.lures = lures;
     this.windows = [];
     for (const [snake, list] of Object.entries(L.windows[n])) for (const row of list) {
@@ -273,7 +285,7 @@ export class SerpentRivals {
     const h = l.points[0]; if (!h) return;
     // The jaw reaches a ball's width past the head, so a brick is gone before a ball pushed ahead of a harmless head can meet it.
     const reach = h.r + RIVAL_LUNGE.bite;
-    for (const b of this.bricks) if (b.hp > 0 && b.type === 'brick' && h.x + reach > b.x && h.x - reach < b.x + b.w && h.y >= b.y - 2 && h.y <= b.y + b.h + 2) {
+    for (const b of this.bricks) if (b.hp > 0 && b.type === 'brick' && b.sp !== 'armour' && h.x + reach > b.x && h.x - reach < b.x + b.w && h.y >= b.y - 2 && h.y <= b.y + b.h + 2) {
       b.hp = 0; this.eaten++; this.effect(b.x + b.w / 2, b.y + b.h / 2, 'chomp', .45, { colour: b.colour, w: b.w, h: b.h, snake: l.snake });
       if (this.seal && this.seal.ward < this.rules.wardCap) { this.seal.ward++; this.effect(b.x + b.w / 2, b.y + b.h / 2, 'seal-feed', .7, { to: { x: this.seal.x + this.seal.w / 2, y: this.seal.y + 15 }, snake: l.snake, ward: this.seal.ward }); }
     }
@@ -389,9 +401,10 @@ export class SerpentRivals {
   }
   hitBrick(brick, ball) {
     if (brick.hp <= 0) return;
-    brick.hp -= brick.type === 'bar' && ball?.ram > 0 ? Math.min(brick.hp, 2) : 1; this.score += brick.type === 'bar' ? 20 : 10;
+    brick.hp -= brick.type === 'bar' && ball?.ram > 0 ? Math.min(brick.hp, 2) : brick.sp === 'armour' && armourOutright(ball) ? brick.hp : 1; this.score += brick.type === 'bar' ? 20 : 10;
     if (!(ball?.ram > 0) && !ball?.arrow) this.chargeBank = Math.min((100 - this.charge) * this.rules.coreHits / 100, this.chargeBank + 1);
     this.effect(brick.x + brick.w / 2, brick.y + brick.h / 2, brick.hp ? 'brick-hit' : 'brick-break', brick.hp ? .35 : .7, { colour: brick.colour, w: brick.w, h: brick.h, type: brick.type });
+    if (!brick.hp && brick.sp) brickSpecial(this, brick, ball, MINE_R, blastable);
     if (!brick.hp && brick.type === 'bar' && this.bricks.every(b => b.type !== 'bar' || b.hp <= 0)) this.finishFloor();
   }
   // ---------- Arrows: five shots up from the paddle; each stops on the first thing it meets ----------

@@ -95,12 +95,13 @@ test('ratchet motion is bounded, fatal descent finishes safely, and broken-brick
   g.update(1 / 120); assert.equal(g.lumi.steps, 8); assert.equal(g.lumi.targetY, 201); assert.equal(g.phase, 'breach');
   const before = g.lumi.y; tick(g, .1); near(g.lumi.y - before, 3); assert.equal(g.state, 'play');
   assert.equal(g.canActivate(), false); tick(g, 3.2); assert.equal(g.state, 'lost'); near(g.lumi.y, 201);
-  const h = quietFixture(), brick = h.bricks[0]; Object.assign(h.balls[0], { vx: 200, vy: -300 }); h.hitBrick(brick, h.balls[0]);
+  // The wall's first brick is round-3 armour now (two hits, src/castle-specials.js); the metadata check wants a plain one-hit brick.
+  const h = quietFixture(), brick = h.bricks.find(b => b.type === 'brick' && !b.sp); Object.assign(h.balls[0], { vx: 200, vy: -300 }); h.hitBrick(brick, h.balls[0]);
   const fx = h.effects.find(e => e.kind === 'brick-break'); assert.ok(fx); assert.equal(fx.colour, brick.colour); assert.equal(fx.w, 36); assert.equal(fx.h, 18); assert.equal(fx.vx, 24); assert.equal(fx.vy, -24);
 });
 
 test('fast normal ball cannot tunnel through a brick or double-credit held Korr contact', () => {
-  const g = new Bellforge(); g.launch(); const b = g.balls[0], target = g.bricks.find(v => v.type === 'brick');
+  const g = new Bellforge(); g.launch(); const b = g.balls[0], target = g.bricks.find(v => v.type === 'brick' && !v.sp);   // a plain one-hit brick: armour takes two hits
   g.bricks = [target];
   Object.assign(b, { x: target.x + 18, y: target.y + 40, vx: 0, vy: -5000 }); g.moveBall(b, .02);
   assert.equal(target.hp, 0); assert.equal(g.chargeBank, 1); assert.ok(b.vy > 0);

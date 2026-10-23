@@ -5,6 +5,7 @@ import { plural, hpLeft } from '../near-miss.js';
 import { Sitter } from './creatures/sitter.js';
 import { EMBER } from './creatures/ember.js';
 import { ejectBall } from '../clearance.js';
+import { tagSpecials, mineBlast, armourOutright } from '../castle-specials.js';
 
 // Dragon's Hoard: Kit robs Ember, a vain dragon asleep on his hoard behind the cave ledge (scenery: the ledge is the
 // ceiling, Ember never collides). Gold opens Ember's Wake eye; Hush Chimes close it. Floor 1 hides the Crown chest in the
@@ -78,6 +79,17 @@ export const HOARD_MAPS = [
     'ctbvcvbtc',
     '.vcbtbcv.'],
 ];
+// Round-3 castle specials (src/castle-specials.js), [row, col] of each floor's map. Coins and chests are the hoard's own gold and
+// payload bricks and wear the castle coin and chest. Armour (two hits; a ram breaks it outright; the dragon's breath cannot melt
+// it) screens the Crown (floor 1), the counterweights (floor 2) and the cave gate (floor 3). Mines sit in clusters: MINE_R reaches
+// the bricks beside, above and below (never a chime, the Crown, a weight or the gate), and the gold and chests they shatter wake
+// Ember like any other gold, so a mine beside the hoard is a gamble.
+export const HOARD_SPECIALS = [
+  { armour: [[5, 2], [5, 4], [5, 6], [2, 2], [2, 6]], mine: [[7, 1], [8, 3]] },
+  { armour: [[0, 1], [0, 7], [1, 2], [1, 6]], mine: [[3, 3], [6, 5]] },
+  { armour: [[0, 5], [0, 6], [0, 7], [1, 4], [1, 8]], mine: [[4, 2], [6, 5]] },
+];
+const MINE_R = 35, blastable = b => b.field && (b.kind === 'brick' || b.kind === 'coin' || b.kind === 'chest');
 const ORDINARY = new Set(['brick', 'coin', 'molten']);   // what a live Ram ploughs through
 const MELTS = new Set(['brick', 'coin']);
 
@@ -125,11 +137,12 @@ export class DragonsHoard {
       bricks.push(b);
     }
     if (n === 2) this.gate = { x: L.gate.x, y: C - L.gate.h, w: L.gate.w, h: L.gate.h, hp: this.rules.gate, maxHP: this.rules.gate };
+    tagSpecials(bricks, HOARD_SPECIALS[n], b => b.kind === 'brick' && b.field);
     this.bricks = bricks; this.startTop = Math.min(...bricks.filter(b => b.field).map(b => b.y));
     this.makeServe();
   }
   makeBrick(kind, x, y, w, h, hp, row, col, extra = {}) {
-    return { id: `${kind}-${this.floor}-${row}-${col}`, kind, x, y, w, h, hp, maxHP: hp, row, col, shape: { type: 'rect', x, y, w, h }, ...extra };
+    return { id: `${kind}-${this.floor}-${row}-${col}`, kind, x, y, w, h, hp, maxHP: hp, row, col, shape: { type: 'rect', x, y, w, h }, ...(kind === 'coin' || kind === 'chest' ? { sp: kind } : {}), ...extra };
   }
   setTarget(x) { if (!Number.isFinite(x)) return false; this.paddle.targetX = clamp(x, this.paddle.w / 2 + 6, this.width - this.paddle.w / 2 - 6); return true; }
   pause(value) { this.paused = !!value; }
@@ -297,8 +310,8 @@ export class DragonsHoard {
     return rows.reduce((a, r) => Math.abs(this.rowY(r) - y) < Math.abs(this.rowY(a) - y) ? r : a);
   }
   melt(row) {
-    for (const b of this.bricks) if (b.row === row && b.field && b.hp > 0 && MELTS.has(b.kind)) {
-      b.kind = 'molten'; b.hp = b.maxHP = 1; b.molten = this.rules.molten; b.moltenFor = this.rules.molten;
+    for (const b of this.bricks) if (b.row === row && b.field && b.hp > 0 && MELTS.has(b.kind) && b.sp !== 'armour' && b.sp !== 'mine') {
+      b.kind = 'molten'; delete b.sp; b.hp = b.maxHP = 1; b.molten = this.rules.molten; b.moltenFor = this.rules.molten;
       this.effect(b.x + b.w / 2, b.y + b.h / 2, 'melt', .5);
     }
   }
@@ -408,7 +421,7 @@ export class DragonsHoard {
       if (this.bricks.every(q => q.kind !== 'weight' || q.hp <= 0)) { this.ember.reset(); this.nextHazard = Math.max(this.nextHazard, this.floorTime + 3); this.phase = 'greed'; this.effect(this.width / 2, this.ceiling, 'exit-open', 1.2); }
       return;
     }
-    brick.hp--;
+    brick.hp = brick.sp === 'armour' && armourOutright(ball) ? 0 : brick.hp - 1;
     const gold = this.goldUnits(brick.kind);
     if (brick.hp > 0) { this.score += 5; if (free) this.credit(1); this.effect(cx, cy, 'brick-hit', .35, fx); return; }
     this.score += { coin: 30, chest: 60, molten: 40, hard: 15 }[brick.kind] || 10;
@@ -425,6 +438,8 @@ export class DragonsHoard {
     if (gold && this.greed && this.floor === 1 && !this.greed.caught && !this.goldLeft()) { this.effect(this.width / 2, this.ceiling, 'run', .8); this.effect(cx, cy, 'brick-break', .7, fx); return this.finishFloor('run'); }
     if (brick.kind === 'chest') { this.ember.feel('treasure', this.time); this.capsules.push({ id: ++this.serial, kind: CAPSULE_KINDS[this.capsuleSerial++ % CAPSULE_KINDS.length], x: cx, y: cy, dead: false }); }
     this.effect(cx, cy, 'brick-break', .7, fx);
+    if (brick.kind === 'coin') this.effect(cx, cy, 'coin-pop', .7);
+    if (brick.sp === 'mine') mineBlast(this, brick, ball, MINE_R, blastable);
     this.rowCleared(brick.row);
   }
   strikeChime(c) {

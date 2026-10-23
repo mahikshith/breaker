@@ -14,6 +14,8 @@ import { store } from './prefs.js';
 import { plural } from './near-miss.js';
 import { SERPENT_CAPTURE, createSerpentCapture, sampleSerpentCapture } from './serpent-capture.js';
 import { createSerpentRetreat, sampleSerpentRetreat } from './serpent-retreat.js';
+import { tagSpecials, blastVictims, armourOutright, BLAST_LIFE, COIN_BONUS } from './castle-specials.js';
+import { specialSprite, specialShine, drawBlast, drawCoinPop } from './castle-art.js';
 
 const COLS = 20, ROWS = 20, CELL = 16, OX = 20, OY = 96;
 const EMPTY = 0, SUN = 1, CORAL = 2, VIOLET = 3, TEAL = 4, GOLD = 5, BLUE = 6, BARS = 8, GRANITE = 9;
@@ -23,6 +25,11 @@ const COLORS = { [SUN]: '#ffc73d', [CORAL]: '#ff6f61', [VIOLET]: '#8f5cf0', [TEA
 const HP = { [SUN]: 1, [CORAL]: 1, [VIOLET]: 2, [TEAL]: 2, [BLUE]: 1, [GOLD]: 1 };
 const CHEW = { [EMPTY]: 0.32, [BARS]: 0.32, [SUN]: 2.1, [CORAL]: 2.1, [VIOLET]: 3.45, [TEAL]: 3.45, [BLUE]: 2.1, [GOLD]: 2.1 }; // serpent seconds per cell
 const POCKET = { c0: 7, c1: 12, r0: 3, r1: 5 };
+// Round-3 castle specials (src/castle-specials.js), [row, col] of a two-cell, one-hit brick's left cell. Gold bricks are the
+// payload chests. Armour (two hits, like the glass) sits on the climb to the cage (column 6-7, the central rise) and on the
+// serpent's row-16 corridor; the mine on that climb shatters the ring of bricks round it; coins pay a bonus.
+export const VAULT_SPECIALS = { armour: [[14, 6], [17, 7], [10, 8], [10, 10], [16, 12]], mine: [[13, 7]], coin: [[16, 2], [17, 9], [18, 14], [12, 16]] };
+const MINE_R = 36; // a mine shatters every brick whose centre is within this of its own (about eight bricks of the 32x16 running bond)
 const PR_X = OX + 10 * CELL, FLOOR_Y = OY + 6 * CELL; // the princess's spot in the cage
 const DROPS = ['wide', 'split', 'laser', 'shrink', 'fire', 'shield', 'wide', 'burst', 'slow', 'focus', 'split'];
 const LAYOUT = [
@@ -87,6 +94,8 @@ export class Vault extends Arena {
     this.prisonX = OX + (this.pocket.c0 + 3) * CELL;
     this.floorY = OY + (this.pocket.r1 + 1) * CELL;
     this.layout = options.layout || LAYOUT;
+    this.specials = options.specials || (options.layout ? {} : VAULT_SPECIALS);
+    this.blasts = []; this.pops = [];
     this.build();
     this.snake = this.newSnake(streamingCells());
     this.entry = { progress: 0, speed: 1, fullHeadTurn: true };
@@ -121,9 +130,17 @@ export class Vault extends Arena {
       for (let i = 0; i < n; i++) { const k = r * COLS + c + i; G.bid[k] = id; G.cells[k] = kind; G.hp[k] = 1; }
       this.debris.addStatic(id, br.x, br.y, br.w, br.h);
     }
+    for (const br of this.bricks) { br.row = br.r; br.col = br.c; br.maxHP = br.max; if (br.kind === GOLD) br.sp = 'chest'; }
+    tagSpecials(this.bricks, this.specials, b => HP[b.kind] === 1 && b.kind !== GOLD && b.n === 2);
+    for (const br of this.bricks) br.max = br.maxHP; // armour: two hits
   }
   brickAt(c, r) { const id = this.grid.bid[r * COLS + c]; return id >= 0 ? this.bricks[id] : null; }
   art(br) { return brickArt(br.kind, br.n, br.max ? br.max - br.hp : 0); }
+  // A special brick wears its round-3 sprite (cracked once armour or a chest has been hit); the rest keep their glaze.
+  brickArt(br) {
+    const s = specialSprite(br);
+    return s ? { img: s, ox: 1, oy: 1, iw: br.w + 2, ih: br.h + 2 } : this.art(br);
+  }
 
   // ---------- princess animation ----------
   play(anim, loop = false, fps = 14) { if (this.pr.anim !== anim || !loop) Object.assign(this.pr, { anim, t: 0, loop, fps }); else this.pr.fps = fps; }
@@ -185,13 +202,29 @@ export class Vault extends Arena {
     br.hitT = this.t; br.hitBall = b; br.wob = 1;
     if (this.phase === 'intro') this.skipIntro();
     if (br.kind === GRANITE) { sfx.tough(); return; }
-    br.hp = b.fire ? 0 : br.hp - 1;
+    br.hp = b.fire || (br.sp === 'armour' && armourOutright(b)) ? 0 : br.hp - 1;
     if (br.hp > 0) { sfx.tough(); this.fx.shatter(b.x - 3, b.y - 3, 6, 6, COLORS[br.kind], 1, 0.4); this.bump(0.05); return; }
+    this.breakBrick(br, b);
+    this.bump(0.07);
+  }
+  // A brick that is gone for good: score, chest payload, coin bonus, and a mine's blast.
+  breakBrick(br, b) {
     this.removeBrick(br, b);
     this.brokeBrick(b);
     this.addScore(br.kind === GOLD ? 50 : 10 * br.n * br.max, br.x + br.w / 2, br.y);
-    if (br.kind === GOLD) this.dropPower(br.x + br.w / 2, br.y + CELL, DROPS[(c + r) % DROPS.length]);
-    this.bump(0.07);
+    if (br.kind === GOLD) this.dropPower(br.x + br.w / 2, br.y + CELL, DROPS[(br.c + br.r) % DROPS.length]);
+    if (br.sp === 'coin') { this.addScore(COIN_BONUS, br.x + br.w / 2, br.y); this.pops.push({ x: br.x + br.w / 2, y: br.y + br.h / 2, at: this.t }); }
+    if (br.sp === 'mine') this.mineBlast(br, b);
+  }
+  // A mine shatters every brick within MINE_R of its centre (armour included), chaining into other mines. Granite, the cage bars
+  // and the serpent are not bricks to it: they stay.
+  mineBlast(m, b) {
+    const cx = m.x + m.w / 2, cy = m.y + m.h / 2;
+    this.blasts.push({ x: cx, y: cy, at: this.t }); this.bump(0.3, 0.05); sfx.boom();
+    for (const o of blastVictims(this.bricks, m, MINE_R, o => !o.gone && o.kind !== GRANITE && o.kind !== BARS)) {
+      if (o.gone) continue; // a chained mine may have taken it already
+      o.hp = 0; this.breakBrick(o, { ...b, vx: (o.x + o.w / 2 - cx) * 3, vy: (o.y + o.h / 2 - cy) * 3 - 60, fire: true });
+    }
   }
   hitBars(b) {
     if (this.barsT === this.t) return; this.barsT = this.t;
@@ -200,7 +233,7 @@ export class Vault extends Arena {
   }
   removeBrick(br, ball) {
     const G = this.grid;
-    const art = this.art(br); // shatter shows the brick as it looked
+    const art = this.brickArt(br); // shatter shows the brick as it looked
     br.gone = true;
     for (let i = 0; i < br.n; i++) { const k = br.r * COLS + br.c + i; G.cells[k] = EMPTY; G.hp[k] = 0; G.bid[k] = -1; }
     this.debris.removeStatic(br.id);
@@ -282,7 +315,7 @@ export class Vault extends Arena {
     }
     return { cost: Infinity, path: [] };
   }
-  chewTime(c, r) { const br = this.brickAt(c, r); return br ? CHEW[br.kind] * (br.max > 1 && br.hp === 1 ? 0.6 : 1) : CHEW[EMPTY]; }
+  chewTime(c, r) { const br = this.brickAt(c, r); return br ? CHEW[br.sp === 'armour' ? VIOLET : br.kind] * (br.max > 1 && br.hp === 1 ? 0.6 : 1) : CHEW[EMPTY]; }
 
   pickVenomTarget() {
     return venomTarget({ grid: this.grid, bricks: this.bricks, head: this.snakePoints()[0], brickAt: (c, r) => this.brickAt(c, r), plan: () => this.snakePlan() }, this.pocket, GRANITE, BARS);
@@ -562,7 +595,7 @@ export class Vault extends Arena {
     let n = 0;
     for (const br of this.bricks) {
       if (br.gone || seen[br.r * COLS + br.c]) continue;
-      const art = this.art(br);
+      const art = this.brickArt(br);
       br.gone = true;
       for (let i = 0; i < br.n; i++) { const k = br.r * COLS + br.c + i; G.cells[k] = EMPTY; G.bid[k] = -1; }
       this.debris.removeStatic(br.id);
@@ -636,6 +669,8 @@ export class Vault extends Arena {
       sfx.tough(); this.bump(0.12); this.addScore(15);
     });
     for (const br of this.bricks) if (br.wob > 0) br.wob = Math.max(0, br.wob - dtReal * 5);
+    if (this.blasts.length) this.blasts = this.blasts.filter(e => this.t - e.at < BLAST_LIFE);
+    if (this.pops.length) this.pops = this.pops.filter(e => this.t - e.at < .7);
     this.barsWob = Math.max(0, this.barsWob - dtReal * 3);
     this.updatePrincess(dtReal); this.updateZoom(dtReal);
     if (this.bubble && (this.bubble.t += dtReal) > this.bubble.dur) this.bubble = null;
@@ -723,8 +758,9 @@ export class Vault extends Arena {
     for (const br of this.bricks) if (!br.gone) g.fillRect(br.x + 2.5, br.y + 4, br.w - 1, br.h - 1);
     for (const br of this.bricks) {
       if (br.gone) continue;
-      const a = this.art(br), wob = br.wob ? Math.sin(br.wob * 18) * br.wob * 1.2 : 0;
+      const a = this.brickArt(br), wob = br.wob ? Math.sin(br.wob * 18) * br.wob * 1.2 : 0;
       g.drawImage(a.img, br.x - a.ox + wob, br.y - a.oy, a.iw, a.ih);
+      if (br.sp) specialShine(g, br, this.t, br.x + wob, br.y);
     }
     if (this.snake.chewing && this.phase === 'rescue') this.drawChew(g);
     if (this.phase === 'escape') {
@@ -737,6 +773,8 @@ export class Vault extends Arena {
     this.drawEntrance(g);
     if (this.snake.alpha > 0 && this.state !== 'won') this.drawSnake(g);
     g.save(); g.beginPath(); g.rect(0, -400, W, this.playClipY + 400); g.clip(); this.debris.draw(g); g.restore();
+    for (const e of this.blasts) drawBlast(g, e.x, e.y, this.t - e.at, BLAST_LIFE, .8);
+    for (const e of this.pops) drawCoinPop(g, e.x, e.y, this.t - e.at);
     this.drawDrops(g); this.drawPaddle(g); this.drawBalls(g); this.fx.draw(g); this.drawAim(g);
     this.drawBubble(g, Math.max(OX + 60, Math.min(OX + COLS * CELL - 60, prX + 4)), floorY - 54);
     g.restore();

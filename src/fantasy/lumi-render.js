@@ -3,6 +3,7 @@ import { SPR, ready, cached, text, drawKit, loadImg, drawCapsule } from '../gfx.
 import { drawCastleWindow } from '../castle-window.js';
 import { LUMI_FLOORS, LUNGE, LUMI_TIMING } from './lumitower.js';
 import { drawThemed, drawThemedBar, themedBreak } from '../themed-bricks.js';
+import { drawSpecial } from '../castle-art.js';
 import { glow, sparks, chips, pips, dust, rnd, clamp01, smooth, gBanner, gPaddle, hoistChain, sprite, skinFor, CLIMB } from './render.js';
 
 // Lumi Breaks Out. Windows are the layered castle-window kit scaled to 44u; the serpent is one sampled path drawn twice:
@@ -142,6 +143,7 @@ function glazedTile(key, w, h) {
   });
 }
 export function lbrick(ctx, b, mats = LUMI_MAT) {
+  if (b.sp && drawSpecial(ctx, b, (typeof performance !== 'undefined' ? performance.now() : 0) / 1000)) return;   // round-3 castle specials (src/castle-specials.js)
   const key = BRICK[b.colour] || 'v', s = SPR[`brick_${key}_2_0`];
   // mats null (the Hoard) keeps the glaze-v2 brick beside its coin and chest bricks.
   if (mats && (b.type === 'steel' ? drawThemedBar(ctx, 'tower', b.x, b.y, b.w, b.h) : drawThemed(ctx, 'tower', mats[b.colour] || 'stone', b.x, b.y, b.w, b.h))) { /* themed set */ }
