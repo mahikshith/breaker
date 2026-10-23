@@ -243,7 +243,7 @@ export class Tidewheel {
     if(this.fireWater){
       const w=this.pulseWarning,s=this.rules.pulseSpeed,from={...this.claws[0].muzzle},angle=Math.atan2(w.target.y-from.y,w.target.x-from.x);
       this.pulses.push({id:++this.serial,x:from.x,y:from.y,px:from.x,py:from.y,vx:Math.cos(angle)*s,vy:Math.sin(angle)*s,r:10,age:0,life:3,from,dealt:false});
-      v.emission={from,angle,at:this.time,side:-1};this.effects.push({kind:'water-muzzle',x:from.x,y:from.y,angle,age:0,life:.25});
+      v.emission={from,angle,at:this.time,side:-1};this.effects.push({kind:'water-muzzle',x:from.x,y:from.y,angle,age:0,life:.4});
       this.pulseWarning=null;this.fireWater=false;
     }
   }
@@ -364,7 +364,7 @@ export class Tidewheel {
       const hit=sweepTarget(q,end,q.r,t,0,dt);if(hit&&(!first||hit.t<first.t))first={...hit,paddle:true};
       if(!first){q.x=end.x;q.y=end.y;continue;}
       q.x=mix(q.x,end.x,first.t);q.y=mix(q.y,end.y,first.t);
-      this.effects.push({kind:'water-hit',x:q.x,y:q.y,age:0,life:.35,blocked:!first.paddle});
+      this.effects.push({kind:'water-hit',x:q.x,y:q.y,age:0,life:.6,blocked:!first.paddle});
       if(first.paddle){q.dealt=true;this.loseBall('water-pulse');break;}
       if(first.ball.powerShot)first.ball.dead=true;
       const vn=q.vx*first.nx+q.vy*first.ny;q.vx-=2*vn*first.nx;q.vy-=2*vn*first.ny;q.reflected=true;q.harmless=true;q.life=q.age+.45;

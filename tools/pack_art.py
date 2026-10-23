@@ -363,6 +363,16 @@ if os.path.exists(glaze2_atlas):
             assert im.mode == 'RGBA' and list(im.size) == s['px'], f'Invalid glaze v2 brick: {name}'
             art['glaze2'][name] = {'url': uri(im, 92), 'uw': im.size[0] / PX, 'uh': im.size[1] / PX, 'margin': s['margin']}
 
+# Tidewheel glaze bricks (art/tidewheel-glaze/build.py, re-glazed from the glaze v2 sheet): sea-glass, coral, pearl and
+# brass-banded steel at the rafts' 34x18 footprint, intact / cracked / breaking. Small soft sprites, so lossy colour.
+tg_atlas = A('tidewheel-glaze', 'atlas.json')
+if os.path.exists(tg_atlas):
+    art['tidewheelGlaze'] = {}
+    for name, s in json.load(open(tg_atlas, encoding='utf-8'))['sprites'].items():
+        with Image.open(A('tidewheel-glaze', s['file'])) as im:
+            assert im.mode == 'RGBA' and not im.info and list(im.size) == s['px'], f'Invalid Tidewheel glaze brick: {name}'
+            art['tidewheelGlaze'][name] = {'url': uri(im, 88), 'uw': s['drawSize'][0], 'uh': s['drawSize'][1], 'margin': s['margin']}
+
 # Dragon's Hoard (art/hoard/build.py, from the M365 Copilot dragon kit): Ember's eight expression busts and the hoard props.
 # Each sprite is drawn at drawSize with `anchor` on its model point; `contact` is the collider rect inside it (the Crown chest).
 # Ember is scenery behind the cave ledge in this chapter: his measured circles travel with solid false for a later duel.

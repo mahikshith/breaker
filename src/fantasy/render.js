@@ -1,5 +1,6 @@
 import { ART } from '../vault-art.js';
-import { SPR, loadImg, artLoaded, text, cached, drawGlint, drawRamPips, drawAt } from '../gfx.js';
+import { SPR, loadImg, artLoaded, text, cached, drawGlint, drawRamPips } from '../gfx.js';
+import { tideFrame, splashUnder, splashOver, muzzle, wetHit, pulseTrail, pour } from './tide-fx.js';
 import { GATEHOUSE_FLOORS } from './gatehouse.js';
 import { renderLumi } from './lumi-render.js';
 import { renderRivals } from './rivals-render.js';
@@ -15,6 +16,8 @@ export function makeArt(){
   manifest.tidewheel.bricks=F.tidewheel.bricks;
   for(const [key,item] of Object.entries(F.tidewheel.bricks))images['brick/'+key]=loadImg(item.url);
   // Premium pass: Bellforge glazed ceramic bricks and pin plates, mapped through the same contact anchors as the Tidewheel tile.
+  // Tidewheel glaze bricks (art/tidewheel-glaze): sea-glass, coral, pearl and brass-banded steel, intact/cracked/breaking.
+  for(const [key,item] of Object.entries(ART.tidewheelGlaze||{}))images['tg/'+key]=loadImg(item.url);
   manifest.premium=ART.premium?.bricks||{};for(const [key,item] of Object.entries(manifest.premium))images['premium/'+key]=loadImg(item.url);
   images['bellforge/background']=loadImg(ART.keepBackdrop);images['gatehouse/background']=images['bellforge/background'];
   images.waterShot=loadImg(F.waterShot.url);
@@ -63,6 +66,37 @@ function tbrick(ctx,art,key,x,y,bw,bh){
   const w=bw/(z[0]-a[0]),h=bh/(z[1]-a[1]);ctx.drawImage(art.images['brick/'+key],x-a[0]*w,y-a[1]*h,w,h);
 }
 const CERAMIC={cyan:'ceramic_teal',rose:'ceramic_coral',plum:'ceramic_plum'};
+// Tidewheel raft bricks: colour 0..2 is sea-glass, coral, pearl; 'steel' (or type 'steel') is the brass-banded bar.
+const SEA=['seaglass','coral','pearl'],SEA_OF={cyan:'seaglass',rose:'coral',plum:'pearl'};
+const seaMaterial=b=>b.colour==='steel'||b.type==='steel'?'steel':typeof b.colour==='number'?SEA[((b.colour%3)+3)%3]:SEA_OF[b.colour];
+function seaImg(art,mat,state){const img=art.images[`tg/tg_${mat}_${state}`];return img?.complete&&img.naturalWidth?img:null;}
+// The sprite carries a 4-unit margin round the 34x18 face (its contact shadow), scaled with the brick.
+function seaBrick(ctx,art,mat,state,x,y,w,h){
+  const img=mat&&seaImg(art,mat,state);if(!img)return false;
+  ctx.drawImage(img,x-4*w/34,y-4*h/18,w*42/34,h*26/18);return true;
+}
+// A sea brick breaking: the breaking frame in place for a beat, then its three pieces (cut along the frame's own gaps)
+// tumble off under gravity with the ball's carry, two glaze chips spin off the face, and a wet spray bursts out.
+const SEA_PIECES=[[[-.1,-.1],[.5,-.1],[.515,.3],[.235,1.1],[-.1,1.1]],[[.515,.28],[.69,1.1],[.235,1.1]],[[.52,-.1],[1.1,-.1],[1.1,1.1],[.69,1.1],[.53,.28]]];
+const SEA_KICK=[[-46,-70,-4.5],[4,-30,2.5],[44,-62,4]];
+function seaBreak(ctx,art,e){
+  const mat=seaMaterial(e),img=mat&&seaImg(art,mat,2),intact=mat&&seaImg(art,mat,0);if(!img)return false;
+  const t=e.age,w=e.w||34,h=e.h||18,a=Math.min(1,(e.life-t)/.25),hold=Math.max(0,t-.05);
+  ctx.save();ctx.globalAlpha=a;
+  for(let i=0;i<3;i++){
+    const [kx,ky,spin]=SEA_KICK[i],P=SEA_PIECES[i],x=e.x+(kx+(e.vx||0))*hold,y=e.y+(ky+(e.vy||0))*hold+420*hold*hold;
+    ctx.save();ctx.translate(x,y);ctx.rotate(spin*hold);ctx.translate(-w/2,-h/2);
+    ctx.beginPath();P.forEach(([u,v],k)=>k?ctx.lineTo(u*w,v*h):ctx.moveTo(u*w,v*h));ctx.closePath();ctx.clip();
+    ctx.drawImage(img,-4*w/34,-4*h/18,w*42/34,h*26/18);ctx.restore();
+  }
+  if(intact&&hold>0)for(let i=0;i<2;i++){   // glaze chips cut from the face's lit upper edge
+    const sx=(20+i*44)/126*intact.width,sy=16/78*intact.height,sw=14/126*intact.width,sh=10/78*intact.height,dir=i?1:-1;
+    ctx.save();ctx.translate(e.x+dir*(8+70*hold),e.y-4-90*hold+460*hold*hold);ctx.rotate(dir*9*hold);ctx.drawImage(intact,sx,sy,sw,sh,-2.2,-1.6,4.4,3.2);ctx.restore();
+  }
+  ctx.restore();
+  ctx.save();ctx.globalAlpha=1;wetHit(ctx,e.x,e.y,t,Math.round(e.x)%31,8);ctx.restore();
+  return true;
+}
 function premiumReady(art,key){const img=art.images['premium/'+key];return art.manifest.premium?.[key]&&img?.complete&&img.naturalWidth?img:null;}
 function pbrick(ctx,art,key,x,y,bw,bh){
   const m=art.manifest.premium[key],a=m.anchors.contactTopLeft,z=m.anchors.contactBottomRight,w=bw/(z[0]-a[0]),h=bh/(z[1]-a[1]);
@@ -74,6 +108,7 @@ function seated(ctx,art,key,x,y,w,h){
   ctx.drawImage(img,x-P,y-P,w+P*2,h+P*2+2);
 }
 function brick(ctx,art,b,x=b.x,y=b.y){
+  if(b.raft!==undefined&&seaBrick(ctx,art,seaMaterial(b),b.maxHP>1&&b.hp<b.maxHP?1:0,x,y,b.w,b.h))return;
   const pin=b.type==='pin'&&'pin_'+Math.max(1,Math.min(2,b.hp))+'hp';
   if(pin&&premiumReady(art,pin)){
     seated(ctx,art,pin,x,y,b.w,b.h);
@@ -97,12 +132,20 @@ function brick(ctx,art,b,x=b.x,y=b.y){
   const img=art.images[b.type==='pin'?'pin':key]||art.images.cyan;
   ctx.drawImage(img,x-b.w*.125,y-b.h*.25,b.w*1.25,b.h*1.5);
 }
+// Lumi's clips run on the model clock; once the model stops (won or lost) a wall clock carries them on, so her cheer
+// keeps playing behind the result instead of freezing on one frame.
+const lumiClock=new WeakMap();
+function lumiTime(g){
+  if(g.state==='play')return g.time;
+  const now=(typeof performance!=='undefined'?performance.now():Date.now())/1000;let c=lumiClock.get(g);
+  if(!c||c.t!==g.time){c={t:g.time,at:now};lumiClock.set(g,c);}return g.time+now-c.at;
+}
 function princess(ctx,g,art,x,y){
   const worried=g.lumi.worried||g.lumi.steps>0||(g.water&&g.water.y-g.water.limit<60);
   const clip=g.phase==='rescue'||g.state==='won'?'Cheer':/windup/i.test(g.villain.stage)||worried?'Nervous':'Idle';
   const L=art.lumi,a=L.anims[clip];
   // Existing character frames share the centred feet baseline.
-  ctx.drawImage(L.img,Math.floor(g.time*10)%a.n*L.cell,a.row*L.cell,L.cell,L.cell,x-29,y-55,58,58);
+  ctx.drawImage(L.img,Math.floor(lumiTime(g)*10)%a.n*L.cell,a.row*L.cell,L.cell,L.cell,x-29,y-55,58,58);
 }
 function ramp(ctx,art,r){
   // Map the measured top face, not the padded image edge, onto the physical segment.
@@ -137,6 +180,7 @@ function renderBellforge(ctx,g,art){
   }
   for(const b of g.bells)sprite(ctx,art,'bellforge','bell',b.x,b.y,{width:32,angle:b.angle||0});
 }
+const SLUICES=[79,180,278];
 function renderTidewheel(ctx,g,art){
   const v=g.villain;
   // Reuse the wall's stone courses for submerged foundations; piers never hang above the water.
@@ -209,11 +253,7 @@ function renderTidewheel(ctx,g,art){
   const y=g.water.y;
   if(v.stage==='pull'&&y>315){
     const strength=Math.min(1,v.stageTime*5)*Math.min(1,(1-v.stageTime)*3);
-    ctx.save();ctx.globalAlpha=strength*.65;
-    for(const x of[79,180,278])for(let n=0;n<5;n++){
-      const xx=x+(n-2)*2.7,wash=ctx.createLinearGradient(0,313,0,y);wash.addColorStop(0,'#4395a33a');wash.addColorStop(1,'#b2e5dfa0');
-      line(ctx,{x:xx,y:313},{x:xx+Math.sin(g.time*9+n)*2,y},wash,n%2?1:2);
-    }ctx.restore();
+    ctx.save();ctx.globalAlpha=1;for(let i=0;i<3;i++)pour(ctx,SLUICES[i],313,y,g.time,strength,i);ctx.restore();
   }
   const wash=ctx.createLinearGradient(0,y,0,g.height);wash.addColorStop(0,'#4fc2d514');wash.addColorStop(.18,'#12678328');wash.addColorStop(1,'#071c3209');ctx.fillStyle=wash;ctx.fillRect(0,y,g.width,g.height-y);
   ctx.save();ctx.beginPath();ctx.rect(0,y-6,g.width,g.height-y+6);ctx.clip();
@@ -239,7 +279,7 @@ function renderTidewheel(ctx,g,art){
     const m=art.waterShot,[w,h]=m.unit;
     ctx.drawImage(art.images.waterShot,-m.pivot[0]*w,-m.pivot[1]*h,w,h);
     // Round pressure core and trailing beads keep the shot legible as water in motion.
-    const a0=ctx.globalAlpha;glow(ctx,0,0,p.r*1.1,'#dcfff5',.35*a0);for(let i=0;i<3;i++)glow(ctx,Math.sin(p.age*19+i)*3,-15-i*7,4-i*.8,'#b5e9e5',a0*.65**(i+1));
+    const a0=ctx.globalAlpha;glow(ctx,0,0,p.r*1.1,'#dcfff5',.35*a0);pulseTrail(ctx,p.age);
     ctx.restore();
   }
   if(g.anchor){
@@ -253,7 +293,9 @@ function renderTidewheel(ctx,g,art){
     }ctx.restore();
   }
   for(const side of[-1,1]){
-    const x=g.lumi.x+side*25;if(!refugeChain(ctx,g,art,side,x))chain(ctx,art,{x,y:47},{x,y:g.lumi.y+31});
+    // Hauled up in the rescue, the refuge rises past its chain blocks: the chains then run on up out of frame.
+    const x=g.lumi.x+side*25;if(g.lumi.y+31<56){chain(ctx,art,{x,y:-30},{x,y:g.lumi.y+31});continue;}
+    if(!refugeChain(ctx,g,art,side,x))chain(ctx,art,{x,y:47},{x,y:g.lumi.y+31});
     ctx.fillStyle='#332d28';ctx.strokeStyle='#bda77e';ctx.lineWidth=1;ctx.beginPath();ctx.roundRect(x-4,42,8,9,2);ctx.fill();ctx.stroke();
     ctx.fillStyle='#d8c9a5';ctx.beginPath();ctx.arc(x,46,1.5,0,Math.PI*2);ctx.fill();
   }
@@ -767,7 +809,7 @@ export function drawEncounter(ctx,g,art,level){
   if(level==='lumitower')return renderLumi(ctx,g,art);
   if(level==='rivals')return renderRivals(ctx,g,art);
   if(level==='hoard')return renderHoard(ctx,g,art);
-  const plate=art.images[level+'/background'];ctx.drawImage(plate,0,0,g.width,g.height);
+  const plate=art.images[level+'/background'];ctx.drawImage(plate,0,0,g.width,g.height);tideFrame();
   ctx.fillStyle='#07101b1c';ctx.fillRect(0,0,g.width,g.height);
   if(level==='tidewheel')renderTidewheel(ctx,g,art);else renderBellforge(ctx,g,art);
   const damage=damageStates.get(g)||{hp:g.villain.hp,time:-10};
@@ -780,10 +822,12 @@ export function drawEncounter(ctx,g,art,level){
   }
   for(const e of g.effects){
     const q=e.age/e.life;ctx.save();ctx.globalAlpha=1-q;
-    if(siegeEffect(ctx,g,art,e,q)){}else if(e.kind==='water-hit'&&splash(ctx,e,q)){}else if(e.kind==='water-muzzle'){
-      ctx.translate(e.x,e.y);ctx.rotate(e.angle);
-      for(let n=0;n<8;n++){const t=e.age,a=(n-3.5)*.12;ctx.fillStyle=n%2?'#d4f8ee':'#75bfcc';ctx.beginPath();ctx.ellipse(Math.cos(a)*t*80,Math.sin(a)*t*80,1.4+q,1,0,0,Math.PI*2);ctx.fill();}
-    }else if(e.kind==='brace-break'){
+    if(siegeEffect(ctx,g,art,e,q)){}
+    else if(e.kind==='water-hit'){ctx.globalAlpha=1;splashUnder(ctx,g,e);}   // the spray itself is drawn over the paddle, below
+    else if(e.kind==='water-muzzle'){ctx.globalAlpha=1;muzzle(ctx,e);}
+    else if(e.kind==='brick-break'&&level==='tidewheel'&&seaBreak(ctx,art,e)){}
+    else if(e.kind==='hit'&&level==='tidewheel'&&g.effects.some(f=>f.kind==='brick-break'&&f.age===e.age)){ctx.globalAlpha=1;wetHit(ctx,e.x,e.y,e.age,Math.round(e.x)%29,5);}
+    else if(e.kind==='brace-break'){
       const img=art.images['tidewheel/raft'];
       for(let n=0;n<4;n++){const t=e.age;ctx.save();ctx.translate(e.x+(n-1.5)*(10+t*32),e.y-14*t+100*t*t);ctx.rotate((n-1.5)*t*2);ctx.drawImage(img,145+n*87.5,130,87.5,102,-8.75,-7,17.5,14);ctx.restore();}
     }else if(e.kind==='brick-break'){
@@ -835,6 +879,7 @@ export function drawEncounter(ctx,g,art,level){
     if(b.titan)ctx.rotate(g.time*2);
     ctx.drawImage(b.titan?art.images.titan:art.images.ball,-size/2,-size/2,size,size);ctx.restore();
   }
+  for(const e of g.effects)if(e.kind==='water-hit')splashOver(ctx,g,e);
   const active=Object.entries(g.powerTimers||{}).filter(([,time])=>time>0);
   if(active.length){
     const [name,time]=active[0],max=g.powerMaxTimes[name],x=p.x,y=py+19;
@@ -847,6 +892,3 @@ export function drawEncounter(ctx,g,art,level){
 export function skinFor(art,id){const k=[id+'SkinL',id+'SkinM',id+'SkinR'];return k.every(n=>art.images[n]?.naturalWidth)?k:undefined;}
 // Shared with the Lumi renderer (lumi-render.js).
 export {glow,sparks,chips,pips,fxPart,dust,rnd,clamp01,smooth,gBanner,gPaddle,gBall,gWard,hoistChain,sprite,slab,CLIMB,brick,pool};
-// Tidewheel: a water pulse that meets the paddle or a ball bursts as the round-2 splash (four rendered frames over its life),
-// standing on the paddle line, or centred on the ball it hit; no drawn rings or dot spray.
-function splash(ctx,e,q){const k=Math.min(3,Math.floor(q*4));ctx.globalAlpha=q<.7?1:(1-q)/.3;return drawAt(ctx,`splash/${k}`,e.x,e.y+(e.blocked?14:4),1.15);}
