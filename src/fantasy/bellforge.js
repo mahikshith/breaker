@@ -1,6 +1,6 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { ejectBall } from '../clearance.js';
-import { RAM, BALL_R, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { RAM, BALL_R, BACK_WARD, paddleBounce, tickRam, ramThrough, powerTitle } from './ram.js';
 import { hpLeft } from '../near-miss.js';
 import { tagSpecials, brickSpecial, armourOutright } from '../castle-specials.js';
 
@@ -10,8 +10,8 @@ export const KORR_BODIES = {"idle":[[9.66667,-59,39.56097],[-16.33333,-49,33.404
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 export const BELLFORGE_MODES = {
   easy: { hp: 24, interval: 10, bellCap: 1, mistakes: 8, coreHits: 18 },
-  medium: { hp: 32, interval: 8.5, bellCap: 1, mistakes: 6, coreHits: 22 },
-  hard: { hp: 40, interval: 7.5, bellCap: 2, mistakes: 5, coreHits: 26 },
+  medium: { hp: 36, interval: 8.5, bellCap: 1, mistakes: 6, coreHits: 22 },
+  hard: { hp: 46, interval: 7.5, bellCap: 2, mistakes: 5, coreHits: 26 },
 };
 export const BELLFORGE_ENDING = { stagger: .45, slump: .65, settle: .5, escape: 1.8 };
 const BELL_R = 14;
@@ -296,7 +296,7 @@ export class Bellforge {
         const speed = Math.hypot(b.vx, b.vy); reflect(b, hit);
         const next = Math.hypot(b.vx, b.vy); if (next > 0) { b.vx *= speed / next; b.vy *= speed / next; }
         if (hit.kind === 'brick' && !b.contacts.has(hit.item.id)) { b.contacts.add(hit.item.id); this.hitBrick(hit.item.item, b); }
-        if (hit.kind === 'villain' && !b.contacts.has('korr')) { b.contacts.add('korr'); this.hitVillain(b.ram > 0 ? RAM.damage : 1, false); }
+        if (hit.kind === 'villain' && !b.contacts.has('korr')) { b.contacts.add('korr'); this.hitVillain(b.ram > 0 ? RAM.damage : 1, false); if (b.ram > 0) powerTitle(this, 'RAM STAGGERS KORR', b.x, b.y); }
         if (hit.kind === 'bell') {
           const bell = hit.item, key = `bell-${bell.id}`;
           if (!b.contacts.has(key)) {

@@ -53,6 +53,8 @@ const PURPOSE = {
   hoard: m => ({ x: 214, y: 46, w: 140, label: 'EMBER SWALLOWS LUMI' }),
 };
 const purposeClock = (key, m) => key === 'bellforge' ? { p: m.lumi.steps / m.rules.mistakes, pushAt: -Infinity, surgeAt: m.liftAt ?? -Infinity } : m.purpose;
+// Castle capsule and orb kinds -> the shared power sounds.
+const PICK = { multi: 'split', ram: 'power', chest: 'power', echo: 'shield', ward: 'shield', songshield: 'shield', volley: 'arrows', cosmic: 'titan', lullaby: 'slow', starlight: 'focus' };
 const SNAKES = new Set(['lumitower', 'rivals']), OWN_REASON = new Set(['bellforge', 'gatehouse', 'lumitower', 'rivals', 'hoard']);
 const HOARD_LOUD = new Set(['roar-warning', 'breath-warning', 'exit-open', 'slide', 'gate-break', 'crown-break', 'weight-break', 'escape', 'ram-launch', 'run', 'stay', 'crown-grab']);
 const HOARD_QUIET = new Set(['loot', 'spill', 'melt', 'harden', 'chime-ready', 'yawn', 'volley', 'arrow-hit', 'ward-deploy', 'row-clear', 'brick-break', 'paddle']);
@@ -141,7 +143,7 @@ export class FantasyChapter {
     if (!this.powerMenuOpen || !this.canChoosePower(id)) return false;
     this.closePowerMenu();
     if (!this.m.activate(this.kind(id))) return false;
-    this.kitCastAt = this.t; sfx.power(); return true;
+    this.kitCastAt = this.t; sfx.pick(PICK[this.kind(id)] || this.kind(id)); return true;
   }
   continueRun() {
     this.resultSaved = false; this.m.continued = false;   // how many continues are offered is the shared monetization policy's call
@@ -163,6 +165,11 @@ export class FantasyChapter {
     for (const e of m.effects) if (!this.heard.has(e)) {
       this.heard.add(e); if (e.kind === 'paddle-stun') this.stuns++; if (e.kind === 'ram-launch') this.coach.ramLaunched();
       if (e.kind === 'mine-blast') { sfx.boom(); continue; } if (e.kind === 'coin-pop') { sfx.hit(6); continue; }
+      // The chapter's right power on its villain (ram.js powerTitle): a short title over the field and a boom.
+      if (e.kind === 'power-title') { this.title = { text: e.text, at: this.t }; sfx.boom(); continue; }
+      // A caught capsule plays its power's own short signature (audio.js sfx.pick).
+      const cap = e.kind === 'capsule' ? e.power : e.kind.startsWith('capsule-') ? e.kind.slice(8) : e.kind.startsWith('note-') ? e.kind.slice(5) : null;
+      if (cap) { sfx.pick(PICK[cap] || cap); continue; }
       if (this.key === 'hoard') {
         if (e.kind === 'scorch' || e.kind === 'avalanche' || e.kind === 'caught') { this.kitShockUntil = this.t + .9; sfx.hurt(); }
         else if (e.kind === 'chime' || e.kind === 'ward-bounce') { this.kitReactionAt = this.t; this.kitWardResult = 'held'; sfx.hit(6); }
@@ -245,5 +252,10 @@ export class FantasyChapter {
     for (let i = 0; i < Math.max(3, Math.min(5, this.lives)); i++) drawBall(g, { x: (66 + i * 14) / s, y, r: 4.5 / s, vx: 0, vy: 0 }, i < this.lives ? 1 : 0.18);
     text(g, Math.round(this.score).toLocaleString('en-US'), this.W - 12 / s, y, 18 / s, '#fff', 'right');
     if (this.hint && this.t < this.hint.until) text(g, this.hint.text, this.W / 2, this.hudTop + (this.m.paddle.y - 40) * this.k, 14 / s, '#edb0c8', 'center');
+    const ta = this.title ? this.t - this.title.at : Infinity;
+    if (ta < 1.6) { // pops in, holds, fades
+      g.save(); g.globalAlpha = Math.min(1, ta / .12, (1.6 - ta) / .4);
+      text(g, this.title.text, this.W / 2, this.hudTop + 150 * this.k, (20 + 6 * Math.max(0, 1 - ta / .18)) / s, '#ffe2a8', 'center'); g.restore();
+    }
   }
 }

@@ -1,6 +1,7 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { circleSweep, reflect } from './bellforge.js';
-import { SPEED, BALL_R, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { paddleRoom } from '../clearance.js';
+import { SPEED, BALL_R, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough, powerTitle } from './ram.js';
 import { plural, hpLeft } from '../near-miss.js';
 import { LUNGE } from './lumitower.js';
 import { tagSpecials, brickSpecial, armourOutright } from '../castle-specials.js';
@@ -26,8 +27,8 @@ const ease = t => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
 // per capsule caught; surge: seconds forward per swallowed ball (half per ward plate fed onto the Seal).
 export const RIVALS_MODES = {
   easy: { hatch: 2, seal2: 10, seal: 16, wardCap: 2, clash: 6, dizzyHit: 3, interval: 7, tell: 1.7, lureTell: 1.1, window: 1.6, chain: 1, coreHits: 16, spit: true, clock: [95, 85, 95], push: 4.5, power: 16, surge: 6 },
-  medium: { hatch: 2, seal2: 12, seal: 20, wardCap: 4, clash: 5, dizzyHit: 3, interval: 6, tell: 1.45, lureTell: .95, window: 1.3, chain: 2, coreHits: 20, clock: [60, 70, 80], push: 3.5, power: 14, surge: 7 },
-  hard: { hatch: 3, seal2: 14, seal: 26, wardCap: 6, clash: 5, dizzyHit: 3, interval: 5, tell: 1.2, lureTell: .8, window: 1, chain: 2, coreHits: 24, clock: [50, 60, 70], push: 3, power: 12, surge: 8 },
+  medium: { hatch: 2, seal2: 12, seal: 23, wardCap: 4, clash: 5, dizzyHit: 3, interval: 6, tell: 1.45, lureTell: .95, window: 1.3, chain: 2, coreHits: 20, clock: [60, 70, 80], push: 3.5, power: 14, surge: 7 },
+  hard: { hatch: 3, seal2: 14, seal: 30, wardCap: 6, clash: 5, dizzyHit: 3, interval: 5, tell: 1.2, lureTell: .8, window: 1, chain: 2, coreHits: 24, clock: [50, 60, 70], push: 3, power: 12, surge: 8 },
 };
 export const RIVALS_PURPOSE = { label: 'THE SEAL CLOSES ON LUMI', lost: 'The serpents sealed Lumi in' };
 export const RIVALS_FLOORS = ['Lure hall', 'The crossing', 'Twin Seal'];
@@ -143,7 +144,7 @@ export class SerpentRivals {
   }
   step(dt) {
     const p = this.paddle; p.px = p.x;
-    if (p.wide > 0 && (p.wide -= dt) <= 0) p.w = p.baseW;
+    if (p.wide > 0 && (p.wide -= dt) <= 0) p.w = p.baseW; else this.widen();
     p.x += clamp(p.targetX - p.x, -900 * dt, 900 * dt); p.x = clamp(p.x, p.w / 2 + 6, this.width - p.w / 2 - 6);
     p.vx = (p.x - p.px) / dt;
     for (const fx of this.effects) fx.age += dt;
@@ -366,7 +367,7 @@ export class SerpentRivals {
         if (fresh) b.contacts.add(key);
         if (fresh && hit.kind === 'brick') this.hitBrick(hit.item.item, b);
         if (fresh && hit.kind === 'lure') this.strikeLure(hit.item.item);
-        if (fresh && hit.kind === 'seal') this.damageSeal(b.ram > 0 ? RAM.damage : 1, 'ball');
+        if (fresh && hit.kind === 'seal') { this.damageSeal(b.ram > 0 ? RAM.damage : 1, b.ram > 0 ? 'ram' : 'ball'); if (b.ram > 0) powerTitle(this, 'RAM CRACKS THE SEAL', b.x, b.y); }
         if (fresh && hit.kind === 'head') this.hitHead(hit.item.lunge);
         if (hit.kind === 'ward') this.effect(b.x, b.y, 'ward-bounce', .2);
       }
@@ -397,8 +398,9 @@ export class SerpentRivals {
   }
   damageSeal(n, source) {
     const s = this.seal; if (!s || s.hp <= 0 || (this.phase !== 'play' && this.phase !== 'serve')) return;
-    if (source === 'ball' || source === 'arrow') {
-      if (s.ward > 0) { s.ward--; this.purpose.push(this.rules.push, this.time); this.effect(s.x + s.w / 2, s.y + s.h / 2, 'ward-chip', .4, { ward: s.ward }); return; }
+    if (source === 'ball' || source === 'arrow' || source === 'ram') {
+      // The right power: a ram cracks two ward plates in one blow (a ball or an arrow chips one).
+      if (s.ward > 0) { s.ward = Math.max(0, s.ward - (source === 'ram' ? 2 : 1)); this.purpose.push(this.rules.push, this.time); this.effect(s.x + s.w / 2, s.y + s.h / 2, 'ward-chip', .4, { ward: s.ward }); return; }
       this.score += 30;
     }
     s.hp = Math.max(0, s.hp - n); s.cracks++; if (source === 'ball' || source === 'arrow') this.purpose.push(this.rules.push, this.time);
@@ -441,10 +443,12 @@ export class SerpentRivals {
   }
   collect(kind) {
     const p = this.paddle; this.effect(p.x, p.y, 'capsule-' + kind, .5); this.purpose.push(this.rules.power / 2, this.time);
-    if (kind === 'wide') { p.w = 140; p.wide = RIVALS_TIMING.wide; }
+    if (kind === 'wide') { p.wide = RIVALS_TIMING.wide; this.widen(); }
     if (kind === 'ram') p.armed = true;
     if (kind === 'multi' && this.balls.length < 4) { const a = -Math.PI / 2 - .5; this.balls.push(this.newBall(p.x, p.y - 8, Math.cos(a) * SPEED, Math.sin(a) * SPEED)); }
   }
+  // WIDE grows the paddle to 140 as far as it can without its ends landing on a ball beside it (clearance.js paddleRoom).
+  widen() { const p = this.paddle; if (p.wide > 0 && p.w < 140) p.w = 2 * paddleRoom(p.x, p.w / 2, 70, p.y, p.y + p.h, this.balls); }
   lose(reason) { if (this.state !== 'play') return; this.state = 'lost'; this.reason = reason; }
   // Continue keeps the floor, its bricks, the Seal's HP and ward; the serpents go home and wait 3 s.
   continue() {

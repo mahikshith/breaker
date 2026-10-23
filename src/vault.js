@@ -2,7 +2,7 @@
 // chews its way down to her. Bricks that lose their hold on the tower fall out as rigid bodies.
 import { Arena } from './arena.js';
 import { difficulty } from './difficulty.js';
-import { makeGrid, makeBall, cellAt } from './physics.js';
+import { makeGrid, cellAt } from './physics.js';
 import { ejectBall } from './clearance.js';
 import { brick, cached, text, vignette, drawGrain, rrect, shade, NUM, SPR, ready, loadImg, drawKitCastFlight, drawKitBrickArmour, glazedBar, softRing, drawGem } from './gfx.js';
 import { drawSerpent } from './characters.js';
@@ -215,7 +215,7 @@ export class Vault extends Arena {
     br.hitT = this.t; br.hitBall = b; br.wob = 1;
     if (this.phase === 'intro') this.skipIntro();
     if (br.kind === GRANITE) { sfx.tough(); return; }
-    br.hp = b.fire || (br.sp === 'armour' && armourOutright(b)) ? 0 : br.hp - 1;
+    br.hp = b.fire || b.titan > 0 || (br.sp === 'armour' && armourOutright(b)) ? 0 : br.hp - 1; // fire and TITAN break two-hit glaze outright
     if (br.hp > 0) { sfx.tough(); this.fx.shatter(b.x - 3, b.y - 3, 6, 6, COLORS[br.kind], 1, 0.4); this.bump(0.05); return; }
     this.breakBrick(br, b);
     this.bump(0.07);
@@ -565,9 +565,11 @@ export class Vault extends Arena {
           s.lastHit = this.t;
           if (this.cancelAttack()) { this.knockBack(3); this.stunSnake(4, 'DRIVEN OFF!', 500, p.x, p.y); break; }
           s.hits = s.hits.filter(t => this.t - t < 6); s.hits.push(this.t);
-          const big = s.hits.length >= 3 || b.ram > 0; if (big) s.hits = []; // a ram to the head always sends it reeling
-          this.knockBack(big ? 4 : 1);
-          this.stunSnake(b.fire || b.ram > 0 ? 5 : 3, big ? 'KNOCKED BACK!' : 'STUNNED', big ? 300 : 100, p.x, p.y);
+          // The right power: fire or TITAN to the head scalds it right back down its tunnel (difficulty.js powers.strong).
+          const power = b.fire || b.titan > 0, big = s.hits.length >= 3 || b.ram > 0 || power; if (big) s.hits = []; // a ram to the head always sends it reeling
+          this.knockBack(power ? 2 + (this.companionLimits()?.strong ?? 3) : big ? 4 : 1);
+          this.stunSnake(power ? 6 : b.ram > 0 ? 5 : 3, big ? 'KNOCKED BACK!' : 'STUNNED', big ? 300 : 100, p.x, p.y);
+          if (power) this.powerTitle(b.fire ? 'FIRE SCALDS THE SERPENT' : 'TITAN SMASHES THE SERPENT', '#ffc78a');
         } else if (s.stun <= 0) { // body: a flinch costs it some chewing progress
           s.flinch = 1; s.chew *= 0.5; this.addScore(20, p.x, p.y); sfx.tough(); this.bump(0.1); this.mood('hiss', 0.5);
         }
@@ -731,7 +733,7 @@ export class Vault extends Arena {
   }
   startFrenzy() {
     const p = this.paddle;
-    for (let i = 0; i < 12; i++) { const a = -0.9 + i * 0.16; this.balls.push(makeBall(p.x, p.y - 8, Math.sin(a) * 360, -Math.cos(a) * 360, 6)); }
+    for (let i = 0; i < 12; i++) { const a = -0.9 + i * 0.16; this.spawnBall(p.x, p.y - this.ballRadius - 2, Math.sin(a) * 360, -Math.cos(a) * 360); } // the shared ball radius, clear of any solid
     this.fx.pop(this.W / 2, OY + 160, 'FRENZY!', '#ff9a4a', 34);
     this.bump(0.5);
   }

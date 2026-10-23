@@ -1,6 +1,6 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { KORR_BODIES, rampPose, sweepMovingSegment, circleSweep, reflect, lerpPoint } from './bellforge.js';
-import { SPEED, BALL_R, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { SPEED, BALL_R, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough, powerTitle } from './ram.js';
 import { plural, hpLeft } from '../near-miss.js';
 import { tagSpecials, brickSpecial } from '../castle-specials.js';
 import { PurposeClock } from './purpose.js';
@@ -20,8 +20,8 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 // Korr winds a housing back up or a bell stuns the paddle.
 export const GATEHOUSE_MODES = {
   easy: { hp: 24, housing: 4, notches: 8, interval: 10, tell: 1.8, bellCap: 1, coreHits: 18, crankIdle: 7, crankTell: 1.8, crankCap: 2, par: 26, clock: [75, 95, 105], push: 5, power: 20, surge: 6 },
-  medium: { hp: 32, housing: 5, notches: 9, interval: 8.5, tell: 1.6, bellCap: 1, coreHits: 22, crankIdle: 6, crankTell: 1.5, crankCap: 3, par: 30, clock: [70, 90, 95], push: 4, power: 16, surge: 7 },
-  hard: { hp: 40, housing: 6, notches: 10, interval: 7.5, tell: 1.4, bellCap: 2, coreHits: 26, crankIdle: 5, crankTell: 1.2, crankCap: 4, par: 36, clock: [70, 85, 90], push: 4, power: 14, surge: 8 },
+  medium: { hp: 36, housing: 5, notches: 9, interval: 8.5, tell: 1.6, bellCap: 1, coreHits: 22, crankIdle: 6, crankTell: 1.5, crankCap: 3, par: 30, clock: [70, 90, 95], push: 4, power: 16, surge: 7 },
+  hard: { hp: 46, housing: 6, notches: 10, interval: 7.5, tell: 1.4, bellCap: 2, coreHits: 26, crankIdle: 5, crankTell: 1.2, crankCap: 4, par: 36, clock: [70, 85, 90], push: 4, power: 14, surge: 8 },
 };
 export const GATEHOUSE_PURPOSE = { label: 'KORR HAULS LUMI AWAY', lost: 'Korr hauled Lumi away' };
 // Floor 1 battlements: Korr, his winch and his bell rack stand on the parapet walk (top..bottom), above the ball's ceiling.
@@ -324,7 +324,7 @@ export class Gatehouse {
         if (fresh && hit.kind === 'brick') this.hitBrick(hit.item.item, b);
         if (fresh && hit.kind === 'housing') this.hitHousing(hit.item.item, b.ram > 0 ? 2 : 1);
         if (fresh && hit.kind === 'wheel') this.turnWheel(b.ram > 0 ? 2 : 1, hit.nx);
-        if (fresh && hit.kind === 'villain') this.hitVillain(b.ram > 0 ? RAM.damage : 1, b.ram > 0 && this.villain.stage === 'windup');
+        if (fresh && hit.kind === 'villain') { this.hitVillain(b.ram > 0 ? RAM.damage : 1, b.ram > 0 && this.villain.stage === 'windup'); if (b.ram > 0) powerTitle(this, 'RAM STAGGERS KORR', b.x, b.y); }
         if (fresh && hit.kind === 'bell') this.hitBell(hit.item, hit, speed);
         if (hit.kind === 'ward') this.effect(b.x, b.y, 'ward-bounce', .2);
       }

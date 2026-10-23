@@ -42,5 +42,22 @@ export const sfx = {
   breach() { tone(196, 0.9, 'sine', 0.3, 0.5); [0, 7, 12, 19].forEach((n, i) => tone(392 * 2 ** (n / 12), 0.5, 'triangle', 0.1, 0, 0.08 + i * 0.07)); },
   beat() { tone(55, 0.18, 'sine', 0.35, 0.7); },
   chew() { noise(0.08, 0.07, 700, 1.5); },
+  // A short signature per power so each pickup reads by ear: fire whooshes up, wide stretches, split/burst chirp,
+  // slow sinks, laser/arrows zap, shield chimes, titan booms, focus glints. Unknown kinds fall back to the power arpeggio.
+  pick(kind) {
+    const P = {
+      fire: () => { noise(0.22, 0.16, 900, 0.6); tone(330, 0.2, 'sawtooth', 0.06, 2.2); },
+      wide: () => { tone(260, 0.18, 'triangle', 0.12, 1.6); tone(390, 0.18, 'triangle', 0.08, 1.6, 0.04); },
+      split: () => [0, 7, 12].forEach((n, i) => tone(784 * 2 ** (n / 12), 0.07, 'triangle', 0.1, 0, i * 0.045)),
+      burst: () => [12, 7, 0].forEach((n, i) => tone(784 * 2 ** (n / 12), 0.07, 'triangle', 0.1, 0, i * 0.045)),
+      slow: () => { tone(700, 0.3, 'sine', 0.1, 0.45); },
+      laser: () => { tone(1200, 0.08, 'square', 0.04, 0.4); tone(1500, 0.08, 'square', 0.03, 0.4, 0.07); },
+      arrows: () => { noise(0.06, 0.1, 4200, 2); tone(980, 0.06, 'triangle', 0.06, 0.6, 0.03); },
+      shield: () => { [0, 7, 16].forEach((n, i) => tone(988 * 2 ** (n / 12), 0.28, 'sine', 0.07, 0, i * 0.03)); },
+      titan: () => { tone(90, 0.45, 'sine', 0.3, 0.6); [0, 7, 12].forEach((n, i) => tone(440 * 2 ** (n / 12), 0.16, 'triangle', 0.08, 0, 0.05 + i * 0.05)); },
+      focus: () => { tone(1320, 0.1, 'sine', 0.07); tone(1760, 0.12, 'sine', 0.05, 0, 0.05); },
+    };
+    (P[kind] || sfx.power)();
+  },
   win() { [0, 4, 7, 12, 16, 19, 24].forEach((n, i) => tone(523 * 2 ** (n / 12), 0.25, 'triangle', 0.12, 0, i * 0.07)); },
 };

@@ -1,6 +1,9 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { ejectBall } from '../clearance.js';
-import { RAM, BALL_R, BACK_WARD, ramStreak, tickRam, ramThrough, endRam } from './ram.js';
+import { RAM, BALL_R, BACK_WARD, ramStreak, tickRam, ramThrough, endRam, powerTitle } from './ram.js';
+import { difficulty } from '../difficulty.js';
+// The STARFIRE (titan) ball: three units over the plain ball, so the power reads at a glance.
+export const STAR_R = BALL_R + 3;
 import { hpLeft } from '../near-miss.js';
 import { TIDEWHEEL_V2_GEOMETRY } from './tidewheel-v2-geometry.js';
 import { TIDEWHEEL_REACTIONS_GEOMETRY } from './tidewheel-reaction-geometry.js';
@@ -28,7 +31,7 @@ export class Tidewheel {
   constructor({width=360,height=780,difficulty='easy',paddleY=height-100,geometry=TIDEWHEEL_V2_GEOMETRY}={}){
     this.width=width;this.height=height;this.difficulty=difficulty;this.geometry=geometry||TIDEWHEEL_V2_GEOMETRY;
     const i=Math.max(0,['easy','medium','hard'].indexOf(difficulty));
-    this.rules={hp:[24,32,40][i],interval:[11,9.5,8][i],warning:[2,1.8,1.65][i],rise:[18,22,26][i],angryRise:[30,36,42][i],current:[15,20,25][i],credits:[12,15,18][i],pulseWarning:[1.5,1.4,1.3][i],pulseSpeed:[200,230,260][i],pulseInterval:[18,16,14][i]};
+    this.rules={hp:[24,36,46][i],interval:[11,9.5,8][i],warning:[2,1.8,1.65][i],rise:[18,22,26][i],angryRise:[30,36,42][i],current:[15,20,25][i],credits:[12,15,18][i],pulseWarning:[1.5,1.4,1.3][i],pulseSpeed:[200,230,260][i],pulseInterval:[18,16,14][i]};
     this.speed=345;this.time=0;this.state='play';this.phase='serve';this.paused=false;this.started=false;this.lives=3;this.score=0;
     this.charge=0;this.chargeBank=0;this.serial=0;this.effects=[];this.pulses=[];this.anchor=null;
     this.shots=[];this.powerMaxTimes={anchor:8,volley:3,cosmic:6};this.powerTimers={anchor:0,volley:0,cosmic:0};this.volley=null;this.cosmic=null;
@@ -68,7 +71,7 @@ export class Tidewheel {
       this.cancelSurge();this.drain(24);this.effects.push({kind:'anchor',x:310,y:244,age:0,life:.6});
     }else if(kind==='volley')this.volley={time:3,maxTime:3,remaining:5,nextAt:0,age:0};
     else{
-      const b=this.balls.find(b=>!b.caught)||this.balls[0];endRam(this,b);b.titan=this.powerMaxTimes.cosmic;b.r=8;
+      const b=this.balls.find(b=>!b.caught)||this.balls[0];endRam(this,b);b.titan=this.powerMaxTimes.cosmic;b.r=STAR_R;
       this.cosmic={time:b.titan,maxTime:b.titan,ballId:b.id};
     }
     return true;
@@ -395,7 +398,7 @@ export class Tidewheel {
       return;
     }
     if(!['shell','claw'].includes(target.kind)||this.phase==='rescue')return;
-    const v=this.villain;v.hp=Math.max(0,v.hp-(b.ram>0?RAM.damage:1));this.score+=50;v.stunUntil=this.time+.4;v.anger=Math.min(3,v.anger+1);
+    const v=this.villain,star=b.titan>0;v.hp=Math.max(0,v.hp-(star?difficulty(this.difficulty).powers.strong:b.ram>0?RAM.damage:1));if(star)powerTitle(this,'STARFIRE SCORCHES NERRA',b.x,b.y);this.score+=50;v.stunUntil=this.time+.4;v.anger=Math.min(3,v.anger+1);
     this.creditHit(b);
     if(target.kind==='claw'&&['pullWindup','pulseWindup'].includes(v.stage)&&(target.clawSide===v.side||target.id==='claw'+v.side)&&++v.clawHits>=2)this.cancelSurge();
     if(this.teachingDone&&v.anger>=3&&v.stage==='idle')this.nextSurge=Math.min(this.nextSurge,Math.max(this.time+3,this.attackGrace));

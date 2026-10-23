@@ -29,7 +29,7 @@ test('three modes retain the selected Vault speeds and distinct Carrier pressure
     { id: 'medium', label: 'Medium', vaultSpeed: .8, carrier: { raiderHP: 3, lockHP: 3, extractSeconds: 7.5, firstSquad: 5, raidRecovery: 3, hover: 10, waves: 2, waveSeconds: 75 } },
     { id: 'hard', label: 'Hard', vaultSpeed: 1, carrier: { raiderHP: 4, lockHP: 4, extractSeconds: 8.5, firstSquad: 4, raidRecovery: 2.5, hover: 16, waves: 2, waveSeconds: 75 } },
   ];
-  expected.forEach((mode,i)=>{ mode.companionHits=[24,30,36][i]; mode.spacePowers=[{balls:7,cosmic:1,maxTime:12,duration:8},{balls:6,cosmic:1,maxTime:10,duration:7},{balls:5,cosmic:1,maxTime:8,duration:6}][i]; mode.powers=[{balls:12,cosmic:2,maxTime:20},{balls:9,cosmic:2,maxTime:18},{balls:5,cosmic:1,maxTime:14}][i]; });
+  expected.forEach((mode,i)=>{ mode.companionHits=[24,30,36][i]; mode.spacePowers=[{balls:7,cosmic:1,maxTime:12,duration:8},{balls:6,cosmic:1,maxTime:10,duration:7},{balls:5,cosmic:1,maxTime:8,duration:6}][i]; mode.powers=[{balls:12,cosmic:2,maxTime:20,fan:.46,fire:10,strong:3},{balls:9,cosmic:2,maxTime:18,fan:.44,fire:9,strong:3},{balls:5,cosmic:1,maxTime:14,fan:.42,fire:8,strong:3}][i]; });
   assert.deepEqual(DIFFICULTY_IDS.map(difficulty), expected);
 });
 

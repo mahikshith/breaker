@@ -12,6 +12,8 @@ const prefs = new Map();
 globalThis.localStorage ??= { getItem: k => prefs.get(k) ?? null, setItem: (k, v) => prefs.set(k, v) };
 
 const { RAM } = await import('../src/fantasy/ram.js');
+const RAM_STEPS = Math.round(RAM.time * 240); // 1/240 s steps in one ram flight
+const { STAR_R } = await import('../src/fantasy/tidewheel.js');
 const { Bellforge } = await import('../src/fantasy/bellforge.js');
 const { Tidewheel, raftPoint } = await import('../src/fantasy/tidewheel.js');
 const { makeBall, stepBall, cellAt } = await import('../src/physics.js');
@@ -52,7 +54,7 @@ test('Bellforge ram: ploughs ordinary bricks up to its budget, bounces off a ram
   bfRun(g, ramBall(bfBall(g, 60, 300, 0, -345)), b => b.vy > 0);
   assert.equal(g.villain.hp, hp - RAM.damage);
   const d = ramBall(bfBall(g, 300, 520, 0, 0));
-  bfRun(g, d, () => false, 576); assert.equal(d.r, RAM.r); bfRun(g, d, () => false, 48); assert.equal(d.r, 6); assert.equal(d.ram, 0);
+  bfRun(g, d, () => false, RAM_STEPS - 24); assert.equal(d.r, RAM.r); bfRun(g, d, () => false, 48); assert.equal(d.r, 6); assert.equal(d.ram, 0);
 });
 
 // ---------- Tidewheel ----------
@@ -67,8 +69,8 @@ test('Tidewheel ram: arms after three centre returns, launches on the fourth, an
   assert(g.paddle.armed); assert(g.effects.some(e => e.kind === 'ram-armed'));
   const b = twDrop(g, 0); assert.equal(b.r, RAM.r); assert(b.ram > 0); assert(!g.paddle.armed);
   // cosmic on a ram ball ends the ram first; a cosmic ball never launches one
-  g.balls = [b]; g.charge = 100; assert(g.activate('cosmic')); assert.equal(b.ram, 0); assert.equal(b.r, 8);
-  g.paddle.armed = true; const p = g.paddle, t = Object.assign(twBall(p.x, p.y - 30, 0, 300), { titan: 4, r: 8 }); twRun(g, t, b => b.vy < 0, 120);
+  g.balls = [b]; g.charge = 100; assert(g.activate('cosmic')); assert.equal(b.ram, 0); assert.equal(b.r, STAR_R);
+  g.paddle.armed = true; const p = g.paddle, t = Object.assign(twBall(p.x, p.y - 30, 0, 300), { titan: 4, r: STAR_R }); twRun(g, t, b => b.vy < 0, 120);
   assert(!(t.ram > 0)); assert(p.armed, 'the armed paddle waits for a plain ball');
 });
 test('Tidewheel ram: ploughs the raft bricks, bounces off the deck, ends on its budget or its timer', () => {
@@ -80,7 +82,7 @@ test('Tidewheel ram: ploughs the raft bricks, bounces off the deck, ends on its 
   const g2 = new Tidewheel(), cols = g2.bricks.filter(q => q.raft === 1 && q.lx === -54), top2 = raftPoint(g2.rafts[1], -54 + 17, -60);
   const c = twRun(g2, ramBall(twBall(top2.x, top2.y - 20, 0, 345), 2), b => b.vy < 0);
   assert.equal(cols.filter(q => q.hp === 0).length, 3, '2 ploughed, then the plain ball breaks a third and rebounds'); assert.equal(c.r, 6);
-  const d = ramBall(twBall(180, 520, 0, 0)); twRun(g2, d, () => false, 576); assert.equal(d.r, RAM.r); twRun(g2, d, () => false, 48); assert.equal(d.r, 6);
+  const d = ramBall(twBall(180, 520, 0, 0)); twRun(g2, d, () => false, RAM_STEPS - 24); assert.equal(d.r, RAM.r); twRun(g2, d, () => false, 48); assert.equal(d.r, 6);
 });
 
 // ---------- Arena: shared paddle path, grid levels ----------
@@ -112,14 +114,14 @@ test('Arena ram (Vault): arms on three centre returns, an off-centre return rese
   // Focus: a caught ram keeps its timer, paused, until it is released
   b.caught = true; l.balls = [b]; for (let i = 0; i < 60; i++) l.update(1 / 120); assert.equal(b.ram, RAM.time);
   b.caught = false; b.x = 180; b.y = 480; b.vx = b.vy = 0;
-  for (let i = 0; i < 288; i++) l.update(1 / 120); assert.equal(b.r, RAM.r);
+  for (let i = 0; i < RAM_STEPS / 2 - 12; i++) l.update(1 / 120); assert.equal(b.r, RAM.r);
   for (let i = 0; i < 24; i++) l.update(1 / 120); assert.equal(b.r, l.ballRadius); assert.equal(b.ram, 0);
 });
-test('Arena ram (Vault grid): ploughs one-hit bricks up to 14, bounces off two-hit glaze and granite', () => {
-  const l = live(new Vault(360, 729, 393 / 360, 'easy', { layout: vaultLayout((c, r) => c === 3 && r >= 2 && r <= 17 ? 'g' : c === 10 && r === 12 ? 't' : c === 15 && r === 12 ? '#' : '.') }));
+test('Arena ram (Vault grid): ploughs one-hit bricks up to RAM.bricks, bounces off two-hit glaze and granite', () => {
+  const l = live(new Vault(360, 729, 393 / 360, 'easy', { layout: vaultLayout((c, r) => c === 3 ? 'g' : c === 10 && r === 12 ? 't' : c === 15 && r === 12 ? '#' : '.') }));
   const gold = () => l.bricks.filter(q => q.kind === 5 && !q.gone).length;
-  const b = gridShot(l, 3, 17);
-  assert.equal(gold(), 16 - 14 - 1, '14 ploughed, then the plain ball breaks one and rebounds'); assert.equal(b.r, l.ballRadius); assert.equal(b.ram, 0);
+  const b = gridShot(l, 3, 19);
+  assert.equal(gold(), 20 - RAM.bricks - 1, 'RAM.bricks ploughed, then the plain ball breaks one and rebounds'); assert.equal(b.r, l.ballRadius); assert.equal(b.ram, 0);
   const teal = l.bricks.find(q => q.kind === 4), t = gridShot(l, 10, 12);
   assert(t.vy > 0); assert.equal(teal.hp, 1, 'two-hit teal takes one normal hit'); assert(t.ram > 0);
   const g = gridShot(l, 15, 12); assert(g.vy > 0); assert(cellAt(l.grid, 15, 12), 'granite holds'); assert(g.y - g.r >= l.grid.oy + 13 * 16 - 1, 'never passes into granite');

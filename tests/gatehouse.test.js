@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { RAM } from '../src/fantasy/ram.js';
 import { Gatehouse, GATEHOUSE_MODES, GATEHOUSE_FLOORS, GATEHOUSE_TIMING, PARAPET, RACK, GEM_SCORE, DULL, RAMP_BODY } from '../src/fantasy/gatehouse.js';
 
 const tick = (g, seconds) => { for (let left = seconds; left > 1e-9; left -= 1 / 120) g.update(Math.min(left, 1 / 120)); };
@@ -63,7 +64,7 @@ test('ram: three centre hits arm the ring, the next centre hit launches a 2.2x b
   const g = live(new Gatehouse({ difficulty: 'easy' }), 2); g.villain.solid = false; g.updateBody();
   for (let i = 1; i <= 3; i++) { drop(g, i % 2 ? 3 : -4); assert.equal(g.paddle.streak, i, `hit ${i}`); assert.equal(g.paddle.armed, i === 3); }
   assert(kinds(g).includes('ram-armed'));
-  const b = drop(g, 2); assert(b.ram > 0 && b.ram <= 2.5); assert.equal(b.r, 13.2); assert.equal(b.ramBricks, 14); assert.equal(g.paddle.armed, false); assert.equal(g.paddle.streak, 0); assert(kinds(g).includes('ram-launch'));
+  const b = drop(g, 2); assert(b.ram > 0 && b.ram <= RAM.time); assert.equal(b.r, 13.2); assert.equal(b.ramBricks, RAM.bricks); assert.equal(g.paddle.armed, false); assert.equal(g.paddle.streak, 0); assert(kinds(g).includes('ram-launch'));
 });
 
 test('ram: an off-centre hit resets the streak, but never while the ring is armed', () => {
@@ -72,11 +73,11 @@ test('ram: an off-centre hit resets the streak, but never while the ring is arme
   drop(g, 0); drop(g, 0); drop(g, 0); assert(g.paddle.armed); drop(g, 40); assert(g.paddle.armed, 'armed ring survives a stray hit');
 });
 
-test('ram: ploughs through at most 14 bricks, then shrinks back to the ball radius', () => {
+test('ram: ploughs through at most RAM.bricks bricks, then shrinks back to the ball radius', () => {
   const g = live(new Gatehouse({ difficulty: 'easy' }), 0);
   g.bricks = Array.from({ length: 20 }, (_, i) => ({ id: `col-${i}`, type: 'brick', x: g.paddle.x - 18, y: 520 - i * 22, w: 36, h: 18, hp: 1, maxHP: 1, colour: 'coral' }));
-  const b = { id: 99, x: g.paddle.x, y: 560, px: g.paddle.x, py: 560, vx: 0, vy: -345, r: 13.2, caught: false, dead: false, ram: 2.5, ramBricks: 14, contacts: new Set() }; g.balls = [b]; const seen = new Set(), fx = g.effect.bind(g); g.effect = (x, y, kind, ...r) => { seen.add(kind); return fx(x, y, kind, ...r); };
-  tick(g, 1.2); assert.equal(g.bricks.filter(x => x.hp > 0).length, 20 - 14 - 1, '14 ploughed, then the plain ball breaks one and rebounds'); assert.equal(b.r, 7); assert.equal(b.ram, 0); assert(seen.has('ram-end'));
+  const b = { id: 99, x: g.paddle.x, y: 560, px: g.paddle.x, py: 560, vx: 0, vy: -345, r: 13.2, caught: false, dead: false, ram: RAM.time, ramBricks: RAM.bricks, contacts: new Set() }; g.balls = [b]; const seen = new Set(), fx = g.effect.bind(g); g.effect = (x, y, kind, ...r) => { seen.add(kind); return fx(x, y, kind, ...r); };
+  tick(g, 1.6); assert.equal(g.bricks.filter(x => x.hp > 0).length, 20 - RAM.bricks - 1, 'RAM.bricks ploughed, then the plain ball breaks one and rebounds'); assert.equal(b.r, 7); assert.equal(b.ram, 0); assert(seen.has('ram-end'));
 });
 
 test('ram: a ram that finds no bricks ends after 2.5 s', () => {
@@ -85,11 +86,11 @@ test('ram: a ram that finds no bricks ends after 2.5 s', () => {
   tick(g, 2.3); assert.equal(b.r, 13.2); tick(g, .4); assert.equal(b.r, 7); assert.equal(b.ram, 0);
 });
 
-test('ram: housings take 2, Korr takes 3 and a ram in the windup staggers him', () => {
+test('ram: housings take 2, Korr takes RAM.damage and a ram in the windup staggers him', () => {
   const g = live(new Gatehouse({ difficulty: 'easy' }), 2), v = g.villain, hp = v.hp, sx = v.foot.x - 30, sy = v.foot.y - 60;
-  const shot = () => { const b = { id: ++g.serial, x: sx, y: sy + 120, px: sx, py: sy + 120, vx: 0, vy: -300, r: 13.2, caught: false, dead: false, ram: 2.5, ramBricks: 14, contacts: new Set() }; g.balls = [b]; tick(g, .35); return b; };
-  shot(); assert.equal(v.hp, hp - 3); assert.notEqual(v.stage, 'stagger');
-  v.stage = 'windup'; v.until = g.time + 1; shot(); assert.equal(v.hp, hp - 6); assert.equal(v.stage, 'stagger');
+  const shot = () => { const b = { id: ++g.serial, x: sx, y: sy + 120, px: sx, py: sy + 120, vx: 0, vy: -300, r: 13.2, caught: false, dead: false, ram: RAM.time, ramBricks: RAM.bricks, contacts: new Set() }; g.balls = [b]; tick(g, .35); return b; };
+  shot(); assert.equal(v.hp, hp - RAM.damage); assert.notEqual(v.stage, 'stagger');
+  v.stage = 'windup'; v.until = g.time + 1; shot(); assert.equal(v.hp, hp - 2 * RAM.damage); assert.equal(v.stage, 'stagger');
 });
 
 test('a bell that reaches the paddle stuns it for 0.8 s instead of costing a ball', () => {

@@ -1,5 +1,6 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { circleSweep, reflect } from './bellforge.js';
+import { paddleRoom } from '../clearance.js';
 import { SPEED, BALL_R, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
 import { plural } from '../near-miss.js';
 import { tagSpecials, brickSpecial, armourOutright } from '../castle-specials.js';
@@ -101,7 +102,7 @@ export class LumiTower {
   }
   step(dt) {
     const p = this.paddle; p.px = p.x;
-    if (p.wide > 0 && (p.wide -= dt) <= 0) p.w = p.baseW;
+    if (p.wide > 0 && (p.wide -= dt) <= 0) p.w = p.baseW; else this.widen();
     p.x += clamp(p.targetX - p.x, -900 * dt, 900 * dt); p.x = clamp(p.x, p.w / 2 + 6, this.width - p.w / 2 - 6);
     p.vx = (p.x - p.px) / dt;
     for (const fx of this.effects) fx.age += dt;
@@ -303,10 +304,12 @@ export class LumiTower {
   }
   collect(kind) {
     const p = this.paddle; this.effect(p.x, p.y, 'note-' + kind, .5); this.purpose.push(this.rules.power / 2, this.time);
-    if (kind === 'wide') { p.w = 140; p.wide = LUMI_TIMING.wide; }
+    if (kind === 'wide') { p.wide = LUMI_TIMING.wide; this.widen(); }
     if (kind === 'ram') p.armed = true;
     if (kind === 'multi' && this.balls.length < 4) { const a = -Math.PI / 2 - .5; this.balls.push(this.newBall(p.x, p.y - 8, Math.cos(a) * SPEED, Math.sin(a) * SPEED)); }
   }
+  // WIDE grows the paddle to 140 as far as it can without its ends landing on a ball beside it (clearance.js paddleRoom).
+  widen() { const p = this.paddle; if (p.wide > 0 && p.w < 140) p.w = 2 * paddleRoom(p.x, p.w / 2, 70, p.y, p.y + p.h, this.balls); }
   lose(reason) { if (this.state !== 'play') return; this.state = 'lost'; this.reason = reason; }
   continue() {
     if (this.continued || this.state !== 'lost') return false;
