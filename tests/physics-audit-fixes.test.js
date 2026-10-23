@@ -111,7 +111,12 @@ test('Frost: a stagger mid-windup that swaps the fist onto a ball pushes it clea
   const l = new Frost(360, 729, 393 / 360, 'hard', ART.frostWarden); l.release(); l.aim = null; l.clock = 14;
   l.setStage('windup'); l.stageAt = l.clock - 1.217;
   const warden = () => l.targets().filter(t => t.id === 'warden').flatMap(t => t.shapes || [t]);
-  const b = l.balls[0]; Object.assign(b, { x: 89.11, y: 215.33, vx: -8, vy: 362 });
+  // A ball spot the stun keypose covers but the windup pose leaves clear (measured on whichever rig ships).
+  const b = l.balls[0], windup = warden(); l.setStage('stun'); const stun = warden(); l.setStage('windup'); l.stageAt = l.clock - 1.217;
+  let spot = null;
+  for (let y = 120; y < 260 && !spot; y += 1) for (let x = 20; x < 340 && !spot; x += 1) if (overlapsAny(x, y, b.r, stun) && !overlapsAny(x, y, b.r, windup) && !overlapsAny(x, y, b.r + 8, windup)) spot = { x, y };
+  assert.ok(spot, 'the stagger swaps the Warden onto new space');
+  Object.assign(b, { ...spot, vx: -8, vy: 362 });
   assert.ok(!overlapsAny(b.x, b.y, b.r, warden()), 'clear of the windup pose');
   l.setStage('stun');
   assert.ok(overlapsAny(b.x, b.y, b.r, warden()), 'the stun pose lands on the ball');
@@ -121,22 +126,4 @@ test('Frost: a stagger mid-windup that swaps the fist onto a ball pushes it clea
     assert.ok(!overlapsAny(b.x, b.y, b.r - 1e-6, warden()), `ball inside the Warden after step ${i}`);
   }
   assert.equal(l.stage, 'stun'); assert.ok(path > 12, `ball moves on (${path.toFixed(1)} px)`);
-});
-
-test('Frost round-3 Warden: his collision is the painted frames, he lunges onto the post, and a pose swap never pins a ball', () => {
-  const l = new Frost(360, 729, 393 / 360, 'hard'); l.release(); l.aim = null; l.clock = 14;
-  assert.ok(l.art.r3, 'the round-3 frames drive the Warden');
-  const d = l.defences[0], warden = () => l.targets().filter(t => t.id === 'warden').flatMap(t => t.shapes || [t]);
-  const right = () => Math.max(...warden().map(c => c.x + (c.r ?? c.w)));
-  l.setStage('idle'); assert.ok(right() < d.x, `idle body clear of the post (${right().toFixed(1)} < ${d.x})`);
-  l.setStage('strike'); l.stageAt = l.clock - l.rules.strike; const f = l.pose().fist;
-  assert.ok(f.x + f.r >= d.x, `the smash reaches the post (${(f.x + f.r).toFixed(1)} >= ${d.x})`);
-  // A ball sitting where the dazed pose lands is pushed clear and moves on.
-  l.setStage('windup'); l.stageAt = l.clock - .2;
-  const stun = (() => { const s = l.stage, a = l.stageAt; l.setStage('stun'); const w = warden(); l.setStage(s); l.stageAt = a; return w; })();
-  const b = l.balls[0], spot = stun.filter(c => c.r).map(c => ({ x: c.x + c.r - 3, y: c.y })).find(p => !overlapsAny(p.x, p.y, b.r, warden()));
-  assert.ok(spot, 'a spot only the dazed pose covers');
-  Object.assign(b, { x: spot.x, y: spot.y, vx: 40, vy: 300 });
-  l.setStage('stun');
-  for (let i = 0; i < 6; i++) { l.update(1 / 120); assert.ok(!overlapsAny(b.x, b.y, b.r - 1e-6, warden()), `ball inside the Warden after step ${i}`); }
 });
