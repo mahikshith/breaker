@@ -160,14 +160,15 @@ def ingame(manifest, sprites):
     shots = []
     for key in ('idle_0', 'expr_furious', 'walk_r_3'):
         im = bg.copy(); f = manifest['frames'][key]; sp = sprites[key]
-        sh = Image.new('RGBA', im.size); ImageDraw.Draw(sh).ellipse((180 * 3 - 70 * 3, 233 * 3 - 5 * 3, 180 * 3 + 70 * 3, 233 * 3 + 5 * 3), fill=(8, 20, 28, 110))
+        sh = Image.new('RGBA', im.size); ImageDraw.Draw(sh).ellipse((180 * 3 - 100 * 3, 233 * 3 - 6 * 3, 180 * 3 + 100 * 3, 233 * 3 + 6 * 3), fill=(8, 20, 28, 110))
         im.alpha_composite(sh)
         im.alpha_composite(sp, (round(180 * 3 - f['pivotPx'][0]), round(232 * 3 - f['pivotPx'][1])))
         im.convert('RGB').save(os.path.join(REVIEW, f'ingame-{key}.png'), optimize=True); shots.append(im)
-    gap = 24; comp = Image.new('RGBA', (W * 3 * 2 + gap, H * 3 + 50), (12, 14, 26, 255)); d = ImageDraw.Draw(comp)
-    comp.alpha_composite(old, (0, 50)); comp.alpha_composite(shots[0], (W * 3 + gap, 50))
+    gap = 24; comp = Image.new('RGBA', (W * 3 * 3 + gap * 2, H * 3 + 50), (12, 14, 26, 255)); d = ImageDraw.Draw(comp)
+    comp.alpha_composite(old, (0, 50)); comp.alpha_composite(shots[0], (W * 3 + gap, 50)); comp.alpha_composite(shots[1], (2 * (W * 3 + gap), 50))
     d.text((12, 12), 'current Nerra (live build screenshot, upscaled)', fill=(220, 220, 235, 255), font=font(24))
-    d.text((W * 3 + gap + 12, 12), 'Nerra v2 idle_0 at 3 px/unit, foot (180, 232)', fill=(220, 220, 235, 255), font=font(24))
+    d.text((W * 3 + gap + 12, 12), 'Nerra v2 idle_0 (3 px/unit, foot 180, 232)', fill=(220, 220, 235, 255), font=font(24))
+    d.text((2 * (W * 3 + gap) + 12, 12), 'Nerra v2 expr_furious', fill=(220, 220, 235, 255), font=font(24))
     comp.convert('RGB').save(os.path.join(REVIEW, 'ingame-old-vs-new.png'), optimize=True)
 
 EMBER = '/mnt/project-files/breaker/copilot/drops-2026-10-23/m365-dragon-kit/sheets'

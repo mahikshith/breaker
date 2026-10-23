@@ -4,10 +4,559 @@
   "errors": [],
   "warnings": [
    "nerra.face.calm: degenerate faces=0 zero-len edges=2",
-   "nerra.face.calm: duplicate verts=2 loose verts=0"
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
   ],
-  "objects": 119,
-  "tris": 105362,
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "idle_1": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (1 pairs) - delete to save tris",
+   "hidden back-to-back faces: nerra.dactylcrusher<->nerra.teeth.crusherPollex (1 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "idle_2": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "idle_3": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "walk_r_0": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "walk_r_1": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.thighL2<->nerra.thighL3 (3 pairs) - delete to save tris",
+   "hidden back-to-back faces: nerra.moss (1 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": 0.0
+ },
+ "walk_r_2": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (1 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "walk_r_3": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": 0.0
+ },
+ "walk_r_4": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (1 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "walk_r_5": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "walk_r_6": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "walk_r_7": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (1 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "walk_l_0": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (1 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "walk_l_1": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": 0.0
+ },
+ "walk_l_2": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "walk_l_3": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "walk_l_4": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "walk_l_5": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.thighR2<->nerra.thighR3 (3 pairs) - delete to save tris",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": 0.0
+ },
+ "walk_l_6": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "walk_l_7": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": 0.0
+ },
+ "turn_r_0": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (1 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "turn_r_1": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "turn_r_2": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "turn_l_0": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "turn_l_1": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "turn_l_2": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "gaze_dl": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (1 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "gaze_dc": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 183,
+  "tris": 130578,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "gaze_dr": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 182,
+  "tris": 130258,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "gaze_cl": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.thighL1<->nerra.thighL2 (6 pairs) - delete to save tris",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 182,
+  "tris": 130258,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "gaze_cc": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 182,
+  "tris": 130258,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "gaze_cr": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.thighR1<->nerra.thighR2 (6 pairs) - delete to save tris",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 182,
+  "tris": 130258,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "gaze_ul": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.face.calm<->nerra.stalkPearlL (3 pairs) - delete to save tris",
+   "hidden back-to-back faces: nerra.moss (1 pairs) - delete to save tris"
+  ],
+  "objects": 182,
+  "tris": 130258,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "gaze_uc": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 182,
+  "tris": 130258,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "gaze_ur": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.face.calm<->nerra.stalkPearlR (3 pairs) - delete to save tris",
+   "hidden back-to-back faces: nerra.moss (1 pairs) - delete to save tris"
+  ],
+  "objects": 182,
+  "tris": 130258,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "expr_calm": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 182,
+  "tris": 130258,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "expr_smug": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.smug: duplicate verts=1 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris",
+   "hidden back-to-back faces: nerra.face.smug<->nerra.stalkPearlR (2 pairs) - delete to save tris"
+  ],
+  "objects": 180,
+  "tris": 130170,
   "zfighting": [],
   "floating": [],
   "ground_z": -0.0
@@ -17,23 +566,104 @@
   "errors": [],
   "warnings": [
    "nerra.face.furious: degenerate faces=0 zero-len edges=2",
-   "nerra.face.furious: duplicate verts=2 loose verts=0"
+   "nerra.face.furious: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
   ],
-  "objects": 128,
-  "tris": 107854,
+  "objects": 184,
+  "tris": 132444,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": 0.0
+ },
+ "expr_hurt": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.hurt: degenerate faces=0 zero-len edges=2",
+   "nerra.face.hurt: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (1 pairs) - delete to save tris"
+  ],
+  "objects": 175,
+  "tris": 129950,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": 0.0
+ },
+ "expr_dizzy": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.browL<->nerra.lidupL (2 pairs) - delete to save tris",
+   "hidden back-to-back faces: nerra.dactylcrusher<->nerra.teeth.crusherPollex (1 pairs) - delete to save tris",
+   "hidden back-to-back faces: nerra.moss (1 pairs) - delete to save tris"
+  ],
+  "objects": 177,
+  "tris": 132174,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": 0.0
+ },
+ "jump_crouch": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.roar: degenerate faces=0 zero-len edges=4",
+   "nerra.face.roar: duplicate verts=4 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 182,
+  "tris": 132364,
   "zfighting": [],
   "floating": [],
   "ground_z": -0.0
+ },
+ "jump_air": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.furious: degenerate faces=0 zero-len edges=2",
+   "nerra.face.furious: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.meruscrusher<->nerra.scutes (3 pairs) - delete to save tris",
+   "hidden back-to-back faces: nerra.moss (1 pairs) - delete to save tris",
+   "asset lowest point z=0.5035 (not resting on ground plane z=0)"
+  ],
+  "objects": 184,
+  "tris": 132444,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": 0.5035
  },
  "jump_land": {
   "passed": true,
   "errors": [],
   "warnings": [
    "nerra.face.roar: degenerate faces=0 zero-len edges=4",
-   "nerra.face.roar: duplicate verts=4 loose verts=0"
+   "nerra.face.roar: duplicate verts=4 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
   ],
-  "objects": 126,
-  "tris": 107774,
+  "objects": 182,
+  "tris": 132364,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": 0.0
+ },
+ "snap_l_windup": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.furious: degenerate faces=0 zero-len edges=2",
+   "nerra.face.furious: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (1 pairs) - delete to save tris"
+  ],
+  "objects": 184,
+  "tris": 132444,
   "zfighting": [],
   "floating": [],
   "ground_z": -0.0
@@ -43,10 +673,42 @@
   "errors": [],
   "warnings": [
    "nerra.face.roar: degenerate faces=0 zero-len edges=4",
-   "nerra.face.roar: duplicate verts=4 loose verts=0"
+   "nerra.face.roar: duplicate verts=4 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
   ],
-  "objects": 126,
-  "tris": 107774,
+  "objects": 182,
+  "tris": 132364,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "snap_r_windup": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.furious: degenerate faces=0 zero-len edges=2",
+   "nerra.face.furious: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 184,
+  "tris": 132444,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "snap_r_strike": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.roar: degenerate faces=0 zero-len edges=4",
+   "nerra.face.roar: duplicate verts=4 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
+  ],
+  "objects": 182,
+  "tris": 132364,
   "zfighting": [],
   "floating": [],
   "ground_z": -0.0
@@ -56,10 +718,27 @@
   "errors": [],
   "warnings": [
    "nerra.face.hurt: degenerate faces=0 zero-len edges=2",
-   "nerra.face.hurt: duplicate verts=2 loose verts=0"
+   "nerra.face.hurt: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris"
   ],
-  "objects": 119,
-  "tris": 105360,
+  "objects": 175,
+  "tris": 129950,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "hurt_stagger": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris",
+   "hidden back-to-back faces: nerra.dactylcrusher<->nerra.teeth.crusherPollex (1 pairs) - delete to save tris",
+   "hidden back-to-back faces: nerra.browL<->nerra.lidupL (1 pairs) - delete to save tris"
+  ],
+  "objects": 177,
+  "tris": 132174,
   "zfighting": [],
   "floating": [],
   "ground_z": -0.0
@@ -69,25 +748,15 @@
   "errors": [],
   "warnings": [
    "nerra.face.defeat: degenerate faces=0 zero-len edges=2",
-   "nerra.face.defeat: duplicate verts=2 loose verts=0"
+   "nerra.face.defeat: duplicate verts=2 loose verts=0",
+   "nerra.keep.flag: 2 edges with inconsistent face winding",
+   "hidden back-to-back faces: nerra.moss (2 pairs) - delete to save tris",
+   "asset lowest point z=-0.0389 (not resting on ground plane z=0)"
   ],
-  "objects": 120,
-  "tris": 107552,
+  "objects": 176,
+  "tris": 132142,
   "zfighting": [],
   "floating": [],
-  "ground_z": 0.0035
- },
- "walk_r_2": {
-  "passed": true,
-  "errors": [],
-  "warnings": [
-   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
-   "nerra.face.calm: duplicate verts=2 loose verts=0"
-  ],
-  "objects": 119,
-  "tris": 105362,
-  "zfighting": [],
-  "floating": [],
-  "ground_z": -0.0
+  "ground_z": -0.0389
  }
 }
