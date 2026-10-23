@@ -1,0 +1,317 @@
+{
+ "source": "M365 Copilot dragon kit 2026-10-23 (sprites/ember, sprites/props), art/hoard/build.py",
+ "px": 3,
+ "sprites": {
+  "ember_idle": {
+   "path": "assets/hoard/ember_idle.png",
+   "px": [
+    333,
+    384
+   ],
+   "drawSize": [
+    111.0,
+    128.0
+   ],
+   "anchor": [
+    55.5,
+    128.0
+   ],
+   "circles": [
+    [
+     -4.0,
+     -68.5,
+     40.6
+    ],
+    [
+     -10.1,
+     -54.3,
+     32.9
+    ]
+   ],
+   "solid": false
+  },
+  "ember_taunt": {
+   "path": "assets/hoard/ember_taunt.png",
+   "px": [
+    347,
+    403
+   ],
+   "drawSize": [
+    115.667,
+    134.333
+   ],
+   "anchor": [
+    57.833,
+    134.333
+   ],
+   "circles": [
+    [
+     2.0,
+     -68.4,
+     39.0
+    ],
+    [
+     -0.0,
+     -58.2,
+     34.6
+    ]
+   ],
+   "solid": false
+  },
+  "ember_windup": {
+   "path": "assets/hoard/ember_windup.png",
+   "px": [
+    333,
+    381
+   ],
+   "drawSize": [
+    111.0,
+    127.0
+   ],
+   "anchor": [
+    55.5,
+    127.0
+   ],
+   "circles": [
+    [
+     0.0,
+     -73.5,
+     40.1
+    ],
+    [
+     -4.0,
+     -55.4,
+     30.0
+    ]
+   ],
+   "solid": false
+  },
+  "ember_attack": {
+   "path": "assets/hoard/ember_attack.png",
+   "px": [
+    337,
+    403
+   ],
+   "drawSize": [
+    112.333,
+    134.333
+   ],
+   "anchor": [
+    56.167,
+    134.333
+   ],
+   "circles": [
+    [
+     7.0,
+     -77.2,
+     38.9
+    ],
+    [
+     5.0,
+     -59.1,
+     33.6
+    ]
+   ],
+   "solid": false
+  },
+  "ember_hurt": {
+   "path": "assets/hoard/ember_hurt.png",
+   "px": [
+    308,
+    397
+   ],
+   "drawSize": [
+    102.667,
+    132.333
+   ],
+   "anchor": [
+    51.333,
+    132.333
+   ],
+   "circles": [
+    [
+     2.0,
+     -68.9,
+     42.7
+    ],
+    [
+     -0.0,
+     -56.8,
+     42.0
+    ]
+   ],
+   "solid": false
+  },
+  "ember_stagger": {
+   "path": "assets/hoard/ember_stagger.png",
+   "px": [
+    337,
+    417
+   ],
+   "drawSize": [
+    112.333,
+    139.0
+   ],
+   "anchor": [
+    56.167,
+    139.0
+   ],
+   "circles": [
+    [
+     3.0,
+     -71.8,
+     40.2
+    ],
+    [
+     1.0,
+     -61.8,
+     34.5
+    ]
+   ],
+   "solid": false
+  },
+  "ember_panic": {
+   "path": "assets/hoard/ember_panic.png",
+   "px": [
+    326,
+    420
+   ],
+   "drawSize": [
+    108.667,
+    140.0
+   ],
+   "anchor": [
+    54.333,
+    140.0
+   ],
+   "circles": [
+    [
+     -3.0,
+     -78.6,
+     41.4
+    ],
+    [
+     -3.0,
+     -38.4,
+     38.9
+    ]
+   ],
+   "solid": false
+  },
+  "ember_defeat": {
+   "path": "assets/hoard/ember_defeat.png",
+   "px": [
+    332,
+    389
+   ],
+   "drawSize": [
+    110.667,
+    129.667
+   ],
+   "anchor": [
+    55.333,
+    129.667
+   ],
+   "circles": [
+    [
+     6.0,
+     -70.3,
+     41.5
+    ],
+    [
+     6.0,
+     -56.2,
+     35.2
+    ]
+   ],
+   "solid": false
+  },
+  "crown_chest": {
+   "path": "assets/hoard/crown_chest.png",
+   "px": [
+    300,
+    156
+   ],
+   "drawSize": [
+    100.0,
+    52.0
+   ],
+   "anchor": [
+    50.0,
+    26.0
+   ],
+   "contact": [
+    0,
+    0,
+    100.0,
+    52.0
+   ]
+  },
+  "crown_chest_cracked": {
+   "path": "assets/hoard/crown_chest_cracked.png",
+   "px": [
+    300,
+    156
+   ],
+   "drawSize": [
+    100.0,
+    52.0
+   ],
+   "anchor": [
+    50.0,
+    26.0
+   ],
+   "contact": [
+    0,
+    0,
+    100.0,
+    52.0
+   ]
+  },
+  "coin": {
+   "path": "assets/hoard/coin.png",
+   "px": [
+    36,
+    36
+   ],
+   "drawSize": [
+    12.0,
+    12.0
+   ],
+   "anchor": [
+    6.0,
+    6.0
+   ]
+  },
+  "coin_chips_a": {
+   "path": "assets/hoard/coin_chips_a.png",
+   "px": [
+    90,
+    87
+   ],
+   "drawSize": [
+    30.0,
+    29.0
+   ],
+   "anchor": [
+    15.0,
+    14.5
+   ]
+  },
+  "coin_chips_b": {
+   "path": "assets/hoard/coin_chips_b.png",
+   "px": [
+    84,
+    90
+   ],
+   "drawSize": [
+    28.0,
+    30.0
+   ],
+   "anchor": [
+    14.0,
+    15.0
+   ]
+  }
+ }
+}

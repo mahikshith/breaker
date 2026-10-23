@@ -353,3 +353,5 @@ function drawChamber(ctx, g, st) {
   const waiting = g.lunges.filter(l => l.win.cross && (l.stage === 'prowl' || l.stage === 'strike' || l.stage === 'clash' || l.stage === 'recoil' || l.stage === 'dizzy'));
   for (const l of waiting) { const k = l.stage === 'prowl' || l.stage === 'strike' ? .22 + .1 * Math.sin(st.clock * 7) : .3; add(ctx, () => glow(ctx, cx + l.win.dir * -30, cy, 56, COL[l.snake], k)); }
 }
+// Shared with the Hoard renderer (hoard-render.js).
+export { rCapsule, rArrows };

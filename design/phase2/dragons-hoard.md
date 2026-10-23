@@ -1,6 +1,39 @@
-# Dragon's Hoard: a heist level with far more bricks (proposal)
+# Dragon's Hoard (Kit, castle chapter 12)
 
-Status: concept, 2026-10-22. Not built. It comes after Serpent Rivals and needs one new character, the dragon, rendered from `prompt-library/`.
+Status: built 2026-10-23 on branch `codex/dragons-hoard` as LEVELS slot 11 (`?level=12`, menu key `=`): model `src/fantasy/hoard.js`, renderer `src/fantasy/hoard-render.js`, art `assets/hoard` (`art/hoard/build.py`, packed as `ART.hoard`), tests `tests/hoard.test.js`, physics-audit adapter `hoard`, review shots from `tools/playtest/hoard-review.mjs`. This spec merges our proposal (below), the M365 drop (`design/copilot/2026-10-23/m365/breach-level-dragons-hoard-v1.md`, `breach-character-ember-v1.md`) and the Argon drop (`argon/drops/P07`, `P08`).
+
+## Spec
+
+**Pitch.** A heist. Ember, a vain, greedy, cowardly dragon (he/him, M365 "Vain Hoarder"), sleeps on the hoard he stole, wearing the stolen **Brickhaven Crown** (one treasure: the Crown, not the Sunstone). Kit breaks in, grabs the Crown and escapes before the hoard comes down on him. Ember is the villain here, played for comedy; a later story beat can befriend him.
+
+**Ember** sits behind the cave ledge at the top of the board, scenery only (no collider: the ledge is the ceiling). His eight rendered busts react to play: `idle` asleep (snore smoke), `taunt` peeking once the eye is 60% open, after Kit loses a ball, and as his awake face on floor 3; `windup` every tell; `attack` every roar and breath; `hurt` when treasure breaks (Crown chest, counterweights, gate hits, chests); `stagger` when a Hush Chime sings him dizzy; `panic` at the greed choice and when the gate is nearly down; `defeat` when Kit escapes.
+
+**The Wake eye (urgency).** A big almond eye at the top right is the meter: its lid opens from 0 to 100. Only gold wakes him (M365): a coin brick adds 100/12, 100/10, 100/8 (Easy/Medium/Hard), a chest brick twice that. Ordinary bricks are silent, so every gold shot is the player's choice. Gold pays: loot, double Kit charge, and chests drop a capsule (multi, ram, wide in turn).
+- **Hush Chime** (Argon): a teal glazed tile with a bronze bell, two per floor on floors 1 and 2. A lit chime lowers the eye by 25 (20 on Hard), calms Ember for 3 s (gold adds nothing) and cancels a tell already under way. Then it rests 8 s (dim; it still bounces).
+- **Eye at 100: Hoard Roar.** Tell (1.8/1.6/1.4 s), then a scorch stripe lands where the paddle was when the tell began (72 wide, slide out of it: paddle x0.75 for 3 s) and his breath melts the lowest well-filled row. The eye drops to 40 and the wake counts against the third star.
+- **Molten gold** (Argon): melted bricks glow for 5/4/3.2 s. Break one in time for loot; left alone it hardens into 2-hit gold.
+
+**Greed (stickiness): cash out or stay.** Loot (coin 10, chest 30, molten 5) is only banked if Kit escapes. When floor 2's goal falls, play freezes on a choice: **RUN NOW** (bank at x1) or **STAY GREEDY**: keep looting floor 2 while the eye creeps open by itself (1.6/2.2/2.8 per second); 4 gold (a chest counts 2) lifts the multiplier to x1.5, 8 gold to x2. A RUN pill (bottom right, or key R) escapes at the current multiplier. If the eye reaches 100 first, Ember catches Kit: the multiplier drops to x1, it counts as a wake, and the escape starts with Ember in a full rage. How open the eye is when floor 2 ends sets floor 3's rage (M365 carry-over): under 40 calm, 40-74 cross, 75+ or caught furious.
+
+**Floors** (9 columns of 32x16 glazed bricks on a 34u pitch, 28u side lanes, ceiling at the cave ledge; lives, score, loot and charge carry over; Continue keeps the floor):
+
+| Floor | Goal | Pressure |
+|---|---|---|
+| 1. Coin mound (12 rows, ~95 bricks) | Break the Crown chest (100x52, 5/6/7 hits) buried in the upper mound | Ember asleep: only the eye |
+| 2. Ember stirs (10 rows, ~85 bricks) | Break the two counterweights hanging under the ledge (4/5/6 each), then the greed choice | Scheduled roars every 9.5/8.5/7.5 s (the first is a harmless yawn) plus the eye |
+| 3. Avalanche (9 rows, ~80 bricks) | Break the cave gate in the ceiling (140 wide, 14/18/22 hits) | The hoard slides down one row every 5/4.2/3.6 s (x0.88 cross, x0.76 furious, and it starts 1-2 rows lower). A cleared row holds the next slide. If the hoard reaches the line 120 above the paddle, Kit loses a life and it is shoved back 3 rows. Ember alternates breath (melts the ball's row) and roars every 7.5/6.5/5.5 s; the first is a yawn. |
+
+**Stars:** escape; keep 2+ balls; never wake Ember on floors 1-2 (M365). **Powers:** Kit's WARD and ARROWS (as Rivals); Ram Ball ploughs ordinary, coin and molten bricks, and hits everything else for 3.
+
+**Physics.** Ember never collides. Colliders are the drawn rects: bricks, chimes, the Crown chest (art fitted to 100x52), the counterweights (body plus ring, the Gatehouse housing shapes) and the gate (the ceiling span under the drawn door). The avalanche moves the field in sub-unit steps (at most 0.25u per 1/240 s) and ejects any ball it lands on (`src/clearance.js`). Brick sweeps use a broadphase, so ~95 bricks cost what ~10 would.
+
+**Resolved conflicts.** Ember is male (M365); the treasure is the Crown (M365, ties to Lumi wearing it later); greed is gold-only (M365/Argon), not a noise tax on every brick (ours); our cash-out multiplier and avalanche escape stay (M365 dropped them); M365's coin-chute avalanche and wing gust and Argon's brass locks were cut for the counterweights and the roar; no free Ember duel (he stays scenery, so his art never needs a collider rig). Brick count is ~260 over three floors, not 200 on one: one floor of 200 needs 6u-thin lanes on a 360u board.
+
+**TODO (owner):** the cave background is a placeholder composed in code (`caveBackdrop` in `hoard-render.js`); M365 hit its image limit before rendering it. Its prompt is "Art request 1" in the M365 level drop.
+
+## The first proposal (2026-10-22, superseded by the spec above)
+
+Kept for history; where it disagrees with the spec, the spec wins. It comes after Serpent Rivals and needs one new character, the dragon, rendered from `prompt-library/`.
 
 ## Pitch
 
