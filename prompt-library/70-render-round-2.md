@@ -1,6 +1,6 @@
 # BREACH render round 2 (M365 prompts)
 
-Paste one prompt per M365 chat. Each prompt below is complete: copy the whole grey block. Attach the files listed under **Attach** first.
+Paste one prompt per M365 chat. Each prompt below is complete: copy the whole grey block. Download the files linked under **Attach** (click, then save) and attach them first.
 
 **Order:** R01 to R03 are needed now for Dragon's Hoard. R04 and R05 help stickiness and polish. R06 fills old gaps. R07 and R08 are for later.
 
@@ -11,7 +11,7 @@ Paste one prompt per M365 chat. Each prompt below is complete: copy the whole gr
 
 Dragon's Hoard needs Ember sleeping on his hoard, waking, breathing fire and losing. Today we only have head busts and a standing turnaround.
 
-**Attach:** ember_turnaround_sheet.png and ember_expressions_sheet.png
+**Attach:** [ember_turnaround_sheet.png](https://github.com/mahikshith/breaker/raw/claude/project-thread-r3m42j/renders/refs/ember_turnaround_sheet.png) and [ember_expressions_sheet.png](https://github.com/mahikshith/breaker/raw/claude/project-thread-r3m42j/renders/refs/ember_expressions_sheet.png)
 
 ```
 HOUSE STYLE (match exactly): premium glossy 3D render, as if made in Blender Cycles. Characters are glossy vinyl toys; props and bricks are glazed ceramic or polished metal with a thick clear coat, crisp highlight bands and slightly rounded bevels. People use chibi proportions (head about 40% of total height, stubby limbs). One soft warm key light from the top-left (about #FFDBB8), a cool blue fill from the right (#8CA6FF), a faint pink bounce from below (#FF80A6); shadows fall down and to the right. Saturated but never neon colours, very little yellow (gold is a small accent only). Plain calm dark navy background (#141831) that never outshines the subject. Faces are the most important part: big glossy eyes with lids, brows and a mouth that clearly changes between expressions, never blank or identical faces. Orthographic camera, no perspective distortion. NOT: pixel art, flat vector clip art, cel-shaded anime, photorealism, wisps or ghost blobs, snake bodies made of ball chains, round blob heads, one face copied onto every character, long dangly-armed creatures. No text, no watermark, no logo.
@@ -33,7 +33,7 @@ BACKGROUND: fully transparent (real alpha). If you cannot output transparency, u
 
 In the Hoard the danger meter is Ember's eye slowly opening, drawn in the corner of the screen instead of a bar.
 
-**Attach:** ember_expressions_sheet.png
+**Attach:** [ember_expressions_sheet.png](https://github.com/mahikshith/breaker/raw/claude/project-thread-r3m42j/renders/refs/ember_expressions_sheet.png)
 
 ```
 HOUSE STYLE (match exactly): premium glossy 3D render, as if made in Blender Cycles. Characters are glossy vinyl toys; props and bricks are glazed ceramic or polished metal with a thick clear coat, crisp highlight bands and slightly rounded bevels. People use chibi proportions (head about 40% of total height, stubby limbs). One soft warm key light from the top-left (about #FFDBB8), a cool blue fill from the right (#8CA6FF), a faint pink bounce from below (#FF80A6); shadows fall down and to the right. Saturated but never neon colours, very little yellow (gold is a small accent only). Plain calm dark navy background (#141831) that never outshines the subject. Faces are the most important part: big glossy eyes with lids, brows and a mouth that clearly changes between expressions, never blank or identical faces. Orthographic camera, no perspective distortion. NOT: pixel art, flat vector clip art, cel-shaded anime, photorealism, wisps or ghost blobs, snake bodies made of ball chains, round blob heads, one face copied onto every character, long dangly-armed creatures. No text, no watermark, no logo.
@@ -54,7 +54,7 @@ BACKGROUND: fully transparent (real alpha). If you cannot output transparency, u
 
 The pieces the level is built from: molten gold, the hush chime, the Sunstone, the escape gate, coin bursts.
 
-**Attach:** hoard_props_sheet.png and bricks-glaze-v2_sheet.png (your earlier M365 sheets), as style references
+**Attach:** [hoard_props_sheet.png](https://github.com/mahikshith/breaker/raw/claude/project-thread-r3m42j/renders/refs/hoard_props_sheet.png) and [bricks-glaze-v2_sheet.png](https://github.com/mahikshith/breaker/raw/claude/project-thread-r3m42j/renders/refs/bricks-glaze-v2_sheet.png)
 
 ```
 HOUSE STYLE (match exactly): premium glossy 3D render, as if made in Blender Cycles. Characters are glossy vinyl toys; props and bricks are glazed ceramic or polished metal with a thick clear coat, crisp highlight bands and slightly rounded bevels. People use chibi proportions (head about 40% of total height, stubby limbs). One soft warm key light from the top-left (about #FFDBB8), a cool blue fill from the right (#8CA6FF), a faint pink bounce from below (#FF80A6); shadows fall down and to the right. Saturated but never neon colours, very little yellow (gold is a small accent only). Plain calm dark navy background (#141831) that never outshines the subject. Faces are the most important part: big glossy eyes with lids, brows and a mouth that clearly changes between expressions, never blank or identical faces. Orthographic camera, no perspective distortion. NOT: pixel art, flat vector clip art, cel-shaded anime, photorealism, wisps or ghost blobs, snake bodies made of ball chains, round blob heads, one face copied onto every character, long dangly-armed creatures. No text, no watermark, no logo.
@@ -77,7 +77,7 @@ BACKGROUND: fully transparent (real alpha). If you cannot output transparency, u
 
 Unlockable paddles give players a reason to earn stars and coins (stickiness). They must be cut into 3 parts: left end, stretchy middle, right end.
 
-**Attach:** any current BREACH paddle screenshot (chrome capsule paddle)
+**Attach:** [gatehouse-screenshot.png](https://github.com/mahikshith/breaker/raw/claude/project-thread-r3m42j/renders/refs/gatehouse-screenshot.png) (shows the current paddle)
 
 ```
 HOUSE STYLE (match exactly): premium glossy 3D render, as if made in Blender Cycles. Characters are glossy vinyl toys; props and bricks are glazed ceramic or polished metal with a thick clear coat, crisp highlight bands and slightly rounded bevels. People use chibi proportions (head about 40% of total height, stubby limbs). One soft warm key light from the top-left (about #FFDBB8), a cool blue fill from the right (#8CA6FF), a faint pink bounce from below (#FF80A6); shadows fall down and to the right. Saturated but never neon colours, very little yellow (gold is a small accent only). Plain calm dark navy background (#141831) that never outshines the subject. Faces are the most important part: big glossy eyes with lids, brows and a mouth that clearly changes between expressions, never blank or identical faces. Orthographic camera, no perspective distortion. NOT: pixel art, flat vector clip art, cel-shaded anime, photorealism, wisps or ghost blobs, snake bodies made of ball chains, round blob heads, one face copied onto every character, long dangly-armed creatures. No text, no watermark, no logo.
@@ -98,7 +98,7 @@ BACKGROUND: fully transparent (real alpha). If you cannot output transparency, u
 
 Match the falling power-up capsules to the new M365 bricks so the whole board looks like one set.
 
-**Attach:** bricks-glaze-v2_sheet.png as the material reference
+**Attach:** [bricks-glaze-v2_sheet.png](https://github.com/mahikshith/breaker/raw/claude/project-thread-r3m42j/renders/refs/bricks-glaze-v2_sheet.png)
 
 ```
 HOUSE STYLE (match exactly): premium glossy 3D render, as if made in Blender Cycles. Characters are glossy vinyl toys; props and bricks are glazed ceramic or polished metal with a thick clear coat, crisp highlight bands and slightly rounded bevels. People use chibi proportions (head about 40% of total height, stubby limbs). One soft warm key light from the top-left (about #FFDBB8), a cool blue fill from the right (#8CA6FF), a faint pink bounce from below (#FF80A6); shadows fall down and to the right. Saturated but never neon colours, very little yellow (gold is a small accent only). Plain calm dark navy background (#141831) that never outshines the subject. Faces are the most important part: big glossy eyes with lids, brows and a mouth that clearly changes between expressions, never blank or identical faces. Orthographic camera, no perspective distortion. NOT: pixel art, flat vector clip art, cel-shaded anime, photorealism, wisps or ghost blobs, snake bodies made of ball chains, round blob heads, one face copied onto every character, long dangly-armed creatures. No text, no watermark, no logo.
@@ -115,7 +115,7 @@ BACKGROUND: fully transparent (real alpha). If you cannot output transparency, u
 
 Fills known art gaps: armoured crate bricks for Circuit and Forge, and a water splash for Tidewheel.
 
-**Attach:** bricks-glaze-v2_sheet.png as the material reference
+**Attach:** [bricks-glaze-v2_sheet.png](https://github.com/mahikshith/breaker/raw/claude/project-thread-r3m42j/renders/refs/bricks-glaze-v2_sheet.png)
 
 ```
 HOUSE STYLE (match exactly): premium glossy 3D render, as if made in Blender Cycles. Characters are glossy vinyl toys; props and bricks are glazed ceramic or polished metal with a thick clear coat, crisp highlight bands and slightly rounded bevels. People use chibi proportions (head about 40% of total height, stubby limbs). One soft warm key light from the top-left (about #FFDBB8), a cool blue fill from the right (#8CA6FF), a faint pink bounce from below (#FF80A6); shadows fall down and to the right. Saturated but never neon colours, very little yellow (gold is a small accent only). Plain calm dark navy background (#141831) that never outshines the subject. Faces are the most important part: big glossy eyes with lids, brows and a mouth that clearly changes between expressions, never blank or identical faces. Orthographic camera, no perspective distortion. NOT: pixel art, flat vector clip art, cel-shaded anime, photorealism, wisps or ghost blobs, snake bodies made of ball chains, round blob heads, one face copied onto every character, long dangly-armed creatures. No text, no watermark, no logo.
@@ -133,7 +133,7 @@ BACKGROUND: fully transparent (real alpha). If you cannot output transparency, u
 
 Pictures of new levels for the roadmap (mythical beasts). I pick one to build next.
 
-**Attach:** one current BREACH screenshot of Gatehouse Siege and Ember's turnaround sheet
+**Attach:** [gatehouse-screenshot.png](https://github.com/mahikshith/breaker/raw/claude/project-thread-r3m42j/renders/refs/gatehouse-screenshot.png) and [ember_turnaround_sheet.png](https://github.com/mahikshith/breaker/raw/claude/project-thread-r3m42j/renders/refs/ember_turnaround_sheet.png)
 
 ```
 HOUSE STYLE (match exactly): premium glossy 3D render, as if made in Blender Cycles. Characters are glossy vinyl toys; props and bricks are glazed ceramic or polished metal with a thick clear coat, crisp highlight bands and slightly rounded bevels. People use chibi proportions (head about 40% of total height, stubby limbs). One soft warm key light from the top-left (about #FFDBB8), a cool blue fill from the right (#8CA6FF), a faint pink bounce from below (#FF80A6); shadows fall down and to the right. Saturated but never neon colours, very little yellow (gold is a small accent only). Plain calm dark navy background (#141831) that never outshines the subject. Faces are the most important part: big glossy eyes with lids, brows and a mouth that clearly changes between expressions, never blank or identical faces. Orthographic camera, no perspective distortion. NOT: pixel art, flat vector clip art, cel-shaded anime, photorealism, wisps or ghost blobs, snake bodies made of ball chains, round blob heads, one face copied onto every character, long dangly-armed creatures. No text, no watermark, no logo.
@@ -152,7 +152,7 @@ HOW THE GAME PLAYS (the picture must read as a playable board). This is a portra
 
 The app store needs an icon and a banner. This makes the game look real and premium.
 
-**Attach:** Kit, Lumi and Ember reference pictures
+**Attach:** [kit-reference.png](https://github.com/mahikshith/breaker/raw/claude/project-thread-r3m42j/renders/refs/kit-reference.png), [lumi-reference.png](https://github.com/mahikshith/breaker/raw/claude/project-thread-r3m42j/renders/refs/lumi-reference.png) and [ember_turnaround_sheet.png](https://github.com/mahikshith/breaker/raw/claude/project-thread-r3m42j/renders/refs/ember_turnaround_sheet.png)
 
 ```
 HOUSE STYLE (match exactly): premium glossy 3D render, as if made in Blender Cycles. Characters are glossy vinyl toys; props and bricks are glazed ceramic or polished metal with a thick clear coat, crisp highlight bands and slightly rounded bevels. People use chibi proportions (head about 40% of total height, stubby limbs). One soft warm key light from the top-left (about #FFDBB8), a cool blue fill from the right (#8CA6FF), a faint pink bounce from below (#FF80A6); shadows fall down and to the right. Saturated but never neon colours, very little yellow (gold is a small accent only). Plain calm dark navy background (#141831) that never outshines the subject. Faces are the most important part: big glossy eyes with lids, brows and a mouth that clearly changes between expressions, never blank or identical faces. Orthographic camera, no perspective distortion. NOT: pixel art, flat vector clip art, cel-shaded anime, photorealism, wisps or ghost blobs, snake bodies made of ball chains, round blob heads, one face copied onto every character, long dangly-armed creatures. No text, no watermark, no logo.
