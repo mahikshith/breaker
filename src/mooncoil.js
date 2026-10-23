@@ -93,8 +93,6 @@ export class Mooncoil extends Vault {
     if (!MOON_BACKGROUND?.complete || !MOON_BACKGROUND.naturalWidth) return super.background();
     return cached(`mooncoil-room-${this.W}-${this.H}`, this.W, this.H, g => {
       g.drawImage(MOON_BACKGROUND, 0, 0, this.W, this.H);
-      // Keep the registered masonry readable against the quiet obsidian wall.
-      g.fillStyle = 'rgba(5,9,19,.22)'; g.fillRect(18, 90, 324, 332);
     });
   }
   drawTopInset(g, h) {
