@@ -7,8 +7,8 @@ android {
         applicationId 'com.mahikshith.breach.preview'
         minSdk 26
         targetSdk 35
-        versionCode 7
-        versionName '0.7-eleven-chapter-preview'
+        versionCode 8
+        versionName '0.8-princess-polish'
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {

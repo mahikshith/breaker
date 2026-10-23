@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "name": "BREACH — Twelve-chapter castle preview",
+  "name": "BREACH — Princess chapters polish",
   "sourceBranch": "codex/castle-chapters",
-  "androidVersionCode": 7,
-  "androidVersionName": "0.7-eleven-chapter-preview",
-  "reviewedCanonicalSha256": "5415515aa918987fb206d53e61334add32311a03e1a50e8411a367d5696cd8a1",
+  "androidVersionCode": 8,
+  "androidVersionName": "0.8-princess-polish",
+  "reviewedCanonicalSha256": "5faa4c8e309de59cf5f14352a107b8b8b0d1668c443288a135bd11283328c92f",
   "saveSlots": ["Carrier Breakout", "The Vault", "Circuit Breakout", "Shutter Forge", "Frost Warden", "Mooncoil Reliquary", "Bellforge Run", "Tidewheel Citadel", "Gatehouse Siege", "Lumi Breaks Out", "Serpent Rivals", "Dragon’s Hoard"],
   "menuOrder": [1, 4, 5, 6, 7, 8, 9, 10, 11],
   "difficulties": ["easy", "medium", "hard"],
-  "scope": "Twelve main chapters including Mooncoil Reliquary, Bellforge Run, Tidewheel Citadel, Gatehouse Siege, Lumi Breaks Out, Serpent Rivals, Dragon’s Hoard, the emerald serpent presentation, corrected Carrier Focus/LASER contact, distinct companion controls, bounded powers and offline fonts. Standalone Starflight/Gatebreak is not included.",
+  "scope": "Nine princess chapters in story order behind a key-art home page and chapter map: The Vault, Frost Warden, Mooncoil Reliquary, Bellforge Run, Tidewheel Citadel, Gatehouse Siege, Lumi Breaks Out, Serpent Rivals, Dragon’s Hoard. Ball-control tutorial, a purpose card per chapter, villain clocks that end in losing Lumi, themed special bricks, stronger power-ups, a bigger ball, full-screen scenes, the M365 yeti with its dash and the fire serpent. Space chapters are hidden from the menu (save slots kept).",
   "limitations": "Debug preview; ads and purchases are local simulations. Physical-phone performance and human difficulty require device testing."
 }
