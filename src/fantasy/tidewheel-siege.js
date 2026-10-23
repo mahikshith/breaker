@@ -249,7 +249,7 @@ export class TidewheelSiege extends Tidewheel {
   // Nerra's eject also keeps clear of the board's steel and bricks.
   clearNerra(b, targets) {
     const v = this.villain; if (v.ghost || v.hidden || b.titan > 0 || b.pierceExit?.has('nerra')) return;
-    const solids = targets.filter(t => t.type === 'rect' && (t.steel || t.id?.startsWith('blk') || t.kind === 'gate'));
+    const solids = targets.filter(t => t.type === 'rect' && (t.steel || t.id?.startsWith('blk') || t.id?.startsWith('gate')));   // a spent gate panel is still metal
     const ok = (x, y) => x >= 12 + b.r && x <= this.width - 12 - b.r && y >= 67 + b.r && !solids.some(t => overlapsTarget({ x, y, r: b.r }, t));
     const boss = targets.filter(t => t.kind === 'shell' || t.kind === 'claw');
     const touched = boss.map(t => ({ t, d: t.r + b.r - Math.hypot(b.x - t.x, b.y - t.y) })).sort((p, q) => q.d - p.d)[0];

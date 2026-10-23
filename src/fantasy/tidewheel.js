@@ -26,6 +26,11 @@ function clawPoint(c,p,old=false){
   return {x:root.x+x*Math.cos(a)-y*Math.sin(a),y:root.y+x*Math.sin(a)+y*Math.cos(a)};
 }
 
+// How far an open sluice panel winds up: to y 95-129, above the reach of Nerra's claws in every pose (a fury haul
+// swings her gate claw up to y 152) and 28 px under the ceiling, so a ball neither wedges against her nor is crushed on the
+// ceiling by a rising panel. Parked beside the claw at the old 32 px lift (y 191-225) a spent panel left a funnel only just
+// wider than the ball against the claw and sealed the pocket above it: a ball rattled there or circled with no way down.
+export const GATE_LIFT=128;
 // A bounded height/current model, not a fluid simulation. Art consumes these same poses.
 export class Tidewheel {
   constructor({width=360,height=780,difficulty='easy',paddleY=height-100,geometry=TIDEWHEEL_V2_GEOMETRY}={}){
@@ -222,7 +227,7 @@ export class Tidewheel {
     const targetCurrent=v.stage==='pull'?-this.rules.current:0;
     this.water.current+=(targetCurrent-this.water.current)*(1-Math.exp(-dt*3));
     for(const g of this.gates){
-      g.previousY=g.y-g.open*32;
+      g.previousY=g.y-g.open*GATE_LIFT;
       const opened=this.time<g.until||this.anchor?.gate===+g.id.at(-1);
       g.open+=clamp(Number(opened)-g.open,-dt,dt*1.5);g.angle+=opened?dt*1.2:0;
     }
@@ -300,13 +305,13 @@ export class Tidewheel {
       const p=clawPoint(c,disk,!!dt),now=clawPoint(c,disk);
       targets.push({id:i?c.id+':'+i:c.id,kind:'claw',clawSide:c.side,type:'circle',x:p.x,y:p.y,r:disk.r*c.scale,vx:dt?(now.x-p.x)/dt:0,vy:dt?(now.y-p.y)/dt:0});
     }
-    for(const g of this.gates){const y=g.y-g.open*32,old=dt?(g.previousY??y):y;targets.push({id:g.id,kind:g.hp>0?'gate':undefined,type:'rect',x:g.x-g.w/2,y:old-g.h/2,w:g.w,h:g.h,vy:dt?(y-old)/dt:0});}
+    for(const g of this.gates){const y=g.y-g.open*GATE_LIFT,old=dt?(g.previousY??y):y;targets.push({id:g.id,kind:g.hp>0?'gate':undefined,type:'rect',x:g.x-g.w/2,y:old-g.h/2,w:g.w,h:g.h,vy:dt?(y-old)/dt:0});}
     return targets;
   }
   // Nerra's shell and claws can land on a ball (keypose swap, a claw outpacing it): push it clear along the contact normal.
   clearNerra(b,targets){
     if(b.titan>0||b.pierceExit?.has('nerra'))return;
-    const ok=(x,y)=>x>=12+b.r&&x<=this.width-12-b.r&&y>=67+b.r&&!this.gates.some(g=>Math.abs(x-g.x)<g.w/2+b.r&&Math.abs(y-(g.y-g.open*32))<g.h/2+b.r);
+    const ok=(x,y)=>x>=12+b.r&&x<=this.width-12-b.r&&y>=67+b.r&&!this.gates.some(g=>Math.abs(x-g.x)<g.w/2+b.r&&Math.abs(y-(g.y-g.open*GATE_LIFT))<g.h/2+b.r);
     const boss=targets.filter(t=>t.kind==='shell'||t.kind==='claw');
     const touched=boss.map(t=>({t,d:t.r+b.r-Math.hypot(b.x-t.x,b.y-t.y)})).sort((p,q)=>q.d-p.d)[0];
     const c=ejectBall(b,boss,{ok});if(!c)return;

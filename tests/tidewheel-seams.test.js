@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { Tidewheel, raftPoint } from '../src/fantasy/tidewheel.js';
+import { Tidewheel, raftPoint, GATE_LIFT } from '../src/fantasy/tidewheel.js';
 import { sweepTarget } from '../src/carrier-physics.js';
 
 function seamFixture() {
@@ -42,7 +42,7 @@ test('a later genuinely separated shell contact remains productive after the uni
 test('the visibly raised spent gate panel remains solid without more rewards or boss damage', () => {
   const g = new Tidewheel({height:700}); g.launch();
   const gate=g.gates[0];gate.hp=0;gate.until=Infinity;gate.open=1;
-  const target=g.targets().find(t=>t.id===gate.id), y=gate.y-32;
+  const target=g.targets().find(t=>t.id===gate.id), y=gate.y-GATE_LIFT;
   assert.ok(sweepTarget({x:gate.x,y:y+40},{x:gate.x,y:y-20},6,target),'spent visible metal intercepts a real ray');
   const b=g.balls[0];Object.assign(b,{x:gate.x,y:y+40,vx:0,vy:-345});
   const hp=g.villain.hp;g.moveBall(b,.1);

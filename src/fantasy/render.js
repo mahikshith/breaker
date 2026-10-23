@@ -9,6 +9,7 @@ import { renderHoard } from './hoard-render.js';
 import { r3, preloadR3 } from './r3.js';
 import { drawSpecial } from '../castle-art.js';
 import { tideSceneBack, tideSceneFront } from './tide-scene.js';
+import { GATE_LIFT } from './tidewheel.js';
 import { siegeBoard, siegeBrick, raftSteel, nerraMotion, refugeChain, siegeEffect, siegeOverlay } from './tidewheel-stages-render.js';
 const damageStates=new WeakMap();
 // Round-3 Nerra (M365 painted sheet cut by art/round3/cut.py): one whole-body frame per pose, picked from the model's
@@ -240,13 +241,13 @@ function renderTidewheel(ctx,g,art){
   sprite(ctx,art,'tidewheel','sluiceWall',180,232,{width:390});
   if(!v.hidden&&Math.abs(v.footY-232)<4){ctx.fillStyle='#08141c66';ctx.beginPath();ctx.ellipse(v.footX,233,62,5,0,0,Math.PI*2);ctx.fill();}
   for(const gate of g.gates){
-    const gy=gate.y-gate.open*32,m=art.manifest.tidewheel.gate,a=m.anchors.panelTopLeft,b=m.anchors.panelBottomRight;
+    const gy=gate.y-gate.open*GATE_LIFT,m=art.manifest.tidewheel.gate,a=m.anchors.panelTopLeft,b=m.anchors.panelBottomRight;
     const fm=art.manifest.tidewheel.gateFrame,fa=fm.anchors.openingTopLeft,fb=fm.anchors.openingBottomRight,fw=gate.w/(fb[0]-fa[0]),fh=gate.h/(fb[1]-fa[1]);
     ctx.drawImage(art.images['tidewheel/gateFrame'],gate.x-gate.w/2-fa[0]*fw,gate.y-gate.h/2-fa[1]*fh,fw,fh);
     const fullW=gate.w/(b[0]-a[0]),fullH=gate.h/(b[1]-a[1]);
     ctx.drawImage(art.images['tidewheel/gate'],gate.x-gate.w/2-a[0]*fullW,gy-gate.h/2-a[1]*fullH,fullW,fullH);
-    chain(ctx,art,{x:gate.x,y:gate.y-10},{x:gate.x,y:gate.y+54+gate.open*32});
-    sprite(ctx,art,'tidewheel','counterweight',gate.x,gate.y+61+gate.open*32,{width:23});
+    chain(ctx,art,{x:gate.x,y:gate.y-10},{x:gate.x,y:gate.y+54+gate.open*GATE_LIFT});
+    sprite(ctx,art,'tidewheel','counterweight',gate.x,gate.y+61+gate.open*GATE_LIFT,{width:23});
   }
   // Hauling away from the low hoist lengthens the taut hand leg and turns its axle.
   const hand=v.defeat?{x:g.chain.hand.x,y:238}:g.chain.hand;

@@ -3,11 +3,11 @@ import { Arena } from './arena.js';
 import { ART } from './vault-art.js';
 import { difficulty } from './difficulty.js';
 import { sweepTarget } from './carrier-physics.js';
-import { ejectBall, overlapsAny } from './clearance.js';
+import { ejectBall, overlapsAny, closeNotches } from './clearance.js';
 import { drawThemed, drawThemedBar, themedChip, themedBreak } from './themed-bricks.js';
 import { brick, cached, loadImg, ready, text, rrect, SPR, drawKitCastFlight, drawKitBrickArmour, drawShard, shardPalette, glazedBar } from './gfx.js';
 import { sfx } from './audio.js';
-import { RAM } from './fantasy/ram.js';
+import { RAM, BALL_R } from './fantasy/ram.js';
 import { hpLeft } from './near-miss.js';
 import { r3, r3ok } from './fantasy/r3.js';
 
@@ -20,6 +20,15 @@ export const FROST_MODES = {
 // Dash: every DASH.every-th attack the Warden backs off, gathers frost (the warned crouch), charges the post and
 // shoulder-smashes it for DASH.damage, then stays dazed; ball hits on a dazed Warden count DASH.dazedHit times.
 export const DASH = { every: 3, backoff: 62, minX: 58, overshoot: 6, smash: .32, damage: 2, dazedHit: 2 }; // minX keeps him on screen
+// The measured body bands can leave a notch (arm over foot) a ball only just fits in, where it rattles in place:
+// notches shorter than NOTCH world units are closed (src/clearance.js closeNotches). Per atlas frame, cached.
+export const NOTCH = 2 * BALL_R + 4;
+const CLOSED = new WeakMap();
+function closedBands(shapes, scale) {
+  if (!shapes?.length) return shapes;
+  let c = CLOSED.get(shapes); if (!c || c.scale !== scale) CLOSED.set(shapes, c = { scale, shapes: closeNotches(shapes, NOTCH / scale) });
+  return c.shapes;
+}
 const COLORS = ['#4f9dff', '#8f5cf0', '#22c4b0', '#ff6f91', '#4f9dff', '#b785ef'];
 // Themed bricks (src/themed-bricks.js): rime-frosted ice glass, frozen blue and frost violet by row; steel is frost-rimed iron.
 const FROST_ROWS = ['ice', 'blue', 'violet', 'ice', 'blue', 'violet'];
@@ -115,7 +124,7 @@ export class Frost extends Arena {
     const fist = sample?.fist || { x: stage === 'strike' ? 45 : 25, y: -44, r: 10 };
     const body = sample?.body || { x: -18, y: -79, w: 38, h: 72 };
     return { c, f, globalFrame, fist: Array.isArray(fist) ? { x: fist[0], y: fist[1], r: fist[2] } : fist,
-      body: Array.isArray(body) ? { x: body[0], y: body[1], w: body[2], h: body[3] } : body, bodyShapes: sample?.bodyShapes,
+      body: Array.isArray(body) ? { x: body[0], y: body[1], w: body[2], h: body[3] } : body, bodyShapes: closedBands(sample?.bodyShapes, this.artScale),
       otherHands: Object.entries(sample?.hands || {}).filter(([id]) => id !== a.forwardHand).map(([, hand]) => hand) };
   }
   reach() {

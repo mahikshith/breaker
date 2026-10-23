@@ -56,6 +56,29 @@ export function ejectBall(ball, shapes, { ok, eps = .05 } = {}) {
   return c;
 }
 
+// A silhouette measured as stacked horizontal bands (one rect per row, e.g. the Warden's bodyShapes) can leave a notch,
+// say between an arm and a foot, only just taller than the ball: a ball that lands in one rattles between its top and
+// bottom faces and crawls out at its sideways speed. closeNotches() fills every notch shorter than gap: the rows between
+// two bands closer than gap are widened to what both of those bands cover (a slit with no rows between gets a band of its
+// own), repeated until nothing changes. The outer extents never grow, so reach and contact edges stay as measured.
+// Circles pass through unchanged.
+export function closeNotches(shapes, gap) {
+  const rows = shapes.filter(s => s.type !== 'circle').map(s => ({ ...s }));
+  for (let pass = 0, changed = true; changed && pass < 16; pass++) {
+    changed = false; rows.sort((a, b) => a.y - b.y);
+    for (let a = 0, n = rows.length; a < n; a++) for (let c = a + 1; c < n; c++) {
+      const A = rows[a], C = rows[c], notch = C.y - (A.y + A.h); if (notch >= gap) break;
+      const lo = Math.max(A.x, C.x), hi = Math.min(A.x + A.w, C.x + C.w); if (hi <= lo + EPS) continue;
+      if (c === a + 1) { if (notch > EPS) { rows.push({ ...A, x: lo, y: A.y + A.h, w: hi - lo, h: notch }); changed = true; } continue; }
+      for (let j = a + 1; j < c; j++) {
+        const r = rows[j], x0 = Math.min(r.x, lo), x1 = Math.max(r.x + r.w, hi);
+        if (x0 < r.x - EPS || x1 > r.x + r.w + EPS) { r.x = x0; r.w = x1 - x0; changed = true; }
+      }
+    }
+  }
+  return [...rows, ...shapes.filter(s => s.type === 'circle')];
+}
+
 // Paddle growth (WIDE): the widest half-width, up to want, a paddle centred at x with its body spanning y0..y1 can take
 // without its ends landing on a ball that is beside it now. A ball already within reach of the current paddle is left to
 // the paddle's own contact; one beside it waits until it has dropped past or moved off, and the paddle grows around it then.
