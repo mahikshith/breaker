@@ -25,10 +25,13 @@ Verdicts: **OK** means all three are present. **WEAK** means one or two are pres
 | Rivals 1: Lure hall | Gnash and his rune lure. Mooncoil is shuttered scenery. | Gnash lunges. | None. The hatch resets the board. | WEAK | Baiting Gnash into eating his own bricks with the lure pre-cracks the floor 2 Seal: start it at -2 HP, with the crack drawn. |
 | Rivals 2: The crossing | Both serpents and the Twin Seal (floor 2 HP). | Lunges, plus ward plates fed by their meals. | Clashes only count for stars. The Seal resets on floor 3. | WEAK | Each clash on floor 2 leaves that serpent dizzy for the first 8 s of floor 3, shown as a boarded window. |
 | Rivals 3: Twin Seal | Twin Seal and both serpents (finale). | Lunges and ward plates. | Chapter end. | OK | None needed. |
+| Hoard 1: Coin mound | Ember asleep on the hoard, and the Crown chest buried in the mound. | The Wake eye: every gold brick opens it. A Hoard Roar at 100. | The eye level carries into floor 2. Loot is held for the escape. | OK | None needed. Optionally make the Crown grab louder (Ember's eye flicks to the empty chest). |
+| Hoard 2: Ember stirs | Ember awake-ish, and two counterweights under the ledge. | Scheduled roars plus the eye, then the greed clock (the eye creeps open while you STAY). | The RUN/STAY multiplier, and how open the eye is sets floor 3's rage (calm, cross or furious). | OK | None needed. This is the model for the other middle floors. |
+| Hoard 3: Avalanche | The cave gate out, with Ember raging. | The hoard slides a row every few seconds toward the paddle, plus breath and roars. | Escape banks loot times the multiplier (chapter end). | OK | None needed. |
 | Bellforge Run (one encounter) | Lumi on Korr's lift. | Docked bells ratchet the lift down. The mistake allowance is the clock. | Single screen. The win frees Lumi. | OK | None needed. A later chapter could reuse the lift as a captive callback. |
 | Tidewheel Citadel (one encounter) | Lumi on the refuge balcony, and Nerra. | Rising water, pulls and pulses. | Single screen. Stars track how close the flood came. | OK | None needed. |
 
-**Counts for multi-floor chapters (9 floors, today):** 3 OK, 5 WEAK, 1 EMPTY. Bellforge and Tidewheel are single-encounter chapters and are both OK.
+**Counts for multi-floor chapters (12 floors, today, with Dragon's Hoard merged in):** 6 OK, 5 WEAK, 1 EMPTY. All three Hoard floors pass; it is the only multi-floor chapter whose middle floor carries something forward. Bellforge and Tidewheel are single-encounter chapters and are both OK.
 
 **Worst floors:** Gatehouse 1 (now fixed on this branch) and Lumi 1, which has no threat and no clock. Every middle floor (Gatehouse 2, Lumi 2, Rivals 1 and 2) has stake and pressure but nothing that carries forward.
 

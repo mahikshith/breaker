@@ -13,18 +13,18 @@ const main = readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
 const names = [...main.matchAll(/^  \{ make: .*?name: '([^']+)'.*?(?:next: (\d+))?.*$/gm)].map(m => m[1]);
 const nexts = [...main.matchAll(/^  \{ make: .*$/gm)].map(m => m[0].match(/next: (\d+)/)?.[1]);
 
-test('chapter slots are append-only and the menu lists all eleven', () => {
-  assert.deepEqual(names, ['Carrier Breakout', 'The Vault', 'Circuit Breakout', 'Shutter Forge', 'Frost Warden', 'Mooncoil Reliquary', 'Bellforge Run', 'Tidewheel Citadel', 'Gatehouse Siege', 'Lumi Breaks Out', 'Serpent Rivals']);
-  assert.match(main, /\[0, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10\]\.filter/);
+test('chapter slots are append-only and the menu lists all twelve', () => {
+  assert.deepEqual(names, ['Carrier Breakout', 'The Vault', 'Circuit Breakout', 'Shutter Forge', 'Frost Warden', 'Mooncoil Reliquary', 'Bellforge Run', 'Tidewheel Citadel', 'Gatehouse Siege', 'Lumi Breaks Out', 'Serpent Rivals', 'Dragon’s Hoard']);
+  assert.match(main, /\[0, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10, 11\]\.filter/);
   const release = JSON.parse(readFileSync(new URL('../config/mobile-preview.json', import.meta.url), 'utf8'));
-  assert.deepEqual(release.saveSlots, names); assert.deepEqual(release.menuOrder, [0, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10]);
+  assert.deepEqual(release.saveSlots, names); assert.deepEqual(release.menuOrder, [0, 2, 3, 1, 4, 5, 6, 7, 8, 9, 10, 11]);
 });
 
-test('next links walk Frost to Mooncoil to Bellforge to Tidewheel to Gatehouse Siege to Lumi Breaks Out to Serpent Rivals, which ends the campaign', () => {
-  assert.deepEqual(nexts.map(n => n === undefined ? n : +n), [2, 4, 3, undefined, 5, 6, 7, 8, 9, 10, undefined]);
+test('next links walk Frost to Mooncoil to Bellforge to Tidewheel to Gatehouse Siege to Lumi Breaks Out to Serpent Rivals to Dragon’s Hoard, which ends the campaign', () => {
+  assert.deepEqual(nexts.map(n => n === undefined ? n : +n), [2, 4, 3, undefined, 5, 6, 7, 8, 9, 10, 11, undefined]);
 });
 
-for (const key of ['bellforge', 'tidewheel', 'gatehouse', 'lumitower', 'rivals']) for (const mode of ['easy', 'medium', 'hard']) for (const [H, s] of [[814, 393 / 360], [949, 412 / 360], [634, 1]]) {
+for (const key of ['bellforge', 'tidewheel', 'gatehouse', 'lumitower', 'rivals', 'hoard']) for (const mode of ['easy', 'medium', 'hard']) for (const [H, s] of [[814, 393 / 360], [949, 412 / 360], [634, 1]]) {
   test(`${key} ${mode} loads at ${H} and plays frames through the shared contract`, () => {
     const l = new FantasyChapter(key, 360, H, s, mode);
     assert.equal(l.W, 360); assert.equal(l.H, H); assert.equal(l.state, 'play'); assert(l.m.paddle.y <= l.m.height - 30);

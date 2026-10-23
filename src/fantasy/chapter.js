@@ -6,6 +6,8 @@ import { Tidewheel } from './tidewheel.js';
 import { Gatehouse, GATEHOUSE_FLOORS } from './gatehouse.js';
 import { LumiTower } from './lumitower.js';
 import { SerpentRivals, RIVALS_KINDS } from './rivals.js';
+import { DragonsHoard, HOARD_KINDS } from './hoard.js';
+import { hoardButtons } from './hoard-render.js';
 import { makeArt, drawEncounter, gWard } from './render.js';
 import { cached, drawBall, text, ramTeach } from '../gfx.js';
 import { Coach } from '../coach.js';
@@ -29,7 +31,13 @@ const CHAPTERS = {
   // Kit baits the twin serpents into the Clash Chamber. Stars: clear it, keep 2+ balls, and land at least one clash.
   rivals: { Model: SerpentRivals, name: 'Serpent Rivals', kinds: RIVALS_KINDS, powers: [{ id: 'shield', label: 'WARD', color: '#a9cbf0' }, { id: 'arrows', label: 'ARROWS', color: '#e3c6d1' }],
     preview: m => ({ x: -40, y: m.paddle.y - 512, w: 340, h: 44 }), stars: a => 1 + (a.lives >= 2) + (a.m.clashes >= 1) },
+  // Kit robs Ember's hoard. Stars: escape, keep 2+ balls, and never wake him (no wake roar, never caught while greedy).
+  hoard: { Model: DragonsHoard, name: 'Dragon’s Hoard', kinds: HOARD_KINDS, powers: [{ id: 'shield', label: 'WARD', color: '#a9cbf0' }, { id: 'arrows', label: 'ARROWS', color: '#e3c6d1' }],
+    preview: { x: 0, y: 30, w: 360, h: 70 }, stars: a => 1 + (a.lives >= 2) + (a.m.wakes === 0) },
 };
+const SNAKES = new Set(['lumitower', 'rivals']), OWN_REASON = new Set(['bellforge', 'gatehouse', 'lumitower', 'rivals', 'hoard']);
+const HOARD_LOUD = new Set(['roar-warning', 'breath-warning', 'exit-open', 'slide', 'gate-break', 'crown-break', 'weight-break', 'escape', 'ram-launch', 'run', 'stay', 'crown-grab']);
+const HOARD_QUIET = new Set(['loot', 'spill', 'melt', 'harden', 'chime-ready', 'yawn', 'volley', 'arrow-hit', 'ward-deploy', 'row-clear', 'brick-break', 'paddle']);
 let art;
 
 export class FantasyChapter {
@@ -53,14 +61,23 @@ export class FantasyChapter {
   get phase() { return this.m.phase; }
   get lives() { return this.m.lives; }
   get score() { return this.m.score; }
-  get danger() { const m = this.m; if (this.key === 'lumitower' || this.key === 'rivals') return m.lunges.some(l => l.stage !== 'peek' && l.stage !== 'retreat') ? .8 : 0; if (this.key === 'gatehouse') return m.bells.length || m.villain.stage === 'windup' || m.winch?.stage === 'crank' ? .75 : m.floor / 3 * .6; return this.key === 'bellforge' ? m.lumi.steps / m.rules.mistakes : 1 - (m.water.y - m.water.limit) / (m.water.initial - m.water.limit); }
-  get reason() { const m = this.m; return this.key === 'bellforge' || this.key === 'gatehouse' || this.key === 'lumitower' || this.key === 'rivals' ? m.reason : m.loss === 'flood' ? 'The basin reached the refuge.' : 'The last ball slipped away.'; }
+  get danger() { const m = this.m; if (this.key === 'hoard') return m.ember.stage === 'windup' ? .8 : m.floor === 2 ? Math.max(0, Math.min(.9, 1 - (m.dangerY - m.fieldBottom()) / 140)) : m.wake / 100 * .7; if (this.key === 'lumitower' || this.key === 'rivals') return m.lunges.some(l => l.stage !== 'peek' && l.stage !== 'retreat') ? .8 : 0; if (this.key === 'gatehouse') return m.bells.length || m.villain.stage === 'windup' || m.winch?.stage === 'crank' ? .75 : m.floor / 3 * .6; return this.key === 'bellforge' ? m.lumi.steps / m.rules.mistakes : 1 - (m.water.y - m.water.limit) / (m.water.initial - m.water.limit); }
+  get reason() { const m = this.m; return OWN_REASON.has(this.key) ? m.reason : m.loss === 'flood' ? 'The basin reached the refuge.' : 'The last ball slipped away.'; }
   // The menu card shows the Twin Seal with three ward plates and its first cracks.
-  skipIntro() { if (this.key === 'rivals') { this.m.buildFloor(2); this.m.floorTime = 5; this.m.seal.ward = 3; this.m.seal.hp = Math.round(this.m.seal.maxHP * .7); } }
+  skipIntro() { if (this.key === 'hoard') this.m.wake = 64; if (this.key === 'rivals') { this.m.buildFloor(2); this.m.floorTime = 5; this.m.seal.ward = 3; this.m.seal.hp = Math.round(this.m.seal.maxHP * .7); } }
   previewRect() { const r = typeof this.c.preview === 'function' ? this.c.preview(this.m) : this.c.preview; return { ...r, y: r.y + this.hudTop }; }
   // ---------- input (level coordinates; the model sits hudTop below the level's top, scaled by k on short screens) ----------
   toModel(x) { return (x - this.ox) / this.k; }
-  pointerDown(x) { const m = this.m; Object.assign(this.ptr, { down: true, x }); this.anchor = this.toModel(x); this.padAnchor = m.paddle.targetX; }
+  // The Hoard's greed card and RUN pill are model-space buttons drawn by hoard-render.js; a tap on one never starts a drag.
+  hoardTap(x, y) {
+    if (this.key !== 'hoard' || !Number.isFinite(y)) return false;
+    const mx = this.toModel(x), my = (y - this.hudTop) / this.k, B = hoardButtons(this.m), on = r => r && mx >= r.x && mx <= r.x + r.w && my >= r.y && my <= r.y + r.h;
+    if (on(B.run)) return this.m.choose('run'), true;
+    if (on(B.stay)) return this.m.choose('stay'), true;
+    if (on(B.flee)) return this.m.run(), true;
+    return this.m.phase === 'greed';   // the card is modal: other taps do nothing
+  }
+  pointerDown(x, y) { const m = this.m; if (this.hoardTap(x, y)) return; Object.assign(this.ptr, { down: true, x }); this.anchor = this.toModel(x); this.padAnchor = m.paddle.targetX; }
   pointerMove(x) {
     if (!this.ptr.down) return;
     const m = this.m, lo = m.paddle.w / 2 + 12, hi = m.width - lo;
@@ -79,6 +96,7 @@ export class FantasyChapter {
       return;
     }
     this.keys[k] = down;
+    if (this.key === 'hoard' && down) { const c = k.toLowerCase(); if (this.m.phase === 'greed') { if (c === '1' || c === 'r') this.m.choose('run'); if (c === '2' || c === 's') this.m.choose('stay'); return; } if (c === 'r') this.m.run(); }
     if (k === ' ' && !down) this.serve();
     if (k.toLowerCase() === 'k' && down) this.activateKitPower();
   }
@@ -119,11 +137,19 @@ export class FantasyChapter {
     const nudge = (this.keys.ArrowRight ? 1 : 0) - (this.keys.ArrowLeft ? 1 : 0);
     if (nudge) m.setTarget(m.paddle.targetX + nudge * 460 * dt);
     m.update(dt); this.balls = m.balls; this.paddle.charge = m.charge / 100; this.paddle.stun = m.paddle.stun || (this.t < this.hurtUntil ? 1 : 0);
-    if ((this.key === 'lumitower' || this.key === 'rivals') && m.lives < this.lives0) this.hurtUntil = this.t + .9; this.lives0 = m.lives;
+    if ((SNAKES.has(this.key) || this.key === 'hoard') && m.lives < this.lives0) this.hurtUntil = this.t + .9; this.lives0 = m.lives;
     if (this.key === 'tidewheel') this.floodMin = Math.min(this.floodMin, m.water.y);
     for (const e of m.effects) if (!this.heard.has(e)) {
       this.heard.add(e); if (e.kind === 'paddle-stun') this.stuns++; if (e.kind === 'ram-launch') this.coach.ramLaunched();
-      if (this.key === 'lumitower' || this.key === 'rivals') {
+      if (this.key === 'hoard') {
+        if (e.kind === 'scorch' || e.kind === 'avalanche' || e.kind === 'caught') { this.kitShockUntil = this.t + .9; sfx.hurt(); }
+        else if (e.kind === 'chime' || e.kind === 'ward-bounce') { this.kitReactionAt = this.t; this.kitWardResult = 'held'; sfx.hit(6); }
+        else if (HOARD_LOUD.has(e.kind)) sfx.beat();
+        else if (!HOARD_QUIET.has(e.kind) && m.time - this.hitSoundAt > .06) { sfx.hit(); this.hitSoundAt = m.time; }
+        else if (e.kind === 'brick-break' && m.time - this.hitSoundAt > .06) { sfx.hit(e.type === 'coin' || e.type === 'chest' ? 6 : 0); this.hitSoundAt = m.time; }
+        continue;
+      }
+      if (SNAKES.has(this.key)) {
         if (e.kind === 'swallow') { this.kitShockUntil = this.t + .9; sfx.hurt(); }
         else if (e.kind === 'snake-hurt' || e.kind === 'shield-block' || e.kind === 'dizzy-hit' || e.kind === 'ward-bounce') { this.kitReactionAt = this.t; this.kitWardResult = 'held'; sfx.hit(); }
         else if (e.kind === 'chomp') sfx.chew();
@@ -140,7 +166,7 @@ export class FantasyChapter {
     const mood = kitExpression(this);
     if (mood !== this.kitMood) { this.kitMood = mood; this.kitAt = this.kitTime; }
     const p = m.paddle;
-    this.coach.update(dt, { blocked: m.state !== 'play' || !!m.backHold || m.phase === 'intro' || this.powerMenuOpen,
+    this.coach.update(dt, { blocked: m.state !== 'play' || !!m.backHold || m.phase === 'intro' || m.phase === 'greed' || m.phase === 'escape' || this.powerMenuOpen,   // the Hoard's greed card is modal
       serveWaiting: m.phase === 'serve' && m.balls.some(b => b.caught && !b.dead), streak: p.streak || 0, armed: !!p.armed });
     ramTeach(p, this.coach.ramPulse);
   }
@@ -153,12 +179,12 @@ export class FantasyChapter {
   result() {
     const m = this.m, won = m.state === 'won';
     return { stars: won ? this.c.stars(this) : 0,
-      lines: this.key === 'rivals' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Clashes', m.clashes]] : this.key === 'lumitower' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Bites', m.bites]] : this.key === 'gatehouse' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Balls left', m.lives]] : [['Score', Math.round(m.score).toLocaleString()], this.key === 'bellforge' ? ['Lift drops', `${m.lumi.steps} / ${m.rules.mistakes}`] : ['Flood margin', `${Math.max(0, Math.round((this.floodMin - m.water.limit) / (m.water.initial - m.water.limit) * 100))}%`], ['Balls left', m.lives]] };
+      lines: this.key === 'hoard' ? [['Score', Math.round(m.score).toLocaleString()], ['Loot banked', won ? `${m.banked}${m.mult > 1 ? ` (×${m.mult})` : ''}` : `${m.loot}`], ['Ember woke', m.wakes]] : this.key === 'rivals' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Clashes', m.clashes]] : this.key === 'lumitower' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Bites', m.bites]] : this.key === 'gatehouse' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Balls left', m.lives]] : [['Score', Math.round(m.score).toLocaleString()], this.key === 'bellforge' ? ['Lift drops', `${m.lumi.steps} / ${m.rules.mistakes}`] : ['Flood margin', `${Math.max(0, Math.round((this.floodMin - m.water.limit) / (m.water.initial - m.water.limit) * 100))}%`], ['Balls left', m.lives]] };
   }
   // ---------- drawing ----------
   background() {
     return cached(`fantasy-bg-${this.key}-${this.W}-${this.H}`, this.W, this.H, g => {
-      if (this.key === 'lumitower' || this.key === 'rivals') { const gr = g.createLinearGradient(0, 0, 0, this.H); gr.addColorStop(0, this.key === 'rivals' ? '#12162a' : '#171226'); gr.addColorStop(1, this.key === 'rivals' ? '#090b16' : '#0c0a16'); g.fillStyle = gr; g.fillRect(0, 0, this.W, this.H); return; }
+      if (SNAKES.has(this.key) || this.key === 'hoard') { const top = { rivals: '#12162a', lumitower: '#171226', hoard: '#0b0a16' }, bottom = { rivals: '#090b16', lumitower: '#0c0a16', hoard: '#03040c' }; const gr = g.createLinearGradient(0, 0, 0, this.H); gr.addColorStop(0, top[this.key]); gr.addColorStop(1, bottom[this.key]); g.fillStyle = gr; g.fillRect(0, 0, this.W, this.H); return; }
       const img = art.images[this.key + '/background'];
       g.fillStyle = '#101622'; g.fillRect(0, 0, this.W, this.H);
       if (!img.naturalWidth) return;

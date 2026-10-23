@@ -1,8 +1,9 @@
 import { ART } from '../vault-art.js';
-import { SPR, loadImg, artLoaded, text, cached, drawGlint, drawRamPips } from '../gfx.js';
+import { SPR, loadImg, artLoaded, text, cached, drawGlint, drawRamPips, drawAt } from '../gfx.js';
 import { GATEHOUSE_FLOORS } from './gatehouse.js';
 import { renderLumi } from './lumi-render.js';
 import { renderRivals } from './rivals-render.js';
+import { renderHoard } from './hoard-render.js';
 const damageStates=new WeakMap();
 // Machinery comes packed in ART.fantasy (tools/pack_art.py); the plates, ball, paddle, bricks and Lumi are the main game's own art.
 export function makeArt(){
@@ -760,6 +761,7 @@ export function drawEncounter(ctx,g,art,level){
   if(level==='gatehouse')return renderGatehouse(ctx,g,art);
   if(level==='lumitower')return renderLumi(ctx,g,art);
   if(level==='rivals')return renderRivals(ctx,g,art);
+  if(level==='hoard')return renderHoard(ctx,g,art);
   const plate=art.images[level+'/background'];ctx.drawImage(plate,0,0,g.width,g.height);
   ctx.fillStyle='#07101b1c';ctx.fillRect(0,0,g.width,g.height);
   if(level==='tidewheel')renderTidewheel(ctx,g,art);else renderBellforge(ctx,g,art);
@@ -773,7 +775,7 @@ export function drawEncounter(ctx,g,art,level){
   }
   for(const e of g.effects){
     const q=e.age/e.life;ctx.save();ctx.globalAlpha=1-q;
-    if(e.kind==='water-muzzle'){
+    if(e.kind==='water-hit'&&splash(ctx,e,q)){}else if(e.kind==='water-muzzle'){
       ctx.translate(e.x,e.y);ctx.rotate(e.angle);
       for(let n=0;n<8;n++){const t=e.age,a=(n-3.5)*.12;ctx.fillStyle=n%2?'#d4f8ee':'#75bfcc';ctx.beginPath();ctx.ellipse(Math.cos(a)*t*80,Math.sin(a)*t*80,1.4+q,1,0,0,Math.PI*2);ctx.fill();}
     }else if(e.kind==='brace-break'){
@@ -839,3 +841,6 @@ export function drawEncounter(ctx,g,art,level){
 export function skinFor(art,id){const k=[id+'SkinL',id+'SkinM',id+'SkinR'];return k.every(n=>art.images[n]?.naturalWidth)?k:undefined;}
 // Shared with the Lumi renderer (lumi-render.js).
 export {glow,sparks,chips,pips,fxPart,dust,rnd,clamp01,smooth,gBanner,gPaddle,gBall,gWard,hoistChain,sprite,slab,CLIMB};
+// Tidewheel: a water pulse that meets the paddle or a ball bursts as the round-2 splash (four rendered frames over its life),
+// standing on the paddle line, or centred on the ball it hit; no drawn rings or dot spray.
+function splash(ctx,e,q){const k=Math.min(3,Math.floor(q*4));ctx.globalAlpha=q<.7?1:(1-q)/.3;return drawAt(ctx,`splash/${k}`,e.x,e.y+(e.blocked?14:4),1.15);}

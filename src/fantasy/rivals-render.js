@@ -1,5 +1,5 @@
 import { ART } from '../vault-art.js';
-import { SPR, ready, cached, text, loadImg } from '../gfx.js';
+import { SPR, ready, cached, text, loadImg, drawCapsule } from '../gfx.js';
 import { drawCastleWindow } from '../castle-window.js';
 import { RIVAL_LUNGE, RIVALS_FLOORS, RIVALS_TIMING } from './rivals.js';
 import { glow, sparks, chips, dust, rnd, clamp01, smooth, gBanner, gPaddle, gBall, gWard, skinFor, CLIMB } from './render.js';
@@ -254,12 +254,13 @@ function rEffects(ctx, g, art, pre) {
     ctx.restore();
   }
 }
-const CAP = { multi: ['cap_split', '#7fe0a0'], ram: ['cap_laser', '#ffc98a'], wide: ['cap_wide', '#7fc4ff'] };
+// Castle capsule kinds -> the round-2 glaze capsule (Ram ploughs through like Fire), the old Vault sprite as the fallback.
+const CAP = { multi: ['cap_split', '#7fe0a0', 'split'], ram: ['cap_laser', '#ffc98a', 'fire'], wide: ['cap_wide', '#7fc4ff', 'wide'] };
 function rCapsule(ctx, g, c) {
-  const [key, col] = CAP[c.kind] || CAP.multi, s = SPR[key], t = g.time * 6 + c.id;
+  const [key, col, art] = CAP[c.kind] || CAP.multi, s = SPR[key], t = g.time * 6 + c.id;
   glow(ctx, c.x, c.y, 28, col, .4 + .1 * Math.sin(t));
   for (let i = 1; i < 4; i++) { ctx.globalAlpha = .5 / i; star(ctx, c.x + Math.sin(t + i) * 3, c.y - i * 7, 1.8, t, '#fff4cc'); } ctx.globalAlpha = 1;
-  if (ready(s)) ctx.drawImage(s.img, c.x - 17, c.y - 9, 34, 18.4);
+  if (!drawCapsule(ctx, art, c.x, c.y, 34, 18.4) && ready(s)) ctx.drawImage(s.img, c.x - 17, c.y - 9, 34, 18.4);
 }
 function rArrows(ctx, g) {
   const p = g.paddle;
@@ -353,3 +354,5 @@ function drawChamber(ctx, g, st) {
   const waiting = g.lunges.filter(l => l.win.cross && (l.stage === 'prowl' || l.stage === 'strike' || l.stage === 'clash' || l.stage === 'recoil' || l.stage === 'dizzy'));
   for (const l of waiting) { const k = l.stage === 'prowl' || l.stage === 'strike' ? .22 + .1 * Math.sin(st.clock * 7) : .3; add(ctx, () => glow(ctx, cx + l.win.dir * -30, cy, 56, COL[l.snake], k)); }
 }
+// Shared with the Hoard renderer (hoard-render.js).
+export { rCapsule, rArrows };

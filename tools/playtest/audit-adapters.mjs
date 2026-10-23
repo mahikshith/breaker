@@ -288,6 +288,40 @@ function rivals() {
   };
 }
 
+// Dragon's Hoard: ordinary, coin and molten bricks yield to a ram ball; chests, chimes, hardened gold, the Crown chest and
+// the counterweights stay solid. The ceiling is the cave ledge (the gate is its middle-right span). The greed card is
+// answered at random (seeded), so both the RUN and the greedy STAY paths are exercised; a stay runs until caught or picked clean.
+function hoard() {
+  let C;
+  return {
+    name: 'hoard', kind: 'fantasy',
+    async init() { C ||= await load('fantasy/hoard.js', 'DragonsHoard'); },
+    make(phone, difficulty) {
+      const m = new C({ ...fantasyWorld(phone), difficulty });
+      return {
+        level: m, dt: 1 / 120, nominal: 345,
+        step() { if (m.phase === 'greed') m.choose(Math.random() < .5 ? 'run' : 'stay'); m.update(this.dt); },
+        timeFactor() { return 1; },
+        get state() { return m.state; }, get lives() { return m.lives; }, get time() { return m.time; },
+        balls() { return m.balls; },
+        active(b) { return !b.dead && !b.caught && m.phase === 'play'; },
+        bounds() { return { left: 0, right: m.width, top: m.ceiling, bottom: m.height }; },
+        paddle() { const p = m.paddle; return { x: p.x, top: p.y, w: p.w, h: p.h, stunned: false }; },
+        serving() { return m.phase === 'serve' && m.state === 'play'; },
+        serve(angle) { m.launch(-Math.PI / 2 + angle); },
+        control(x) { if (x !== null) m.setTarget(x); },
+        continue() { m.continued = false; m.continue(); },
+        progress() { return m.score + m.floor * 1000 + m.wake + m.fieldDy + (m.gate ? m.gate.hp : 0) + (m.greed ? 500 : 0) + m.bricks.reduce((n, b) => n + Math.max(0, b.hp), 0); },
+        snapshot() {
+          const shapes = [];
+          for (const t of m.targets()) { const ram = m.ramPierce(t.item); shapes.push(...shapesOf(t, ram).map(e => ({ ...e, pierceable: ram ? undefined : false }))); }
+          return { shapes };
+        },
+      };
+    },
+  };
+}
+
 // Lumi Breaks Out: bricks yield to a ram ball; cage bars, the roof bell and Gnash's body circles stay solid.
 function lumitower() {
   let C;
@@ -333,4 +367,5 @@ export const ADAPTERS = [
   gatehouse(),
   lumitower(),
   rivals(),
+  hoard(),
 ];

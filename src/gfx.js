@@ -19,6 +19,24 @@ for (const [k, s] of Object.entries(ART?.sprites || {})) SPR[k] = { img: loadImg
 const GLAZE_V1 = typeof location !== 'undefined' && /[?&]glaze=v1\b/.test(location.search);
 if (!GLAZE_V1) for (const [k, s] of Object.entries(ART?.glaze2 || {})) SPR[k] = { img: loadImg(s.url), ...s };
 export const ready = s => !!(s && s.img.complete && s.img.naturalWidth);
+// Render round 2 (art/round2/build.py): glaze capsules, crate panels and splash frames. `body` is the solid art's rect inside
+// each sprite, so drawFit puts the drawn body exactly on an object's collider rect (contain: keep the art's aspect inside it).
+export const R2 = {};
+for (const [k, s] of Object.entries(ART?.round2 || {})) R2[k] = { img: loadImg(s.url), ...s };
+export function drawFit(g, key, x, y, w, h, contain = false) {
+  const s = R2[key]; if (!ready(s)) return false;
+  const [bx, by, bw, bh] = s.body; let kx = w / bw, ky = h / bh;
+  if (contain) { const k = Math.min(kx, ky); x += (w - bw * k) / 2; y += (h - bh * k) / 2; kx = ky = k; }
+  g.drawImage(s.img, x - bx * kx, y - by * ky, s.uw * kx, s.uh * ky); return true;
+}
+// A round-2 sprite drawn at scale k with its anchor on (x, y).
+export function drawAt(g, key, x, y, k = 1) {
+  const s = R2[key]; if (!ready(s)) return false;
+  g.drawImage(s.img, x - s.anchor[0] * k, y - s.anchor[1] * k, s.uw * k, s.uh * k); return true;
+}
+// A power-up capsule: the glaze render fitted, aspect kept, inside the capsule's existing centred rect (its pickup size).
+export const capsuleArtWidth = (kind, w, h) => { const s = R2['cap/' + kind]; return s ? Math.min(w, h * s.body[2] / s.body[3]) : w; };
+export const drawCapsule = (g, kind, cx, cy, w, h) => drawFit(g, 'cap/' + kind, cx - w / 2, cy - h / 2, w, h, true);
 export function drawStretchPaddle(g, part, p) {
   if (!ready(part)) return;
   const img = part.img, iw = img.naturalWidth, ih = img.naturalHeight;

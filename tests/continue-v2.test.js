@@ -25,6 +25,7 @@ const { Tidewheel } = await import('../src/fantasy/tidewheel.js');
 const { Gatehouse } = await import('../src/fantasy/gatehouse.js');
 const { LumiTower } = await import('../src/fantasy/lumitower.js');
 const { SerpentRivals } = await import('../src/fantasy/rivals.js');
+const { DragonsHoard } = await import('../src/fantasy/hoard.js');
 const { BACK_WARD } = await import('../src/fantasy/ram.js');
 
 const H = 729, S = 393 / 360;
@@ -42,6 +43,7 @@ const CHAPTERS = {
   'Gatehouse Siege': () => new FantasyChapter('gatehouse', 360, 814, S, 'medium'),
   'Lumi Breaks Out': () => new FantasyChapter('lumitower', 360, 814, S, 'medium'),
   'Serpent Rivals': () => new FantasyChapter('rivals', 360, 814, S, 'medium'),
+  'Dragon’s Hoard': () => new FantasyChapter('hoard', 360, 814, S, 'medium'),
 };
 const lose = l => { if (l.m) { l.m.lives = 0; l.m.lose ? l.m.lose('fixture') : (l.m.state = 'lost'); } else l.fail('fixture'); assert.equal(l.state, 'lost'); };
 
@@ -147,7 +149,7 @@ for (const name of ['Carrier Breakout', 'The Vault', 'Circuit Breakout', 'Shutte
   });
 }
 
-const MODELS = { bellforge: Bellforge, tidewheel: Tidewheel, gatehouse: Gatehouse, lumitower: LumiTower, rivals: SerpentRivals };
+const MODELS = { bellforge: Bellforge, tidewheel: Tidewheel, gatehouse: Gatehouse, lumitower: LumiTower, rivals: SerpentRivals, hoard: DragonsHoard };
 const modelClock = m => JSON.stringify({ time: m.key === 'tidewheel' ? 0 : m.time, floorTime: m.floorTime, water: m.water?.y, lift: m.lumi?.steps, villain: m.villain?.stage, nextSurge: m.nextSurge });
 for (const key of Object.keys(MODELS)) {
   test(`${key}: Continue holds the serve with a ${BACK_WARD} s Ward at the paddle line and the model's clocks frozen`, () => {

@@ -1,6 +1,6 @@
 import { Arena } from './arena.js';
 import { ART } from './vault-art.js';
-import { cached, loadImg, ready, text, drawBall, drawStretchPaddle, softRing, drawGem } from './gfx.js';
+import { cached, loadImg, ready, text, drawBall, drawStretchPaddle, softRing, drawGem, drawCapsule } from './gfx.js';
 import { sweepTarget, overlapsTarget } from './carrier-physics.js';
 import { sfx } from './audio.js';
 import { RAM } from './fantasy/ram.js';
@@ -517,7 +517,7 @@ export class Carrier extends Arena {
     }
   }
   drawDrops(g) {
-    for (const d of this.drops) { const id = `capsule_${d.kind}`; if (!PARTS[id]) continue; const a = fit(id, [d.x - 18, d.y - 9, 36, 18]); part(g, id, a.x, a.y, a.w, a.h); }
+    for (const d of this.drops) { if (drawCapsule(g, d.kind, d.x, d.y, 36, 18)) continue; const id = `capsule_${d.kind}`; if (!PARTS[id]) continue; const a = fit(id, [d.x - 18, d.y - 9, 36, 18]); part(g, id, a.x, a.y, a.w, a.h); }
   }
   background() {
     const p = PARTS.aBackground;
@@ -551,7 +551,7 @@ export class Carrier extends Arena {
     if (this.carrier.hurt > 0 && this.carrier.impact) { const p = this.carrier.impact; g.strokeStyle = '#fff0fa'; g.lineWidth = 2; g.beginPath(); g.moveTo(p.x - 6, p.y); g.lineTo(p.x + 6, p.y); g.moveTo(p.x, p.y - 6); g.lineTo(p.x, p.y + 6); g.stroke(); }
     for (const f of this.fighters) this.drawFighter(g, f, true);
     for (const c of this.guns) this.drawCannon(g, c);
-    for (const [i, b] of this.bricks.entries()) if (b.hp > 0) { const a = b.art, arrival = this.phase === 'rebuild' ? ease((this.transitionAge - 1.4 - i * .08) / .35) : 1; part(g, b.part, a.x, a.y - 12 * (1 - arrival), a.w, a.h, 0, arrival * (b.hurt > 0 ? .65 : 1)); if (b.payload && arrival > .99) { const p = fit(`capsule_${b.payload}`, [a.rect.x + a.rect.w / 2 - 9, a.rect.y + a.rect.h / 2 - 4.5, 18, 9]); part(g, `capsule_${b.payload}`, p.x, p.y, p.w, p.h); } }
+    for (const [i, b] of this.bricks.entries()) if (b.hp > 0) { const a = b.art, arrival = this.phase === 'rebuild' ? ease((this.transitionAge - 1.4 - i * .08) / .35) : 1; part(g, b.part, a.x, a.y - 12 * (1 - arrival), a.w, a.h, 0, arrival * (b.hurt > 0 ? .65 : 1)); if (b.payload && arrival > .99 && !drawCapsule(g, b.payload, a.rect.x + a.rect.w / 2, a.rect.y + a.rect.h / 2, 18, 9)) { const p = fit(`capsule_${b.payload}`, [a.rect.x + a.rect.w / 2 - 9, a.rect.y + a.rect.h / 2 - 4.5, 18, 9]); part(g, `capsule_${b.payload}`, p.x, p.y, p.w, p.h); } }
     for (const [i, c] of this.crew.entries()) { const arrival = this.phase === 'rebuild' ? ease((this.transitionAge - 1.8 - i * .08) / .45) : 1; if (arrival > 0) { g.save(); g.globalAlpha *= arrival; g.translate(0, -18 * (1 - arrival)); this.drawCrew(g, c); g.restore(); } }
     this.drawRaid(g); this.drawAttack(g);
     g.save(); g.beginPath(); g.rect(0, 0, this.W, this.playClipY); g.clip();

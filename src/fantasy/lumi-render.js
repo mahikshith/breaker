@@ -1,5 +1,5 @@
 import { ART } from '../vault-art.js';
-import { SPR, ready, cached, text, drawKit, loadImg } from '../gfx.js';
+import { SPR, ready, cached, text, drawKit, loadImg, drawCapsule } from '../gfx.js';
 import { drawCastleWindow } from '../castle-window.js';
 import { LUMI_FLOORS, LUNGE, LUMI_TIMING } from './lumitower.js';
 import { glow, sparks, chips, pips, dust, rnd, clamp01, smooth, gBanner, gPaddle, hoistChain, sprite, skinFor, CLIMB } from './render.js';
@@ -298,6 +298,8 @@ function lCapsule(ctx, g, c) {
   const key = { wide: 'cap_wide', multi: 'cap_split', ram: 'cap_laser' }[c.kind], col = { wide: '#7fc4ff', multi: '#7fe0a0', ram: '#ff9ec0' }[c.kind], s = SPR[key], t = g.time * 6 + c.id;
   glow(ctx, c.x, c.y, 26, col, .4 + .1 * Math.sin(t));
   for (let i = 1; i < 4; i++) { ctx.globalAlpha = .5 / i; star(ctx, c.x + Math.sin(t + i) * 3, c.y - i * 7, 1.8, t, '#fff4cc'); } ctx.globalAlpha = 1;
+  // The round-2 glaze capsule carries its own embossed symbol (Ram as Fire); the old sprite keeps the note glyph.
+  if (drawCapsule(ctx, { wide: 'wide', multi: 'split', ram: 'fire' }[c.kind], c.x, c.y, 34, 18.4)) return;
   if (ready(s)) ctx.drawImage(s.img, c.x - 17, c.y - 9, 34, 18.4);
   note(ctx, c.x - 2.5, c.y + 3.6, 9, '#fff4d0');
 }
