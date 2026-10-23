@@ -1,5 +1,5 @@
 import { ART } from './vault-art.js';
-import { loadImg, ready, rrect, text, drawBall, NUM, drawKitFace } from './gfx.js';
+import { loadImg, ready, rrect, text, drawBall, NUM, drawKitFace, drawCapsule } from './gfx.js';
 import { drawChargeReady } from './kit.js';
 
 export const SPACE_POWERS = [
@@ -146,7 +146,7 @@ function drawSpaceLoadout(g, level) {
     const glow = g.createRadialGradient(cx, cy, 0, cx, cy, 36 / s); glow.addColorStop(0, c.color + '45'); glow.addColorStop(1, c.color + '00');
     g.fillStyle = glow; g.fillRect(c.x + 4 / s, c.y + 6 / s, c.w - 8 / s, 76 / s);
     if (c.id === 'laser') {
-      if (!iconPart(g, uiParts.capsule_laser, cx, cy, 66 / s, 37 / s)) {
+      if (!drawCapsule(g, 'laser', cx, cy, 66 / s, 37 / s) && !iconPart(g, uiParts.capsule_laser, cx, cy, 66 / s, 37 / s)) {
         g.strokeStyle = c.color; g.lineWidth = 5 / s; for (const dx of [-9, 9]) { g.beginPath(); g.moveTo(cx + dx / s, cy + 13 / s); g.lineTo(cx + dx / s, cy - 17 / s); g.stroke(); }
       }
     } else if (c.id === 'titan') {

@@ -70,6 +70,13 @@ Read all three handoff docs before touching code: this one (status, rules, histo
 
 ## Progress log (newest first)
 
+- **2026-10-23 — Render round 2 integrated (branch `codex/art-round2`, from `codex/castle-chapters`; not merged).**
+  - Sources: the owner's R02, R03, R05, R06 sheets in `art/round2/source` (same files as main's `art/R0x.png`). Cut by connected components: `art/hoard/build.py` (R02 eye, R03 props, extended cave plate) and `art/round2/build.py` (R05 capsules, R06 crates and splash; `assets/round2/manifest.json`, packed as `ART.round2`).
+  - Hoard: the Wake eye is Ember's rendered eye (5 stages, crossfading) over the meter bar; molten bricks (molten, cooling, hardened 2-hit) on their 32x16 colliders; the Hush Chime rings with the R03 bell; the floor-3 gate is the R03 portcullis fitted to the 140x62 gate span (dented past half, broken on the escape); coin and gem bursts on loot. The cave plate now runs the full playfield (pillars down both sides, dark floor). The Sunstone and the heavy banded crate are not cut (unused).
+  - Capsules: `drawCapsule` (src/gfx.js) draws the glaze capsule, aspect kept, inside each chapter's existing capsule rect: Vault-family drops (arena), Carrier and Circuit drops and payload previews, castle chapters (Ram as Fire), the space arsenal's laser icon.
+  - Crates: Circuit armour panels (square crate on the 17x17 collider) and Forge armour panels (2:1 crate on the armour art's bounds), dented at 1 HP, the breaking frame on the killing hit. Tidewheel: the water pulse's hit is the four-frame splash.
+  - Review: `tools/playtest/art-round2.mjs`; screenshots in `/mnt/project-files/breaker/review-2026-10-23/art-round2/`.
+
 - **2026-10-23 — Dragon's Hoard, chapter 12 (branch `codex/dragons-hoard`, from `codex/castle-chapters` with continue screen v2 merged in; not merged back).**
   - Spec: the merged one at the top of `design/phase2/dragons-hoard.md` (Ember he/him, the Crown, the Wake eye, Hush Chimes, Hoard Roar, molten gold, cash-out greed, the avalanche escape).
   - Slot 11 (`?level=12`, menu key `=`; `-` now starts slot 10). Rivals' `next` is 11. `config/mobile-preview.json` and `tools/prepare-android.mjs` list twelve slots; the reviewed SHA and the Android version are not bumped (owner's release step).

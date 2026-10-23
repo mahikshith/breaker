@@ -1,6 +1,6 @@
 // Shared gameplay for every level: paddle, balls, serve and Focus aim, power-ups, lives, combo, juice.
 import { makeBall, stepBall, cellAt } from './physics.js';
-import { FX, drawBall, drawKitFace, capsule, POWER, rrect, shade, text, SHADOW, SPR, ready, loadImg, drawRamGlaze, drawRamPips, drawGem, drawGlint, ramTeach } from './gfx.js';
+import { FX, drawBall, drawKitFace, capsule, POWER, rrect, shade, text, SHADOW, SPR, ready, loadImg, drawRamGlaze, drawRamPips, drawGem, drawGlint, ramTeach, R2, drawCapsule, capsuleArtWidth } from './gfx.js';
 import { ramStreak, tickRam, ramCount, endRam } from './fantasy/ram.js';
 import { Coach, landIn } from './coach.js';
 import { ART } from './vault-art.js';
@@ -564,8 +564,16 @@ export class Arena {
   drawBalls(g) { this.drawShots(g); for (const b of this.balls) drawBall(g, b); }
   drawDrops(g) {
     for (const d of this.drops) {
+      const P = POWER[d.kind];
+      if (R2['cap/' + d.kind] && ready(R2['cap/' + d.kind])) {
+        // Round-2 glaze capsule on the 40x18 capsule rect (its symbol is embossed: no label). A bad pickup pulses a soft red pool.
+        const w = capsuleArtWidth(d.kind, 40, 18);
+        if (P.bad) { const a = 0.3 + 0.2 * Math.sin(this.t * 12), gr = g.createRadialGradient(d.x, d.y, 2, d.x, d.y, 28); gr.addColorStop(0, `rgba(255,77,94,${a})`); gr.addColorStop(1, 'rgba(255,77,94,0)'); g.fillStyle = gr; g.fillRect(d.x - 28, d.y - 28, 56, 56); }
+        g.fillStyle = 'rgba(0,0,0,0.3)'; rrect(g, d.x - w / 2 + SHADOW.dx, d.y - 8 + SHADOW.dy, w, 16, 8); g.fill();
+        drawCapsule(g, d.kind, d.x, d.y, 40, 18); continue;
+      }
       g.fillStyle = 'rgba(0,0,0,0.3)'; rrect(g, d.x - 20 + SHADOW.dx, d.y - 8 + SHADOW.dy, 40, 16, 8); g.fill();
-      const C = SPR['cap_' + d.kind], P = POWER[d.kind];
+      const C = SPR['cap_' + d.kind];
       if (ready(C)) { g.drawImage(C.img, d.x - 24, d.y - 13, 48, 26); text(g, P.label, d.x, d.y + 0.5, P.label.length > 4 ? 9.5 : 11, '#fff', 'center'); }
       else g.drawImage(capsule(d.kind), d.x - 20, d.y - 9, 40, 18);
       if (P.bad) { g.strokeStyle = `rgba(255,77,94,${0.5 + 0.4 * Math.sin(this.t * 12)})`; g.lineWidth = 1.5; rrect(g, d.x - 21, d.y - 9, 42, 18, 9); g.stroke(); }

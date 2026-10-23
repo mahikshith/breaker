@@ -2,7 +2,7 @@
 import { Arena } from './arena.js';
 import { makeBall } from './physics.js';
 import { sweepTarget, overlapsTarget } from './carrier-physics.js';
-import { loadImg, ready, text, drawBall, drawStretchPaddle } from './gfx.js';
+import { loadImg, ready, text, drawBall, drawStretchPaddle, drawFit } from './gfx.js';
 import { ART } from './vault-art.js';
 import { sfx } from './audio.js';
 import { RAM } from './fantasy/ram.js';
@@ -293,6 +293,9 @@ export class Orbital extends Arena {
   updateShots(dt) { if(this.combat())super.updateShots(dt);else this.shots.length=0; }
   applyPower(kind) { if(this.combat())super.applyPower(kind); }
   onPaddle(b) { if(this.combat())super.onPaddle(b); }
+  // The armour panel's rect: the armour art's bounds at its pose (the collision polygon's box); the crate's body is fitted to it.
+  drawCrate(g,b,frame=null,alpha=1,dy=0){const p=this.brickPose(b).pose,ab=this.parts.armour.artBounds;if(frame===null){if(b.hp<=0&&b.hurt<=0)return true;frame=b.hp<=0?2:b.hp<b.maxHP?1:0;alpha=b.hp>0?(b.hurt>0?.8:1):b.hurt/.12;}
+    g.save();g.globalAlpha*=alpha;const ok=drawFit(g,`crate/${frame}`,p.x-p.w/2+ab[0]*p.w,p.y-p.h/2+ab[1]*p.h+dy,ab[2]*p.w,ab[3]*p.h);g.restore();return ok||b.hp<=0;}
   part(g,id,p,alpha=1,dim=false) {
     const a=this.parts[id];if(!ready(a))return;
     g.save();g.globalAlpha*=alpha;if(dim)g.filter='brightness(.38) saturate(.25)';
@@ -335,7 +338,7 @@ export class Orbital extends Arena {
   draw(g) {
     g.fillStyle='#050913';g.fillRect(0,0,this.W,this.H);
     const v=this.backgroundViewport;this.paintBackground(g,v?-v.top:0,v?v.height:this.H);this.drawMachinery(g);
-    for(const b of this.bricks)if(b.hp>0){const p=this.brickPose(b);this.part(g,p.id,p.pose,b.hurt>0?.65:1);if(b.payload)text(g,{burst:'✦',shield:'◇',wide:'↔',split:'•••'}[b.payload],p.pose.x,p.pose.y,11,'#f2ddff','center');}
+    for(const b of this.bricks){if(b.kind==='armour'&&this.drawCrate(g,b))continue;if(b.hp<=0)continue;const p=this.brickPose(b);this.part(g,p.id,p.pose,b.hurt>0?.65:1);if(b.payload)text(g,{burst:'✦',shield:'◇',wide:'↔',split:'•••'}[b.payload],p.pose.x,p.pose.y,11,'#f2ddff','center');}
     if(this.phase==='forge'||this.phase==='collapse')for(const s of this.stations) {
       const age=this.phase==='collapse'?clamp((this.clock-this.transitionAt)/COLLAPSE):0,p=this.stationPose(s),alpha=(1-ease(age))*(this.phase==='forge'&&s.hp<=0?1-ease((this.clock-s.disabledAt)/.35):1);
       p.y+=18*age;this.part(g,'station_body',p,alpha);this.part(g,'station_coil',p,alpha*(s.hurt>0?.5:1),s.hp<=0);
@@ -348,6 +351,7 @@ export class Orbital extends Arena {
     }
     if(this.collapsing&&this.clock-this.transitionAt<1.3)for(const b of this.collapsing) {
       const age=this.clock-b.at;if(age<0)continue;const p=this.brickPose(b),a=this.parts[p.id],fade=1-clamp(age/.65);if(fade<=0||!ready(a))continue;
+      if(b.kind==='armour'&&this.drawCrate(g,b,2,fade,age*45))continue;
       g.save();g.globalAlpha*=fade;
       for(let i=0;i<4;i++){const sx=i%2,sy=Math.floor(i/2),x=p.pose.x+(sx-.5)*p.pose.w/2+(sx?1:-1)*age*24,y=p.pose.y+(sy-.5)*p.pose.h/2+age*45;g.drawImage(a.img,sx*a.size[0]/2,sy*a.size[1]/2,a.size[0]/2,a.size[1]/2,x-p.pose.w/4,y-p.pose.h/4,p.pose.w/2,p.pose.h/2);}
       g.restore();

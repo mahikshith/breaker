@@ -1,7 +1,7 @@
 import { ART } from './vault-art.js';
 import { difficulty } from './difficulty.js';
 import { Arena } from './arena.js';
-import { loadImg, ready, drawBall, drawStretchPaddle, glazedBar } from './gfx.js';
+import { loadImg, ready, drawBall, drawStretchPaddle, glazedBar, drawCapsule, drawFit } from './gfx.js';
 import { sweepTarget } from './carrier-physics.js';
 import { sfx } from './audio.js';
 import { RAM } from './fantasy/ram.js';
@@ -225,7 +225,7 @@ export class Relay extends Arena {
     this.part(g,'bHull',hull.x,hull.y);
     for(const c of this.guns){const p=this.cannonPose(c);this.part(g,'bCannonBarrel',p.x,p.y,undefined,undefined,p.angle,c.hp>0?1:.4);drawLatchJam(g,this,c);}
     for(const n of this.nodes)this.drawNode(g,n);
-    for(const b of this.bricks)if(b.hp>0){const a=b.art;this.part(g,b.part,a.x,a.y,a.w,a.h,0,b.hurt>0?.65:1);if(b.hp<b.maxHP){g.strokeStyle='#2d2642';g.lineWidth=1;g.beginPath();g.moveTo(a.x-5,a.y-4);g.lineTo(a.x,a.y+2);g.lineTo(a.x+5,a.y-4);g.stroke();}if(b.payload){const p=this.fit(`capsule_${b.payload}`,[a.rect.x+a.rect.w/2-9,a.rect.y+a.rect.h/2-4.5,18,9]);this.part(g,`capsule_${b.payload}`,p.x,p.y,p.w,p.h);}}
+    for(const b of this.bricks){if(b.part==='brick_armour'&&this.drawCrate(g,b))continue;if(b.hp<=0)continue;const a=b.art;this.part(g,b.part,a.x,a.y,a.w,a.h,0,b.hurt>0?.65:1);if(b.hp<b.maxHP){g.strokeStyle='#2d2642';g.lineWidth=1;g.beginPath();g.moveTo(a.x-5,a.y-4);g.lineTo(a.x,a.y+2);g.lineTo(a.x+5,a.y-4);g.stroke();}if(b.payload&&!drawCapsule(g,b.payload,a.rect.x+a.rect.w/2,a.rect.y+a.rect.h/2,18,9)){const p=this.fit(`capsule_${b.payload}`,[a.rect.x+a.rect.w/2-9,a.rect.y+a.rect.h/2-4.5,18,9]);this.part(g,`capsule_${b.payload}`,p.x,p.y,p.w,p.h);}}
     for(const s of this.attack?.sources||[]){if(s.cancelled||s.done||this.clock<s.started||s.angle===undefined)continue;const c=this.guns.find(c=>c.id===s.id),p=this.cannonPose(c),from={x:p.x-Math.sin(p.angle)*8,y:p.y+Math.cos(p.angle)*8},progress=clamp((this.clock-s.started)/s.warning);drawWeaponCharge(g,from,Math.PI/2-s.angle,progress,'circuit');}
     clip(g,0,0,this.W,this.playClipY,()=>{this.drawEnemyBolts(g);this.drawDrops(g);if(this.state==='play')this.fx.draw(g);});
     if(['launch','flight','return'].includes(this.phase))this.drawCraft(g);else if(this.phase==='escape'){if(this.endingCraft){const k=ease((this.clock-this.escapeAt)/1.6),w=80*(1-k*.5);this.part(g,'craftFlight',mix(this.endingCraft.x,iris.x,k),mix(this.endingCraft.y,iris.y,k),w,w*.75,0,1-ease((k-.9)/.1));}else this.drawPaddle(g);}else{this.drawPaddle(g);this.drawBalls(g);this.drawAim(g);}
@@ -260,7 +260,9 @@ export class Relay extends Arena {
     }).filter(s => s.points.length >= 3);
   }
   drawPaddleArt(g,p){drawStretchPaddle(g,this.parts.paddle,p);}
-  drawDrops(g) { for (const d of this.drops) { const a = this.fit(`capsule_${d.kind}`, [d.x - 18, d.y - 9, 36, 18]); this.part(g, `capsule_${d.kind}`, a.x, a.y, a.w, a.h); } }
+  // Armoured panel as the round-2 crate on its collider rect: dented once hit, the breaking frame for the hit that kills it.
+  drawCrate(g,b){const r=b.art.rect;if(b.hp<=0&&b.hurt<=0)return true;g.save();g.globalAlpha*=b.hp>0?(b.hurt>0?.8:1):b.hurt/.14;const ok=drawFit(g,`crate_sq/${b.hp<=0?2:b.hp<b.maxHP?1:0}`,r.x,r.y,r.w,r.h);g.restore();return ok||b.hp<=0;}
+  drawDrops(g) { for (const d of this.drops) { if (drawCapsule(g, d.kind, d.x, d.y, 36, 18)) continue; const a = this.fit(`capsule_${d.kind}`, [d.x - 18, d.y - 9, 36, 18]); this.part(g, `capsule_${d.kind}`, a.x, a.y, a.w, a.h); } }
   paintBackground(g, y, height) {
     const p = this.parts.bBackground; if (!ready(p)) return;
     const k = Math.max(this.W / p.img.width, height / p.img.height); g.drawImage(p.img, this.W - p.img.width * k, y + height - p.img.height * k, p.img.width * k, p.img.height * k);
