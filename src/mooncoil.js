@@ -1,4 +1,4 @@
-import { Vault } from './vault.js';
+import { Vault, SERPENT_SKINS } from './vault.js';
 import { makeBall, stepBall } from './physics.js';
 import { ART } from './vault-art.js';
 import { text, rrect, cached, loadImg, ready, softRing } from './gfx.js';
@@ -216,8 +216,12 @@ export class Mooncoil extends Vault {
   drawSnake(g) {
     for (const s of this.rivals()) this.withSnake(s, () => {
       if (s.alpha <= 0) return;
-      g.save(); if (s === this.mooncoil) g.filter = 'hue-rotate(115deg) saturate(.78)'; // Gnash keeps his own emerald
+      // Gnash is the fire serpent (ember skin, same rig and AI); Mooncoil stays the violet-graded emerald.
+      const fire = s === this.gnash && SERPENT_SKINS.ember.art, base = [this.serpentSkin, this.snakeArt];
+      if (fire) { this.serpentSkin = SERPENT_SKINS.ember; this.snakeArt = SERPENT_SKINS.ember.art; }
+      g.save(); if (s === this.mooncoil) g.filter = 'hue-rotate(115deg) saturate(.78)';
       super.drawSnake(g); g.restore();
+      [this.serpentSkin, this.snakeArt] = base;
       if (this.moonbindT > 0 && this.phase === 'rescue') {
         const p = this.snakePoints()[0];
         softRing(g, p.x, p.y, 22, 2.6, '#c5aaff', .7, 13, this.t);
