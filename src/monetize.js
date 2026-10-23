@@ -10,6 +10,12 @@ export const AD_SECONDS = 3;          // length of the placeholder ad
 
 export const isUnlocked = () => MODE === 'free' || !!store.get('unlocked');
 
+// Lifetime losses: every lost run, in any chapter, across sessions. noteLoss() counts one and returns the new total.
+export const lifetimeLosses = () => Math.max(0, store.get('losses') | 0);
+export function noteLoss() { const n = lifetimeLosses() + 1; store.set('losses', n); return n; }
+// The one rule for the unlock card: never on the player's very first loss; from the second loss on, while locked.
+export const showUnlock = losses => MODE !== 'free' && !isUnlocked() && losses >= 2;
+
 // What the continue panel offers right now: 'free' continue, 'ad' continue, or nothing.
 export function continueOffer(used) {
   if (isUnlocked()) return 'free';

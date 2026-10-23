@@ -1,6 +1,7 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { circleSweep, reflect } from './bellforge.js';
-import { SPEED, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { SPEED, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { plural } from '../near-miss.js';
 
 // Lumi Breaks Out: Lumi holds the paddle and climbs the Menagerie tower. Floor 1 is her cell (teach), floor 2 the serpent
 // windows, floor 3 the roof bell. Gnash lunges out of side-wall windows: every lunge starts at a fixed origin inside the
@@ -59,7 +60,7 @@ export class LumiTower {
     if (this.paused || this.state !== 'play' || this.phase !== 'serve' || !Number.isFinite(angle)) return false;
     const a = clamp(angle, -Math.PI + .25, -.25), b = this.balls[0];
     b.caught = false; b.vx = Math.cos(a) * SPEED; b.vy = Math.sin(a) * SPEED;
-    this.phase = 'play'; this.active = true; return true;
+    this.phase = 'play'; this.active = true; this.backHold = false; return true;
   }
   // ---------- Lumi's powers (one orb charge each) ----------
   canActivate(id, { ignorePause = false } = {}) {
@@ -91,7 +92,7 @@ export class LumiTower {
     if (this.phase === 'climb' || this.phase === 'escape') return this.updateTransition(dt);
     if (this.phase === 'serve') {
       const b = this.balls[0]; b.px = b.x; b.py = b.y; b.x = p.x; b.y = p.y - 8;
-      this.serveTime += dt; if (this.serveTime >= (this.active ? 3 : 8)) this.launch(-Math.PI / 2 + .15);
+      if (!this.backHold) { this.serveTime += dt; if (this.serveTime >= (this.active ? 3 : 8)) this.launch(-Math.PI / 2 + .15); } // after a Continue the serve waits for the player
     }
     if (!this.active) return;
     this.time += dt; this.floorTime += dt;
@@ -100,6 +101,7 @@ export class LumiTower {
     if (this.charge > 100 - 1e-7) { this.charge = 100; this.chargeBank = 0; }
     this.calm = Math.max(0, this.calm - dt);
     if (this.shield && (this.shield.remaining -= dt) <= 0) this.shield = null;
+    if (this.ward && (this.ward.remaining -= dt) <= 0) this.ward = null;
     if (this.bell) this.bell.swing *= Math.exp(-2.5 * dt);
     this.scheduleLunges();
     for (const l of this.lunges) this.advanceLunge(l, dt);
@@ -111,7 +113,7 @@ export class LumiTower {
     if (!this.balls.length) { this.lives--; p.streak = 0; if (this.lives <= 0) this.lose('No balls remaining'); else this.makeServe(); }
   }
   finishFloor() {
-    this.lunges = []; this.capsules = []; this.shield = null;
+    this.lunges = []; this.capsules = []; this.shield = null; this.ward = null;
     for (const b of this.balls) { b.vx = 0; b.vy = 0; b.caught = true; b.ram = 0; b.r = 6; }
     this.balls = this.balls.slice(0, 1);
     this.phase = this.floor === 2 ? 'escape' : 'climb'; this.transition = this.floor === 2 ? LUMI_TIMING.escape : LUMI_TIMING.climb;
@@ -223,6 +225,7 @@ export class LumiTower {
         const hit = circleSweep(from, to, b.r, a, s.b, s.r);
         if (hit) add({ ...hit, svx: (s.b.x - a.x) / left, svy: (s.b.y - a.y) / left }, s.head ? 'head' : 'body', s);
       }
+      if (this.ward && b.vy > 0 && to.y > this.ward.y - b.r) add({ t: Math.max(0, (this.ward.y - b.r - b.y) / (to.y - b.y)), nx: 0, ny: -1 }, 'ward');
       if (b.vy > 0 && b.y <= p.y + b.r) add(sweepTarget(from, to, b.r, { type: 'rect', x: p.px - p.w / 2, y: p.y, w: p.w, h: p.h, vx: p.vx }, elapsed * dt, left), 'paddle', p);
       hits.sort((a, q) => a.t - q.t); const hit = hits[0];
       if (!hit) { b.x = to.x; b.y = to.y; break; }
@@ -289,7 +292,15 @@ export class LumiTower {
   continue() {
     if (this.continued || this.state !== 'lost') return false;
     this.continued = true; this.state = 'play'; this.reason = ''; this.lives = Math.max(2, this.lives);
-    this.lunges = []; this.capsules = []; this.nextLunge = this.floorTime + 3; this.makeServe(); return true;
+    this.lunges = []; this.capsules = []; this.nextLunge = this.floorTime + 3; this.makeServe();
+    this.ward = { y: this.paddle.y + 24, remaining: BACK_WARD }; this.active = false; this.backHold = true; return true;
+  }
+  // Continue panel copy: hits left on the hatch bars, then rings left on the roof bell; progress runs over all three floors.
+  nearMiss() {
+    const stage = ['FLOOR', this.floor + 1, 3];
+    if (this.bell) { const left = Math.max(1, this.bell.need - this.bell.rings); return { line: `LUMI IS ${plural(left, 'BELL RING')} FROM FREEDOM`, progress: (2 + 1 - left / this.bell.need) / 3, stage }; }
+    const bars = this.bricks.filter(b => b.type === 'bar'), left = Math.max(1, bars.reduce((n, b) => n + Math.max(0, b.hp), 0)), max = bars.reduce((n, b) => n + b.maxHP, 0) || 1;
+    return { line: `LUMI IS ${plural(left, 'HIT')} FROM FLOOR ${this.floor + 2}`, progress: (this.floor + 1 - left / max) / 3, stage };
   }
   effect(x, y, kind, life, details = {}) {
     const fx = { x, y, kind, age: 0, life, ...details }; this.effects.push(fx); if (this.effects.length > 80) this.effects.shift(); return fx;

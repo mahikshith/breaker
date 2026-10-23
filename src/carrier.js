@@ -7,6 +7,7 @@ import { RAM } from './fantasy/ram.js';
 import { drawNixControl, drawTickSecure } from './space-companions.js';
 import { difficulty } from './difficulty.js';
 import { drawEnemyBolt, drawEnemyImpact, drawWeaponCharge, drawWeaponMuzzle, nextEnemyVolley, enemyEscapeLane } from './space-weapons.js';
+import { plural } from './near-miss.js';
 
 const DATA = ART.carrier;
 const PARTS = {};
@@ -325,8 +326,8 @@ export class Carrier extends Arena {
   updateLevel(dt, dtReal = dt) {
     this.levelUpdated = true;
     if (this.state !== 'play' || this.phase !== 'carrier') return;
-    if (this.aim?.serve) { this.serveAge += dtReal; if (this.serveAge >= this.serveLimit) this.release(); }
-    if (!this.started) return;
+    if (this.aim?.serve && !this.backHold) { this.serveAge += dtReal; if (this.serveAge >= this.serveLimit) this.release(); }
+    if (!this.started || this.backHold) return; // back in action: the jump clock and the guns wait for the serve
     this.clock += dtReal; this.pressureClock = this.clock;
     this.enemyImpacts = this.enemyImpacts.filter(h => this.clock - h.at < .32);
     for (const o of [this.carrier, ...this.guns, ...this.bricks, ...this.crew, ...this.fighters]) o.hurt = Math.max(0, o.hurt - dtReal);
@@ -686,5 +687,11 @@ export class Carrier extends Arena {
     g.restore();
   }
   inspect() { return { clock: this.clock, pressureClock: this.pressureClock, state: this.state, phase: this.phase, difficulty: this.difficulty.id, encounterWave: this.encounterWave, waveCount: this.rules.waves, waveRemaining: this.waveRemaining, transitionAge: this.transitionAge || 0, archivedCrew: this.archivedCrew.map(c => ({ id: c.id, secured: c.secured, securedAt: c.securedAt })), hp: this.carrier.hp, crew: this.crew.map(c => ({ id: c.id, hp: c.hp, secured: c.secured, securedAt: c.securedAt, releasedAt: c.releasedAt, captured: c.captured, escaped: c.releasedAt !== null && this.clock - c.releasedAt >= 1.95 })), raid: this.raid && { ...this.raid, remaining: this.raid.extractAt === null ? this.rules.extractSeconds : Math.max(0, this.rules.extractSeconds - this.clock + this.raid.extractAt) }, fighters: this.fighters.map(f => ({ id: f.id, hp: f.hp, stage: f.stage, ...this.fighterPose(f) })), targets: this.targets(), attack: this.attack && { ...this.attack }, paddle: { ...this.paddle }, ballRadius: this.ballRadius }; }
+  // Continue panel copy: crew pods still locked this wave; progress counts every wave's crew.
+  nearMiss() {
+    const left = this.crew.filter(c => !c.secured && c.releasedAt === null).length, total = Math.max(1, this.crew.length * this.rules.waves);
+    return { line: left ? `${plural(left, 'CREW POD')} LEFT` : 'THE CREW IS ALMOST CLEAR', progress: (this.archivedCrew.length + this.crew.length - left) / total,
+      stage: this.rules.waves > 1 ? ['WAVE', this.encounterWave, this.rules.waves] : null };
+  }
   result() { const stars = this.state === 'won' ? 1 + (this.lives >= 2 ? 1 : 0) + (this.carrier.hp <= 0 ? 1 : 0) : 0, safe = this.archivedCrew.length + this.crew.filter(c => c.secured).length; return { stars, lines: [['Score', this.score.toLocaleString()], ['Crew safe', `${safe} / ${this.archivedCrew.length + this.crew.length}`], ['Lives left', this.lives]] }; }
 }

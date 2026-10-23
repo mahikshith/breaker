@@ -7,6 +7,7 @@ import { ejectBall, overlapsAny } from './clearance.js';
 import { brick, cached, loadImg, ready, text, rrect, SPR, drawKitCastFlight, drawKitBrickArmour, drawShard, shardPalette, glazedBar } from './gfx.js';
 import { sfx } from './audio.js';
 import { RAM } from './fantasy/ram.js';
+import { hpLeft } from './near-miss.js';
 
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 export const FROST_MODES = {
@@ -240,9 +241,10 @@ export class Frost extends Arena {
       if (this.aim?.serve && (this.serveWait = (this.serveWait || 0) + dtReal) >= 8) this.release();
       return;
     }
-    this.clock += dtReal;
     for (const f of this.fragments) { f.t += dtReal; f.x += f.vx * dtReal; f.vy += 200 * dtReal; f.y += f.vy * dtReal; }
     this.fragments = this.fragments.filter(f => f.t < .45 && f.y < this.playClipY - 12);
+    if (this.backHold) return; // back in action: the Warden waits for the serve
+    this.clock += dtReal;
     if (this.phase === 'rescue') { if (this.clock - this.phaseAt >= 1.6) this.win(); return; }
     if (this.phase === 'breach') { if (this.clock - this.phaseAt >= .95) this.fail('Chamber breached'); return; }
     if (this.aim?.serve && this.clock >= this.autoServeAt) this.release();
@@ -405,5 +407,6 @@ export class Frost extends Arena {
     if (!this.started) text(g, 'Break the siege. Protect Lumi.', this.W / 2, 245, 14, '#d5e4ef', 'center');
     if (this.phase === 'breach') text(g, 'CHAMBER BREACHED', this.W / 2, 244, 18, '#efb5ba', 'center');
   }
+  nearMiss() { return { line: hpLeft('THE FROST WARDEN', this.warden.hp), progress: 1 - this.warden.hp / this.warden.maxHP }; } // continue panel copy
   result() { return { stars: this.state === 'won' ? 1 + (this.lives >= 2) + (this.defences.filter(d => d.hp > 0).length >= 2) : 0, lines: [['Score', this.score.toLocaleString()], ['Defences standing', this.defences.filter(d => d.hp > 0).length + ' / 3'], ['Punches blocked', this.blockedPunches]] }; }
 }

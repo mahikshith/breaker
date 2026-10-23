@@ -3,6 +3,7 @@ import { makeBall, stepBall } from './physics.js';
 import { ART } from './vault-art.js';
 import { text, rrect, cached, loadImg, ready, softRing } from './gfx.js';
 import { sfx } from './audio.js';
+import { hpLeft } from './near-miss.js';
 
 const MOON_BACKGROUND = ART.mooncoil?.background ? loadImg(ART.mooncoil.background) : null;
 const MOON_BRICKS = Object.fromEntries(Object.entries(ART.mooncoil?.bricks || {}).map(([k, s]) => [k, { ...s, img: loadImg(s.url) }]));
@@ -144,6 +145,8 @@ export class Mooncoil extends Vault {
   crushCheck() { for (const s of this.rivals()) this.withSnake(s, () => super.crushCheck()); }
   shotHit(shot) { return this.rivals().some(s => this.withSnake(s, () => super.shotHit(shot))); }
   beginRetreat() { for (const s of this.rivals()) this.withSnake(s, () => super.beginRetreat()); }
+  // Continue panel copy: the moonstone cage's HP; once it is broken, the bricks left on her way out.
+  nearMiss() { return this.cageHP > 0 ? { line: hpLeft('THE MOONSTONE', this.cageHP), progress: 1 - this.cageHP / this.cageMax } : super.nearMiss(); }
   continueRun() {
     const others = this.rivals().filter(s => s !== this.snake);
     super.continueRun();
@@ -178,7 +181,7 @@ export class Mooncoil extends Vault {
     this.cageFlash = Math.max(0, this.cageFlash - realDt);
     for (const s of this.rivals()) if (s !== this.snake) this.withSnake(s, () => this.tickSnakePose(dt, realDt));
     if (this.phase === 'rescue') {
-      this.rescueT += dt; this.clashCD = Math.max(0, this.clashCD - dt);
+      if (!this.backHold) this.rescueT += dt; this.clashCD = Math.max(0, this.clashCD - dt);
       if (!this.gnash && this.gnashWarnAt === null && this.rescueT >= this.rules.rivalAt - RIVAL.tell && this.gnashMouthClear()) {
         this.gnashWarnAt = this.rescueT; sfx.beat(); this.say('Another one!', 1.6); this.play('Interact');
       }

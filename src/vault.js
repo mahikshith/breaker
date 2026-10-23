@@ -11,6 +11,7 @@ import { ART } from './vault-art.js';
 import { sfx } from './audio.js';
 import { VENOM, FuryContacts, streamingCells, safeRecoilSteps, canWard, venomTarget } from './serpent.js';
 import { store } from './prefs.js';
+import { plural } from './near-miss.js';
 import { SERPENT_CAPTURE, createSerpentCapture, sampleSerpentCapture } from './serpent-capture.js';
 import { createSerpentRetreat, sampleSerpentRetreat } from './serpent-retreat.js';
 
@@ -92,7 +93,7 @@ export class Vault extends Arena {
     this.coreMode = 'ward'; this.kitPowers = true; this.kitCastAt = this.kitReactionAt = -Infinity; this.kitWardResult = null;
     this.wardCoach = false; this.wardCoachSeen = !!store.get('wardCoachAck');
     this.venom = { contacts: new FuryContacts(), phase: 'idle', t: 0, target: null, ward: null, resolved: false, record: null, searchT: 0 };
-    this.snakeStart = this.snakePlan().cost;
+    this.snakeStart = this.snakePlan().cost; this.freeStart = this.freeCost();
     this.phase = 'intro'; this.introT = 0; this.peakDanger = 0; this.foxT = 0; this.frenzyT = 0; this.beatT = 0; this.collapseDirty = false; this.collapseT = 0;
     this.bubble = null; this.barsWob = 0; this.zc = { z: 1, ax: W / 2, ay: this.paddle.y };
     this.pr = { anim: 'Idle', t: 0, loop: true, flip: false, x: this.prisonX, pace: 1, pause: 0, th: 0, fps: 14 };
@@ -650,7 +651,8 @@ export class Vault extends Arena {
     }
     if (this.phase !== 'rescue') { this.venom.phase = 'idle'; this.venom.contacts.reset(); this.wardCoach = false; }
     if (this.phase === 'rescue') {
-      this.updateSnake(dt); this.ballVsSnake();
+      if (!this.backHold) this.updateSnake(dt); // back in action: the serpent waits for the serve
+      this.ballVsSnake();
       const cost = this.snake.cost ?? this.snakeStart;
       this.danger = Math.max(0, Math.min(1, 1 - cost / this.snakeStart)); this.peakDanger = Math.max(this.peakDanger || 0, this.danger);
       this.beatT -= dt;
@@ -1141,6 +1143,29 @@ export class Vault extends Arena {
       vignette(g, W, H, 0.55);
       drawGrain(g, W, H);
     });
+  }
+  // Fewest bricks between Lumi's cell and the open bottom row (0-1 BFS by cost layers; granite is solid, the cage
+  // bars are open), the same way out checkBreach() floods. Feeds the continue panel's "so close" line.
+  freeCost() {
+    const G = this.grid, done = new Uint8Array(COLS * ROWS);
+    for (let cost = 0, layer = [this.pocket.r1 * COLS + this.pocket.c0 + 2]; layer.length; cost++) {
+      const next = [];
+      for (let i = 0; i < layer.length; i++) {
+        const k = layer[i]; if (done[k]) continue; done[k] = 1;
+        const c = k % COLS, r = (k - c) / COLS; if (r === ROWS - 1) return cost;
+        for (const [dc, dr] of [[0, 1], [1, 0], [-1, 0], [0, -1]]) {
+          const nc = c + dc, nr = r + dr, nk = nr * COLS + nc;
+          if (nc < 0 || nr < 0 || nc >= COLS || nr >= ROWS || done[nk] || G.cells[nk] === GRANITE) continue;
+          (G.cells[nk] && G.cells[nk] !== BARS ? next : layer).push(nk);
+        }
+      }
+      layer = next;
+    }
+    return Infinity;
+  }
+  nearMiss() {
+    const left = this.freeCost();
+    return { line: left > 0 && Number.isFinite(left) ? `LUMI IS ${plural(left, 'BRICK')} FROM FREEDOM` : 'LUMI IS ALMOST FREE', progress: 1 - left / Math.max(1, this.freeStart) };
   }
   result() {
     // one star for the rescue, one for never letting the serpent get halfway, one for a big score
