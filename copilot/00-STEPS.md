@@ -8,13 +8,13 @@ Two tools, two jobs:
 
 | Prompt (in `02-prompt-pack.md`) | Tool |
 |---|---|
-| P1 power-ups, P2 difficulty | M365 Copilot now; Copilot Studio agent for later rounds |
+| P1 to P10 in one batch, with images and saved files | Copilot Studio agent (`RUN ALL`) |
+| P1 power-ups, P2 difficulty, one at a time | M365 Copilot chat |
 | P3 new power-ups, P4 continue screen, P7 new level, P10 unlockables | Either; the agent saves pasting context |
 | P5 critique of APK screenshots | M365 Copilot (attach the screenshots) |
 | P6 research on other games | M365 Copilot, **Researcher** agent |
-| Every image ("Art requests", P8, P9, `prompt-library/`) | M365 Copilot |
+| Every image ("Art requests", P8, P9, `prompt-library/`) | The Studio agent makes them during its batch; M365 Copilot chat for extra variants or fixes |
 | Level boards and mock-ups | M365 Copilot |
-| Checking an answer before sending it to Claude | Copilot Studio, BREACH Critic agent (optional) |
 
 ## Part A: M365 Copilot (do this first)
 
@@ -26,23 +26,9 @@ Two tools, two jobs:
 
 **Images:** open a new chat, attach 2 or 3 pictures from `prompt-library/examples/` (see its `INDEX.md`), paste the image prompt from an answer's "Art requests" or from `prompt-library/`, ask for 3 variants. Download the best as PNG and send it in the project chat.
 
-## Part B: Copilot Studio (one paste, runs P1 to P10)
+## Part B: Copilot Studio (one agent: designs, draws and saves P1 to P10)
 
-Follow `studio/SETUP.md`: paste `studio/INSTRUCTIONS.txt` into Instructions, upload the ten files in `studio/knowledge/` as Knowledge, pick a model, then type `RUN ALL` and `next` after each answer.
-
-## Part C: comparing models (same prompts, different models)
-
-Goal: run the same prompt through several models and let Claude compare the answers. Fairness rules: same prompt text, same files, a fresh chat each time.
-
-1. Set up the Copilot Studio agent once (Part B). It holds the instructions and files, so every model gets exactly the same context.
-2. Pick one prompt to compare, for example P1. Use the **same filled-in prompt text** (including your APK notes) for every model; keep it in a note so you paste the identical text each time.
-3. In Copilot Studio, open the agent's **Settings**, choose the model (for example Fable), and save.
-4. In the test pane, start a **new conversation** (the refresh button) and type `RUN ALL`, then `next` after each answer. The agent auto-picks its recommended options so the runs stay comparable.
-5. Repeat steps 3 and 4 for each model you want to try. Then run the same prompt in M365 Copilot chat with Opus 5.5 (Part A).
-6. Paste all the answers here in one message per answer, each starting with `Copilot drop: <file name>-<source>`, for example `breach-powerups-powerups-round2-v1-studio-fable.md` or `...-m365-opus55.md`.
-7. Claude compares them: which numbers differ, which ideas only one model had, which broke a rule, which JSON is buildable. Then you lock the best one (or a mix) and Claude builds it.
-
-Why one prompt per conversation, even with a big context window: answers get vaguer and start mixing tasks in very long chats, and a fresh chat is the only fair comparison. When a prompt builds on an earlier one (P8 uses the P7 level, P2 uses the P1 power-ups), paste the locked earlier answer into the new chat first.
+Follow `studio/SETUP.md`: paste `studio/INSTRUCTIONS.txt`, upload the ten files in `studio/knowledge/`, turn on image generation, add the "Save BREACH file" tool, publish, then type `RUN ALL` and `next` after each reply. Each reply says which step it is on; answers go to `BREACH-Copilot/drops/` and images to `BREACH-Copilot/assets/`.
 
 ## Every time
 
