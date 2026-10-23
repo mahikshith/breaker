@@ -24,6 +24,7 @@ Rule of thumb: if the answer is a document or a picture, Copilot. If it is code,
 | `00-STEPS.md` | **Start here:** step by step for M365 Copilot and Copilot Studio. |
 | `01-context-brief.md` | Everything Copilot needs to know about BREACH. Upload or attach it. |
 | `02-prompt-pack.md` | The prompts, P1 to P10, plus steering prompts. Power-ups and difficulty first. |
+| `studio/` | **Copilot Studio:** `SETUP.md`, `INSTRUCTIONS.txt` (one paste) and `knowledge/` (ten files to upload). Type `RUN ALL` to get P1 to P10. |
 | `03-copilot-studio-agent.md` | How to set up the **BREACH Design Studio** agent, once (about 10 minutes). |
 | `04-return-format.md` | The shape every Copilot answer must have, so Claude can read it cheaply. |
 | `examples/breach-powerups-example-v1.md` | A small finished drop, to show the shape. |

@@ -1,5 +1,7 @@
 # Copilot Studio agent setup: BREACH Design Studio
 
+**Superseded on 2026-10-23 by `studio/SETUP.md`** (one instructions paste, ten numbered knowledge files, `RUN ALL` batch). Use that. This file is kept for the optional BREACH Critic agent at the end.
+
 One agent does all the text design work. It already knows the game, the rules and the return format, so each prompt from `02-prompt-pack.md` can stay short. Images stay in plain M365 Copilot chat (Studio agents are for text).
 
 Setup takes about 10 minutes, once.
