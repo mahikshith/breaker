@@ -19,10 +19,10 @@ Two tools, two jobs:
 ## Part A: M365 Copilot (do this first)
 
 1. **Download** these files from the thread: `01-context-brief.md`, `02-prompt-pack.md`, `04-return-format.md`, `examples/breach-powerups-example-v1.md`, and `prompt-library/00-style-bible.md`.
-2. **Make a notebook.** In M365 Copilot open **Notebooks**, then **New notebook**, name it `BREACH`, and add the five files as references. Every chat in this notebook now knows the game. (No Notebooks in your app? Then attach `01-context-brief.md` and `04-return-format.md` to the first message of each new chat instead.)
+2. **Start a new chat** and attach `01-context-brief.md` and `04-return-format.md` with the paperclip. Do this at the start of every new chat. (Notebooks did not work on the owner's licence, 2026-10-23.)
 3. **Pick the model.** In the model menu, choose **Opus 5.5** (or the newest ChatGPT reasoning model) for design work.
 4. **Run P1.** Copy prompt P1 from `02-prompt-pack.md`, fill in what felt wrong in the APK, paste it. Answer its "Decisions for the owner" with your picks, then type `locked`. Copy the final answer and paste it in the BREACH project chat, starting with `Copilot drop: breach-powerups-powerups-round2-v1.md`.
-5. **Run P2** in a new chat in the same notebook, the same way. Then P5 with 4 to 10 APK screenshots attached, and P6 in the **Researcher** agent.
+5. **Run P2** in a new chat, with the two files attached again, the same way. Then P5 with the two files plus 4 to 10 APK screenshots attached, and P6 in the **Researcher** agent.
 
 **Images:** open a new chat, attach 2 or 3 pictures from `prompt-library/examples/` (see its `INDEX.md`), paste the image prompt from an answer's "Art requests" or from `prompt-library/`, ask for 3 variants. Download the best as PNG and send it in the project chat.
 
