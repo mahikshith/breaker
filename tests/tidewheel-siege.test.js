@@ -12,6 +12,7 @@ const { chamberReach } = await import('../src/fantasy/reach.js');
 const { chapterKind } = await import('../src/fantasy/stages.js');
 const { FantasyChapter } = await import('../src/fantasy/chapter.js');
 const { overlapsTarget } = await import('../src/carrier-physics.js');
+const { difficulty } = await import('../src/difficulty.js');
 
 const PHONES = { ios: { height: 700, paddleY: 584.6 }, android: { height: 751, paddleY: 641 } };
 const MODES = ['easy', 'medium', 'hard'];
@@ -299,7 +300,7 @@ test('a plain ball hurts Nerra once per return: the paddle re-arms it; laser bol
   m.hitNerra(nerraTarget, b); assert.equal(m.pool.hp, hp - 1); assert.ok(b.spent);
   m.hitNerra(nerraTarget, b); assert.equal(m.pool.hp, hp - 1, 'spent until it comes back');
   m.hitNerra(nerraTarget, { x: 180, y: 200, powerShot: true }); assert.equal(m.pool.hp, hp - 1, 'a laser bolt glances off');
-  m.hitNerra(nerraTarget, { ...b, titan: 3 }); assert.equal(m.pool.hp, hp - 2, 'the titan is not limited');
+  m.hitNerra(nerraTarget, { ...b, titan: 3 }); assert.equal(m.pool.hp, hp - 1 - difficulty(m.difficulty).powers.strong, 'the titan is not limited and is the right power');
   // A paddle bounce re-arms the ball.
   Object.assign(b, { x: m.paddle.x, y: m.paddle.y - 14, vx: 0, vy: 300, caught: false, dead: false });
   run(m, .1); assert.ok(b.vy < 0); assert.equal(b.spent, false);

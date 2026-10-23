@@ -7,7 +7,8 @@ export const SPEED = 345;
 export const BALL_R = 7;
 // Back in action: seconds of Ward under the paddle after a Continue. It counts from the serve, not from the tap.
 export const BACK_WARD = 3;
-export const RAM = { r: 13.2, time: 2.5, bricks: 14, damage: 3 };
+// Powers v2: the ram ploughs further (16 bricks, was 14) and hits a villain harder (4, was 3); its flight stays 2.5 s.
+export const RAM = { r: 13.2, time: 2.5, bricks: 16, damage: 4 };
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
 // Level feedback: castle levels have effect(x, y, kind, life); the Arena routes through ramEffect; Tidewheel keeps a plain list.
@@ -42,6 +43,13 @@ export function endRam(level, b) {
   if (!(b.ram > 0) && b.r !== RAM.r) return;
   b.r = b.ramBaseR || BALL_R; b.ram = 0; b.ramBricks = 0; delete b.ramBaseR;
   fx(level, b.x, b.y, 'ram-end', .3);
+}
+// The chapter's "right power" landed on its villain: a short on-screen title (FantasyChapter draws it; renderers show the
+// effect as a spark at x, y), at most once every 3 s per line.
+export function powerTitle(level, text, x = level.width / 2, y = 200) {
+  level.titleAt ||= {}; const t = level.time ?? 0;
+  if (t - (level.titleAt[text] ?? -Infinity) < 3) return false;
+  level.titleAt[text] = t; level.effects?.push({ kind: 'power-title', text, x, y, age: 0, life: 1.6 }); return true;
 }
 // Called before a ball's sweep each step; true while the ram is live.
 export function tickRam(level, b, dt) { if (b.ram > 0 && (b.ram -= dt) <= 0) endRam(level, b); return b.ram > 0; }

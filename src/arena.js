@@ -11,6 +11,7 @@ import { kitExpression, updateKitPresence, kitLayout, drawChargeReady } from './
 import { drawNixControl, SPACE_POWERS, KIT_POWERS } from './space-companions.js';
 
 import { drawPlayerBolt } from './space-weapons.js';
+import { ejectBall, overlapsAny, paddleRoom } from './clearance.js';
 
 // Hero paddle skins (art/paddle_skins): a level sets this.paddleSkin = 'kit' | 'lumi'; others keep the chrome paddle.
 const PADDLE_SKINS = Object.fromEntries(Object.entries(ART.paddleSkins || {}).map(([id, s]) =>
@@ -25,6 +26,10 @@ const RALLY_MAX = 1.28;      // balls pick up a little speed on every paddle hit
 const DRAG_GAIN = 1.15;      // paddle travel per unit of thumb travel
 const CORE_HALF = 7;         // half-width of the paddle's sweet spot
 const CORE_BRICKS = 12;      // bricks to break to charge it
+const TITAN_R = 10;          // a TITAN / COSMIC ball's radius
+const POWER_HOLD = 1.2;      // seconds an ending TITAN or fire ball may keep piercing to finish its pass through a solid
+// A polygon target as its bounding box (clearance.js pushes against circles and rects).
+const boxOf = s => { const xs = s.points.map(p => p[0]), ys = s.points.map(p => p[1]); return { type: 'rect', x: Math.min(...xs), y: Math.min(...ys), w: Math.max(...xs) - Math.min(...xs), h: Math.max(...ys) - Math.min(...ys) }; };
 
 // Reserve the face control and the full last-live TITAN halo, in CSS pixels.
 export function paddleY(H, minY = 0, uiScale = 1) { return Math.round(Math.max(minY, H - 126 / uiScale)); }
@@ -135,8 +140,8 @@ export class Arena {
     }
     const live = this.balls.filter(b => !b.dead);
     const b = live.find(b => b.caught) || live.reduce((a, b) => a.y >= b.y ? a : b);
-    endRam(this, b); this.paddle.charge = 0; b.titan = 7; b.r = 10; this.coreCastAt = this.kitTime;
-    this.fx.ring(b.x, b.y, '#e9b6ef', 24); sfx.power(); this.bump(.12, .015);
+    endRam(this, b); this.paddle.charge = 0; b.titan = 7; this.growTitan(b); this.coreCastAt = this.kitTime;
+    this.fx.ring(b.x, b.y, '#e9b6ef', 24); sfx.pick('titan'); this.bump(.12, .015);
     return true;
   }
   spacePowerAvailable() { return this.state === 'play'; }
@@ -176,22 +181,22 @@ export class Arena {
     }
     const live = this.balls.filter(b => !b.dead), p = this.paddle, limits = this.companionLimits();
     this.closePowerMenu(); p.charge = 0; this.coreChargeBank = 0; this.coreCastAt = this.kitTime;
-    if (kind === 'laser' || kind === 'arrows') { p.laserT = Math.min(limits?.maxTime ?? Infinity, Math.max(0, p.laserT) + (limits?.duration ?? 10)); p.laserCd = 0; }
+    if (kind === 'laser' || kind === 'arrows') { p.laserT = Math.min(limits?.maxTime ?? Infinity, Math.max(0, p.laserT) + (limits?.duration ?? 10)); p.laserCd = 0; if (kind === 'arrows') p.orbT = p.laserT; }
     else if (kind === 'titan') {
       const ordinary = live.filter(b => !(b.titan > 0)), powered = live.filter(b => b.titan > 0);
       const candidates = ordinary.length && powered.length < (limits?.cosmic ?? Infinity) ? ordinary : powered.filter(b => b.titan < (limits?.maxTime ?? Infinity));
       const b = candidates.find(b => b.caught) || candidates.reduce((a, b) => a.y >= b.y ? a : b);
-      endRam(this, b); b.titan = Math.min(limits?.maxTime ?? Infinity, Math.max(0, b.titan || 0) + (limits?.duration ?? 10)); b.r = 10; this.fx.ring(b.x, b.y, '#e9b6ef', 24);
+      endRam(this, b); b.titan = Math.min(limits?.maxTime ?? Infinity, Math.max(0, b.titan || 0) + (limits?.duration ?? 10)); this.growTitan(b); this.fx.ring(b.x, b.y, '#e9b6ef', 24);
     } else {
       if (this.aim) this.release();
-      const count = Math.min(4, (limits?.balls ?? 60) - live.length);
+      const count = Math.min(4, (limits?.balls ?? 60) - live.length), step = this.fan() * .65;
       for (let i = 0; i < count; i++) {
-        const a = (i - (count - 1) / 2) * .24;
-        this.balls.push(makeBall(p.x, p.y - this.ballRadius - 2, Math.sin(a) * this.speed, -Math.cos(a) * this.speed, this.ballRadius));
+        const a = (i - (count - 1) / 2) * step;
+        this.spawnBall(p.x, p.y - this.ballRadius - 2, Math.sin(a) * this.speed, -Math.cos(a) * this.speed);
       }
     }
     this.fx.pop(p.x, p.y - 30, choices.find(p => p.id === kind).label, '#edb0c8', 16);
-    sfx.power(); this.bump(.12, .015); return true;
+    sfx.pick(kind === 'five' ? 'burst' : kind); this.bump(.12, .015); return true;
   }
 
   serve() {
@@ -199,6 +204,68 @@ export class Arena {
     const p = this.paddle, b = makeBall(p.x, p.y - this.ballRadius, 0, -this.speed, this.ballRadius);
     b.caught = true; this.balls.push(b);
     this.aim = { ball: b, angle: 0, serve: true, t: 0, anchorX: this.ptr.x };
+  }
+  // ---------- power physics ----------
+  // Multiball half-spread in radians: the difficulty's fan in Kit's levels (difficulty.js powers), else the classic .35.
+  fan() { return this.companionLimits()?.fan ?? .35; }
+  // Solid shapes within reach of (x, y) as clearance.js shapes: grid cells and the world's live targets. powered (a TITAN
+  // or fire ball): only what such a ball still bounces off (unpierceable cells, targets marked pierceable: false).
+  solidsAround(x, y, reach, powered = false, world = this.world()) {
+    const out = [], G = world.grid;
+    if (G) {
+      const c0 = Math.floor((x - reach - G.ox) / G.cw), c1 = Math.floor((x + reach - G.ox) / G.cw);
+      const r0 = Math.floor((y - reach - G.oy) / G.ch), r1 = Math.floor((y + reach - G.oy) / G.ch);
+      for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
+        const v = cellAt(G, c, r);
+        if (v && (!powered || G.unpierceable?.includes(v))) out.push({ type: 'rect', x: G.ox + c * G.cw, y: G.oy + r * G.ch, w: G.cw, h: G.ch });
+      }
+    }
+    for (const t of world.targets || []) {
+      if (t.active === false || (t.hp !== undefined && t.hp <= 0) || t.solid === false || (powered && t.pierceable !== false)) continue;
+      for (const q of t.shapes || [t]) out.push(q.type === 'circle' || q.type === 'rect' ? q : boxOf(q));
+    }
+    return out;
+  }
+  // Would a ball of radius r at b's centre overlap a solid (one a plain ball bounces off, or a powered one)?
+  blockedAt(b, r = b.r, powered = false, world) { return overlapsAny(b.x, b.y, r, this.solidsAround(b.x, b.y, r + 1, powered, world)); }
+  // Push a ball clear of every solid it overlaps, along the shortest way that stays inside the walls. True when it moved.
+  settle(b, powered = false, world = this.world()) {
+    const ok = (x, y) => x - b.r >= this.left && x + b.r <= this.right && y - b.r >= this.top && y + b.r <= this.drainY;
+    return !!ejectBall(b, this.solidsAround(b.x, b.y, b.r + 48, powered, world), { ok });
+  }
+  // A new multiball ball never starts inside a solid (a split off a TITAN that is piercing a brick or the villain).
+  spawnBall(x, y, vx, vy) {
+    const b = makeBall(x, y, vx, vy, this.ballRadius);
+    if (this.blockedAt(b)) this.settle(b);
+    this.balls.push(b); return b;
+  }
+  // TITAN / COSMIC: the ball grows to TITAN_R and is pushed off anything it still bounces off (granite, the cage, posts).
+  growTitan(b) { b.r = TITAN_R; if (!b.caught && this.blockedAt(b, b.r, true)) this.settle(b, true); }
+  // TITAN ends: the ball shrinks back once it is clear of whatever it is piercing (up to POWER_HOLD s, then a clearing
+  // push), so it never ends inside a brick or the villain.
+  endTitan(b, dt) {
+    if (this.blockedAt(b, this.ballRadius) && (b.titanHold = (b.titanHold || 0) + dt) < POWER_HOLD) { b.titan = 1e-6; return false; }
+    b.titan = 0; b.r = this.ballRadius; delete b.titanHold;
+    if (this.blockedAt(b)) this.settle(b);
+    return true;
+  }
+  // Fire ends: a ball still inside a pierceable solid keeps burning until it is through (same hold as TITAN).
+  fireHold(b, dt) {
+    if (this.blockedAt(b) && (b.fireHold = (b.fireHold || 0) + dt) < POWER_HOLD) return true;
+    delete b.fireHold; if (this.blockedAt(b)) this.settle(b);
+    return false;
+  }
+  // The SHIELD under the paddle: a floor stepBall checks every substep (src/physics.js world.floor).
+  shieldCatch(b) {
+    if (this.shield <= 0 || b.dead) return;
+    b.y = this.shieldY - b.r; b.vy = -Math.abs(b.vy); this.shield--; if (!this.shield) this.shieldT = 0;
+    this.fx.ring(b.x, this.shieldY, '#7ff5e6', 26); sfx.tough(); this.bump(0.1);
+  }
+  // The chapter's "right power" landed on its villain: a short title, at most once every few seconds per line.
+  powerTitle(line, color = '#ffe2a8') {
+    this.titleAt ||= {};
+    if (this.t - (this.titleAt[line] ?? -Infinity) < 3) return false;
+    this.titleAt[line] = this.t; this.fx.pop(this.W / 2, this.top + 96, line, color, 20); return true;
   }
   release() {
     this.aimReadyUntil = 0;
@@ -225,6 +292,7 @@ export class Arena {
     world.onWall = () => sfx.wall();
     world.onPaddle = b => this.onPaddle(b);
     world.onLost = b => this.fx.ring(b.x, this.drainY, '#ff4d5e', 16);
+    if (this.shield > 0) world.floor = { y: this.shieldY, hit: b => this.shieldCatch(b) };
     return world;
   }
   // Sweet-Spot Ram (src/fantasy/ram.js): what a live ram ploughs through. brick is { cell, c, r } for a grid cell, or a
@@ -283,18 +351,18 @@ export class Arena {
   dropPower(x, y, kind) { this.drops.push({ x, y, kind, vy: 60 }); }
   applyPower(kind) {
     const p = this.paddle, P = POWER[kind];
-    if (P.bad) { sfx.hurt(); this.bump(0.2); } else sfx.power();
+    if (P.bad) { sfx.hurt(); this.bump(0.2); } else sfx.pick(kind);
     this.fx.pop(p.x, p.y - 26, P.label, P.bad ? '#ff8a8a' : '#fff', 16);
+    const room = () => Math.max(0, (this.companionLimits()?.balls ?? 60) - this.balls.filter(b => !b.dead).length), fan = this.fan();
     if (kind === 'split') {
       const add = [];
-      for (const b of this.balls) if (!b.dead && !b.caught) for (const da of [-0.35, 0.35]) {
-        const c = Math.cos(da), s = Math.sin(da), nb = makeBall(b.x, b.y, b.vx * c - b.vy * s, b.vx * s + b.vy * c, this.ballRadius);
-        add.push(nb);
+      for (const b of this.balls) if (!b.dead && !b.caught) for (const da of [-fan, fan]) {
+        const c = Math.cos(da), s = Math.sin(da); add.push([b.x, b.y, b.vx * c - b.vy * s, b.vx * s + b.vy * c]);
       }
-      this.balls.push(...add.slice(0, Math.max(0, (this.companionLimits()?.balls ?? 60) - this.balls.filter(b => !b.dead).length)));
+      for (const a of add.slice(0, room())) this.spawnBall(...a);
     } else if (kind === 'burst') {
-      for (const a of [-0.4, 0, 0.4].slice(0, Math.max(0, (this.companionLimits()?.balls ?? 60) - this.balls.filter(b => !b.dead).length))) this.balls.push(makeBall(p.x, p.y - this.ballRadius - 2, Math.sin(a) * this.speed, -Math.cos(a) * this.speed, this.ballRadius));
-    } else if (kind === 'fire') this.fireT = Math.max(0, this.fireT) + 8;
+      for (const a of [-fan - .05, 0, fan + .05].slice(0, room())) this.spawnBall(p.x, p.y - this.ballRadius - 2, Math.sin(a) * this.speed, -Math.cos(a) * this.speed);
+    } else if (kind === 'fire') this.fireT = Math.max(0, this.fireT) + (this.companionLimits()?.fire ?? 8);
     else if (kind === 'wide') { p.wideLevel = p.wideT > 0 ? (p.wideLevel || 1) + 1 : 1; p.wideT = Math.max(0, p.wideT) + 12; p.shrinkT = 0; }
     else if (kind === 'shrink') { p.shrinkT = 9; p.wideT = 0; }
     else if (kind === 'focus') this.focus = Math.min(this.focusMax, this.focus + 1);
@@ -326,8 +394,10 @@ export class Arena {
     const prevX = p.x;
     if (p.wideT <= 0) p.wideLevel = 0;
     const tw = Math.min(this.right - this.left - 16, p.baseW * (p.wideT > 0 ? 1 + .55 * (p.wideLevel || 1) : 1) * (p.shrinkT > 0 ? 0.62 : 1));
-    p.w += (tw - p.w) * Math.min(1, dtReal * 10);
-    for (const k of ['wideT', 'shrinkT', 'laserT']) if (p[k] > 0) p[k] -= dt;
+    let w = p.w + (tw - p.w) * Math.min(1, dtReal * 10);
+    if (w > p.w) w = 2 * paddleRoom(p.x, p.w / 2, w / 2, p.y, p.y + p.h, this.balls); // WIDE never lands on a ball beside it
+    p.w = w;
+    for (const k of ['wideT', 'shrinkT', 'laserT', 'orbT']) if (p[k] > 0) p[k] -= dt;
     if (p.stun > 0) p.stun -= dt;
     const lo = this.left + p.w / 2, hi = this.right - p.w / 2;
     if (this.aim) {
@@ -358,14 +428,11 @@ export class Arena {
     const world = this.liveWorld();
     for (const b of this.balls) {
       if (b.caught) continue;
-      b.fire = fire;
-      if (b.titan > 0 && (b.titan -= dt) <= 0) { b.titan = 0; b.r = this.ballRadius; }
+      if (fire) delete b.fireHold;
+      b.fire = fire || (b.fire && this.fireHold(b, dt));
+      if (b.titan > 0 && (b.titan -= dt) <= 0) this.endTitan(b, dt);
       tickRam(this, b, dt); // a Focus-caught ball skips this loop: its ram timer pauses until release
-      stepBall(b, ballDt, world);
-      if (this.shield > 0 && !b.dead && b.vy > 0 && b.y + b.r >= this.shieldY) { // the shield saves the ball once per charge
-        b.y = this.shieldY - b.r; b.vy = -Math.abs(b.vy); this.shield--; if (!this.shield) this.shieldT = 0;
-        this.fx.ring(b.x, this.shieldY, '#7ff5e6', 26); sfx.tough(); this.bump(0.1);
-      }
+      stepBall(b, ballDt, world); // the shield's save is world.floor, checked inside every substep
     }
     const before = this.balls.length;
     this.balls = this.balls.filter(b => !b.dead);
@@ -389,7 +456,7 @@ export class Arena {
     const p = this.paddle;
     if (p.laserT > 0 && p.stun <= 0 && !this.aim && (p.laserCd -= dt) <= 0) {
       p.laserCd = 0.3;
-      for (const sx of [-1, 1]) this.shots.push({ x: p.x + sx * (p.w / 2 - 7), y: p.y - 4, vy: -560, kind: this.kitPowers ? 'arrow' : 'laser', vx: 0, r: this.spacePowers ? 6.8 : 2, bornAt: this.t, from: { x: p.x + sx * (p.w / 2 - 7), y: p.y - 4 } });
+      for (const sx of [-1, 1]) this.shots.push({ x: p.x + sx * (p.w / 2 - 7), y: p.y - 4, vy: -560, kind: this.kitPowers ? 'arrow' : 'laser', orb: p.orbT > 0, vx: 0, r: this.spacePowers ? 6.8 : 2, bornAt: this.t, from: { x: p.x + sx * (p.w / 2 - 7), y: p.y - 4 } });
       sfx.zap();
     }
     const G = this.grid;
@@ -397,9 +464,15 @@ export class Arena {
       const previousY = s.y; s.y += s.vy * dt;
       if (s.y < this.top) { s.dead = true; continue; }
       if (this.shotHit(s, previousY, dt)) { s.dead = true; continue; }
-      if (G) {
-        const c = Math.floor((s.x - G.ox) / G.cw), r = Math.floor((s.y - G.oy) / G.ch);
-        if (cellAt(G, c, r)) { s.dead = true; this.fx.ring(s.x, s.y, '#ff8fa3', 8); this.hitCell(c, r, { x: s.x, y: s.y, vx: 0, vy: s.vy, r: 2, shot: true }); }
+      if (G) { // swept from where the bolt was: a long frame can never carry it past a brick row
+        const c = Math.floor((s.x - G.ox) / G.cw), from = Math.floor((previousY - G.oy) / G.ch), to = Math.floor((s.y - G.oy) / G.ch);
+        for (let r = from; r >= to; r--) if (cellAt(G, c, r)) {
+          s.dead = true; s.y = Math.min(previousY, G.oy + (r + 1) * G.ch);
+          this.fx.ring(s.x, s.y, s.orb ? '#f2dce5' : '#ff8fa3', 8);
+          // Kit's ARROWS are her orb power: they split armour (two-hit) bricks outright, like fire. Capsule lasers chip.
+          this.hitCell(c, r, { x: s.x, y: s.y, vx: 0, vy: s.vy, r: 2, shot: true, orb: !!s.orb, fire: !!s.orb });
+          break;
+        }
       }
     }
     this.shots = this.shots.filter(s => !s.dead);
@@ -413,7 +486,7 @@ export class Arena {
     const s = Math.hypot(b.vx, b.vy), ns = Math.min(this.speed * RALLY_MAX, s * 1.012);
     b.vx *= ns / s; b.vy *= ns / s;
     if (this.coreMode === 'titan' && p.charge >= 1 && Math.abs(b.x - p.x) <= CORE_HALF + 1) { // dead centre on a charged core: TITAN
-      p.charge = 0; b.titan = 7; b.r = 10;
+      p.charge = 0; b.titan = 7; b.y -= TITAN_R - b.r; b.r = TITAN_R; // grows upward, off the paddle face
       this.kitCastAt = this.t;
       this.fx.ring(b.x, p.y, '#ff6fe0', 46); this.fx.pop(p.x, p.y - 34, 'TITAN!', '#ff9ef0', 26);
       sfx.boom(); sfx.power(); this.bump(0.45, 0.06);
@@ -561,7 +634,19 @@ export class Arena {
       g.fillStyle = '#ffd0da'; rrect(g, s.x - 1, s.y, 2, 10, 1); g.fill();
     }
   }
-  drawBalls(g) { this.drawShots(g); for (const b of this.balls) drawBall(g, b); }
+  drawBalls(g) {
+    this.drawShots(g);
+    if (this.slowT > 0) { // SLOW: each ball wears a soft frost halo while time drags (it flickers out over the last second)
+      const a = Math.min(1, this.slowT) * (this.slowT < 1 ? .6 + .4 * Math.sin(this.t * 30) : 1);
+      g.save(); g.globalCompositeOperation = 'lighter';
+      for (const b of this.balls) {
+        const R = b.r * 2.3, gr = g.createRadialGradient(b.x, b.y, b.r * .5, b.x, b.y, R);
+        gr.addColorStop(0, `rgba(150,215,255,${.45 * a})`); gr.addColorStop(1, 'rgba(150,215,255,0)'); g.fillStyle = gr; g.fillRect(b.x - R, b.y - R, R * 2, R * 2);
+      }
+      g.restore();
+    }
+    for (const b of this.balls) drawBall(g, b);
+  }
   drawDrops(g) {
     for (const d of this.drops) {
       const P = POWER[d.kind];

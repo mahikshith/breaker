@@ -14,8 +14,8 @@ import { r3, r3ok } from './fantasy/r3.js';
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 export const FROST_MODES = {
   easy: { hp: 40, postHP: 5, first: 7, windup: 1.8, strike: .48, recover: 3.5, stun: 2.1, advance: 1.35, interrupt: 1, charge: 18, crouch: 1.6, dash: .5, dazed: 2.6 },
-  medium: { hp: 52, postHP: 4, first: 5.5, windup: 1.5, strike: .42, recover: 2.8, stun: 1.6, advance: 1.15, interrupt: 2, charge: 22, crouch: 1.35, dash: .42, dazed: 2.2 },
-  hard: { hp: 66, postHP: 4, first: 4.5, windup: 1.25, strike: .36, recover: 2.3, stun: 1.25, advance: 1, interrupt: 2, charge: 26, crouch: 1.1, dash: .36, dazed: 1.8 },
+  medium: { hp: 60, postHP: 4, first: 5.5, windup: 1.5, strike: .42, recover: 2.8, stun: 1.6, advance: 1.15, interrupt: 2, charge: 22, crouch: 1.35, dash: .42, dazed: 2.2 },
+  hard: { hp: 78, postHP: 4, first: 4.5, windup: 1.25, strike: .36, recover: 2.3, stun: 1.25, advance: 1, interrupt: 2, charge: 26, crouch: 1.1, dash: .36, dazed: 1.8 },
 };
 // Dash: every DASH.every-th attack the Warden backs off, gathers frost (the warned crouch), charges the post and
 // shoulder-smashes it for DASH.damage, then stays dazed; ball hits on a dazed Warden count DASH.dazedHit times.
@@ -172,7 +172,7 @@ export class Frost extends Arena {
     const br = this.bricks.find(v => v.id === id);
     if (br) {
       if (br.hp <= 0) return false;
-      br.hp = b.fire || b.titan > 0 || b.ram > 0 ? 0 : br.hp - 1;
+      br.hp = b.fire || b.titan > 0 || b.ram > 0 || b.orb ? 0 : br.hp - 1;   // fire, COSMIC, a ram and Kit's arrows break rime armour outright
       if (br.hp > 0) { this.addScore(30, br.x + br.w / 2, br.y); sfx.tough(); return true; }   // the rime cracks
       this.breakBrick(br, b);
       if (br.type === 'mine') this.mineBlast(br, b);
@@ -180,7 +180,10 @@ export class Frost extends Arena {
     }
     if (id !== 'warden') return true;
     if (this.warden.hp <= 0) return false;
-    this.warden.hp = Math.max(0, this.warden.hp - (b.titan > 0 ? 3 : b.ram > 0 ? RAM.damage : 1));
+    // The right power: a fire or COSMIC ball melts through his rime for difficulty.js powers.strong per hit (a plain ball 1).
+    const power = b.titan > 0 || (b.fire && !b.shot), strong = this.companionLimits()?.strong ?? 3;
+    this.warden.hp = Math.max(0, this.warden.hp - (power ? strong : b.ram > 0 ? RAM.damage : 1));
+    if (power) this.powerTitle(b.fire ? 'FIRE BREAKS RIME' : 'COSMIC SHATTERS RIME', '#bfe9ff');
     this.addScore(75, b.x, b.y); this.fx.ring(b.x, b.y, '#d4f1ff', 13); sfx.tough();
     if (this.stage === 'dazed' && this.warden.hp > 0) {   // the punish window after a dash
       this.warden.hp = Math.max(0, this.warden.hp - (DASH.dazedHit - 1)); this.fx.pop(b.x, b.y - 12, 'CRITICAL', '#bfe9ff', 11);
@@ -221,7 +224,7 @@ export class Frost extends Arena {
     if (this.phase !== 'siege' || this.warden.hp <= 0) return;
     const targets = this.targets(), shapes = t => t.shapes || [t];
     const warden = targets.filter(t => t.id === 'warden').flatMap(shapes), others = targets.filter(t => t.id !== 'warden').flatMap(shapes);
-    for (const b of this.balls) if (!b.dead && !b.caught && !(this.fireT > 0) && !(b.titan > 0))
+    for (const b of this.balls) if (!b.dead && !b.caught && !(this.fireT > 0) && !b.fire && !(b.titan > 0))   // a fire ball finishing its pass (Arena.fireHold) is left to finish it
       ejectBall(b, warden, { ok: (x, y) => x - b.r >= this.left && x + b.r <= this.right && y - b.r >= this.top && !overlapsAny(x, y, b.r, others) });
   }
   setStage(stage) { this.stage = stage; this.stageAt = this.clock; this.lastFist = this.pose().fist; }

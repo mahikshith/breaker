@@ -1,10 +1,10 @@
 import { sweepTarget, overlapsTarget } from '../carrier-physics.js';
 import { reflect } from './bellforge.js';
-import { SPEED, BALL_R, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
+import { SPEED, BALL_R, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough, powerTitle } from './ram.js';
 import { plural, hpLeft } from '../near-miss.js';
 import { Sitter } from './creatures/sitter.js';
 import { EMBER } from './creatures/ember.js';
-import { ejectBall } from '../clearance.js';
+import { ejectBall, paddleRoom } from '../clearance.js';
 
 // Dragon's Hoard: Kit robs Ember, a vain dragon asleep on his hoard behind the cave ledge (scenery: the ledge is the
 // ceiling, Ember never collides). Gold opens Ember's Wake eye; Hush Chimes close it. Floor 1 hides the Crown chest in the
@@ -21,8 +21,8 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 // crown / weight / gate: goal HP. molten: seconds before molten gold hardens. stay: eye points per second while greedy.
 export const HOARD_MODES = {
   easy: { wakeAt: 12, chime: 25, roar: 9.5, hazard: 7.5, march: 5.6, crown: 5, weight: 4, gate: 12, molten: 5, stay: 1.6, coreHits: 18 },
-  medium: { wakeAt: 10, chime: 25, roar: 8.5, hazard: 6.5, march: 4.4, crown: 6, weight: 5, gate: 16, molten: 4, stay: 2.2, coreHits: 22 },
-  hard: { wakeAt: 8, chime: 20, roar: 7.5, hazard: 5.5, march: 3.9, crown: 7, weight: 6, gate: 20, molten: 3.2, stay: 2.8, coreHits: 26 },
+  medium: { wakeAt: 10, chime: 25, roar: 8.5, hazard: 6.5, march: 4.4, crown: 6, weight: 5, gate: 18, molten: 4, stay: 2.2, coreHits: 22 },
+  hard: { wakeAt: 8, chime: 20, roar: 7.5, hazard: 5.5, march: 3.9, crown: 7, weight: 6, gate: 23, molten: 3.2, stay: 2.8, coreHits: 26 },
 };
 export const HOARD_FLOORS = ['Coin mound', 'Ember stirs', 'Avalanche'];
 export const HOARD_TIMING = { climb: 1.2, escape: 2.6, ward: 6, volley: 2.5, arrows: 5, wide: 8, chimeCool: 8, scorch: 3, stripe: 72,
@@ -187,7 +187,8 @@ export class DragonsHoard {
     const p = this.paddle; p.px = p.x;
     if (p.wide > 0) p.wide -= dt;
     if (p.scorch > 0) p.scorch -= dt;
-    p.w = (p.wide > 0 ? 140 : p.baseW) * (p.scorch > 0 ? .75 : 1);
+    const want = (p.wide > 0 ? 140 : p.baseW) * (p.scorch > 0 ? .75 : 1);   // WIDE never lands on a ball beside the paddle
+    p.w = want > p.w ? 2 * paddleRoom(p.x, p.w / 2, want / 2, p.y, p.y + p.h, this.balls) : want;
     p.x += clamp(p.targetX - p.x, -900 * dt, 900 * dt); p.x = clamp(p.x, p.w / 2 + 6, this.width - p.w / 2 - 6);
     p.vx = (p.x - p.px) / dt;
     for (const fx of this.effects) fx.age += dt;
@@ -384,7 +385,7 @@ export class DragonsHoard {
         const key = hit.kind === 'brick' ? hit.item.id : undefined, fresh = key !== undefined && !b.contacts.has(key);
         if (fresh) b.contacts.add(key);
         if (fresh) this.hitBrick(hit.item, b);
-        if (hit.kind === 'gate') this.hitGate(b.ram > 0 ? RAM.damage : 1, b.x);
+        if (hit.kind === 'gate') { this.hitGate(b.ram > 0 ? RAM.damage : 1, b.x); if (b.ram > 0) powerTitle(this, 'RAM BREAKS THE GATE', b.x, b.y); }
         if (hit.kind === 'ward') this.effect(b.x, b.y, 'ward-bounce', .2);
       }
       if (this.phase !== 'play') return;

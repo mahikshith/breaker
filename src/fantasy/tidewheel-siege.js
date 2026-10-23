@@ -14,8 +14,10 @@
 // adds the stage flow, the static boards (bricks, brass bars, spokes, prizes), drops, carry-overs and Nerra's director.
 import { Tidewheel, raftPoint, REFUGE_LIP_OFFSET, CRUSHER_WATER_TIP } from './tidewheel.js';
 import { overlapsTarget, sweepTarget } from '../carrier-physics.js';
-import { ejectBall } from '../clearance.js';
-import { RAM, BALL_R, endRam } from './ram.js';
+import { ejectBall, paddleRoom } from '../clearance.js';
+import { RAM, BALL_R, endRam, powerTitle } from './ram.js';
+import { STAR_R } from './tidewheel.js';
+import { difficulty } from '../difficulty.js';
 import { hpLeft, plural } from '../near-miss.js';
 import { VillainPool, stageLabel } from './stages.js';
 import { STAGES, STAGE_COUNT, siegePlan, stageBoard } from './tidewheel-stages.js';
@@ -351,9 +353,11 @@ export class TidewheelSiege extends Tidewheel {
   hitNerra(target, b) {
     const v = this.villain; if (this.phase === 'rescue' || v.ghost || v.hidden) return;
     this.effects.push({ kind: 'hit', x: b.x, y: b.y, age: 0, life: .3 });
-    const plain = b && !b.blast && !(b.titan > 0) && !(b.ram > 0);
+    // The right power: STARFIRE (the titan) and a FIRE ball scald her for difficulty.js powers.strong per hit.
+    const power = b?.titan > 0 || (this.timers.fire > 0 && !!b && !b.powerShot && !b.blast), plain = b && !b.blast && !(b.titan > 0) && !(b.ram > 0) && !power;
     if (plain && (b.powerShot || b.spent)) { this.effects.push({ kind: 'nerra-shrug', x: b.x, y: b.y, age: 0, life: .4 }); return; }
-    const r = this.pool.hit(b?.blast ? MINE.nerra : b?.ram > 0 ? RAM.damage : 1); v.hp = this.pool.hp; v.maxHP = this.pool.maxHP; this.useful(b);
+    const r = this.pool.hit(b?.blast ? MINE.nerra : power ? difficulty(this.difficulty).powers.strong : b?.ram > 0 ? RAM.damage : 1);
+    if (power && r.dealt) powerTitle(this, b.titan > 0 ? 'STARFIRE SCORCHES NERRA' : 'FIRE SCALDS NERRA', b.x, b.y); v.hp = this.pool.hp; v.maxHP = this.pool.maxHP; this.useful(b);
     if (!r.dealt) { this.effects.push({ kind: 'nerra-shrug', x: b.x, y: b.y, age: 0, life: .4 }); return; }
     if (plain) b.spent = true;
     this.score += 50; v.stunUntil = this.time + .4; v.anger = Math.min(3, v.anger + 1); this.creditHit(b);
@@ -404,20 +408,28 @@ export class TidewheelSiege extends Tidewheel {
     else if (kind === 'laser') { this.timers.laser = SIEGE_POWERS.laser; this.timers.laserCd = 0; }
     else if (kind === 'shield') this.ward = { y: p.y + 20, remaining: SIEGE_POWERS.shield };
     else if (kind === 'split') {
-      for (const b of live()) for (const da of [-.35, .35]) if (this.balls.filter(q => !q.dead).length < cap) {
-        const c = Math.cos(da), s = Math.sin(da); this.balls.push(this.newBall(b.x, b.y, b.vx * c - b.vy * s, b.vx * s + b.vy * c));
+      const fan = difficulty(this.difficulty).powers.fan;
+      for (const b of live()) for (const da of [-fan, fan]) if (this.balls.filter(q => !q.dead).length < cap) {
+        const c = Math.cos(da), s = Math.sin(da), nb = this.newBall(b.x, b.y, b.vx * c - b.vy * s, b.vx * s + b.vy * c);
+        // A split off the star ball can start inside what it was piercing: like an ending star ball, it finishes its pass.
+        const inside = this.targets().filter(t => t.kind && overlapsTarget({ ...nb, r: nb.r + 2 }, t)).map(t => ['shell', 'claw'].includes(t.kind) ? 'nerra' : t.id);
+        if (inside.length) nb.pierceExit = new Set(inside);
+        this.balls.push(nb);
       }
     } else if (kind === 'burst') {
-      for (const a of [-.4, 0, .4]) if (this.balls.filter(q => !q.dead).length < cap) this.balls.push(this.newBall(p.x, p.y - 15, Math.sin(a) * this.speed, -Math.cos(a) * this.speed));
+      const fan = difficulty(this.difficulty).powers.fan + .05;
+      for (const a of [-fan, 0, fan]) if (this.balls.filter(q => !q.dead).length < cap) this.balls.push(this.newBall(p.x, p.y - 15, Math.sin(a) * this.speed, -Math.cos(a) * this.speed));
     } else if (kind === 'titan' && !this.cosmic) {
-      const b = live()[0]; if (b) { endRam(this, b); b.titan = 6; b.r = 8; this.powerTimers.cosmic = 6; this.cosmic = { time: 6, maxTime: 6, ballId: b.id }; }
+      const b = live()[0]; if (b) { endRam(this, b); b.titan = 6; b.r = STAR_R; this.powerTimers.cosmic = 6; this.cosmic = { time: 6, maxTime: 6, ballId: b.id }; }
     }
   }
   newBall(x, y, vx, vy) { return { id: ++this.serial, x, y, px: x, py: y, vx, vy, r: BALL_R, caught: false, ram: 0, ramBricks: 0, contacts: new Set(), useful: this.time }; }
   updateTimers(dt) {
     const T = this.timers, p = this.paddle, live = this.phase === 'play';
     for (const k of ['wide', 'slow', 'fire', 'laser']) if (T[k] > 0 && live) T[k] = Math.max(0, T[k] - dt);
-    p.w += ((T.wide > 0 ? 150 : 100) - p.w) * Math.min(1, dt * 10); this.setTarget(p.targetX);
+    let w = p.w + ((T.wide > 0 ? 150 : 100) - p.w) * Math.min(1, dt * 10);
+    if (w > p.w) w = 2 * paddleRoom(p.x, p.w / 2, w / 2, p.y - p.h / 2, p.y + p.h / 2, this.balls);   // WIDE never lands on a ball beside it
+    p.w = w; this.setTarget(p.targetX);
     const want = this.stageSpeed * (T.slow > 0 ? .78 : 1);
     if (Math.abs(want - this.speed) > .01) { this.speed = want; for (const b of this.balls) if (!b.caught) this.normalize(b); }
     if (T.laser > 0 && live && (T.laserCd -= dt) <= 0) {

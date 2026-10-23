@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {Tidewheel,CRUSHER_WATER_TIP} from '../src/fantasy/tidewheel.js';
+import {Tidewheel,CRUSHER_WATER_TIP,STAR_R} from '../src/fantasy/tidewheel.js';
+import {difficulty} from '../src/difficulty.js';
 import {TIDEWHEEL_REACTIONS_GEOMETRY} from '../src/fantasy/tidewheel-reaction-geometry.js';
 import measuredReaction from '../art/fantasy-machinery/reactions-data.mjs';
 import {overlapsTarget} from '../src/carrier-physics.js';
@@ -76,7 +77,7 @@ test('Cosmic crosses compound armour once per physical passage without self-fund
   g.targets=()=>[{id:'shell',kind:'shell',type:'circle',x:180,y:200,r:30},{id:'shell1',kind:'shell',type:'circle',x:190,y:200,r:30}];
   Object.assign(b,{x:180,y:260,vx:0,vy:-345});const hp=g.villain.hp;
   for(let n=0;n<100;n++){g.time+=1/240;g.moveBall(b,1/240);}
-  assert.equal(g.villain.hp,hp-1);assert(b.y<162&&b.vy<0);assert.equal(g.chargeBank,0);assert.equal(b.r,8);
+  assert.equal(g.villain.hp,hp-difficulty(g.difficulty).powers.strong);assert(b.y<162&&b.vy<0);assert.equal(g.chargeBank,0);assert.equal(b.r,STAR_R);
 });
 
 test('Cosmic expiry finishes an embedded exit without a second hit then restores normal contact',()=>{

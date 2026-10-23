@@ -55,3 +55,18 @@ export function ejectBall(ball, shapes, { ok, eps = .05 } = {}) {
   if (c.reflected) { ball.vx -= 2 * vn * c.nx; ball.vy -= 2 * vn * c.ny; }
   return c;
 }
+
+// Paddle growth (WIDE): the widest half-width, up to want, a paddle centred at x with its body spanning y0..y1 can take
+// without its ends landing on a ball that is beside it now. A ball already within reach of the current paddle is left to
+// the paddle's own contact; one beside it waits until it has dropped past or moved off, and the paddle grows around it then.
+export function paddleRoom(x, half, want, y0, y1, balls) {
+  let room = want;
+  if (want <= half) return want;
+  for (const b of balls || []) {
+    if (b.dead || b.caught || b.y + b.r <= y0 || b.y - b.r >= y1) continue;
+    const gap = Math.abs(b.x - x) - b.r;
+    if (gap < half) continue;
+    room = Math.min(room, Math.max(half, gap - .5));
+  }
+  return room;
+}

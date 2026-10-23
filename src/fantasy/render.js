@@ -932,6 +932,8 @@ export function drawEncounter(ctx,g,art,level){
   for(const b of g.balls)if(!b.dead){
     if(b.ram>0){gBall(ctx,g,art,b);continue;}
     if(!b.caught){const speed=Math.hypot(b.vx,b.vy)||1;const trail=ctx.createLinearGradient(b.x,b.y,b.x-b.vx/speed*22,b.y-b.vy/speed*22);trail.addColorStop(0,b.titan?'#e5adffbb':'#eaf8ff99');trail.addColorStop(1,'#eaf8ff00');line(ctx,{x:b.x,y:b.y},{x:b.x-b.vx/speed*22,y:b.y-b.vy/speed*22},trail,b.titan?10:6);}
+    // Siege capsule powers on the ball itself: FIRE burns orange, SLOW wears a frost halo (soft light, never a ring).
+    if(!b.titan&&g.timers?.fire>0)glow(ctx,b.x,b.y,17,'#ff9a4a',.6);else if(!b.titan&&g.timers?.slow>0)glow(ctx,b.x,b.y,16,'#96d7ff',.45);
     const size=b.titan?34:20;ctx.save();ctx.translate(b.x,b.y);
     if(b.titan)ctx.rotate(g.time*2);
     ctx.drawImage(b.titan?art.images.titan:art.images.ball,-size/2,-size/2,size,size);ctx.restore();

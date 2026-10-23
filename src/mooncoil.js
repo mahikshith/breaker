@@ -117,7 +117,9 @@ export class Mooncoil extends Vault {
   hitBars(ball) {
     if (this.phase !== 'rescue' || this.barsT === this.t || this.cageHP <= 0) return;
     this.barsT = this.t; this.barsWob = 1; this.cageFlash = .25;
-    this.cageHP = Math.max(0, this.cageHP - (ball.titan > 0 ? 2 : 1));
+    // The right power: COSMIC cracks the moonstone for difficulty.js powers.strong per hit (a plain ball 1).
+    this.cageHP = Math.max(0, this.cageHP - (ball.titan > 0 ? this.companionLimits()?.strong ?? 3 : 1));
+    if (ball.titan > 0) this.powerTitle('COSMIC CRACKS MOONSTONE', '#efb7e8');
     this.brokeBrick(ball); this.addScore(75, this.prisonX, this.floorY);
     this.fx.shatter(ball.x - 3, ball.y - 3, 6, 6, '#c9c2ef', 5, .7, 'violet');
     this.play('Cheer'); sfx.tough(); this.bump(.14, .025);

@@ -36,6 +36,8 @@ export function stepBall(b, dt, world) {
     if (world.targets) collideTargets(b, world.targets, world.onTarget, (i + 1) * h, world.ramTarget);
     if (b.dead) break;
     if (world.paddle) collidePaddle(b, world.paddle, world.onPaddle);
+    // A floor under the paddle (the SHIELD) is checked every substep, so a long frame cannot carry a ball past it.
+    if (world.floor && b.vy > 0 && b.y + b.r >= world.floor.y) world.floor.hit(b);
     if (b.y - b.r > world.bottom) { b.dead = true; world.onLost?.(b); }
   }
   keepVertical(b);
