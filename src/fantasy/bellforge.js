@@ -160,7 +160,7 @@ export class Bellforge {
     }
     if (this.phase === 'breach') {
       this.time += dt; this.moveLift(dt); this.breachRemaining = Math.max(0, this.breachRemaining - dt);
-      if (!this.breachRemaining) this.lose('Lift reached the danger stop'); return;
+      if (!this.breachRemaining) this.lose('Korr’s bells dropped Lumi’s lift to the danger stop'); return;
     }
     if (this.phase === 'serve') {
       const b = this.balls[0]; b.px = b.x; b.py = b.y; b.x = p.x; b.y = p.y - 8;
@@ -184,7 +184,7 @@ export class Bellforge {
     if (this.phase === 'rescue') return;
     for (const b of this.pendingDocks) if (!b.dead && b.hp > 0 && b.docked) {
       b.dead = true;
-      if (!b.teaching) { this.lumi.steps++; this.lumi.targetY = this.lumi.baseY + this.lumi.steps * 12; this.lumi.worried = this.rules.mistakes - this.lumi.steps <= 2; }
+      if (!b.teaching) { this.lumi.steps++; this.liftAt = this.time; this.lumi.targetY = this.lumi.baseY + this.lumi.steps * 12; this.lumi.worried = this.rules.mistakes - this.lumi.steps <= 2; }
       this.effect(this.dock.x + this.dock.w / 2, this.dock.y, b.teaching ? 'safe-catch' : 'ratchet', .6);
     }
     this.bells = this.bells.filter(b => !b.dead);

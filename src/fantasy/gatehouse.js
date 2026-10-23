@@ -3,6 +3,7 @@ import { KORR_BODIES, rampPose, sweepMovingSegment, circleSweep, reflect, lerpPo
 import { SPEED, BALL_R, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
 import { plural, hpLeft } from '../near-miss.js';
 import { tagSpecials, brickSpecial } from '../castle-specials.js';
+import { PurposeClock } from './purpose.js';
 
 // Gatehouse Siege: Kit storms three floors of the Menagerie gatehouse. Floor 1 drops the drawbridge (two counterweight
 // housings), floor 2 winches the portcullis while Korr drops bells through a murder hole, floor 3 is the duel with Korr.
@@ -14,11 +15,15 @@ import { tagSpecials, brickSpecial } from '../castle-specials.js';
 // Gem bricks bank loot gems that shower out of the crash.
 const STEP = 1 / 240;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+// Purpose clock (src/fantasy/purpose.js): Korr's winch hauls Lumi's cage up and away. clock: seconds per floor; push: seconds
+// back per housing hit, winch notch, Korr hit or broken bell; power: seconds back for the Ward; surge: seconds forward when
+// Korr winds a housing back up or a bell stuns the paddle.
 export const GATEHOUSE_MODES = {
-  easy: { hp: 24, housing: 4, notches: 8, interval: 10, tell: 1.8, bellCap: 1, coreHits: 18, crankIdle: 7, crankTell: 1.8, crankCap: 2, par: 26 },
-  medium: { hp: 32, housing: 5, notches: 9, interval: 8.5, tell: 1.6, bellCap: 1, coreHits: 22, crankIdle: 6, crankTell: 1.5, crankCap: 3, par: 30 },
-  hard: { hp: 40, housing: 6, notches: 10, interval: 7.5, tell: 1.4, bellCap: 2, coreHits: 26, crankIdle: 5, crankTell: 1.2, crankCap: 4, par: 36 },
+  easy: { hp: 24, housing: 4, notches: 8, interval: 10, tell: 1.8, bellCap: 1, coreHits: 18, crankIdle: 7, crankTell: 1.8, crankCap: 2, par: 26, clock: [75, 95, 105], push: 5, power: 20, surge: 6 },
+  medium: { hp: 32, housing: 5, notches: 9, interval: 8.5, tell: 1.6, bellCap: 1, coreHits: 22, crankIdle: 6, crankTell: 1.5, crankCap: 3, par: 30, clock: [70, 90, 95], push: 4, power: 16, surge: 7 },
+  hard: { hp: 40, housing: 6, notches: 10, interval: 7.5, tell: 1.4, bellCap: 2, coreHits: 26, crankIdle: 5, crankTell: 1.2, crankCap: 4, par: 36, clock: [70, 85, 90], push: 4, power: 14, surge: 8 },
 };
+export const GATEHOUSE_PURPOSE = { label: 'KORR HAULS LUMI AWAY', lost: 'Korr hauled Lumi away' };
 // Floor 1 battlements: Korr, his winch and his bell rack stand on the parapet walk (top..bottom), above the ball's ceiling.
 export const PARAPET = { top: 54, bottom: 72 };
 // A smashed bell rack: floor 2 bells come this many times slower, and the first one this much later.
@@ -64,7 +69,7 @@ export class Gatehouse {
   }
   buildFloor(n) {
     const W = this.width, bottom = this.paddle.y - 210, rules = this.rules;
-    this.floor = n; this.floorTime = 0; this.active = false; this.phase = 'serve'; this.transition = 0;
+    this.floor = n; this.floorTime = 0; this.active = false; this.phase = 'serve'; this.transition = 0; this.purpose = new PurposeClock(rules.clock[n]);
     this.bells = []; this.solids = []; this.housings = []; this.wheel = null; this.ramps = []; this.holes = []; this.gate = null;
     this.villain = { x: 180, y: 100, foot: { x: 180, y: 100 }, hp: rules.hp, maxHP: rules.hp, stage: 'idle', stageAt: 0, until: 0, body: [], solid: false, defeat: null };
     this.nextWarning = 6; this.teachingDone = false; this.nextTeaching = false;
@@ -138,7 +143,7 @@ export class Gatehouse {
     if (!this.canActivate(id)) return false;
     this.charge = 0; this.chargeBank = 0;
     this.ward = { y: this.paddle.y + 24, remaining: GATEHOUSE_TIMING.ward };
-    this.effect(this.width / 2, this.ward.y, 'ward-deploy', .4); return true;
+    this.purpose.push(this.rules.power, this.time); this.effect(this.width / 2, this.ward.y, 'ward-deploy', .4); return true;
   }
   update(dt) {
     if (this.paused || this.state !== 'play' || !Number.isFinite(dt) || dt <= 0) return;
@@ -159,6 +164,7 @@ export class Gatehouse {
     }
     if (!this.active) return;
     this.time += dt; this.floorTime += dt;
+    if (this.purpose.tick(dt)) return this.lose(GATEHOUSE_PURPOSE.lost);
     const credit = Math.min(this.chargeBank, dt, (100 - this.charge) * this.rules.coreHits / 100);
     this.chargeBank -= credit; this.charge = Math.min(100, this.charge + credit / this.rules.coreHits * 100);
     if (this.charge > 100 - 1e-7) { this.charge = 100; this.chargeBank = 0; }
@@ -196,7 +202,7 @@ export class Gatehouse {
     if (!this.transition) { this.buildFloor(this.floor + 1); this.active = true; }
   }
   // Seconds between bells: a smashed bell rack slows floor 2's murder-hole bells.
-  get bellInterval() { return this.rules.interval * (this.floor === 1 && this.rackSmashed ? RACK.slow : 1); }
+  get bellInterval() { return this.rules.interval * (this.floor === 1 && this.rackSmashed ? RACK.slow : 1) * this.purpose.pace; }
   updateVillain() {
     const v = this.villain; if (this.floor === 0 || v.hp <= 0) return;
     if (['stagger', 'recover', 'release'].includes(v.stage)) {
@@ -227,14 +233,14 @@ export class Gatehouse {
     if (w.stage === 'crank') {
       if (!(w.target.hp > 0)) { w.stage = 'idle'; w.target = null; v.stage = 'idle'; return; }   // never winds a destroyed housing
       if (this.floorTime < w.until) return;
-      const h = w.target; h.hp = Math.min(h.maxHP, h.hp + 1); w.heals++; w.stage = 'idle'; w.target = null; w.idle = 0;
+      const h = w.target; h.hp = Math.min(h.maxHP, h.hp + 1); w.heals++; this.purpose.surge(this.rules.surge, this.time); w.stage = 'idle'; w.target = null; w.idle = 0;
       v.stage = 'release'; v.until = this.time + .6;
       this.effect(h.x + h.w / 2, h.y + h.h + 7.5, 'housing-heal', .9, { pip: h.hp - 1, n: h.maxHP }); return;
     }
     const target = w.heals < this.rules.crankCap && this.housings.filter(h => h.hp > 0 && h.hp < h.maxHP).sort((a, b) => a.hp / a.maxHP - b.hp / b.maxHP)[0];
     if (!target) { w.idle = 0; return; }
     w.idle += dt;
-    if (w.idle < this.rules.crankIdle) return;
+    if (w.idle < this.rules.crankIdle * this.purpose.pace) return;
     w.stage = 'crank'; w.target = target; w.at = this.floorTime; w.until = this.floorTime + this.rules.crankTell;
     v.stage = 'windup'; v.stageAt = this.time;
     this.effect(target.x + target.w / 2, target.y + target.h / 2, 'winch-tell', this.rules.crankTell, { housing: target.id });
@@ -348,18 +354,18 @@ export class Gatehouse {
     if (!brick.hp && brick.sp) brickSpecial(this, brick, ball, MINE_R, blastable);
   }
   hitHousing(h, damage) {
-    h.hp = Math.max(0, h.hp - damage); this.score += 25;
+    h.hp = Math.max(0, h.hp - damage); this.score += 25; this.purpose.push(this.rules.push, this.time);
     const w = this.winch;
     if (w) {
       w.idle = 0;
       // A housing hit during the crank telegraph jams the winch: Korr staggers and loses that crank.
-      if (w.stage === 'crank') { w.stage = 'idle'; w.target = null; this.villain.stage = 'stagger'; this.villain.until = this.time + .7; this.score += 25; this.effect(w.x, w.y - 18, 'crank-jam', .9); }
+      if (w.stage === 'crank') { w.stage = 'idle'; w.target = null; this.villain.stage = 'stagger'; this.villain.until = this.time + .7; this.score += 25; this.purpose.push(this.rules.push, this.time); this.effect(w.x, w.y - 18, 'crank-jam', .9); }
     }
     this.effect(h.x + h.w / 2, h.y + h.h / 2, h.hp ? 'housing-hit' : 'housing-break', h.hp ? .3 : .9);
     if (this.housings.every(q => q.hp <= 0)) this.finishFloor();
   }
   turnWheel(notches, nx) {
-    const w = this.wheel; w.notches = Math.min(this.gate.need, w.notches + notches); w.spin += 6 * notches * (nx >= 0 ? 1 : -1); this.score += 15;
+    const w = this.wheel; w.notches = Math.min(this.gate.need, w.notches + notches); w.spin += 6 * notches * (nx >= 0 ? 1 : -1); this.score += 15; this.purpose.push(this.rules.push, this.time);
     this.effect(w.x, w.y, 'ratchet', .3);
     if (w.notches >= this.gate.need) this.finishFloor();
   }
@@ -367,7 +373,7 @@ export class Gatehouse {
     bell.hp--; const impulse = clamp(speed * .7, 150, 290);
     bell.vx -= hit.nx * impulse; bell.vy -= hit.ny * impulse; bell.returning = bell.vy < 0;
     this.effect(bell.x, bell.y, 'bell-hit', .2);
-    if (bell.hp <= 0) { bell.dead = true; this.score += 20; this.effect(bell.x, bell.y, 'bell-break', .6); }
+    if (bell.hp <= 0) { bell.dead = true; this.score += 20; this.purpose.push(this.rules.push, this.time); this.effect(bell.x, bell.y, 'bell-break', .6); }
   }
   moveBell(b, dt) {
     const motionFrom = { x: b.x, y: b.y }; b.px = b.x; b.py = b.y; b.vy += 220 * dt;
@@ -405,13 +411,13 @@ export class Gatehouse {
     if (this.ward && b.y + b.r >= p.y) { b.dead = true; this.effect(b.x, p.y, 'bell-break', .5); return; }
     if (b.y + b.r >= p.y) {
       b.dead = true;
-      if (!b.teaching && Math.abs(b.x - p.x) < p.w / 2 + b.r) { p.stun = GATEHOUSE_TIMING.stun; this.effect(p.x, p.y, 'paddle-stun', GATEHOUSE_TIMING.stun); }
+      if (!b.teaching && Math.abs(b.x - p.x) < p.w / 2 + b.r) { p.stun = GATEHOUSE_TIMING.stun; this.purpose.surge(this.rules.surge, this.time); this.effect(p.x, p.y, 'paddle-stun', GATEHOUSE_TIMING.stun); }
       else this.effect(b.x, p.y, 'bell-break', .5);
     }
   }
   hitVillain(damage, stagger) {
     const v = this.villain; if (v.hp <= 0 || this.state !== 'play') return;
-    v.hp -= Math.min(v.hp, damage); this.score += damage * 25;
+    v.hp -= Math.min(v.hp, damage); this.score += damage * 25; this.purpose.push(this.rules.push, this.time);
     if (!v.hp) return this.finishFloor();
     if (stagger) { v.stage = 'stagger'; v.stageAt = this.time; v.until = this.time + 1.5; this.nextWarning = Math.max(this.nextWarning, this.floorTime + 1.5); }
     this.effect(v.x, v.y, stagger ? 'stagger' : 'korr-hit', stagger ? 1.5 : .2);
@@ -420,7 +426,7 @@ export class Gatehouse {
   continue() {
     if (this.continued || this.state !== 'lost') return false;
     this.continued = true; this.state = 'play'; this.reason = ''; this.lives = Math.max(2, this.lives);
-    this.bells = []; this.paddle.stun = 0; this.nextWarning = this.floorTime + 3; this.villain.stage = 'idle'; this.makeServe();
+    this.bells = []; this.paddle.stun = 0; this.nextWarning = this.floorTime + 3; this.villain.stage = 'idle'; this.purpose.rewind(); this.makeServe();
     if (this.winch) Object.assign(this.winch, { idle: 0, stage: 'idle', target: null });
     this.ward = { y: this.paddle.y + 24, remaining: BACK_WARD }; this.active = false; this.backHold = true; return true;
   }

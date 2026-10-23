@@ -4,6 +4,7 @@ import { SPEED, BALL_R, RAM, BACK_WARD, paddleBounce, tickRam, ramThrough } from
 import { plural, hpLeft } from '../near-miss.js';
 import { LUNGE } from './lumitower.js';
 import { tagSpecials, brickSpecial, armourOutright } from '../castle-specials.js';
+import { PurposeClock } from './purpose.js';
 
 // Serpent Rivals: Kit climbs the twin-serpent hall. Gnash (emerald) lunges from the left-wall windows, Mooncoil (violet)
 // from the right. Each serpent owns its lane rows; both own one window on the Crossing row, which ends in the Clash
@@ -20,11 +21,15 @@ const ease = t => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
 // Seal by eating bricks. clash: Seal damage per clash. dizzyHit: Seal damage per ball hit on a dizzy head.
 // tell/lureTell: hiss length of a scheduled / lured lunge. window: how long a head holds in the chamber (the clash window).
 // chain: scheduled lunges live at once (a lured lunge is the player's choice and ignores it). spit: Easy spits the ball back.
+// Purpose clock (src/fantasy/purpose.js): the twin serpents close their Seal on Lumi. clock: seconds per floor; push: seconds
+// back per hatch-bar hit, Seal hit, head hit or lure called; power: seconds back per Ward or Arrows, per clash, and half that
+// per capsule caught; surge: seconds forward per swallowed ball (half per ward plate fed onto the Seal).
 export const RIVALS_MODES = {
-  easy: { hatch: 2, seal2: 10, seal: 16, wardCap: 2, clash: 6, dizzyHit: 3, interval: 7, tell: 1.7, lureTell: 1.1, window: 1.6, chain: 1, coreHits: 16, spit: true },
-  medium: { hatch: 2, seal2: 12, seal: 20, wardCap: 4, clash: 5, dizzyHit: 3, interval: 6, tell: 1.45, lureTell: .95, window: 1.3, chain: 2, coreHits: 20 },
-  hard: { hatch: 3, seal2: 14, seal: 26, wardCap: 6, clash: 5, dizzyHit: 3, interval: 5, tell: 1.2, lureTell: .8, window: 1, chain: 2, coreHits: 24 },
+  easy: { hatch: 2, seal2: 10, seal: 16, wardCap: 2, clash: 6, dizzyHit: 3, interval: 7, tell: 1.7, lureTell: 1.1, window: 1.6, chain: 1, coreHits: 16, spit: true, clock: [95, 85, 95], push: 4.5, power: 16, surge: 6 },
+  medium: { hatch: 2, seal2: 12, seal: 20, wardCap: 4, clash: 5, dizzyHit: 3, interval: 6, tell: 1.45, lureTell: .95, window: 1.3, chain: 2, coreHits: 20, clock: [60, 70, 80], push: 3.5, power: 14, surge: 7 },
+  hard: { hatch: 3, seal2: 14, seal: 26, wardCap: 6, clash: 5, dizzyHit: 3, interval: 5, tell: 1.2, lureTell: .8, window: 1, chain: 2, coreHits: 24, clock: [50, 60, 70], push: 3, power: 12, surge: 8 },
 };
+export const RIVALS_PURPOSE = { label: 'THE SEAL CLOSES ON LUMI', lost: 'The serpents sealed Lumi in' };
 export const RIVALS_FLOORS = ['Lure hall', 'The crossing', 'Twin Seal'];
 export const SERPENTS = { gnash: { side: 0, skin: 'snake-emerald', name: 'Gnash' }, mooncoil: { side: 1, skin: 'snake', name: 'Mooncoil' } };
 // Lunge shape: the Lumi tower lunge (window, lip, head, segments) with rivals reaches. Distances are from the window centre.
@@ -72,7 +77,7 @@ export class SerpentRivals {
   // ---------- floors ----------
   buildFloor(n) {
     const L = RIVALS_LAYOUT, W = this.width, rows = L.rows[n], bottom = this.paddle.y - L.gapBelow, x0 = (W - (L.cols * L.pitch - (L.pitch - L.bw))) / 2;
-    this.floor = n; this.floorTime = 0; this.active = false; this.phase = 'serve'; this.transition = 0;
+    this.floor = n; this.floorTime = 0; this.active = false; this.phase = 'serve'; this.transition = 0; this.purpose = new PurposeClock(this.rules.clock[n]);
     this.lunges = []; this.capsules = []; this.shots = []; this.nextLunge = 5; this.turn = n === 1 ? 1 : 0;
     this.rowTop = row => bottom - (rows - row) * L.rowPitch + 4;
     this.rowY = row => this.rowTop(row) + L.bh / 2;
@@ -126,7 +131,7 @@ export class SerpentRivals {
   }
   activate(id = 'ward') {
     if (!this.canActivate(id)) return false;
-    this.charge = 0; this.chargeBank = 0;
+    this.charge = 0; this.chargeBank = 0; this.purpose.push(this.rules.power, this.time);
     if (id === 'volley') { this.volley = { time: RIVALS_TIMING.volley, remaining: RIVALS_TIMING.arrows, next: 0 }; this.effect(this.paddle.x, this.paddle.y, 'volley', .5); }
     else { this.ward = { y: this.paddle.y + 24, remaining: RIVALS_TIMING.ward }; this.effect(this.width / 2, this.ward.y, 'ward-deploy', .4); }
     return true;
@@ -150,6 +155,7 @@ export class SerpentRivals {
     }
     if (!this.active) return;
     this.time += dt; this.floorTime += dt;
+    if (this.purpose.tick(dt)) return this.lose(RIVALS_PURPOSE.lost);
     const credit = Math.min(this.chargeBank, dt, (100 - this.charge) * this.rules.coreHits / 100);
     this.chargeBank -= credit; this.charge = Math.min(100, this.charge + credit / this.rules.coreHits * 100);
     if (this.charge > 100 - 1e-7) { this.charge = 100; this.chargeBank = 0; }
@@ -205,7 +211,7 @@ export class SerpentRivals {
     this.lunges.push(this.makeLunge(win, { teaching })); this.turn++;
     // A chain primes the rival's window shortly after (Medium/Hard), then the hall rests for the interval.
     const other = freeSnakes.find(s => s !== snake), scheduled = this.lunges.filter(l => !l.lured).length;
-    this.nextLunge = this.floorTime + (other && scheduled < this.rules.chain ? RIVALS_TIMING.chainGap : this.rules.interval);
+    this.nextLunge = this.floorTime + (other && scheduled < this.rules.chain ? RIVALS_TIMING.chainGap : this.rules.interval * this.purpose.pace);
   }
   makeLunge(win, { teaching = false, lured = false } = {}) {
     const l = { id: ++this.serial, snake: win.snake, win, teaching, lured, stage: 'peek', t: 0, mood: 'blink', done: false, swallowed: false,
@@ -275,7 +281,7 @@ export class SerpentRivals {
     this.effect(c.cx, c.cy, 'clash', RIVAL_LUNGE.snap + RIVAL_LUNGE.recoil, { teaching, heads: [a.head, b.head].map(h => ({ x: h.x, y: h.y })) });
     this.nextLunge = Math.max(this.nextLunge, this.floorTime + RIVAL_LUNGE.snap + RIVAL_LUNGE.recoil + RIVAL_LUNGE.dizzy + RIVAL_LUNGE.retreat + 1.5);
     if (teaching) return;
-    this.clashes++; this.score += 200;
+    this.clashes++; this.score += 200; this.purpose.push(this.rules.power, this.time);
     this.capsules.push({ id: ++this.serial, kind: CAPSULE_KINDS[this.capsuleSerial++ % CAPSULE_KINDS.length], x: c.cx, y: c.cy + 10, dead: false });
     if (this.seal) { if (this.seal.ward) this.effect(this.seal.x + this.seal.w / 2, this.seal.y + 15, 'ward-shatter', .6, { plates: this.seal.ward }); this.seal.ward = 0; this.damageSeal(this.rules.clash, 'clash'); }
   }
@@ -287,7 +293,7 @@ export class SerpentRivals {
     const reach = h.r + RIVAL_LUNGE.bite;
     for (const b of this.bricks) if (b.hp > 0 && b.type === 'brick' && b.sp !== 'armour' && h.x + reach > b.x && h.x - reach < b.x + b.w && h.y >= b.y - 2 && h.y <= b.y + b.h + 2) {
       b.hp = 0; this.eaten++; this.effect(b.x + b.w / 2, b.y + b.h / 2, 'chomp', .45, { colour: b.colour, w: b.w, h: b.h, snake: l.snake });
-      if (this.seal && this.seal.ward < this.rules.wardCap) { this.seal.ward++; this.effect(b.x + b.w / 2, b.y + b.h / 2, 'seal-feed', .7, { to: { x: this.seal.x + this.seal.w / 2, y: this.seal.y + 15 }, snake: l.snake, ward: this.seal.ward }); }
+      if (this.seal && this.seal.ward < this.rules.wardCap) { this.seal.ward++; this.purpose.surge(this.rules.surge / 2, this.time); this.effect(b.x + b.w / 2, b.y + b.h / 2, 'seal-feed', .7, { to: { x: this.seal.x + this.seal.w / 2, y: this.seal.y + 15 }, snake: l.snake, ward: this.seal.ward }); }
     }
   }
   // A lure glows while its serpent is home and rested; striking it calls that serpent onto its lure window now.
@@ -299,7 +305,7 @@ export class SerpentRivals {
     this.score += 15; this.effect(lure.x + lure.w / 2, lure.y + lure.h / 2, lure.lit ? 'lure-call' : 'lure-dim', lure.lit ? .6 : .2, { snake: lure.snake });
     if (!lure.lit) return false;
     const win = this.windows.find(w => w.snake === lure.snake && w.row === lure.lane); if (!win) return false;
-    lure.lit = false; lure.cool = RIVALS_TIMING.lureCool + this.rules.lureTell + RIVAL_LUNGE.lurePeek + RIVAL_LUNGE.strike + this.rules.window + RIVAL_LUNGE.retreat;
+    lure.lit = false; this.purpose.push(this.rules.push, this.time); lure.cool = RIVALS_TIMING.lureCool + this.rules.lureTell + RIVAL_LUNGE.lurePeek + RIVAL_LUNGE.strike + this.rules.window + RIVAL_LUNGE.retreat;
     this.lunges.push(this.makeLunge(win, { lured: true, teaching: !this.snakes[lure.snake].taught })); this.snakes[lure.snake].taught = true;
     // Calling a serpent resets the hall's rhythm: the next scheduled lunge waits a full interval.
     this.nextLunge = Math.max(this.nextLunge, this.floorTime + this.rules.interval * .6); return true;
@@ -373,7 +379,7 @@ export class SerpentRivals {
   }
   // Easy: the serpent spits the ball back onto the paddle (no life lost; streak and ram lost). Medium/Hard: the ball is gone.
   swallow(b, l) {
-    b.dead = true; l.swallowed = true; l.mood = 'grin'; this.bites++; this.paddle.streak = 0;
+    b.dead = true; l.swallowed = true; l.mood = 'grin'; this.bites++; this.paddle.streak = 0; this.purpose.surge(this.rules.surge, this.time);
     this.effect(b.x, b.y, 'swallow', .8, { snake: l.snake });
     // The spat ball replaces the dead ones at once: the serve reads balls[0] on the very next step.
     if (this.rules.spit && this.balls.filter(q => !q.dead).length === 0) { this.balls = [this.newBall(this.paddle.x, this.paddle.y - 8, 0, 0, true)]; this.phase = 'serve'; this.serveTime = 0; }
@@ -382,26 +388,26 @@ export class SerpentRivals {
     const h = l.points[0] || l.head;
     if (l.stage === 'dizzy' && this.seal) {
       // A dizzy head is bound to the Seal: the hit lands on it, through any ward.
-      this.score += 75; this.effect(h.x, h.y, 'dizzy-hit', .6, { snake: l.snake }); this.retreat(l, true); this.damageSeal(this.rules.dizzyHit, 'dizzy'); return;
+      this.score += 75; this.purpose.push(this.rules.push, this.time); this.effect(h.x, h.y, 'dizzy-hit', .6, { snake: l.snake }); this.retreat(l, true); this.damageSeal(this.rules.dizzyHit, 'dizzy'); return;
     }
     if (l.stage === 'retreat' || l.stage === 'clash' || l.stage === 'recoil' || l.stage === 'dizzy') return;
-    this.headHits++; this.score += 50; this.chargeBank = Math.min((100 - this.charge) * this.rules.coreHits / 100, this.chargeBank + 2);
+    this.headHits++; this.score += 50; this.purpose.push(this.rules.push, this.time); this.chargeBank = Math.min((100 - this.charge) * this.rules.coreHits / 100, this.chargeBank + 2);
     this.effect(h.x, h.y, 'snake-hurt', .5, { snake: l.snake }); this.retreat(l, true);
     this.nextLunge = Math.max(this.nextLunge, this.floorTime + 2);
   }
   damageSeal(n, source) {
     const s = this.seal; if (!s || s.hp <= 0 || (this.phase !== 'play' && this.phase !== 'serve')) return;
     if (source === 'ball' || source === 'arrow') {
-      if (s.ward > 0) { s.ward--; this.effect(s.x + s.w / 2, s.y + s.h / 2, 'ward-chip', .4, { ward: s.ward }); return; }
+      if (s.ward > 0) { s.ward--; this.purpose.push(this.rules.push, this.time); this.effect(s.x + s.w / 2, s.y + s.h / 2, 'ward-chip', .4, { ward: s.ward }); return; }
       this.score += 30;
     }
-    s.hp = Math.max(0, s.hp - n); s.cracks++;
+    s.hp = Math.max(0, s.hp - n); s.cracks++; if (source === 'ball' || source === 'arrow') this.purpose.push(this.rules.push, this.time);
     this.effect(s.x + s.w / 2, s.y + s.h / 2, 'seal-hit', source === 'clash' ? .9 : .4, { damage: n, source, hp: s.hp });
     if (!s.hp) this.finishFloor();
   }
   hitBrick(brick, ball) {
     if (brick.hp <= 0) return;
-    brick.hp -= brick.type === 'bar' && ball?.ram > 0 ? Math.min(brick.hp, 2) : brick.sp === 'armour' && armourOutright(ball) ? brick.hp : 1; this.score += brick.type === 'bar' ? 20 : 10;
+    brick.hp -= brick.type === 'bar' && ball?.ram > 0 ? Math.min(brick.hp, 2) : brick.sp === 'armour' && armourOutright(ball) ? brick.hp : 1; this.score += brick.type === 'bar' ? 20 : 10; if (brick.type === 'bar') this.purpose.push(this.rules.push, this.time);
     if (!(ball?.ram > 0) && !ball?.arrow) this.chargeBank = Math.min((100 - this.charge) * this.rules.coreHits / 100, this.chargeBank + 1);
     this.effect(brick.x + brick.w / 2, brick.y + brick.h / 2, brick.hp ? 'brick-hit' : 'brick-break', brick.hp ? .35 : .7, { colour: brick.colour, w: brick.w, h: brick.h, type: brick.type });
     if (!brick.hp && brick.sp) brickSpecial(this, brick, ball, MINE_R, blastable);
@@ -434,7 +440,7 @@ export class SerpentRivals {
     else if (c.y > p.y + 30) c.dead = true;
   }
   collect(kind) {
-    const p = this.paddle; this.effect(p.x, p.y, 'capsule-' + kind, .5);
+    const p = this.paddle; this.effect(p.x, p.y, 'capsule-' + kind, .5); this.purpose.push(this.rules.power / 2, this.time);
     if (kind === 'wide') { p.w = 140; p.wide = RIVALS_TIMING.wide; }
     if (kind === 'ram') p.armed = true;
     if (kind === 'multi' && this.balls.length < 4) { const a = -Math.PI / 2 - .5; this.balls.push(this.newBall(p.x, p.y - 8, Math.cos(a) * SPEED, Math.sin(a) * SPEED)); }
@@ -445,7 +451,7 @@ export class SerpentRivals {
     if (this.continued || this.state !== 'lost') return false;
     this.continued = true; this.state = 'play'; this.reason = ''; this.lives = Math.max(2, this.lives);
     this.lunges = []; this.capsules = []; this.shots = []; this.volley = null; this.teachClash = false;
-    this.nextLunge = this.floorTime + 3; for (const l of this.lures) l.cool = 0; this.updateLures(); this.makeServe();
+    this.nextLunge = this.floorTime + 3; this.purpose.rewind(); for (const l of this.lures) l.cool = 0; this.updateLures(); this.makeServe();
     this.ward = { y: this.paddle.y + 24, remaining: BACK_WARD }; this.active = false; this.backHold = true; return true;
   }
   // Continue panel copy: floor 1's hatch bars, then the Twin Seal's HP; progress runs over all three floors.

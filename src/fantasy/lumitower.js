@@ -3,6 +3,7 @@ import { circleSweep, reflect } from './bellforge.js';
 import { SPEED, BALL_R, BACK_WARD, paddleBounce, tickRam, ramThrough } from './ram.js';
 import { plural } from '../near-miss.js';
 import { tagSpecials, brickSpecial, armourOutright } from '../castle-specials.js';
+import { PurposeClock } from './purpose.js';
 
 // Lumi Breaks Out: Lumi holds the paddle and climbs the Menagerie tower. Floor 1 is her cell (teach), floor 2 the serpent
 // windows, floor 3 the roof bell. Gnash lunges out of side-wall windows: every lunge starts at a fixed origin inside the
@@ -10,11 +11,15 @@ import { tagSpecials, brickSpecial, armourOutright } from '../castle-specials.js
 const STEP = 1 / 240;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const ease = t => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
+// Purpose clock (src/fantasy/purpose.js): Gnash coils up the tower toward Lumi. clock: seconds per floor; push: seconds back
+// per hatch-bar hit, bell ring, head hit or Song Shield block; power: seconds back per song (half for a Starlight note
+// caught); surge: seconds forward per bite.
 export const LUMI_MODES = {
-  easy: { hatch: 2, rings: 5, interval: 7, tell: 1.6, chain: 1, coreHits: 16, spit: true },
-  medium: { hatch: 2, rings: 6, interval: 6.5, tell: 1.4, chain: 2, coreHits: 20 },
-  hard: { hatch: 3, rings: 7, interval: 5, tell: 1.2, chain: 2, coreHits: 24 },
+  easy: { hatch: 2, rings: 5, interval: 7, tell: 1.6, chain: 1, coreHits: 16, spit: true, clock: [60, 70, 70], push: 5, power: 18, surge: 6 },
+  medium: { hatch: 2, rings: 6, interval: 6.5, tell: 1.4, chain: 2, coreHits: 20, clock: [50, 60, 60], push: 4, power: 15, surge: 7 },
+  hard: { hatch: 3, rings: 7, interval: 5, tell: 1.2, chain: 2, coreHits: 24, clock: [42, 52, 52], push: 3, power: 13, surge: 8 },
 };
+export const LUMI_PURPOSE = { label: 'GNASH COILS UP TO LUMI', lost: 'Gnash coiled up the tower and caught Lumi' };
 export const LUMI_FLOORS = ['The cell', 'Serpent windows', 'Roof race'];
 // peek: eyes in the recess; hiss: the warned tell (mode length); strike: the bite along the row; chew; retreat head first.
 // Windows sit in the side walls (centre 24u from the edge, drawn 44x53u from the layered window kit); bricks keep to the middle six
@@ -45,7 +50,7 @@ export class LumiTower {
   }
   buildFloor(n) {
     const W = this.width, bottom = this.paddle.y - 210, rules = this.rules;
-    this.floor = n; this.floorTime = 0; this.active = false; this.phase = 'serve'; this.transition = 0;
+    this.floor = n; this.floorTime = 0; this.active = false; this.phase = 'serve'; this.transition = 0; this.purpose = new PurposeClock(rules.clock[n]);
     this.lunges = []; this.capsules = []; this.bell = null; this.nextLunge = 5; this.teachingDone = n !== 1;
     const rows = n === 0 ? 4 : 6, bricks = [];
     this.rowY = row => bottom - (rows - row) * 22 + 6 + 9;
@@ -83,7 +88,7 @@ export class LumiTower {
   }
   activate(id) {
     if (!this.canActivate(id)) return false;
-    this.charge = 0; this.chargeBank = 0;
+    this.charge = 0; this.chargeBank = 0; this.purpose.push(this.rules.power, this.time);
     if (id === 'lullaby') { this.calm = LUMI_TIMING.calm; this.nextLunge = Math.max(this.nextLunge, this.floorTime + LUMI_TIMING.calm + 1.5); for (const l of this.lunges) this.retreat(l, false); this.effect(this.width / 2, 300, 'lullaby', .9); }
     if (id === 'songshield') { this.shield = { remaining: LUMI_TIMING.shield, used: false }; this.effect(this.paddle.x, this.paddle.y, 'songshield', .6); }
     if (id === 'starlight') { this.notes = LUMI_TIMING.notes; this.effect(this.paddle.x, this.paddle.y, 'starlight', .6); }
@@ -108,6 +113,7 @@ export class LumiTower {
     }
     if (!this.active) return;
     this.time += dt; this.floorTime += dt;
+    if (this.purpose.tick(dt)) return this.lose(LUMI_PURPOSE.lost);
     const credit = Math.min(this.chargeBank, dt, (100 - this.charge) * this.rules.coreHits / 100);
     this.chargeBank -= credit; this.charge = Math.min(100, this.charge + credit / this.rules.coreHits * 100);
     if (this.charge > 100 - 1e-7) { this.charge = 100; this.chargeBank = 0; }
@@ -148,8 +154,8 @@ export class LumiTower {
     const teaching = !this.teachingDone; this.teachingDone = true;
     this.lunges.push(this.makeLunge(win, teaching));
     // A chain primes a second window shortly after the first, on the other wall when possible.
-    this.nextLunge = this.floorTime + (this.lunges.length < this.rules.chain ? 1.2 : this.rules.interval);
-    if (this.lunges.length >= this.rules.chain) this.nextLunge = this.floorTime + this.rules.interval;
+    this.nextLunge = this.floorTime + (this.lunges.length < this.rules.chain ? 1.2 : this.rules.interval * this.purpose.pace);
+    if (this.lunges.length >= this.rules.chain) this.nextLunge = this.floorTime + this.rules.interval * this.purpose.pace;
   }
   makeLunge(win, teaching = false) {
     const l = { id: ++this.serial, win, teaching, stage: 'peek', t: 0, mood: 'blink', done: false, swallowed: false, head: { x: win.originX, y: win.y }, reach: 0, prev: null };
@@ -181,7 +187,7 @@ export class LumiTower {
       // Song Shield: the barrier stands just outside the window and stops one bite.
       if (this.shield && !this.shield.used) { l.reach = LUNGE.out + 40; l.shielded = true; }
     } else if (l.stage === 'strike' && l.t >= LUNGE.strike) {
-      if (l.shielded) { this.shield.used = true; this.shield.remaining = Math.min(this.shield.remaining, .4); this.effect(l.points[0].x, l.win.y, 'shield-block', .5); this.retreat(l, true); }
+      if (l.shielded) { this.shield.used = true; this.purpose.push(this.rules.push, this.time); this.shield.remaining = Math.min(this.shield.remaining, .4); this.effect(l.points[0].x, l.win.y, 'shield-block', .5); this.retreat(l, true); }
       else { l.stage = 'chew'; l.t = 0; l.mood = l.swallowed ? 'grin' : 'chew'; }
     } else if (l.stage === 'chew' && l.t >= LUNGE.chew) this.retreat(l, false);
     else if (l.stage === 'retreat' && l.t >= LUNGE.retreat) l.done = true;
@@ -266,23 +272,23 @@ export class LumiTower {
   }
   // Easy: Gnash spits the ball back onto the paddle (no life lost, streak and ram lost). Medium/Hard: the ball is gone.
   swallow(b, l) {
-    b.dead = true; l.swallowed = true; l.mood = 'grin'; this.bites++; this.paddle.streak = 0;
+    b.dead = true; l.swallowed = true; l.mood = 'grin'; this.bites++; this.paddle.streak = 0; this.purpose.surge(this.rules.surge, this.time);
     this.effect(b.x, b.y, 'swallow', .8);
     if (this.rules.spit && this.balls.filter(q => !q.dead).length === 0) { const r = this.newBall(this.paddle.x, this.paddle.y - 8, 0, 0, true); this.balls = [r]; /* the spat ball is the only one, so serve and launch act on it */ this.phase = 'serve'; this.serveTime = 0; }
   }
   hitHead(l) {
-    this.headHits++; this.score += 50; this.chargeBank = Math.min((100 - this.charge) * this.rules.coreHits / 100, this.chargeBank + 2);
+    this.headHits++; this.score += 50; this.purpose.push(this.rules.push, this.time); this.chargeBank = Math.min((100 - this.charge) * this.rules.coreHits / 100, this.chargeBank + 2);
     this.effect(l.points[0].x, l.points[0].y, 'snake-hurt', .5); this.retreat(l, true);
     this.nextLunge = Math.max(this.nextLunge, this.floorTime + 2);
   }
   ringBell() {
-    const bell = this.bell; bell.rings++; bell.swing = 1; this.score += 40;
+    const bell = this.bell; bell.rings++; bell.swing = 1; this.score += 40; this.purpose.push(this.rules.push, this.time);
     this.effect(bell.x, bell.y, 'bell-ring', .6, { rings: bell.rings });
     if (bell.rings >= bell.need) this.finishFloor();
   }
   hitBrick(brick, ball) {
     if (brick.hp <= 0) return;
-    brick.hp = brick.sp === 'armour' && armourOutright(ball) ? 0 : brick.hp - 1; this.score += brick.type === 'bar' ? 20 : 10;
+    brick.hp = brick.sp === 'armour' && armourOutright(ball) ? 0 : brick.hp - 1; this.score += brick.type === 'bar' ? 20 : 10; if (brick.type === 'bar') this.purpose.push(this.rules.push, this.time);
     if (!(ball?.ram > 0)) this.chargeBank = Math.min((100 - this.charge) * this.rules.coreHits / 100, this.chargeBank + 1);
     this.effect(brick.x + brick.w / 2, brick.y + brick.h / 2, brick.hp ? 'brick-hit' : 'brick-break', brick.hp ? .35 : .7, { colour: brick.colour, w: brick.w, h: brick.h, type: brick.type });
     if (!brick.hp && brick.sp) brickSpecial(this, brick, ball, MINE_R, blastable);
@@ -296,7 +302,7 @@ export class LumiTower {
     else if (c.y > p.y + 30) c.dead = true;
   }
   collect(kind) {
-    const p = this.paddle; this.effect(p.x, p.y, 'note-' + kind, .5);
+    const p = this.paddle; this.effect(p.x, p.y, 'note-' + kind, .5); this.purpose.push(this.rules.power / 2, this.time);
     if (kind === 'wide') { p.w = 140; p.wide = LUMI_TIMING.wide; }
     if (kind === 'ram') p.armed = true;
     if (kind === 'multi' && this.balls.length < 4) { const a = -Math.PI / 2 - .5; this.balls.push(this.newBall(p.x, p.y - 8, Math.cos(a) * SPEED, Math.sin(a) * SPEED)); }
@@ -305,7 +311,7 @@ export class LumiTower {
   continue() {
     if (this.continued || this.state !== 'lost') return false;
     this.continued = true; this.state = 'play'; this.reason = ''; this.lives = Math.max(2, this.lives);
-    this.lunges = []; this.capsules = []; this.nextLunge = this.floorTime + 3; this.makeServe();
+    this.lunges = []; this.capsules = []; this.nextLunge = this.floorTime + 3; this.purpose.rewind(); this.makeServe();
     this.ward = { y: this.paddle.y + 24, remaining: BACK_WARD }; this.active = false; this.backHold = true; return true;
   }
   // Continue panel copy: hits left on the hatch bars, then rings left on the roof bell; progress runs over all three floors.

@@ -6,6 +6,7 @@ import { Sitter } from './creatures/sitter.js';
 import { EMBER } from './creatures/ember.js';
 import { ejectBall } from '../clearance.js';
 import { tagSpecials, mineBlast, armourOutright } from '../castle-specials.js';
+import { PurposeClock } from './purpose.js';
 
 // Dragon's Hoard: Kit robs Ember, a vain dragon asleep on his hoard behind the cave ledge (scenery: the ledge is the
 // ceiling, Ember never collides). Gold opens Ember's Wake eye; Hush Chimes close it. Floor 1 hides the Crown chest in the
@@ -20,11 +21,15 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 // wakeAt: gold units (coin 1, chest 2) from a closed eye to 100. chime: eye points a lit Hush Chime takes back.
 // Ember's tell, release and calm are his skin's numbers. roar: floor-2 roar interval. hazard: floor-3 breath/roar interval. march: floor-3 slide interval.
 // crown / weight / gate: goal HP. molten: seconds before molten gold hardens. stay: eye points per second while greedy.
+// clock / push / power / surge: the purpose clock (src/fantasy/purpose.js), Ember waking to swallow his hoard and Lumi with
+// it: seconds per floor; seconds back per lit Hush Chime struck, Crown chest, counterweight or gate hit; seconds back per Ward
+// or Arrows (half per capsule caught); seconds forward per wake roar or avalanche crash.
 export const HOARD_MODES = {
-  easy: { wakeAt: 12, chime: 25, roar: 9.5, hazard: 7.5, march: 5.6, crown: 5, weight: 4, gate: 12, molten: 5, stay: 1.6, coreHits: 18 },
-  medium: { wakeAt: 10, chime: 25, roar: 8.5, hazard: 6.5, march: 4.4, crown: 6, weight: 5, gate: 16, molten: 4, stay: 2.2, coreHits: 22 },
-  hard: { wakeAt: 8, chime: 20, roar: 7.5, hazard: 5.5, march: 3.9, crown: 7, weight: 6, gate: 20, molten: 3.2, stay: 2.8, coreHits: 26 },
+  easy: { wakeAt: 12, chime: 25, roar: 9.5, hazard: 7.5, march: 5.6, crown: 5, weight: 4, gate: 12, molten: 5, stay: 1.6, coreHits: 18, clock: [70, 80, 80], push: 5, power: 18, surge: 6 },
+  medium: { wakeAt: 10, chime: 25, roar: 8.5, hazard: 6.5, march: 4.4, crown: 6, weight: 5, gate: 16, molten: 4, stay: 2.2, coreHits: 22, clock: [60, 70, 70], push: 4, power: 15, surge: 7 },
+  hard: { wakeAt: 8, chime: 20, roar: 7.5, hazard: 5.5, march: 3.9, crown: 7, weight: 6, gate: 20, molten: 3.2, stay: 2.8, coreHits: 26, clock: [50, 60, 60], push: 3, power: 13, surge: 8 },
 };
+export const HOARD_PURPOSE = { label: 'EMBER SWALLOWS LUMI', lost: 'Ember woke and swallowed the hoard, and Lumi with it' };
 export const HOARD_FLOORS = ['Coin mound', 'Ember stirs', 'Avalanche'];
 export const HOARD_TIMING = { climb: 1.2, escape: 2.6, ward: 6, volley: 2.5, arrows: 5, wide: 8, chimeCool: 8, scorch: 3, stripe: 72,
   reset: 40, yawn: 6, slide: .35, lift: .6, liftRows: 3, firstHazard: 5 };
@@ -111,7 +116,7 @@ export class DragonsHoard {
   colX(col) { const L = HOARD_LAYOUT; return (this.width - (L.cols * L.pitch - (L.pitch - L.bw))) / 2 + col * L.pitch; }
   buildFloor(n) {
     const L = HOARD_LAYOUT, map = HOARD_MAPS[n], rows = map.length, C = L.ceiling;
-    this.floor = n; this.floorTime = 0; this.active = false; this.phase = 'serve'; this.transition = 0;
+    this.floor = n; this.floorTime = 0; this.active = false; this.phase = 'serve'; this.transition = 0; this.purpose = new PurposeClock(this.rules.clock[n]);
     this.capsules = []; this.shots = []; this.slide = null; this.fieldDy = 0; this.march = null; this.gate = null; this.transitionKind = '';
     this.ember = new Sitter(EMBER, this.difficulty);
     this.nextHazard = n === 0 ? Infinity : HOARD_TIMING.firstHazard + (n === 1 ? 1 : 0);
@@ -163,7 +168,7 @@ export class DragonsHoard {
   }
   activate(id = 'ward') {
     if (!this.canActivate(id)) return false;
-    this.charge = 0; this.chargeBank = 0;
+    this.charge = 0; this.chargeBank = 0; this.purpose.push(this.rules.power, this.time);
     if (id === 'volley') { this.volley = { time: HOARD_TIMING.volley, remaining: HOARD_TIMING.arrows, next: 0 }; this.effect(this.paddle.x, this.paddle.y, 'volley', .5); }
     else { this.ward = { y: this.paddle.y + 24, remaining: HOARD_TIMING.ward }; this.effect(this.width / 2, this.ward.y, 'ward-deploy', .4); }
     return true;
@@ -213,6 +218,7 @@ export class DragonsHoard {
     }
     if (!this.active) return;
     this.time += dt; this.floorTime += dt;
+    if (this.purpose.tick(dt)) return this.lose(HOARD_PURPOSE.lost);
     const credit = Math.min(this.chargeBank, dt, (100 - this.charge) * this.rules.coreHits / 100);
     this.chargeBank -= credit; this.charge = Math.min(100, this.charge + credit / this.rules.coreHits * 100);
     if (this.charge > 100 - 1e-7) { this.charge = 100; this.chargeBank = 0; }
@@ -295,8 +301,8 @@ export class DragonsHoard {
     }
     if (row !== null && !e.teaching) this.melt(row);
     if (row !== null) this.effect(this.width / 2, this.rowY(row), 'breath', .7, { row, teaching: e.teaching });
-    if (e.kind === 'wake') { this.wake = HOARD_TIMING.reset; this.wakes++; }
-    else this.nextHazard = this.floorTime + e.n.release + (this.floor === 2 ? this.rules.hazard : this.rules.roar * (this.greed ? .8 : 1));
+    if (e.kind === 'wake') { this.wake = HOARD_TIMING.reset; this.wakes++; this.purpose.surge(this.rules.surge, this.time); }
+    else this.nextHazard = this.floorTime + e.n.release + (this.floor === 2 ? this.rules.hazard : this.rules.roar * (this.greed ? .8 : 1)) * this.purpose.pace;
     if (e.teaching) this.effect(this.width / 2, this.ceiling + 20, 'yawn', 1.2);
   }
   rowsWith(set) { const rows = new Map(); for (const b of this.bricks) if (b.hp > 0 && b.field && set.has(b.kind)) rows.set(b.row, (rows.get(b.row) || 0) + 1); return rows; }
@@ -325,7 +331,7 @@ export class DragonsHoard {
   updateMarch(dt) {
     const m = this.march;
     if (this.slide) this.updateSlide(dt);
-    else if (this.floorTime >= m.next) { this.startSlide(HOARD_LAYOUT.rowPitch, HOARD_TIMING.slide); m.next = this.floorTime + this.rules.march * RAGE.march[this.rage]; this.effect(this.width / 2, this.fieldBottom(), 'slide', .5); }
+    else if (this.floorTime >= m.next) { this.startSlide(HOARD_LAYOUT.rowPitch, HOARD_TIMING.slide); m.next = this.floorTime + this.rules.march * RAGE.march[this.rage] * this.purpose.pace; this.effect(this.width / 2, this.fieldBottom(), 'slide', .5); }
   }
   startSlide(dist, time) { this.slide = { left: dist, speed: Math.abs(dist) / time }; }
   updateSlide(dt) {
@@ -348,7 +354,7 @@ export class DragonsHoard {
   }
   // The hoard reached the line: Kit loses a ball's worth of life and the pile is shoved back up three rows.
   crash() {
-    this.lives--; this.ember.feel('crash', this.time); this.effect(this.width / 2, this.dangerY, 'avalanche', .9);
+    this.lives--; this.ember.feel('crash', this.time); this.purpose.surge(this.rules.surge, this.time); this.effect(this.width / 2, this.dangerY, 'avalanche', .9);
     if (this.lives <= 0) { this.lose('The hoard buried Kit'); return; }
     this.startSlide(-Math.min(HOARD_TIMING.liftRows * HOARD_LAYOUT.rowPitch, this.fieldDy), HOARD_TIMING.lift);
     this.march.next = Math.max(this.march.next, this.floorTime + HOARD_TIMING.lift + this.rules.march);
@@ -413,7 +419,7 @@ export class DragonsHoard {
     const free = !(ball?.ram > 0) && !ball?.arrow, cx = brick.x + brick.w / 2, cy = brick.y + brick.h / 2, fx = { w: brick.w, h: brick.h, colour: brick.colour, type: brick.kind };
     if (brick.kind === 'chime') return this.strikeChime(brick);
     if (brick.kind === 'crown' || brick.kind === 'weight') {
-      const n = Math.min(brick.hp, ball?.ram > 0 ? RAM.damage : 1); brick.hp -= n; this.score += 25 * n; this.ember.feel('treasure', this.time);
+      const n = Math.min(brick.hp, ball?.ram > 0 ? RAM.damage : 1); brick.hp -= n; this.score += 25 * n; this.purpose.push(this.rules.push, this.time); this.ember.feel('treasure', this.time);
       if (free) this.credit(1);
       this.effect(cx, cy, brick.hp ? `${brick.kind}-hit` : `${brick.kind}-break`, brick.hp ? .4 : 1, { ...fx, hp: brick.hp, maxHP: brick.maxHP });
       if (brick.hp) return;
@@ -445,7 +451,7 @@ export class DragonsHoard {
   strikeChime(c) {
     this.score += 15; this.effect(c.x + c.w / 2, c.y + c.h / 2, c.lit ? 'chime' : 'chime-dim', c.lit ? 1.2 : .25);
     if (!c.lit) return false;
-    c.lit = false; c.cool = HOARD_TIMING.chimeCool; this.ember.feel('chime', this.time);
+    c.lit = false; c.cool = HOARD_TIMING.chimeCool; this.purpose.push(this.rules.push, this.time); this.ember.feel('chime', this.time);
     this.wake = Math.max(0, this.wake - this.rules.chime);
     // A lullaby calms him; during a tell it settles him: the roar fizzles, nothing lands.
     if (this.ember.hush(this.floorTime)) { this.nextHazard = Math.max(this.nextHazard, this.floorTime + 3); this.effect(this.width / 2, this.ceiling + 20, 'hush', 1); }
@@ -453,7 +459,7 @@ export class DragonsHoard {
   }
   hitGate(n, x = this.width / 2) {
     const g = this.gate; if (!g || g.hp <= 0) return;
-    g.hp = Math.max(0, g.hp - n); this.score += 30 * n; this.ember.feel('treasure', this.time);
+    g.hp = Math.max(0, g.hp - n); this.score += 30 * n; this.purpose.push(this.rules.push, this.time); this.ember.feel('treasure', this.time);
     this.effect(x, this.ceiling, g.hp ? 'gate-hit' : 'gate-break', g.hp ? .45 : 1.2, { hp: g.hp });
     if (!g.hp) this.finishFloor('gate');
   }
@@ -482,7 +488,7 @@ export class DragonsHoard {
     else if (c.y > p.y + 30) c.dead = true;
   }
   collect(kind) {
-    const p = this.paddle; this.effect(p.x, p.y, 'capsule-' + kind, .5);
+    const p = this.paddle; this.effect(p.x, p.y, 'capsule-' + kind, .5); this.purpose.push(this.rules.power / 2, this.time);
     if (kind === 'wide') p.wide = HOARD_TIMING.wide;
     if (kind === 'ram') p.armed = true;
     if (kind === 'multi' && this.balls.length < 4) { const a = -Math.PI / 2 - .5; this.balls.push(this.newBall(p.x, p.y - 8, Math.cos(a) * SPEED, Math.sin(a) * SPEED)); }
@@ -494,7 +500,7 @@ export class DragonsHoard {
     if (this.continued || this.state !== 'lost') return false;
     this.continued = true; this.state = 'play'; this.reason = ''; this.lives = Math.max(2, this.lives);
     this.capsules = []; this.shots = []; this.volley = null; this.paddle.scorch = 0; this.slide = null;
-    this.ember.reset();
+    this.ember.reset(); this.purpose.rewind();
     if (this.floor < 2) this.wake = Math.min(this.wake, 100 - this.rules.chime);
     this.nextHazard = Math.max(this.nextHazard, this.floorTime + 3);
     if (this.march) this.march.next = Math.max(this.march.next, this.floorTime + 3 + this.rules.march);
