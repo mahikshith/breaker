@@ -1,0 +1,910 @@
+{
+  "version": 1,
+  "status": "New rendered expression keyposes; native runtime verification pending",
+  "source": "art/snake-emerald/source/heads-v1.png",
+  "sourceSHA256": "ce924290a0c5cc2670d492d40eb75f0fb8241aa686af220a5c291b60833d3952",
+  "meta": "assets/snake-emerald/meta.json",
+  "metaSHA256": "f8e9f9f937740e9096ba1c173de2ea378263572fed402c203a1bfad92ea12977",
+  "unit": 44,
+  "cell": 256,
+  "pivot": [
+    0.5,
+    0.5
+  ],
+  "authoredExpressions": [
+    "idle",
+    "blink",
+    "taste",
+    "hunt",
+    "chew0",
+    "chew1",
+    "hiss",
+    "ouch",
+    "dizzy",
+    "grin"
+  ],
+  "aliases": {
+    "shock": "idle",
+    "snarl": "hunt",
+    "strike": "hiss"
+  },
+  "normalization": {
+    "idle": {
+      "sourceCell": [
+        0,
+        0,
+        512,
+        302
+      ],
+      "sourceCore": [
+        285,
+        154
+      ],
+      "sourceMouth": [
+        440,
+        227
+      ],
+      "scale": 0.33
+    },
+    "blink": {
+      "sourceCell": [
+        512,
+        0,
+        1024,
+        302
+      ],
+      "sourceCore": [
+        790,
+        154
+      ],
+      "sourceMouth": [
+        926,
+        226
+      ],
+      "scale": 0.33
+    },
+    "taste": {
+      "sourceCell": [
+        0,
+        302,
+        512,
+        602
+      ],
+      "sourceCore": [
+        285,
+        448
+      ],
+      "sourceMouth": [
+        434,
+        519
+      ],
+      "scale": 0.33
+    },
+    "hunt": {
+      "sourceCell": [
+        512,
+        302,
+        1024,
+        602
+      ],
+      "sourceCore": [
+        790,
+        448
+      ],
+      "sourceMouth": [
+        937,
+        521
+      ],
+      "scale": 0.33
+    },
+    "chew0": {
+      "sourceCell": [
+        0,
+        602,
+        512,
+        897
+      ],
+      "sourceCore": [
+        285,
+        744
+      ],
+      "sourceMouth": [
+        380,
+        790
+      ],
+      "scale": 0.33
+    },
+    "chew1": {
+      "sourceCell": [
+        512,
+        602,
+        1024,
+        897
+      ],
+      "sourceCore": [
+        790,
+        744
+      ],
+      "sourceMouth": [
+        934,
+        826
+      ],
+      "scale": 0.33
+    },
+    "hiss": {
+      "sourceCell": [
+        0,
+        897,
+        512,
+        1205
+      ],
+      "sourceCore": [
+        285,
+        1043
+      ],
+      "sourceMouth": [
+        365,
+        1090
+      ],
+      "scale": 0.33
+    },
+    "ouch": {
+      "sourceCell": [
+        512,
+        897,
+        1024,
+        1205
+      ],
+      "sourceCore": [
+        790,
+        1043
+      ],
+      "sourceMouth": [
+        916,
+        1111
+      ],
+      "scale": 0.33
+    },
+    "dizzy": {
+      "sourceCell": [
+        0,
+        1205,
+        512,
+        1536
+      ],
+      "sourceCore": [
+        285,
+        1341
+      ],
+      "sourceMouth": [
+        400,
+        1442
+      ],
+      "scale": 0.33
+    },
+    "grin": {
+      "sourceCell": [
+        512,
+        1205,
+        1024,
+        1536
+      ],
+      "sourceCore": [
+        790,
+        1341
+      ],
+      "sourceMouth": [
+        921,
+        1425
+      ],
+      "scale": 0.33
+    }
+  },
+  "parts": {
+    "idle_r": {
+      "path": "assets/snake-emerald/head_idle_r.png",
+      "sha256": "b8bafff43894f49b04d55a3d36650ac6746a350fab319b4f1ff3c4686ccb0de9",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "idle",
+      "mirrored": false,
+      "alphaBounds": [
+        68,
+        93,
+        187,
+        163
+      ],
+      "solidBounds": [
+        68,
+        93,
+        186,
+        162
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        29.4078125,
+        17.19609375
+      ],
+      "bytes": 20253
+    },
+    "idle_l": {
+      "path": "assets/snake-emerald/head_idle_l.png",
+      "sha256": "839ae0f9b8e8744283737178f1c61e4b6ea670ea12d01b0ef7baa4579ded4c8a",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "idle",
+      "mirrored": true,
+      "alphaBounds": [
+        69,
+        93,
+        188,
+        163
+      ],
+      "solidBounds": [
+        70,
+        93,
+        188,
+        162
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        29.4078125,
+        17.19609375
+      ],
+      "bytes": 20148
+    },
+    "blink_r": {
+      "path": "assets/snake-emerald/head_blink_r.png",
+      "sha256": "a8727a03f39e41dbec77ccf88fa95810e95774512c3bd769ee493aa14e56a678",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "blink",
+      "mirrored": false,
+      "alphaBounds": [
+        63,
+        92,
+        182,
+        163
+      ],
+      "solidBounds": [
+        64,
+        93,
+        182,
+        163
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        29.4078125,
+        17.4453125
+      ],
+      "bytes": 20255
+    },
+    "blink_l": {
+      "path": "assets/snake-emerald/head_blink_l.png",
+      "sha256": "9b2efbad58586ddbf8d2c64a75d16586e55a511567e52e32480bfe0df0f972b6",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "blink",
+      "mirrored": true,
+      "alphaBounds": [
+        74,
+        92,
+        193,
+        163
+      ],
+      "solidBounds": [
+        74,
+        93,
+        192,
+        163
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        29.4078125,
+        17.4453125
+      ],
+      "bytes": 20183
+    },
+    "taste_r": {
+      "path": "assets/snake-emerald/head_taste_r.png",
+      "sha256": "183617b5dab0bf265ecb6627dfbc31b847d424aa70465f10b8bb2467eda17d89",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "taste",
+      "mirrored": false,
+      "alphaBounds": [
+        67,
+        91,
+        202,
+        168
+      ],
+      "solidBounds": [
+        68,
+        92,
+        201,
+        167
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        33.14609375,
+        18.69140625
+      ],
+      "bytes": 21303
+    },
+    "taste_l": {
+      "path": "assets/snake-emerald/head_taste_l.png",
+      "sha256": "171ad06df1a105ae687660acf7c6c878c1d8c1d07e5259370595cfd31bcf3bfe",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "taste",
+      "mirrored": true,
+      "alphaBounds": [
+        54,
+        91,
+        189,
+        168
+      ],
+      "solidBounds": [
+        55,
+        92,
+        188,
+        167
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        33.14609375,
+        18.69140625
+      ],
+      "bytes": 21252
+    },
+    "hunt_r": {
+      "path": "assets/snake-emerald/head_hunt_r.png",
+      "sha256": "338e214613fb93d179c264cc36824f5a095f4c15ca5f8dbb3906c89674ede8a7",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "hunt",
+      "mirrored": false,
+      "alphaBounds": [
+        61,
+        91,
+        181,
+        164
+      ],
+      "solidBounds": [
+        62,
+        92,
+        181,
+        164
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        29.65703125,
+        17.943749999999998
+      ],
+      "bytes": 21208
+    },
+    "hunt_l": {
+      "path": "assets/snake-emerald/head_hunt_l.png",
+      "sha256": "fdd74495ea8413732ad7401f6c34ab6d6f9670ca3bfdcd08a761f3f96aae4c14",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "hunt",
+      "mirrored": true,
+      "alphaBounds": [
+        75,
+        91,
+        195,
+        164
+      ],
+      "solidBounds": [
+        75,
+        92,
+        194,
+        164
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        29.65703125,
+        17.943749999999998
+      ],
+      "bytes": 21085
+    },
+    "chew0_r": {
+      "path": "assets/snake-emerald/head_chew0_r.png",
+      "sha256": "ea6fa44e58292c70ae528331c1796e1bc4cc34cdda922ee779b07b42482f5a2c",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "chew0",
+      "mirrored": false,
+      "alphaBounds": [
+        66,
+        88,
+        191,
+        169
+      ],
+      "solidBounds": [
+        67,
+        88,
+        191,
+        168
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        30.903125,
+        19.9375
+      ],
+      "bytes": 23061
+    },
+    "chew0_l": {
+      "path": "assets/snake-emerald/head_chew0_l.png",
+      "sha256": "2d7998b103f3d5ff3bb3a73924fa662cd1ecba02d6b14218c42fad06c4a04b7d",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "chew0",
+      "mirrored": true,
+      "alphaBounds": [
+        65,
+        88,
+        190,
+        169
+      ],
+      "solidBounds": [
+        65,
+        88,
+        189,
+        168
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        30.903125,
+        19.9375
+      ],
+      "bytes": 23013
+    },
+    "chew1_r": {
+      "path": "assets/snake-emerald/head_chew1_r.png",
+      "sha256": "fdc3334ef3746d12ca51d317823621bdcce13e73407034a6c418ce176a7298e7",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "chew1",
+      "mirrored": false,
+      "alphaBounds": [
+        61,
+        94,
+        183,
+        168
+      ],
+      "solidBounds": [
+        61,
+        95,
+        182,
+        168
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        30.15546875,
+        18.19296875
+      ],
+      "bytes": 21234
+    },
+    "chew1_l": {
+      "path": "assets/snake-emerald/head_chew1_l.png",
+      "sha256": "2146f18fc333c58909a4ac44848364d0ce05cdcfea7085a24873de9779810fd9",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "chew1",
+      "mirrored": true,
+      "alphaBounds": [
+        73,
+        94,
+        195,
+        168
+      ],
+      "solidBounds": [
+        74,
+        95,
+        195,
+        168
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        30.15546875,
+        18.19296875
+      ],
+      "bytes": 21160
+    },
+    "hiss_r": {
+      "path": "assets/snake-emerald/head_hiss_r.png",
+      "sha256": "e8621d8b20d248c775fb4519c962360f4359a6eab63b015578f5765ff962f175",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "hiss",
+      "mirrored": false,
+      "alphaBounds": [
+        66,
+        83,
+        192,
+        176
+      ],
+      "solidBounds": [
+        66,
+        84,
+        191,
+        176
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        31.15234375,
+        22.928124999999998
+      ],
+      "bytes": 25561
+    },
+    "hiss_l": {
+      "path": "assets/snake-emerald/head_hiss_l.png",
+      "sha256": "abad076ecf058430a51b2cdb9e3bcf28d236f398e0e27338b6dbda98642d1697",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "hiss",
+      "mirrored": true,
+      "alphaBounds": [
+        64,
+        83,
+        190,
+        176
+      ],
+      "solidBounds": [
+        65,
+        84,
+        190,
+        176
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        31.15234375,
+        22.928124999999998
+      ],
+      "bytes": 25491
+    },
+    "ouch_r": {
+      "path": "assets/snake-emerald/head_ouch_r.png",
+      "sha256": "2a3c05c963e3a649eb31cd5c19300ed71762e3e6a1cdf18d0f4f0b7491047804",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "ouch",
+      "mirrored": false,
+      "alphaBounds": [
+        61,
+        87,
+        183,
+        169
+      ],
+      "solidBounds": [
+        62,
+        88,
+        182,
+        169
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        29.90625,
+        20.18671875
+      ],
+      "bytes": 23365
+    },
+    "ouch_l": {
+      "path": "assets/snake-emerald/head_ouch_l.png",
+      "sha256": "2237ccb3427c837055467e25c78071190327176f86e4e86f77eb4a0d3c9af7ca",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "ouch",
+      "mirrored": true,
+      "alphaBounds": [
+        73,
+        87,
+        195,
+        169
+      ],
+      "solidBounds": [
+        74,
+        88,
+        194,
+        169
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        29.90625,
+        20.18671875
+      ],
+      "bytes": 23325
+    },
+    "dizzy_r": {
+      "path": "assets/snake-emerald/head_dizzy_r.png",
+      "sha256": "8cfbcb23aaf76402bc233ffd7a4aa1df072c3bbe455f08723e80f5b1a6d1d57e",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "dizzy",
+      "mirrored": false,
+      "alphaBounds": [
+        67,
+        92,
+        188,
+        171
+      ],
+      "solidBounds": [
+        68,
+        92,
+        187,
+        171
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        29.65703125,
+        19.68828125
+      ],
+      "bytes": 22777
+    },
+    "dizzy_l": {
+      "path": "assets/snake-emerald/head_dizzy_l.png",
+      "sha256": "7ef9881e161328c8f88f27a38fdf60daaffd4b6fcda8b8f492fbc69d5c5ed3ad",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "dizzy",
+      "mirrored": true,
+      "alphaBounds": [
+        68,
+        92,
+        189,
+        171
+      ],
+      "solidBounds": [
+        69,
+        92,
+        188,
+        171
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        29.65703125,
+        19.68828125
+      ],
+      "bytes": 22728
+    },
+    "shock_r": {
+      "path": "assets/snake-emerald/head_shock_r.png",
+      "sha256": "b8bafff43894f49b04d55a3d36650ac6746a350fab319b4f1ff3c4686ccb0de9",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "idle",
+      "mirrored": false,
+      "alphaBounds": [
+        68,
+        93,
+        187,
+        163
+      ],
+      "solidBounds": [
+        68,
+        93,
+        186,
+        162
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        29.4078125,
+        17.19609375
+      ],
+      "bytes": 20253
+    },
+    "shock_l": {
+      "path": "assets/snake-emerald/head_shock_l.png",
+      "sha256": "839ae0f9b8e8744283737178f1c61e4b6ea670ea12d01b0ef7baa4579ded4c8a",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "idle",
+      "mirrored": true,
+      "alphaBounds": [
+        69,
+        93,
+        188,
+        163
+      ],
+      "solidBounds": [
+        70,
+        93,
+        188,
+        162
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        29.4078125,
+        17.19609375
+      ],
+      "bytes": 20148
+    },
+    "snarl_r": {
+      "path": "assets/snake-emerald/head_snarl_r.png",
+      "sha256": "338e214613fb93d179c264cc36824f5a095f4c15ca5f8dbb3906c89674ede8a7",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "hunt",
+      "mirrored": false,
+      "alphaBounds": [
+        61,
+        91,
+        181,
+        164
+      ],
+      "solidBounds": [
+        62,
+        92,
+        181,
+        164
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        29.65703125,
+        17.943749999999998
+      ],
+      "bytes": 21208
+    },
+    "snarl_l": {
+      "path": "assets/snake-emerald/head_snarl_l.png",
+      "sha256": "fdd74495ea8413732ad7401f6c34ab6d6f9670ca3bfdcd08a761f3f96aae4c14",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "hunt",
+      "mirrored": true,
+      "alphaBounds": [
+        75,
+        91,
+        195,
+        164
+      ],
+      "solidBounds": [
+        75,
+        92,
+        194,
+        164
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        29.65703125,
+        17.943749999999998
+      ],
+      "bytes": 21085
+    },
+    "strike_r": {
+      "path": "assets/snake-emerald/head_strike_r.png",
+      "sha256": "e8621d8b20d248c775fb4519c962360f4359a6eab63b015578f5765ff962f175",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "hiss",
+      "mirrored": false,
+      "alphaBounds": [
+        66,
+        83,
+        192,
+        176
+      ],
+      "solidBounds": [
+        66,
+        84,
+        191,
+        176
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        31.15234375,
+        22.928124999999998
+      ],
+      "bytes": 25561
+    },
+    "strike_l": {
+      "path": "assets/snake-emerald/head_strike_l.png",
+      "sha256": "abad076ecf058430a51b2cdb9e3bcf28d236f398e0e27338b6dbda98642d1697",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "hiss",
+      "mirrored": true,
+      "alphaBounds": [
+        64,
+        83,
+        190,
+        176
+      ],
+      "solidBounds": [
+        65,
+        84,
+        190,
+        176
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        31.15234375,
+        22.928124999999998
+      ],
+      "bytes": 25491
+    },
+    "grin_r": {
+      "path": "assets/snake-emerald/head_grin_r.png",
+      "sha256": "c77de439f8ca3a4ed089ac6cb19640d4b45d01614338f11ef7415c752fede734",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "grin",
+      "mirrored": false,
+      "alphaBounds": [
+        65,
+        92,
+        186,
+        168
+      ],
+      "solidBounds": [
+        66,
+        92,
+        186,
+        168
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        29.90625,
+        18.940625
+      ],
+      "bytes": 22286
+    },
+    "grin_l": {
+      "path": "assets/snake-emerald/head_grin_l.png",
+      "sha256": "27d566c7d3980333ebb1c8d1189107f554657d708f32e39c823f419baa80130b",
+      "size": [
+        256,
+        256
+      ],
+      "authoredExpression": "grin",
+      "mirrored": true,
+      "alphaBounds": [
+        70,
+        92,
+        191,
+        168
+      ],
+      "solidBounds": [
+        70,
+        92,
+        190,
+        168
+      ],
+      "nativeOpaqueSizeAt1_45": [
+        29.90625,
+        18.940625
+      ],
+      "bytes": 22215
+    }
+  },
+  "encodedBytes": 575649,
+  "packedDecodedRGBABytes": 6815744,
+  "note": "Ten authored right-facing heads; exact mirrored left directions. Legacy aliases are explicit. No new skeletal rig or gameplay collider."
+}
