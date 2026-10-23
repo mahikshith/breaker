@@ -1,0 +1,93 @@
+{
+ "idle_0": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0"
+  ],
+  "objects": 119,
+  "tris": 105362,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "expr_furious": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.furious: degenerate faces=0 zero-len edges=2",
+   "nerra.face.furious: duplicate verts=2 loose verts=0"
+  ],
+  "objects": 128,
+  "tris": 107854,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "jump_land": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.roar: degenerate faces=0 zero-len edges=4",
+   "nerra.face.roar: duplicate verts=4 loose verts=0"
+  ],
+  "objects": 126,
+  "tris": 107774,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "snap_l_strike": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.roar: degenerate faces=0 zero-len edges=4",
+   "nerra.face.roar: duplicate verts=4 loose verts=0"
+  ],
+  "objects": 126,
+  "tris": 107774,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "hurt_flinch": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.hurt: degenerate faces=0 zero-len edges=2",
+   "nerra.face.hurt: duplicate verts=2 loose verts=0"
+  ],
+  "objects": 119,
+  "tris": 105360,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ },
+ "defeated": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.defeat: degenerate faces=0 zero-len edges=2",
+   "nerra.face.defeat: duplicate verts=2 loose verts=0"
+  ],
+  "objects": 120,
+  "tris": 107552,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": 0.0035
+ },
+ "walk_r_2": {
+  "passed": true,
+  "errors": [],
+  "warnings": [
+   "nerra.face.calm: degenerate faces=0 zero-len edges=2",
+   "nerra.face.calm: duplicate verts=2 loose verts=0"
+  ],
+  "objects": 119,
+  "tris": 105362,
+  "zfighting": [],
+  "floating": [],
+  "ground_z": -0.0
+ }
+}
