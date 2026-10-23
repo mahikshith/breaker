@@ -1,0 +1,405 @@
+{
+ "source": "Owner renders R05 (capsules) and R06 (crates, splash) 2026-10-23; art/round2/build.py",
+ "px": 3,
+ "sprites": {
+  "cap/split": {
+   "path": "assets/round2/cap__split.png",
+   "px": [
+    132,
+    72
+   ],
+   "drawSize": [
+    44.0,
+    24.0
+   ],
+   "anchor": [
+    22.0,
+    12.0
+   ],
+   "body": [
+    0.333,
+    0.0,
+    43.667,
+    24.0
+   ]
+  },
+  "cap/fire": {
+   "path": "assets/round2/cap__fire.png",
+   "px": [
+    132,
+    72
+   ],
+   "drawSize": [
+    44.0,
+    24.0
+   ],
+   "anchor": [
+    22.0,
+    12.0
+   ],
+   "body": [
+    0.333,
+    0.333,
+    43.333,
+    23.667
+   ]
+  },
+  "cap/wide": {
+   "path": "assets/round2/cap__wide.png",
+   "px": [
+    132,
+    72
+   ],
+   "drawSize": [
+    44.0,
+    24.0
+   ],
+   "anchor": [
+    22.0,
+    12.0
+   ],
+   "body": [
+    0.0,
+    0.0,
+    44.0,
+    24.0
+   ]
+  },
+  "cap/focus": {
+   "path": "assets/round2/cap__focus.png",
+   "px": [
+    132,
+    72
+   ],
+   "drawSize": [
+    44.0,
+    24.0
+   ],
+   "anchor": [
+    22.0,
+    12.0
+   ],
+   "body": [
+    0.0,
+    0.0,
+    44.0,
+    24.0
+   ]
+  },
+  "cap/burst": {
+   "path": "assets/round2/cap__burst.png",
+   "px": [
+    132,
+    72
+   ],
+   "drawSize": [
+    44.0,
+    24.0
+   ],
+   "anchor": [
+    22.0,
+    12.0
+   ],
+   "body": [
+    0.333,
+    0.0,
+    43.667,
+    24.0
+   ]
+  },
+  "cap/laser": {
+   "path": "assets/round2/cap__laser.png",
+   "px": [
+    132,
+    72
+   ],
+   "drawSize": [
+    44.0,
+    24.0
+   ],
+   "anchor": [
+    22.0,
+    12.0
+   ],
+   "body": [
+    0.333,
+    0.0,
+    43.667,
+    24.0
+   ]
+  },
+  "cap/shield": {
+   "path": "assets/round2/cap__shield.png",
+   "px": [
+    132,
+    73
+   ],
+   "drawSize": [
+    44.0,
+    24.333
+   ],
+   "anchor": [
+    22.0,
+    12.167
+   ],
+   "body": [
+    0.0,
+    0.0,
+    43.667,
+    24.0
+   ]
+  },
+  "cap/slow": {
+   "path": "assets/round2/cap__slow.png",
+   "px": [
+    132,
+    73
+   ],
+   "drawSize": [
+    44.0,
+    24.333
+   ],
+   "anchor": [
+    22.0,
+    12.167
+   ],
+   "body": [
+    0.333,
+    0.333,
+    43.667,
+    23.667
+   ]
+  },
+  "cap/shrink": {
+   "path": "assets/round2/cap__shrink.png",
+   "px": [
+    132,
+    73
+   ],
+   "drawSize": [
+    44.0,
+    24.333
+   ],
+   "anchor": [
+    22.0,
+    12.167
+   ],
+   "body": [
+    0.333,
+    0.0,
+    43.667,
+    24.0
+   ]
+  },
+  "crate/0": {
+   "path": "assets/round2/crate__0.png",
+   "px": [
+    120,
+    63
+   ],
+   "drawSize": [
+    40.0,
+    21.0
+   ],
+   "anchor": [
+    20.0,
+    10.5
+   ],
+   "body": [
+    0.333,
+    0.333,
+    39.667,
+    20.667
+   ]
+  },
+  "crate_sq/0": {
+   "path": "assets/round2/crate_sq__0.png",
+   "px": [
+    60,
+    60
+   ],
+   "drawSize": [
+    20.0,
+    20.0
+   ],
+   "anchor": [
+    10.0,
+    10.0
+   ],
+   "body": [
+    0.0,
+    0.333,
+    20.0,
+    19.667
+   ]
+  },
+  "crate/1": {
+   "path": "assets/round2/crate__1.png",
+   "px": [
+    120,
+    62
+   ],
+   "drawSize": [
+    40.0,
+    20.667
+   ],
+   "anchor": [
+    20.0,
+    10.333
+   ],
+   "body": [
+    0.333,
+    0.333,
+    39.333,
+    20.333
+   ]
+  },
+  "crate_sq/1": {
+   "path": "assets/round2/crate_sq__1.png",
+   "px": [
+    60,
+    60
+   ],
+   "drawSize": [
+    20.0,
+    20.0
+   ],
+   "anchor": [
+    10.0,
+    10.0
+   ],
+   "body": [
+    0.333,
+    0.333,
+    19.333,
+    19.667
+   ]
+  },
+  "crate/2": {
+   "path": "assets/round2/crate__2.png",
+   "px": [
+    117,
+    60
+   ],
+   "drawSize": [
+    39.0,
+    20.0
+   ],
+   "anchor": [
+    19.5,
+    10.0
+   ],
+   "body": [
+    0.0,
+    0.333,
+    38.667,
+    19.667
+   ]
+  },
+  "crate_sq/2": {
+   "path": "assets/round2/crate_sq__2.png",
+   "px": [
+    60,
+    60
+   ],
+   "drawSize": [
+    20.0,
+    20.0
+   ],
+   "anchor": [
+    10.0,
+    10.0
+   ],
+   "body": [
+    0.0,
+    0.333,
+    19.667,
+    19.667
+   ]
+  },
+  "splash/0": {
+   "path": "assets/round2/splash__0.png",
+   "px": [
+    120,
+    87
+   ],
+   "drawSize": [
+    40.0,
+    29.0
+   ],
+   "anchor": [
+    20.0,
+    29.0
+   ],
+   "body": [
+    0.0,
+    0.333,
+    40.0,
+    28.667
+   ]
+  },
+  "splash/1": {
+   "path": "assets/round2/splash__1.png",
+   "px": [
+    120,
+    112
+   ],
+   "drawSize": [
+    40.0,
+    37.333
+   ],
+   "anchor": [
+    20.0,
+    37.333
+   ],
+   "body": [
+    0.0,
+    0.0,
+    40.0,
+    37.333
+   ]
+  },
+  "splash/2": {
+   "path": "assets/round2/splash__2.png",
+   "px": [
+    120,
+    89
+   ],
+   "drawSize": [
+    40.0,
+    29.667
+   ],
+   "anchor": [
+    20.0,
+    29.667
+   ],
+   "body": [
+    0.0,
+    0.0,
+    39.667,
+    29.667
+   ]
+  },
+  "splash/3": {
+   "path": "assets/round2/splash__3.png",
+   "px": [
+    120,
+    76
+   ],
+   "drawSize": [
+    40.0,
+    25.333
+   ],
+   "anchor": [
+    20.0,
+    25.333
+   ],
+   "body": [
+    0.333,
+    0.0,
+    39.333,
+    25.333
+   ]
+  }
+ }
+}

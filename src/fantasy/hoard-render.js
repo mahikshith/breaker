@@ -99,10 +99,26 @@ function drawEmber(ctx, g, st) {
 function wakeEye(ctx, g, st) {
   const f = g.floor === 2 ? 1 : clamp01(g.wake / 100), e = g.ember, hot = e.busy || g.floor === 2, t = st.clock;
   const { x, y, hw, hh } = EYE, calm = e.calmAt(g.floorTime), almond = () => { ctx.beginPath(); ctx.moveTo(x - hw, y); ctx.quadraticCurveTo(x, y - hh * 2, x + hw, y); ctx.quadraticCurveTo(x, y + hh * 2, x - hw, y); ctx.closePath(); };
+  // R02: Ember's rendered eye in five stages (shut, slit, half, open, furious), crossfading as the meter crosses a stage.
+  const stage = Math.min(4, Math.floor(f * 5)), cell = first([EMBER_ART.eye[stage]]);
+  if (cell) {
+    if (st.eye !== stage) { st.eyePrev = st.eye ?? stage; st.eye = stage; st.eyeAt = st.clock; }
+    ctx.save(); ctx.fillStyle = '#0b0910cc'; ctx.beginPath(); ctx.roundRect(x - 29, y - 28, 58, 68, 13); ctx.fill(); ctx.strokeStyle = '#d6a35f66'; ctx.lineWidth = .8; ctx.stroke(); ctx.restore();
+    glow(ctx, x, y - 2, 38, calm ? '#7fd7ff' : hot ? '#ff5a2a' : '#ff9a4a', (calm ? .25 : .1) + .35 * f * f);
+    const q = clamp01((st.clock - st.eyeAt) / .25), prev = first([EMBER_ART.eye[st.eyePrev]]), k = 1 + (hot ? .02 * Math.sin(t * 9) : .012 * Math.sin(t * 1.6));
+    if (prev && q < 1 && prev !== cell) put(ctx, prev, x, y - 2, k, 1 - q);
+    put(ctx, cell, x, y - 2, k, prev !== cell ? q : 1);
+    const bw = 46, bx = x - bw / 2, by = y + 28;
+    ctx.fillStyle = '#05060dcc'; ctx.beginPath(); ctx.roundRect(bx - 1.5, by - 1.5, bw + 3, 7, 3.5); ctx.fill();
+    const gr = ctx.createLinearGradient(bx, 0, bx + bw, 0); gr.addColorStop(0, '#6fd6c8'); gr.addColorStop(.5, '#ffc84a'); gr.addColorStop(1, '#ff4a2a');
+    ctx.fillStyle = gr; ctx.beginPath(); ctx.roundRect(bx, by, Math.max(4, bw * f), 4, 2); ctx.fill();
+    if (g.floor === 1) for (const a of RAGE.at) { ctx.fillStyle = '#0b0910'; ctx.fillRect(bx + bw * a / 100 - .6, by - 1, 1.2, 6); }
+    if (g.greed && !g.greed.caught && g.floor === 1 && f > .7) add(ctx, () => glow(ctx, x, y, 46, '#ff3a1a', (f - .7) * 1.6 * (.6 + .4 * Math.sin(t * 12))));
+    return;
+  }
   ctx.save(); ctx.fillStyle = '#0b0910cc'; ctx.beginPath(); ctx.roundRect(x - hw - 8, y - hh - 8, hw * 2 + 16, hh * 2 + 26, 12); ctx.fill(); ctx.strokeStyle = '#d6a35f66'; ctx.lineWidth = .8; ctx.stroke(); ctx.restore();
   glow(ctx, x, y, 40, calm ? '#7fd7ff' : hot ? '#ff5a2a' : '#ff9a4a', (calm ? .25 : .12) + .45 * f * f);
-  const cell = first([EMBER_ART.eye[Math.min(4, Math.floor(f * 5))]]);   // the R02 eye strip, when packed
-  if (cell) { const s = HS[cell], kk = (hw * 2 + 10) / s.uw; put(ctx, cell, x, y + 1, kk); } else {
+  {
   ctx.save(); almond(); ctx.fillStyle = '#1a0c08'; ctx.fill(); ctx.clip();
   const ix = x + (g.balls[0] ? clamp01(g.balls[0].x / g.width) - .5 : 0) * 8, ir = hh * 1.05;
   const iris = ctx.createRadialGradient(ix - 2, y - 3, 1, ix, y, ir); iris.addColorStop(0, '#fff2b0'); iris.addColorStop(.35, hot ? '#ff9a2a' : '#ffc84a'); iris.addColorStop(1, hot ? '#7a1406' : '#7a3a08');
@@ -165,7 +181,7 @@ function drawBrick(ctx, g, b, st) {
       if (lit) add(ctx, () => glow(ctx, cx, cy, 30, '#7fe8ff', .22 + .18 * p));
       tile(ctx, 'brick_t_2_x', b, lit ? 1 : .55);
       const ring = g.effects.some(f => f.kind === 'chime' && Math.abs(f.x - cx) < 1 && Math.abs(f.y - cy) < 1), ck = first([EMBER_ART.props.chime?.[ring ? 1 : 0], EMBER_ART.props.chime?.[0]]);
-      if (ck) put(ctx, ck, cx, cy, .7, lit ? 1 : .45); else bellIcon(ctx, cx, cy, lit ? 1 : .45, lit ? Math.sin(st.clock * 4 + b.col) * .12 : 0);
+      if (ck) put(ctx, ck, cx, cy, .76, lit || ring ? 1 : .45, ring ? Math.sin(st.clock * 14) * .08 : 0); else bellIcon(ctx, cx, cy, lit ? 1 : .45, lit ? Math.sin(st.clock * 4 + b.col) * .12 : 0);
       if (!lit && b.cool > 0) { const f = 1 - b.cool / HOARD_TIMING.chimeCool; ctx.fillStyle = '#05060dcc'; ctx.fillRect(b.x + 4, b.y + b.h - 3.5, b.w - 8, 2.2); ctx.fillStyle = '#7fe8ff'; ctx.fillRect(b.x + 4, b.y + b.h - 3.5, (b.w - 8) * f, 2.2); }
       return;
     }
@@ -210,8 +226,10 @@ function drawGate(ctx, g, art, st) {
   ctx.fillStyle = '#07060a'; ctx.fillRect(x - 10, y - 8, w + 20, h + 8);
   const day = ctx.createLinearGradient(0, y, 0, y + h); day.addColorStop(0, '#e8c48a'); day.addColorStop(1, '#c9853f'); ctx.save(); ctx.globalAlpha = Math.min(.8, .15 + f * .5 + esc * .65); ctx.fillStyle = day; ctx.fillRect(x, y, w, h); ctx.restore();
   const img = art.images['tidewheel/gate'], m = art.manifest.tidewheel.gate, open = smooth(esc * 1.6);
-  const gk = first([EMBER_ART.props.gate?.[esc ? 2 : f > .5 ? 1 : 0]]);   // R03 gate states, when packed
-  if (gk) put(ctx, gk, x + w / 2 + sx, y + h);
+  // R03 portcullis states (intact, dented past half, broken on the escape): the intact gate is fitted to the gate span, the
+  // ceiling rect the ball strikes; all three hang from its top edge at one scale.
+  const gk = first([EMBER_ART.props.gate?.[esc ? 2 : f > .5 ? 1 : 0]]);
+  if (gk) put(ctx, gk, x + w / 2 + sx, y + (esc ? -10 * open : 0), 1, esc ? 1 - .6 * open : 1);
   else for (const side of [0, 1]) {
     const lw = w / 2, lx = x + side * lw, sw = lw * (1 - .92 * open);
     ctx.save(); ctx.beginPath(); ctx.rect(side ? x + w - sw : lx, y, sw, h); ctx.clip();
@@ -288,7 +306,12 @@ function hEffects(ctx, g, st) {
     switch (e.kind) {
       case 'brick-break': ctx.globalAlpha = 1; shards(ctx, e, keyOf(e)); if (e.type === 'chest') chips(ctx, e.x, e.y, e.age, e.life, 5, 80, .5, 3, .8); break;
       case 'brick-hit': ctx.globalAlpha = 1; sparks(ctx, e.x, e.y, e.age, 5, 40, [], 1.5, 3); break;
-      case 'loot': ctx.globalAlpha = 1; { const bk = first([EMBER_ART.props.burst?.[0]]); if (bk && e.loot >= 30) put(ctx, bk, e.x, e.y - 10 * q, .6 + .6 * q, 1 - q); } coinsFly(ctx, e, e.loot >= 30 ? 6 : e.loot >= 10 ? 3 : 2, { x: CHIP - 32, y: 34 }); break;
+      case 'loot': ctx.globalAlpha = 1; {
+        // R03 loot shower: the coin burst flies apart from a coin brick, the gem burst joins it from a chest; both pop open and fade.
+        const s = .6 + .75 * smooth(clamp01(q * 2.5)), fa = q < .45 ? 1 : 1 - (q - .45) / .55, ck = first([EMBER_ART.props.burst?.[0]]), gk = first([EMBER_ART.props.burst?.[1]]);
+        if (ck && e.loot >= 10) put(ctx, ck, e.x, e.y - 12 * q, s * (e.loot >= 30 ? 1 : .8), fa);
+        if (gk && e.loot >= 30) put(ctx, gk, e.x, e.y - 4 - 18 * q, s * .85, fa, .2 * q);
+      } coinsFly(ctx, e, e.loot >= 30 ? 6 : e.loot >= 10 ? 3 : 2, { x: CHIP - 32, y: 34 }); break;
       case 'spill': ctx.globalAlpha = 1; add(ctx, () => glow(ctx, e.x, e.y, 26, GOLD, .6 * a)); sparks(ctx, e.x, e.y, e.age, 5, 60, [], 1.6, 9); break;
       case 'melt': ctx.globalAlpha = 1; add(ctx, () => glow(ctx, e.x, e.y, 30, FIRE, .7 * a)); sparks(ctx, e.x, e.y - 4, e.age, 4, 50, [], 1.4, 13); break;
       case 'harden': ctx.globalAlpha = 1; dust(ctx, e.x, e.y - 6, e.age, e.life, 3, 12, 6, '#b9a88a'); break;

@@ -1,5 +1,5 @@
 {
- "source": "M365 Copilot dragon kit 2026-10-23 (sprites/ember, sprites/props); R01 Ember poses 2026-10-23; art/hoard/build.py",
+ "source": "M365 Copilot dragon kit 2026-10-23 (sprites/ember, sprites/props); R01 Ember poses, R02 eye and R03 props 2026-10-23; art/hoard/build.py",
  "px": 3,
  "sprites": {
   "ember_idle": {
@@ -317,17 +317,17 @@
    "path": "assets/hoard/cave.png",
    "px": [
     1024,
-    1536
+    2400
    ],
    "drawSize": [
     360,
-    540.0
+    843.75
    ],
    "anchor": [
     0,
     0
    ],
-   "floor": "#040510"
+   "floor": "#0b0d18"
   },
   "ember/sleep": {
    "path": "assets/hoard/ember__sleep.png",
@@ -586,6 +586,255 @@
     ]
    ],
    "solid": false
+  },
+  "eye/0": {
+   "path": "assets/hoard/eye__0.png",
+   "px": [
+    132,
+    144
+   ],
+   "drawSize": [
+    44.0,
+    48.0
+   ],
+   "anchor": [
+    22.0,
+    24.0
+   ]
+  },
+  "eye/1": {
+   "path": "assets/hoard/eye__1.png",
+   "px": [
+    131,
+    144
+   ],
+   "drawSize": [
+    43.667,
+    48.0
+   ],
+   "anchor": [
+    21.833,
+    24.0
+   ]
+  },
+  "eye/2": {
+   "path": "assets/hoard/eye__2.png",
+   "px": [
+    130,
+    144
+   ],
+   "drawSize": [
+    43.333,
+    48.0
+   ],
+   "anchor": [
+    21.667,
+    24.0
+   ]
+  },
+  "eye/3": {
+   "path": "assets/hoard/eye__3.png",
+   "px": [
+    132,
+    144
+   ],
+   "drawSize": [
+    44.0,
+    48.0
+   ],
+   "anchor": [
+    22.0,
+    24.0
+   ]
+  },
+  "eye/4": {
+   "path": "assets/hoard/eye__4.png",
+   "px": [
+    131,
+    144
+   ],
+   "drawSize": [
+    43.667,
+    48.0
+   ],
+   "anchor": [
+    21.833,
+    24.0
+   ]
+  },
+  "prop/molten_0": {
+   "path": "assets/hoard/prop__molten_0.png",
+   "px": [
+    96,
+    48
+   ],
+   "drawSize": [
+    32.0,
+    16.0
+   ],
+   "anchor": [
+    16.0,
+    8.0
+   ],
+   "contact": [
+    0,
+    0,
+    32,
+    16
+   ]
+  },
+  "prop/molten_1": {
+   "path": "assets/hoard/prop__molten_1.png",
+   "px": [
+    96,
+    48
+   ],
+   "drawSize": [
+    32.0,
+    16.0
+   ],
+   "anchor": [
+    16.0,
+    8.0
+   ],
+   "contact": [
+    0,
+    0,
+    32,
+    16
+   ]
+  },
+  "prop/molten_2": {
+   "path": "assets/hoard/prop__molten_2.png",
+   "px": [
+    96,
+    48
+   ],
+   "drawSize": [
+    32.0,
+    16.0
+   ],
+   "anchor": [
+    16.0,
+    8.0
+   ],
+   "contact": [
+    0,
+    0,
+    32,
+    16
+   ]
+  },
+  "prop/chime": {
+   "path": "assets/hoard/prop__chime.png",
+   "px": [
+    62,
+    60
+   ],
+   "drawSize": [
+    20.667,
+    20.0
+   ],
+   "anchor": [
+    10.333,
+    10.0
+   ]
+  },
+  "prop/chime_ring": {
+   "path": "assets/hoard/prop__chime_ring.png",
+   "px": [
+    85,
+    60
+   ],
+   "drawSize": [
+    28.333,
+    20.0
+   ],
+   "anchor": [
+    10.405,
+    10.0
+   ]
+  },
+  "prop/gate_0": {
+   "path": "assets/hoard/prop__gate_0.png",
+   "px": [
+    420,
+    186
+   ],
+   "drawSize": [
+    140.0,
+    62.0
+   ],
+   "anchor": [
+    70.0,
+    0
+   ],
+   "contact": [
+    0,
+    0,
+    140,
+    62
+   ]
+  },
+  "prop/gate_1": {
+   "path": "assets/hoard/prop__gate_1.png",
+   "px": [
+    416,
+    193
+   ],
+   "drawSize": [
+    138.667,
+    64.333
+   ],
+   "anchor": [
+    69.333,
+    0
+   ]
+  },
+  "prop/gate_2": {
+   "path": "assets/hoard/prop__gate_2.png",
+   "px": [
+    437,
+    201
+   ],
+   "drawSize": [
+    145.667,
+    67.0
+   ],
+   "anchor": [
+    72.833,
+    0
+   ]
+  },
+  "prop/burst_coin": {
+   "path": "assets/hoard/prop__burst_coin.png",
+   "px": [
+    132,
+    88
+   ],
+   "drawSize": [
+    44.0,
+    29.333
+   ],
+   "anchor": [
+    22.0,
+    14.667
+   ]
+  },
+  "prop/burst_gem": {
+   "path": "assets/hoard/prop__burst_gem.png",
+   "px": [
+    120,
+    93
+   ],
+   "drawSize": [
+    40.0,
+    31.0
+   ],
+   "anchor": [
+    20.0,
+    15.5
+   ]
   }
  },
  "skins": {
@@ -916,10 +1165,6 @@
     "burst": [
      "prop/burst_coin",
      "prop/burst_gem"
-    ],
-    "sunstone": [
-     "prop/sunstone",
-     "prop/sunstone_cracked"
     ]
    }
   }
