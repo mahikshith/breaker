@@ -7,7 +7,7 @@ import { Gatehouse, GATEHOUSE_FLOORS } from './gatehouse.js';
 import { LumiTower } from './lumitower.js';
 import { SerpentRivals, RIVALS_KINDS } from './rivals.js';
 import { DragonsHoard, HOARD_KINDS } from './hoard.js';
-import { hoardButtons } from './hoard-render.js';
+import { hoardButtons, cave, caveReady } from './hoard-render.js';
 import { makeArt, drawEncounter, gWard } from './render.js';
 import { cached, drawBall, text, ramTeach } from '../gfx.js';
 import { Coach } from '../coach.js';
@@ -183,8 +183,14 @@ export class FantasyChapter {
   }
   // ---------- drawing ----------
   background() {
-    return cached(`fantasy-bg-${this.key}-${this.W}-${this.H}`, this.W, this.H, g => {
-      if (SNAKES.has(this.key) || this.key === 'hoard') { const top = { rivals: '#12162a', lumitower: '#171226', hoard: '#0b0a16' }, bottom = { rivals: '#090b16', lumitower: '#0c0a16', hoard: '#03040c' }; const gr = g.createLinearGradient(0, 0, 0, this.H); gr.addColorStop(0, top[this.key]); gr.addColorStop(1, bottom[this.key]); g.fillStyle = gr; g.fillRect(0, 0, this.W, this.H); return; }
+    return cached(`fantasy-bg-${this.key}-${this.W}-${this.H}-${this.key === 'hoard' && caveReady() ? 1 : 0}`, this.W, this.H, g => {
+      if (this.key === 'hoard') {   // the cave plate itself, edge rows stretched under the notch and home bar
+        const c = cave(360, this.m.height), s = this.k, w = 360 * s, h = this.m.height * s, y = this.hudTop, pw = c.width, ph = c.height;
+        g.drawImage(c, 0, 0, pw, 1, 0, 0, this.W, y + 1); g.drawImage(c, 0, ph - 1, pw, 1, 0, y + h - 1, this.W, this.H - y - h + 1);
+        if (this.ox > 0) { g.drawImage(c, 0, 0, 1, ph, 0, y, this.ox + 1, h); g.drawImage(c, pw - 1, 0, 1, ph, this.ox + w - 1, y, this.ox + 1, h); }
+        g.drawImage(c, this.ox, y, w, h); return;
+      }
+      if (SNAKES.has(this.key)) { const top = { rivals: '#12162a', lumitower: '#171226' }, bottom = { rivals: '#090b16', lumitower: '#0c0a16' }; const gr = g.createLinearGradient(0, 0, 0, this.H); gr.addColorStop(0, top[this.key]); gr.addColorStop(1, bottom[this.key]); g.fillStyle = gr; g.fillRect(0, 0, this.W, this.H); return; }
       const img = art.images[this.key + '/background'];
       g.fillStyle = '#101622'; g.fillRect(0, 0, this.W, this.H);
       if (!img.naturalWidth) return;
