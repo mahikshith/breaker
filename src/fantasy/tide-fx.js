@@ -1,6 +1,7 @@
-// Tidewheel water FX, drawn to sit in the basin plate's realistic water: motion-blurred droplets falling under gravity, a
-// crown of short spray sheets, a lumpy white-water bloom with soft alpha, foam flecks and a lit perspective ripple on the
-// surface (only where the water actually lands on water). Every particle is evaluated in closed form from its effect's age
+// Tidewheel water FX, drawn to sit in the basin plate's realistic water: a brief blue-white contact flash, curved
+// translucent water sheets with a broken bright rim that peel outward and fray into glossy, motion-blurred droplets
+// falling under gravity, thin foam lace on wet surfaces and a faint lit perspective ripple (only where the water lands on
+// water). Every particle is evaluated in closed form from its effect's age
 // and a seeded hash, so nothing is allocated per frame, pause and replay are exact, and a frame budget caps the droplets
 // drawn at 60. No shadowBlur anywhere; the sprites below (and every gradient) are baked once, on first use.
 // Palette sampled from the Tidewheel basin plate and the water-shot render: deep #021a26, body #1f5f74, spray #a9dfe2,
@@ -17,13 +18,72 @@ export function tideFrame() { budget = FX_BUDGET; }
 function canvas(w, h, draw) { const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d'); if (g) draw(g, w, h); return c; }
 function bake() {
   if (B) return B;
-  // A droplet streaking right, as one frame's motion blur: a soft capsule fading in from the tail, brightest at the leading
-  // end, with a small specular point (no outline). Softened once with a canvas blur where the platform has one.
-  const drop = (core, spec) => canvas(96, 24, (g, w, h) => {
-    if ('filter' in g) g.filter = 'blur(1.6px)';
-    const tail = g.createLinearGradient(4, 0, w - 6, 0); tail.addColorStop(0, core + '00'); tail.addColorStop(.55, core + '70'); tail.addColorStop(1, core + 'f0');
-    g.fillStyle = tail; g.beginPath(); g.moveTo(4, h / 2 - 2); g.lineTo(w - 14, h / 2 - 7); g.arc(w - 14, h / 2, 7, -Math.PI / 2, Math.PI / 2); g.lineTo(4, h / 2 + 2); g.closePath(); g.fill();
-    g.filter = 'none'; g.fillStyle = spec; g.beginPath(); g.ellipse(w - 15, h / 2 - 2.5, 3, 1.6, 0, 0, TAU); g.fill();
+  // A water droplet streaking right, as one frame's motion blur: a translucent water-coloured tail and a glossy head (dark
+  // rim, lit body, a hard highlight dot), the way a drop reads against dark water. Softened once with a canvas blur.
+  const drop = (spec) => canvas(96, 24, (g, w, h) => {
+    if ('filter' in g) g.filter = 'blur(1.2px)';
+    const tail = g.createLinearGradient(4, 0, w - 12, 0); tail.addColorStop(0, 'rgba(95,169,184,0)'); tail.addColorStop(.6, 'rgba(110,190,204,.38)'); tail.addColorStop(1, 'rgba(150,214,222,.75)');
+    g.fillStyle = tail; g.beginPath(); g.moveTo(4, h / 2 - 1.5); g.lineTo(w - 14, h / 2 - 6); g.lineTo(w - 14, h / 2 + 6); g.lineTo(4, h / 2 + 1.5); g.closePath(); g.fill();
+    g.filter = 'none'; bead(g, w - 14, h / 2, 8, spec);
+  });
+  // A glossy bead centred at (x, y): deep teal rim, lit water body, white highlight up-left, faint caustic down-right.
+  function bead(g, x, y, r, spec = '#ffffff') {
+    const b = g.createRadialGradient(x - r * .3, y - r * .35, r * .1, x, y, r); b.addColorStop(0, '#d6f4f2'); b.addColorStop(.45, '#7cc8d2'); b.addColorStop(.8, '#2c7486'); b.addColorStop(1, 'rgba(14,52,66,0)');
+    g.fillStyle = b; g.beginPath(); g.arc(x, y, r, 0, TAU); g.fill();
+    g.fillStyle = spec; g.beginPath(); g.ellipse(x - r * .35, y - r * .38, r * .26, r * .18, -.5, 0, TAU); g.fill();
+    g.fillStyle = 'rgba(214,246,244,.55)'; g.beginPath(); g.ellipse(x + r * .3, y + r * .42, r * .3, r * .12, -.4, 0, TAU); g.fill();
+  }
+  // A water sheet thrown up off a stretch of surface (its foot spans 25-58% across the bottom) and leaning right as it
+  // flares: a thin film, darker and denser at the foot and clearing toward the top, its face streaked with uneven flow lines. Its top is
+  // not a clean edge: a broken bright rim that frays into a fringe of short jets, a few ending in beads.
+  const sheet = canvas(80, 128, (g, w, h) => {
+    const F = 20, R = 46;                               // a wide foot: the sheet climbs off a stretch of surface, not a point
+    const top = (u) => [6 + 68 * u, 34 - 22 * u + 3 * Math.sin(u * 9.3) + 2 * Math.sin(u * 23.1)];   // the rim, left to right
+    if ('filter' in g) g.filter = 'blur(.8px)';
+    g.beginPath(); g.moveTo(F, h - 2); g.bezierCurveTo(22, 74, 17, 46, ...top(0));
+    for (let u = .05; u <= 1.001; u += .05) g.lineTo(...top(u));
+    g.bezierCurveTo(58, 36, 47, 74, R, h - 2); g.closePath();
+    const body = g.createLinearGradient(33, h, 44, 10); body.addColorStop(0, 'rgba(10,52,66,.6)'); body.addColorStop(.35, 'rgba(26,92,110,.3)'); body.addColorStop(.8, 'rgba(90,168,182,.16)'); body.addColorStop(1, 'rgba(150,212,220,.22)');
+    g.fillStyle = body; g.fill();
+    g.save(); g.clip(); g.lineCap = 'round';
+    // Flow lines: fine streaks of brighter water fanning from the foot up the face, uneven in strength and spacing.
+    for (let i = 0; i < 8; i++) {
+      const u = (i + .6 * hash(i, 90)) / 8, [tx, ty] = top(u), a = .05 + .14 * hash(i, 91) ** 2;
+      g.strokeStyle = `rgba(206,242,242,${a})`; g.lineWidth = 1 + 2.2 * hash(i, 92); g.filter = 'blur(1.4px)';
+      const fx = F + (R - F) * u; g.beginPath(); g.moveTo(fx, h); g.bezierCurveTo(fx + (hash(i, 89) - .5) * 8, h * .6, tx - (tx - fx) * .2, ty + 24, tx, ty + 3); g.stroke();
+    }
+    // Light through the curved film catches its flanks.
+    g.filter = 'blur(3px)'; g.strokeStyle = 'rgba(190,236,238,.22)'; g.lineWidth = 7;
+    g.beginPath(); g.moveTo(F, h); g.bezierCurveTo(22, 74, 17, 46, ...top(0)); g.stroke();
+    g.beginPath(); g.moveTo(R, h); g.bezierCurveTo(47, 74, 58, 36, ...top(1)); g.stroke();
+    g.restore();
+    // The rim: a broken band of bright water, thicker where the sheet rolls, with gaps.
+    g.filter = 'blur(.6px)'; g.lineCap = 'round';
+    for (let k = 0; k < 7; k++) {
+      const u0 = (k + .25 * hash(k, 95)) / 7, u1 = u0 + (.06 + .07 * hash(k, 96));
+      g.strokeStyle = `rgba(238,252,250,${.35 + .5 * hash(k, 97)})`; g.lineWidth = .9 + 1.6 * hash(k, 98);
+      g.beginPath(); g.moveTo(...top(u0)); for (let u = u0 + .02; u <= u1; u += .02) g.lineTo(...top(u)); g.stroke();
+    }
+    // The fringe: short jets pulled off the rim along the sheet's flare, uneven lengths; the longer ones end in a bead.
+    for (let i = 0; i < 7; i++) {
+      const u = (i + .8 * hash(i, 99)) / 7, [x, y] = top(u), ang = -Math.PI / 2 + (u - .45) * 1.3 + (hash(i, 100) - .5) * .4;
+      const len = 3 + 10 * hash(i, 101) ** 1.5, ex = x + Math.cos(ang) * len, ey = y + Math.sin(ang) * len;
+      const lg = g.createLinearGradient(x, y, ex, ey); lg.addColorStop(0, 'rgba(170,226,230,.6)'); lg.addColorStop(1, 'rgba(226,250,248,.85)');
+      g.strokeStyle = lg; g.lineWidth = .8 + .8 * hash(i, 102); g.beginPath(); g.moveTo(x, y); g.lineTo(ex, ey); g.stroke();
+      if (len > 8) { g.filter = 'none'; bead(g, ex, ey, 1.6 + 1.3 * hash(i, 93)); g.filter = 'blur(.6px)'; }
+    }
+    g.filter = 'none';
+  });
+  // Foam lace: a thin strip of bright flecks and fine filaments, the foam that settles on a wet surface.
+  const lace = canvas(128, 16, (g, w, h) => {
+    for (let i = 0; i < 46; i++) {
+      const x = 4 + (w - 8) * hash(i, 81), y = h / 2 + (hash(i, 82) - .5) * (h - 6) * (1 - Math.abs(x / w - .5)), r = .6 + 1.4 * hash(i, 83) ** 2, a = .45 + .5 * hash(i, 84);
+      g.fillStyle = `rgba(236,252,250,${a})`; g.beginPath(); g.ellipse(x, y, r * 1.6, r * .8, 0, 0, TAU); g.fill();
+    }
+    g.strokeStyle = 'rgba(220,246,244,.4)'; g.lineWidth = .7;
+    for (let k = 0; k < 5; k++) { g.beginPath(); for (let x = 6; x < w - 6; x += 6) { const y = h / 2 + Math.sin(x * .21 + k * 1.7) * 3 * hash(k, 85) + (hash(x + k * 31, 86) - .5) * 2; x === 6 ? g.moveTo(x, y) : g.lineTo(x, y); } g.stroke(); }
+    g.globalCompositeOperation = 'destination-in';
+    const edge = g.createLinearGradient(0, 0, w, 0); edge.addColorStop(0, '#0000'); edge.addColorStop(.15, '#000'); edge.addColorStop(.85, '#000'); edge.addColorStop(1, '#0000'); g.fillStyle = edge; g.fillRect(0, 0, w, h);
   });
   const radial = (stops) => canvas(96, 96, (g, w) => { const r = g.createRadialGradient(w / 2, w / 2, 0, w / 2, w / 2, w / 2); for (const [o, c] of stops) r.addColorStop(o, c); g.fillStyle = r; g.fillRect(0, 0, w, w); });
   // The ripple, baked as a circle and drawn squashed into the surface's perspective: a lit crest strongest on the far side
@@ -36,29 +96,14 @@ function bake() {
     g.drawImage(band([[0, '#02141c00'], [.6, '#02141c00'], [.76, '#02141cd0'], [.85, '#02141c20'], [.88, '#02141c00'], [1, '#02141c00']], .4, 1), 0, 0);
     g.drawImage(band([[0, '#d8f6f400'], [.82, '#d8f6f400'], [.89, '#eefcfad0'], [.94, '#a9dfe260'], [1, '#a9dfe200']], 1, .12), 0, 0);
   });
-  const fleck = canvas(48, 24, (g) => { for (const [x, y, rx, ry, a] of [[22, 12, 14, 5, .55], [14, 10, 7, 3.5, .7], [31, 14, 8, 3, .6], [24, 9, 5, 2.4, .9]]) { const r = g.createRadialGradient(x, y, 0, x, y, rx); r.addColorStop(0, `rgba(244,255,253,${a})`); r.addColorStop(1, 'rgba(190,233,234,0)'); g.fillStyle = r; g.beginPath(); g.ellipse(x, y, rx, ry, 0, 0, TAU); g.fill(); } });
-  // White water: a lumpy, value-noise foam cloud with soft broken edges, brighter on top where it catches the light.
-  const foam = canvas(128, 80, (g, w, h) => {
-    const img = g.createImageData(w, h), d = img.data;
-    const vn = (x, y, k) => { const xi = Math.floor(x), yi = Math.floor(y), u = (x - xi) ** 2 * (3 - 2 * (x - xi)), v = (y - yi) ** 2 * (3 - 2 * (y - yi));
-      const a = hash(xi * 57 + yi * 131, k), b = hash((xi + 1) * 57 + yi * 131, k), c = hash(xi * 57 + (yi + 1) * 131, k), e = hash((xi + 1) * 57 + (yi + 1) * 131, k);
-      return a + (b - a) * u + (c - a) * v + (a - b - c + e) * u * v; };
-    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-      const nx = (x / w - .5) * 2, ny = (y / h - .5) * 2, r = Math.hypot(nx, ny * 1.05);
-      const n = .5 * vn(x / 13, y / 13, 1) + .3 * vn(x / 6, y / 6, 2) + .2 * vn(x / 3, y / 3, 3);
-      const dens = clamp01((1 - r) * 1.7 + (n - .5) * 1.6), a = dens * dens * (3 - 2 * dens);
-      const lit = clamp01(.88 + .4 * (n - .5) - .16 * ny), i = (y * w + x) * 4;
-      d[i] = 226 * lit + 26; d[i + 1] = 238 * lit + 17; d[i + 2] = 236 * lit + 19; d[i + 3] = 245 * a;
-    }
-    g.putImageData(img, 0, 0);
-  });
   B = {
-    foam,
-    drop: drop('#e4f8f6', '#ffffff'), dropWarm: drop('#f2f4ec', '#ffd9a8'),
-    bloom: radial([[0, '#f4fffdf0'], [.3, '#d8f4f2a8'], [.65, '#a9dfe238'], [1, '#a9dfe200']]),
+    sheet, lace,
+    drop: drop('#ffffff'), dropWarm: drop('#ffe2bc'),
+    beadImg: canvas(24, 24, (g) => bead(g, 12, 12, 10)),
+    flash: radial([[0, '#eefcffd8'], [.35, '#bfe6f0a0'], [.7, '#7cc0d040'], [1, '#7cc0d000']]),
+    bloom: radial([[0, '#e6f8fbd0'], [.3, '#c4ebf0a0'], [.65, '#8fd0dc38'], [1, '#8fd0dc00']]),
     mist: radial([[0, '#cfeef0'], [.5, '#a9dfe255'], [1, '#a9dfe200']]),
-    bead: radial([[0, '#ffffff'], [.25, '#eefcf9f0'], [.6, '#a9dfe290'], [1, '#a9dfe200']]),
-    ring, fleck,
+    ring,
     // A falling curtain of sluice water: fine vertical strands, tileable top to bottom.
     curtain: canvas(32, 128, (g, w, h) => {
       for (let i = 0; i < 14; i++) {
@@ -81,8 +126,8 @@ function droplet(ctx, b, t, x0, y0, vx, vy, G, land, size, a, warm) {
   const y = y0 + vy * t + .5 * G * t * t; if (y > y0 + land) return;
   const x = x0 + vx * t, wy = vy + G * t, sp = Math.hypot(vx, wy), len = Math.max(size * 1.3, Math.min(size * 6, sp * .022));
   budget--; ctx.save(); ctx.globalAlpha = a; ctx.translate(x, y); ctx.rotate(Math.atan2(wy, vx));
-  if (len < size * 2) ctx.drawImage(b.bead, -size * .45, -size * .45, size * .9, size * .9);   // slow at the top of its arc: a round bead
-  else ctx.drawImage(warm ? b.dropWarm : b.drop, -len + size * .6, -size / 2, len, size);
+  if (len < size * 2) ctx.drawImage(b.beadImg, -size * .5, -size * .5, size, size);   // slow at the top of its arc: a round bead
+  else ctx.drawImage(warm ? b.dropWarm : b.drop, -len + size * .45, -size / 2, len, size);
   ctx.restore();
 }
 // A ripple ring on the surface at (x, y): rx grows from r0, ry is the basin's perspective squash. Clipped at the water line.
@@ -100,72 +145,64 @@ export function splashUnder(ctx, g, e) {
   if (wl < g.water.y + 3) return;                                // over the rafts or the wall: no water there to ripple
   ctx.save();
   const r0 = onPaddle ? p.w * .42 : 6, delay = onPaddle ? .03 : .12;
-  ripple(ctx, b, e.x, wl, t - delay, .55, r0, r0 + 46, .95 * base, g.water.y);
-  ripple(ctx, b, e.x, wl, t - delay - .13, .5, r0 * .8, r0 + 30, .6 * base, g.water.y);
-  // Foam flecks spread along the surface and slow, perspective-flattened.
-  for (let i = 0; i < 6; i++) {
+  ripple(ctx, b, e.x, wl, t - delay, .55, r0, r0 + 46, .5 * base, g.water.y);
+  ripple(ctx, b, e.x, wl, t - delay - .13, .5, r0 * .8, r0 + 30, .3 * base, g.water.y);
+  // Foam lace spreads along the surface and slows, perspective-flattened.
+  for (let i = 0; i < 4; i++) {
     const tt = t - delay - .02 * i; if (tt <= 0) continue;
     const dir = i % 2 ? 1 : -1, v = 30 + 40 * hash(i, 5), d = (onPaddle ? p.w * .38 : 3) + v * (1 - Math.exp(-3 * tt)) / 3;
-    const s = 5 + 4 * hash(i, 6);
-    stamp(ctx, b.fleck, e.x + dir * d, wl + (hash(i, 7) - .5) * 6 + 1, s, s * .45, .8 * base * clamp01(1 - tt / .55));
+    const s = 12 + 8 * hash(i, 6);
+    stamp(ctx, b.lace, e.x + dir * d, wl + (hash(i, 7) - .5) * 5 + 1, s, s * .14, .7 * base * clamp01(1 - tt / .55));
   }
   ctx.restore();
 }
-// Over the paddle and balls: the white water, the crown and the spray. On the paddle the shot flattens into white water
-// that slides off both ends of the deck while a crown of short sheets and droplets climbs off it; a ball-blocked shot
-// bursts round the ball.
+// Over the paddle and balls. The contact is a brief, small blue-white flash; the body of the splash is water: curved
+// translucent sheets that rise off the contact, peel outward and thin away as they break into glossy droplets. On the
+// paddle, foam lace settles on the deck and slides off both ends.
 export function splashOver(ctx, g, e) {
   const b = bake(), t = e.age, base = ga(ctx), p = g.paddle, onPaddle = !e.blocked, seed = Math.round(e.x * 7 + e.y * 3) % 97;
-  const x0 = e.x, y0 = onPaddle ? p.y - p.h / 2 + 1 : e.y;
+  const x0 = e.x, y0 = onPaddle ? p.y - p.h / 2 + 1 : e.y + 10;   // on the water the sheets stand on the ripple
   ctx.save();
-  const m = 40 + 70 * easeOut(t / .5);
-  stamp(ctx, b.mist, x0, y0 - 8, m, m * .55, .28 * base * clamp01(1 - t / .5));
   if (onPaddle) {
-    crown(ctx, b, x0, y0, t, base, seed);
-    const fw = 14 + 44 * easeOut(t / .16), fa = .95 * base * clamp01(1 - (t - .08) / .28);
-    stamp(ctx, b.foam, x0, y0 - fw * .16, fw, fw * .5, fa);
-    for (let k = 0; k < 2; k++) {   // the sheet running off each end of the deck
-      const dir = k ? 1 : -1;
-      const d = 6 + (p.w * .5 + 8) * easeOut(t / .32), sw = 16 + 16 * easeOut(t / .3);
-      stamp(ctx, b.foam, x0 + dir * d, y0 - 2 + 10 * clamp01((Math.abs(x0 + dir * d - p.x) - p.w / 2) / 14), sw, sw * .42, .8 * base * clamp01(1 - (t - .1) / .3));
+    for (let k = 0; k < 2; k++) {   // lace on the deck, sliding to each end and spilling off it
+      const dir = k ? 1 : -1, tt = t - .03; if (tt <= 0) continue;
+      const d = 4 + (p.w * .5 + 6) * easeOut(tt / .4), x = x0 + dir * d, off = Math.max(0, Math.abs(x - p.x) - p.w / 2), w = 14 + 14 * easeOut(tt / .3);
+      stamp(ctx, b.lace, x - dir * w * .3, y0 + Math.min(14, off * .9), w, 3.2, .85 * base * clamp01(1 - (tt - .25) / .3));
     }
-  } else {
-    const fw = 10 + 34 * easeOut(t / .18);
-    stamp(ctx, b.foam, x0, y0 + 12 * easeOut(t / .4), fw * (1 + .4 * clamp01(t / .4)), fw * .7, .85 * base * clamp01(1 - (t - .04) / .24) ** 1.2);
-  }
-  stamp(ctx, b.bloom, x0, y0 - 3, 8 + 20 * easeOut(t / .1), (8 + 20 * easeOut(t / .1)) * .7, .7 * base * clamp01(1 - t / .14));
-  const n = onPaddle ? 26 : 20;
+    sheets(ctx, b, x0, y0, t, base, seed, SHEETS_PADDLE);
+  } else sheets(ctx, b, x0, y0, t, base, seed, SHEETS_BURST);
+  stamp(ctx, b.flash, x0, y0 - 2, 6 + 8 * easeOut(t / .05), (6 + 8 * easeOut(t / .05)) * (onPaddle ? .7 : 1), .7 * base * clamp01(1 - t / .08));
+  const n = onPaddle ? 22 : 18;
   for (let i = 0; i < n; i++) {
     const r1 = hash(i, seed + 1), r2 = hash(i, seed + 2), r3 = hash(i, seed + 3);
-    let a, v;
-    if (onPaddle) { const side = i % 2 ? 1 : -1, crownDrop = i % 4 !== 0; a = -Math.PI / 2 + side * (crownDrop ? .35 + .75 * r1 : .25 * r1); v = crownDrop ? 120 + 110 * r2 : 170 + 120 * r2; }
-    else { a = r1 * TAU; v = 70 + 150 * r2; }
-    const sx = x0 + Math.cos(a) * (onPaddle ? 12 : 5), sy = onPaddle ? y0 - 3 : y0 + Math.sin(a) * 5;
-    droplet(ctx, b, t - .04 * r3, sx, sy, Math.cos(a) * v, Math.sin(a) * v * (onPaddle ? 1 : .8) - (onPaddle ? 0 : 40), 840, onPaddle ? 8 + 10 * r1 : 14 + 8 * r2, 1 + 2.2 * r3 * r3, base * .95 * clamp01(1 - t / .6) ** .7, i % 5 === 0);
+    let a, v, sx, sy, delay;
+    if (onPaddle) {   // most drops leave the sheets' lips as they break; a few go straight up
+      const side = i % 2 ? 1 : -1, lip = i % 5 !== 0; a = -Math.PI / 2 + side * (lip ? .55 + .6 * r1 : .2 * r1); v = lip ? 100 + 100 * r2 : 150 + 100 * r2;
+      sx = x0 + side * (lip ? 10 + 12 * r2 : 2); sy = y0 - (lip ? 10 + 8 * r1 : 3); delay = lip ? .1 + .1 * r3 : .02 * r3;
+    } else { a = -Math.PI / 2 + (r1 - .5) * 2.8; v = 70 + 130 * r2; sx = x0 + Math.cos(a) * 7; sy = y0 - 6 - 8 * r3; delay = .06 + .08 * r3; }
+    droplet(ctx, b, t - delay, sx, sy, Math.cos(a) * v, Math.sin(a) * v * (onPaddle ? 1 : .8) - (onPaddle ? 0 : 30), 820, onPaddle ? 10 + 14 * r1 : 16 + 8 * r2, 1.4 + 1.8 * r3 * r3, base * clamp01(1 - (t - delay) / .45) ** .6, i % 6 === 0);
   }
   ctx.restore();
 }
-// The crown: eight short translucent sheets thrown up round the rim of a perspective ellipse, the far ones dimmer and drawn
-// first, leaning out as the rim widens, then slumping and thinning as they break into the droplets above.
-function crown(ctx, b, x0, y0, t, base, seed) {
-  const rise = Math.sin(Math.PI * clamp01(t / .34)), fade = clamp01(1 - (t - .18) / .18); if (rise <= .02 || fade <= 0) return;
-  const rx = 12 + 22 * easeOut(t / .3), ry = rx * .24;
-  ctx.save();
-  for (let pass = 0; pass < 2; pass++) for (let i = 0; i < 8; i++) {
-    const th = (i + .5) / 8 * TAU + hash(i, seed + 21) * .4, front = Math.sin(th) > 0; if (front !== (pass === 1)) continue;
-    const bx = x0 + Math.cos(th) * rx, by = y0 + Math.sin(th) * ry, hgt = (9 + 12 * hash(i, seed + 22)) * rise * (1 - .3 * Math.abs(Math.cos(th)));
-    if (hgt < 1.5) continue;
-    ctx.save(); ctx.globalAlpha = base * fade * (front ? .6 : .35); ctx.translate(bx, by); ctx.rotate(Math.cos(th) * (.3 + .45 * easeOut(t / .3)));
-    const w = 5 + 3 * hash(i, seed + 23); ctx.drawImage(b.foam, -w / 2, -hgt * 1.1, w, hgt * 1.3); ctx.restore();
+// Sheet sets: [angle off vertical (rad, + leans right), height, width, delay, alpha]. Mirrored sheets peel left.
+const SHEETS_PADDLE = [[-.36, 26, 18, 0, 1], [.4, 28, 19, .012, 1]];
+const SHEETS_BURST = [[-.3, 20, 13, 0, .85], [.36, 18, 12, .015, .8]];
+function sheets(ctx, b, x0, y0, t, base, seed, set) {
+  for (let i = 0; i < set.length; i++) {
+    const [ang, H, W, delay, alpha] = set[i], tt = t - delay; if (tt <= 0) continue;
+    const rise = Math.sin(Math.PI * clamp01(tt / .32)) ** .7, fade = clamp01(1 - (tt - .14) / .2); if (rise < .03 || fade <= 0) continue;
+    const h = H * rise * (.85 + .3 * hash(i, seed + 31)), w = W * (.45 + .75 * easeOut(tt / .26)), mirror = ang < 0 ? -1 : 1;
+    ctx.save(); ctx.globalAlpha = base * alpha * fade; ctx.translate(x0, y0);
+    ctx.rotate(ang + mirror * .3 * easeOut(tt / .3));   // the lip peels further outward as it climbs
+    ctx.scale(mirror, 1); ctx.drawImage(b.sheet, -w * .3, -h, w, h); ctx.restore();
   }
-  ctx.restore();
 }
 // The crusher's discharge: a short cone of spray along the shot and a cloud of mist at the claw tip.
 export function muzzle(ctx, e) {
   const b = bake(), t = e.age, base = ga(ctx);
   ctx.save();
   stamp(ctx, b.mist, e.x, e.y, 24 + 70 * easeOut(t / .35), 24 + 70 * easeOut(t / .35), .9 * base * clamp01(1 - t / .4) ** .8);
-  stamp(ctx, b.bloom, e.x + Math.cos(e.angle) * 6, e.y + Math.sin(e.angle) * 6, 16 + 26 * easeOut(t / .12), 16 + 26 * easeOut(t / .12), .95 * base * clamp01(1 - t / .2));
+  stamp(ctx, b.flash, e.x + Math.cos(e.angle) * 6, e.y + Math.sin(e.angle) * 6, 12 + 14 * easeOut(t / .08), 12 + 14 * easeOut(t / .08), .85 * base * clamp01(1 - t / .14));
   for (let i = 0; i < 12; i++) {
     const a = e.angle + (i % 2 ? 1 : -1) * (.35 + .75 * hash(i, 41)), v = 90 + 150 * hash(i, 42);   // spray thrown off both sides of the jet
     droplet(ctx, b, t - .02 * hash(i, 43), e.x, e.y, Math.cos(a) * v, Math.sin(a) * v, 700, 90, 1.2 + 1.4 * hash(i, 44), base * clamp01(1 - t / .4), i % 4 === 0);
