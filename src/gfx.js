@@ -192,7 +192,7 @@ const FXK = Object.fromEntries(Object.entries(ART?.fxKit || {}).map(([k, v]) => 
 const GEM_BLOOM = { pip_gold: '#ffc98a', pip_rose: '#ff9ec0', pip_blue: '#9fd0ff' };
 function ramBloom(g, x, y, r, colour, a, rx = r, ry = r) {
   if (a <= 0 || r <= 0) return;
-  g.save(); g.globalAlpha *= Math.min(1, a); g.translate(x, y); g.scale(rx / r, ry / r);
+  g.save(); g.globalAlpha = (typeof g.globalAlpha === 'number' ? g.globalAlpha : 1) * Math.min(1, a); g.translate(x, y); g.scale(rx / r, ry / r);
   const gr = g.createRadialGradient(0, 0, 0, 0, 0, r); gr.addColorStop(0, colour); gr.addColorStop(1, 'rgba(0,0,0,0)');
   g.fillStyle = gr; g.fillRect(-r, -r, r * 2, r * 2); g.restore();
 }
@@ -207,14 +207,28 @@ export function drawRamGlaze(g, p, t, key = 'pip_gold', under = false) {
   if (under) { ramBloom(g, p.x, cy, p.w * .55, warm, .32 + .16 * beat, p.w * .55, 20); return; }
   g.save(); g.globalCompositeOperation = 'lighter'; ramBloom(g, p.x, cy - 1, p.w / 6 + 4, warm, .45 + .3 * beat, p.w / 6 + 4, p.h * .55); g.restore();
 }
-// Three sockets under the paddle light 1/3, 2/3, 3/3 with the streak, then beat while the ram waits.
-export function drawRamPips(g, p, t, key = 'pip_gold') {
+// Three sockets on a small enamel tray under the paddle light 1/3, 2/3, 3/3 with the streak (each one pops in with a
+// glint), then beat while the ram waits. While the ram coach is up (src/coach.js) the empty sockets breathe too.
+// x, y: where the tray sits (the castle renderers pass their own); the pop clock is per paddle.
+const PIP_POP = new WeakMap(), RAM_TEACH = new WeakSet();
+export function ramTeach(p, on) { if (on) RAM_TEACH.add(p); else RAM_TEACH.delete(p); }
+export function ramPipPops(p, t, lit) {
+  let s = PIP_POP.get(p); if (!s) { s = { lit, at: [-9, -9, -9] }; PIP_POP.set(p, s); }
+  for (let i = s.lit; i < lit; i++) s.at[i] = t;
+  s.lit = lit; return s.at.map(a => Math.max(0, 1 - (t - a) / .32));
+}
+export function drawRamPips(g, p, t, key = 'pip_gold', x = p.x, y = p.y + p.h + 8) {
   const lit = p.armed ? 3 : Math.min(3, p.streak || 0), pulse = p.armed ? .5 + .5 * Math.sin(t * 9) : 0, warm = GEM_BLOOM[key] || GEM_BLOOM.pip_gold;
-  const y = p.y + p.h + 8, gap = 9.5, scale = .86;
+  const gap = 9.5, scale = .86, pops = ramPipPops(p, t, lit), teach = RAM_TEACH.has(p);
+  // the tray: a dark glazed pill, so the sockets read as one meter even over the Ward line
+  g.save(); g.fillStyle = 'rgba(8,11,20,0.78)'; rrect(g, x - gap * 1.5 - 4, y - 5.5, gap * 3 + 8, 11, 5.5); g.fill();
+  g.fillStyle = 'rgba(255,255,255,0.07)'; rrect(g, x - gap * 1.5 - 1, y - 4.5, gap * 3 + 2, 3.2, 1.6); g.fill(); g.restore();
   for (let i = 0; i < 3; i++) {
-    const x = p.x + (i - 1) * gap, on = i < lit;
-    if (on) ramBloom(g, x, y, 7 * scale + 2 * pulse, warm, .38 + .25 * pulse);
-    fxPart(g, on ? key : 'pip_empty', x, y, scale * (on ? 1 + .08 * pulse : 1));
+    const px = x + (i - 1) * gap, on = i < lit, pop = on ? pops[i] : 0, e = pop * pop;
+    if (on) ramBloom(g, px, y, 7 * scale + 2 * pulse + 9 * e, warm, .38 + .25 * pulse + .5 * e);
+    else if (teach) ramBloom(g, px, y, 6, warm, .12 + .14 * Math.max(0, Math.sin(t * 6 - i * .9)));
+    fxPart(g, on ? key : 'pip_empty', px, y, scale * (on ? 1 + .08 * pulse + .7 * e : 1));
+    if (pop > 0) drawGlint(g, px, y - 1, 10, 1 - pop, warm, .9);
   }
 }
 // The ram ball: polished steel with a gold hoop, a blue-white halo that drains over its 2.5 s and a tapered slipstream.
@@ -274,7 +288,7 @@ export function drawShard(g, palette, variant, x, y, rot, size, alpha = 1) {
 export function drawGlint(g, x, y, r, k, color = '#fff', a = 1) {
   const img = GLINT_IMG[glintKind(color)]; if (!imgReady(img)) return false;
   const s = r * (0.7 + 0.6 * k), turn = ((x * 7 + y * 13) % 10) * 0.05 - 0.25;   // a small fixed tilt per hit, so repeats don't stamp
-  g.save(); g.globalCompositeOperation = 'lighter'; g.globalAlpha *= a * (1 - k) * (1 - k * 0.4); g.translate(x, y); g.rotate(turn); g.drawImage(img, -s, -s, s * 2, s * 2); g.restore(); return true;
+  g.save(); g.globalCompositeOperation = 'lighter'; g.globalAlpha = (typeof g.globalAlpha === 'number' ? g.globalAlpha : 1) * a * (1 - k) * (1 - k * 0.4); g.translate(x, y); g.rotate(turn); g.drawImage(img, -s, -s, s * 2, s * 2); g.restore(); return true;
 }
 export class FX {
   constructor() { this.shards = []; this.dust = []; this.pops = []; this.rings = []; this.nShard = 0; }
