@@ -1,0 +1,260 @@
+{
+ "source": [
+  "main e92a987"
+ ],
+ "frames": {
+  "torch_0": {
+   "file": "torch_0.png",
+   "size": [
+    47,
+    92
+   ],
+   "pivot": [
+    23,
+    92
+   ]
+  },
+  "torch_1": {
+   "file": "torch_1.png",
+   "size": [
+    42,
+    89
+   ],
+   "pivot": [
+    21,
+    89
+   ]
+  },
+  "torch_2": {
+   "file": "torch_2.png",
+   "size": [
+    42,
+    88
+   ],
+   "pivot": [
+    21,
+    88
+   ]
+  },
+  "torch_3": {
+   "file": "torch_3.png",
+   "size": [
+    34,
+    87
+   ],
+   "pivot": [
+    17,
+    87
+   ]
+  },
+  "torch_4": {
+   "file": "torch_4.png",
+   "size": [
+    36,
+    81
+   ],
+   "pivot": [
+    18,
+    81
+   ]
+  },
+  "torch_5": {
+   "file": "torch_5.png",
+   "size": [
+    39,
+    73
+   ],
+   "pivot": [
+    19,
+    73
+   ]
+  },
+  "glow": {
+   "file": "glow.png",
+   "size": [
+    59,
+    85
+   ],
+   "pivot": [
+    29,
+    85
+   ]
+  },
+  "chain": {
+   "file": "chain.png",
+   "size": [
+    27,
+    113
+   ],
+   "pivot": [
+    13,
+    113
+   ]
+  },
+  "flag_0": {
+   "file": "flag_0.png",
+   "size": [
+    63,
+    91
+   ],
+   "pivot": [
+    31,
+    91
+   ]
+  },
+  "flag_1": {
+   "file": "flag_1.png",
+   "size": [
+    59,
+    86
+   ],
+   "pivot": [
+    29,
+    86
+   ]
+  },
+  "flag_2": {
+   "file": "flag_2.png",
+   "size": [
+    67,
+    77
+   ],
+   "pivot": [
+    33,
+    77
+   ]
+  },
+  "flag_3": {
+   "file": "flag_3.png",
+   "size": [
+    60,
+    87
+   ],
+   "pivot": [
+    30,
+    87
+   ]
+  },
+  "wheel": {
+   "file": "wheel.png",
+   "size": [
+    268,
+    265
+   ],
+   "pivot": [
+    134,
+    265
+   ]
+  },
+  "ripple_0": {
+   "file": "ripple_0.png",
+   "size": [
+    171,
+    51
+   ],
+   "pivot": [
+    85,
+    51
+   ]
+  },
+  "ripple_1": {
+   "file": "ripple_1.png",
+   "size": [
+    173,
+    50
+   ],
+   "pivot": [
+    86,
+    50
+   ]
+  },
+  "ripple_2": {
+   "file": "ripple_2.png",
+   "size": [
+    173,
+    49
+   ],
+   "pivot": [
+    86,
+    49
+   ]
+  },
+  "ripple_3": {
+   "file": "ripple_3.png",
+   "size": [
+    175,
+    47
+   ],
+   "pivot": [
+    87,
+    47
+   ]
+  },
+  "sluice_0": {
+   "file": "sluice_0.png",
+   "size": [
+    58,
+    97
+   ],
+   "pivot": [
+    29,
+    97
+   ]
+  },
+  "sluice_1": {
+   "file": "sluice_1.png",
+   "size": [
+    61,
+    98
+   ],
+   "pivot": [
+    30,
+    98
+   ]
+  },
+  "sluice_2": {
+   "file": "sluice_2.png",
+   "size": [
+    62,
+    99
+   ],
+   "pivot": [
+    31,
+    99
+   ]
+  },
+  "sluice_3": {
+   "file": "sluice_3.png",
+   "size": [
+    68,
+    100
+   ],
+   "pivot": [
+    34,
+    100
+   ]
+  },
+  "sluice_4": {
+   "file": "sluice_4.png",
+   "size": [
+    80,
+    101
+   ],
+   "pivot": [
+    40,
+    101
+   ]
+  },
+  "spray": {
+   "file": "spray.png",
+   "size": [
+    98,
+    84
+   ],
+   "pivot": [
+    49,
+    84
+   ]
+  }
+ }
+}

@@ -1,0 +1,227 @@
+{
+ "source": [
+  "main e92a987"
+ ],
+ "frames": {
+  "winch_0": {
+   "file": "winch_0.png",
+   "size": [
+    111,
+    103
+   ],
+   "pivot": [
+    55,
+    103
+   ]
+  },
+  "winch_1": {
+   "file": "winch_1.png",
+   "size": [
+    101,
+    96
+   ],
+   "pivot": [
+    50,
+    96
+   ]
+  },
+  "winch_2": {
+   "file": "winch_2.png",
+   "size": [
+    111,
+    98
+   ],
+   "pivot": [
+    55,
+    98
+   ]
+  },
+  "cage_0": {
+   "file": "cage_0.png",
+   "size": [
+    53,
+    117
+   ],
+   "pivot": [
+    26,
+    117
+   ]
+  },
+  "cage_1": {
+   "file": "cage_1.png",
+   "size": [
+    58,
+    121
+   ],
+   "pivot": [
+    29,
+    121
+   ]
+  },
+  "cage_2": {
+   "file": "cage_2.png",
+   "size": [
+    48,
+    124
+   ],
+   "pivot": [
+    24,
+    124
+   ]
+  },
+  "cage_3": {
+   "file": "cage_3.png",
+   "size": [
+    48,
+    120
+   ],
+   "pivot": [
+    24,
+    120
+   ]
+  },
+  "torch_0": {
+   "file": "torch_0.png",
+   "size": [
+    46,
+    95
+   ],
+   "pivot": [
+    23,
+    95
+   ]
+  },
+  "torch_1": {
+   "file": "torch_1.png",
+   "size": [
+    45,
+    92
+   ],
+   "pivot": [
+    22,
+    92
+   ]
+  },
+  "torch_2": {
+   "file": "torch_2.png",
+   "size": [
+    40,
+    93
+   ],
+   "pivot": [
+    20,
+    93
+   ]
+  },
+  "torch_3": {
+   "file": "torch_3.png",
+   "size": [
+    43,
+    89
+   ],
+   "pivot": [
+    21,
+    89
+   ]
+  },
+  "torch_4": {
+   "file": "torch_4.png",
+   "size": [
+    47,
+    92
+   ],
+   "pivot": [
+    23,
+    92
+   ]
+  },
+  "banner_0": {
+   "file": "banner_0.png",
+   "size": [
+    54,
+    118
+   ],
+   "pivot": [
+    27,
+    118
+   ]
+  },
+  "banner_1": {
+   "file": "banner_1.png",
+   "size": [
+    72,
+    109
+   ],
+   "pivot": [
+    36,
+    109
+   ]
+  },
+  "banner_2": {
+   "file": "banner_2.png",
+   "size": [
+    67,
+    106
+   ],
+   "pivot": [
+    33,
+    106
+   ]
+  },
+  "banner_3": {
+   "file": "banner_3.png",
+   "size": [
+    62,
+    111
+   ],
+   "pivot": [
+    31,
+    111
+   ]
+  },
+  "moat_0": {
+   "file": "moat_0.png",
+   "size": [
+    139,
+    92
+   ],
+   "pivot": [
+    69,
+    92
+   ]
+  },
+  "moat_1": {
+   "file": "moat_1.png",
+   "size": [
+    139,
+    92
+   ],
+   "pivot": [
+    69,
+    92
+   ]
+  },
+  "moat_2": {
+   "file": "moat_2.png",
+   "size": [
+    138,
+    87
+   ],
+   "pivot": [
+    69,
+    87
+   ]
+  },
+  "moat_3": {
+   "file": "moat_3.png",
+   "size": [
+    139,
+    87
+   ],
+   "pivot": [
+    69,
+    87
+   ]
+  }
+ }
+}

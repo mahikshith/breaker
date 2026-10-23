@@ -1,0 +1,315 @@
+{
+ "source": [
+  "main e92a987"
+ ],
+ "frames": {
+  "idle_0": {
+   "file": "idle_0.png",
+   "size": [
+    184,
+    150
+   ],
+   "pivot": [
+    92,
+    150
+   ]
+  },
+  "idle_1": {
+   "file": "idle_1.png",
+   "size": [
+    174,
+    149
+   ],
+   "pivot": [
+    87,
+    149
+   ]
+  },
+  "idle_2": {
+   "file": "idle_2.png",
+   "size": [
+    167,
+    147
+   ],
+   "pivot": [
+    83,
+    147
+   ]
+  },
+  "idle_3": {
+   "file": "idle_3.png",
+   "size": [
+    175,
+    147
+   ],
+   "pivot": [
+    87,
+    147
+   ]
+  },
+  "pound_windup": {
+   "file": "pound_windup.png",
+   "size": [
+    179,
+    170
+   ],
+   "pivot": [
+    89,
+    170
+   ]
+  },
+  "pound_strike": {
+   "file": "pound_strike.png",
+   "size": [
+    168,
+    199
+   ],
+   "pivot": [
+    84,
+    199
+   ]
+  },
+  "pound_settle": {
+   "file": "pound_settle.png",
+   "size": [
+    186,
+    120
+   ],
+   "pivot": [
+    93,
+    120
+   ]
+  },
+  "pound_recover": {
+   "file": "pound_recover.png",
+   "size": [
+    168,
+    128
+   ],
+   "pivot": [
+    84,
+    128
+   ]
+  },
+  "flinch": {
+   "file": "flinch.png",
+   "size": [
+    147,
+    137
+   ],
+   "pivot": [
+    73,
+    137
+   ]
+  },
+  "dazed": {
+   "file": "dazed.png",
+   "size": [
+    159,
+    135
+   ],
+   "pivot": [
+    79,
+    135
+   ]
+  },
+  "recover": {
+   "file": "recover.png",
+   "size": [
+    165,
+    133
+   ],
+   "pivot": [
+    82,
+    133
+   ]
+  },
+  "defeated": {
+   "file": "defeated.png",
+   "size": [
+    220,
+    88
+   ],
+   "pivot": [
+    110,
+    88
+   ]
+  },
+  "dash_r_crouch": {
+   "file": "dash_r_crouch.png",
+   "size": [
+    123,
+    77
+   ],
+   "pivot": [
+    61,
+    77
+   ]
+  },
+  "dash_r_0": {
+   "file": "dash_r_0.png",
+   "size": [
+    163,
+    92
+   ],
+   "pivot": [
+    81,
+    92
+   ]
+  },
+  "dash_r_1": {
+   "file": "dash_r_1.png",
+   "size": [
+    102,
+    92
+   ],
+   "pivot": [
+    51,
+    92
+   ]
+  },
+  "dash_r_2": {
+   "file": "dash_r_2.png",
+   "size": [
+    126,
+    90
+   ],
+   "pivot": [
+    63,
+    90
+   ]
+  },
+  "dash_r_3": {
+   "file": "dash_r_3.png",
+   "size": [
+    134,
+    88
+   ],
+   "pivot": [
+    67,
+    88
+   ]
+  },
+  "dash_r_4": {
+   "file": "dash_r_4.png",
+   "size": [
+    106,
+    87
+   ],
+   "pivot": [
+    53,
+    87
+   ]
+  },
+  "dash_l_crouch": {
+   "file": "dash_l_crouch.png",
+   "size": [
+    136,
+    80
+   ],
+   "pivot": [
+    68,
+    80
+   ]
+  },
+  "dash_l_0": {
+   "file": "dash_l_0.png",
+   "size": [
+    123,
+    96
+   ],
+   "pivot": [
+    61,
+    96
+   ]
+  },
+  "dash_l_1": {
+   "file": "dash_l_1.png",
+   "size": [
+    121,
+    95
+   ],
+   "pivot": [
+    60,
+    95
+   ]
+  },
+  "dash_l_2": {
+   "file": "dash_l_2.png",
+   "size": [
+    129,
+    93
+   ],
+   "pivot": [
+    64,
+    93
+   ]
+  },
+  "dash_l_3": {
+   "file": "dash_l_3.png",
+   "size": [
+    121,
+    90
+   ],
+   "pivot": [
+    60,
+    90
+   ]
+  },
+  "dash_l_4": {
+   "file": "dash_l_4.png",
+   "size": [
+    113,
+    89
+   ],
+   "pivot": [
+    56,
+    89
+   ]
+  },
+  "smash_l": {
+   "file": "smash_l.png",
+   "size": [
+    193,
+    155
+   ],
+   "pivot": [
+    96,
+    155
+   ]
+  },
+  "dazed_l": {
+   "file": "dazed_l.png",
+   "size": [
+    146,
+    154
+   ],
+   "pivot": [
+    73,
+    154
+   ]
+  },
+  "smash_r": {
+   "file": "smash_r.png",
+   "size": [
+    223,
+    151
+   ],
+   "pivot": [
+    111,
+    151
+   ]
+  },
+  "dazed_r": {
+   "file": "dazed_r.png",
+   "size": [
+    144,
+    156
+   ],
+   "pivot": [
+    72,
+    156
+   ]
+  }
+ }
+}
