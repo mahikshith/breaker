@@ -9,7 +9,8 @@ import { SerpentRivals, RIVALS_KINDS } from './rivals.js';
 import { DragonsHoard, HOARD_KINDS } from './hoard.js';
 import { hoardButtons } from './hoard-render.js';
 import { makeArt, drawEncounter, gWard } from './render.js';
-import { cached, drawBall, text } from '../gfx.js';
+import { cached, drawBall, text, ramTeach } from '../gfx.js';
+import { Coach } from '../coach.js';
 import { sfx } from '../audio.js';
 import { kitExpression, updateKitPresence } from '../kit.js';
 
@@ -54,6 +55,7 @@ export class FantasyChapter {
     this.kitBodyAt = 0; this.kitBodyUntil = 0; this.kitWasFull = false; this.kitSeenCastAt = -Infinity; this.combo = 0; this.aim = null;
     this.ptr = { down: false, x: 0, y: 0 }; this.keys = {}; this.inputEpoch = 0; this.floodMin = Infinity;
     this.heard = new WeakSet(); this.hitSoundAt = -Infinity; this.hint = null;
+    this.coach = new Coach(); // first-time serve and ram coaching (src/coach.js); castle chapters have no Focus aim
   }
   get state() { return this.m.state; }
   get phase() { return this.m.phase; }
@@ -84,7 +86,8 @@ export class FantasyChapter {
     if (tx < lo || tx > hi) { tx = Math.max(lo, Math.min(hi, tx)); this.padAnchor = tx; this.anchor = this.toModel(x); }
     m.setTarget(tx);
   }
-  pointerUp() { this.ptr.down = false; this.m.launch(); }
+  pointerUp() { this.ptr.down = false; this.serve(); }
+  serve() { const hold = this.m.phase === 'serve'; if (this.m.launch() && hold) this.coach.served(); }
   pointerCancel() { this.ptr.down = false; }
   key(k, down) {
     if (this.powerMenuOpen) {
@@ -94,7 +97,7 @@ export class FantasyChapter {
     }
     this.keys[k] = down;
     if (this.key === 'hoard' && down) { const c = k.toLowerCase(); if (this.m.phase === 'greed') { if (c === '1' || c === 'r') this.m.choose('run'); if (c === '2' || c === 's') this.m.choose('stay'); return; } if (c === 'r') this.m.run(); }
-    if (k === ' ' && !down) this.m.launch();
+    if (k === ' ' && !down) this.serve();
     if (k.toLowerCase() === 'k' && down) this.activateKitPower();
   }
   kitAnchor() { return { x: 38 / this.kitUIScale, y: this.H - 30 / this.kitUIScale, r: 26 / this.kitUIScale }; }
@@ -137,7 +140,7 @@ export class FantasyChapter {
     if ((SNAKES.has(this.key) || this.key === 'hoard') && m.lives < this.lives0) this.hurtUntil = this.t + .9; this.lives0 = m.lives;
     if (this.key === 'tidewheel') this.floodMin = Math.min(this.floodMin, m.water.y);
     for (const e of m.effects) if (!this.heard.has(e)) {
-      this.heard.add(e); if (e.kind === 'paddle-stun') this.stuns++;
+      this.heard.add(e); if (e.kind === 'paddle-stun') this.stuns++; if (e.kind === 'ram-launch') this.coach.ramLaunched();
       if (this.key === 'hoard') {
         if (e.kind === 'scorch' || e.kind === 'avalanche' || e.kind === 'caught') { this.kitShockUntil = this.t + .9; sfx.hurt(); }
         else if (e.kind === 'chime' || e.kind === 'ward-bounce') { this.kitReactionAt = this.t; this.kitWardResult = 'held'; sfx.hit(6); }
@@ -162,6 +165,16 @@ export class FantasyChapter {
     updateKitPresence(this);
     const mood = kitExpression(this);
     if (mood !== this.kitMood) { this.kitMood = mood; this.kitAt = this.kitTime; }
+    const p = m.paddle;
+    this.coach.update(dt, { blocked: m.state !== 'play' || !!m.backHold || m.phase === 'intro' || m.phase === 'greed' || m.phase === 'escape' || this.powerMenuOpen,   // the Hoard's greed card is modal
+      serveWaiting: m.phase === 'serve' && m.balls.some(b => b.caught && !b.dead), streak: p.streak || 0, armed: !!p.armed });
+    ramTeach(p, this.coach.ramPulse);
+  }
+  // main.js draws this over the level, in level space, only while play runs (never under the continue panel).
+  drawCoach(g) {
+    const p = this.m.paddle;
+    this.coach.draw(g, this.ox + p.x * this.k, this.hudTop + (p.y + 31) * this.k, this.kitUIScale,
+      { width: this.W, lit: p.armed ? 3 : Math.min(3, p.streak || 0), gem: this.key === 'lumitower' ? 'pip_rose' : 'pip_gold' });
   }
   result() {
     const m = this.m, won = m.state === 'won';

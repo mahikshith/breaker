@@ -97,7 +97,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 6503,
+     "wallMs": 3628,
      "time": 77.16,
      "livesLost": 1,
      "continues": 0,
@@ -116,7 +116,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 9148,
+     "wallMs": 4218,
      "time": 100.56,
      "livesLost": 0,
      "continues": 1,
@@ -135,7 +135,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 5845,
+     "wallMs": 2673,
      "time": 65.12,
      "livesLost": 2,
      "continues": 0,
@@ -174,7 +174,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 4026,
+     "wallMs": 3154,
      "time": 109.96,
      "livesLost": 6,
      "continues": 3,
@@ -211,7 +211,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2266,
+     "wallMs": 2102,
      "time": 56.22,
      "livesLost": 0,
      "continues": 0,
@@ -250,7 +250,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 7501,
+     "wallMs": 2920,
      "time": 77.56,
      "livesLost": 0,
      "continues": 0,
@@ -269,7 +269,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 4092,
+     "wallMs": 2433,
      "time": 83.9,
      "livesLost": 0,
      "continues": 0,
@@ -288,7 +288,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 7485,
+     "wallMs": 4306,
      "time": 122.63,
      "livesLost": 0,
      "continues": 0,
@@ -327,7 +327,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 3426,
+     "wallMs": 2700,
      "time": 114.57,
      "livesLost": 6,
      "continues": 3,
@@ -364,7 +364,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2481,
+     "wallMs": 2501,
      "time": 75.48,
      "livesLost": 1,
      "continues": 0,
@@ -403,7 +403,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 8759,
+     "wallMs": 5297,
      "time": 182.27,
      "livesLost": 1,
      "continues": 3,
@@ -422,7 +422,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 7780,
+     "wallMs": 5192,
      "time": 167.53,
      "livesLost": 0,
      "continues": 3,
@@ -441,7 +441,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 8411,
+     "wallMs": 4303,
      "time": 162.23,
      "livesLost": 1,
      "continues": 3,
@@ -480,7 +480,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 3366,
+     "wallMs": 2413,
      "time": 97.38,
      "livesLost": 6,
      "continues": 3,
@@ -517,7 +517,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 6559,
+     "wallMs": 4539,
      "time": 219.25,
      "livesLost": 2,
      "continues": 3,
@@ -556,7 +556,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 7605,
+     "wallMs": 6044,
      "time": 201.13,
      "livesLost": 1,
      "continues": 3,
@@ -576,7 +576,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 5146,
+     "wallMs": 3309,
      "time": 115.77,
      "livesLost": 1,
      "continues": 3,
@@ -593,7 +593,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 8040,
+     "wallMs": 5409,
      "time": 197.65,
      "livesLost": 1,
      "continues": 3,
@@ -632,7 +632,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2407,
+     "wallMs": 1589,
      "time": 97.86,
      "livesLost": 6,
      "continues": 3,
@@ -669,7 +669,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 6522,
+     "wallMs": 4204,
      "time": 181.17,
      "livesLost": 0,
      "continues": 3,
@@ -709,7 +709,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 4301,
+     "wallMs": 3174,
      "time": 111.25,
      "livesLost": 2,
      "continues": 3,
@@ -726,7 +726,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 4438,
+     "wallMs": 2629,
      "time": 109.68,
      "livesLost": 0,
      "continues": 3,
@@ -743,7 +743,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 6025,
+     "wallMs": 4449,
      "time": 157.36,
      "livesLost": 0,
      "continues": 3,
@@ -782,7 +782,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2152,
+     "wallMs": 1477,
      "time": 76.51,
      "livesLost": 6,
      "continues": 3,
@@ -819,7 +819,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 3774,
+     "wallMs": 2249,
      "time": 103.78,
      "livesLost": 2,
      "continues": 3,
@@ -856,7 +856,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 4530,
+     "wallMs": 4869,
      "time": 128.51,
      "livesLost": 0,
      "continues": 3,
@@ -875,7 +875,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 2992,
+     "wallMs": 2957,
      "time": 100.08,
      "livesLost": 0,
      "continues": 3,
@@ -892,7 +892,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 4372,
+     "wallMs": 3814,
      "time": 127.33,
      "livesLost": 0,
      "continues": 3,
@@ -931,7 +931,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2845,
+     "wallMs": 2653,
      "time": 105.97,
      "livesLost": 5,
      "continues": 3,
@@ -968,7 +968,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 4394,
+     "wallMs": 2660,
      "time": 91.03,
      "livesLost": 0,
      "continues": 3,
@@ -1005,7 +1005,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 6042,
+     "wallMs": 2823,
      "time": 75.2,
      "livesLost": 0,
      "continues": 0,
@@ -1025,7 +1025,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 8397,
+     "wallMs": 3567,
      "time": 126.71,
      "livesLost": 0,
      "continues": 2,
@@ -1046,7 +1046,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 6686,
+     "wallMs": 3332,
      "time": 152.33,
      "livesLost": 0,
      "continues": 3,
@@ -1085,7 +1085,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2370,
+     "wallMs": 1675,
      "time": 134.42,
      "livesLost": 5,
      "continues": 3,
@@ -1124,7 +1124,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 3856,
+     "wallMs": 2481,
      "time": 131.19,
      "livesLost": 0,
      "continues": 3,
@@ -1163,7 +1163,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 9181,
+     "wallMs": 5869,
      "time": 103.87,
      "livesLost": 0,
      "continues": 0,
@@ -1183,7 +1183,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 6648,
+     "wallMs": 3387,
      "time": 127.24,
      "livesLost": 0,
      "continues": 2,
@@ -1204,7 +1204,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 7436,
+     "wallMs": 2746,
      "time": 134.23,
      "livesLost": 0,
      "continues": 3,
@@ -1243,7 +1243,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 3312,
+     "wallMs": 2546,
      "time": 149.09,
      "livesLost": 3,
      "continues": 3,
@@ -1282,7 +1282,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2061,
+     "wallMs": 2317,
      "time": 144.33,
      "livesLost": 0,
      "continues": 3,
@@ -1321,7 +1321,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 3568,
+     "wallMs": 1758,
      "time": 130.56,
      "livesLost": 0,
      "continues": 3,
@@ -1340,7 +1340,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 9000,
+     "wallMs": 3490,
      "time": 150.23,
      "livesLost": 0,
      "continues": 2,
@@ -1361,7 +1361,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 3582,
+     "wallMs": 1486,
      "time": 131.87,
      "livesLost": 0,
      "continues": 3,
@@ -1400,7 +1400,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 3824,
+     "wallMs": 1912,
      "time": 138.94,
      "livesLost": 2,
      "continues": 3,
@@ -1439,7 +1439,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 4368,
+     "wallMs": 3739,
      "time": 86.23,
      "livesLost": 0,
      "continues": 2,
@@ -1480,7 +1480,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 8641,
+     "wallMs": 4064,
      "time": 145.54,
      "livesLost": 0,
      "continues": 3,
@@ -1501,7 +1501,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 4356,
+     "wallMs": 1731,
      "time": 144.84,
      "livesLost": 0,
      "continues": 3,
@@ -1520,7 +1520,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 5145,
+     "wallMs": 1492,
      "time": 111.26,
      "livesLost": 1,
      "continues": 3,
@@ -1559,7 +1559,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2457,
+     "wallMs": 1772,
      "time": 136.91,
      "livesLost": 2,
      "continues": 3,
@@ -1598,7 +1598,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 3357,
+     "wallMs": 3592,
      "time": 128.01,
      "livesLost": 0,
      "continues": 2,
@@ -1639,7 +1639,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 3407,
+     "wallMs": 1412,
      "time": 116.08,
      "livesLost": 0,
      "continues": 3,
@@ -1658,7 +1658,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 6348,
+     "wallMs": 3124,
      "time": 99.54,
      "livesLost": 0,
      "continues": 2,
@@ -1679,7 +1679,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 1937,
+     "wallMs": 2871,
      "time": 107.46,
      "livesLost": 0,
      "continues": 3,
@@ -1718,7 +1718,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2771,
+     "wallMs": 1903,
      "time": 89.74,
      "livesLost": 2,
      "continues": 1,
@@ -1759,7 +1759,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2310,
+     "wallMs": 1824,
      "time": 100.93,
      "livesLost": 0,
      "continues": 3,
@@ -1798,7 +1798,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 3741,
+     "wallMs": 2273,
      "time": 77.6,
      "livesLost": 0,
      "continues": 1,
@@ -1819,7 +1819,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 5813,
+     "wallMs": 2430,
      "time": 102.23,
      "livesLost": 0,
      "continues": 3,
@@ -1838,7 +1838,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 3025,
+     "wallMs": 1774,
      "time": 96.22,
      "livesLost": 1,
      "continues": 3,
@@ -1877,7 +1877,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 3911,
+     "wallMs": 2225,
      "time": 131.08,
      "livesLost": 2,
      "continues": 3,
@@ -1918,7 +1918,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 3139,
+     "wallMs": 1446,
      "time": 116.67,
      "livesLost": 0,
      "continues": 3,
@@ -1957,7 +1957,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 34028,
+     "wallMs": 27873,
      "time": 98.3,
      "livesLost": 0,
      "continues": 0,
@@ -1978,7 +1978,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 44953,
+     "wallMs": 34490,
      "time": 128.46,
      "livesLost": 1,
      "continues": 0,
@@ -2019,7 +2019,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 25097,
+     "wallMs": 17656,
      "time": 63.31,
      "livesLost": 6,
      "continues": 3,
@@ -2056,7 +2056,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 39124,
+     "wallMs": 29840,
      "time": 103.78,
      "livesLost": 2,
      "continues": 0,
@@ -2097,7 +2097,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 28447,
+     "wallMs": 23845,
      "time": 86.94,
      "livesLost": 6,
      "continues": 3,
@@ -2114,7 +2114,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 37748,
+     "wallMs": 29715,
      "time": 107.53,
      "livesLost": 1,
      "continues": 0,
@@ -2155,7 +2155,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 30002,
+     "wallMs": 19971,
      "time": 75.21,
      "livesLost": 6,
      "continues": 3,
@@ -2192,7 +2192,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 53340,
+     "wallMs": 44701,
      "time": 141.19,
      "livesLost": 5,
      "continues": 3,
@@ -2233,7 +2233,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 77669,
+     "wallMs": 52997,
      "time": 176.42,
      "livesLost": 1,
      "continues": 0,
@@ -2254,7 +2254,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 82953,
+     "wallMs": 55950,
      "time": 190.52,
      "livesLost": 4,
      "continues": 2,
@@ -2295,7 +2295,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 27590,
+     "wallMs": 23552,
      "time": 61.81,
      "livesLost": 6,
      "continues": 3,
@@ -2332,7 +2332,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 65182,
+     "wallMs": 55914,
      "time": 164.71,
      "livesLost": 4,
      "continues": 2,
@@ -2373,7 +2373,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 42494,
+     "wallMs": 27560,
      "time": 84.59,
      "livesLost": 6,
      "continues": 3,
@@ -2390,7 +2390,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 43590,
+     "wallMs": 30873,
      "time": 91.39,
      "livesLost": 6,
      "continues": 3,
@@ -2427,7 +2427,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 25870,
+     "wallMs": 21003,
      "time": 62.71,
      "livesLost": 6,
      "continues": 3,
@@ -2464,7 +2464,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 64070,
+     "wallMs": 49416,
      "time": 151.03,
      "livesLost": 6,
      "continues": 3,
@@ -2504,7 +2504,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 80829,
+     "wallMs": 56942,
      "time": 188.27,
      "livesLost": 6,
      "continues": 3,
@@ -2524,7 +2524,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 78250,
+     "wallMs": 55012,
      "time": 188.09,
      "livesLost": 5,
      "continues": 3,
@@ -2565,7 +2565,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 26383,
+     "wallMs": 26857,
      "time": 66.6,
      "livesLost": 6,
      "continues": 3,
@@ -2602,7 +2602,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 77166,
+     "wallMs": 53960,
      "time": 191.3,
      "livesLost": 3,
      "continues": 1,
@@ -2643,7 +2643,7 @@
     {
      "seed": 1,
      "outcome": "timeout",
-     "wallMs": 98189,
+     "wallMs": 71266,
      "time": 240.01,
      "livesLost": 5,
      "continues": 3,
@@ -2663,7 +2663,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 49882,
+     "wallMs": 36718,
      "time": 102.06,
      "livesLost": 6,
      "continues": 3,
@@ -2700,7 +2700,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 28541,
+     "wallMs": 16815,
      "time": 61.58,
      "livesLost": 6,
      "continues": 3,
@@ -2737,7 +2737,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 36382,
+     "wallMs": 22803,
      "time": 80.74,
      "livesLost": 6,
      "continues": 3,
@@ -2774,7 +2774,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 16505,
+     "wallMs": 7189,
      "time": 94.12,
      "livesLost": 0,
      "continues": 0,
@@ -2795,7 +2795,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 11587,
+     "wallMs": 5297,
      "time": 83.62,
      "livesLost": 1,
      "continues": 0,
@@ -2816,7 +2816,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 10186,
+     "wallMs": 6350,
      "time": 83.82,
      "livesLost": 0,
      "continues": 0,
@@ -2857,7 +2857,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 8199,
+     "wallMs": 5546,
      "time": 82.58,
      "livesLost": 6,
      "continues": 3,
@@ -2894,7 +2894,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 5637,
+     "wallMs": 4371,
      "time": 54.72,
      "livesLost": 0,
      "continues": 0,
@@ -2935,7 +2935,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 13580,
+     "wallMs": 9528,
      "time": 120.3,
      "livesLost": 0,
      "continues": 0,
@@ -2956,7 +2956,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 14913,
+     "wallMs": 6882,
      "time": 99.57,
      "livesLost": 0,
      "continues": 0,
@@ -2977,7 +2977,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 10532,
+     "wallMs": 8477,
      "time": 114.51,
      "livesLost": 1,
      "continues": 0,
@@ -3018,7 +3018,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 10020,
+     "wallMs": 6474,
      "time": 92.25,
      "livesLost": 6,
      "continues": 3,
@@ -3055,7 +3055,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 15207,
+     "wallMs": 6558,
      "time": 90.75,
      "livesLost": 1,
      "continues": 0,
@@ -3096,7 +3096,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 12209,
+     "wallMs": 7786,
      "time": 104.81,
      "livesLost": 0,
      "continues": 0,
@@ -3117,7 +3117,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 14114,
+     "wallMs": 8570,
      "time": 130.08,
      "livesLost": 1,
      "continues": 0,
@@ -3138,7 +3138,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 16726,
+     "wallMs": 7868,
      "time": 105.69,
      "livesLost": 0,
      "continues": 0,
@@ -3179,7 +3179,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 11320,
+     "wallMs": 5808,
      "time": 94.09,
      "livesLost": 6,
      "continues": 3,
@@ -3216,7 +3216,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 7804,
+     "wallMs": 3497,
      "time": 53.07,
      "livesLost": 0,
      "continues": 0,
@@ -3257,7 +3257,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 12463,
+     "wallMs": 9729,
      "time": 136.64,
      "livesLost": 1,
      "continues": 0,
@@ -3278,7 +3278,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 12145,
+     "wallMs": 8667,
      "time": 112.95,
      "livesLost": 1,
      "continues": 0,
@@ -3299,7 +3299,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 15304,
+     "wallMs": 10704,
      "time": 116.38,
      "livesLost": 1,
      "continues": 0,
@@ -3340,7 +3340,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 17174,
+     "wallMs": 9490,
      "time": 104.75,
      "livesLost": 6,
      "continues": 3,
@@ -3377,7 +3377,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 11326,
+     "wallMs": 7388,
      "time": 73.37,
      "livesLost": 1,
      "continues": 0,
@@ -3418,7 +3418,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 16935,
+     "wallMs": 8077,
      "time": 105.8,
      "livesLost": 0,
      "continues": 0,
@@ -3439,7 +3439,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 14889,
+     "wallMs": 10664,
      "time": 147.18,
      "livesLost": 3,
      "continues": 1,
@@ -3460,7 +3460,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 11962,
+     "wallMs": 8503,
      "time": 112.42,
      "livesLost": 0,
      "continues": 0,
@@ -3501,7 +3501,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 18991,
+     "wallMs": 8506,
      "time": 89.97,
      "livesLost": 6,
      "continues": 3,
@@ -3538,7 +3538,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 8544,
+     "wallMs": 5632,
      "time": 57.31,
      "livesLost": 0,
      "continues": 0,
@@ -3579,7 +3579,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 19267,
+     "wallMs": 13061,
      "time": 159.87,
      "livesLost": 0,
      "continues": 0,
@@ -3600,7 +3600,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 18029,
+     "wallMs": 9087,
      "time": 118.43,
      "livesLost": 0,
      "continues": 0,
@@ -3621,7 +3621,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 13705,
+     "wallMs": 9912,
      "time": 122.93,
      "livesLost": 0,
      "continues": 0,
@@ -3662,7 +3662,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 14219,
+     "wallMs": 8071,
      "time": 85.2,
      "livesLost": 6,
      "continues": 3,
@@ -3699,7 +3699,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 23120,
+     "wallMs": 10393,
      "time": 113.14,
      "livesLost": 0,
      "continues": 0,
@@ -3740,7 +3740,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 3421,
+     "wallMs": 3125,
      "time": 84.36,
      "livesLost": 0,
      "continues": 0,
@@ -3758,7 +3758,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 4322,
+     "wallMs": 4506,
      "time": 153.25,
      "livesLost": 0,
      "continues": 3,
@@ -3776,7 +3776,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 4547,
+     "wallMs": 5529,
      "time": 182.72,
      "livesLost": 0,
      "continues": 3,
@@ -3815,7 +3815,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2938,
+     "wallMs": 2294,
      "time": 132.58,
      "livesLost": 6,
      "continues": 3,
@@ -3852,7 +3852,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2206,
+     "wallMs": 2156,
      "time": 112.73,
      "livesLost": 0,
      "continues": 0,
@@ -3890,7 +3890,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 4136,
+     "wallMs": 4518,
      "time": 158.48,
      "livesLost": 0,
      "continues": 3,
@@ -3908,7 +3908,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 1965,
+     "wallMs": 2498,
      "time": 95.92,
      "livesLost": 0,
      "continues": 0,
@@ -3926,7 +3926,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 1795,
+     "wallMs": 2432,
      "time": 134.88,
      "livesLost": 0,
      "continues": 1,
@@ -3965,7 +3965,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2675,
+     "wallMs": 2825,
      "time": 116.58,
      "livesLost": 4,
      "continues": 2,
@@ -4003,7 +4003,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2877,
+     "wallMs": 2271,
      "time": 153.86,
      "livesLost": 0,
      "continues": 3,
@@ -4041,7 +4041,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1648,
+     "wallMs": 2155,
      "time": 98.28,
      "livesLost": 0,
      "continues": 3,
@@ -4059,7 +4059,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 1942,
+     "wallMs": 1566,
      "time": 98.38,
      "livesLost": 0,
      "continues": 3,
@@ -4077,7 +4077,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 1923,
+     "wallMs": 1908,
      "time": 104.39,
      "livesLost": 0,
      "continues": 3,
@@ -4115,7 +4115,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2162,
+     "wallMs": 1530,
      "time": 110.41,
      "livesLost": 6,
      "continues": 3,
@@ -4152,7 +4152,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1694,
+     "wallMs": 2191,
      "time": 99.74,
      "livesLost": 0,
      "continues": 3,
@@ -4190,7 +4190,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1686,
+     "wallMs": 1128,
      "time": 99.37,
      "livesLost": 0,
      "continues": 3,
@@ -4208,7 +4208,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 1745,
+     "wallMs": 1529,
      "time": 109.57,
      "livesLost": 0,
      "continues": 3,
@@ -4226,7 +4226,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 1022,
+     "wallMs": 1259,
      "time": 98.83,
      "livesLost": 0,
      "continues": 3,
@@ -4264,7 +4264,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2752,
+     "wallMs": 2186,
      "time": 137.4,
      "livesLost": 3,
      "continues": 3,
@@ -4302,7 +4302,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1673,
+     "wallMs": 2448,
      "time": 108.95,
      "livesLost": 0,
      "continues": 3,
@@ -4340,7 +4340,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1142,
+     "wallMs": 1221,
      "time": 91.65,
      "livesLost": 0,
      "continues": 3,
@@ -4358,7 +4358,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 1026,
+     "wallMs": 1019,
      "time": 89.74,
      "livesLost": 0,
      "continues": 3,
@@ -4376,7 +4376,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 1189,
+     "wallMs": 1060,
      "time": 87.57,
      "livesLost": 0,
      "continues": 3,
@@ -4414,7 +4414,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1573,
+     "wallMs": 1328,
      "time": 110.58,
      "livesLost": 5,
      "continues": 3,
@@ -4452,7 +4452,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1850,
+     "wallMs": 1095,
      "time": 85.73,
      "livesLost": 0,
      "continues": 3,
@@ -4490,7 +4490,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1084,
+     "wallMs": 1051,
      "time": 85.6,
      "livesLost": 0,
      "continues": 3,
@@ -4508,7 +4508,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 1352,
+     "wallMs": 1264,
      "time": 90.18,
      "livesLost": 0,
      "continues": 3,
@@ -4526,7 +4526,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 1621,
+     "wallMs": 987,
      "time": 88.41,
      "livesLost": 0,
      "continues": 3,
@@ -4564,7 +4564,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2214,
+     "wallMs": 1318,
      "time": 115.09,
      "livesLost": 4,
      "continues": 3,
@@ -4602,7 +4602,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1808,
+     "wallMs": 1182,
      "time": 85.82,
      "livesLost": 0,
      "continues": 3,
@@ -4640,7 +4640,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 3296,
+     "wallMs": 2394,
      "time": 198.27,
      "livesLost": 0,
      "continues": 3,
@@ -4661,7 +4661,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 2655,
+     "wallMs": 1502,
      "time": 100.42,
      "livesLost": 0,
      "continues": 0,
@@ -4681,7 +4681,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 2445,
+     "wallMs": 1446,
      "time": 148.91,
      "livesLost": 0,
      "continues": 3,
@@ -4720,7 +4720,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 862,
+     "wallMs": 1149,
      "time": 139.88,
      "livesLost": 6,
      "continues": 3,
@@ -4758,7 +4758,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2187,
+     "wallMs": 1544,
      "time": 186.22,
      "livesLost": 0,
      "continues": 3,
@@ -4797,7 +4797,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2882,
+     "wallMs": 1907,
      "time": 181.56,
      "livesLost": 0,
      "continues": 3,
@@ -4818,7 +4818,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 2188,
+     "wallMs": 2019,
      "time": 162.71,
      "livesLost": 0,
      "continues": 3,
@@ -4837,7 +4837,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 1925,
+     "wallMs": 1574,
      "time": 162.47,
      "livesLost": 0,
      "continues": 3,
@@ -4876,7 +4876,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2178,
+     "wallMs": 1319,
      "time": 144.17,
      "livesLost": 6,
      "continues": 3,
@@ -4914,7 +4914,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1696,
+     "wallMs": 1167,
      "time": 151.86,
      "livesLost": 0,
      "continues": 3,
@@ -4953,7 +4953,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1855,
+     "wallMs": 1527,
      "time": 132.41,
      "livesLost": 0,
      "continues": 3,
@@ -4972,7 +4972,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 1203,
+     "wallMs": 1610,
      "time": 127.19,
      "livesLost": 0,
      "continues": 3,
@@ -4991,7 +4991,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 1108,
+     "wallMs": 913,
      "time": 89.09,
      "livesLost": 0,
      "continues": 1,
@@ -5032,7 +5032,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1372,
+     "wallMs": 847,
      "time": 126.18,
      "livesLost": 5,
      "continues": 3,
@@ -5071,7 +5071,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1472,
+     "wallMs": 890,
      "time": 133.13,
      "livesLost": 0,
      "continues": 3,
@@ -5110,7 +5110,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1290,
+     "wallMs": 1151,
      "time": 131.2,
      "livesLost": 0,
      "continues": 3,
@@ -5129,7 +5129,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 1454,
+     "wallMs": 1575,
      "time": 159.42,
      "livesLost": 0,
      "continues": 3,
@@ -5148,7 +5148,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 746,
+     "wallMs": 736,
      "time": 123.19,
      "livesLost": 0,
      "continues": 3,
@@ -5187,7 +5187,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1106,
+     "wallMs": 884,
      "time": 127.12,
      "livesLost": 6,
      "continues": 3,
@@ -5225,7 +5225,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1851,
+     "wallMs": 1161,
      "time": 139.16,
      "livesLost": 0,
      "continues": 3,
@@ -5264,7 +5264,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 932,
+     "wallMs": 795,
      "time": 109.13,
      "livesLost": 0,
      "continues": 3,
@@ -5283,7 +5283,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 1937,
+     "wallMs": 1323,
      "time": 135.65,
      "livesLost": 0,
      "continues": 3,
@@ -5302,7 +5302,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 663,
+     "wallMs": 667,
      "time": 108.31,
      "livesLost": 0,
      "continues": 3,
@@ -5341,7 +5341,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1140,
+     "wallMs": 900,
      "time": 124.99,
      "livesLost": 3,
      "continues": 3,
@@ -5380,7 +5380,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1560,
+     "wallMs": 1219,
      "time": 120.73,
      "livesLost": 0,
      "continues": 3,
@@ -5419,7 +5419,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 464,
+     "wallMs": 674,
      "time": 106.18,
      "livesLost": 0,
      "continues": 3,
@@ -5438,7 +5438,7 @@
     {
      "seed": 2,
      "outcome": "lose",
-     "wallMs": 1050,
+     "wallMs": 703,
      "time": 126.27,
      "livesLost": 0,
      "continues": 3,
@@ -5457,7 +5457,7 @@
     {
      "seed": 3,
      "outcome": "lose",
-     "wallMs": 757,
+     "wallMs": 897,
      "time": 106.48,
      "livesLost": 0,
      "continues": 3,
@@ -5496,7 +5496,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1046,
+     "wallMs": 1136,
      "time": 125.53,
      "livesLost": 3,
      "continues": 3,
@@ -5535,7 +5535,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1314,
+     "wallMs": 850,
      "time": 128.76,
      "livesLost": 0,
      "continues": 3,
@@ -5574,7 +5574,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2221,
+     "wallMs": 1121,
      "time": 44.53,
      "livesLost": 0,
      "continues": 0,
@@ -5593,7 +5593,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 784,
+     "wallMs": 579,
      "time": 13.69,
      "livesLost": 0,
      "continues": 0,
@@ -5612,7 +5612,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 3334,
+     "wallMs": 1714,
      "time": 87.29,
      "livesLost": 0,
      "continues": 0,
@@ -5651,7 +5651,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2405,
+     "wallMs": 2122,
      "time": 93.33,
      "livesLost": 6,
      "continues": 2,
@@ -5690,7 +5690,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 1646,
+     "wallMs": 1623,
      "time": 66.06,
      "livesLost": 0,
      "continues": 0,
@@ -5729,7 +5729,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 4665,
+     "wallMs": 1870,
      "time": 111,
      "livesLost": 0,
      "continues": 0,
@@ -5748,7 +5748,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 4821,
+     "wallMs": 2210,
      "time": 108.48,
      "livesLost": 0,
      "continues": 0,
@@ -5767,7 +5767,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 4268,
+     "wallMs": 1767,
      "time": 72.93,
      "livesLost": 0,
      "continues": 0,
@@ -5806,7 +5806,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2439,
+     "wallMs": 1428,
      "time": 118.65,
      "livesLost": 9,
      "continues": 3,
@@ -5844,7 +5844,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 3199,
+     "wallMs": 1381,
      "time": 126.07,
      "livesLost": 0,
      "continues": 0,
@@ -5883,7 +5883,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2747,
+     "wallMs": 1643,
      "time": 78.02,
      "livesLost": 0,
      "continues": 0,
@@ -5902,7 +5902,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 1588,
+     "wallMs": 729,
      "time": 35.59,
      "livesLost": 0,
      "continues": 0,
@@ -5921,7 +5921,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 2873,
+     "wallMs": 1719,
      "time": 120.09,
      "livesLost": 0,
      "continues": 0,
@@ -5960,7 +5960,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2263,
+     "wallMs": 1394,
      "time": 108.06,
      "livesLost": 9,
      "continues": 3,
@@ -5998,7 +5998,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 1603,
+     "wallMs": 1845,
      "time": 114.86,
      "livesLost": 0,
      "continues": 0,
@@ -6037,7 +6037,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2647,
+     "wallMs": 1506,
      "time": 83.28,
      "livesLost": 0,
      "continues": 0,
@@ -6056,7 +6056,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 2097,
+     "wallMs": 1224,
      "time": 88.69,
      "livesLost": 0,
      "continues": 0,
@@ -6075,7 +6075,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 2021,
+     "wallMs": 920,
      "time": 87.94,
      "livesLost": 0,
      "continues": 0,
@@ -6114,7 +6114,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2263,
+     "wallMs": 1744,
      "time": 117.84,
      "livesLost": 9,
      "continues": 3,
@@ -6152,7 +6152,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 1246,
+     "wallMs": 763,
      "time": 59.07,
      "livesLost": 0,
      "continues": 0,
@@ -6191,7 +6191,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2087,
+     "wallMs": 1315,
      "time": 88.24,
      "livesLost": 0,
      "continues": 0,
@@ -6210,7 +6210,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 1424,
+     "wallMs": 1157,
      "time": 62.82,
      "livesLost": 0,
      "continues": 0,
@@ -6229,7 +6229,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 2016,
+     "wallMs": 1534,
      "time": 102.78,
      "livesLost": 0,
      "continues": 0,
@@ -6268,7 +6268,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1905,
+     "wallMs": 1544,
      "time": 130.28,
      "livesLost": 9,
      "continues": 3,
@@ -6306,7 +6306,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 1591,
+     "wallMs": 1281,
      "time": 90.05,
      "livesLost": 0,
      "continues": 0,
@@ -6345,7 +6345,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 1568,
+     "wallMs": 711,
      "time": 54.35,
      "livesLost": 0,
      "continues": 0,
@@ -6364,7 +6364,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 2712,
+     "wallMs": 1318,
      "time": 98.72,
      "livesLost": 0,
      "continues": 0,
@@ -6383,7 +6383,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 2873,
+     "wallMs": 2639,
      "time": 136.23,
      "livesLost": 0,
      "continues": 1,
@@ -6423,7 +6423,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1551,
+     "wallMs": 1652,
      "time": 117.84,
      "livesLost": 9,
      "continues": 3,
@@ -6461,7 +6461,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 1486,
+     "wallMs": 1625,
      "time": 144.48,
      "livesLost": 0,
      "continues": 0,
@@ -6500,7 +6500,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 90315,
+     "wallMs": 51573,
      "time": 92.03,
      "livesLost": 0,
      "continues": 0,
@@ -6519,7 +6519,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 16115,
+     "wallMs": 8427,
      "time": 46.82,
      "livesLost": 0,
      "continues": 0,
@@ -6538,7 +6538,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 9621,
+     "wallMs": 4638,
      "time": 27.42,
      "livesLost": 0,
      "continues": 0,
@@ -6577,7 +6577,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 11218,
+     "wallMs": 6496,
      "time": 60.25,
      "livesLost": 4,
      "continues": 2,
@@ -6616,7 +6616,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 55744,
+     "wallMs": 37581,
      "time": 64.35,
      "livesLost": 0,
      "continues": 0,
@@ -6655,7 +6655,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 19495,
+     "wallMs": 9188,
      "time": 46.32,
      "livesLost": 0,
      "continues": 0,
@@ -6674,7 +6674,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 18561,
+     "wallMs": 10744,
      "time": 51.7,
      "livesLost": 0,
      "continues": 0,
@@ -6693,7 +6693,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 24852,
+     "wallMs": 14592,
      "time": 71.21,
      "livesLost": 1,
      "continues": 0,
@@ -6732,7 +6732,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 14924,
+     "wallMs": 6873,
      "time": 49.29,
      "livesLost": 2,
      "continues": 0,
@@ -6771,7 +6771,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 52259,
+     "wallMs": 41189,
      "time": 77.36,
      "livesLost": 1,
      "continues": 0,
@@ -6810,7 +6810,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 83556,
+     "wallMs": 53113,
      "time": 101.28,
      "livesLost": 0,
      "continues": 0,
@@ -6829,7 +6829,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 35685,
+     "wallMs": 23112,
      "time": 61.73,
      "livesLost": 0,
      "continues": 0,
@@ -6848,7 +6848,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 34068,
+     "wallMs": 17921,
      "time": 49.41,
      "livesLost": 0,
      "continues": 0,
@@ -6887,7 +6887,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 18995,
+     "wallMs": 11621,
      "time": 80.84,
      "livesLost": 6,
      "continues": 3,
@@ -6925,7 +6925,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 43900,
+     "wallMs": 28730,
      "time": 53.03,
      "livesLost": 0,
      "continues": 0,
@@ -6964,7 +6964,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 20707,
+     "wallMs": 16789,
      "time": 73.94,
      "livesLost": 0,
      "continues": 0,
@@ -6983,7 +6983,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 65643,
+     "wallMs": 46098,
      "time": 94.74,
      "livesLost": 0,
      "continues": 0,
@@ -7002,7 +7002,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 29025,
+     "wallMs": 16636,
      "time": 70.29,
      "livesLost": 1,
      "continues": 0,
@@ -7041,7 +7041,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 18155,
+     "wallMs": 12101,
      "time": 84.53,
      "livesLost": 5,
      "continues": 3,
@@ -7080,7 +7080,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 89310,
+     "wallMs": 48224,
      "time": 80.84,
      "livesLost": 0,
      "continues": 0,
@@ -7119,7 +7119,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 18956,
+     "wallMs": 13328,
      "time": 59.37,
      "livesLost": 1,
      "continues": 0,
@@ -7138,7 +7138,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 48497,
+     "wallMs": 38247,
      "time": 97.76,
      "livesLost": 0,
      "continues": 1,
@@ -7157,7 +7157,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 41661,
+     "wallMs": 32113,
      "time": 72.5,
      "livesLost": 0,
      "continues": 0,
@@ -7196,7 +7196,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 9672,
+     "wallMs": 6656,
      "time": 66.03,
      "livesLost": 6,
      "continues": 3,
@@ -7234,7 +7234,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 45745,
+     "wallMs": 27714,
      "time": 59,
      "livesLost": 0,
      "continues": 0,
@@ -7273,7 +7273,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 71420,
+     "wallMs": 40742,
      "time": 112.98,
      "livesLost": 0,
      "continues": 1,
@@ -7292,7 +7292,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 70013,
+     "wallMs": 43336,
      "time": 104.76,
      "livesLost": 1,
      "continues": 1,
@@ -7311,7 +7311,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 24046,
+     "wallMs": 13723,
      "time": 70.91,
      "livesLost": 0,
      "continues": 0,
@@ -7350,7 +7350,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 20731,
+     "wallMs": 12906,
      "time": 93.31,
      "livesLost": 6,
      "continues": 3,
@@ -7388,7 +7388,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 113272,
+     "wallMs": 61447,
      "time": 99.49,
      "livesLost": 0,
      "continues": 1,
@@ -7427,7 +7427,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2899,
+     "wallMs": 2252,
      "time": 75.73,
      "livesLost": 0,
      "continues": 0,
@@ -7448,7 +7448,7 @@
     {
      "seed": 2,
      "outcome": "timeout",
-     "wallMs": 5593,
+     "wallMs": 4424,
      "time": 240.01,
      "livesLost": 0,
      "continues": 0,
@@ -7468,7 +7468,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 3782,
+     "wallMs": 2952,
      "time": 106.78,
      "livesLost": 0,
      "continues": 0,
@@ -7509,7 +7509,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1618,
+     "wallMs": 1254,
      "time": 106.72,
      "livesLost": 9,
      "continues": 3,
@@ -7547,7 +7547,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 3056,
+     "wallMs": 2207,
      "time": 120.25,
      "livesLost": 0,
      "continues": 0,
@@ -7588,7 +7588,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 4242,
+     "wallMs": 3162,
      "time": 105.55,
      "livesLost": 0,
      "continues": 0,
@@ -7609,7 +7609,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 3554,
+     "wallMs": 2866,
      "time": 185.63,
      "livesLost": 0,
      "continues": 0,
@@ -7630,7 +7630,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 2008,
+     "wallMs": 2065,
      "time": 111.09,
      "livesLost": 0,
      "continues": 0,
@@ -7671,7 +7671,7 @@
     {
      "seed": 1,
      "outcome": "timeout",
-     "wallMs": 2756,
+     "wallMs": 2164,
      "time": 240.01,
      "livesLost": 7,
      "continues": 3,
@@ -7709,7 +7709,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 3251,
+     "wallMs": 2778,
      "time": 202.67,
      "livesLost": 0,
      "continues": 0,
@@ -7750,7 +7750,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 4453,
+     "wallMs": 3316,
      "time": 236.13,
      "livesLost": 0,
      "continues": 0,
@@ -7771,7 +7771,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 5557,
+     "wallMs": 2915,
      "time": 208.47,
      "livesLost": 0,
      "continues": 0,
@@ -7792,7 +7792,7 @@
     {
      "seed": 3,
      "outcome": "timeout",
-     "wallMs": 5002,
+     "wallMs": 2757,
      "time": 240.01,
      "livesLost": 0,
      "continues": 0,
@@ -7832,7 +7832,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1090,
+     "wallMs": 895,
      "time": 106.72,
      "livesLost": 9,
      "continues": 3,
@@ -7870,7 +7870,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2688,
+     "wallMs": 3297,
      "time": 234.31,
      "livesLost": 0,
      "continues": 0,
@@ -7911,7 +7911,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 3007,
+     "wallMs": 2146,
      "time": 155.56,
      "livesLost": 0,
      "continues": 0,
@@ -7932,7 +7932,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 5816,
+     "wallMs": 2129,
      "time": 201.26,
      "livesLost": 0,
      "continues": 0,
@@ -7953,7 +7953,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 3994,
+     "wallMs": 1506,
      "time": 120.03,
      "livesLost": 0,
      "continues": 0,
@@ -7994,7 +7994,7 @@
     {
      "seed": 1,
      "outcome": "timeout",
-     "wallMs": 2539,
+     "wallMs": 2647,
      "time": 240.01,
      "livesLost": 7,
      "continues": 3,
@@ -8032,7 +8032,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2604,
+     "wallMs": 3078,
      "time": 208.13,
      "livesLost": 0,
      "continues": 0,
@@ -8073,7 +8073,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 4061,
+     "wallMs": 2547,
      "time": 142.82,
      "livesLost": 0,
      "continues": 0,
@@ -8094,7 +8094,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 4692,
+     "wallMs": 3259,
      "time": 225.02,
      "livesLost": 0,
      "continues": 0,
@@ -8115,7 +8115,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 2748,
+     "wallMs": 2679,
      "time": 123.53,
      "livesLost": 0,
      "continues": 0,
@@ -8156,7 +8156,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 821,
+     "wallMs": 1372,
      "time": 106.72,
      "livesLost": 9,
      "continues": 3,
@@ -8194,7 +8194,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 4199,
+     "wallMs": 3475,
      "time": 220.79,
      "livesLost": 0,
      "continues": 0,
@@ -8235,7 +8235,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 5297,
+     "wallMs": 3599,
      "time": 192.31,
      "livesLost": 0,
      "continues": 0,
@@ -8256,7 +8256,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 4116,
+     "wallMs": 3140,
      "time": 158.82,
      "livesLost": 0,
      "continues": 0,
@@ -8277,7 +8277,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 2836,
+     "wallMs": 2493,
      "time": 162.88,
      "livesLost": 0,
      "continues": 0,
@@ -8318,7 +8318,7 @@
     {
      "seed": 1,
      "outcome": "timeout",
-     "wallMs": 2861,
+     "wallMs": 1934,
      "time": 240.01,
      "livesLost": 7,
      "continues": 3,
@@ -8356,7 +8356,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 3026,
+     "wallMs": 2817,
      "time": 215.44,
      "livesLost": 0,
      "continues": 0,
@@ -8397,7 +8397,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 3442,
+     "wallMs": 2254,
      "time": 172.05,
      "livesLost": 0,
      "continues": 0,
@@ -8417,7 +8417,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 3531,
+     "wallMs": 2154,
      "time": 124.05,
      "livesLost": 0,
      "continues": 0,
@@ -8437,7 +8437,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 3163,
+     "wallMs": 2068,
      "time": 124.47,
      "livesLost": 0,
      "continues": 0,
@@ -8477,7 +8477,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 740,
+     "wallMs": 887,
      "time": 89.13,
      "livesLost": 9,
      "continues": 3,
@@ -8516,7 +8516,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 1948,
+     "wallMs": 1370,
      "time": 111.43,
      "livesLost": 0,
      "continues": 0,
@@ -8556,7 +8556,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 3861,
+     "wallMs": 2729,
      "time": 159.19,
      "livesLost": 0,
      "continues": 0,
@@ -8576,7 +8576,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 3428,
+     "wallMs": 1595,
      "time": 88.19,
      "livesLost": 0,
      "continues": 0,
@@ -8596,7 +8596,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 3324,
+     "wallMs": 2058,
      "time": 157.13,
      "livesLost": 0,
      "continues": 0,
@@ -8636,7 +8636,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1069,
+     "wallMs": 649,
      "time": 91.5,
      "livesLost": 9,
      "continues": 3,
@@ -8675,7 +8675,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 1611,
+     "wallMs": 1093,
      "time": 109.96,
      "livesLost": 0,
      "continues": 0,
@@ -8715,7 +8715,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2666,
+     "wallMs": 1739,
      "time": 160.99,
      "livesLost": 2,
      "continues": 0,
@@ -8735,7 +8735,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 2421,
+     "wallMs": 1376,
      "time": 131.58,
      "livesLost": 1,
      "continues": 0,
@@ -8755,7 +8755,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 2250,
+     "wallMs": 1301,
      "time": 101.52,
      "livesLost": 0,
      "continues": 0,
@@ -8795,7 +8795,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1042,
+     "wallMs": 493,
      "time": 89.13,
      "livesLost": 9,
      "continues": 3,
@@ -8834,7 +8834,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 3070,
+     "wallMs": 1312,
      "time": 120.03,
      "livesLost": 0,
      "continues": 0,
@@ -8874,7 +8874,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2421,
+     "wallMs": 1076,
      "time": 132.92,
      "livesLost": 0,
      "continues": 0,
@@ -8894,7 +8894,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 2244,
+     "wallMs": 970,
      "time": 151.65,
      "livesLost": 1,
      "continues": 0,
@@ -8914,7 +8914,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 1683,
+     "wallMs": 1382,
      "time": 157.27,
      "livesLost": 2,
      "continues": 0,
@@ -8954,7 +8954,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1152,
+     "wallMs": 918,
      "time": 91.5,
      "livesLost": 9,
      "continues": 3,
@@ -8993,7 +8993,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2238,
+     "wallMs": 1040,
      "time": 163.49,
      "livesLost": 0,
      "continues": 0,
@@ -9033,7 +9033,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2237,
+     "wallMs": 1149,
      "time": 164.82,
      "livesLost": 2,
      "continues": 0,
@@ -9053,7 +9053,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 2704,
+     "wallMs": 1040,
      "time": 149.01,
      "livesLost": 0,
      "continues": 0,
@@ -9073,7 +9073,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 2046,
+     "wallMs": 1070,
      "time": 188.47,
      "livesLost": 1,
      "continues": 0,
@@ -9113,7 +9113,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1080,
+     "wallMs": 506,
      "time": 89.13,
      "livesLost": 9,
      "continues": 3,
@@ -9152,7 +9152,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2034,
+     "wallMs": 1232,
      "time": 143.52,
      "livesLost": 1,
      "continues": 0,
@@ -9192,7 +9192,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2599,
+     "wallMs": 1593,
      "time": 157.32,
      "livesLost": 3,
      "continues": 1,
@@ -9212,7 +9212,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 2235,
+     "wallMs": 1896,
      "time": 181.33,
      "livesLost": 0,
      "continues": 0,
@@ -9232,7 +9232,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 2331,
+     "wallMs": 2516,
      "time": 216.67,
      "livesLost": 1,
      "continues": 0,
@@ -9272,7 +9272,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1021,
+     "wallMs": 497,
      "time": 91.5,
      "livesLost": 9,
      "continues": 3,
@@ -9311,7 +9311,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2348,
+     "wallMs": 996,
      "time": 146.31,
      "livesLost": 0,
      "continues": 0,
@@ -9351,7 +9351,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 5161,
+     "wallMs": 6779,
      "time": 116.48,
      "livesLost": 0,
      "continues": 0,
@@ -9371,7 +9371,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 7606,
+     "wallMs": 7543,
      "time": 184.7,
      "livesLost": 0,
      "continues": 0,
@@ -9391,7 +9391,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 5847,
+     "wallMs": 6541,
      "time": 147.37,
      "livesLost": 0,
      "continues": 0,
@@ -9431,7 +9431,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2928,
+     "wallMs": 1644,
      "time": 105.48,
      "livesLost": 9,
      "continues": 3,
@@ -9469,7 +9469,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 5396,
+     "wallMs": 3628,
      "time": 210.17,
      "livesLost": 0,
      "continues": 0,
@@ -9509,7 +9509,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 5954,
+     "wallMs": 7600,
      "time": 225.3,
      "livesLost": 0,
      "continues": 0,
@@ -9529,7 +9529,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 6041,
+     "wallMs": 5844,
      "time": 224.33,
      "livesLost": 0,
      "continues": 0,
@@ -9549,7 +9549,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 6550,
+     "wallMs": 6345,
      "time": 208.36,
      "livesLost": 0,
      "continues": 0,
@@ -9589,7 +9589,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2758,
+     "wallMs": 1773,
      "time": 126.33,
      "livesLost": 9,
      "continues": 3,
@@ -9627,7 +9627,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 6470,
+     "wallMs": 2845,
      "time": 159.64,
      "livesLost": 0,
      "continues": 0,
@@ -9667,7 +9667,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 5498,
+     "wallMs": 4558,
      "time": 160.04,
      "livesLost": 1,
      "continues": 0,
@@ -9687,7 +9687,7 @@
     {
      "seed": 2,
      "outcome": "timeout",
-     "wallMs": 7410,
+     "wallMs": 6599,
      "time": 240.01,
      "livesLost": 2,
      "continues": 0,
@@ -9706,7 +9706,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 5493,
+     "wallMs": 6434,
      "time": 213.67,
      "livesLost": 2,
      "continues": 0,
@@ -9746,7 +9746,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1563,
+     "wallMs": 1293,
      "time": 106.95,
      "livesLost": 9,
      "continues": 3,
@@ -9785,7 +9785,7 @@
     {
      "seed": 1,
      "outcome": "timeout",
-     "wallMs": 5053,
+     "wallMs": 4322,
      "time": 240.01,
      "livesLost": 2,
      "continues": 0,
@@ -9824,7 +9824,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 5431,
+     "wallMs": 4820,
      "time": 227.1,
      "livesLost": 2,
      "continues": 0,
@@ -9844,7 +9844,7 @@
     {
      "seed": 2,
      "outcome": "timeout",
-     "wallMs": 4449,
+     "wallMs": 4859,
      "time": 240.01,
      "livesLost": 3,
      "continues": 1,
@@ -9863,7 +9863,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 8144,
+     "wallMs": 6319,
      "time": 224.85,
      "livesLost": 0,
      "continues": 0,
@@ -9903,7 +9903,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1978,
+     "wallMs": 1252,
      "time": 107.34,
      "livesLost": 9,
      "continues": 3,
@@ -9941,7 +9941,7 @@
     {
      "seed": 1,
      "outcome": "timeout",
-     "wallMs": 6604,
+     "wallMs": 6112,
      "time": 240.01,
      "livesLost": 3,
      "continues": 1,
@@ -9980,7 +9980,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 6474,
+     "wallMs": 5212,
      "time": 196.27,
      "livesLost": 2,
      "continues": 0,
@@ -10000,7 +10000,7 @@
     {
      "seed": 2,
      "outcome": "timeout",
-     "wallMs": 6358,
+     "wallMs": 5428,
      "time": 240.01,
      "livesLost": 1,
      "continues": 0,
@@ -10019,7 +10019,7 @@
     {
      "seed": 3,
      "outcome": "timeout",
-     "wallMs": 6964,
+     "wallMs": 7040,
      "time": 240.01,
      "livesLost": 5,
      "continues": 2,
@@ -10058,7 +10058,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1894,
+     "wallMs": 2305,
      "time": 128.86,
      "livesLost": 9,
      "continues": 3,
@@ -10097,7 +10097,7 @@
     {
      "seed": 1,
      "outcome": "timeout",
-     "wallMs": 5816,
+     "wallMs": 5501,
      "time": 240.01,
      "livesLost": 4,
      "continues": 1,
@@ -10136,7 +10136,7 @@
     {
      "seed": 1,
      "outcome": "timeout",
-     "wallMs": 4211,
+     "wallMs": 5680,
      "time": 240.01,
      "livesLost": 3,
      "continues": 1,
@@ -10155,7 +10155,7 @@
     {
      "seed": 2,
      "outcome": "timeout",
-     "wallMs": 8680,
+     "wallMs": 7921,
      "time": 240.01,
      "livesLost": 1,
      "continues": 0,
@@ -10174,7 +10174,7 @@
     {
      "seed": 3,
      "outcome": "timeout",
-     "wallMs": 6828,
+     "wallMs": 8202,
      "time": 240.01,
      "livesLost": 3,
      "continues": 1,
@@ -10213,7 +10213,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 1669,
+     "wallMs": 1724,
      "time": 124.04,
      "livesLost": 9,
      "continues": 3,
@@ -10251,7 +10251,7 @@
     {
      "seed": 1,
      "outcome": "timeout",
-     "wallMs": 4587,
+     "wallMs": 3551,
      "time": 240.01,
      "livesLost": 4,
      "continues": 1,
@@ -10290,7 +10290,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2111,
+     "wallMs": 2914,
      "time": 151.38,
      "livesLost": 0,
      "continues": 0,
@@ -10311,7 +10311,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 1200,
+     "wallMs": 3466,
      "time": 110.83,
      "livesLost": 0,
      "continues": 0,
@@ -10332,7 +10332,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 2158,
+     "wallMs": 2963,
      "time": 142.37,
      "livesLost": 0,
      "continues": 0,
@@ -10373,7 +10373,7 @@
     {
      "seed": 1,
      "outcome": "timeout",
-     "wallMs": 3055,
+     "wallMs": 1632,
      "time": 240.01,
      "livesLost": 5,
      "continues": 2,
@@ -10412,7 +10412,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 885,
+     "wallMs": 553,
      "time": 131.72,
      "livesLost": 0,
      "continues": 0,
@@ -10453,7 +10453,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 1498,
+     "wallMs": 3787,
      "time": 96.93,
      "livesLost": 1,
      "continues": 0,
@@ -10474,7 +10474,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 2611,
+     "wallMs": 3615,
      "time": 134.92,
      "livesLost": 0,
      "continues": 0,
@@ -10495,7 +10495,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 1622,
+     "wallMs": 2350,
      "time": 149.46,
      "livesLost": 1,
      "continues": 0,
@@ -10536,7 +10536,7 @@
     {
      "seed": 1,
      "outcome": "timeout",
-     "wallMs": 2326,
+     "wallMs": 1620,
      "time": 240.01,
      "livesLost": 5,
      "continues": 2,
@@ -10575,7 +10575,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 1604,
+     "wallMs": 656,
      "time": 139.97,
      "livesLost": 0,
      "continues": 0,
@@ -10616,7 +10616,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 3358,
+     "wallMs": 4815,
      "time": 195.83,
      "livesLost": 1,
      "continues": 0,
@@ -10637,7 +10637,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 1915,
+     "wallMs": 2640,
      "time": 153.26,
      "livesLost": 1,
      "continues": 0,
@@ -10658,7 +10658,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 3391,
+     "wallMs": 3744,
      "time": 187.06,
      "livesLost": 1,
      "continues": 0,
@@ -10699,7 +10699,7 @@
     {
      "seed": 1,
      "outcome": "timeout",
-     "wallMs": 3183,
+     "wallMs": 1322,
      "time": 240.01,
      "livesLost": 5,
      "continues": 2,
@@ -10738,7 +10738,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 1383,
+     "wallMs": 700,
      "time": 155.96,
      "livesLost": 0,
      "continues": 0,
@@ -10779,7 +10779,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 1663,
+     "wallMs": 1575,
      "time": 117.21,
      "livesLost": 1,
      "continues": 0,
@@ -10800,7 +10800,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 1710,
+     "wallMs": 2119,
      "time": 196.72,
      "livesLost": 1,
      "continues": 0,
@@ -10821,7 +10821,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 1967,
+     "wallMs": 2000,
      "time": 196.66,
      "livesLost": 3,
      "continues": 1,
@@ -10862,7 +10862,7 @@
     {
      "seed": 1,
      "outcome": "timeout",
-     "wallMs": 2793,
+     "wallMs": 1413,
      "time": 240.01,
      "livesLost": 5,
      "continues": 2,
@@ -10901,7 +10901,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 3069,
+     "wallMs": 669,
      "time": 162.78,
      "livesLost": 6,
      "continues": 2,
@@ -10942,7 +10942,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 2717,
+     "wallMs": 2698,
      "time": 185.99,
      "livesLost": 0,
      "continues": 0,
@@ -10963,7 +10963,7 @@
     {
      "seed": 2,
      "outcome": "timeout",
-     "wallMs": 2394,
+     "wallMs": 1875,
      "time": 240.01,
      "livesLost": 7,
      "continues": 3,
@@ -10983,7 +10983,7 @@
     {
      "seed": 3,
      "outcome": "timeout",
-     "wallMs": 2860,
+     "wallMs": 2872,
      "time": 240.01,
      "livesLost": 1,
      "continues": 0,
@@ -11023,7 +11023,7 @@
     {
      "seed": 1,
      "outcome": "timeout",
-     "wallMs": 3051,
+     "wallMs": 1202,
      "time": 240.01,
      "livesLost": 5,
      "continues": 2,
@@ -11062,7 +11062,7 @@
     {
      "seed": 1,
      "outcome": "win",
-     "wallMs": 1587,
+     "wallMs": 441,
      "time": 121.39,
      "livesLost": 0,
      "continues": 0,
@@ -11103,7 +11103,7 @@
     {
      "seed": 1,
      "outcome": "timeout",
-     "wallMs": 2065,
+     "wallMs": 2069,
      "time": 240.01,
      "livesLost": 3,
      "continues": 1,
@@ -11123,7 +11123,7 @@
     {
      "seed": 2,
      "outcome": "win",
-     "wallMs": 1298,
+     "wallMs": 2065,
      "time": 172.05,
      "livesLost": 2,
      "continues": 0,
@@ -11144,7 +11144,7 @@
     {
      "seed": 3,
      "outcome": "win",
-     "wallMs": 1734,
+     "wallMs": 1870,
      "time": 182.94,
      "livesLost": 2,
      "continues": 0,
@@ -11185,7 +11185,7 @@
     {
      "seed": 1,
      "outcome": "timeout",
-     "wallMs": 3038,
+     "wallMs": 1757,
      "time": 240.01,
      "livesLost": 5,
      "continues": 2,
@@ -11224,7 +11224,7 @@
     {
      "seed": 1,
      "outcome": "lose",
-     "wallMs": 2434,
+     "wallMs": 919,
      "time": 223.68,
      "livesLost": 9,
      "continues": 3,

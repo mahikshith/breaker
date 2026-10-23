@@ -1,5 +1,5 @@
 import { ART } from '../vault-art.js';
-import { SPR, loadImg, artLoaded, text, cached, drawGlint } from '../gfx.js';
+import { SPR, loadImg, artLoaded, text, cached, drawGlint, drawRamPips } from '../gfx.js';
 import { GATEHOUSE_FLOORS } from './gatehouse.js';
 import { renderLumi } from './lumi-render.js';
 import { renderRivals } from './rivals-render.js';
@@ -565,7 +565,7 @@ function gPaddle(ctx,g,art,skin=['paddleL','paddleM','paddleR'],gem='pip_gold'){
   ctx.drawImage(art.images[skin[0]],x-p.w/2-4,y-h/2,16,h);ctx.drawImage(art.images[skin[1]],x-p.w/2+12,y-h/2,p.w-24,h);ctx.drawImage(art.images[skin[2]],x+p.w/2-12,y-h/2,16,h);
   const lit=p.armed?3:p.streak;
   if(p.armed){ctx.save();ctx.globalCompositeOperation='lighter';pool(ctx,x,y-1,p.w/6+4,h*.32,warm,.45+.3*beat);ctx.restore();}
-  pips(ctx,x,y+h/2+5.5,3,lit,{key:gem,gap:9.5,scale:.86,bloom:warm,pulse:p.armed?beat:0});
+  drawRamPips(ctx,p,g.time,gem,x,y+h/2+5.5);
   if(p.stun>0){
     ctx.save();ctx.globalAlpha=.25*k;ctx.fillStyle='#8fc4ff';ctx.beginPath();ctx.roundRect(x-p.w/2-4,y-h/2,p.w+8,h,7);ctx.fill();ctx.restore();
     for(let n=0;n<3;n++){
@@ -600,13 +600,18 @@ function gBall(ctx,g,art,b){
   // Rim shade as a soft inner gradient (no outline); the halo above shrinks as the 2.5 s ram drains.
   const rim=ctx.createRadialGradient(x,y,r*.7,x,y,r);rim.addColorStop(0,'#0d131a00');rim.addColorStop(1,'#0d131a99');ctx.fillStyle=rim;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();
 }
+// The Ward: a glowing line under the paddle that burns inward from both edges as its time runs out (bright embers at
+// the burning ends), flickering in its last 1.2 s. Its full length is the time it was raised with.
+const wardMax=new WeakMap();
 function gWard(ctx,g,art){
   const w=g.ward;if(!w)return;const flick=w.remaining<1.2?(Math.sin(g.time*30)>0?1:.35):1;
+  let max=wardMax.get(w);if(!(max>=w.remaining)){max=w.remaining;wardMax.set(w,max);}
+  const f=clamp01(w.remaining/(max||1)),half=g.width/2*f,x0=g.width/2-half,x1=g.width/2+half;
   ctx.save();ctx.globalAlpha=flick;
-  const band=ctx.createLinearGradient(0,w.y-9,0,w.y+9);band.addColorStop(0,'#7fb8ff00');band.addColorStop(.5,'#9fd0ff66');band.addColorStop(1,'#7fb8ff00');ctx.fillStyle=band;ctx.fillRect(0,w.y-9,g.width,18);
-  ctx.strokeStyle='#cfe8ff';ctx.lineWidth=2.4;ctx.shadowColor='#7fb8ff';ctx.shadowBlur=8;ctx.beginPath();ctx.moveTo(0,w.y);ctx.lineTo(g.width,w.y);ctx.stroke();ctx.shadowBlur=0;
-  ctx.strokeStyle='#fff';ctx.lineWidth=.9;ctx.setLineDash([10,14]);ctx.lineDashOffset=-g.time*60;ctx.beginPath();ctx.moveTo(0,w.y);ctx.lineTo(g.width,w.y);ctx.stroke();ctx.setLineDash([]);
-  if(art.images.shield)ctx.drawImage(art.images.shield,g.width-44,w.y-10,32,17);
+  const band=ctx.createLinearGradient(0,w.y-9,0,w.y+9);band.addColorStop(0,'#7fb8ff00');band.addColorStop(.5,'#9fd0ff66');band.addColorStop(1,'#7fb8ff00');ctx.fillStyle=band;ctx.fillRect(x0,w.y-9,x1-x0,18);
+  ctx.strokeStyle='#cfe8ff';ctx.lineWidth=2.4;ctx.shadowColor='#7fb8ff';ctx.shadowBlur=8;ctx.beginPath();ctx.moveTo(x0,w.y);ctx.lineTo(x1,w.y);ctx.stroke();ctx.shadowBlur=0;
+  ctx.strokeStyle='#fff';ctx.lineWidth=.9;ctx.setLineDash([10,14]);ctx.lineDashOffset=-g.time*60;ctx.beginPath();ctx.moveTo(x0,w.y);ctx.lineTo(x1,w.y);ctx.stroke();ctx.setLineDash([]);
+  if(f<.995)for(const x of[x0,x1]){const b=.8+.2*Math.sin(g.time*24+x);glow(ctx,x,w.y,14,'#9fd0ff',.7*b);glow(ctx,x,w.y,5,'#ffffff',.95);}
   ctx.restore();
 }
 function gBanner(ctx,g,label,a,y=284){
@@ -695,7 +700,7 @@ export function drawEncounter(ctx,g,art,level){
   if(p.armed)pool(ctx,p.x,py,p.w*.55,20,'#ffc98a',.32+.16*beat);
   ctx.drawImage(art.images[pl],p.x-p.w/2-4,py-h/2,16,h);ctx.drawImage(art.images[pm],p.x-p.w/2+12,py-h/2,p.w-24,h);ctx.drawImage(art.images[pr],p.x+p.w/2-12,py-h/2,16,h);
   if(p.armed){ctx.save();ctx.globalCompositeOperation='lighter';pool(ctx,p.x,py-1,p.w/6+4,h*.32,'#ffc98a',.45+.3*beat);ctx.restore();}
-  pips(ctx,p.x,py+h/2+5.5,3,p.armed?3:p.streak||0,{key:'pip_gold',gap:9.5,scale:.86,bloom:'#ffc98a',pulse:p.armed?beat:0});
+  drawRamPips(ctx,p,g.time,'pip_gold',p.x,py+h/2+5.5);
   const fx=k=>{const im=art.images['fx/'+k];return im?.complete&&im.naturalWidth?im:null;};
   if(g.powerTimers?.volley>0&&fx('bow'))ctx.drawImage(fx('bow'),p.x-21,py-15,42,14);
   else if(g.powerTimers?.volley>0){

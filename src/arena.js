@@ -1,7 +1,8 @@
 // Shared gameplay for every level: paddle, balls, serve and Focus aim, power-ups, lives, combo, juice.
 import { makeBall, stepBall, cellAt } from './physics.js';
-import { FX, drawBall, drawKitFace, capsule, POWER, rrect, shade, text, SHADOW, SPR, ready, loadImg, drawRamGlaze, drawRamPips, drawGem, drawGlint } from './gfx.js';
+import { FX, drawBall, drawKitFace, capsule, POWER, rrect, shade, text, SHADOW, SPR, ready, loadImg, drawRamGlaze, drawRamPips, drawGem, drawGlint, ramTeach } from './gfx.js';
 import { ramStreak, tickRam, ramCount, endRam } from './fantasy/ram.js';
+import { Coach, landIn } from './coach.js';
 import { ART } from './vault-art.js';
 import { sfx } from './audio.js';
 import { difficulty } from './difficulty.js';
@@ -58,6 +59,7 @@ export class Arena {
     this.inputEpoch = 0;
     this.aim = null; // { ball, angle, serve, t }
     this.aimReadySeen = !!store.get('aimReadySeen'); this.aimReadyUntil = 0;
+    this.coach = new Coach(); // first-time serve, Focus and ram coaching (src/coach.js)
     this.serve();
   }
 
@@ -87,6 +89,22 @@ export class Arena {
     if (this.state !== 'play' || this.wardCoach || this.aimReadySeen || !this.aim?.ball.caught || !(this.ptr.down || this.keys[' '])) return;
     this.aimReadySeen = true; this.aimReadyUntil = this.kitTime + 1;
     store.set('aimReadySeen', true);
+  }
+  // ---------- first-time coaching (src/coach.js) ----------
+  // Whether the level is in its normal rally (levels with cut-scenes, flights or intros narrow it).
+  coachLive() { return this.phase !== 'intro'; }
+  coachMoment() {
+    const p = this.paddle, a = this.aim;
+    return { blocked: this.state !== 'play' || !!this.wardCoach || !!this.powerMenuOpen || !!this.backHold || !this.coachLive(),
+      serveWaiting: !!a?.serve, focusAim: !!a && !a.serve, focusReady: !a && this.focus >= 1 && p.stun <= 0,
+      landIn: landIn(this.balls, p.y), streak: p.streak || 0, armed: !!p.armed };
+  }
+  updateCoach(dt) { this.coach.update(dt, this.coachMoment()); ramTeach(this.paddle, this.coach.ramPulse); }
+  // main.js draws this over the level, in level space, only while play runs (never under the continue panel).
+  drawCoach(g) {
+    const p = this.paddle, s = this.kitUIScale;
+    this.coach.draw(g, p.x, p.y + p.h + 14, s, { width: this.W, lit: p.armed ? 3 : Math.min(3, p.streak || 0), gem: this.ramGem() });
+    this.coach.drawAimHud(g, 180 / s, this.hudY + 38 / s, s);
   }
   kitAnchor() { return kitLayout(this); }
   canUseKitPower() { return false; }
@@ -189,7 +207,7 @@ export class Arena {
     const b = a.ball, s = a.serve ? this.speed : Math.max(this.speed, Math.hypot(b.vx, b.vy));
     b.caught = false; b.vx = Math.sin(a.angle) * s; b.vy = -Math.cos(a.angle) * s; b.spin = 0;
     if (!a.serve) this.focus = Math.max(0, this.focus - 1);
-    if (a.serve) this.backHold = false; // back in action: the level's clocks restart with this serve
+    if (a.serve) { this.backHold = false; this.coach.served(); } // back in action: the level's clocks restart with this serve
     this.aim = null; this.timeScale = 1; sfx.paddle();
   }
 
@@ -228,7 +246,7 @@ export class Arena {
   ramEffect(kind, x, y) {
     const p = this.paddle;
     if (kind === 'ram-armed') { this.fx.pop(p.x, p.y - 30, 'RAM READY', '#ffd58a', 13); sfx.power(); }
-    else if (kind === 'ram-launch') { this.fx.pop(x, y - 28, 'RAM!', '#cfe8ff', 22); this.fx.shatter(x - 8, y - 8, 16, 16, '#cfe8ff', 6, 1); sfx.boom(); this.bump(.3, .04); }
+    else if (kind === 'ram-launch') { this.coach.ramLaunched(); this.fx.pop(x, y - 28, 'RAM!', '#cfe8ff', 22); this.fx.shatter(x - 8, y - 8, 16, 16, '#cfe8ff', 6, 1); sfx.boom(); this.bump(.3, .04); }
     else if (kind === 'ram-end') { this.fx.shatter(x - 6, y - 6, 12, 12, '#c9dff0', 3, .5); sfx.wall(); }
   }
   updateLevel(/* dt */) {}
@@ -281,7 +299,7 @@ export class Arena {
     else if (kind === 'shrink') { p.shrinkT = 9; p.wideT = 0; }
     else if (kind === 'focus') this.focus = Math.min(this.focusMax, this.focus + 1);
     else if (kind === 'laser') { p.laserT = Math.min(this.companionLimits()?.maxTime ?? Infinity, Math.max(0, p.laserT) + 7); p.laserCd = 0; }
-    else if (kind === 'shield') { this.shield += 2; this.shieldT = Math.max(0, this.shieldT) + 16; }
+    else if (kind === 'shield') { this.shield += 2; this.shieldT = Math.max(0, this.shieldT) + 16; this.shieldMax = this.shieldT; }
     else if (kind === 'slow') this.slowT = Math.max(0, this.slowT) + 8;
   }
 
@@ -289,6 +307,7 @@ export class Arena {
   update(dtReal) {
     if (this.powerMenuOpen) return;
     this.kitTime += dtReal;
+    this.updateCoach(dtReal);
     if (this.wardCoach) {
       updateKitPresence(this);
       const mood = kitExpression(this);
@@ -406,6 +425,7 @@ export class Arena {
       const base = Math.atan2(b.vx, -b.vy);
       this.aim = { ball: b, angle: base, base, serve: false, t: 0, anchorX: ptr.x };
       this.timeScale = FOCUS_SLOW;
+      this.coach.caught();
       this.showAimReady();
     }
   }
@@ -424,7 +444,7 @@ export class Arena {
     this.state = 'play'; this.reason = ''; this.resultSaved = false; this.timeScale = 1; this.hitStop = 0;
     this.lives = Math.max(this.lives, 1); this.balls.length = 0; this.aim = null;
     this.serve(); this.backHold = true;
-    this.shield = 2; this.shieldT = 10; this.paddle.stun = 0;
+    this.shield = 2; this.shieldT = 10; this.shieldMax = this.shieldT; this.paddle.stun = 0;
     sfx.power();
   }
 
@@ -458,12 +478,19 @@ export class Arena {
       g.strokeStyle = `rgba(227,182,255,${0.8 * k})`; g.lineWidth = 2;
       for (const s of [-1, 1]) { const ex = p.x + s * (p.w / 2 + 5); g.beginPath(); g.moveTo(ex - s * 6, y - 9); g.lineTo(ex, y - 9); g.lineTo(ex, y + 3); g.stroke(); }
     }
-    if (this.shield > 0) { // energy barrier below the paddle, one segment per save left
-      const a = 0.55 + 0.25 * Math.sin(this.t * 8), sy = this.shieldY;
+    if (this.shield > 0) { // energy barrier below the paddle, one band per save left; it burns inward from both walls as its time runs out
+      const sy = this.shieldY, f = this.backHold ? 1 : Math.max(0, Math.min(1, this.shieldT / (this.shieldMax || this.shieldT || 1)));
+      const flick = !this.backHold && this.shieldT < 1.2 ? (Math.sin(this.t * 30) > 0 ? 1 : .35) : 1, a = (0.55 + 0.25 * Math.sin(this.t * 8)) * flick;
+      const mid = (this.left + this.right) / 2, half = (this.right - this.left) / 2 * f, x0 = mid - half, x1 = mid + half;
       g.save(); g.globalCompositeOperation = 'lighter';
       const sg = g.createLinearGradient(0, sy - 4, 0, sy + 4); sg.addColorStop(0, 'rgba(46,196,182,0)'); sg.addColorStop(0.5, `rgba(127,245,230,${a})`); sg.addColorStop(1, 'rgba(46,196,182,0)');
-      g.fillStyle = sg; g.fillRect(this.left, sy - 4, this.right - this.left, 8);
-      if (this.shield > 1) { g.globalAlpha = a * 0.5; g.fillRect(this.left, sy + 3, this.right - this.left, 4); }
+      g.fillStyle = sg; g.fillRect(x0, sy - 4, x1 - x0, 8);
+      if (this.shield > 1) { g.globalAlpha = a * 0.5; g.fillRect(x0, sy + 3, x1 - x0, 4); }
+      if (f < .995) for (const x of [x0, x1]) { // the burning ends
+        g.globalAlpha = flick;
+        const eg = g.createRadialGradient(x, sy, 0, x, sy, 12); eg.addColorStop(0, 'rgba(235,255,250,0.95)'); eg.addColorStop(.35, 'rgba(127,245,230,0.55)'); eg.addColorStop(1, 'rgba(46,196,182,0)');
+        g.fillStyle = eg; g.fillRect(x - 12, sy - 12, 24, 24);
+      }
       g.restore();
     }
     g.fillStyle = 'rgba(0,0,0,0.35)'; rrect(g, x + SHADOW.dx, y + SHADOW.dy + 2, p.w, h, h / 2); g.fill();
@@ -570,10 +597,14 @@ export class Arena {
     g.globalAlpha = 1;
     if (this.kitTime < this.aimReadyUntil && (this.ptr.down || this.keys[' '])) text(g, 'Aim ready', this.paddle.x, this.paddle.y - 23 / this.kitUIScale, 15 / this.kitUIScale, '#dfc2f1', 'center');
     if (stop) { const [x, y] = P(sim.x, sim.y); if (!drawGlint(g, x, y, 9, .35, '#dff2ff', pulse + .3)) { g.fillStyle = 'rgba(255,255,255,0.6)'; g.beginPath(); g.arc(x, y, 3, 0, 7); g.fill(); } }
-    if (!a.serve) { // remaining hold time
-      g.strokeStyle = '#e3b6ff'; g.lineWidth = 2.5;
-      const [bx, by] = P(a.ball.x, a.ball.y);
-      g.beginPath(); g.arc(bx, by, 12, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (1 - a.t / 1.6)); g.stroke();
+    if (!a.serve) { // remaining hold time: a small glossy lilac bar above the caught ball that drains from the right
+      const [bx, by] = P(a.ball.x, a.ball.y), w = 28, h = 5, x = bx - w / 2, y = by - 17, f = Math.max(0, 1 - a.t / 1.6);
+      g.fillStyle = 'rgba(12,10,28,0.75)'; rrect(g, x - 1.5, y - 1.5, w + 3, h + 3, 4); g.fill();
+      if (f > 0) {
+        const gr = g.createLinearGradient(0, y, 0, y + h); gr.addColorStop(0, '#f4dcff'); gr.addColorStop(0.5, '#c98cf0'); gr.addColorStop(1, '#8a4fc0');
+        g.fillStyle = gr; rrect(g, x, y, w * f, h, 2.5); g.fill();
+        g.fillStyle = 'rgba(255,255,255,0.55)'; rrect(g, x + 1, y + 0.6, Math.max(0, w * f - 2), 1.4, 0.7); g.fill();
+      }
     }
   }
   drawHUDBase(g) {
@@ -581,8 +612,10 @@ export class Arena {
     for (let i = 0; i < Math.max(3, Math.min(5, this.lives)); i++) drawBall(g, { x: (66 + i * 14) / s, y, r: 4.5 / s, vx: 0, vy: 0 }, i < this.lives ? 1 : 0.18);
     text(g, 'AIM', 150 / s, y, 12 / s, '#dfbaf5');
     // Rendered gem sockets (the castle chapters' fx kit): lit rose for each stored aim, the next one glazing in as it charges.
+    const teach = this.coach.aimPulse || this.coach.aimHudUntil > this.coach.time, beat = .5 + .5 * Math.sin(this.kitTime * 7);
     for (let i = 0; i < this.focusMax; i++) {
       const x = (185 + i * 12) / s, k = 1.05 / s;
+      if (teach && i < this.focus) { const gl = g.createRadialGradient(x, y, 0, x, y, 9 / s); gl.addColorStop(0, `rgba(227,182,255,${.45 + .35 * beat})`); gl.addColorStop(1, 'rgba(227,182,255,0)'); g.fillStyle = gl; g.fillRect(x - 9 / s, y - 9 / s, 18 / s, 18 / s); }
       drawGem(g, 'pip_empty', x, y, k);
       if (i < this.focus) drawGem(g, 'pip_rose', x, y, k);
       else if (i === this.focus && this.focusFill > 0) drawGem(g, 'pip_rose', x, y, k * (.6 + .4 * this.focusFill / 14), .25 + .5 * this.focusFill / 14);

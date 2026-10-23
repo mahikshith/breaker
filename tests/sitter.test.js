@@ -56,8 +56,8 @@ test('Ember is scenery on the sitter archetype: no shapes, every pose drawn from
     assert.ok(p.art.some(k => man.sprites[k]), `${pose} has art`); assert.ok(p.circles.length >= 2, `${pose} has body circles`);
   }
   for (const pose of [EMBER.rest, EMBER.tellPose, ...Object.values(EMBER.attacks), ...EMBER.moods.map(m => m[1])]) assert.ok(EMBER.poses[pose], pose);
-  // R01's full-body poses are the preferred art, all at one scale (the tallest is 136 units) and anchored on the ledge line.
+  // R01's full-body poses are the preferred art, all at one scale (the tallest is 126 units) and anchored on the ledge line.
   for (const k of ['sleep', 'stir', 'windup', 'breath', 'sweep', 'defeat']) {
-    const s = man.sprites[`ember/${k}`]; assert.equal(EMBER.poses[k].art[0], `ember/${k}`); assert.ok(s.drawSize[1] <= 136 && s.anchor[1] === s.drawSize[1]);
+    const s = man.sprites[`ember/${k}`]; assert.equal(EMBER.poses[k].art[0], `ember/${k}`); assert.ok(s.drawSize[1] <= 126 && s.anchor[1] === s.drawSize[1]);
   }
 });

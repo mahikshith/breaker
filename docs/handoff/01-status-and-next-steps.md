@@ -76,7 +76,16 @@ Read all three handoff docs before touching code: this one (status, rules, histo
   - Model `src/fantasy/hoard.js` (DragonsHoard), renderer `src/fantasy/hoard-render.js`, chapter wiring in `src/fantasy/chapter.js` (greed card and RUN pill are model-space buttons; keys 1/R run, 2/S stay, R runs during a stay), `nearMiss()` and back-in-action like Rivals.
   - Ember runs on the new "big sitter" archetype (`src/fantasy/creatures/sitter.js`, skin `ember.js`): physics and pose state once per archetype, the creature is data.
   - Art: `art/hoard/build.py` takes the R01 full-body Ember poses (one scale, body circles fitted to the alpha), cuts the M365 dragon kit (8 busts kept as fallbacks, Crown chest fitted to its 100x52 collider, coins) and copies the owner's cave plate A to `assets/hoard`; `tools/pack_art.py` packs it as `ART.hoard`. R02 eye and R03 props slot in by name when they arrive (code fallbacks until then).
+  - First-time coaching (merged from `codex/castle-chapters`) reaches the Hoard through the shared chapter hooks (serve, Ram pips, burn-in Ward); the greed card and the escape block it.
   - Tests: `tests/hoard.test.js` (17), `tests/sitter.test.js` (5, with a dummy solid skin); the chapter and continue-v2 tests cover the twelfth slot. Audit: adapter `hoard` (greed card answered at random). Review shots: `tools/playtest/hoard-review.mjs` (PERF=1 adds a frame-cost line).
+
+- **2026-10-23 — First-time coaching (branch `codex/coach`, from `codex/castle-chapters`; not merged).**
+  - `src/coach.js`: one glossy chip under the paddle (between the ram tray and the Kit orb), one at a time, hidden while play is blocked (continue panel, power menu, Vault Ward coach, back-in-action hold, intros). Progress persists in the store: `coachServes`, `coachCatches`, `coachRam`, `coachAimHud`.
+  - Serve: "Slide to aim · Lift to serve" with a thumb and chevrons, every chapter, until 3 player serves (auto-serves do not count).
+  - Focus (Arena chapters only): "HOLD STILL to catch & aim" when an AIM charge is stored and a ball will land within 0.8 s, then "Slide to aim · Lift to fire" once caught; stops after 2 Focus catches. The first time, the HUD AIM gems glow and a label reads "AIM charges: hold still to catch".
+  - Ram: from the first lit pip, "Hit the MIDDLE ×3 → RAM BALL", then "Next middle hit launches the RAM!" when armed, until the first ram launch. The pips sit in a small enamel tray, pop in with a glint when lit, and the empty ones breathe while the coach is up (`drawRamPips` in `src/gfx.js`, now shared by the castle renderers).
+  - Ward: the shield capsule sprite on the Ward line is gone; the line burns inward from both edges as its time runs out (embers at the ends, same last-1.2 s flicker). The Arena shield does the same and stays full while the serve is held. No gameplay numbers changed.
+  - Tests: `tests/coach.test.js`. Captures: `node tools/playtest/coach.mjs <out>`.
 
 - **2026-10-23 — Continue screen v2 (branch `codex/continue-v2`, from `codex/castle-chapters`; not merged).**
   - Loss panel: a chapter-aware "so close" card (every level has a `nearMiss()` hook; copy in `src/near-miss.js`), e.g. "KORR HAS 3 HP LEFT", "LUMI IS 3 BRICKS FROM FREEDOM", "2 WINCH HITS TO RAISE THE GATE", with a glossy progress bar and "FLOOR 3 / 3 · 96% CLEARED". The title says SO CLOSE! from 50% progress, else CONTINUE?.

@@ -69,6 +69,7 @@ export class Orbital extends Arena {
   pointerMove(x,y) { if(this.combat()&&!this.powerMenuOpen)super.pointerMove(x,y); }
   pointerUp() { if(this.combat()&&!this.powerMenuOpen&&this.ptr.down)super.pointerUp();else this.ptr.down=false; }
   key(k,down) { if(this.powerMenuOpen){super.key(k,down);return;}if(this.combat())super.key(k,down);else this.keys[k]=false; }
+  coachLive() { return this.combat(); }
   serve() { super.serve();this.serveAge=0;this.serveLimit=this.started?3:8; }
   release() {
     if(!this.combat()||this.powerMenuOpen)return;

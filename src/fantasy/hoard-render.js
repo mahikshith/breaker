@@ -93,7 +93,7 @@ function drawEmber(ctx, g, st) {
   put(ctx, poseKey(face), 0, 0, 1, st.prev ? q : 1);
   ctx.restore();
   // Snoring: drifting Z's while the eye is shut on floor 1.
-  if (face === 'sleep' && g.wake < 30 && g.floor === 0) for (let i = 0; i < 2; i++) { const u = (t * .35 + i * .5) % 1; ctx.save(); ctx.globalAlpha = Math.sin(Math.PI * u) * .75; text(ctx, 'z', EMBER.x + 56 + u * 18, EMBER.y - 108 - u * 26, 9 + u * 6, '#cfe6ff', 'center'); ctx.restore(); }
+  if (face === 'sleep' && g.wake < 30 && g.floor === 0) for (let i = 0; i < 2; i++) { const u = (t * .35 + i * .5) % 1; ctx.save(); ctx.globalAlpha = Math.sin(Math.PI * u) * .75; text(ctx, 'z', EMBER.x + 22 + u * 16, EMBER.y - 64 - u * 24, 9 + u * 6, '#cfe6ff', 'center'); ctx.restore(); }
 }
 // The Wake eye: an almond socket whose lid lifts as the eye opens; a slim bar under it for the exact level.
 function wakeEye(ctx, g, st) {

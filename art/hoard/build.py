@@ -31,7 +31,7 @@ ROUND2 = sys.argv[3] if len(sys.argv) > 3 else os.path.join(os.path.dirname(os.p
 # Round-2 sheets: (file, cols, rows, [(key, fit, size, anchor) per cell]). fit 'h': drawn height in units; 'w': drawn width;
 # 'box': exactly (w, h) units (a collider-sized prop). anchor 'base' = bottom centre, 'centre' = middle.
 R01 = sys.argv[4] if len(sys.argv) > 4 else '/mnt/project-files/breaker/review-2026-10-23/hoard-art/R01-ember-poses'
-POSE_H = 136          # drawn height of the tallest pose (windup); the others keep their size relative to it
+POSE_H = 126          # drawn height of the tallest pose (windup: horns just under the lives row); the others keep their size relative to it
 R2 = [('R02.png', 5, 1, [(f'eye/{i}', 'w', 64, 'centre') for i in range(5)]),
       ('R03.png', 4, 3, [('prop/molten_0', 'box', (32, 16), 'centre'), ('prop/molten_1', 'box', (32, 16), 'centre'), ('prop/molten_2', 'box', (32, 16), 'centre'),
                          ('prop/chime', 'h', 20, 'centre'), ('prop/chime_ring', 'h', 20, 'centre'), ('prop/sunstone', 'w', 48, 'centre'), ('prop/sunstone_cracked', 'w', 48, 'centre'),
