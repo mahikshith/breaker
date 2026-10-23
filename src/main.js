@@ -418,7 +418,9 @@ function draw() {
   g.translate(0, inT);
   if (scene === 'menu') drawMenu();
   else {
-    g.save(); g.translate(0, -LIFT); level.draw(g); g.restore();
+    g.save(); g.translate(0, -LIFT); level.draw(g);
+    if (scene === 'level' && level.state === 'play' && !level.powerMenuOpen) level.drawCoach?.(g); // first-time coaching (src/coach.js)
+    g.restore();
     if (scene === 'level' && level.powerMenuOpen) { g.save(); g.translate(0, -LIFT); drawSpacePowerMenu(g, level); g.restore(); }
     if (scene === 'pause') drawPause();
     else if (level.state === 'play') { pauseButton(); if (level.backHold) drawBackIn(); }

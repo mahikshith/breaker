@@ -125,6 +125,7 @@ export class Carrier extends Arena {
   hullPose(at = this.clock) { const p = this.bossPose(at); return { x: this.assembly.hull.x + p.x, y: this.assembly.hull.y + p.y }; }
   canUseCorePower() { return this.state === 'play' && this.phase === 'carrier' && super.canUseCorePower(); }
   spacePowerAvailable() { return this.state === 'play' && this.phase === 'carrier'; }
+  coachLive() { return this.phase === 'carrier'; }
   serve() { super.serve(); this.serveAge = 0; this.serveLimit = this.started ? 3 : 8; }
   release() {
     if (this.state !== 'play' || this.phase !== 'carrier') return;

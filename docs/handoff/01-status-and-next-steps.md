@@ -70,6 +70,14 @@ Read all three handoff docs before touching code: this one (status, rules, histo
 
 ## Progress log (newest first)
 
+- **2026-10-23 — First-time coaching (branch `codex/coach`, from `codex/castle-chapters`; not merged).**
+  - `src/coach.js`: one glossy chip under the paddle (between the ram tray and the Kit orb), one at a time, hidden while play is blocked (continue panel, power menu, Vault Ward coach, back-in-action hold, intros). Progress persists in the store: `coachServes`, `coachCatches`, `coachRam`, `coachAimHud`.
+  - Serve: "Slide to aim · Lift to serve" with a thumb and chevrons, every chapter, until 3 player serves (auto-serves do not count).
+  - Focus (Arena chapters only): "HOLD STILL to catch & aim" when an AIM charge is stored and a ball will land within 0.8 s, then "Slide to aim · Lift to fire" once caught; stops after 2 Focus catches. The first time, the HUD AIM gems glow and a label reads "AIM charges: hold still to catch".
+  - Ram: from the first lit pip, "Hit the MIDDLE ×3 → RAM BALL", then "Next middle hit launches the RAM!" when armed, until the first ram launch. The pips sit in a small enamel tray, pop in with a glint when lit, and the empty ones breathe while the coach is up (`drawRamPips` in `src/gfx.js`, now shared by the castle renderers).
+  - Ward: the shield capsule sprite on the Ward line is gone; the line burns inward from both edges as its time runs out (embers at the ends, same last-1.2 s flicker). The Arena shield does the same and stays full while the serve is held. No gameplay numbers changed.
+  - Tests: `tests/coach.test.js`. Captures: `node tools/playtest/coach.mjs <out>`.
+
 - **2026-10-23 — Continue screen v2 (branch `codex/continue-v2`, from `codex/castle-chapters`; not merged).**
   - Loss panel: a chapter-aware "so close" card (every level has a `nearMiss()` hook; copy in `src/near-miss.js`), e.g. "KORR HAS 3 HP LEFT", "LUMI IS 3 BRICKS FROM FREEDOM", "2 WINCH HITS TO RAISE THE GATE", with a glossy progress bar and "FLOOR 3 / 3 · 96% CLEARED". The title says SO CLOSE! from 50% progress, else CONTINUE?.
   - The countdown ring is gone: an 8 s glazed fuse bar (teal to coral in the last 2 s) with a soft timeout. At 0 s it reads TAKE YOUR TIME and every button stays live; only No thanks declines.

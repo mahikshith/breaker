@@ -53,6 +53,7 @@ export class Frost extends Arena {
   }
   previewRect() { return { x: 20, y: 138, w: 320, h: 100 }; }
   get danger() { return this.defences ? 1 - this.defences.reduce((sum, d) => sum + d.hp, 0) / (this.rules.postHP * 3) : 0; }
+  coachLive() { return this.phase === 'siege'; }
   serve() { super.serve(); this.autoServeAt = (this.clock || 0) + (this.started ? 3 : 8); }
   release() {
     if (this.phase && this.phase !== 'siege') return;
