@@ -7,6 +7,7 @@
 import { SPR, ready, cached, text, drawCapsule, drawAt } from '../gfx.js';
 import { glow, sparks, chips, pips, fxPart, dust, rnd, clamp01, smooth, sprite, hoistChain, brick, pool } from './render.js';
 import { STAGES } from './tidewheel-stages.js';
+import { pipTrack, stageCard, stageBanner } from './stage-ui.js';
 
 const TAU = Math.PI * 2;
 // One barnacle: a squat shell cone lit from the top-left, its plates closed to a short slit at the top.
@@ -278,54 +279,15 @@ export function siegeOverlay(ctx, g, art) {
   if (g.banner) banner(ctx, g, g.banner);
   if (g.phase === 'card' && g.card) card(ctx, g, art);
 }
-// The chapter chip: "TIDEWHEEL SIEGE" over a pip track, one gem per stage, the last one Nerra's crest (bigger, a faint pulse).
+// The chapter chip and stage card come from the shared Siege UI (stage-ui.js); Tidewheel passes Nerra's crest.
+const nerraCrest = art => (c, x, y) => sprite(c, art, 'nerra', 'nerraBody', x, y + 5.2, { width: 21 });
 function hud(ctx, g, art) {
-  const cx = g.width / 2, w = 118, n = g.stageCount, cleared = g.state === 'won' ? n : g.stagesCleared;
-  ctx.save(); ctx.globalAlpha = .88; ctx.fillStyle = '#0b111bcc'; ctx.beginPath(); ctx.roundRect(cx - w / 2, 3, w, 31, 10); ctx.fill();
-  ctx.strokeStyle = '#7fc7cf66'; ctx.lineWidth = .8; ctx.stroke(); ctx.restore();
-  text(ctx, 'TIDEWHEEL SIEGE', cx, 11.5, 9, '#cfeff0', 'center');
-  const gap = 17, x0 = cx - (n - 1) * gap / 2 - 4;
-  for (let i = 0; i < n - 1; i++) {
-    const x = x0 + i * gap, done = i < cleared, now = i === g.stage && !done, beat = now ? .5 + .5 * Math.sin(g.time * 5) : 0;
-    ctx.fillStyle = i + 1 <= cleared ? '#7fc7cf' : '#3b4a55'; ctx.fillRect(x + 4, 24.2, gap - 8 + (i === n - 2 ? 4 : 0), 1.6);
-    pips(ctx, x, 25, 1, done || now ? 1 : 0, { key: done ? 'pip_blue' : 'pip_gold', bloom: done ? '#8fc8ff' : '#ffcf7a', scale: .62, pulse: beat });
-  }
-  crest(ctx, g, art, x0 + (n - 1) * gap + 4, 24.5, g.stage === n - 1, cleared >= n);
+  pipTrack(ctx, { cx: g.width / 2, y: 3, title: 'TIDEWHEEL SIEGE', count: g.stageCount, cleared: g.state === 'won' ? g.stageCount : g.stagesCleared, current: g.stage, time: g.time, crest: nerraCrest(art) });
 }
-function crest(ctx, g, art, x, y, now, done) {
-  const r = 7.6, pulse = .5 + .5 * Math.sin(g.time * (now ? 4 : 1.6));
-  glow(ctx, x, y, r * 2.4, done ? '#8fc8ff' : '#ff8f7a', (now ? .45 : .2) + .15 * pulse);
-  const disc = ctx.createRadialGradient(x - r * .35, y - r * .4, 0, x, y, r); disc.addColorStop(0, '#fff1c4'); disc.addColorStop(.4, '#c9934a'); disc.addColorStop(1, '#4d3312');
-  ctx.fillStyle = disc; ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
-  const face = ctx.createRadialGradient(x, y - 1, 0, x, y, r - 1.4); face.addColorStop(0, '#1d3d48'); face.addColorStop(1, '#0b1b22'); ctx.fillStyle = face; ctx.beginPath(); ctx.arc(x, y, r - 1.4, 0, TAU); ctx.fill();
-  ctx.save(); ctx.beginPath(); ctx.arc(x, y, r - 1.6, 0, TAU); ctx.clip(); ctx.globalAlpha = done ? .45 : 1;
-  sprite(ctx, art, 'nerra', 'nerraBody', x, y + 5.2, { width: 21 }); ctx.restore();
-}
-function banner(ctx, g, b) {
-  const a = Math.min(1, b.t * 6, (b.life - b.t) * 3); if (a <= 0) return;
-  const y = 262, w = 264, x = g.width / 2 - w / 2, pop = 1 + .08 * Math.max(0, 1 - b.t * 5);
-  ctx.save(); ctx.globalAlpha = a; ctx.translate(g.width / 2, y); ctx.scale(pop, pop); ctx.translate(-g.width / 2, -y);
-  ctx.fillStyle = '#0b111bdd'; ctx.beginPath(); ctx.roundRect(x, y - 22, w, b.sub ? 46 : 34, 16); ctx.fill();
-  ctx.strokeStyle = '#d6a35f'; ctx.lineWidth = 1.4; ctx.stroke();
-  text(ctx, b.text, g.width / 2, y - 6, 18, '#ffe3a1', 'center');
-  if (b.sub) text(ctx, b.sub, g.width / 2, y + 13, 10, '#cfeff0', 'center');
-  ctx.restore();
-}
+function banner(ctx, g, b) { stageBanner(ctx, { width: g.width, y: 262, text: b.text, sub: b.sub, t: b.t, life: b.life }); }
 // The stage card: 1.2 s, skippable with a tap. "STAGE 2 OF 4", the stage's name and its one-line stake.
-function card(ctx, g, art) {
-  const t = g.card.t, T = 1.2, a = Math.min(1, t / .14, (T - t) / .2), info = STAGES[g.stage], y = Math.min(300, g.paddle.y - 210);
-  if (a <= 0) return;
-  ctx.save(); ctx.globalAlpha = a;
-  const slide = (1 - smooth(Math.min(1, t / .25))) * 14;
-  ctx.fillStyle = '#050a10aa'; ctx.fillRect(0, y - 58, g.width, 116);
-  const w = 300, x = g.width / 2 - w / 2, top = y - 46 + slide;
-  const bg = ctx.createLinearGradient(0, top, 0, top + 92); bg.addColorStop(0, '#16303ccc'); bg.addColorStop(1, '#0b1820ee');
-  ctx.fillStyle = bg; ctx.beginPath(); ctx.roundRect(x, top, w, 92, 18); ctx.fill();
-  ctx.strokeStyle = '#d6a35f'; ctx.lineWidth = 1.6; ctx.stroke(); ctx.strokeStyle = '#ffe3a133'; ctx.lineWidth = .7; ctx.beginPath(); ctx.roundRect(x + 4, top + 4, w - 8, 84, 14); ctx.stroke();
-  text(ctx, g.stageLabel, g.width / 2, top + 17, 11, '#7fc7cf', 'center');
-  text(ctx, info.name.toUpperCase(), g.width / 2, top + 42, 26, '#ffe3a1', 'center');
-  text(ctx, info.stake, g.width / 2, top + 68, 11.5, '#e8f2f0', 'center');
-  pips(ctx, g.width / 2 - 8, top + 84, g.stageCount - 1, g.stage, { key: 'pip_blue', bloom: '#8fc8ff', gap: 12, scale: .5 });
-  ctx.restore();
+function card(ctx, g) {
+  const info = STAGES[g.stage];
+  stageCard(ctx, { width: g.width, y: Math.min(300, g.paddle.y - 210), t: g.card.t, duration: 1.2, label: g.stageLabel, name: info.name, stake: info.stake, index: g.stage, count: g.stageCount });
 }
 export { brassBar, pearl };
