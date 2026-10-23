@@ -13,6 +13,8 @@ import { cached, drawBall, text, ramTeach } from '../gfx.js';
 import { Coach } from '../coach.js';
 import { sfx } from '../audio.js';
 import { kitExpression, updateKitPresence } from '../kit.js';
+import { PACE } from './purpose.js';
+import { drawPurpose, drawPurposeVignette } from './purpose-render.js';
 
 const MIN_H = 700;   // the models need their full portrait world; shorter screens draw it scaled down
 const KINDS = { shield: 'echo', anchor: 'anchor', arrows: 'volley', titan: 'cosmic' };   // menu id -> model power
@@ -37,6 +39,19 @@ const CHAPTERS = {
   hoard: { Model: DragonsHoard, name: 'Dragon’s Hoard', kinds: HOARD_KINDS, powers: [{ id: 'shield', label: 'WARD', color: '#a9cbf0' }, { id: 'arrows', label: 'ARROWS', color: '#e3c6d1' }],
     preview: { x: 0, y: 30, w: 360, h: 70 }, stars: a => 1 + (a.lives >= 2) + (a.m.wakes === 0) },
 };
+// Purpose plates (src/fantasy/purpose.js): where each chapter shows its villain's goal, in model space, clear of the HUD row
+// (pause, balls and score sit over model y 6..24 at the sides) and of each floor's chips. Bellforge's lift drop reuses the plate.
+const PURPOSE = {
+  bellforge: m => ({ x: 296, y: 30, w: 118, label: 'KORR LOWERS LUMI' }),
+  // Floor 1 sits under the par chip, floor 2 under the rack chip when it shows, floor 3 left of Korr's HP bar.
+  gatehouse: m => m.floor === 2 ? { x: 76, y: 30, w: 138, label: 'KORR HAULS LUMI AWAY' } : { x: 180, y: m.floor === 0 || m.rackSmashed ? 43 : 27, w: 158, label: 'KORR HAULS LUMI AWAY' },
+  // Gnash's windows hug the side walls, so the plate keeps to the middle of the top band, under the floor chip.
+  lumitower: m => ({ x: 180, y: 27, w: 160, label: 'GNASH COILS UP TO LUMI' }),
+  rivals: m => ({ x: 180, y: 27, w: 160, label: 'THE SEAL CLOSES ON LUMI' }),
+  // Ember's eye and the loot pill hold the top right; the plate hangs under the loot pill, over the cave wall behind him.
+  hoard: m => ({ x: 214, y: 46, w: 140, label: 'EMBER SWALLOWS LUMI' }),
+};
+const purposeClock = (key, m) => key === 'bellforge' ? { p: m.lumi.steps / m.rules.mistakes, pushAt: -Infinity, surgeAt: m.liftAt ?? -Infinity } : m.purpose;
 const SNAKES = new Set(['lumitower', 'rivals']), OWN_REASON = new Set(['bellforge', 'gatehouse', 'lumitower', 'rivals', 'hoard']);
 const HOARD_LOUD = new Set(['roar-warning', 'breath-warning', 'exit-open', 'slide', 'gate-break', 'crown-break', 'weight-break', 'escape', 'ram-launch', 'run', 'stay', 'crown-grab']);
 const HOARD_QUIET = new Set(['loot', 'spill', 'melt', 'harden', 'chime-ready', 'yawn', 'volley', 'arrow-hit', 'ward-deploy', 'row-clear', 'brick-break', 'paddle']);
@@ -63,7 +78,8 @@ export class FantasyChapter {
   get phase() { return this.m.phase; }
   get lives() { return this.m.lives; }
   get score() { return this.m.score; }
-  get danger() { const m = this.m; if (this.key === 'hoard') return m.ember.stage === 'windup' ? .8 : m.floor === 2 ? Math.max(0, Math.min(.9, 1 - (m.dangerY - m.fieldBottom()) / 140)) : m.wake / 100 * .7; if (this.key === 'lumitower' || this.key === 'rivals') return m.lunges.some(l => l.stage !== 'peek' && l.stage !== 'retreat') ? .8 : 0; if (this.key === 'gatehouse') return m.bells.length || m.villain.stage === 'windup' || m.winch?.stage === 'crank' ? .75 : m.floor / 3 * .6; return this.key === 'bellforge' ? m.lumi.steps / m.rules.mistakes : 1 - (m.water.y - m.water.limit) / (m.water.initial - m.water.limit); }
+  get danger() { const p = this.m.purpose?.p || 0; return Math.max(p >= PACE.mid ? p : 0, this.baseDanger); }
+  get baseDanger() { const m = this.m; if (this.key === 'hoard') return m.ember.stage === 'windup' ? .8 : m.floor === 2 ? Math.max(0, Math.min(.9, 1 - (m.dangerY - m.fieldBottom()) / 140)) : m.wake / 100 * .7; if (this.key === 'lumitower' || this.key === 'rivals') return m.lunges.some(l => l.stage !== 'peek' && l.stage !== 'retreat') ? .8 : 0; if (this.key === 'gatehouse') return m.bells.length || m.villain.stage === 'windup' || m.winch?.stage === 'crank' ? .75 : m.floor / 3 * .6; return this.key === 'bellforge' ? m.lumi.steps / m.rules.mistakes : 1 - (m.water.y - m.water.limit) / (m.water.initial - m.water.limit); }
   get reason() { const m = this.m; return OWN_REASON.has(this.key) ? m.reason : m.loss === 'flood' ? 'The basin reached the refuge.' : 'The last ball slipped away.'; }
   // The menu card shows the Twin Seal with three ward plates and its first cracks.
   skipIntro() { if (this.key === 'tidewheel') this.m.preview(); if (this.key === 'hoard') this.m.wake = 64; if (this.key === 'rivals') { this.m.buildFloor(2); this.m.floorTime = 5; this.m.seal.ward = 3; this.m.seal.hp = Math.round(this.m.seal.maxHP * .7); } }
@@ -166,6 +182,9 @@ export class FantasyChapter {
       else if (m.time - this.hitSoundAt > .06) { sfx.hit(); this.hitSoundAt = m.time; }
     }
     if (was === 'play' && m.state !== 'play') { m.state === 'won' ? sfx.win() : sfx.lose(); this.kitShockUntil = this.t + 1.1; }
+    // The villain is nearly there: a heartbeat that quickens as the clock runs out.
+    const pc = PURPOSE[this.key] && purposeClock(this.key, m);
+    if (pc && pc.p >= PACE.high && m.state === 'play' && (this.beatT = (this.beatT || 0) - dt) <= 0) { sfx.beat(); this.beatT = 1.05 - .45 * (pc.p - PACE.high) / (1 - PACE.high); }
     updateKitPresence(this);
     const mood = kitExpression(this);
     if (mood !== this.kitMood) { this.kitMood = mood; this.kitAt = this.kitTime; }
@@ -186,6 +205,8 @@ export class FantasyChapter {
       lines: this.key === 'hoard' ? [['Score', Math.round(m.score).toLocaleString()], ['Loot banked', won ? `${m.banked}${m.mult > 1 ? ` (×${m.mult})` : ''}` : `${m.loot}`], ['Ember woke', m.wakes]] : this.key === 'rivals' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Clashes', m.clashes]] : this.key === 'lumitower' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Bites', m.bites]] : this.key === 'gatehouse' ? [['Score', Math.round(m.score).toLocaleString()], ['Floors', `${won ? 3 : m.floor} / 3`], ['Balls left', m.lives]] : this.key === 'tidewheel' ? [['Score', Math.round(m.score).toLocaleString()], ['Stages', `${won ? m.stageCount : m.stagesCleared} / ${m.stageCount}`], ['Knock-downs', m.knockdowns], ['Flood margin', `${Math.max(0, Math.round(((Number.isFinite(m.floodMinS4) ? m.floodMinS4 : this.floodMin) - m.water.limit) / (m.water.initial - m.water.limit) * 100))}%`]] : [['Score', Math.round(m.score).toLocaleString()], this.key === 'bellforge' ? ['Lift drops', `${m.lumi.steps} / ${m.rules.mistakes}`] : ['Flood margin', `${Math.max(0, Math.round((this.floodMin - m.water.limit) / (m.water.initial - m.water.limit) * 100))}%`], ['Balls left', m.lives]] };
   }
   // ---------- drawing ----------
+  // The purpose plate shows while a floor is in play (not over climbs, crashes, the greed card or the ending).
+  showPurpose() { const m = this.m; return !!PURPOSE[this.key] && (m.phase === 'play' || m.phase === 'serve' || m.phase === 'breach') && (m.state === 'play' || m.state === 'lost'); }
   background() {
     return cached(`fantasy-bg-${this.key}-${this.W}-${this.H}`, this.W, this.H, g => {
       if (SNAKES.has(this.key) || this.key === 'hoard') { const top = { rivals: '#12162a', lumitower: '#171226', hoard: '#0b0a16' }, bottom = { rivals: '#090b16', lumitower: '#0c0a16', hoard: '#03040c' }; const gr = g.createLinearGradient(0, 0, 0, this.H); gr.addColorStop(0, top[this.key]); gr.addColorStop(1, bottom[this.key]); g.fillStyle = gr; g.fillRect(0, 0, this.W, this.H); return; }
@@ -206,7 +227,10 @@ export class FantasyChapter {
     g.save(); g.translate(this.ox, this.hudTop); g.scale(this.k, this.k);
     drawEncounter(g, this.m, art, this.key);
     if (this.key === 'bellforge' || this.key === 'tidewheel' || this.key === 'lumitower') gWard(g, this.m, art); // their renderers have no Ward of their own
+    const pc = this.showPurpose() && purposeClock(this.key, this.m);
+    if (pc) drawPurpose(g, pc, PURPOSE[this.key](this.m), this.m.time);
     g.restore();
+    if (pc && this.m.state === 'play') drawPurposeVignette(g, this.W, this.H, pc.p, this.t);
     const s = this.kitUIScale, y = this.hudY + 18 / s;
     Arena.prototype.drawDeck.call(this, g);
     for (let i = 0; i < Math.max(3, Math.min(5, this.lives)); i++) drawBall(g, { x: (66 + i * 14) / s, y, r: 4.5 / s, vx: 0, vy: 0 }, i < this.lives ? 1 : 0.18);

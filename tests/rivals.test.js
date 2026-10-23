@@ -119,6 +119,7 @@ test('baiting: lure the rival while the first serpent hisses on the Crossing and
 test('scheduled lunges never send both serpents onto the Crossing, so every clash is the player’s doing', () => {
   for (const mode of ['easy', 'medium', 'hard']) {
     const m = hall(mode, 2); m.nextLunge = 1; let both = 0, lunges = 0, ids = new Set();
+    m.purpose.seconds = Infinity;   // two parked minutes: the Seal clock (tests/purpose-clocks.test.js) would end the floor first
     for (let i = 0; i < 240 * 120; i++) {
       park(m); m.step(STEP);
       for (const l of m.lunges) ids.add(l.id);

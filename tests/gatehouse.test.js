@@ -247,6 +247,7 @@ test('always winnable: the seeded tracking bot drops the bridge on every mode, c
     let heals = 0;
     for (let seed = 1; seed <= 6; seed++) {
       const rnd = rng(seed * 77), g = new Gatehouse({ difficulty: mode }); g.lives = 99; let o = (rnd() - .5) * 70;
+      g.purpose.seconds = Infinity;   // the crank cap alone must let ordinary play through; the purpose clock has its own tests
       for (let i = 0; i < 240 * 240 && g.floor === 0 && g.phase !== 'crash'; i++) {
         if (g.phase === 'serve') g.launch(-Math.PI / 2 + (rnd() - .5) * 1.2);
         const b = g.balls[0]; if (b && !b.caught) { if (rnd() < .01) o = (rnd() - .5) * 70; g.setTarget(b.x + o); }
