@@ -24,7 +24,7 @@ try {
     const begin = stage => { __breach.start(7); const l = level(); l.drawCoach = () => {}; if (stage) l.m.buildStage(stage); draw(); return l.m; };
     // A paddle that follows the ball and serves, so stages play on naturally between staged beats.
     const play = (s, until) => { const l = level(); for (let i = 0; i < Math.round(s * 120); i++) { const m = l.m; if ((m.phase === 'serve' || m.phase === 'hook') && m.balls.some(b => b.caught)) m.launch(-Math.PI / 2 + .35); const b = m.balls.find(b => !b.caught && !b.dead); if (b) m.setTarget(b.x + 18); l.update(1 / 120); if (until?.(m)) break; } draw(); };
-    const strike = n => { const m = model(), v = m.villain; for (let i = 0; i < n && !m.pool.down; i++) { v.ghost = false; v.hidden = false; m.cine = null; m.hitNerra({ kind: 'shell', id: 'shell' }, m.balls[0]); } };
+    const strike = n => { const m = model(), v = m.villain; for (let i = 0; i < n && !m.pool.down; i++) { v.ghost = false; v.hidden = false; m.cine = null; m.balls[0].spent = false; m.hitNerra({ kind: 'shell', id: 'shell' }, m.balls[0]); } };
     window.SH = { draw, step, begin, play, strike, model, level };
   });
   const snap = async (name, what, clip) => { await page.evaluate(what); const path = `${OUT}/${name}.png`; await page.screenshot({ path, ...(clip ? { clip } : {}) }); shots.push(name); };

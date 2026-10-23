@@ -19,7 +19,7 @@ export function siegePlan(difficulty = 'medium') {
   return stagePlan(STAGE_COUNT).map(s => ({ ...s, bricks: s.bricks * k.bricks, twoHit: Math.min(.9, s.twoHit * k.twoHit), drop: s.drop * k.drop,
     speed: s.speed * k.speed, attack: s.attack === null ? null : s.attack * k.attack, tide: k.tide }));
 }
-export const BASE_BRICKS = 24;   // today's single screen: two rafts of twelve
+export const BASE_BRICKS = 30;   // the full siege board: today's two rafts of twelve plus the stage's formations
 
 export const STAGES = [
   { key: 'lowtide', name: 'Low Tide', stake: 'Nerra snapped the refuge chain. Beat the tide.', nerra: 'hook', clear: 'THE RAFTS ARE FREE' },
@@ -38,7 +38,7 @@ const RAFT_ORDER = [[1, 3], [0, 3], [2, 3], [1, 2], [0, 2], [2, 2], [1, 1], [0, 
 const CAGE = { post: 4, roofY: -10, roofH: 6, x: 22 };
 function cageRaft() {
   // The two cargo rows carry four narrower bricks each.
-  const cells = [1, 2, 0, 3].flatMap(c => [1, 0].map(r => ({ lx: -54 + c * 27.5, ly: ROW(r), w: 25, h: H }))).sort((p, q) => q.ly - p.ly);
+  const cells = [1, 2, 0, 3].flatMap(c => [1, 0].map(r => ({ lx: -54 + c * 27.5, ly: ROW(r), w: 25, h: H, ...(c === 1 && r === 0 ? { type: 'mine' } : {}) }))).sort((p, q) => q.ly - p.ly);
   const side = [{ lx: -54, ly: ROW(2), w: 28, h: H }, { lx: 26, ly: ROW(2), w: 28, h: H }, { lx: -54, ly: ROW(3), w: 28, h: H }, { lx: 26, ly: ROW(3), w: 28, h: H }];
   const p = CAGE.post, x = CAGE.x;
   return {
@@ -53,15 +53,26 @@ function cageRaft() {
   };
 }
 
-// Static board pieces. blocks: {x, y, w, h, type, hp, band}; bars: {id, x, y, w, h, glint, band}; type brick|pearl|chest|valve.
+// Static board pieces. blocks: {x, y, w, h, type, hp, band}; bars: {id, x, y, w, h, glint, band, power}; type
+// brick|mine|pearl|chest|valve. `fixed` blocks are always on the board (the stage's formation and Nerra's shield); the
+// brick budget then fills from the raft cells and `blocks`. `regrow` bricks are barnacle shield: they grow back while
+// no ball is near, and never hold a stage up. A `power` bar is barnacle plate: a ball only knocks on it, but fire, the
+// titan, a ram, three laser bolts or a sea-mine blast break it.
 const row = (y, xs, extra = {}) => xs.map(x => ({ x, y, w: W, h: H, ...extra }));
 const span = (n, cx = 180) => Array.from({ length: n }, (_, i) => cx - (n * W + (n - 1) * 3) / 2 + i * (W + 3));
+const mirror = list => list.map(b => ({ ...b, x: 360 - b.x - b.w }));
+const MINE = { type: 'mine' };
+// Raft cells in priority order with a sea-mine in the second row's middle: its blast clears the cells round it.
+const MINE_ORDER = RAFT_ORDER.map(([c, r]) => c === 1 && r === 2 ? [c, r, 'mine'] : [c, r]);
 
-// Stage 1, Low Tide: two light rafts, a brick line and three pearls where Nerra will stand. No steel: it teaches the tide.
+// Stage 1, Low Tide: two light rafts and a chevron of bricks over them, its arms tipped with sea-mines, under the three
+// pearls. No steel: it teaches the tide, which is already climbing toward the refuge.
 function lowTide() {
+  const arm = [{ x: 163, y: 150, w: W, h: H }, { x: 126, y: 166, w: W, h: H }, { x: 89, y: 182, w: W, h: H, ...MINE }, { x: 52, y: 198, w: W, h: H }];
   return {
-    rafts: [{ x: 102, order: RAFT_ORDER }, { x: 258, order: RAFT_ORDER }],
-    blocks: [...row(178, span(4)), ...row(200, span(2), { type: 'brick' })],
+    rafts: [{ x: 102, order: MINE_ORDER }, { x: 258, order: MINE_ORDER }],
+    fixed: [...arm, ...mirror(arm.slice(1))],
+    blocks: [],
     prizes: row(126, span(3), { type: 'pearl', hp: 1 }),
     bars: [], spokes: [], chambers: [],
     gates: [{ x: 25, y: 240 }, { x: 335, y: 240 }],
@@ -70,12 +81,15 @@ function lowTide() {
 }
 
 // Stage 2, Floodworks: the sluice house, a brass T against the ceiling. Its chimney (60 wide) leads up into a crossbar
-// chamber that holds both valves in its arms and a chest under the roof. Nerra peeks from either side wall (x <= 70).
+// chamber that holds both valves in its arms and a chest under the roof. Nerra peeks from either side wall; under each
+// peek a breakwater of three bricks climbs from the wall (a sea-mine in the middle), so a shot at her is carved or banked.
 // Brick columns hang under the arms; two band rows cover the chimney mouth, so the way in is broken open first.
 function floodworks() {
   const t = 7, top = 67, floor = 150, mouth = 282, armL = 108, armR = 252, chL = 148, chR = 212;
+  const stair = [{ x: 14, y: 264, w: 26, h: 16 }, { x: 42, y: 250, w: 26, h: 16, ...MINE }, { x: 70, y: 236, w: 26, h: 16 }];
   return {
     rafts: [],
+    fixed: [...stair, ...mirror(stair)],
     blocks: [
       ...row(163, [armL - 3, armR - W + 3]), ...row(184, [armL - 3, armR - W + 3]), ...row(205, [armL - 3, armR - W + 3]),
       ...row(296, span(8), { band: true }), ...row(317, span(6), { band: true }), ...row(226, [armL - 3, armR - W + 3]),
@@ -101,13 +115,15 @@ function floodworks() {
   };
 }
 
-// Stage 3, The Wheel: Nerra on the hub. Two wheel pits hang under her, each a brass box whose floor gap is closed by a
-// spoke that swings between two fixed poses (shut: lying in the gap; open: standing against the inner wall) with a tell.
-// The centre lane under her carries three brick rows (no raft: the lanes beside the pits stay open to the paddle). The pits
-// are the prize run: a chest, a pearl and bonus bricks behind the spokes. The stage clears with the rows broken and Nerra
-// knocked off the hub.
+// Stage 3, The Wheel: Nerra on the hub behind a barnacle dome. The dome is a stair of bricks from each wall up to a
+// barnacle plate right under her feet, with a sea-mine either side of the plate: she is only reached by carving the dome
+// (it grows back) or blasting the plate (mines, fire, laser, the titan). Under the dome a diamond of bricks floats between
+// two wheel pits; each pit is a brass box whose floor gap is closed by a spoke that swings between two fixed poses (shut:
+// lying in the gap; open: standing against the inner wall) after a tell. The pits are the prize run: a chest (a big power
+// for the plate), a pearl and bonus bricks. The stage clears with the diamond broken and Nerra knocked off the hub.
+export const DOME = { plate: { x: 163, y: 240, w: 34, h: 8 } };
 function wheel() {
-  const t = 7, roof = 285, floor = 353, inner = 85, gap = 42;
+  const t = 7, roof = 325, floor = 393, inner = 85, gap = 42, drop = roof - 285;
   const pit = side => {
     const m = x => side < 0 ? x : 360 - x, bx = (x, w) => side < 0 ? x : 360 - x - w;
     const id = side < 0 ? 'L' : 'R';
@@ -120,30 +136,34 @@ function wheel() {
       spoke: { id: 'spoke' + id, hinge: { x: m(inner), y: floor + t / 2 }, len: gap, t, side, band: true,
         poses: [{ x: bx(inner - gap, gap), y: floor, w: gap, h: t }, { x: bx(inner - t, t), y: floor - gap, w: t, h: gap }] },
       // Two rows: the prize and a brick over two bricks. The open spoke stands in the free 7u inner column beside them.
-      blocks: [{ x: bx(51, 32), y: 294, w: 32, h: H, band: true, bonus: true }, { x: bx(14, W), y: 315, w: W, h: H, band: true, bonus: true }, { x: bx(51, 25), y: 315, w: 25, h: H, band: true, bonus: true }],
-      prize: { x: bx(14, W), y: 294, w: W, h: H, type: side < 0 ? 'chest' : 'pearl', hp: side < 0 ? 2 : 1, band: true },
-      roofBlocks: [{ x: bx(18, W), y: 264, w: W, h: H, band: true }, { x: bx(55, W), y: 264, w: W, h: H, band: true }],
+      blocks: [{ x: bx(51, 32), y: 294 + drop, w: 32, h: H, band: true, bonus: true }, { x: bx(14, W), y: 315 + drop, w: W, h: H, band: true, bonus: true }, { x: bx(51, 25), y: 315 + drop, w: 25, h: H, band: true, bonus: true }],
+      prize: { x: bx(14, W), y: 294 + drop, w: W, h: H, type: side < 0 ? 'chest' : 'pearl', hp: side < 0 ? 2 : 1, band: true },
       chamber: { id: 'pit' + id, x: bx(12, inner - 12), y: roof + t, w: inner - 12, h: floor - roof - t, band: true, crack: 'floor' + id },
     };
   };
-  const L = pit(-1), R = pit(1);
+  const L = pit(-1), R = pit(1), D = { w: 30, h: 16, regrow: true };
+  const dome = [{ x: 131, y: 252, ...D, ...MINE }, { x: 99, y: 264, ...D }, { x: 67, y: 276, ...D }, { x: 35, y: 288, ...D }, { x: 12, y: 300, ...D, w: 21 }];
   return {
     rafts: [],
-    blocks: [...L.blocks, ...R.blocks, ...row(262, span(4), { band: true }), ...row(283, span(4), { band: true }), ...row(304, span(4), { band: true }), ...L.roofBlocks, ...R.roofBlocks],
+    fixed: [...dome, ...mirror(dome)],
+    blocks: [...L.blocks, ...R.blocks, ...row(300, span(3), { band: true }), ...row(321, span(4), { band: true }), ...row(342, span(3), { band: true }), ...row(363, span(2), { band: true })],
     prizes: [L.prize, R.prize],
-    bars: [...L.bars, ...R.bars], spokes: [L.spoke, R.spoke], chambers: [L.chamber, R.chamber],
+    bars: [{ id: 'plate', ...DOME.plate, glint: 'bottom', power: true }, ...L.bars, ...R.bars], spokes: [L.spoke, R.spoke], chambers: [L.chamber, R.chamber],
     gates: [{ x: 25, y: 240 }, { x: 335, y: 240 }],
     mix: 'blocks',
   };
 }
 
 // Stage 4, The Refuge: the original showdown rafts, each now carrying a brass cage over a chest. The cages ride the
-// moving rafts.
+// moving rafts. The three lanes up to Nerra are plugged with barnacle bricks that grow back; the centre lane is capped
+// with a barnacle plate over a sea-mine.
 function refuge() {
-  const c = cageRaft();
+  const c = cageRaft(), P = { h: 16, regrow: true };
   return {
     rafts: [{ x: 102, cage: c }, { x: 258, cage: c }],
-    blocks: [], prizes: [], bars: [], spokes: [], chambers: [],
+    fixed: [{ x: 166, y: 250, w: 28, ...P, ...MINE }, { x: 166, y: 268, w: 28, ...P }, ...[12.5, 321.5].flatMap(x => [{ x, y: 262, w: 26, ...P }, { x, y: 280, w: 26, ...P }])],
+    blocks: [], prizes: [], spokes: [], chambers: [],
+    bars: [{ id: 'plate', x: 166, y: 240, w: 28, h: 8, glint: 'bottom', power: true }],
     gates: [{ x: 25, y: 240 }, { x: 335, y: 240 }],
     mix: 'rafts',
   };
@@ -156,18 +176,19 @@ export function stageBoard(index, { paddleY, difficulty = 'medium' }) {
   const plan = siegePlan(difficulty)[index], b = BOARDS[index](), dy = raftRest(paddleY) - 320;
   const shift = o => !o.band ? { ...o } : o.band === 'bottom' ? { ...o, h: o.h + dy } : { ...o, y: o.y + dy };
   const rafts = b.rafts.map((r, i) => {
-    const cells = r.cage ? r.cage.cells.map(c => ({ ...c })) : r.order.map(([c, rr]) => cell(c, rr));
+    const cells = r.cage ? r.cage.cells.map(c => ({ ...c })) : r.order.map(([c, rr, type]) => cell(c, rr, type ? { type } : {}));
     return { i, x: r.x, cells, prizes: r.cage ? r.cage.prizes.map(p => ({ ...p })) : [], steel: r.cage ? r.cage.steel.map(s => ({ ...s })) : [], chamber: r.cage?.chamber };
   });
-  // Budget: the plan's share of today's 24 bricks, filled in priority order (interleaved so both halves thin evenly).
-  const budget = Math.round(BASE_BRICKS * plan.bricks), pools = [...rafts.map(r => r.cells.map(c => ({ raft: r.i, ...c }))), b.blocks.map(shift)];
+  // Budget: the plan's share of the full board, the fixed formation first, then the rest in priority order (interleaved so
+  // both halves thin evenly).
+  const budget = Math.round(BASE_BRICKS * plan.bricks), fixed = (b.fixed || []).map(shift), pools = [...rafts.map(r => r.cells.map(c => ({ raft: r.i, ...c }))), b.blocks.map(shift)];
   const queue = [];
   for (let k = 0; queue.length < pools.reduce((n, p) => n + p.length, 0); k++) for (const p of b.mix === 'blocks' ? [...pools].reverse() : pools) if (p[k]) queue.push(p[k]);
-  const chosen = queue.slice(0, budget);
-  // 2-hit share: every brick past the front line, from the far side first, by a fixed stride.
-  const twoHit = Math.round(chosen.length * plan.twoHit), order = [...chosen].sort((p, q) => (p.raft === undefined ? p.y : p.ly + 300) - (q.raft === undefined ? q.y : q.ly + 300));
+  const chosen = [...fixed, ...queue.slice(0, Math.max(0, budget - fixed.length))];
+  // 2-hit share: every brick past the front line, from the far side first, by a fixed stride. Sea-mines stay one hit.
+  const twoHit = Math.round(chosen.length * plan.twoHit), order = chosen.filter(c => c.type !== 'mine').sort((p, q) => (p.raft === undefined ? p.y : p.ly + 300) - (q.raft === undefined ? q.y : q.ly + 300));
   const stride = twoHit ? order.length / twoHit : Infinity;
-  for (let n = 0; n < twoHit; n++) order[Math.floor(n * stride)].hp = 2;
+  for (let n = 0; n < Math.min(twoHit, order.length); n++) order[Math.floor(n * stride)].hp = 2;
   for (const c of chosen) { c.hp ||= 1; c.type ||= 'brick'; }
   return {
     index, plan, dy, budget,

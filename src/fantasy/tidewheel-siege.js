@@ -6,6 +6,10 @@
 //   3 The Wheel (clash): Nerra fights on the hub; two wheel pits open and shut with swinging spokes. At 40% she leaps
 //     into the water and escapes.
 //   4 The Refuge (showdown): the full fight under a rising flood, with caged chests on the rafts. Fury at 30%.
+// The flood is the clock in every stage: the tide creeps toward the refuge from the first serve (FLOOD_CLOCK), and only
+// valves, Kit's anchor and a continue push it back. Special bricks matter: sea-mines blast their neighbours (and Nerra,
+// and barnacle plate), chests drop a big power, pearls bank the shield (stage 1) or pay loot, 2-hit bricks wear armour,
+// and barnacle plate only gives to big powers. From stage 2 on Nerra sits behind brick and steel that grows back.
 // The fight machinery, water, rafts, powers and collision contract are the Tidewheel model's (tidewheel.js); this layer
 // adds the stage flow, the static boards (bricks, brass bars, spokes, prizes), drops, carry-overs and Nerra's director.
 import { Tidewheel, raftPoint, REFUGE_LIP_OFFSET, CRUSHER_WATER_TIP } from './tidewheel.js';
@@ -19,13 +23,23 @@ import { STAGES, STAGE_COUNT, siegePlan, stageBoard } from './tidewheel-stages.j
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v)), mix = (a, b, t) => a + (b - a) * clamp(t, 0, 1);
 const smooth = t => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
 const pick = (list, i) => ['easy', 'medium', 'hard'].indexOf(i) < 0 ? list[1] : list[['easy', 'medium', 'hard'].indexOf(i)];
-export const SIEGE_HP = 1.75;
+export const SIEGE_HP = 1.25;
 export const SPOKE_PERIOD = [2.4, 3.4];   // seconds a spoke stays shut, then open
-export const SIEGE_TIMING = { card: 1.2, clear: 2.4, notch: 10, spokeTell: .8, crackAfter: 25, selfBreak: 6, dull: 4, dullTurn: .3 };
+export const SIEGE_TIMING = { card: 1.2, clear: 2.4, notch: 10, spokeTell: .8, crackAfter: 25, selfBreak: 6, dull: 4, dullTurn: .3, chain: .09 };
+// Seconds from a stage's opening water to the refuge on medium if nothing pushes the tide back (easy x1.3, hard x0.85).
+// Stages 1-2 split it between a steady creep and surges; in 3-4 the creep carries `share` and Nerra's hauls the rest.
+export const FLOOD_CLOCK = { seconds: [72, 84, 105, 90], creep: [.6, .6, .45, .45], danger: .7 };
+// Sea-mine blast radius, damage to Nerra; barnacle plate takes three laser bolts (blasts do not move it); shield bricks
+// grow back after (s). A plain ball hurts Nerra once per return: it is armed by the paddle and spent by the hit, so she
+// is never juggled from above. Laser bolts glance off her shell; the titan, a ram and mine blasts are not limited.
+export const MINE = { radius: 46, nerra: 2 };
+export const PLATE_BOLTS = 3;
+export const REGROW = { easy: 18, medium: 14, hard: 10 };
+const PRIZES = ['pearl', 'chest', 'valve'];
+const BIG = ['split', 'fire', 'laser', 'titan'];
 // Nerra's pose vocabulary. Each maps onto the art that exists today (the v2 keyposes and the fury reaction) plus code
 // motion in tidewheel-stages-render.js; the 3D toy rebuild maps its own clips onto the same names.
 export const NERRA_POSES = { idle: 'idle', walk: 'step', turn: 'step', look: 'idle', furious: 'fury', jump: 'step', slam: 'pull', snap: 'pull', hurt: 'hurt', dizzy: 'hurt', defeated: 'hurt' };
-const COLOURS = 3;
 // Capsule powers (the stage plan's cumulative pool), seconds where timed.
 export const SIEGE_POWERS = { wide: 12, slow: 8, shield: 10, fire: 8, laser: 7 };
 const POWER_TIPS = { wide: 'WIDE: a longer paddle', slow: 'SLOW: the tide ball slows down', split: 'SPLIT: every ball becomes three', shield: 'SHIELD: a ward under the paddle',
@@ -60,12 +74,13 @@ export class TidewheelSiege extends Tidewheel {
     this.rafts = B.rafts.map(r => ({ id: 'raft' + r.i, x: r.x, y: rest, px: r.x, py: rest, baseX: r.x, vx: 0, vy: 0, angle: 0, previousAngle: 0, omega: 0, initial: rest, stop: rest - 20,
       braceHP: 2, maxBraceHP: 2, steel: r.steel.map(s => ({ ...s, broken: false, cracked: false })), chamber: r.chamber ? { ...r.chamber, idle: 0, cracked: false, crack: 'postR' } : null }));
     let k = 0;
-    this.bricks = B.rafts.flatMap(r => [...r.cells, ...r.prizes].map(c => ({ id: 'brick' + k++, raft: r.i, lx: c.lx, ly: c.ly, w: c.w, h: c.h, hp: c.hp, maxHP: c.hp, type: c.type, colour: k % COLOURS, prize: c.type !== 'brick' })));
+    this.bricks = B.rafts.flatMap(r => [...r.cells, ...r.prizes].map(c => ({ id: 'brick' + k++, raft: r.i, lx: c.lx, ly: c.ly, w: c.w, h: c.h, hp: c.hp, maxHP: c.hp, type: c.type, colour: k % 2, prize: PRIZES.includes(c.type) })));
     k = 0;
     const counts = {};
-    this.blocks = [...B.blocks, ...B.prizes].map(b => { const n = counts[b.type] = (counts[b.type] || 0) + 1; return { id: 'blk' + k++, name: b.type === 'brick' ? null : b.type + (n - 1), x: b.x, y: b.y, w: b.w, h: b.h, hp: b.hp, maxHP: b.hp, type: b.type, colour: (k + i) % COLOURS, prize: b.type !== 'brick', bonus: !!b.bonus }; });
+    this.blocks = [...B.blocks, ...B.prizes].map(b => { const n = counts[b.type] = (counts[b.type] || 0) + 1; return { id: 'blk' + k++, name: PRIZES.includes(b.type) ? b.type + (n - 1) : null, x: b.x, y: b.y, w: b.w, h: b.h, hp: b.hp, maxHP: b.hp, type: b.type, colour: (k + i) % 2, prize: PRIZES.includes(b.type), bonus: !!b.bonus || !!b.regrow, regrow: !!b.regrow }; });
     if (i === 0) this.pearlsTotal = this.blocks.filter(b => b.type === 'pearl').length;   // the pearl shield banks stage 1's pearls
-    this.bars = B.bars.map(b => ({ ...b, broken: false, cracked: false }));
+    this.bars = B.bars.map(b => ({ ...b, broken: false, cracked: false, ...(b.power ? { hp: PLATE_BOLTS } : {}) }));
+    this.blasts = []; this.floodWarned = false;
     this.spokes = B.spokes.map((s, n) => ({ ...s, pose: 0, shown: 0, next: Infinity, period: SPOKE_PERIOD, phase: n * .9 }));
     this.chambers = B.chambers.filter(c => !c.via).map(c => ({ ...c, idle: 0, cracked: false }));
     this.gates = B.gates.map((g, n) => ({ id: 'gate' + n, x: g.x, y: g.y, w: 24, h: 34, hp: 2, open: 0, angle: 0, until: 0 }));
@@ -76,12 +91,15 @@ export class TidewheelSiege extends Tidewheel {
     // Ball speed and Nerra's cadence for this stage.
     this.stageSpeed = 345 * p.speed; this.speed = this.stageSpeed;
     const a = p.attack ?? 1, R = this.baseRules;
-    this.rules = { ...R, interval: R.interval * a, pulseInterval: R.pulseInterval * a, tideRise: pick([1.0, 1.3, 1.6], this.difficulty) * p.tide, tideSurge: pick([10, 12, 14], this.difficulty), tideGap: pick([12, 10.5, 9], this.difficulty) };
+    this.rules = { ...R, interval: R.interval * a, pulseInterval: R.pulseInterval * a, tideGap: pick([12, 10.5, 9], this.difficulty) };
     // Water: each stage starts at its own level; stage 4 starts raised unless the sluice valves were shut in stage 2.
     const headroom = this.water.initial - (this.lumi.baseY + REFUGE_LIP_OFFSET);
     const raised = [0, .06, .12, .45 * (1 - this.valvesShut / 3)][i] * headroom;
     this.water.y = this.water.target = this.water.initial - raised; this.water.current = 0;
     for (const r of this.rafts) { r.y = r.py = clamp(this.water.y - 38, r.stop, r.initial); }
+    // The flood clock: the stage's opening headroom over FLOOD_CLOCK seconds, as a creep plus (stages 1-2) tide surges.
+    const left = this.water.y - (this.lumi.baseY + (i === 0 ? SIEGE_TIMING.notch : 0) + REFUGE_LIP_OFFSET), rate = left / (FLOOD_CLOCK.seconds[i] * pick([1.3, 1, .85], this.difficulty));
+    this.rules.tideRise = rate * FLOOD_CLOCK.creep[i]; this.rules.tideSurge = i <= 1 ? rate * (1 - FLOOD_CLOCK.creep[i]) * this.rules.tideGap : 0;
     this.nextTide = Infinity;
     // Nerra for this stage.
     const v = this.villain;
@@ -108,8 +126,7 @@ export class TidewheelSiege extends Tidewheel {
     if (this.phase === 'hook') this.phase = 'serve';
     const was = this.started, ok = super.launch(angle);
     if (ok && !was) {
-      if (this.stage === 0) this.nextTide = this.time + this.rules.tideGap;
-      if (this.stage === 1) this.nextTide = this.time + this.rules.tideGap * 1.3;
+      if (this.stage <= 1) this.nextTide = this.time + this.rules.tideGap;
       if (this.stage >= 2 && this.nerraOnHub()) { this.nextSurge = this.time + (this.stage === 3 ? 9 : 7); this.nextPulse = this.time + (this.stage === 3 ? 15 : 12); }
       else { this.nextSurge = this.nextPulse = Infinity; }
       for (const s of this.spokes) s.next = this.time + s.period[0] + s.phase;
@@ -222,7 +239,7 @@ export class TidewheelSiege extends Tidewheel {
       T.push({ id: `steel:${r.id}:${s.id}`, kind: s.cracked ? 'bar' : undefined, steel: true, type: 'poly', points: pts, vx: dt ? (after.x - before.x) / dt : 0, vy: dt ? (after.y - before.y) / dt : 0 });
     }
     for (const b of this.blocks) if (b.hp > 0) T.push({ id: b.id, kind: 'brick', hp: b.hp, type: 'rect', x: b.x, y: b.y, w: b.w, h: b.h });
-    for (const b of this.bars) if (!b.broken) T.push({ id: b.id, kind: b.cracked ? 'bar' : undefined, steel: true, type: 'rect', x: b.x, y: b.y, w: b.w, h: b.h });
+    for (const b of this.bars) if (!b.broken) T.push({ id: b.id, kind: b.cracked || b.power ? 'bar' : undefined, steel: true, type: 'rect', x: b.x, y: b.y, w: b.w, h: b.h });
     for (const s of this.spokes) { const q = s.poses[s.pose]; T.push({ id: s.id, steel: true, type: 'rect', x: q.x, y: q.y, w: q.w, h: q.h }); }
     if (this.pearlGuard) T.push({ id: 'pearlGuard', kind: 'guard', type: 'rect', x: 12, y: this.pearlGuard.y, w: this.width - 24, h: 4 });
     return T;
@@ -261,7 +278,7 @@ export class TidewheelSiege extends Tidewheel {
     const r = this.rafts[brick.raft], c = raftPoint(r, brick.lx + brick.w / 2, brick.ly + brick.h / 2);
     if (brick.hp > 0) { this.score += 10; this.effects.push({ kind: 'brick-chip', x: c.x, y: c.y, w: brick.w, h: brick.h, type: brick.type, age: 0, life: .4 }); return; }
     this.score += 25;
-    this.effects.push({ kind: 'brick-break', x: c.x, y: c.y, w: brick.w, h: brick.h, colour: brick.type === 'brick' ? brick.colour : brick.type, vx: (b.vx || 0) * .07, vy: (b.vy || 0) * .06, age: 0, life: .65 });
+    this.effects.push({ kind: 'brick-break', x: c.x, y: c.y, w: brick.w, h: brick.h, colour: this.breakColour(brick), vx: (b.vx || 0) * .07, vy: (b.vy || 0) * .06, age: 0, life: .65 });
     this.broken(brick, c.x, c.y);
   }
   hitBlock(blk, b) {
@@ -270,20 +287,51 @@ export class TidewheelSiege extends Tidewheel {
     this.damage(blk, b); this.useful(b); this.creditHit(b);
     const x = blk.x + blk.w / 2, y = blk.y + blk.h / 2;
     if (blk.hp > 0) { this.score += 10; this.effects.push({ kind: blk.type === 'valve' ? 'valve-turn' : 'brick-chip', x, y, w: blk.w, h: blk.h, type: blk.type, age: 0, life: .45 }); return; }
-    this.score += 25;
-    this.effects.push({ kind: blk.type === 'valve' ? 'valve-shut' : 'brick-break', x, y, w: blk.w, h: blk.h, colour: blk.type === 'brick' ? blk.colour : blk.type, vx: (b.vx || 0) * .07, vy: (b.vy || 0) * .06, age: 0, life: blk.type === 'valve' ? .9 : .65 });
+    this.score += 25; blk.downAt = this.time;
+    this.effects.push({ kind: blk.type === 'valve' ? 'valve-shut' : 'brick-break', x, y, w: blk.w, h: blk.h, colour: this.breakColour(blk), vx: (b.vx || 0) * .07, vy: (b.vy || 0) * .06, age: 0, life: blk.type === 'valve' ? .9 : .65 });
     this.broken(blk, x, y);
   }
+  // What a breaking brick shatters as: armour is the steel glaze, sea-glass and coral by colour, specials by type.
+  breakColour(item) { return item.type === 'brick' ? item.maxHP > 1 ? 'steel' : item.colour : item.type; }
   // A brick or prize is gone: prizes pay out, ordinary bricks roll for a drop, and the stage may be clear.
   broken(item, x, y) {
-    if (item.type === 'pearl') { if (this.stage === 0) this.pearls++; this.score += 100; this.effects.push({ kind: 'pearl', x, y, age: 0, life: .9 }); }
+    if (item.type === 'pearl') {   // stage 1 banks the pearl shield; later pearls are loot: score and a share of Kit's charge
+      if (this.stage === 0) this.pearls++; else this.chargeBank = Math.min(100 - this.charge, this.chargeBank + 25);
+      this.score += 100; this.effects.push({ kind: 'pearl', x, y, age: 0, life: .9 });
+    }
     else if (item.type === 'valve') { this.valvesShut++; this.score += 150; this.drain(24); }
     else if (item.type === 'chest') { this.score += 300; this.drop(x, y, true); }
+    else if (item.type === 'mine') { this.score += 40; this.blasts.push({ x, y, at: this.time + SIEGE_TIMING.chain }); this.effects.push({ kind: 'mine-fuse', x, y, age: 0, life: SIEGE_TIMING.chain + .05 }); }
     else if (Math.random() < this.board.plan.drop) this.drop(x, y);
     this.checkClear();
   }
+  // A sea-mine goes off: every brick, prize, mine and barnacle plate within MINE.radius takes a hit (mines chain), and
+  // Nerra takes MINE.nerra if any part of her is in the blast.
+  blast(x, y) {
+    const R = MINE.radius, near = (cx, cy) => Math.hypot(cx - x, cy - y) <= R, src = { x, y, vx: 0, vy: 0, blast: true, powerShot: true };
+    this.effects.push({ kind: 'mine-blast', x, y, r: R, age: 0, life: .75 });
+    for (const blk of this.blocks) if (blk.hp > 0 && near(clamp(x, blk.x, blk.x + blk.w), clamp(y, blk.y, blk.y + blk.h))) this.hitBlock(blk, { ...src, x: blk.x + blk.w / 2, y: blk.y + blk.h / 2 });
+    for (const br of this.bricks) {
+      if (br.hp <= 0) continue;
+      const r = this.rafts[br.raft], c = raftPoint(r, br.lx + br.w / 2, br.ly + br.h / 2);
+      if (near(c.x, c.y)) this.hitRaftBrick(br, { ...src, x: c.x, y: c.y });
+    }
+    for (const bar of this.bars) if (!bar.broken && !bar.power && bar.cracked && near(clamp(x, bar.x, bar.x + bar.w), clamp(y, bar.y, bar.y + bar.h))) this.breakBar(bar.id);
+    const v = this.villain;
+    if (!v.ghost && !v.hidden && this.phase !== 'rescue') {
+      const part = this.targets(0).find(t => (t.kind === 'shell' || t.kind === 'claw') && Math.hypot(t.x - x, t.y - y) <= R + t.r);
+      if (part) this.hitNerra(part, { ...src, x: part.x, y: part.y });
+    }
+  }
+  bigPower() { const pool = BIG.filter(k => this.board.plan.powers.includes(k)); return pool.length ? pool[Math.floor(Math.random() * pool.length)] : 'split'; }
   hitBar(t, b) {
-    // A cracked bar gives to a ram, a fire ball or the titan; ordinary balls only knock on it.
+    // A cracked bar or barnacle plate gives to a ram, a fire ball or the titan; plate also to three laser bolts. Ordinary
+    // balls only knock on it.
+    const bar = this.bars.find(q => q.id === t.id);
+    if (bar?.power && b?.powerShot && !b.blast && !(b.ram > 0 || b.titan > 0)) {
+      if (--bar.hp > 0) { this.effects.push({ kind: 'plate-chip', id: bar.id, x: b.x, y: b.y, age: 0, life: .35 }); return; }
+      return this.breakBar(t.id);
+    }
     if (!(b?.ram > 0 || b?.fire > 0 || b?.titan > 0 || this.timers.fire > 0 && !b?.powerShot)) { this.effects.push({ kind: 'bar-knock', x: b.x, y: b.y, age: 0, life: .3 }); return; }
     this.breakBar(t.id);
   }
@@ -297,8 +345,11 @@ export class TidewheelSiege extends Tidewheel {
   hitNerra(target, b) {
     const v = this.villain; if (this.phase === 'rescue' || v.ghost || v.hidden) return;
     this.effects.push({ kind: 'hit', x: b.x, y: b.y, age: 0, life: .3 });
-    const r = this.pool.hit(b?.ram > 0 ? RAM.damage : 1); v.hp = this.pool.hp; v.maxHP = this.pool.maxHP; this.useful(b);
+    const plain = b && !b.blast && !(b.titan > 0) && !(b.ram > 0);
+    if (plain && (b.powerShot || b.spent)) { this.effects.push({ kind: 'nerra-shrug', x: b.x, y: b.y, age: 0, life: .4 }); return; }
+    const r = this.pool.hit(b?.blast ? MINE.nerra : b?.ram > 0 ? RAM.damage : 1); v.hp = this.pool.hp; v.maxHP = this.pool.maxHP; this.useful(b);
     if (!r.dealt) { this.effects.push({ kind: 'nerra-shrug', x: b.x, y: b.y, age: 0, life: .4 }); return; }
+    if (plain) b.spent = true;
     this.score += 50; v.stunUntil = this.time + .4; v.anger = Math.min(3, v.anger + 1); this.creditHit(b);
     if (target.kind === 'claw' && ['pullWindup', 'pulseWindup'].includes(v.stage) && (target.clawSide === v.side || target.id === 'claw' + v.side) && ++v.clawHits >= 2) this.cancelSurge();
     if (this.stage >= 2 && this.teachingDone && v.anger >= 3 && v.stage === 'idle') this.nextSurge = Math.min(this.nextSurge, Math.max(this.time + 3, this.attackGrace));
@@ -324,7 +375,7 @@ export class TidewheelSiege extends Tidewheel {
 
   // ---------- drops ----------
   drop(x, y, chest = false) {
-    const pool = this.board.plan.powers, kind = pool[Math.floor(Math.random() * pool.length)];
+    const pool = this.board.plan.powers, kind = chest ? this.bigPower() : pool[Math.floor(Math.random() * pool.length)];
     this.capsules.push({ id: ++this.serial, kind, x: clamp(x, 24, this.width - 24), y, vy: chest ? 70 : 95 });
   }
   moveCapsules(dt) {
@@ -338,7 +389,7 @@ export class TidewheelSiege extends Tidewheel {
   }
   collect(kind, x, y) {
     this.effects.push({ kind: 'capsule', power: kind, x, y, age: 0, life: .6 });
-    if (kind === 'chest') { this.score += 400; const pool = this.board.plan.powers; kind = pool[Math.floor(Math.random() * pool.length)]; }
+    if (kind === 'chest') { this.score += 400; kind = this.bigPower(); }
     if (!this.powersSeen.has(kind)) { this.powersSeen.add(kind); this.tip = { text: POWER_TIPS[kind], t: 0, life: 2.6 }; }
     const live = () => this.balls.filter(b => !b.caught && !b.dead), cap = 6, p = this.paddle;
     if (kind === 'wide') this.timers.wide = SIEGE_POWERS.wide;
@@ -417,7 +468,8 @@ export class TidewheelSiege extends Tidewheel {
     if (!this.started && !this.backHold) { this.direct(dt); this.syncAnatomy(); }   // her opening beat plays before the serve; a Continue's hold freezes it
     this.stageClock += dt;
     this.updateTimers(dt); this.moveCapsules(dt); this.updateBolts(dt);
-    if (this.phase === 'play') { this.updateSpokes(dt); this.updateChambers(dt); }
+    if (this.phase === 'play' || this.phase === 'serve') this.updateBlasts();
+    if (this.phase === 'play') { this.updateSpokes(dt); this.updateChambers(dt); this.updateRegrow(); this.updateFlood(); }
     this.steerDull(before);
     if (this.stage === 3) { this.floodMinS4 = Math.min(this.floodMinS4, this.water.y); if (this.fury && !this.cine) this.villain.anger = 3; if (this.pool.hp <= this.pool.maxHP * .3 && !this.fury) { this.fury = true; this.villain.anger = 3; this.rules.interval = this.baseRules.interval * .7; this.rules.pulseInterval = this.baseRules.pulseInterval * .7; this.effects.push({ kind: 'nerra-roar', x: this.villain.footX, y: this.villain.footY - 90, age: 0, life: .7 }); } }
   }
@@ -425,11 +477,12 @@ export class TidewheelSiege extends Tidewheel {
   updateAttacks(dt) {
     const v = this.villain;
     if (this.stage <= 1 && this.time >= this.nextTide && this.time >= this.attackGrace) {
-      this.water.target = Math.max(this.lumi.targetY + REFUGE_LIP_OFFSET, this.water.target - this.rules.tideSurge * (this.stage ? .8 : 1));
+      this.water.target = Math.max(this.lumi.targetY + REFUGE_LIP_OFFSET, this.water.target - this.rules.tideSurge);
       this.effects.push({ kind: 'tide-surge', x: 180, y: this.water.y, age: 0, life: 1 });
-      this.nextTide = this.time + this.rules.tideGap * (this.stage ? 1.3 : 1);
+      this.nextTide = this.time + this.rules.tideGap;
     }
-    if (this.stage <= 1) this.water.target = Math.max(this.lumi.targetY + REFUGE_LIP_OFFSET, this.water.target - this.rules.tideRise * (this.stage ? .7 : 1) * dt);
+    // The creep runs in every stage once play starts (not during a cut-scene beat or a continue's grace).
+    if (!this.cine && this.time >= this.attackGrace) this.water.target = Math.max(this.lumi.targetY + REFUGE_LIP_OFFSET, this.water.target - this.rules.tideRise * dt);
     if (this.stage === 1) { this.updatePeek(dt); if (this.peek?.state === 'aim' || this.peek?.state === 'fire') super.updateAttacks(dt); return; }
     if (this.stage === 0 || this.cine || this.nerraGone || v.hidden) return;
     super.updateAttacks(dt);
@@ -462,6 +515,29 @@ export class TidewheelSiege extends Tidewheel {
     } else if (P.state === 'exit') { const q = smooth(P.t / .5); v.footX = mix(spot.x, off.x, q); v.pose = Math.floor(P.t * 8) % 2 ? 'step' : 'idle'; v.act = { pose: 'walk', t: P.t, gaze: null }; if (P.t >= .5) { v.hidden = true; go('away', { side: -P.side, wait: 7.5 * (this.board.plan.attack ?? 1) }); } }
     v.x = v.footX;
   }
+  updateBlasts() {
+    const due = this.blasts.filter(q => this.time >= q.at); if (!due.length) return;
+    this.blasts = this.blasts.filter(q => this.time < q.at);
+    for (const q of due) { if (this.phase !== 'play' && this.phase !== 'serve') break; this.blast(q.x, q.y); }
+  }
+  // Barnacle shield grows back once no ball is near it.
+  updateRegrow() {
+    const after = REGROW[this.difficulty] ?? REGROW.medium;
+    for (const b of this.blocks) {
+      if (!b.regrow || b.hp > 0 || this.time - (b.downAt ?? this.time) < after) continue;
+      const room = { type: 'rect', x: b.x - 14, y: b.y - 14, w: b.w + 28, h: b.h + 28 };
+      if (this.balls.some(q => !q.dead && overlapsTarget(q, room)) || this.bolts.some(q => overlapsTarget(q, room))) continue;
+      b.hp = b.maxHP; b.downAt = null; this.effects.push({ kind: 'barnacle-grow', x: b.x + b.w / 2, y: b.y + b.h / 2, w: b.w, h: b.h, age: 0, life: .6 });
+    }
+  }
+  // How far the flood has climbed from the bottom of its column toward the refuge (0..1), and the danger beat.
+  floodFrac() { const W = this.water; return clamp((W.initial - W.y) / Math.max(1, W.initial - W.limit), 0, 1); }
+  floodLeft() { const W = this.water; return clamp((W.y - W.limit) / Math.max(1, W.initial - W.limit), 0, 1); }
+  get floodDanger() { return this.floodLeft() <= 1 - FLOOD_CLOCK.danger; }
+  updateFlood() {
+    if (this.floodDanger && !this.floodWarned) { this.floodWarned = true; this.tip = { text: 'THE TIDE IS AT THE REFUGE: HURRY', t: 0, life: 2.4 }; this.effects.push({ kind: 'flood-danger', x: this.lumi.x, y: this.water.y, age: 0, life: 1.2 }); }
+    else if (this.floodLeft() > 1 - FLOOD_CLOCK.danger + .08) this.floodWarned = false;
+  }
   // Wheel spokes swing between their two fixed poses. The swing waits while a ball is in the way of the new pose.
   updateSpokes(dt) {
     for (const s of this.spokes) {
@@ -493,7 +569,7 @@ export class TidewheelSiege extends Tidewheel {
   steerDull(before) {
     for (const { b, vx, vy } of before) {
       if (b.caught || b.dead || !this.balls.includes(b)) continue;
-      if (vy > 0 && b.vy < 0 && b.y > this.paddle.y - 40) { b.useful = this.time; continue; }
+      if (vy > 0 && b.vy < 0 && b.y > this.paddle.y - 40) { b.useful = this.time; b.spent = false; continue; }   // the paddle re-arms it
       if (Math.sign(vx) === Math.sign(b.vx) && Math.sign(vy) === Math.sign(b.vy)) continue;
       if (this.time - (b.useful ?? this.time) < SIEGE_TIMING.dull) continue;
       const a = Math.atan2(b.vy, b.vx), want = Math.PI / 2, d = Math.atan2(Math.sin(want - a), Math.cos(want - a)), n = a + clamp(d, -SIEGE_TIMING.dullTurn, SIEGE_TIMING.dullTurn), s = Math.hypot(b.vx, b.vy);
@@ -528,7 +604,7 @@ export class TidewheelSiege extends Tidewheel {
   nearMiss() {
     const left = this.requiredLeft(), bricks = 1 - left / Math.max(1, this.board.budget), P = this.pool, cap = Math.ceil(P.maxHP * .4);
     const wheel = P.down ? 1 : clamp((P.maxHP - P.hp) / Math.max(1, P.maxHP - cap), 0, .99);
-    const done = (this.stage + (this.stage === 3 ? 1 - P.hp / P.maxHP : this.stage === 2 ? (bricks + wheel) / 2 : bricks)) / STAGE_COUNT;
+    const done = (this.stage + (this.stage === 3 ? 1 - P.hp / P.maxHP : this.stage === 2 ? (left ? (bricks + wheel) / 2 : wheel) : bricks)) / STAGE_COUNT;
     const line = this.stage === 3 ? hpLeft('NERRA', this.villain.hp) : this.stage === 2 && !left && !P.down ? `KNOCK NERRA OFF THE WHEEL: ${plural(P.hp - cap, 'HIT')}` : `${plural(left, 'BRICK')} TO STAGE ${this.stage + 2}`;
     return { line, progress: done, stage: ['STAGE', this.stage + 1, STAGE_COUNT] };
   }

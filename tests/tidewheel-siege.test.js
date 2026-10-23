@@ -6,7 +6,7 @@ globalThis.document = { createElement: () => ({ getContext: () => ctx(), width: 
 globalThis.Path2D = class { moveTo() {} lineTo() {} quadraticCurveTo() {} };
 const ctx = () => { const f = new Proxy(function () {}, { get: (_, k) => k === 'addColorStop' ? () => {} : f, apply: () => f, set: () => true }); return f; };
 
-const { TidewheelSiege, SIEGE_TIMING, SPOKE_PERIOD } = await import('../src/fantasy/tidewheel-siege.js');
+const { TidewheelSiege, SIEGE_TIMING, SPOKE_PERIOD, FLOOD_CLOCK, MINE, PLATE_BOLTS, REGROW } = await import('../src/fantasy/tidewheel-siege.js');
 const { STAGES, STAGE_COUNT, stageBoard, judgeStage, reachCases, REACH_RULES } = await import('../src/fantasy/tidewheel-stages.js');
 const { chamberReach } = await import('../src/fantasy/reach.js');
 const { chapterKind } = await import('../src/fantasy/stages.js');
@@ -22,7 +22,7 @@ const required = m => [...m.blocks.filter(b => b.hp > 0 && !b.prize && !b.bonus)
 // Break every required brick of the stage through the model's own hit path (the last one triggers the clear).
 function finish(m) { for (const [kind, b] of required(m)) { b.hp = 1; kind === 'block' ? m.hitBlock(b, ball(m)) : m.hitRaftBrick(b, ball(m)); } }
 const nerraTarget = { kind: 'shell', id: 'shell' };
-function strike(m, n) { const v = m.villain; for (let i = 0; i < n && !m.pool.down && !m.pool.defeated; i++) { v.ghost = false; v.hidden = false; m.cine = null; m.hitNerra(nerraTarget, ball(m)); } }
+function strike(m, n) { const v = m.villain; for (let i = 0; i < n && !m.pool.down && !m.pool.defeated; i++) { v.ghost = false; v.hidden = false; m.cine = null; ball(m).spent = false; m.hitNerra(nerraTarget, ball(m)); } }
 // A plain tracking paddle that re-serves: enough to keep a stage running.
 function track(m, s, each) { for (let i = 0; i < Math.round(s * 240); i++) { if (m.phase === 'serve' && m.balls.some(b => b.caught)) m.launch(); const b = m.balls.find(b => !b.caught && !b.dead); if (b) m.setTarget(b.x); m.update(1 / 240); if (each?.()) return true; } return false; }
 
@@ -121,7 +121,7 @@ test('stage 3: the clash cap at 40% sends Nerra leaping into the water; her HP c
 
 test('the Wheel clears only with its rows broken and Nerra knocked off the hub; the pits are a bonus run', () => {
   const m = make(2); m.skipCard(); m.launch(); run(m, 2);
-  const pits = m.blocks.filter(b => b.bonus); assert.equal(pits.length, 6);
+  const pits = m.blocks.filter(b => b.bonus && !b.regrow); assert.equal(pits.length, 6); assert.equal(m.blocks.filter(b => b.regrow).length, 10, 'the dome');
   for (const b of pits) b.hp = b.maxHP;
   finish(m); assert.equal(m.requiredLeft(), 0); assert.ok(pits.every(b => b.hp > 0), 'pit bricks are not required'); assert.notEqual(m.phase, 'clear', 'bricks alone do not clear it');
   assert.match(m.nearMiss().line, /^KNOCK NERRA OFF THE WHEEL: \d+ HITS?$/);
@@ -198,9 +198,10 @@ test('the chapter: Siege label in the menu, stage results and stars, every stage
     m.buildStage(i); l.draw(ctx());   // the card
     l.pointerDown(180); l.pointerUp(); assert.notEqual(m.phase, 'card', 'a tap skips the card');
     for (let k = 0; k < 360; k++) { l.update(1 / 120); if (k % 60 === 0) l.draw(ctx()); }
-    for (const kind of ['chain-snap', 'refuge-drop', 'nerra-slam', 'nerra-roar', 'nerra-splash', 'tide-surge', 'knockdown', 'pearl', 'valve-turn', 'valve-shut', 'brick-chip', 'bar-knock', 'bar-break', 'spoke-swing', 'capsule', 'bolt-hit', 'pearl-guard'])
+    for (const kind of ['chain-snap', 'refuge-drop', 'nerra-slam', 'nerra-roar', 'nerra-splash', 'tide-surge', 'knockdown', 'pearl', 'valve-turn', 'valve-shut', 'brick-chip', 'bar-knock', 'bar-break', 'spoke-swing', 'capsule', 'bolt-hit', 'pearl-guard', 'mine-fuse', 'mine-blast', 'plate-chip', 'barnacle-grow', 'flood-danger'])
       m.effects.push({ kind, x: 180, y: 200, age: .1, life: .5 });
-    m.effects.push({ kind: 'brick-break', colour: 'chest', x: 180, y: 200, age: .1, life: .5 });
+    for (const colour of ['chest', 'mine', 'steel', 0]) m.effects.push({ kind: 'brick-break', colour, x: 180, y: 200, age: .1, life: .5 });
+    m.water.y = m.water.limit + 4; for (const b of m.blocks) if (b.regrow) b.hp = 0; m.bars.filter(b => b.power).forEach(b => { b.hp = 1; });
     m.capsules.push({ id: 1, kind: 'chest', x: 100, y: 300, vy: 0 }, { id: 2, kind: 'titan', x: 140, y: 300, vy: 0 }, { id: 3, kind: 'wide', x: 180, y: 300, vy: 0 });
     m.timers.fire = 2; m.timers.laser = 1; m.bolts.push({ x: 180, y: 400 }); m.pearlGuard = { y: m.paddle.y + 24 }; m.banner = { text: 'STAGE CLEAR', sub: 'X', t: .5, life: 2 }; m.tip = { text: 'tip', t: .5, life: 2 };
     for (const s of m.spokes) s.tell = .5; for (const b of m.bars) b.cracked = true; for (const r of m.rafts) for (const s of r.steel) s.cracked = true;
@@ -219,4 +220,103 @@ test('reach cases cover every chamber, at both raft heights', () => {
     const cases = reachCases(i, { paddleY: 584.6 });
     assert.ok(cases.some(c => c.lift === 0) && cases.some(c => c.lift === 20));
   }
+});
+
+// ---------- special bricks, Nerra's shield, the flood clock ----------
+test('every board carries the special bricks: sea-mines from stage 1, armour, chests and pearls; Nerra is shielded from stage 2', () => {
+  for (const d of MODES) for (let i = 0; i < STAGE_COUNT; i++) {
+    const B = stageBoard(i, { paddleY: 584.6, difficulty: d }), all = [...B.blocks, ...B.rafts.flatMap(r => r.cells)];
+    assert.ok(all.some(c => c.type === 'mine'), `${d} stage ${i + 1} has a sea-mine`);
+    assert.ok(all.filter(c => c.type === 'mine').every(c => c.hp === 1), 'mines are one hit');
+    if (i > 0) assert.ok(all.some(c => c.hp > 1), `${d} stage ${i + 1} has armour`);
+  }
+  // Stage 2-4: Nerra's reach is walled off from the paddle by bricks and plate: no straight shot from the paddle line.
+  for (const i of [1, 2, 3]) {
+    const box = t => t.type === 'poly' ? (([xs, ys]) => ({ x: Math.min(...xs), y: Math.min(...ys), w: Math.max(...xs) - Math.min(...xs), h: Math.max(...ys) - Math.min(...ys) }))([t.points.map(p => p[0]), t.points.map(p => p[1])]) : t;
+    const m = make(i), solid = m.targets(0).filter(t => t.type === 'poly' || t.type === 'rect' && (t.kind === 'brick' || t.kind === 'gate' || t.steel)).map(box), hits = [];
+    for (let x = 18; x <= 342; x += 6) {   // a vertical shot from the paddle: does it reach y 240 (her feet) unblocked?
+      const lane = solid.filter(t => t.x - 6 < x && t.x + t.w + 6 > x && t.y < m.paddle.y);
+      if (!lane.some(t => t.y + t.h > 150)) hits.push(x);
+    }
+    assert.deepEqual(hits, [], `stage ${i + 1}: open straight lanes at x ${hits.join(',')}`);
+  }
+});
+
+test('a sea-mine blast breaks its neighbours, chains to other mines and hurts Nerra; barnacle plate shrugs it off', () => {
+  const m = make(2); m.skipCard(); m.launch(); run(m, 3);
+  const mine = m.blocks.find(b => b.type === 'mine' && b.x < 180), cx = mine.x + mine.w / 2, cy = mine.y + mine.h / 2;
+  const near = m.blocks.filter(b => b !== mine && b.hp > 0 && Math.hypot(Math.max(b.x, Math.min(cx, b.x + b.w)) - cx, Math.max(b.y, Math.min(cy, b.y + b.h)) - cy) <= MINE.radius);
+  assert.ok(near.length >= 2);
+  const hp = near.map(b => b.hp), nerra = m.pool.hp;
+  m.villain.ghost = false; m.villain.hidden = false; m.cine = null;
+  m.hitBlock(mine, ball(m)); assert.equal(mine.hp, 0);
+  run(m, SIEGE_TIMING.chain + .02);
+  assert.ok(near.every((b, i) => b.hp <= hp[i] - 1), 'each neighbour takes a hit');
+  assert.ok(m.effects.some(e => e.kind === 'mine-blast'));
+  assert.equal(nerra - m.pool.hp, MINE.nerra, 'she is in the blast');
+  assert.ok(!m.bars.find(b => b.id === 'plate').broken, 'the plate needs a big power');
+  // Chain: a second mine in range goes off in turn.
+  const n = make(0); n.skipCard(); n.launch(); run(n, .1);
+  const mines = n.bricks.filter(b => b.type === 'mine' && b.hp > 0); assert.ok(mines.length >= 1);
+  const a = n.blocks.find(b => b.type === 'mine'); a.hp = 1; n.blocks.find(b => b.type === 'mine' && b !== a).x = a.x + 30;
+  const other = n.blocks.find(b => b.type === 'mine' && b !== a); other.y = a.y;
+  n.hitBlock(a, ball(n)); run(n, SIEGE_TIMING.chain * 2 + .03);
+  assert.equal(other.hp, 0, 'the neighbouring mine went off'); assert.ok(n.effects.filter(e => e.kind === 'mine-blast').length >= 2);
+});
+
+test('barnacle plate: a plain ball knocks, three laser bolts or one fire, titan or ram ball break it', () => {
+  const m = make(2); m.skipCard(); const plate = m.bars.find(b => b.power), t = m.targets(0).find(t => t.id === plate.id);
+  assert.equal(t.kind, 'bar'); assert.equal(plate.hp, PLATE_BOLTS);
+  const b = ball(m); m.hitBar(t, b); assert.ok(!plate.broken);
+  for (let i = 0; i < PLATE_BOLTS - 1; i++) m.hitBar(t, { x: 180, y: 250, powerShot: true }); assert.ok(!plate.broken);
+  m.hitBar(t, { x: 180, y: 250, powerShot: true }); assert.ok(plate.broken, 'the third bolt breaks it');
+  for (const k of ['fire', 'titan', 'ram']) { const n = make(3); n.skipCard(); const p = n.bars.find(b => b.power); n.hitBar({ id: p.id, kind: 'bar' }, { ...ball(n), [k]: 2 }); assert.ok(p.broken, k); }
+});
+
+test('chests drop a big power: split, fire, laser or the titan, as far as the stage pool reaches', () => {
+  for (const [stage, allowed] of [[0, ['split']], [1, ['split']], [2, ['split', 'fire', 'laser']], [3, ['split', 'fire', 'laser', 'titan']]]) {
+    const m = make(stage); const seen = new Set();
+    for (let i = 0; i < 60; i++) { m.capsules = []; m.drop(180, 200, true); seen.add(m.capsules[0].kind); }
+    assert.ok([...seen].every(k => allowed.includes(k)), `stage ${stage + 1}: ${[...seen]}`);
+  }
+});
+
+test('barnacle shield grows back once no ball is near, and never holds a stage up', () => {
+  const m = make(3); m.skipCard(); m.launch(); run(m, .5);
+  const plug = m.blocks.find(b => b.regrow); assert.ok(plug);
+  plug.hp = 1; m.hitBlock(plug, ball(m)); assert.equal(plug.hp, 0);
+  m.balls[0].x = plug.x + plug.w / 2; m.balls[0].y = plug.y + plug.h + 10; m.balls[0].vx = 0; m.balls[0].vy = 0;   // parked next to it
+  m.time += REGROW.medium + 1; m.updateRegrow(); assert.equal(plug.hp, 0, 'not onto a ball');
+  m.balls[0].x = 180; m.balls[0].y = m.paddle.y - 40; m.updateRegrow(); assert.equal(plug.hp, plug.maxHP);
+  assert.ok(m.effects.some(e => e.kind === 'barnacle-grow'));
+  const w = make(2); assert.ok(w.blocks.filter(b => b.regrow).every(b => b.bonus), 'the dome is not required');
+});
+
+test('a plain ball hurts Nerra once per return: the paddle re-arms it; laser bolts glance off', () => {
+  const m = make(3); m.skipCard(); m.launch(); run(m, 2);
+  const v = m.villain; v.ghost = false; v.hidden = false; m.cine = null;
+  const b = ball(m), hp = m.pool.hp;
+  m.hitNerra(nerraTarget, b); assert.equal(m.pool.hp, hp - 1); assert.ok(b.spent);
+  m.hitNerra(nerraTarget, b); assert.equal(m.pool.hp, hp - 1, 'spent until it comes back');
+  m.hitNerra(nerraTarget, { x: 180, y: 200, powerShot: true }); assert.equal(m.pool.hp, hp - 1, 'a laser bolt glances off');
+  m.hitNerra(nerraTarget, { ...b, titan: 3 }); assert.equal(m.pool.hp, hp - 2, 'the titan is not limited');
+  // A paddle bounce re-arms the ball.
+  Object.assign(b, { x: m.paddle.x, y: m.paddle.y - 14, vx: 0, vy: 300, caught: false, dead: false });
+  run(m, .1); assert.ok(b.vy < 0); assert.equal(b.spent, false);
+});
+
+test('the flood is the clock from stage 1: idle water reaches the refuge near FLOOD_CLOCK, with a danger state first', () => {
+  for (const i of [0, 1]) {
+    const m = make(i); m.skipCard(); m.launch(); const p = m.balls[0];
+    let danger = null, t0 = m.time;
+    for (let k = 0; k < 240 * 200 && m.state === 'play'; k++) {
+      p.x = 180; p.y = 120; p.vx = 0; p.vy = 0; p.caught = false; m.pulses = []; m.lives = 3;   // a ball parked out of the way: nothing pushes the tide back
+      m.update(1 / 240); if (m.floodDanger && danger === null) danger = m.time - t0;
+    }
+    const took = m.time - t0, clock = FLOOD_CLOCK.seconds[i];
+    assert.equal(m.loss, 'flood'); assert.ok(took > clock * .8 && took < clock * 1.25, `stage ${i + 1} flooded in ${took.toFixed(1)}s (clock ${clock})`);
+    assert.ok(danger !== null && danger < took - 5, 'the danger state shows first');
+  }
+  const e = make(0, 'easy'), h = make(0, 'hard');
+  assert.ok(e.rules.tideRise < make(0).rules.tideRise && make(0).rules.tideRise < h.rules.tideRise, 'the clock scales with difficulty');
 });

@@ -5,7 +5,7 @@
 // Steel is barnacled brass: a glossy, finished bar with a bright glint stripe on the face next to each gap the ball must
 // use, so the way in reads at a glance. No effect here is a bare stroked ring or a dot spray.
 import { SPR, ready, cached, text, drawCapsule, drawAt } from '../gfx.js';
-import { glow, sparks, chips, pips, fxPart, dust, rnd, clamp01, smooth, sprite, hoistChain, brick, pool } from './render.js';
+import { glow, sparks, chips, pips, fxPart, dust, rnd, clamp01, smooth, sprite, hoistChain, brick, pool, seaBrick } from './render.js';
 import { STAGES } from './tidewheel-stages.js';
 import { pipTrack, stageCard, stageBanner } from './stage-ui.js';
 
@@ -115,7 +115,7 @@ function prize(ctx, g, art, b, x = b.x, y = b.y) {
 }
 // 2-hit bricks wear a barnacle crust; the first hit knocks most of it off and leaves a crack.
 function crust(ctx, b, x, y) {
-  if (!(b.maxHP > 1)) return;
+  if (!(b.maxHP > 1) && !b.regrow) return;
   const full = b.hp >= b.maxHP;
   ctx.save(); ctx.beginPath(); ctx.roundRect(x, y, b.w, b.h, 3); ctx.clip();
   const weed = ctx.createLinearGradient(0, y + b.h * .35, 0, y + b.h); weed.addColorStop(0, '#24584a00'); weed.addColorStop(1, full ? '#24584ad0' : '#24584a70'); ctx.fillStyle = weed; ctx.fillRect(x, y, b.w, b.h);
@@ -132,15 +132,61 @@ function crust(ctx, b, x, y) {
 export function siegeBrick(ctx, g, art, b, draw) {
   if (!g.siege) return draw();
   if (b.prize) return prize(ctx, g, art, b, b.lx, b.ly);
-  draw(); crust(ctx, b, b.lx, b.ly);
+  glazed(ctx, g, art, b, b.lx, b.ly, draw);
+}
+// The sea-glaze bricks (assets/tidewheel-glaze): sea-glass and coral for one-hit bricks, the steel glaze for 2-hit armour
+// (its cracked frame after the first hit), and the sea-mine composed on a coral tile. Barnacle shield wears a crust.
+function glazed(ctx, g, art, b, x, y, draw) {
+  if (b.type === 'mine') return mine(ctx, g, art, b, x, y);
+  const armour = b.maxHP > 1, mat = armour ? 'steel' : ['seaglass', 'coral'][((b.colour | 0) % 2 + 2) % 2];
+  if (!seaBrick(ctx, art, mat, armour && b.hp < b.maxHP ? 1 : 0, x, y, b.w, b.h)) draw();
+  if (b.regrow) crust(ctx, b, x, y);
+}
+// A sea-mine: an iron sphere in a coral cradle, six brass-capped horns and a red lamp that blinks faster on its fuse.
+function mine(ctx, g, art, b, x, y) {
+  seaBrick(ctx, art, 'coral', 0, x, y, b.w, b.h) || (ctx.fillStyle = '#b8564a', ctx.beginPath(), ctx.roundRect(x, y, b.w, b.h, 3), ctx.fill());
+  const cx = x + b.w / 2, cy = y + b.h / 2, r = Math.min(b.w, b.h) * .36;
+  ctx.fillStyle = '#2a161299'; ctx.beginPath(); ctx.ellipse(cx, cy + r * .55, r * 1.25, r * .55, 0, 0, TAU); ctx.fill();   // the cradle's shadow
+  for (let i = 0; i < 6; i++) {
+    const a = i * TAU / 6 - Math.PI / 2 + .26;
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate(a);
+    const hg = ctx.createLinearGradient(0, -1.6, 0, 1.6); hg.addColorStop(0, '#6d7a80'); hg.addColorStop(1, '#141a1e');
+    ctx.fillStyle = hg; ctx.beginPath(); ctx.moveTo(r - 1, -1.7); ctx.lineTo(r + 2.6, -.9); ctx.lineTo(r + 2.6, .9); ctx.lineTo(r - 1, 1.7); ctx.closePath(); ctx.fill();
+    const cap = ctx.createRadialGradient(r + 2.4, -.5, 0, r + 2.8, 0, 1.6); cap.addColorStop(0, '#fff1c4'); cap.addColorStop(1, '#8a5f22');
+    ctx.fillStyle = cap; ctx.beginPath(); ctx.arc(r + 2.9, 0, 1.4, 0, TAU); ctx.fill();
+    ctx.restore();
+  }
+  const body = ctx.createRadialGradient(cx - r * .4, cy - r * .45, r * .1, cx, cy, r);
+  body.addColorStop(0, '#8d9ba2'); body.addColorStop(.35, '#3a464d'); body.addColorStop(1, '#0b1013');
+  ctx.fillStyle = body; ctx.beginPath(); ctx.arc(cx, cy, r, 0, TAU); ctx.fill();
+  const band = ctx.createLinearGradient(cx - r, 0, cx + r, 0); band.addColorStop(0, '#5a3d16'); band.addColorStop(.4, '#d9a957'); band.addColorStop(1, '#4d3312');
+  ctx.fillStyle = band; ctx.fillRect(cx - r, cy - .8, r * 2, 1.6);
+  ctx.fillStyle = '#ffffff55'; ctx.beginPath(); ctx.ellipse(cx - r * .35, cy - r * .42, r * .32, r * .2, -.5, 0, TAU); ctx.fill();
+  const fuse = g.effects.some(e => e.kind === 'mine-fuse' && Math.abs(e.x - cx) < 1 && Math.abs(e.y - cy) < 1), blink = fuse ? 1 : .5 + .5 * Math.sin(g.time * 4 + cx * .1);
+  glow(ctx, cx + r * .1, cy - r * .55, 6 + 4 * blink, '#ff3b2a', .35 + .45 * blink);
+  ctx.fillStyle = blink > .6 ? '#ffd2c4' : '#c8321f'; ctx.beginPath(); ctx.arc(cx + r * .1, cy - r * .55, 1.3, 0, TAU); ctx.fill();
+}
+// Barnacle plate: brass armour riveted over a gap. A plain ball only knocks on it; the seam glows while a big power is
+// live (fire, laser, the titan), and each laser bolt leaves a crack.
+function plate(ctx, g, b, i) {
+  brassBar(ctx, b, b.x, b.y, 40 + i, g.time);
+  const live = g.timers?.fire > 0 || g.timers?.laser > 0 || g.cosmic || g.balls?.some(q => q.titan > 0 || q.ram > 0);
+  if (live) glow(ctx, b.x + b.w / 2, b.y + b.h / 2, b.w * .8, '#ff9a5a', .35 + .25 * Math.sin(g.time * 9));
+  for (const k of [.18, .5, .82]) hub(ctx, b.x + b.w * k, b.y + b.h / 2, 1.9, live ? .6 : 0);
+  const dmg = 3 - (b.hp ?? 3);
+  ctx.lineCap = 'round';
+  for (let n = 0; n < dmg; n++) for (const [col, lw, o] of [['#141a1e', 1.2, 0], ['#ffffff66', .45, -.6]]) {
+    const cx = b.x + b.w * (.3 + .2 * n);
+    ctx.strokeStyle = col; ctx.lineWidth = lw; ctx.beginPath(); ctx.moveTo(cx, b.y + .8 + o); ctx.lineTo(cx + 2, b.y + b.h * .5 + o); ctx.lineTo(cx - 1, b.y + b.h - .8 + o); ctx.stroke();
+  }
 }
 
 // ---------- the board: blocks, brass bars, spokes ----------
 export function siegeBoard(ctx, g, art) {
   if (!g.siege) return;
   for (const c of g.board.chambers) alcove(ctx, c);
-  for (const b of g.blocks) if (b.hp > 0) { if (b.prize) prize(ctx, g, art, b); else { brick(ctx, art, b); crust(ctx, b, b.x, b.y); } }
-  g.bars.forEach((b, i) => { if (!b.broken) brassBar(ctx, b, b.x, b.y, i, g.time); });
+  for (const b of g.blocks) if (b.hp > 0) { if (b.prize) prize(ctx, g, art, b); else glazed(ctx, g, art, b, b.x, b.y, () => { brick(ctx, art, b); crust(ctx, b, b.x, b.y); }); }
+  g.bars.forEach((b, i) => { if (b.broken) return; if (b.power) plate(ctx, g, b, i); else brassBar(ctx, b, b.x, b.y, i, g.time); });
   for (const s of g.spokes) spoke(ctx, g, s);
 }
 function alcove(ctx, c) {
@@ -235,8 +281,28 @@ export function siegeEffect(ctx, g, art, e, q) {
     case 'capsule': ctx.globalAlpha = 1; glow(ctx, e.x, e.y, 26, '#fff2c4', (1 - q) * .6); sparks(ctx, e.x, e.y, t, 6, 140, GOLD, 1.8, 77); return true;
     case 'bolt-hit': ctx.globalAlpha = 1; glow(ctx, e.x, e.y, 10, '#ffb1d0', (1 - q) * .7); return true;
     case 'pearl-guard': ctx.globalAlpha = 1; glow(ctx, e.x, e.y, 40, '#f1ecff', (1 - q) * .7); sparks(ctx, e.x, e.y, t, 8, 160, ['#fff', '#e6dcff'], 2, 79); return true;
+    case 'mine-fuse': ctx.globalAlpha = 1; glow(ctx, e.x, e.y, 18, '#ff6a3a', .4 + .4 * Math.sin(t * 60)); return true;
+    case 'mine-blast': {
+      // The blast: a white-hot core, an orange bloom out to the blast radius, iron shards and a burst of spray.
+      ctx.globalAlpha = 1; const R = e.r || 46;
+      glow(ctx, e.x, e.y, R * (.5 + .7 * smooth(Math.min(1, q * 3))), '#ffb35a', (1 - q) * .75);
+      glow(ctx, e.x, e.y, 16 * (1 - q) + 4, '#fff6dc', (1 - q) * .95);
+      sparks(ctx, e.x, e.y, Math.min(t, .41), 16, 300, ['#ffe2a8', '#ff9a5a', '#fff2c4'], 2.6, 91);
+      chips(ctx, e.x, e.y, t, e.life, 7, 190, 1, 93, 1.6);
+      if (q < .7) { ctx.globalAlpha = 1 - q / .7; drawAt(ctx, `splash/${Math.min(3, Math.floor(q / .7 * 4))}`, e.x, e.y + 8, .8); }
+      return true;
+    }
+    case 'plate-chip': ctx.globalAlpha = 1; glow(ctx, e.x, e.y, 14, '#ffb1d0', (1 - q) * .7); sparks(ctx, e.x, e.y, t, 6, 150, GOLD, 1.8, 95); return true;
+    case 'barnacle-grow': {
+      ctx.globalAlpha = 1; glow(ctx, e.x, e.y, (e.w || 30) * .7, '#7fe0c8', (1 - q) * .5);
+      const k = smooth(Math.min(1, q * 1.6));
+      for (let i = 0; i < 4; i++) barnacle(ctx, e.x - (e.w || 30) / 2 + (e.w || 30) * (i + .5) / 4, e.y + (e.h || 16) / 2 - 2, (1.2 + rnd(i, 7) * .8) * k);
+      return true;
+    }
+    case 'flood-danger': ctx.globalAlpha = 1; glow(ctx, e.x, e.y, 80, '#ff5a4a', (1 - q) * .45); return true;
     case 'brick-break': {
-      if (typeof e.colour === 'number') return false;   // ordinary bricks keep the shared break
+      if (typeof e.colour === 'number' || e.colour === 'steel') return false;   // glazed bricks keep the shared sea-glaze break
+      if (e.colour === 'mine') { ctx.globalAlpha = 1; chips(ctx, e.x, e.y, t, e.life, 5, 160, .9, 97); return true; }   // the blast is its own effect
       ctx.globalAlpha = 1;
       if (e.colour === 'pearl') { pearl(ctx, e.x, e.y - 40 * smooth(q), 6, g.time); glow(ctx, e.x, e.y, 30, '#f1ecff', (1 - q) * .5); }
       else { glow(ctx, e.x, e.y, 34, '#ffd27a', (1 - q) * .6); sparks(ctx, e.x, e.y, Math.min(t, .41), 12, 210, GOLD, 2.2, 81); }
@@ -252,6 +318,10 @@ const TIMER = [['wide', '#9fe0ff', 12], ['slow', '#b9a8ef', 8], ['fire', '#ff9a5
 export function siegeOverlay(ctx, g, art) {
   if (!g.siege) return;
   const p = g.paddle;
+  tide(ctx, g);
+  // Armed balls (they can strike Nerra this return) carry a faint gold halo while she is in the fight.
+  const v = g.villain;
+  if (g.stage >= 1 && !v.hidden && !v.ghost) for (const b of g.balls) if (!b.dead && !b.caught && !b.spent && !(b.titan > 0)) glow(ctx, b.x, b.y, 13, '#ffd27a', .32);
   // Pearl shield: a string of pearls under the paddle that bursts on its one save.
   if (g.pearlGuard) for (let x = 20; x <= g.width - 20; x += 13) pearl(ctx, x, g.pearlGuard.y + 2 + Math.sin(g.time * 2 + x * .05) * 1.2, 3.4, g.time + x);
   // Fire: a warm halo on each ball.
@@ -275,9 +345,40 @@ export function siegeOverlay(ctx, g, art) {
     ctx.fillStyle = col; ctx.beginPath(); ctx.roundRect(p.x - 27, y, 54 * f, 3, 2); ctx.fill();
   }
   hud(ctx, g, art);
+  floodGauge(ctx, g);
   if (g.tip) { const a = Math.min(1, g.tip.t * 5, (g.tip.life - g.tip.t) * 3); ctx.save(); ctx.globalAlpha = a; text(ctx, g.tip.text, g.width / 2, p.y - 52, 11.5, '#f3dca8', 'center'); ctx.restore(); }
   if (g.banner) banner(ctx, g, g.banner);
   if (g.phase === 'card' && g.card) card(ctx, g, art);
+}
+// The flood on the water itself: in stages 1-2 a soft foam line shows where the next surge will lift it; in danger the
+// surface runs red, the screen edges warm, and it pulses.
+function tide(ctx, g) {
+  const W = g.water, danger = g.floodDanger, beat = .5 + .5 * Math.sin(g.time * 7);
+  if (g.stage <= 1 && g.rules.tideSurge > 0 && g.started) {
+    const y = W.target - g.rules.tideSurge, a = .16 + .1 * Math.sin(g.time * 2.4);
+    const foam = ctx.createLinearGradient(0, y - 3, 0, y + 3); foam.addColorStop(0, '#dff8f400'); foam.addColorStop(.5, '#dff8f4'); foam.addColorStop(1, '#dff8f400');
+    ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = foam; ctx.fillRect(12, y - 3, g.width - 24, 6); ctx.restore();
+  }
+  if (!danger) return;
+  const band = ctx.createLinearGradient(0, W.y - 10, 0, W.y + 26); band.addColorStop(0, '#ff5a4a00'); band.addColorStop(.3, '#ff5a4a'); band.addColorStop(1, '#ff5a4a00');
+  ctx.save(); ctx.globalAlpha = .22 + .2 * beat; ctx.fillStyle = band; ctx.fillRect(12, W.y - 10, g.width - 24, 36);
+  for (const [x0, x1] of [[0, 26], [g.width, g.width - 26]]) { const e = ctx.createLinearGradient(x0, 0, x1, 0); e.addColorStop(0, '#ff3b2a'); e.addColorStop(1, '#ff3b2a00'); ctx.globalAlpha = .12 + .12 * beat; ctx.fillStyle = e; ctx.fillRect(Math.min(x0, x1), 67, 26, g.height - 67); }
+  ctx.restore();
+}
+// The flood clock beside the paddle: how much of the water column the tide has climbed, teal to amber to red. In danger
+// it pulses and reads FLOOD.
+function floodGauge(ctx, g) {
+  const p = g.paddle, f = g.floodFrac(), danger = g.floodDanger, beat = .5 + .5 * Math.sin(g.time * 7);
+  const w = 168, x = g.width / 2 - w / 2 + 14, y = Math.min(g.height - 14, p.y + 44);
+  ctx.save(); ctx.globalAlpha = .9;
+  if (danger) glow(ctx, x + w * f, y + 2, 26, '#ff5a4a', .3 + .3 * beat);
+  ctx.fillStyle = '#0c1923cc'; ctx.beginPath(); ctx.roundRect(x, y, w, 5, 2.5); ctx.fill();
+  const col = f < .5 ? '#7fd8d0' : f < .7 ? '#f3c46a' : '#ff6a54', fill = ctx.createLinearGradient(x, 0, x + w * f, 0);
+  fill.addColorStop(0, '#2f8f9a'); fill.addColorStop(1, col);
+  ctx.fillStyle = fill; ctx.beginPath(); ctx.roundRect(x, y, Math.max(5, w * f), 5, 2.5); ctx.fill();
+  ctx.fillStyle = '#ffffff40'; ctx.fillRect(x + w * .7, y - 1, 1, 7);   // the danger notch
+  ctx.restore();
+  text(ctx, danger ? 'FLOOD' : 'TIDE', x - 6, y + 4.5, 8.5, danger ? (beat > .5 ? '#ffd2c4' : '#ff6a54') : '#9fd6d2', 'right');
 }
 // The chapter chip and stage card come from the shared Siege UI (stage-ui.js); Tidewheel passes Nerra's crest.
 const nerraCrest = art => (c, x, y) => sprite(c, art, 'nerra', 'nerraBody', x, y + 5.2, { width: 21 });
