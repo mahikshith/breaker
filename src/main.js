@@ -312,11 +312,11 @@ function drawContinue() {
     glazedBar(g, cx + 18, cy + 42, cw - 36, 12, fill, '#7ff5e6', '#1f9e90');
     text(g, near.detail, W / 2, cy + 66, 12, '#9fb3e8', 'center', NUM);
   } else text(g, 'One more try?', W / 2, cy + 40, 17, '#ffdbb8', 'center');
-  // fuse: drains over FUSE_SECS, teal to coral in the last 2 s; spent, it waits calmly
-  const fy = y + 180, ft = f.frac, hot = f.heat, fc = mix('#2ec4b6', '#ff4d5e', hot);
-  text(g, left > 0 ? 'QUICK CONTINUE' : 'TAKE YOUR TIME', x + 26, fy - 12, 12, left > 0 ? '#9fe8de' : '#8c95bd', 'left', NUM);
-  if (left > 0) text(g, `${left.toFixed(1)}s`, x + pw - 26, fy - 12, 12, mix('#9fe8de', '#ff8a96', hot), 'right', NUM);
-  glazedBar(g, x + 24, fy, pw - 48, 11, ft, mix('#8ff7ea', '#ffa0a8', hot), fc);
+  // fuse: drains over FUSE_SECS, warm amber (unlike the teal progress bar) to coral in the last 2 s; spent, it waits calmly
+  const fy = y + 180, ft = f.frac, hot = f.heat, fc = mix('#e8902a', '#ff4d5e', hot);
+  text(g, left > 0 ? 'QUICK CONTINUE' : 'TAKE YOUR TIME', x + 26, fy - 12, 12, left > 0 ? '#ffd29a' : '#8c95bd', 'left', NUM);
+  if (left > 0) text(g, `${left.toFixed(1)}s`, x + pw - 26, fy - 12, 12, mix('#ffd29a', '#ff8a96', hot), 'right', NUM);
+  glazedBar(g, x + 24, fy, pw - 48, 11, ft, mix('#ffd08a', '#ffa0a8', hot), fc);
   g.globalAlpha = 1;
   let by = y + 210;
   if (offer === 'ad') {
