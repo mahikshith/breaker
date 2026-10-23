@@ -4,6 +4,10 @@ import { ART } from './vault-art.js';
 import { text, rrect, cached, loadImg, ready, softRing } from './gfx.js';
 import { sfx } from './audio.js';
 import { hpLeft } from './near-miss.js';
+import { themedArt } from './themed-bricks.js';
+// Themed bricks (src/themed-bricks.js): moonstone, rose moonstone, lunar silver and starlit violet by kind; slate is a
+// lunar-silver bar. The cache keeps its Blender render; the Blender moonstone set stays as the fallback.
+const MOON_MAT = { 6: 'moonstone', 2: 'rosemoon', 4: 'silver', 3: 'starlit', 9: 'bar' };
 
 const MOON_BACKGROUND = ART.mooncoil?.background ? loadImg(ART.mooncoil.background) : null;
 const MOON_BRICKS = Object.fromEntries(Object.entries(ART.mooncoil?.bricks || {}).map(([k, s]) => [k, { ...s, img: loadImg(s.url) }]));
@@ -79,6 +83,8 @@ export class Mooncoil extends Vault {
   }
   bankFor(c, r) { return bankFor(c, r); }
   art(br) {
+    const themed = MOON_MAT[br.kind] && themedArt('mooncoil', MOON_MAT[br.kind], br.n, br.max ? Math.min(1, br.max - br.hp) : 0);
+    if (themed) return themed;
     const sprite = MOON_BRICKS[`${br.kind}_${br.n}_${br.max ? Math.min(1, br.max - br.hp) : 0}`];
     if (!ready(sprite)) return super.art(br);
     return { img: sprite.img, ox: sprite.margin, oy: sprite.margin, iw: sprite.uw, ih: sprite.uh };

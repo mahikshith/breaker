@@ -1,0 +1,318 @@
+{
+ "source": "art/themed-bricks/build.py (re-glazed from art/glaze2/source/bricks.png)",
+ "chapter": "bellforge",
+ "palette": {
+  "verdigris": [
+   "#a6dcc6",
+   "#3f8d79",
+   "#245e52",
+   "forge"
+  ],
+  "bronze": [
+   "#f7dcb4",
+   "#b9743a",
+   "#4f2410",
+   "forge"
+  ],
+  "bellmetal": [
+   "#f6d4d2",
+   "#a85660",
+   "#4a1a22",
+   "forge"
+  ],
+  "pin": [
+   "#f0d6a8",
+   "#94602e",
+   "#3a1e0c",
+   "forge"
+  ],
+  "bar": [
+   "#d8cdc4",
+   "#544a44",
+   "#1a1615",
+   "forge"
+  ]
+ },
+ "sprites": {
+  "verdigris_2_0": {
+   "file": "verdigris_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "verdigris",
+   "cells": 2,
+   "state": 0
+  },
+  "verdigris_2_1": {
+   "file": "verdigris_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "verdigris",
+   "cells": 2,
+   "state": 1
+  },
+  "verdigris_2_2": {
+   "file": "verdigris_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "verdigris",
+   "cells": 2,
+   "state": 2
+  },
+  "bronze_2_0": {
+   "file": "bronze_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "bronze",
+   "cells": 2,
+   "state": 0
+  },
+  "bronze_2_1": {
+   "file": "bronze_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "bronze",
+   "cells": 2,
+   "state": 1
+  },
+  "bronze_2_2": {
+   "file": "bronze_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "bronze",
+   "cells": 2,
+   "state": 2
+  },
+  "bellmetal_2_0": {
+   "file": "bellmetal_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "bellmetal",
+   "cells": 2,
+   "state": 0
+  },
+  "bellmetal_2_1": {
+   "file": "bellmetal_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "bellmetal",
+   "cells": 2,
+   "state": 1
+  },
+  "bellmetal_2_2": {
+   "file": "bellmetal_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "bellmetal",
+   "cells": 2,
+   "state": 2
+  },
+  "pin_2_0": {
+   "file": "pin_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "pin",
+   "cells": 2,
+   "state": 0
+  },
+  "pin_2_1": {
+   "file": "pin_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "pin",
+   "cells": 2,
+   "state": 1
+  },
+  "pin_2_2": {
+   "file": "pin_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "pin",
+   "cells": 2,
+   "state": 2
+  },
+  "bar_1_0": {
+   "file": "bar_1_0.png",
+   "px": [
+    78,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    18,
+    18
+   ],
+   "drawSize": [
+    26,
+    26
+   ],
+   "margin": 4,
+   "material": "bar",
+   "cells": 1,
+   "state": 0
+  },
+  "bar_2_0": {
+   "file": "bar_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "bar",
+   "cells": 2,
+   "state": 0
+  }
+ }
+}

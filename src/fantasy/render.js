@@ -1,5 +1,6 @@
 import { ART } from '../vault-art.js';
 import { SPR, loadImg, artLoaded, text, cached, drawGlint, drawRamPips } from '../gfx.js';
+import { drawThemed, drawThemedBar, themedBreak, themedHit } from '../themed-bricks.js';
 import { tideFrame, splashUnder, splashOver, muzzle, wetHit, pulseTrail, pour } from './tide-fx.js';
 import { GATEHOUSE_FLOORS } from './gatehouse.js';
 import { renderLumi } from './lumi-render.js';
@@ -107,6 +108,16 @@ function seated(ctx,art,key,x,y,w,h){
   const P=6,img=cached(`seated-${key}-${w}-${h}`,w+P*2,h+P*2+2,c=>{c.save();c.shadowColor='#000000a0';c.shadowBlur=5;c.shadowOffsetX=1.2;c.shadowOffsetY=2.6;pbrick(c,art,key,P,P,w,h);c.restore();});
   ctx.drawImage(img,x-P,y-P,w+P*2,h+P*2+2);
 }
+// Bellforge themed bricks (src/themed-bricks.js): verdigris, bell bronze and rose bell-metal that crack forge-hot; the ramp
+// pins are riveted bronze plates (the ratchet still sits on top); steel is blackened forge iron with bronze bands.
+const FORGE_MAT={cyan:'verdigris',rose:'bronze',plum:'bellmetal',pin:'pin'};
+const forgeMat=(colour,type)=>type==='steel'?'bar':type==='pin'?'pin':FORGE_MAT[colour];
+function forgeBrick(ctx,art,b){
+  const mat=forgeMat(b.colour,b.type);if(!mat)return false;
+  if(!(mat==='bar'?drawThemedBar(ctx,'bellforge',b.x,b.y,b.w,b.h):drawThemed(ctx,'bellforge',mat,b.x,b.y,b.w,b.h,b.hp<b.maxHP?1:0)))return false;
+  if(mat==='pin'){const m=art.manifest.bellforge.ratchet,img=art.images['bellforge/ratchet'],cx=m.pivot[0]*m.size[0],cy=m.pivot[1]*m.size[1];ctx.drawImage(img,cx-45,cy-45,90,90,b.x+b.w/2-7,b.y+b.h/2-7,14,14);}
+  return true;
+}
 function brick(ctx,art,b,x=b.x,y=b.y){
   if(b.raft!==undefined&&seaBrick(ctx,art,seaMaterial(b),b.maxHP>1&&b.hp<b.maxHP?1:0,x,y,b.w,b.h))return;
   const pin=b.type==='pin'&&'pin_'+Math.max(1,Math.min(2,b.hp))+'hp';
@@ -173,7 +184,7 @@ function renderBellforge(ctx,g,art){
   for(const r of g.ramps){
     ramp(ctx,art,r);
   }
-  for(const b of g.bricks)if(b.hp>0)brick(ctx,art,b);
+  for(const b of g.bricks)if(b.hp>0&&!forgeBrick(ctx,art,b))brick(ctx,art,b);
   if(g.guard){
     const a=g.guard.a,b=g.guard.b;line(ctx,a,b,'#493f30',10);line(ctx,a,b,'#e3cf9b',6);line(ctx,a,b,'#6c8b9b',3);
     const mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2};ctx.drawImage(art.images.shield,mid.x-14,mid.y-14,28,28);
@@ -396,10 +407,14 @@ function glazed(ctx,art,key,x,y,w,h){
   });
   ctx.drawImage(img,x-P,y-P,w+P*2,h+P*2+2);
 }
+// Themed bricks (src/themed-bricks.js): heraldic enamel with gilded edges, armour as riveted iron plate, steel as portcullis iron.
+const GATE_MAT={coral:'gules',ivory:'argent',sage:'vert'};
+const gateMat=b=>b.type==='armour'?'iron':b.type==='steel'?'bar':GATE_MAT[b.colour]||'gules';
 function gbrick(ctx,art,b){
-  const key=b.colour||'coral';glazed(ctx,art,key,b.x,b.y,b.w,b.h);
+  const themed=b.type==='steel'?drawThemedBar(ctx,'gatehouse',b.x,b.y,b.w,b.h):drawThemed(ctx,'gatehouse',gateMat(b),b.x,b.y,b.w,b.h,b.hp<b.maxHP?1:0);
+  if(!themed)glazed(ctx,art,b.colour||'coral',b.x,b.y,b.w,b.h);
   if(b.gem){const cx=b.x+b.w/2,cy=b.y+b.h/2;glow(ctx,cx,cy,16,{gold:'#ffcf7a',blue:'#8fc8ff',rose:'#ff9ec0'}[b.gem],.5);fxPart(ctx,'pip_'+b.gem,cx,cy,1.55);}
-  if(b.type!=='armour')return;
+  if(b.type!=='armour'||themed)return;
   const hurt=b.hp<b.maxHP,plate=ctx.createLinearGradient(b.x,b.y,b.x,b.y+b.h);plate.addColorStop(0,'#d7e0e6');plate.addColorStop(.45,'#7f8c96');plate.addColorStop(1,'#3c464f');
   ctx.save();ctx.globalAlpha=hurt?.55:.82;ctx.fillStyle=plate;ctx.beginPath();ctx.roundRect(b.x+1,b.y+1,b.w-2,b.h-2,3);ctx.fill();
   ctx.globalAlpha=hurt?.55:.85;const gl=ctx.createLinearGradient(0,b.y+1,0,b.y+b.h*.5);gl.addColorStop(0,'#ffffff66');gl.addColorStop(1,'#ffffff00');ctx.fillStyle=gl;ctx.beginPath();ctx.roundRect(b.x+2,b.y+1.5,b.w-4,b.h*.42,2.5);ctx.fill();
@@ -641,10 +656,11 @@ function gEffect(ctx,art,e){
     switch(e.kind){
       case'bell-warning':case'paddle':break;
       case'brick-break':{
+        ctx.globalAlpha=1;if(themedBreak(ctx,'gatehouse',gateMat(e),e.x,e.y,e.w||36,e.h||18,e.age,e.life,e.vx||0,e.vy||0))break;ctx.globalAlpha=a;
         const key=e.colour||'coral',img=art.images['brick/'+key];
         if(img)for(let n=0;n<3;n++){const t=e.age,x=e.x+(n-1)*(8+t*45)+(e.vx||0)*t,y=e.y+(e.vy||0)*t-45*t+180*t*t;ctx.save();ctx.translate(x,y);ctx.rotate((n-1)*t*5);ctx.drawImage(img,n*img.width/3,0,img.width/3,img.height,-(e.w||34)/6,-(e.h||18)/2,(e.w||34)/3,e.h||18);ctx.restore();}
         break;}
-      case'brick-hit':ctx.globalAlpha=1;sparks(ctx,e.x,e.y,e.age,3,70,[],1.4,3);break;
+      case'brick-hit':ctx.globalAlpha=1;if(themedHit(ctx,'gatehouse',gateMat(e),e.x,e.y,e.age,e.life))break;sparks(ctx,e.x,e.y,e.age,3,70,[],1.4,3);break;
       case'housing-hit':ctx.globalAlpha=1;glow(ctx,e.x,e.y,22,'#ffc98a',a*.35);sparks(ctx,e.x,e.y,e.age,4,110,[],1.8,5);chips(ctx,e.x,e.y+6,e.age,e.life,3,70,.8,5);dust(ctx,e.x,e.y,e.age,e.life,3,18,9);break;
       case'housing-break':ctx.globalAlpha=1;chunks(ctx,art,'tidewheel/counterweight',T.counterweight,COUNTERWEIGHT,e.x,e.y,e.age,e.life,12,190,16,7);chips(ctx,e.x,e.y,e.age,e.life,10,170,1.15,8);
         dust(ctx,e.x,e.y+8,e.age,e.life,6,34,16);glow(ctx,e.x,e.y,46,'#ffc98a',Math.max(0,1-e.age*4)*.5);sparks(ctx,e.x,e.y,e.age,9,190,[],2.2,8);break;
@@ -827,6 +843,8 @@ export function drawEncounter(ctx,g,art,level){
     else if(e.kind==='water-muzzle'){ctx.globalAlpha=1;muzzle(ctx,e);}
     else if(e.kind==='brick-break'&&level==='tidewheel'&&seaBreak(ctx,art,e)){}
     else if(e.kind==='hit'&&level==='tidewheel'&&g.effects.some(f=>f.kind==='brick-break'&&f.age===e.age)){ctx.globalAlpha=1;wetHit(ctx,e.x,e.y,e.age,Math.round(e.x)%29,5);}
+    else if(level==='bellforge'&&e.kind==='brick-break'&&(ctx.globalAlpha=1,themedBreak(ctx,'bellforge',forgeMat(e.colour,e.type),e.x,e.y,e.w||36,e.h||18,e.age,e.life,e.vx||0,e.vy||0))){}
+    else if(level==='bellforge'&&e.kind==='brick-hit'&&(ctx.globalAlpha=1,themedHit(ctx,'bellforge',forgeMat(e.colour,e.type),e.x,e.y,e.age,e.life))){}
     else if(e.kind==='brace-break'){
       const img=art.images['tidewheel/raft'];
       for(let n=0;n<4;n++){const t=e.age;ctx.save();ctx.translate(e.x+(n-1.5)*(10+t*32),e.y-14*t+100*t*t);ctx.rotate((n-1.5)*t*2);ctx.drawImage(img,145+n*87.5,130,87.5,102,-8.75,-7,17.5,14);ctx.restore();}

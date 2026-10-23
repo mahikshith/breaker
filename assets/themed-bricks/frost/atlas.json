@@ -1,0 +1,252 @@
+{
+ "source": "art/themed-bricks/build.py (re-glazed from art/glaze2/source/bricks.png)",
+ "chapter": "frost",
+ "palette": {
+  "ice": [
+   "#eefaff",
+   "#86c3dd",
+   "#1d4a63",
+   "ice"
+  ],
+  "blue": [
+   "#d8e9ff",
+   "#3f7fdc",
+   "#0f2d6e",
+   "ice"
+  ],
+  "violet": [
+   "#e7e2ff",
+   "#7466cc",
+   "#2a1d6a",
+   "ice"
+  ],
+  "bar": [
+   "#d6e4ee",
+   "#566a7b",
+   "#18222d",
+   "ice"
+  ]
+ },
+ "sprites": {
+  "ice_2_0": {
+   "file": "ice_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "ice",
+   "cells": 2,
+   "state": 0
+  },
+  "ice_2_1": {
+   "file": "ice_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "ice",
+   "cells": 2,
+   "state": 1
+  },
+  "ice_2_2": {
+   "file": "ice_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "ice",
+   "cells": 2,
+   "state": 2
+  },
+  "blue_2_0": {
+   "file": "blue_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "blue",
+   "cells": 2,
+   "state": 0
+  },
+  "blue_2_1": {
+   "file": "blue_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "blue",
+   "cells": 2,
+   "state": 1
+  },
+  "blue_2_2": {
+   "file": "blue_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "blue",
+   "cells": 2,
+   "state": 2
+  },
+  "violet_2_0": {
+   "file": "violet_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "violet",
+   "cells": 2,
+   "state": 0
+  },
+  "violet_2_1": {
+   "file": "violet_2_1.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "violet",
+   "cells": 2,
+   "state": 1
+  },
+  "violet_2_2": {
+   "file": "violet_2_2.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "violet",
+   "cells": 2,
+   "state": 2
+  },
+  "bar_1_0": {
+   "file": "bar_1_0.png",
+   "px": [
+    78,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    18,
+    18
+   ],
+   "drawSize": [
+    26,
+    26
+   ],
+   "margin": 4,
+   "material": "bar",
+   "cells": 1,
+   "state": 0
+  },
+  "bar_2_0": {
+   "file": "bar_2_0.png",
+   "px": [
+    132,
+    78
+   ],
+   "ppu": 3,
+   "footprint": [
+    36,
+    18
+   ],
+   "drawSize": [
+    44,
+    26
+   ],
+   "margin": 4,
+   "material": "bar",
+   "cells": 2,
+   "state": 0
+  }
+ }
+}
