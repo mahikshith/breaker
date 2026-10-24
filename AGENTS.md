@@ -4,7 +4,7 @@ BREACH is a premium portrait brick breaker for iOS and Android. It is plain JS o
 
 ## Read first, in this order
 
-Current state (2026-10-22): 11 chapters are built on branch `codex/castle-chapters`; `main` is untouched until the owner reviews screenshots. The chapter list, gates and next steps are in doc 01, "Current state".
+Current state (2026-10-24): 12 chapters are built (nine in the menu behind a key-art home page) on branch `codex/castle-chapters`, which is Android 0.8-princess-polish (versionCode 8). `main` is untouched: the owner approves every merge. The chapter list, gates and next steps are in doc 01, "Current state".
 
 1. `docs/CONTINUE_HERE.md`: one-page pointer to the current state.
 2. `docs/handoff/01-status-and-next-steps.md`: "Current state" (chapters, mechanics, gates, release path, next steps), the owner's rules (section 1) and the progress log.
@@ -14,7 +14,7 @@ Current state (2026-10-22): 11 chapters are built on branch `codex/castle-chapte
 6. Per-chapter rules: `docs/MOONCOIL_RELIQUARY.md`, `docs/BRUM_LEVEL_PLAN.md` (Frost Warden), `docs/BELLFORGE_PHYSICS.md`, `docs/TIDEWHEEL_PHYSICS.md`, `docs/FANTASY_REFINEMENT.md` (Vault and keep refinements), `docs/SPACE_COMBAT_HANDOFF.md` (Carrier, Circuit, Forge).
 7. Art: `prompt-library/` (the owner's copy-paste prompts for Copilot), `docs/ARTWORK_LIBRARY.md` and `artwork-library/` (preserved originals; run `python tools/archive_artwork.py` after adding artwork), `docs/handoff/04-chatgpt-design-brief.md` (art bible, palette).
 8. Story and roadmap: `docs/STORY_PLAN.md`. Only Phase 1 is approved; its chapter map was replaced by the shipped castle chapters, so re-plan before building more of it.
-9. Release: `docs/MOBILE_PREVIEW.md` describes the last delivered APK, which is the older five-chapter build. There is no APK of the 11-chapter game yet.
+9. Release: `docs/MOBILE_PREVIEW.md` describes the old five-chapter build. The current APK is 0.8-princess-polish (mobile-preview run 40045371055, artifact `BREACH-eleven-chapter-android-28`); owner playtest pending.
 10. Starflight (`docs/STARFLIGHT_*.md`, `prototypes/starflight/`) is a separate browser prototype, not in the game or the APK. `docs/NEXT_LEVELS.md` and the other older proposal docs are historical: never treat a proposal or an old test result as a current feature.
 
 ## Skills (read the matching SKILL.md before that kind of work)
@@ -50,7 +50,7 @@ The game does not use Phaser or PixiJS, so skip those two skills unless the owne
 - Every commit is authored and committed as `mahikshith <mahikshith97@gmail.com>`. Run `git config user.name mahikshith` and `git config user.email mahikshith97@gmail.com` first.
 - No AI or assistant attribution anywhere: no Co-Authored-By trailers, no "Generated with…", no assistant names in commits, code or docs.
 - Never ask for, print or store tokens or passwords.
-- Work on a branch (`codex/<task>`; the current one is `codex/castle-chapters`). Merge to `main` only after the owner has seen screenshots and approved.
+- Work on a branch (`codex/<task>`; the current one is `codex/castle-chapters`, same commit as `codex/overnight`). Merge to `main` only after the owner has seen screenshots and approved.
 - Follow the owner's art and UX rules in doc 01, section 1 and doc 04, section 2. In short:
   - premium and never "vibe-coded";
   - minimal yellow;
@@ -75,7 +75,7 @@ The game does not use Phaser or PixiJS, so skip those two skills unless the owne
 
   Check that there are no page errors, then show the owner the screenshots.
 - **Physics gates (all must pass before anything ships):**
-  - `npm test` (about 506 tests);
+  - `npm test` (about 694 tests);
   - `npm run audit:physics` (headless bot, idle and ram sweep of every level x difficulty x two phones; zero failures; report in `docs/validation/physics-audit/report.json`);
   - `node tools/playtest/physics-audit-checks.mjs --quick` (seeded Gatehouse checks).
 - **CI (owner rule, 2026-10-22):** the mobile workflow is manual only (`workflow_dispatch`); pushes never start it. Run it once per real release candidate, after `npm test`, `npm run build`, the re-pinned SHA in `config/mobile-preview.json` and `node tools/prepare-android.mjs` all pass locally. A CI run should pass, not be used as a test loop.
