@@ -1,4 +1,4 @@
-// Actual Main Frost Warden checks. Usage: node tools/playtest/frost.mjs [out] [HTML]
+// Actual Main Frost Warden checks: home page -> chapter map -> the chapter's purpose card -> play. Usage: node tools/playtest/frost.mjs [out] [HTML]
 // Env: PW_MODULE / PW_CHROMIUM as in polish.mjs. Fixture powers are explicitly staged.
 import assert from 'node:assert/strict';
 import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
@@ -12,7 +12,7 @@ const {chromium}=await import(process.env.PW_MODULE||'playwright');
 const out=process.argv[2]||'out/frost-phones',html=resolve(process.argv[3]||'dist/breach.html');
 mkdirSync(out,{recursive:true});
 const sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
-const report={scope:'Actual five-level Main, native phone geometry and CDP touch. Kit charge/attack starts are staged UI fixtures, not earned wins, human balance or physical-device performance.',html,sha256:sha(html),cases:[]};
+const report={scope:'Actual Main: the key-art home page, the chapter map, the Frost Warden purpose card and the chapter itself, on native phone geometry with CDP touch. Kit charge/attack starts are staged UI fixtures, not earned wins, human balance or physical-device performance.',html,sha256:sha(html),cases:[]};
 assert(ART.frostWarden?.url,'pack the dedicated Frost Warden art before this playtest');
 assert.deepEqual(ART.frostWarden.cell,[256,228]);assert.equal(ART.frostWarden.columns,7);for(const c of['idle','walk','windup','strike','recover','hurt','victory','crouch','dash','smash','dazed','defeated'])assert(ART.frostWarden.clips[c],'clip '+c);assert.equal(ART.frostWarden.anchors.length,ART.frostWarden.columns*ART.frostWarden.rows);
 assert(readFileSync(html,'utf8').includes(ART.frostWarden.url),'source atlas and tested embedded bundle match');
@@ -32,6 +32,7 @@ try{
     CanvasRenderingContext2D.prototype.drawImage=function(...a){const result=draw.apply(this,a);if(this.canvas.id==='game'&&a[0]?.src===wardenURL&&a.length===9)__frostWardenDraws.push({sx:a[1],sy:a[2],sw:a[3],sh:a[4],x:a[5],y:a[6],w:a[7],h:a[8],decoded:!!a[0].complete,naturalWidth:a[0].naturalWidth,naturalHeight:a[0].naturalHeight});return result;};
     localStorage.setItem('breach.bestByDifficulty',JSON.stringify({easy:[3,2,1,0],medium:[1,2,0,3],hard:[0,1,2,3]}));
     localStorage.setItem('breach.unlocked','true'); // Existing-unlock fixture: no store/ad request.
+    localStorage.setItem('breach.tutDone','true'); // The Vault's first-play tutorial is not under test here (tools/playtest/tutorial coverage lives in the unit tests).
    },ART.frostWarden.url);
    await page.goto(`${pathToFileURL(html).href}?difficulty=${mode}&safe=${D.top},${D.bottom}`);
    await page.waitForFunction(()=>window.__breach?.ready&&window.__frostFrame,null,{polling:100});
@@ -40,17 +41,30 @@ try{
     fresh(){__breach.start(4);this.frame(1);},
     snapshot(){const l=__breach.level;return JSON.stringify({inspect:l.inspect(),t:l.t,kitTime:l.kitTime,balls:l.balls,shots:l.shots,drops:l.drops,charge:l.paddle.charge,bank:l.coreChargeBank,laser:l.paddle.laserT,fire:l.fireT,slow:l.slowT,shield:l.shield,shieldT:l.shieldT,serve:l.serveAge});},
    };FQ.frame(2);});
-   assert.equal(await page.evaluate(()=>__breach.scene),'menu');
-   const menu=await page.evaluate(()=>__frostText.filter(t=>['Carrier Breakout','Circuit Breakout','Shutter Forge','The Vault','Frost Warden'].includes(t.value)));
-   assert.equal(new Set(menu.map(t=>t.value)).size,5,'first actionable menu contains all five decoded chapter cards');
-   assert(menu.every(t=>t.y>=D.top&&t.y<D.height-D.bottom-25),'all five menu titles fit safe content');
-   assert(await page.evaluate(()=>__frostImages.every(i=>i.complete&&i.naturalWidth>0)),'all startup art decodes before the first actionable menu');
-   if(mode==='easy')await page.screenshot({path:`${out}/${device}-00-first-menu.png`});
+   assert.equal(await page.evaluate(()=>__breach.scene),'menu');assert.equal(await page.evaluate(()=>__breach.home.view),'home','the app opens on the key-art home page');
+   assert(await page.evaluate(()=>__frostImages.every(i=>i.complete&&i.naturalWidth>0)),'all startup art decodes before the first actionable home page');
+   const homeText=await page.evaluate(()=>__frostText.map(t=>t.value));
+   for(const label of['PLAY','CHAPTERS','Easy','Medium','Hard'])assert(homeText.includes(label),'home page shows '+label);
+   if(mode==='easy')await page.screenshot({path:`${out}/${device}-00-home.png`});
    const cdp=await page.context().newCDPSession(page);
    const touch=(type,x=0,y=0)=>cdp.send('Input.dispatchTouchEvent',{type,touchPoints:['touchEnd','touchCancel'].includes(type)?[]:[{id:72,x,y,radiusX:3,radiusY:3,force:1}]});
    const tap=async p=>{assert(Number.isFinite(p.x+p.y));await touch('touchStart',p.x,p.y);await touch('touchEnd');};
-   const title=menu.find(t=>t.value==='Frost Warden');await tap({x:title.x+40,y:title.y});await page.evaluate(()=>FQ.frame(1));
-   assert.equal(await page.evaluate(()=>__breach.scene),'level');assert.equal(await page.evaluate(()=>__breach.level.difficulty),mode);
+   // Real route: home -> CHAPTERS map -> the Frost Warden card -> its purpose card -> tap to start.
+   const chapters=await page.evaluate(()=>__frostText.findLast(t=>t.value==='CHAPTERS'));assert(chapters&&chapters.y>=D.top&&chapters.y<D.height-D.bottom,'CHAPTERS sits in safe content');
+   await tap({x:chapters.x,y:chapters.y});await page.evaluate(()=>FQ.frame(2));
+   assert.equal(await page.evaluate(()=>__breach.home.view),'chapters');
+   const map=await page.evaluate(()=>__frostText.filter(t=>['The Vault','Frost Warden','Mooncoil Reliquary','Carrier Breakout','Circuit Breakout','Shutter Forge'].includes(t.value)));
+   assert(map.some(t=>t.value==='The Vault')&&map.some(t=>t.value==='Frost Warden'),'chapter map lists The Vault and Frost Warden');
+   assert(!map.some(t=>['Carrier Breakout','Circuit Breakout','Shutter Forge'].includes(t.value)),'space chapters are hidden from the map');
+   assert(map.every(t=>t.y>=D.top&&t.y<D.height-D.bottom-25),'visible chapter titles fit safe content');
+   if(mode==='easy')await page.screenshot({path:`${out}/${device}-00-chapter-map.png`});
+   const title=map.find(t=>t.value==='Frost Warden');await tap({x:title.x+40,y:title.y});await page.evaluate(()=>FQ.frame(1));
+   assert.equal(await page.evaluate(()=>__breach.scene),'level');assert(await page.evaluate(()=>__breach.purpose?.id==='frost'),'the chapter card opens a purpose card before play');
+   if(mode==='easy')await page.screenshot({path:`${out}/${device}-00-purpose.png`});
+   await page.evaluate(()=>FQ.frame(30));await tap({x:D.width/2,y:D.height/2});await page.evaluate(()=>FQ.frame(1));
+   assert(await page.evaluate(()=>!__breach.purpose),'a tap dismisses the purpose card');
+   assert.equal(await page.evaluate(()=>__breach.level.difficulty),mode);
+
    assert(await page.evaluate(()=>__breach.level.kitPowers&&!__breach.level.spacePowers&&__breach.level.warden),'Frost uses Kit and the actual Warden, not a space companion');
    const raster=await page.evaluate(()=>__frostWardenDraws.at(-1));assert(raster?.decoded&&raster.naturalWidth===ART.frostWarden.size[0]&&raster.naturalHeight===ART.frostWarden.size[1]&&raster.sw===256&&raster.sh===228,'actual decoded dedicated Warden frame is rendered');
    const geometry=await page.evaluate(()=>{const l=__breach.level;return{W:l.W,H:l.H,kitUIScale:l.kitUIScale,orb:l.kitAnchor(),kitPowers:l.kitPowers};});
@@ -121,7 +135,7 @@ try{
     await page.evaluate(()=>{FQ.fresh();const l=__breach.level;l.release();for(const b of l.balls)b.caught=true;l.aim=null;l.activeDefence=2;l.defences[0].hp=l.defences[1].hp=0;l.defences[2].hp=1;l.startWindup();FQ.frame(Math.ceil((l.rules.windup+l.rules.strike*.75)*60));});assert.equal(await page.evaluate(()=>__breach.level.phase),'breach');await page.screenshot({path:`${out}/${device}-11-breach-staged.png`});
     await page.evaluate(()=>FQ.frame(125));assert.equal(await page.evaluate(()=>__breach.level.state),'lost');await page.screenshot({path:`${out}/${device}-12-loss-staged.png`});const continueAfterBreach=await page.evaluate(()=>__frostText.findLast(t=>t.value==='Continue'));await tap(continueAfterBreach);await page.evaluate(()=>FQ.frame(1));assert(await page.evaluate(()=>__breach.level.state==='play'&&__breach.level.defences[2].hp===2&&__breach.level.aim?.serve));await page.screenshot({path:`${out}/${device}-13-continued-staged.png`});
    }
-   assert.deepEqual(errors,[]);report.cases.push({device,mode,geometry,raster,firstMenuReady:true,actualCardAimDrag:true,powers,choiceFreeze:true,pauseFreeze:true,cancelAndSwipe:true,retry:fresh,backgroundHandlerFixture:true,continueProgress:progress,stanceProof,errors});writeFileSync(`${out}/report.json`,JSON.stringify(report,null,2));console.log(device,mode,'passed');await page.close();
+   assert.deepEqual(errors,[]);report.cases.push({device,mode,geometry,raster,homeAndMapRoute:true,actualCardAimDrag:true,powers,choiceFreeze:true,pauseFreeze:true,cancelAndSwipe:true,retry:fresh,backgroundHandlerFixture:true,continueProgress:progress,stanceProof,errors});writeFileSync(`${out}/report.json`,JSON.stringify(report,null,2));console.log(device,mode,'passed');await page.close();
   }
  }
  assert.equal(sha(html),report.sha256,'bundle unchanged during review');report.hashAfter=sha(html);report.complete=true;writeFileSync(`${out}/report.json`,JSON.stringify(report,null,2));

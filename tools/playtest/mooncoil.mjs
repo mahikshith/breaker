@@ -7,20 +7,26 @@ const { chromium } = await import(process.env.PW_MODULE || 'playwright');
 const [out = 'out/mooncoil', html = 'out/mooncoil-preview/breach.html'] = process.argv.slice(2);
 fs.mkdirSync(out, { recursive: true });
 const report = { scope: 'Actual Main phone touch and staged mechanism/ending fixtures; not earned victories or physical handset tests.', sha256: crypto.createHash('sha256').update(fs.readFileSync(html)).digest('hex'), devices: [] };
-const browser = await chromium.launch({ executablePath: process.env.BROWSER_EXECUTABLE, args: ['--mute-audio'] });
+const browser = await chromium.launch({ executablePath: process.env.PW_CHROMIUM || process.env.BROWSER_EXECUTABLE, args: ['--mute-audio'] });
 try {
   for (const [name, width, height, safe] of [['ios',393,852,'59,34'],['android',412,915,'32,24']]) {
     const page = await browser.newPage({ viewport: { width, height }, hasTouch: true, deviceScaleFactor: 1 });
     const errors = []; page.on('pageerror', e => { errors.push(e.message); console.error(e.message); });
-    await page.addInitScript(() => { requestAnimationFrame = f => { window.nextFrame = f; return 1; }; });
+    await page.addInitScript(() => { requestAnimationFrame = f => { window.nextFrame = f; return 1; }; localStorage.setItem('breach.tutDone', 'true'); });
     await page.goto((process.env.PLAYTEST_URL || pathToFileURL(resolve(html)).href) + `?level=6&difficulty=easy&safe=${safe}`);
     await page.waitForFunction(() => __breach?.ready && window.nextFrame, null, { timeout: 60000, polling: 50 });
     await page.evaluate(() => {
       window.clock = performance.now();
       window.paint = () => { const l = __breach.level, update = l.update; l.update = () => {}; nextFrame(clock += 17); l.update = update; };
       window.tick = (seconds) => { for (let i = 0; i < seconds * 120; i++) __breach.level.update(1/120); paint(); };
-      tick(2.6);
     });
+    // ?level= opens the chapter's purpose card first: the chapter is frozen behind it until a real tap starts it.
+    assert.equal(await page.evaluate(() => __breach.purpose?.id), 'mooncoil');
+    await page.evaluate(() => { for (let i = 0; i < 30; i++) paint(); });
+    await page.screenshot({ path: `${out}/${name}-purpose.png` });
+    await page.touchscreen.tap(width / 2, height / 2); await page.evaluate(() => paint());
+    assert.equal(await page.evaluate(() => __breach.purpose), null, 'a tap dismisses the purpose card');
+    await page.evaluate(() => tick(2.6));
     await page.screenshot({ path: `${out}/${name}-play.png` });
     const checks = await page.evaluate(() => {
       const l = __breach.level;

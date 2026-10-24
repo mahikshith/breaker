@@ -9,6 +9,9 @@ const D = { ios: { w: 393, h: 852, safe: '59,34' }, android: { w: 412, h: 915, s
 const browser = await chromium.launch(process.env.PW_CHROMIUM ? { executablePath: process.env.PW_CHROMIUM } : {});
 const page = await browser.newPage({ viewport: { width: D.w, height: D.h }, deviceScaleFactor: 2, hasTouch: true });
 const errs = []; page.on('pageerror', e => errs.push(String(e.stack || e))); page.on('console', m => m.type() === 'error' && errs.push(m.text()));
+// The first-play ball-control tutorial has its own coverage (tools/playtest/frost.mjs walks the new front end); this
+// pass reviews the chapters themselves, so it starts from a profile that has already done it.
+await page.addInitScript(() => localStorage.setItem('breach.tutDone', 'true'));
 await page.goto(`file://${process.cwd()}/dist/breach.html?safe=${D.safe}`);
 await page.waitForFunction(() => window.__breach?.ready); await page.waitForTimeout(100);
 const shot = n => page.screenshot({ path: `${OUT}/${dev}-${n}.png` });
@@ -22,9 +25,14 @@ const bot = on => ev(on => { clearInterval(window.__bot); if (!on) return; windo
   if (b) { l.ptr.down = true; l.ptr.anchor = 0; l.ptr.padAnchor = b.x + Math.sin(l.t * 3) * 14; l.ptr.x = 0; }
 }, 16); }, on);
 
-await shot('00-menu');
+await shot('00-menu');                                   // the key-art home page
+await ev(() => window.__breach.home.open('chapters')); await wait(300); await shot('00b-chapters');
+await ev(() => window.__breach.home.open('home'));
 // ---------- Vault ----------
-await ev(() => window.__breach.start(1)); await wait(400);
+// A chapter card start: its purpose card comes up first and a tap starts the chapter.
+await ev(() => window.__breach.start(1, { card: true })); await wait(400);
+if (await ev(() => !!window.__breach.purpose)) { await shot('00c-vault-purpose'); await page.touchscreen.tap(D.w / 2, D.h / 2); await wait(200); }
+if (await ev(() => !!window.__breach.purpose)) throw new Error('the purpose card did not dismiss on a tap');
 await ev(() => window.__breach.level.skipIntro()); await wait(600);
 await shot('01-vault-serve-deck');
 await bot(true); await wait(5000);
@@ -48,7 +56,9 @@ await wait(1600); await shot('09-vault-got-her');
 await wait(2500); await shot('10-vault-continue');
 console.log('state', await ev(() => [window.__breach.level.state, window.__breach.level.reason]));
 // ---------- Invasion ----------
-await ev(() => window.__breach.start(0)); await wait(800);
+await ev(() => window.__breach.start(0, { card: true })); await wait(400);
+if (await ev(() => !!window.__breach.purpose)) { await page.touchscreen.tap(D.w / 2, D.h / 2); await wait(200); }
+await wait(400);
 await shot('11-invasion-serve');
 await bot(true); await wait(6000); await shot('12-invasion-play');
 const carrier = await ev(() => {
