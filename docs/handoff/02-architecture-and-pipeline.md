@@ -1,13 +1,13 @@
 # BREACH: architecture, art pipeline, build and test
 
-Last checked against the code on 2026-10-22 (branch `codex/castle-chapters`, 11 chapters). Status and history: doc 01. Tools and UX: doc 03.
+Last checked against the code on 2026-10-24 (branch `codex/castle-chapters`, 12 chapters, 9 shown in the menu). Status and history: doc 01. Tools and UX: doc 03.
 
 This document is the "how it is built" reference. For current status and next steps, see `01-status-and-next-steps.md`. For tools, connections, skills, memory and UX rules, see `03-environment-skills-ux.md`.
 
 ## 1. Aim and goal
 
 - **Product:** BREACH, a premium brick breaker for iOS and Android, portrait only. The tagline is "Break in. Break out."
-- **Current goal:** get the 11-chapter game through the gates in doc 01 ("Current state"), build an APK, and let the owner playtest and tune it (harder but fair). `main` is merged only after the owner reviews screenshots.
+- **Current goal:** the 0.8-princess-polish APK (versionCode 8) exists; let the owner playtest and tune it (harder but beatable with the right power-ups). `main` is merged only when the owner approves.
 - **Reference games:** BALL x PIT, Arkanoid, Space Invaders.
 - **Business model (placeholder):** watch an ad to continue, or a one-time "Unlock full game" purchase. `MODE = 'free'` in `src/monetize.js` keeps a free game open. Ads and purchases are local simulations.
 - **Later:** story mode and unlockables, planned in `docs/STORY_PLAN.md`. Not built.
@@ -26,8 +26,11 @@ src/main.js ─ scenes: menu → level ↔ pause; level → continue → results
   │     hooks a level overrides: hitCell(c,r,ball), updateLevel(dt,dtReal), shotHit(shot), draw(g), background(),
   │       previewRect(), result(), continueRun(), skipIntro(), ramPierce(brick)
   ├─ Arena chapters: carrier.js, vault.js, relay.js (Circuit), orbital.js (Forge), frost.js, mooncoil.js (+ mooncoil-layout.js)
+  ├─ src/home.js, home-art.js  home page and chapter map (key-art hero from store/key-art.png via tools/pack_home_art.py); STORY lists the nine menu slots
+  ├─ src/tutorial.js, tutorial-draw.js, purpose.js, portraits.js  ball-control tutorial and per-chapter purpose cards
+  ├─ src/castle-specials.js, castle-art.js  armour, mine, chest and coin bricks on the castle chapters
   ├─ src/fantasy/chapter.js  FantasyChapter: adapter that gives the standalone models the Arena contract
-  │     models (no drawing): bellforge.js, tidewheel.js, gatehouse.js, lumitower.js, rivals.js; shared ram.js
+  │     models (no drawing): bellforge.js, tidewheel.js (+ tidewheel-siege.js, tidewheel-stages*.js, stage-ui.js: four-stage Siege), gatehouse.js, lumitower.js, rivals.js, hoard.js; shared ram.js, purpose.js (villain purpose clocks; purpose-render.js draws them)
   │     drawing: render.js (all but Lumi and Rivals), lumi-render.js, rivals-render.js
   │     CHAPTERS table in chapter.js holds each chapter's powers, menu preview rect and star rule
   ├─ src/physics.js   makeGrid, makeBall, stepBall (substepped circle vs grid/walls/paddle), floodEmpty
@@ -45,6 +48,9 @@ src/main.js ─ scenes: menu → level ↔ pause; level → continue → results
 ### Shared mechanics (all levels)
 
 - **Ram Ball** (`src/fantasy/ram.js`): three centre-third paddle hits arm it; the next centre hit launches a giant ball (`RAM` radius 13.2, 2.5 s or 14 bricks). It ploughs only what the level's `ramPierce(brick)` allows (default: ordinary 1-HP bricks; Arena levels exclude `grid.unpierceable` kinds). Other contacts are normal hits and the ram bounces.
+- **Ball radius 7** in every princess level: `BALL_R` in `src/fantasy/ram.js` (the Ram ball is larger and restores it).
+- **Villain purpose clocks** (`src/fantasy/purpose.js`): Gatehouse, Lumi Breaks Out, Serpent Rivals and Dragon's Hoard show a clock that ends in losing Lumi; Bellforge shows a lift meter. Purpose cards (`src/purpose.js`) introduce each chapter.
+- **Serpent and brute skins**: `SERPENT_SKINS` (`src/vault.js`) holds the snake skins (jade, emerald, ember fire serpent); the Frost Warden atlas builder takes any frames folder, so a new brute reuses the Yeti physics (`prompt-library/16-brute-reskin.md`).
 - **Power-ready pulse** (`src/kit.js`): when the orb fills, it double-beats with a halo for 5 s, then glows until used; `navigator.vibrate` buzzes (Android VIBRATE permission in the manifest).
 - **Clearance** (`src/clearance.js`): after any pose swap, knock-back, rebuilt cell or spawn, call `ejectBall` so no ball sits inside a solid.
 - **FX kit** (`ART.fxKit`): rendered gems, chips, sparks and glints. Do not draw bare stroked rings or dots as effects.
@@ -57,7 +63,7 @@ src/main.js ─ scenes: menu → level ↔ pause; level → continue → results
   - `main.js` translates the canvas by `inT`, so y = 0 is the top of the safe area.
 - **Light and shadow:** light comes from the top-left, and shadows are offset (+3, +5) (`SHADOW` in gfx.js).
 - **Balls:**
-  - radius 6 in the Vault, 7.5 in Carrier-family chapters (titan 10; set in each constructor);
+  - radius 7 in the Vault and every princess level (`BALL_R`), 7.5 in Carrier-family chapters (titan 10; set in each constructor);
   - speed 345 × `opt.speed` × the rally ramp (up to 1.28);
   - the ball is lost at `drainY = paddle.y + 20`; the missed-ball shield plane is `paddle.y + 18`.
 - **Paddle:**
@@ -177,15 +183,15 @@ Then run `pack_art.py` and the build again.
 ## 4. Build, test, publish
 
 - **Build:** `npm install`, then `npm run build` (esbuild, `tools/build.mjs`) writes `dist/breach.html` (about 14 MB, single file) and `dist/breach-artifact.html` (body fragment).
-- **Unit tests:** `npm test` runs every `tests/*.test.js` (50 files, 506 tests on 2026-10-22, about 26 s). Add a test beside any model or rule you change.
+- **Unit tests:** `npm test` runs every `tests/*.test.js` (694 tests on 2026-10-24). Add a test beside any model or rule you change.
 - **Physics gates (run before anything ships):**
-  - `npm run audit:physics`: `tools/playtest/physics-audit.mjs` with adapters in `audit-adapters.mjs`. Headless bot, idle and ram variants over every adapter level x Easy/Medium/Hard x 393x852 and 412x915. Flags errors, NaN, out-of-bounds, tunnelling, stuck balls, flat or crawling balls. Writes `docs/validation/physics-audit/report.json`. Filters: `--level a,b`, `--difficulty`, `--phone`, `--variant`; add `--no-write` on any filtered run so it does not overwrite the full report. Lumi Breaks Out has no adapter yet.
+  - `npm run audit:physics`: `tools/playtest/physics-audit.mjs` with adapters in `audit-adapters.mjs`. Headless bot, idle and ram variants over every adapter level x Easy/Medium/Hard x 393x852 and 412x915. Flags errors, NaN, out-of-bounds, tunnelling, stuck balls, flat or crawling balls. Writes `docs/validation/physics-audit/report.json`. Filters: `--level a,b`, `--difficulty`, `--phone`, `--variant`; add `--no-write` on any filtered run so it does not overwrite the full report. Full audit 2026-10-24: 444 runs, 0 failures.
   - `node tools/playtest/physics-audit-checks.mjs --quick`: seeded Gatehouse checks (details in `tools/playtest/physics-audit-checks.md`).
 - **Playtests and screenshots** (Playwright with Chromium, driving `window.__breach`; `<outDir>/shots/` must exist for some):
   - `node tools/playtest/layout.mjs <out>` and `node tools/playtest/polish.mjs <out> ios|android`: layout and polish regressions.
-  - `castle-premium.mjs`, `fantasy-visual.mjs`, `fantasy-responsive.mjs`, `rivals-review.mjs`, `mooncoil.mjs`, `bellforge.mjs`, `tidewheel.mjs`, `kit.mjs`, `venom.mjs`, `vault-v2.mjs`: per-chapter phone captures and routes. A bot win proves reachability, not human difficulty.
+  - Playtests now enter chapters through the home page and chapter map (`polish.mjs`, `layout.mjs`, `frost.mjs`, `mooncoil.mjs`; bot helpers in `aim-bot.mjs`). Others: `castle-premium.mjs`, `fantasy-visual.mjs`, `fantasy-responsive.mjs`, `rivals-review.mjs`, `mooncoil.mjs`, `bellforge.mjs`, `tidewheel.mjs`, `kit.mjs`, `venom.mjs`, `vault-v2.mjs`: per-chapter phone captures and routes. A bot win proves reachability, not human difficulty.
   - Device sizes: iPhone 393 x 852 with `?safe=59,34`; Android 412 x 915 with `?safe=32,24`; device scale factor 2.
   - Always check for page errors, and screenshot the serve, play, powers, loss/continue and win screens for both devices. Show them to the owner.
-- **Release:** `npm run build`, then `node tools/pin-sha.mjs` (re-pins `config/mobile-preview.json`), then `node tools/prepare-android.mjs` (must pass; it refuses a hash mismatch). The mobile workflow is manual only (`workflow_dispatch`): run it once per release candidate after those pass. Status of the last APK: `docs/MOBILE_PREVIEW.md` (old five-chapter build).
+- **Release:** `npm run build`, then `node tools/pin-sha.mjs` (re-pins `config/mobile-preview.json`), then `node tools/prepare-android.mjs` (must pass; it refuses a hash mismatch). The mobile workflow is manual only (`workflow_dispatch`): run it once per release candidate after those pass. Current APK: 0.8-princess-polish, versionCode 8, mobile-preview run 40045371055, artifact `BREACH-eleven-chapter-android-28` (`docs/MOBILE_PREVIEW.md` still describes the old five-chapter build).
 - **Publish the playable build:** the owner has used a claude.ai Artifact (doc 03). `dist/breach.html` works on any static host.
 - **Mobile wrapping:** Capacitor WebView in `android/`; `viewport-fit=cover` and `env(safe-area-inset-*)` are handled.

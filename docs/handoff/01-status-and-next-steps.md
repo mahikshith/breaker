@@ -1,12 +1,36 @@
 # BREACH handoff 1/3: status and next steps
 
-Last updated 2026-10-22 night. Read "Current state" first. The progress log below it is history, newest first; an older entry never overrides this section. Sections 2 to 9 were checked on 2026-10-22: where a section is marked HISTORICAL it describes work that has since been replaced.
+Last updated 2026-10-24 (after the overnight run of 2026-10-23). Read "Current state" first. The progress log below it is history, newest first; an older entry never overrides this section. Sections 2 to 9 were checked on 2026-10-22: where a section is marked HISTORICAL it describes work that has since been replaced.
 
-## Current state (2026-10-22)
+## Current state (2026-10-24)
 
-**Branch:** `codex/castle-chapters` is the working branch (about 66 commits ahead of `main`). `main` is untouched: the owner merges after reviewing screenshots. Laptop side branches `recovered/codex-2026-10-22`, `codex/castle-art` and `codex/mooncoil-rivals` are merged into it, except one docs-only commit on the recovered branch (3bcae82, the Mooncoil recheck record) that is not in this branch. `codex/wip-lumi-audit` is throwaway WIP snapshots and is safe to delete. The other local branches (`codex/starship-run-prototype`, `wip/polish-pass`) are old and already contained here.
+**Branch:** `codex/castle-chapters` is the working branch and carries the Android 0.8 build described below (`codex/overnight` is the same commit). `main` is untouched: the owner approves every merge to `main` after reviewing screenshots.
 
-**11 chapters.** The registry is `LEVELS` in `src/main.js`. Save slots never move; new chapters only append. `?level=N` is 1-based. In the menu, keys 1 to 9 start slots 0 to 8 and key 0 starts slot 9 (Lumi Breaks Out). Serpent Rivals has no key: tap its card or use `?level=11`. Menu card order comes from `[0, 2, 3, 1, 4 ... 10]`, not slot order. Invasion (`src/invasion.js`) is still in the repo but is not in `LEVELS`.
+**Android build:** `0.8-princess-polish`, `androidVersionCode` 8 (`config/mobile-preview.json`). APK built by the manual mobile-preview run 40045371055; artifact `BREACH-eleven-chapter-android-28`. It has not been playtested by the owner yet.
+
+**Owner direction (2026-10-23 night):**
+- quality bar is `store/key-art.png`;
+- every villain needs a visible purpose, like the snakes (done as purpose clocks, below);
+- reuse archetypes with new skins instead of new physics: yeti to bull, bison or ape (`prompt-library/16-brute-reskin.md`), snake to fire serpent;
+- levels are hard but beatable with the right power-ups;
+- use subagents on cheaper models where the work allows;
+- no goose chases: do not spend time on side hunts that do not move the build.
+
+**What the overnight run added (the 0.8 build; commit list is `git log --oneline ce95cb2..HEAD`)**
+- **Ball radius 7 everywhere** (`BALL_R` in `src/fantasy/ram.js`; Vault and every princess level; Android smoke test updated).
+- **Home page and chapter map** (`src/home.js`; key-art hero `src/home-art.js`, packed from `store/key-art.png` by `tools/pack_home_art.py`). Nine princess chapters in story order (`STORY = [1,4,5,6,7,8,9,10,11]`) with art, stars and locks. The space chapters (slots 0, 2, 3) are hidden from the menu but keep their slots and `?level=N`. `tests/home.test.js`.
+- **Ball-control tutorial** (`src/tutorial.js`, `src/tutorial-draw.js`; How to play replays it) and **chapter purpose cards** (`src/purpose.js`, `src/portraits.js`) shown when a chapter opens. `tests/tutorial.test.js`.
+- **Castle special bricks** (`src/castle-specials.js`, `src/castle-art.js`): armour, mines, chests and coins on the Vault, Mooncoil and the fantasy levels. `tests/castle-specials.test.js`.
+- **Villain purpose clocks** (`src/fantasy/purpose.js`, `src/fantasy/purpose-render.js`): a visible clock that ends in losing Lumi on Gatehouse, Lumi Breaks Out, Serpent Rivals and Dragon's Hoard; Bellforge has a lift meter. `tests/purpose-clocks.test.js`.
+- **Power-ups v2** (`tests/powers-v2.test.js`): 8 power-up physics fixes, stronger per-difficulty powers, villain HP up.
+- **Laptop polish merged**: full-screen princess chapters (Hoard cave plate fills notch and home-bar areas), Lumi/Rivals tower walls, Frost and Vault backdrops; fire serpent skin (`SERPENT_SKINS.ember` in `src/vault.js`, `tools/recolor_serpent.py`) worn by Gnash in Mooncoil; the M365 Yeti redesign as the Frost Warden with a frost-crouch dash and wall smash (`tests/frost-dash.test.js`); the brute reskin recipe (`prompt-library/16-brute-reskin.md`).
+- **Tidewheel Citadel is now a four-stage Siege** (`src/fantasy/tidewheel-siege.js`, `tidewheel-stages*.js`, `stage-ui.js`, `tide-scene.js`; round 3 art via `tools/pack_round3.py`): sea special bricks, shielded Nerra, flood clock. `tests/tidewheel-siege.test.js`, `tests/stage-ui.test.js`.
+- **Physics audit fixes** (`tests/physics-audit-fixes.test.js`): the Warden's body notches are closed (`closeNotches` in `src/clearance.js`) and an open Tidewheel gate panel parks `GATE_LIFT` = 128 px up, clear of Nerra.
+- **Playtests drive the new home page** (`tools/playtest/polish.mjs`, `layout.mjs`, `frost.mjs`, `mooncoil.mjs`, `audit-adapters.mjs`, `aim-bot.mjs`).
+
+**Branches.** Laptop side branches `recovered/codex-2026-10-22`, `codex/castle-art` and `codex/mooncoil-rivals` are merged into it, except one docs-only commit on the recovered branch (3bcae82, the Mooncoil recheck record) that is not in this branch. `codex/wip-lumi-audit` is throwaway WIP snapshots and is safe to delete. The other local branches (`codex/starship-run-prototype`, `wip/polish-pass`) are old and already contained here.
+
+**12 chapters in `LEVELS`** (the table below lists slots 0 to 10; slot 11 is Dragon's Hoard, `src/fantasy/hoard.js`, `?level=12`, key `=`, with a Wake eye, Hush Chimes and an avalanche escape). Only the nine princess chapters show in the menu (see the home page above). The registry is `LEVELS` in `src/main.js`. Save slots never move; new chapters only append. `?level=N` is 1-based. In the menu, keys 1 to 9 start slots 0 to 8 and key 0 starts slot 9 (Lumi Breaks Out). Serpent Rivals has no key: tap its card or use `?level=11`. Menu card order comes from `[0, 2, 3, 1, 4 ... 10]`, not slot order. Invasion (`src/invasion.js`) is still in the repo but is not in `LEVELS`.
 
 | Slot | `?level=` | Chapter | Code |
 |---|---|---|---|
@@ -31,16 +55,16 @@ Chapters 7 to 11 run through the `FantasyChapter` adapter in `src/fantasy/chapte
 - Rendered gems, chips, sparks and glints (`ART.fxKit`) replace code-drawn rings and dots. Kit's arrows and bow are rendered, not line-drawn.
 
 **Gates (all must pass before anything ships; physics is the owner's top concern)**
-1. `npm test`: 506 tests, all pass (re-run 2026-10-22).
-2. `npm run audit:physics` (`tools/playtest/physics-audit.mjs`): headless bot, idle and ram sweep of every level x easy/medium/hard x two phones; zero failures. Report: `docs/validation/physics-audit/report.json` (last run: 180 cells, 1,041 ram launches, no failures). **Gap:** the adapter list (`tools/playtest/audit-adapters.mjs`) has no Lumi Breaks Out, so slot 9 is covered only by `tests/lumitower.test.js`. Add an adapter.
-3. `node tools/playtest/physics-audit-checks.mjs --quick`: seeded Gatehouse checks (tunnelling, stuck hazards, ward vs bell, clearability).
+1. `npm test`: 694 tests, all pass (2026-10-24).
+2. `npm run audit:physics` (`tools/playtest/physics-audit.mjs`): headless bot, idle and ram sweep of every level x easy/medium/hard x two phones; zero failures. Report: `docs/validation/physics-audit/report.json` (full audit 2026-10-24: 444 runs, 0 failures). Adapters are in `tools/playtest/audit-adapters.mjs` (including Lumi Breaks Out and the Hoard).
+3. `node tools/playtest/physics-audit-checks.mjs --quick`: seeded Gatehouse checks (tunnelling, stuck hazards, ward vs bell, clearability). Passes (2026-10-24).
 4. Screenshots of anything visual, shown to the owner.
 
 **Release path**
 1. Gates above, then `npm run build` (writes `dist/breach.html`, about 14 MB; `src/vault-art.js` is about 12.9 MB of it).
 2. `node tools/pin-sha.mjs` re-pins `config/mobile-preview.json`; `node tools/prepare-android.mjs` must pass.
 3. CI (`.github/workflows/mobile-preview.yml`) is manual only (`workflow_dispatch`), by owner rule. Run it once per release candidate after the local checks; the run must pass. Do not use it as a test loop.
-4. The last delivered APK is the old five-chapter build (see `docs/MOBILE_PREVIEW.md`). There is no APK of the 11-chapter build yet. Note `androidVersionName` in `config/mobile-preview.json` still reads "0.6-eight-chapter-preview"; update it when the APK is cut.
+4. The current APK is `0.8-princess-polish` (versionCode 8), built from `codex/castle-chapters` by run 40045371055 (artifact `BREACH-eleven-chapter-android-28`). `docs/MOBILE_PREVIEW.md` still describes the old five-chapter build and is history. The next release bumps `androidVersionCode` and `androidVersionName`, re-pins the SHA and runs CI once.
 
 **Art**
 - `python3 tools/pack_art.py` (about 4.5 min) packs `assets/` into `src/vault-art.js`. Never hand-merge that file: after a git conflict take one side and repack.
@@ -53,22 +77,33 @@ Chapters 7 to 11 run through the `FantasyChapter` adapter in `src/fantasy/chapte
 
 **Owner rules (short; full list in section 1)**: commits authored and committed as `mahikshith <mahikshith97@gmail.com>`; no AI attribution anywhere in the repo; strip PNG metadata; show screenshots after anything finishes; short single-path instructions; physics first; harder but fair; premium look, never vibe-coded.
 
-**Next, in order**
-1. Premium art wiring into the earlier levels (in progress; see `design/phase2/premium-pass.md`).
-2. Build the APK of the 11-chapter game and run the manual CI once.
-3. Owner playtest and tuning: harder but fair (the continue screen is the safety net).
-4. Dragon's Hoard (`design/phase2/dragons-hoard.md`); needs dragon art from the prompt library first.
-5. Starflight in its own thread later (`docs/STARFLIGHT_*.md`; it is a separate browser prototype, not in the game).
+**Open items and next, in order**
+1. Owner playtests the 0.8 APK; tune from feedback (harder but beatable with the right power-ups).
+2. Check the Tidewheel open gate panel now parked 128 px up (`GATE_LIFT`): confirm it looks right beside Nerra.
+3. Dragon's Hoard: the purpose plate is tight beside the loot pill; tidy the HUD spacing.
+4. Gatehouse floor 1: the purpose plate overlaps the parapet art; move or shrink it.
+5. Reskin archetypes for new villains (bull, bison, ape on the Yeti physics; fire serpent exists) as art arrives.
+6. Premium art wiring into the earlier levels (`design/phase2/premium-pass.md`).
+7. Merge to `main` only when the owner approves.
+8. Starflight in its own thread later (`docs/STARFLIGHT_*.md`; separate browser prototype, not in the game).
 
 **Pending owner decision:** "compress the companions" would save about 2 MB, but faces shift by 4 to 7 out of 255 per channel.
 
 **Known stale or loose ends**
 - `docs/CONTINUE_HERE.md` is the short pointer; `docs/SPACE_COMBAT_HANDOFF.md`, `docs/NEXT_LEVELS.md` and `docs/MOBILE_PREVIEW.md` describe the older five-chapter state and are historical for anything castle-related.
+- The side branches in the progress log below (`codex/themed-bricks`, `codex/tidewheel-look`, `codex/floor-hooks`, `codex/art-round2`, `codex/coach`, `codex/dragons-hoard`) are all merged into `codex/castle-chapters`; their "not merged" notes are history.
 - Doc 04 and 05 (ChatGPT brief and prompts) predate the castle chapters; use `prompt-library/` for new art prompts.
 
 Read all three handoff docs before touching code: this one (status, rules, history), `02-architecture-and-pipeline.md` and `03-environment-skills-ux.md`. Keep them current at the end of every session.
 
 ## Progress log (newest first)
+
+- **2026-10-23 night to 2026-10-24 — Overnight run: Android 0.8-princess-polish (branch `codex/castle-chapters`; not merged to `main`, the owner approves that).**
+  - Integrated: tutorial and purpose cards, home page and chapter map, castle special bricks, villain purpose clocks, power-ups v2, laptop polish (full-screen chapters, fire serpent, M365 Yeti with dash and smash), Tidewheel four-stage Siege, ball radius 7. File-level list in "Current state" above; exact commits: `git log --oneline ce95cb2..HEAD`.
+  - Audit fixes: `closeNotches` (`src/clearance.js`) fills sub-gap notches in the Warden's body so a ball cannot wedge; Tidewheel `GATE_LIFT` is 128 so an open panel clears Nerra. Tests in `tests/physics-audit-fixes.test.js`.
+  - Playtests (`tools/playtest/*`) now start chapters through the home page and chapter map; the Android smoke test (`tools/test-android.sh`) expects the radius-7 Vault ball.
+  - Gates: `npm test` 694 pass; full physics audit 444 runs, 0 failures; `physics-audit-checks.mjs --quick` pass. Release: versionCode 8, `0.8-princess-polish`, mobile-preview run 40045371055, artifact `BREACH-eleven-chapter-android-28`.
+  - Open: owner playtest of the APK; Tidewheel gate panel look; Hoard purpose plate beside the loot pill; Gatehouse floor 1 plate over the parapet.
 
 - **2026-10-23 — Themed bricks (branch `codex/themed-bricks`, from `codex/castle-chapters`; not merged). Visuals only; stages, HP and rules unchanged.**
   - One builder, `art/themed-bricks/build.py`, re-glazes the glaze v2 source sheet per chapter (a luminance gradient map keeps the source's bevel, glaze band, star glint and cracks, then each material adds its own detail) into `assets/themed-bricks/<set>/` with an `atlas.json` (sprites keyed `<material>_<cells>_<state>` plus an FX palette per material). Packed by one block in `tools/pack_art.py` as `ART.themedBricks` (~263 KB). `python3 art/themed-bricks/preview.py <dir>` writes review sheets.

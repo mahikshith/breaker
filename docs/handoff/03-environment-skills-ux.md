@@ -1,6 +1,6 @@
 # BREACH: environment, connections, skills, memory, UI/UX rules
 
-Last checked 2026-10-22. Status and history: doc 01. Code and build: doc 02.
+Last checked 2026-10-24. Status and history: doc 01. Code and build: doc 02.
 
 This document covers where everything lives and how the work has been done. Any new session, from any assistant, should read all three handoff docs:
 
@@ -19,7 +19,8 @@ This document covers where everything lives and how the work has been done. Any 
   - never ask for, or paste, the owner's token.
 - **Show drafts as you go.** The owner wants to see draft images whenever a piece is finished, especially UX screens, characters and assets. Post screenshots or sheets for iOS and Android sizes.
 - **Product feedback rules:** premium, inventive, urgent, addictive; never "vibe-coded"; expressions must say a lot; not too much yellow; keep the playful font and colours.
-- **Scope:** the 11 chapters are built (doc 01, "Current state"). Anything beyond Phase 1 of `docs/STORY_PLAN.md` needs the owner's go-ahead. Kit is the hero of the castle chapters except Lumi Breaks Out, where Lumi holds the paddle.
+- **Scope:** 12 chapters are built, nine shown in the menu (doc 01, "Current state"). Anything beyond Phase 1 of `docs/STORY_PLAN.md` needs the owner's go-ahead. Kit is the hero of the castle chapters except Lumi Breaks Out, where Lumi holds the paddle.
+- **Owner direction (2026-10-23 night):** quality bar is `store/key-art.png`; villains need a visible purpose like the snakes; reuse archetypes with new skins (yeti to bull, bison or ape via `prompt-library/16-brute-reskin.md`; snake to fire serpent); levels hard but beatable with the right power-ups; use subagents on cheaper models; no goose chases.
 - **Owner style:** short, single-path instructions; physics first; show screenshots after anything finishes; harder but fair; the owner posts renders back in the project chat and generates art with M365 Copilot from `prompt-library/`.
 - **Work style:** the owner explicitly requests multiple parallel helpers with separate file ownership and independent review. Show progress with images. Parallel preparation must not bypass the concept-pick or commit/push approval gates.
 
@@ -27,7 +28,7 @@ This document covers where everything lives and how the work has been done. Any 
 
 | What | Where |
 |---|---|
-| Source repository | https://github.com/mahikshith/breaker. `main` is stable and merged only after the owner reviews screenshots; the working branch is `codex/castle-chapters`. `codex/wip-lumi-audit` is throwaway and safe to delete. Pushed through the Claude GitHub App installed on the repo (2026-10-17); any tool with push access can continue. |
+| Source repository | https://github.com/mahikshith/breaker. `main` is stable and merged only after the owner reviews screenshots; the working branch is `codex/castle-chapters` (Android 0.8-princess-polish; `main` merges need the owner's approval). `codex/wip-lumi-audit` is throwaway and safe to delete. Pushed through the Claude GitHub App installed on the repo (2026-10-17); any tool with push access can continue. |
 | Playable build (current host) | claude.ai Artifact https://claude.ai/artifact/63xdvoxT6HPvo7rU8buR9s, published from `dist/breach-artifact.html`. Only the owner's Claude account can update it. Another tool should host `dist/breach.html` elsewhere (GitHub Pages, Netlify, itch.io…). |
 | Project shared folder (Claude Projects only) | `/mnt/project-files/breaker/`: |
 | | • `GAME_PLAN.md`, the original design plan, also copied to `docs/GAME_PLAN.md`; |
@@ -91,6 +92,8 @@ These skill guides were saved in the project at `/mnt/project-files/skills/gamed
 ## 4. UI/UX layout and rules followed
 
 ### Screen layout (portrait, world 360 units wide)
+
+Entry flow: home page (key-art hero, one PLAY button) opens the chapter map (nine princess chapters in story order, stars and locks), then a purpose card, then play; How to play replays the tutorial. No Full screen button in the native app.
 
 ```
 ┌──────────────────────────────┐  ← notch / Dynamic Island: scene art continues underneath

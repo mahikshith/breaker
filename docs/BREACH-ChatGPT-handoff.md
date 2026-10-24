@@ -4,8 +4,8 @@ This one file contains everything another assistant needs to design for, or take
 
 - **Game:** BREACH, a premium portrait brick breaker for iOS and Android. Tagline: "Break in. Break out."
 - **Owner:** mykee (GitHub `mahikshith`).
-- **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `codex/castle-chapters` is this working branch.
-- **Assembled at:** repo commit `04adf5d`.
+- **Repository:** https://github.com/mahikshith/breaker. `main` is the stable branch; `codex/overnight` is this working branch.
+- **Assembled at:** repo commit `a68e217`.
 
 ## How to read this file
 
@@ -163,22 +163,25 @@ The tests cover authored geometry, collision cases, logical phone viewports, inp
 
 ## Continue here
 
-Last updated 2026-10-22 (night). Branch `codex/castle-chapters`; `main` is untouched until the owner reviews screenshots.
+Last updated 2026-10-24. Branch `codex/castle-chapters` = Android `0.8-princess-polish` (versionCode 8), APK from mobile-preview run 40045371055 (artifact `BREACH-eleven-chapter-android-28`). Not merged to `main`: the owner approves main merges.
 
 ### State in five lines
 
-- 11 chapters are built (`LEVELS` in `src/main.js`; save slots never move): 0 Carrier, 1 Vault, 2 Circuit, 3 Forge, 4 Frost Warden, 5 Mooncoil Reliquary (with a second serpent, Gnash), 6 Bellforge Run, 7 Tidewheel Citadel, 8 Gatehouse Siege, 9 Lumi Breaks Out, 10 Serpent Rivals. `?level=N` is 1-based; menu key 0 starts slot 9.
-- Chapters 6 to 10 run through `src/fantasy/chapter.js`; Ram Ball (`src/fantasy/ram.js`), the power-ready pulse and `src/clearance.js` apply everywhere.
-- Gates before anything ships: `npm test` (506 pass), `npm run audit:physics` (zero failures), `node tools/playtest/physics-audit-checks.mjs --quick`.
-- Release path: `npm run build` (dist/breach.html, about 14 MB), `node tools/pin-sha.mjs`, `node tools/prepare-android.mjs`, then one manual CI run (`workflow_dispatch` only). No APK of the 11-chapter game exists yet; the last APK is the old five-chapter one.
+- 12 chapters are built (`LEVELS` in `src/main.js`; save slots never move): 0 Carrier, 1 Vault, 2 Circuit, 3 Forge, 4 Frost Warden, 5 Mooncoil Reliquary (with a second serpent, Gnash), 6 Bellforge Run, 7 Tidewheel Citadel, 8 Gatehouse Siege, 9 Lumi Breaks Out, 10 Serpent Rivals, 11 Dragon's Hoard (merged). Only the nine princess chapters show in the menu. `?level=N` is 1-based; menu keys 0, - and = start slots 9, 10 and 11.
+- Home and chapter map: `src/home.js` (hero from `store/key-art.png` packed by `tools/pack_home_art.py` into `src/home-art.js`). The menu lists the nine princess chapters in story order (`STORY`); the space chapters keep slots 0, 2, 3 and `?level=N`. PLAY starts the first chapter with no star; a chapter opens one past the furthest cleared (seven quick taps on the wordmark, or `?unlock=1`, opens all). No Full screen button in the native app.
+- Chapters 6 to 11 run through `src/fantasy/chapter.js`; Ram Ball (`src/fantasy/ram.js`), the power-ready pulse and `src/clearance.js` apply everywhere.
+- Gates before anything ships: `npm test` (694 pass), `npm run audit:physics` (444 runs, zero failures), `node tools/playtest/physics-audit-checks.mjs --quick`.
+- Ball radius is 7 everywhere (`BALL_R`, `src/fantasy/ram.js`). Added overnight: ball-control tutorial and purpose cards (`src/tutorial.js`, `src/purpose.js`), castle special bricks (`src/castle-specials.js`), villain purpose clocks on Gatehouse, Lumi, Rivals and Hoard plus Bellforge's lift meter (`src/fantasy/purpose.js`), power-ups v2, full-screen princess chapters, fire serpent Gnash (`SERPENT_SKINS`), M365 Yeti with dash and smash, Tidewheel four-stage Siege, audit fixes (`closeNotches`, `GATE_LIFT` 128). Playtests drive the home page.
+- Owner direction (2026-10-23 night): quality bar is `store/key-art.png`; villains need a visible purpose like the snakes; reuse archetypes with new skins (`prompt-library/16-brute-reskin.md`); hard but beatable with the right power-ups; subagents on cheaper models; no goose chases.
+- Release path: `npm run build` (dist/breach.html, about 14 MB), `node tools/pin-sha.mjs`, `node tools/prepare-android.mjs`, then one manual CI run (`workflow_dispatch` only). The 0.8 APK is built; the next release bumps the version code and name.
 - Art: `python3 tools/pack_art.py` (about 4.5 min) builds `src/vault-art.js`; never hand-merge it. Blender bpy 5.2.2 runs headless from `art/`.
 
 ### Next
 
-1. Premium art wiring into the earlier levels (in progress).
-2. APK build plus one manual CI run.
-3. Owner playtest and tuning (harder but fair).
-4. Dragon's Hoard (needs dragon art from `prompt-library/`).
+1. Owner playtests the 0.8 APK; tune from feedback.
+2. Open polish: check the Tidewheel open gate panel (now parks 128 px up); the Hoard purpose plate is tight beside the loot pill; the Gatehouse floor-1 plate overlaps the parapet art.
+3. New villain skins on existing archetypes as art arrives (yeti to bull, bison, ape).
+4. Premium art wiring into the earlier levels.
 5. Starflight in its own thread later (separate prototype, not in the game).
 
 Pending owner decision: "compress the companions" saves about 2 MB but shifts faces by 4 to 7 out of 255.
@@ -3427,13 +3430,37 @@ Each workstream is sized for one subagent with a clear contract and a test.
 
 ## BREACH handoff 1/3: status and next steps
 
-Last updated 2026-10-22 night. Read "Current state" first. The progress log below it is history, newest first; an older entry never overrides this section. Sections 2 to 9 were checked on 2026-10-22: where a section is marked HISTORICAL it describes work that has since been replaced.
+Last updated 2026-10-24 (after the overnight run of 2026-10-23). Read "Current state" first. The progress log below it is history, newest first; an older entry never overrides this section. Sections 2 to 9 were checked on 2026-10-22: where a section is marked HISTORICAL it describes work that has since been replaced.
 
-### Current state (2026-10-22)
+### Current state (2026-10-24)
 
-**Branch:** `codex/castle-chapters` is the working branch (about 66 commits ahead of `main`). `main` is untouched: the owner merges after reviewing screenshots. Laptop side branches `recovered/codex-2026-10-22`, `codex/castle-art` and `codex/mooncoil-rivals` are merged into it, except one docs-only commit on the recovered branch (3bcae82, the Mooncoil recheck record) that is not in this branch. `codex/wip-lumi-audit` is throwaway WIP snapshots and is safe to delete. The other local branches (`codex/starship-run-prototype`, `wip/polish-pass`) are old and already contained here.
+**Branch:** `codex/castle-chapters` is the working branch and carries the Android 0.8 build described below (`codex/overnight` is the same commit). `main` is untouched: the owner approves every merge to `main` after reviewing screenshots.
 
-**11 chapters.** The registry is `LEVELS` in `src/main.js`. Save slots never move; new chapters only append. `?level=N` is 1-based. In the menu, keys 1 to 9 start slots 0 to 8 and key 0 starts slot 9 (Lumi Breaks Out). Serpent Rivals has no key: tap its card or use `?level=11`. Menu card order comes from `[0, 2, 3, 1, 4 ... 10]`, not slot order. Invasion (`src/invasion.js`) is still in the repo but is not in `LEVELS`.
+**Android build:** `0.8-princess-polish`, `androidVersionCode` 8 (`config/mobile-preview.json`). APK built by the manual mobile-preview run 40045371055; artifact `BREACH-eleven-chapter-android-28`. It has not been playtested by the owner yet.
+
+**Owner direction (2026-10-23 night):**
+- quality bar is `store/key-art.png`;
+- every villain needs a visible purpose, like the snakes (done as purpose clocks, below);
+- reuse archetypes with new skins instead of new physics: yeti to bull, bison or ape (`prompt-library/16-brute-reskin.md`), snake to fire serpent;
+- levels are hard but beatable with the right power-ups;
+- use subagents on cheaper models where the work allows;
+- no goose chases: do not spend time on side hunts that do not move the build.
+
+**What the overnight run added (the 0.8 build; commit list is `git log --oneline ce95cb2..HEAD`)**
+- **Ball radius 7 everywhere** (`BALL_R` in `src/fantasy/ram.js`; Vault and every princess level; Android smoke test updated).
+- **Home page and chapter map** (`src/home.js`; key-art hero `src/home-art.js`, packed from `store/key-art.png` by `tools/pack_home_art.py`). Nine princess chapters in story order (`STORY = [1,4,5,6,7,8,9,10,11]`) with art, stars and locks. The space chapters (slots 0, 2, 3) are hidden from the menu but keep their slots and `?level=N`. `tests/home.test.js`.
+- **Ball-control tutorial** (`src/tutorial.js`, `src/tutorial-draw.js`; How to play replays it) and **chapter purpose cards** (`src/purpose.js`, `src/portraits.js`) shown when a chapter opens. `tests/tutorial.test.js`.
+- **Castle special bricks** (`src/castle-specials.js`, `src/castle-art.js`): armour, mines, chests and coins on the Vault, Mooncoil and the fantasy levels. `tests/castle-specials.test.js`.
+- **Villain purpose clocks** (`src/fantasy/purpose.js`, `src/fantasy/purpose-render.js`): a visible clock that ends in losing Lumi on Gatehouse, Lumi Breaks Out, Serpent Rivals and Dragon's Hoard; Bellforge has a lift meter. `tests/purpose-clocks.test.js`.
+- **Power-ups v2** (`tests/powers-v2.test.js`): 8 power-up physics fixes, stronger per-difficulty powers, villain HP up.
+- **Laptop polish merged**: full-screen princess chapters (Hoard cave plate fills notch and home-bar areas), Lumi/Rivals tower walls, Frost and Vault backdrops; fire serpent skin (`SERPENT_SKINS.ember` in `src/vault.js`, `tools/recolor_serpent.py`) worn by Gnash in Mooncoil; the M365 Yeti redesign as the Frost Warden with a frost-crouch dash and wall smash (`tests/frost-dash.test.js`); the brute reskin recipe (`prompt-library/16-brute-reskin.md`).
+- **Tidewheel Citadel is now a four-stage Siege** (`src/fantasy/tidewheel-siege.js`, `tidewheel-stages*.js`, `stage-ui.js`, `tide-scene.js`; round 3 art via `tools/pack_round3.py`): sea special bricks, shielded Nerra, flood clock. `tests/tidewheel-siege.test.js`, `tests/stage-ui.test.js`.
+- **Physics audit fixes** (`tests/physics-audit-fixes.test.js`): the Warden's body notches are closed (`closeNotches` in `src/clearance.js`) and an open Tidewheel gate panel parks `GATE_LIFT` = 128 px up, clear of Nerra.
+- **Playtests drive the new home page** (`tools/playtest/polish.mjs`, `layout.mjs`, `frost.mjs`, `mooncoil.mjs`, `audit-adapters.mjs`, `aim-bot.mjs`).
+
+**Branches.** Laptop side branches `recovered/codex-2026-10-22`, `codex/castle-art` and `codex/mooncoil-rivals` are merged into it, except one docs-only commit on the recovered branch (3bcae82, the Mooncoil recheck record) that is not in this branch. `codex/wip-lumi-audit` is throwaway WIP snapshots and is safe to delete. The other local branches (`codex/starship-run-prototype`, `wip/polish-pass`) are old and already contained here.
+
+**12 chapters in `LEVELS`** (the table below lists slots 0 to 10; slot 11 is Dragon's Hoard, `src/fantasy/hoard.js`, `?level=12`, key `=`, with a Wake eye, Hush Chimes and an avalanche escape). Only the nine princess chapters show in the menu (see the home page above). The registry is `LEVELS` in `src/main.js`. Save slots never move; new chapters only append. `?level=N` is 1-based. In the menu, keys 1 to 9 start slots 0 to 8 and key 0 starts slot 9 (Lumi Breaks Out). Serpent Rivals has no key: tap its card or use `?level=11`. Menu card order comes from `[0, 2, 3, 1, 4 ... 10]`, not slot order. Invasion (`src/invasion.js`) is still in the repo but is not in `LEVELS`.
 
 | Slot | `?level=` | Chapter | Code |
 |---|---|---|---|
@@ -3458,16 +3485,16 @@ Chapters 7 to 11 run through the `FantasyChapter` adapter in `src/fantasy/chapte
 - Rendered gems, chips, sparks and glints (`ART.fxKit`) replace code-drawn rings and dots. Kit's arrows and bow are rendered, not line-drawn.
 
 **Gates (all must pass before anything ships; physics is the owner's top concern)**
-1. `npm test`: 506 tests, all pass (re-run 2026-10-22).
-2. `npm run audit:physics` (`tools/playtest/physics-audit.mjs`): headless bot, idle and ram sweep of every level x easy/medium/hard x two phones; zero failures. Report: `docs/validation/physics-audit/report.json` (last run: 180 cells, 1,041 ram launches, no failures). **Gap:** the adapter list (`tools/playtest/audit-adapters.mjs`) has no Lumi Breaks Out, so slot 9 is covered only by `tests/lumitower.test.js`. Add an adapter.
-3. `node tools/playtest/physics-audit-checks.mjs --quick`: seeded Gatehouse checks (tunnelling, stuck hazards, ward vs bell, clearability).
+1. `npm test`: 694 tests, all pass (2026-10-24).
+2. `npm run audit:physics` (`tools/playtest/physics-audit.mjs`): headless bot, idle and ram sweep of every level x easy/medium/hard x two phones; zero failures. Report: `docs/validation/physics-audit/report.json` (full audit 2026-10-24: 444 runs, 0 failures). Adapters are in `tools/playtest/audit-adapters.mjs` (including Lumi Breaks Out and the Hoard).
+3. `node tools/playtest/physics-audit-checks.mjs --quick`: seeded Gatehouse checks (tunnelling, stuck hazards, ward vs bell, clearability). Passes (2026-10-24).
 4. Screenshots of anything visual, shown to the owner.
 
 **Release path**
 1. Gates above, then `npm run build` (writes `dist/breach.html`, about 14 MB; `src/vault-art.js` is about 12.9 MB of it).
 2. `node tools/pin-sha.mjs` re-pins `config/mobile-preview.json`; `node tools/prepare-android.mjs` must pass.
 3. CI (`.github/workflows/mobile-preview.yml`) is manual only (`workflow_dispatch`), by owner rule. Run it once per release candidate after the local checks; the run must pass. Do not use it as a test loop.
-4. The last delivered APK is the old five-chapter build (see `docs/MOBILE_PREVIEW.md`). There is no APK of the 11-chapter build yet. Note `androidVersionName` in `config/mobile-preview.json` still reads "0.6-eight-chapter-preview"; update it when the APK is cut.
+4. The current APK is `0.8-princess-polish` (versionCode 8), built from `codex/castle-chapters` by run 40045371055 (artifact `BREACH-eleven-chapter-android-28`). `docs/MOBILE_PREVIEW.md` still describes the old five-chapter build and is history. The next release bumps `androidVersionCode` and `androidVersionName`, re-pins the SHA and runs CI once.
 
 **Art**
 - `python3 tools/pack_art.py` (about 4.5 min) packs `assets/` into `src/vault-art.js`. Never hand-merge that file: after a git conflict take one side and repack.
@@ -3480,22 +3507,88 @@ Chapters 7 to 11 run through the `FantasyChapter` adapter in `src/fantasy/chapte
 
 **Owner rules (short; full list in section 1)**: commits authored and committed as `mahikshith <mahikshith97@gmail.com>`; no AI attribution anywhere in the repo; strip PNG metadata; show screenshots after anything finishes; short single-path instructions; physics first; harder but fair; premium look, never vibe-coded.
 
-**Next, in order**
-1. Premium art wiring into the earlier levels (in progress; see `design/phase2/premium-pass.md`).
-2. Build the APK of the 11-chapter game and run the manual CI once.
-3. Owner playtest and tuning: harder but fair (the continue screen is the safety net).
-4. Dragon's Hoard (`design/phase2/dragons-hoard.md`); needs dragon art from the prompt library first.
-5. Starflight in its own thread later (`docs/STARFLIGHT_*.md`; it is a separate browser prototype, not in the game).
+**Open items and next, in order**
+1. Owner playtests the 0.8 APK; tune from feedback (harder but beatable with the right power-ups).
+2. Check the Tidewheel open gate panel now parked 128 px up (`GATE_LIFT`): confirm it looks right beside Nerra.
+3. Dragon's Hoard: the purpose plate is tight beside the loot pill; tidy the HUD spacing.
+4. Gatehouse floor 1: the purpose plate overlaps the parapet art; move or shrink it.
+5. Reskin archetypes for new villains (bull, bison, ape on the Yeti physics; fire serpent exists) as art arrives.
+6. Premium art wiring into the earlier levels (`design/phase2/premium-pass.md`).
+7. Merge to `main` only when the owner approves.
+8. Starflight in its own thread later (`docs/STARFLIGHT_*.md`; separate browser prototype, not in the game).
 
 **Pending owner decision:** "compress the companions" would save about 2 MB, but faces shift by 4 to 7 out of 255 per channel.
 
 **Known stale or loose ends**
 - `docs/CONTINUE_HERE.md` is the short pointer; `docs/SPACE_COMBAT_HANDOFF.md`, `docs/NEXT_LEVELS.md` and `docs/MOBILE_PREVIEW.md` describe the older five-chapter state and are historical for anything castle-related.
+- The side branches in the progress log below (`codex/themed-bricks`, `codex/tidewheel-look`, `codex/floor-hooks`, `codex/art-round2`, `codex/coach`, `codex/dragons-hoard`) are all merged into `codex/castle-chapters`; their "not merged" notes are history.
 - Doc 04 and 05 (ChatGPT brief and prompts) predate the castle chapters; use `prompt-library/` for new art prompts.
 
 Read all three handoff docs before touching code: this one (status, rules, history), `02-architecture-and-pipeline.md` and `03-environment-skills-ux.md`. Keep them current at the end of every session.
 
 ### Progress log (newest first)
+
+- **2026-10-23 night to 2026-10-24 — Overnight run: Android 0.8-princess-polish (branch `codex/castle-chapters`; not merged to `main`, the owner approves that).**
+  - Integrated: tutorial and purpose cards, home page and chapter map, castle special bricks, villain purpose clocks, power-ups v2, laptop polish (full-screen chapters, fire serpent, M365 Yeti with dash and smash), Tidewheel four-stage Siege, ball radius 7. File-level list in "Current state" above; exact commits: `git log --oneline ce95cb2..HEAD`.
+  - Audit fixes: `closeNotches` (`src/clearance.js`) fills sub-gap notches in the Warden's body so a ball cannot wedge; Tidewheel `GATE_LIFT` is 128 so an open panel clears Nerra. Tests in `tests/physics-audit-fixes.test.js`.
+  - Playtests (`tools/playtest/*`) now start chapters through the home page and chapter map; the Android smoke test (`tools/test-android.sh`) expects the radius-7 Vault ball.
+  - Gates: `npm test` 694 pass; full physics audit 444 runs, 0 failures; `physics-audit-checks.mjs --quick` pass. Release: versionCode 8, `0.8-princess-polish`, mobile-preview run 40045371055, artifact `BREACH-eleven-chapter-android-28`.
+  - Open: owner playtest of the APK; Tidewheel gate panel look; Hoard purpose plate beside the loot pill; Gatehouse floor 1 plate over the parapet.
+
+- **2026-10-23 — Themed bricks (branch `codex/themed-bricks`, from `codex/castle-chapters`; not merged). Visuals only; stages, HP and rules unchanged.**
+  - One builder, `art/themed-bricks/build.py`, re-glazes the glaze v2 source sheet per chapter (a luminance gradient map keeps the source's bevel, glaze band, star glint and cracks, then each material adds its own detail) into `assets/themed-bricks/<set>/` with an `atlas.json` (sprites keyed `<material>_<cells>_<state>` plus an FX palette per material). Packed by one block in `tools/pack_art.py` as `ART.themedBricks` (~263 KB). `python3 art/themed-bricks/preview.py <dir>` writes review sheets.
+  - Sets: **frost** (rime-frosted ice glass, frozen blue, frost violet; frost-rimed iron bar with icicle nubs), **gatehouse** (gules, argent and vert heraldic enamel with gilded bevels; armour is a gilt-edged riveted iron plate; portcullis-iron bar), **bellforge** (verdigris, bell bronze, rose bell-metal and the bronze ramp pins, all cracking forge-hot; forge-iron bar with bronze bands), **tower** for Lumi and Rivals (lilac, rose and slate stone-glaze, rune-lit jade, amber/emerald/amethyst serpent scale; tower-iron bar), **mooncoil** (moonstone, rose moonstone, lunar silver, starlit violet at 1 and 2 cells; dark lunar bar with a crescent), **vault** (the granite becomes a riveted vault-iron bar). Every set has an unbreakable bar with a glint stripe at 1-cell and 2-cell widths; `drawThemedBar` tiles any length (tall rects stack 1-cell blocks), for steel chambers in new stage layouts (`type: 'steel'`).
+  - Runtime: `src/themed-bricks.js` (draw, Vault-art record, bar tiling, break and hit effects). Breaks cut the breaking frame into its three pieces, spin chips cut from the brick's own face and throw a material spray baked once (rime crystals, gilt flecks, forge embers, rune and moon glints, stone grit); closed-form, no per-frame allocation. Each chapter falls back to its current art when a sprite is missing; `?themed=0` turns the sets off for A/B shots. The Hoard keeps glaze v2 (it matches its coin and chest bricks); Tidewheel is untouched.
+  - Review: `tools/playtest/themed-bricks.mjs <out> [html] [tag]` (boards with cracked bricks and breaks frozen mid-flight); shots in `review-2026-10-23/themed-bricks/`.
+
+- **2026-10-23 — Tidewheel look (branch `codex/tidewheel-look`, from `codex/castle-chapters`; not merged). Visuals only; stages, HP and rules unchanged.**
+  - Sea glaze bricks: `art/tidewheel-glaze/build.py` re-glazes the glaze v2 source sheet into sea-glass, coral, pearl and a brass-banded, barnacled steel bar (for future unbreakable bars, colour `'steel'`), each intact / cracked / breaking, at the rafts' 34x18 footprint (ppu 3, margin 4, glaze v2's contact shadow). Packed as `ART.tidewheelGlaze` (~45 KB). `render.js` draws raft bricks from them (cracked when `hp < maxHP`), falling back to the old sage/coral/ivory set if they are missing. Brick breaks show the breaking frame, its pieces cut along the frame's own gaps, glaze chips and a wet droplet spray.
+  - Water FX (`src/fantasy/tide-fx.js`) replace the four cartoon splash frames, the dot muzzle, the pulse's glow beads and the stroked sluice lines: white water, a crown of spray sheets, motion-blurred droplets under gravity, foam flecks and a lit perspective ripple only where the water lands on water. Closed-form particles (no allocation per frame, at most 60 droplets drawn), sprites and gradients baked once, no shadowBlur. `water-hit` and `water-muzzle` effects live 0.6 s and 0.4 s (visual only) so the droplets can land.
+  - Lumi: her cheer kept playing only while the model clock ran; it now runs on after the win, and the refuge chains run on up out of frame when the rescue hauls her above their blocks.
+  - Review shots and notes: `review-2026-10-23/tidewheel-look/` (made by `tools/playtest/tidewheel-look.mjs`).
+
+- **2026-10-23 — Floor hooks (branch `codex/floor-hooks`, from `codex/castle-chapters`; not merged).**
+  - Rule from now on: every floor needs a stake on screen, pressure (a visible clock or threat) and a payoff that carries over. Audit of every floor and one-line fixes: `design/phase2/floor-hooks.md` (multi-floor chapters including Dragon's Hoard: 6 OK, 5 WEAK, 1 EMPTY; the worst were Gatehouse 1 and Lumi 1; all three Hoard floors are OK).
+  - Gatehouse floor 1 rebuilt around the rule:
+    - Korr winches on a battlement parapet above the bridge. The parapet is a solid and the ball's ceiling; Korr has no collider there.
+    - A five-gem winch clock: after `crankIdle` s with no housing hit, Korr cranks. The telegraph lasts 1.2 to 1.8 s (red-hot housing, taut sparking chain, "HIT IT!"). Then the housing regains 1 HP. It never heals a destroyed housing and is capped per floor. A housing hit during the telegraph jams the crank.
+    - A par chip: dropping the bridge inside par smashes Korr's bell rack ("BELL RACK SMASHED!"). Floor 2 then shows the wreck and its bells come 1.5x slower.
+    - Six gem bricks bank loot that showers out of the crash.
+    - Bridge and housings moved down 24u.
+  - Fix: Gatehouse bells after the teaching bell were scheduled on the run clock, so floors 2 and 3 went nearly bell-free. They now use the floor clock (test measures the gap).
+  - Fix: the physics audit caught a pre-existing ball orbit in the floor 2 pocket right of the gate (over 12 s with no contact). Ramp colliders now scale with the drawn beam (`RAMP_BODY` per 74u), the floor 2 ramp is shorter and steeper (278,224, 40u, .3 rad), and a ball that goes `DULL.after` (4 s) touching only scenery has each scenery bounce turned `DULL.turn` (.14 rad) toward the paddle, at the same speed. Worst escape went from 35 s to under 8 s over 3,200 random entries. Korr's pose-swap eject could also leave the ball in a crease between two body circles (112 of 17,202 swaps; the floor 3 ball then crawled out). It now falls back to pushing the ball straight out from his core circle, and a test sweeps every swap.
+  - Tests: `tests/gatehouse.test.js` (winch tell, jam, never heals destroyed, cap, ceiling, bot always clears, par payoff, gems, ramp collider scale, pocket escape, anti-loop nudge, pose-swap eject sweep). Captures: `node tools/playtest/floor-hooks.mjs <out>`.
+
+- **2026-10-23 — Render round 2 integrated (branch `codex/art-round2`, from `codex/castle-chapters`; not merged).**
+  - Sources: the owner's R02, R03, R05, R06 sheets in `art/round2/source` (same files as main's `art/R0x.png`). Cut by connected components: `art/hoard/build.py` (R02 eye, R03 props, extended cave plate) and `art/round2/build.py` (R05 capsules, R06 crates and splash; `assets/round2/manifest.json`, packed as `ART.round2`).
+  - Hoard: the Wake eye is Ember's rendered eye (5 stages, crossfading) over the meter bar; molten bricks (molten, cooling, hardened 2-hit) on their 32x16 colliders; the Hush Chime rings with the R03 bell; the floor-3 gate is the R03 portcullis fitted to the 140x62 gate span (dented past half, broken on the escape); coin and gem bursts on loot. The cave plate now runs the full playfield (pillars down both sides, dark floor). The Sunstone and the heavy banded crate are not cut (unused).
+  - Capsules: `drawCapsule` (src/gfx.js) draws the glaze capsule, aspect kept, inside each chapter's existing capsule rect: Vault-family drops (arena), Carrier and Circuit drops and payload previews, castle chapters (Ram as Fire), the space arsenal's laser icon.
+  - Crates: Circuit armour panels (square crate on the 17x17 collider) and Forge armour panels (2:1 crate on the armour art's bounds), dented at 1 HP, the breaking frame on the killing hit. Tidewheel: the water pulse's hit is the four-frame splash.
+  - Review: `tools/playtest/art-round2.mjs`; screenshots in `/mnt/project-files/breaker/review-2026-10-23/art-round2/`.
+
+- **2026-10-23 — Dragon's Hoard, chapter 12 (branch `codex/dragons-hoard`, from `codex/castle-chapters` with continue screen v2 merged in; not merged back).**
+  - Spec: the merged one at the top of `design/phase2/dragons-hoard.md` (Ember he/him, the Crown, the Wake eye, Hush Chimes, Hoard Roar, molten gold, cash-out greed, the avalanche escape).
+  - Slot 11 (`?level=12`, menu key `=`; `-` now starts slot 10). Rivals' `next` is 11. `config/mobile-preview.json` and `tools/prepare-android.mjs` list twelve slots; the reviewed SHA and the Android version are not bumped (owner's release step).
+  - Model `src/fantasy/hoard.js` (DragonsHoard), renderer `src/fantasy/hoard-render.js`, chapter wiring in `src/fantasy/chapter.js` (greed card and RUN pill are model-space buttons; keys 1/R run, 2/S stay, R runs during a stay), `nearMiss()` and back-in-action like Rivals.
+  - Ember runs on the new "big sitter" archetype (`src/fantasy/creatures/sitter.js`, skin `ember.js`): physics and pose state once per archetype, the creature is data.
+  - Art: `art/hoard/build.py` takes the R01 full-body Ember poses (one scale, body circles fitted to the alpha), cuts the M365 dragon kit (8 busts kept as fallbacks, Crown chest fitted to its 100x52 collider, coins) and copies the owner's cave plate A to `assets/hoard`; `tools/pack_art.py` packs it as `ART.hoard`. R02 eye and R03 props slot in by name when they arrive (code fallbacks until then).
+  - First-time coaching (merged from `codex/castle-chapters`) reaches the Hoard through the shared chapter hooks (serve, Ram pips, burn-in Ward); the greed card and the escape block it.
+  - Tests: `tests/hoard.test.js` (17), `tests/sitter.test.js` (5, with a dummy solid skin); the chapter and continue-v2 tests cover the twelfth slot. Audit: adapter `hoard` (greed card answered at random). Review shots: `tools/playtest/hoard-review.mjs` (PERF=1 adds a frame-cost line).
+
+- **2026-10-23 — First-time coaching (branch `codex/coach`, from `codex/castle-chapters`; not merged).**
+  - `src/coach.js`: one glossy chip under the paddle (between the ram tray and the Kit orb), one at a time, hidden while play is blocked (continue panel, power menu, Vault Ward coach, back-in-action hold, intros). Progress persists in the store: `coachServes`, `coachCatches`, `coachRam`, `coachAimHud`.
+  - Serve: "Slide to aim · Lift to serve" with a thumb and chevrons, every chapter, until 3 player serves (auto-serves do not count).
+  - Focus (Arena chapters only): "HOLD STILL to catch & aim" when an AIM charge is stored and a ball will land within 0.8 s, then "Slide to aim · Lift to fire" once caught; stops after 2 Focus catches. The first time, the HUD AIM gems glow and a label reads "AIM charges: hold still to catch".
+  - Ram: from the first lit pip, "Hit the MIDDLE ×3 → RAM BALL", then "Next middle hit launches the RAM!" when armed, until the first ram launch. The pips sit in a small enamel tray, pop in with a glint when lit, and the empty ones breathe while the coach is up (`drawRamPips` in `src/gfx.js`, now shared by the castle renderers).
+  - Ward: the shield capsule sprite on the Ward line is gone; the line burns inward from both edges as its time runs out (embers at the ends, same last-1.2 s flicker). The Arena shield does the same and stays full while the serve is held. No gameplay numbers changed.
+  - Tests: `tests/coach.test.js`. Captures: `node tools/playtest/coach.mjs <out>`.
+
+- **2026-10-23 — Continue screen v2 (branch `codex/continue-v2`, from `codex/castle-chapters`; not merged).**
+  - Loss panel: a chapter-aware "so close" card (every level has a `nearMiss()` hook; copy in `src/near-miss.js`), e.g. "KORR HAS 3 HP LEFT", "LUMI IS 3 BRICKS FROM FREEDOM", "2 WINCH HITS TO RAISE THE GATE", with a glossy progress bar and "FLOOR 3 / 3 · 96% CLEARED". The title says SO CLOSE! from 50% progress, else CONTINUE?.
+  - The countdown ring is gone: an 8 s glazed fuse bar (teal to coral in the last 2 s) with a soft timeout. At 0 s it reads TAKE YOUR TIME and every button stays live; only No thanks declines.
+  - Back in action: after Continue the ball waits on the paddle in the serve aim, a BACK IN ACTION! plaque shows, and the chapter's hazard clocks and auto-serve hold until the player releases (`backHold`). Arena chapters keep their existing 2-save, 10 s shield (its timer now starts at the serve); the castle chapters get a 3 s Ward at the paddle line (Gatehouse and Rivals reuse theirs; Bellforge, Tidewheel and Lumi got the same swept Ward).
+  - $2.99 card: one rule, never on the player's first lifetime loss (`showUnlock` in `src/monetize.js`). Lives restored are unchanged.
+  - Tests: `tests/continue-v2.test.js` (near-miss copy for all 11 chapters, Vault brick count agrees with the breach rule, soft timeout, unlock rule, hold and Ward per chapter). Captures: `node tools/playtest/continue-v2.mjs <out>`.
 
 - **2026-10-22 (night) — Eleven chapters, Ram Ball everywhere, physics gates, handoff refresh.**
   - Shipped on `codex/castle-chapters`: Lumi Breaks Out (chapter 10), Serpent Rivals (chapter 11), a second serpent in Mooncoil, Ram Ball in every level, the power-ready pulse and buzz, and the premium pass on the castle chapters (rendered gems, chips and sparks, glazed and ceramic bricks, Frost rampart, Korr's dais, Kit and Lumi paddle skins, rendered arrows and bow).
@@ -3892,14 +3985,14 @@ The old TODO list (wire levels to the arena, crumble vs crash, difficulty, conti
 
 ## BREACH: architecture, art pipeline, build and test
 
-Last checked against the code on 2026-10-22 (branch `codex/castle-chapters`, 11 chapters). Status and history: doc 01. Tools and UX: doc 03.
+Last checked against the code on 2026-10-24 (branch `codex/castle-chapters`, 12 chapters, 9 shown in the menu). Status and history: doc 01. Tools and UX: doc 03.
 
 This document is the "how it is built" reference. For current status and next steps, see `01-status-and-next-steps.md`. For tools, connections, skills, memory and UX rules, see `03-environment-skills-ux.md`.
 
 ### 1. Aim and goal
 
 - **Product:** BREACH, a premium brick breaker for iOS and Android, portrait only. The tagline is "Break in. Break out."
-- **Current goal:** get the 11-chapter game through the gates in doc 01 ("Current state"), build an APK, and let the owner playtest and tune it (harder but fair). `main` is merged only after the owner reviews screenshots.
+- **Current goal:** the 0.8-princess-polish APK (versionCode 8) exists; let the owner playtest and tune it (harder but beatable with the right power-ups). `main` is merged only when the owner approves.
 - **Reference games:** BALL x PIT, Arkanoid, Space Invaders.
 - **Business model (placeholder):** watch an ad to continue, or a one-time "Unlock full game" purchase. `MODE = 'free'` in `src/monetize.js` keeps a free game open. Ads and purchases are local simulations.
 - **Later:** story mode and unlockables, planned in `docs/STORY_PLAN.md`. Not built.
@@ -3918,8 +4011,11 @@ src/main.js ─ scenes: menu → level ↔ pause; level → continue → results
   │     hooks a level overrides: hitCell(c,r,ball), updateLevel(dt,dtReal), shotHit(shot), draw(g), background(),
   │       previewRect(), result(), continueRun(), skipIntro(), ramPierce(brick)
   ├─ Arena chapters: carrier.js, vault.js, relay.js (Circuit), orbital.js (Forge), frost.js, mooncoil.js (+ mooncoil-layout.js)
+  ├─ src/home.js, home-art.js  home page and chapter map (key-art hero from store/key-art.png via tools/pack_home_art.py); STORY lists the nine menu slots
+  ├─ src/tutorial.js, tutorial-draw.js, purpose.js, portraits.js  ball-control tutorial and per-chapter purpose cards
+  ├─ src/castle-specials.js, castle-art.js  armour, mine, chest and coin bricks on the castle chapters
   ├─ src/fantasy/chapter.js  FantasyChapter: adapter that gives the standalone models the Arena contract
-  │     models (no drawing): bellforge.js, tidewheel.js, gatehouse.js, lumitower.js, rivals.js; shared ram.js
+  │     models (no drawing): bellforge.js, tidewheel.js (+ tidewheel-siege.js, tidewheel-stages*.js, stage-ui.js: four-stage Siege), gatehouse.js, lumitower.js, rivals.js, hoard.js; shared ram.js, purpose.js (villain purpose clocks; purpose-render.js draws them)
   │     drawing: render.js (all but Lumi and Rivals), lumi-render.js, rivals-render.js
   │     CHAPTERS table in chapter.js holds each chapter's powers, menu preview rect and star rule
   ├─ src/physics.js   makeGrid, makeBall, stepBall (substepped circle vs grid/walls/paddle), floodEmpty
@@ -3937,6 +4033,9 @@ src/main.js ─ scenes: menu → level ↔ pause; level → continue → results
 #### Shared mechanics (all levels)
 
 - **Ram Ball** (`src/fantasy/ram.js`): three centre-third paddle hits arm it; the next centre hit launches a giant ball (`RAM` radius 13.2, 2.5 s or 14 bricks). It ploughs only what the level's `ramPierce(brick)` allows (default: ordinary 1-HP bricks; Arena levels exclude `grid.unpierceable` kinds). Other contacts are normal hits and the ram bounces.
+- **Ball radius 7** in every princess level: `BALL_R` in `src/fantasy/ram.js` (the Ram ball is larger and restores it).
+- **Villain purpose clocks** (`src/fantasy/purpose.js`): Gatehouse, Lumi Breaks Out, Serpent Rivals and Dragon's Hoard show a clock that ends in losing Lumi; Bellforge shows a lift meter. Purpose cards (`src/purpose.js`) introduce each chapter.
+- **Serpent and brute skins**: `SERPENT_SKINS` (`src/vault.js`) holds the snake skins (jade, emerald, ember fire serpent); the Frost Warden atlas builder takes any frames folder, so a new brute reuses the Yeti physics (`prompt-library/16-brute-reskin.md`).
 - **Power-ready pulse** (`src/kit.js`): when the orb fills, it double-beats with a halo for 5 s, then glows until used; `navigator.vibrate` buzzes (Android VIBRATE permission in the manifest).
 - **Clearance** (`src/clearance.js`): after any pose swap, knock-back, rebuilt cell or spawn, call `ejectBall` so no ball sits inside a solid.
 - **FX kit** (`ART.fxKit`): rendered gems, chips, sparks and glints. Do not draw bare stroked rings or dots as effects.
@@ -3949,7 +4048,7 @@ src/main.js ─ scenes: menu → level ↔ pause; level → continue → results
   - `main.js` translates the canvas by `inT`, so y = 0 is the top of the safe area.
 - **Light and shadow:** light comes from the top-left, and shadows are offset (+3, +5) (`SHADOW` in gfx.js).
 - **Balls:**
-  - radius 6 in the Vault, 7.5 in Carrier-family chapters (titan 10; set in each constructor);
+  - radius 7 in the Vault and every princess level (`BALL_R`), 7.5 in Carrier-family chapters (titan 10; set in each constructor);
   - speed 345 × `opt.speed` × the rally ramp (up to 1.28);
   - the ball is lost at `drainY = paddle.y + 20`; the missed-ball shield plane is `paddle.y + 18`.
 - **Paddle:**
@@ -4069,16 +4168,16 @@ Then run `pack_art.py` and the build again.
 ### 4. Build, test, publish
 
 - **Build:** `npm install`, then `npm run build` (esbuild, `tools/build.mjs`) writes `dist/breach.html` (about 14 MB, single file) and `dist/breach-artifact.html` (body fragment).
-- **Unit tests:** `npm test` runs every `tests/*.test.js` (50 files, 506 tests on 2026-10-22, about 26 s). Add a test beside any model or rule you change.
+- **Unit tests:** `npm test` runs every `tests/*.test.js` (694 tests on 2026-10-24). Add a test beside any model or rule you change.
 - **Physics gates (run before anything ships):**
-  - `npm run audit:physics`: `tools/playtest/physics-audit.mjs` with adapters in `audit-adapters.mjs`. Headless bot, idle and ram variants over every adapter level x Easy/Medium/Hard x 393x852 and 412x915. Flags errors, NaN, out-of-bounds, tunnelling, stuck balls, flat or crawling balls. Writes `docs/validation/physics-audit/report.json`. Filters: `--level a,b`, `--difficulty`, `--phone`, `--variant`; add `--no-write` on any filtered run so it does not overwrite the full report. Lumi Breaks Out has no adapter yet.
+  - `npm run audit:physics`: `tools/playtest/physics-audit.mjs` with adapters in `audit-adapters.mjs`. Headless bot, idle and ram variants over every adapter level x Easy/Medium/Hard x 393x852 and 412x915. Flags errors, NaN, out-of-bounds, tunnelling, stuck balls, flat or crawling balls. Writes `docs/validation/physics-audit/report.json`. Filters: `--level a,b`, `--difficulty`, `--phone`, `--variant`; add `--no-write` on any filtered run so it does not overwrite the full report. Full audit 2026-10-24: 444 runs, 0 failures.
   - `node tools/playtest/physics-audit-checks.mjs --quick`: seeded Gatehouse checks (details in `tools/playtest/physics-audit-checks.md`).
 - **Playtests and screenshots** (Playwright with Chromium, driving `window.__breach`; `<outDir>/shots/` must exist for some):
   - `node tools/playtest/layout.mjs <out>` and `node tools/playtest/polish.mjs <out> ios|android`: layout and polish regressions.
-  - `castle-premium.mjs`, `fantasy-visual.mjs`, `fantasy-responsive.mjs`, `rivals-review.mjs`, `mooncoil.mjs`, `bellforge.mjs`, `tidewheel.mjs`, `kit.mjs`, `venom.mjs`, `vault-v2.mjs`: per-chapter phone captures and routes. A bot win proves reachability, not human difficulty.
+  - Playtests now enter chapters through the home page and chapter map (`polish.mjs`, `layout.mjs`, `frost.mjs`, `mooncoil.mjs`; bot helpers in `aim-bot.mjs`). Others: `castle-premium.mjs`, `fantasy-visual.mjs`, `fantasy-responsive.mjs`, `rivals-review.mjs`, `mooncoil.mjs`, `bellforge.mjs`, `tidewheel.mjs`, `kit.mjs`, `venom.mjs`, `vault-v2.mjs`: per-chapter phone captures and routes. A bot win proves reachability, not human difficulty.
   - Device sizes: iPhone 393 x 852 with `?safe=59,34`; Android 412 x 915 with `?safe=32,24`; device scale factor 2.
   - Always check for page errors, and screenshot the serve, play, powers, loss/continue and win screens for both devices. Show them to the owner.
-- **Release:** `npm run build`, then `node tools/pin-sha.mjs` (re-pins `config/mobile-preview.json`), then `node tools/prepare-android.mjs` (must pass; it refuses a hash mismatch). The mobile workflow is manual only (`workflow_dispatch`): run it once per release candidate after those pass. Status of the last APK: `docs/MOBILE_PREVIEW.md` (old five-chapter build).
+- **Release:** `npm run build`, then `node tools/pin-sha.mjs` (re-pins `config/mobile-preview.json`), then `node tools/prepare-android.mjs` (must pass; it refuses a hash mismatch). The mobile workflow is manual only (`workflow_dispatch`): run it once per release candidate after those pass. Current APK: 0.8-princess-polish, versionCode 8, mobile-preview run 40045371055, artifact `BREACH-eleven-chapter-android-28` (`docs/MOBILE_PREVIEW.md` still describes the old five-chapter build).
 - **Publish the playable build:** the owner has used a claude.ai Artifact (doc 03). `dist/breach.html` works on any static host.
 - **Mobile wrapping:** Capacitor WebView in `android/`; `viewport-fit=cover` and `env(safe-area-inset-*)` are handled.
 
@@ -4091,7 +4190,7 @@ Then run `pack_art.py` and the build again.
 
 ## BREACH: environment, connections, skills, memory, UI/UX rules
 
-Last checked 2026-10-22. Status and history: doc 01. Code and build: doc 02.
+Last checked 2026-10-24. Status and history: doc 01. Code and build: doc 02.
 
 This document covers where everything lives and how the work has been done. Any new session, from any assistant, should read all three handoff docs:
 
@@ -4110,7 +4209,8 @@ This document covers where everything lives and how the work has been done. Any 
   - never ask for, or paste, the owner's token.
 - **Show drafts as you go.** The owner wants to see draft images whenever a piece is finished, especially UX screens, characters and assets. Post screenshots or sheets for iOS and Android sizes.
 - **Product feedback rules:** premium, inventive, urgent, addictive; never "vibe-coded"; expressions must say a lot; not too much yellow; keep the playful font and colours.
-- **Scope:** the 11 chapters are built (doc 01, "Current state"). Anything beyond Phase 1 of `docs/STORY_PLAN.md` needs the owner's go-ahead. Kit is the hero of the castle chapters except Lumi Breaks Out, where Lumi holds the paddle.
+- **Scope:** 12 chapters are built, nine shown in the menu (doc 01, "Current state"). Anything beyond Phase 1 of `docs/STORY_PLAN.md` needs the owner's go-ahead. Kit is the hero of the castle chapters except Lumi Breaks Out, where Lumi holds the paddle.
+- **Owner direction (2026-10-23 night):** quality bar is `store/key-art.png`; villains need a visible purpose like the snakes; reuse archetypes with new skins (yeti to bull, bison or ape via `prompt-library/16-brute-reskin.md`; snake to fire serpent); levels hard but beatable with the right power-ups; use subagents on cheaper models; no goose chases.
 - **Owner style:** short, single-path instructions; physics first; show screenshots after anything finishes; harder but fair; the owner posts renders back in the project chat and generates art with M365 Copilot from `prompt-library/`.
 - **Work style:** the owner explicitly requests multiple parallel helpers with separate file ownership and independent review. Show progress with images. Parallel preparation must not bypass the concept-pick or commit/push approval gates.
 
@@ -4118,7 +4218,7 @@ This document covers where everything lives and how the work has been done. Any 
 
 | What | Where |
 |---|---|
-| Source repository | https://github.com/mahikshith/breaker. `main` is stable and merged only after the owner reviews screenshots; the working branch is `codex/castle-chapters`. `codex/wip-lumi-audit` is throwaway and safe to delete. Pushed through the Claude GitHub App installed on the repo (2026-10-17); any tool with push access can continue. |
+| Source repository | https://github.com/mahikshith/breaker. `main` is stable and merged only after the owner reviews screenshots; the working branch is `codex/castle-chapters` (Android 0.8-princess-polish; `main` merges need the owner's approval). `codex/wip-lumi-audit` is throwaway and safe to delete. Pushed through the Claude GitHub App installed on the repo (2026-10-17); any tool with push access can continue. |
 | Playable build (current host) | claude.ai Artifact https://claude.ai/artifact/63xdvoxT6HPvo7rU8buR9s, published from `dist/breach-artifact.html`. Only the owner's Claude account can update it. Another tool should host `dist/breach.html` elsewhere (GitHub Pages, Netlify, itch.io…). |
 | Project shared folder (Claude Projects only) | `/mnt/project-files/breaker/`: |
 | | • `GAME_PLAN.md`, the original design plan, also copied to `docs/GAME_PLAN.md`; |
@@ -4182,6 +4282,8 @@ These skill guides were saved in the project at `/mnt/project-files/skills/gamed
 ### 4. UI/UX layout and rules followed
 
 #### Screen layout (portrait, world 360 units wide)
+
+Entry flow: home page (key-art hero, one PLAY button) opens the chapter map (nine princess chapters in story order, stars and locks), then a purpose card, then play; How to play replays the tutorial. No Full screen button in the native app.
 
 ```
 ┌──────────────────────────────┐  ← notch / Dynamic Island: scene art continues underneath
@@ -4260,6 +4362,7 @@ android/app/build.gradle
 android/app/src/androidTest/java/com/mahikshith/breach/preview/MobileSmokeTest.java
 android/app/src/main/AndroidManifest.xml
 android/app/src/main/java/com/mahikshith/breach/preview/MainActivity.java
+android/app/src/main/res/drawable/app_icon.png
 android/app/src/main/res/drawable/kit_face.png
 android/build.gradle
 android/gradle.properties
@@ -4375,6 +4478,10 @@ art/frost-warden/source/Yeti.gltf
 art/frost_warden.py
 art/fx_kit/fx_kit.py
 art/fx_kit/proof/fx.png
+art/glaze2/build.py
+art/glaze2/source/bricks.json
+art/glaze2/source/bricks.png
+art/hoard/build.py
 art/invasion_post.py
 art/kit.py
 art/kit_cast.py
@@ -4418,6 +4525,16 @@ art/rivals/proof/contact.png
 art/rivals/proof/mock.png
 art/rivals/rivals_art.py
 art/rivals/rivals_sheet.py
+art/round2/build.py
+art/round2/source/R02.png
+art/round2/source/R03.png
+art/round2/source/R05.png
+art/round2/source/R06.png
+art/round3/build_warden_atlas.py
+art/round3/cut.py
+art/round3/cut_drop2.py
+art/round3/fit_shapes.py
+art/round3/parts-drop2.json
 art/snake-emerald/SOURCE.md
 art/snake-emerald/extract.py
 art/snake-emerald/prompt.json
@@ -4558,6 +4675,9 @@ art/starflight/proof.py
 art/starflight/ships-source-v1.png
 art/starflight/weapons-prompt.md
 art/starflight/weapons-source.png
+art/themed-bricks/build.py
+art/themed-bricks/preview.py
+art/tidewheel-glaze/build.py
 art/vault-grid.json
 art/vault_post.py
 art/vault_scene.py
@@ -5744,6 +5864,94 @@ assets/fx-kit/pip_empty.png
 assets/fx-kit/pip_gold.png
 assets/fx-kit/pip_rose.png
 assets/fx-kit/spark.png
+assets/glaze2/atlas.json
+assets/glaze2/brick_b_1_0.png
+assets/glaze2/brick_b_1_1.png
+assets/glaze2/brick_b_1_2.png
+assets/glaze2/brick_b_1_x.png
+assets/glaze2/brick_b_2_0.png
+assets/glaze2/brick_b_2_1.png
+assets/glaze2/brick_b_2_2.png
+assets/glaze2/brick_b_2_x.png
+assets/glaze2/brick_c_1_0.png
+assets/glaze2/brick_c_1_1.png
+assets/glaze2/brick_c_1_2.png
+assets/glaze2/brick_c_1_x.png
+assets/glaze2/brick_c_2_0.png
+assets/glaze2/brick_c_2_1.png
+assets/glaze2/brick_c_2_2.png
+assets/glaze2/brick_c_2_x.png
+assets/glaze2/brick_chest_2_0.png
+assets/glaze2/brick_chest_2_1.png
+assets/glaze2/brick_coin_2_0.png
+assets/glaze2/brick_gold_1_0.png
+assets/glaze2/brick_gold_1_1.png
+assets/glaze2/brick_gold_1_2.png
+assets/glaze2/brick_gold_2_0.png
+assets/glaze2/brick_gold_2_1.png
+assets/glaze2/brick_gold_2_2.png
+assets/glaze2/brick_granite_1_0.png
+assets/glaze2/brick_granite_2_0.png
+assets/glaze2/brick_t_1_0.png
+assets/glaze2/brick_t_1_1.png
+assets/glaze2/brick_t_1_2.png
+assets/glaze2/brick_t_1_x.png
+assets/glaze2/brick_t_2_0.png
+assets/glaze2/brick_t_2_1.png
+assets/glaze2/brick_t_2_2.png
+assets/glaze2/brick_t_2_x.png
+assets/glaze2/brick_v_1_0.png
+assets/glaze2/brick_v_1_1.png
+assets/glaze2/brick_v_1_2.png
+assets/glaze2/brick_v_1_x.png
+assets/glaze2/brick_v_2_0.png
+assets/glaze2/brick_v_2_1.png
+assets/glaze2/brick_v_2_2.png
+assets/glaze2/brick_v_2_x.png
+assets/glaze2/brick_y_1_0.png
+assets/glaze2/brick_y_1_1.png
+assets/glaze2/brick_y_1_2.png
+assets/glaze2/brick_y_1_x.png
+assets/glaze2/brick_y_2_0.png
+assets/glaze2/brick_y_2_1.png
+assets/glaze2/brick_y_2_2.png
+assets/glaze2/brick_y_2_x.png
+assets/hoard/cave.png
+assets/hoard/coin.png
+assets/hoard/coin_chips_a.png
+assets/hoard/coin_chips_b.png
+assets/hoard/crown_chest.png
+assets/hoard/crown_chest_cracked.png
+assets/hoard/ember__breath.png
+assets/hoard/ember__defeat.png
+assets/hoard/ember__sleep.png
+assets/hoard/ember__stir.png
+assets/hoard/ember__sweep.png
+assets/hoard/ember__windup.png
+assets/hoard/ember_attack.png
+assets/hoard/ember_defeat.png
+assets/hoard/ember_hurt.png
+assets/hoard/ember_idle.png
+assets/hoard/ember_panic.png
+assets/hoard/ember_stagger.png
+assets/hoard/ember_taunt.png
+assets/hoard/ember_windup.png
+assets/hoard/eye__0.png
+assets/hoard/eye__1.png
+assets/hoard/eye__2.png
+assets/hoard/eye__3.png
+assets/hoard/eye__4.png
+assets/hoard/manifest.json
+assets/hoard/prop__burst_coin.png
+assets/hoard/prop__burst_gem.png
+assets/hoard/prop__chime.png
+assets/hoard/prop__chime_ring.png
+assets/hoard/prop__gate_0.png
+assets/hoard/prop__gate_1.png
+assets/hoard/prop__gate_2.png
+assets/hoard/prop__molten_0.png
+assets/hoard/prop__molten_1.png
+assets/hoard/prop__molten_2.png
 assets/invasion/atlas.json
 assets/invasion/plate.jpg
 assets/kit-cast/meta.json
@@ -5935,6 +6143,357 @@ assets/rivals/shutter_eyes.png
 assets/rivals/ward_plate_gilt.png
 assets/rivals/ward_plate_iron.png
 assets/rivals/window_front_shuttered.png
+assets/round2/cap__burst.png
+assets/round2/cap__fire.png
+assets/round2/cap__focus.png
+assets/round2/cap__laser.png
+assets/round2/cap__shield.png
+assets/round2/cap__shrink.png
+assets/round2/cap__slow.png
+assets/round2/cap__split.png
+assets/round2/cap__wide.png
+assets/round2/crate__0.png
+assets/round2/crate__1.png
+assets/round2/crate__2.png
+assets/round2/crate_sq__0.png
+assets/round2/crate_sq__1.png
+assets/round2/crate_sq__2.png
+assets/round2/manifest.json
+assets/round2/splash__0.png
+assets/round2/splash__1.png
+assets/round2/splash__2.png
+assets/round2/splash__3.png
+assets/round3/backdrop-thumbs/frost_1.png
+assets/round3/backdrop-thumbs/frost_2.png
+assets/round3/backdrop-thumbs/frost_3.png
+assets/round3/backdrop-thumbs/frost_4.png
+assets/round3/backdrop-thumbs/gatehouse_1.png
+assets/round3/backdrop-thumbs/manifest.json
+assets/round3/backdrop-thumbs/tidewheel_1.png
+assets/round3/backdrop-thumbs/tidewheel_2.png
+assets/round3/backdrop-thumbs/tidewheel_3.png
+assets/round3/backdrop-thumbs/tidewheel_4.png
+assets/round3/bricks/castle_armour.png
+assets/round3/bricks/castle_armour_cracked.png
+assets/round3/bricks/castle_chest.png
+assets/round3/bricks/castle_chest_cracked.png
+assets/round3/bricks/castle_coin.png
+assets/round3/bricks/castle_key.png
+assets/round3/bricks/castle_mine.png
+assets/round3/bricks/castle_steel.png
+assets/round3/bricks/frost_armour.png
+assets/round3/bricks/frost_armour_cracked.png
+assets/round3/bricks/frost_chest.png
+assets/round3/bricks/frost_chest_cracked.png
+assets/round3/bricks/frost_coin.png
+assets/round3/bricks/frost_key.png
+assets/round3/bricks/frost_mine.png
+assets/round3/bricks/frost_steel.png
+assets/round3/bricks/manifest.json
+assets/round3/bricks/sea_armour.png
+assets/round3/bricks/sea_armour_cracked.png
+assets/round3/bricks/sea_chest.png
+assets/round3/bricks/sea_chest_cracked.png
+assets/round3/bricks/sea_coin.png
+assets/round3/bricks/sea_key.png
+assets/round3/bricks/sea_mine.png
+assets/round3/bricks/sea_steel.png
+assets/round3/frost-parts/banner_0.png
+assets/round3/frost-parts/banner_1.png
+assets/round3/frost-parts/banner_2.png
+assets/round3/frost-parts/banner_3.png
+assets/round3/frost-parts/crack_0.png
+assets/round3/frost-parts/crack_1.png
+assets/round3/frost-parts/crack_2.png
+assets/round3/frost-parts/crack_3.png
+assets/round3/frost-parts/crumble_0.png
+assets/round3/frost-parts/crumble_1.png
+assets/round3/frost-parts/crumble_2.png
+assets/round3/frost-parts/crumble_3.png
+assets/round3/frost-parts/drift.png
+assets/round3/frost-parts/manifest.json
+assets/round3/frost-parts/torch_0.png
+assets/round3/frost-parts/torch_1.png
+assets/round3/frost-parts/torch_2.png
+assets/round3/frost-parts/torch_3.png
+assets/round3/frost-parts/torch_4.png
+assets/round3/frost-parts/torch_5.png
+assets/round3/fx/coins_0.png
+assets/round3/fx/coins_1.png
+assets/round3/fx/coins_2.png
+assets/round3/fx/coins_3.png
+assets/round3/fx/coins_4.png
+assets/round3/fx/coins_5.png
+assets/round3/fx/debris_0.png
+assets/round3/fx/debris_1.png
+assets/round3/fx/debris_2.png
+assets/round3/fx/debris_3.png
+assets/round3/fx/debris_4.png
+assets/round3/fx/debris_5.png
+assets/round3/fx/dust_0.png
+assets/round3/fx/dust_1.png
+assets/round3/fx/dust_2.png
+assets/round3/fx/dust_3.png
+assets/round3/fx/dust_4.png
+assets/round3/fx/dust_5.png
+assets/round3/fx/ice_0.png
+assets/round3/fx/ice_1.png
+assets/round3/fx/ice_2.png
+assets/round3/fx/ice_3.png
+assets/round3/fx/ice_4.png
+assets/round3/fx/ice_5.png
+assets/round3/fx/manifest.json
+assets/round3/fx/splash_0.png
+assets/round3/fx/splash_1.png
+assets/round3/fx/splash_2.png
+assets/round3/fx/splash_3.png
+assets/round3/fx/splash_4.png
+assets/round3/fx/splash_5.png
+assets/round3/fx/splash_6.png
+assets/round3/fx/splash_7.png
+assets/round3/gatehouse-parts/banner_0.png
+assets/round3/gatehouse-parts/banner_1.png
+assets/round3/gatehouse-parts/banner_2.png
+assets/round3/gatehouse-parts/banner_3.png
+assets/round3/gatehouse-parts/cage_0.png
+assets/round3/gatehouse-parts/cage_1.png
+assets/round3/gatehouse-parts/cage_2.png
+assets/round3/gatehouse-parts/cage_3.png
+assets/round3/gatehouse-parts/manifest.json
+assets/round3/gatehouse-parts/moat_0.png
+assets/round3/gatehouse-parts/moat_1.png
+assets/round3/gatehouse-parts/moat_2.png
+assets/round3/gatehouse-parts/moat_3.png
+assets/round3/gatehouse-parts/torch_0.png
+assets/round3/gatehouse-parts/torch_1.png
+assets/round3/gatehouse-parts/torch_2.png
+assets/round3/gatehouse-parts/torch_3.png
+assets/round3/gatehouse-parts/torch_4.png
+assets/round3/gatehouse-parts/winch_0.png
+assets/round3/gatehouse-parts/winch_1.png
+assets/round3/gatehouse-parts/winch_2.png
+assets/round3/korr/bell_throw.png
+assets/round3/korr/bell_windup.png
+assets/round3/korr/crank_0.png
+assets/round3/korr/crank_1.png
+assets/round3/korr/crank_2.png
+assets/round3/korr/crank_3.png
+assets/round3/korr/flee_0.png
+assets/round3/korr/flee_1.png
+assets/round3/korr/flee_2.png
+assets/round3/korr/flee_3.png
+assets/round3/korr/haul_0.png
+assets/round3/korr/haul_1.png
+assets/round3/korr/haul_2.png
+assets/round3/korr/haul_3.png
+assets/round3/korr/manifest.json
+assets/round3/korr/stomp_impact.png
+assets/round3/korr/stomp_windup.png
+assets/round3/korr/turn_front.png
+assets/round3/korr/turn_side.png
+assets/round3/korr/turn_three_quarter.png
+assets/round3/korr/walk_l_0.png
+assets/round3/korr/walk_l_1.png
+assets/round3/korr/walk_l_2.png
+assets/round3/korr/walk_l_3.png
+assets/round3/korr/walk_l_4.png
+assets/round3/korr/walk_l_5.png
+assets/round3/korr/walk_r_0.png
+assets/round3/korr/walk_r_1.png
+assets/round3/korr/walk_r_2.png
+assets/round3/korr/walk_r_3.png
+assets/round3/korr/walk_r_4.png
+assets/round3/korr/walk_r_5.png
+assets/round3/nerra/chain_yank.png
+assets/round3/nerra/dazed.png
+assets/round3/nerra/defeated.png
+assets/round3/nerra/dizzy.png
+assets/round3/nerra/flinch.png
+assets/round3/nerra/furious.png
+assets/round3/nerra/gaze_c.png
+assets/round3/nerra/gaze_d.png
+assets/round3/nerra/gaze_dl.png
+assets/round3/nerra/gaze_dr.png
+assets/round3/nerra/gaze_l.png
+assets/round3/nerra/gaze_r.png
+assets/round3/nerra/gaze_u.png
+assets/round3/nerra/gaze_ul.png
+assets/round3/nerra/gaze_ur.png
+assets/round3/nerra/hurt.png
+assets/round3/nerra/jump_crouch.png
+assets/round3/nerra/jump_land.png
+assets/round3/nerra/jump_takeoff.png
+assets/round3/nerra/knocked.png
+assets/round3/nerra/manifest.json
+assets/round3/nerra/roar.png
+assets/round3/nerra/smug.png
+assets/round3/nerra/snap_l_strike.png
+assets/round3/nerra/snap_l_windup.png
+assets/round3/nerra/snap_r_strike.png
+assets/round3/nerra/snap_r_windup.png
+assets/round3/nerra/stagger.png
+assets/round3/nerra/turn_l_0.png
+assets/round3/nerra/turn_l_1.png
+assets/round3/nerra/turn_l_2.png
+assets/round3/nerra/turn_r_0.png
+assets/round3/nerra/turn_r_1.png
+assets/round3/nerra/turn_r_2.png
+assets/round3/nerra/walk_l_0.png
+assets/round3/nerra/walk_l_1.png
+assets/round3/nerra/walk_l_2.png
+assets/round3/nerra/walk_l_3.png
+assets/round3/nerra/walk_l_4.png
+assets/round3/nerra/walk_l_5.png
+assets/round3/nerra/walk_l_6.png
+assets/round3/nerra/walk_l_7.png
+assets/round3/nerra/walk_r_0.png
+assets/round3/nerra/walk_r_1.png
+assets/round3/nerra/walk_r_2.png
+assets/round3/nerra/walk_r_3.png
+assets/round3/nerra/walk_r_4.png
+assets/round3/nerra/walk_r_5.png
+assets/round3/nerra/walk_r_6.png
+assets/round3/nerra/walk_r_7.png
+assets/round3/nerra2/chain_yank_0.png
+assets/round3/nerra2/chain_yank_1.png
+assets/round3/nerra2/dazed.png
+assets/round3/nerra2/defeated.png
+assets/round3/nerra2/dizzy.png
+assets/round3/nerra2/flinch.png
+assets/round3/nerra2/furious.png
+assets/round3/nerra2/gate_strike.png
+assets/round3/nerra2/gate_windup.png
+assets/round3/nerra2/gaze_c.png
+assets/round3/nerra2/gaze_d.png
+assets/round3/nerra2/gaze_dl.png
+assets/round3/nerra2/gaze_dr.png
+assets/round3/nerra2/gaze_l.png
+assets/round3/nerra2/gaze_r.png
+assets/round3/nerra2/gaze_u.png
+assets/round3/nerra2/gaze_ul.png
+assets/round3/nerra2/gaze_ur.png
+assets/round3/nerra2/hurt.png
+assets/round3/nerra2/idle_0.png
+assets/round3/nerra2/idle_1.png
+assets/round3/nerra2/idle_2.png
+assets/round3/nerra2/idle_3.png
+assets/round3/nerra2/jump_air.png
+assets/round3/nerra2/jump_crouch.png
+assets/round3/nerra2/jump_land.png
+assets/round3/nerra2/jump_settle.png
+assets/round3/nerra2/jump_takeoff.png
+assets/round3/nerra2/knocked.png
+assets/round3/nerra2/manifest.json
+assets/round3/nerra2/roar.png
+assets/round3/nerra2/smug.png
+assets/round3/nerra2/snap_l_strike.png
+assets/round3/nerra2/snap_l_windup.png
+assets/round3/nerra2/turn_front.png
+assets/round3/nerra2/turn_l_0.png
+assets/round3/nerra2/turn_l_1.png
+assets/round3/nerra2/turn_l_2.png
+assets/round3/nerra2/turn_r_0.png
+assets/round3/nerra2/turn_r_1.png
+assets/round3/nerra2/walk_l_0.png
+assets/round3/nerra2/walk_l_1.png
+assets/round3/nerra2/walk_l_2.png
+assets/round3/nerra2/walk_l_3.png
+assets/round3/nerra2/walk_l_4.png
+assets/round3/nerra2/walk_l_5.png
+assets/round3/nerra2/walk_l_6.png
+assets/round3/nerra2/walk_l_7.png
+assets/round3/nerra2/walk_l_8.png
+assets/round3/nerra2/walk_r_0.png
+assets/round3/nerra2/walk_r_1.png
+assets/round3/nerra2/walk_r_2.png
+assets/round3/nerra2/walk_r_3.png
+assets/round3/nerra2/walk_r_4.png
+assets/round3/nerra2/walk_r_5.png
+assets/round3/nerra2/walk_r_6.png
+assets/round3/nerra2/walk_r_7.png
+assets/round3/nerra2/walk_r_8.png
+assets/round3/tidewheel-parts/chain.png
+assets/round3/tidewheel-parts/flag_0.png
+assets/round3/tidewheel-parts/flag_1.png
+assets/round3/tidewheel-parts/flag_2.png
+assets/round3/tidewheel-parts/flag_3.png
+assets/round3/tidewheel-parts/glow.png
+assets/round3/tidewheel-parts/manifest.json
+assets/round3/tidewheel-parts/ripple_0.png
+assets/round3/tidewheel-parts/ripple_1.png
+assets/round3/tidewheel-parts/ripple_2.png
+assets/round3/tidewheel-parts/ripple_3.png
+assets/round3/tidewheel-parts/sluice_0.png
+assets/round3/tidewheel-parts/sluice_1.png
+assets/round3/tidewheel-parts/sluice_2.png
+assets/round3/tidewheel-parts/sluice_3.png
+assets/round3/tidewheel-parts/sluice_4.png
+assets/round3/tidewheel-parts/spray.png
+assets/round3/tidewheel-parts/torch_0.png
+assets/round3/tidewheel-parts/torch_1.png
+assets/round3/tidewheel-parts/torch_2.png
+assets/round3/tidewheel-parts/torch_3.png
+assets/round3/tidewheel-parts/torch_4.png
+assets/round3/tidewheel-parts/torch_5.png
+assets/round3/tidewheel-parts/wheel.png
+assets/round3/warden/dash_l_0.png
+assets/round3/warden/dash_l_1.png
+assets/round3/warden/dash_l_2.png
+assets/round3/warden/dash_l_3.png
+assets/round3/warden/dash_l_crouch.png
+assets/round3/warden/dash_r_0.png
+assets/round3/warden/dash_r_1.png
+assets/round3/warden/dash_r_2.png
+assets/round3/warden/dash_r_3.png
+assets/round3/warden/dash_r_crouch.png
+assets/round3/warden/dazed.png
+assets/round3/warden/dazed_l.png
+assets/round3/warden/dazed_r.png
+assets/round3/warden/defeated.png
+assets/round3/warden/flinch.png
+assets/round3/warden/idle_0.png
+assets/round3/warden/idle_1.png
+assets/round3/warden/idle_2.png
+assets/round3/warden/idle_3.png
+assets/round3/warden/manifest.json
+assets/round3/warden/pound_recover.png
+assets/round3/warden/pound_strike.png
+assets/round3/warden/pound_windup.png
+assets/round3/warden/recover.png
+assets/round3/warden/shapes.json
+assets/round3/warden/smash_l.png
+assets/round3/warden/smash_r.png
+assets/round3/warden2/dash_l_0.png
+assets/round3/warden2/dash_l_1.png
+assets/round3/warden2/dash_l_2.png
+assets/round3/warden2/dash_l_3.png
+assets/round3/warden2/dash_l_4.png
+assets/round3/warden2/dash_l_crouch.png
+assets/round3/warden2/dash_r_0.png
+assets/round3/warden2/dash_r_1.png
+assets/round3/warden2/dash_r_2.png
+assets/round3/warden2/dash_r_3.png
+assets/round3/warden2/dash_r_4.png
+assets/round3/warden2/dash_r_crouch.png
+assets/round3/warden2/dazed.png
+assets/round3/warden2/dazed_l.png
+assets/round3/warden2/dazed_r.png
+assets/round3/warden2/defeated.png
+assets/round3/warden2/flinch.png
+assets/round3/warden2/idle_0.png
+assets/round3/warden2/idle_1.png
+assets/round3/warden2/idle_2.png
+assets/round3/warden2/idle_3.png
+assets/round3/warden2/manifest.json
+assets/round3/warden2/pound_recover.png
+assets/round3/warden2/pound_settle.png
+assets/round3/warden2/pound_strike.png
+assets/round3/warden2/pound_windup.png
+assets/round3/warden2/recover.png
+assets/round3/warden2/smash_l.png
+assets/round3/warden2/smash_r.png
+assets/snake-ember/manifest.json
+assets/snake-ember/meta.json
 assets/snake-emerald/manifest.json
 assets/snake-emerald/meta.json
 assets/snake-jade/README.md
@@ -6062,9 +6621,139 @@ assets/starflight/weapons/manifest.json
 assets/starflight/weapons/muzzle.png
 assets/starflight/weapons/plasma.png
 assets/starflight/weapons/stasis.png
+assets/themed-bricks/bellforge/atlas.json
+assets/themed-bricks/bellforge/bar_1_0.png
+assets/themed-bricks/bellforge/bar_2_0.png
+assets/themed-bricks/bellforge/bellmetal_2_0.png
+assets/themed-bricks/bellforge/bellmetal_2_1.png
+assets/themed-bricks/bellforge/bellmetal_2_2.png
+assets/themed-bricks/bellforge/bronze_2_0.png
+assets/themed-bricks/bellforge/bronze_2_1.png
+assets/themed-bricks/bellforge/bronze_2_2.png
+assets/themed-bricks/bellforge/pin_2_0.png
+assets/themed-bricks/bellforge/pin_2_1.png
+assets/themed-bricks/bellforge/pin_2_2.png
+assets/themed-bricks/bellforge/verdigris_2_0.png
+assets/themed-bricks/bellforge/verdigris_2_1.png
+assets/themed-bricks/bellforge/verdigris_2_2.png
+assets/themed-bricks/frost/atlas.json
+assets/themed-bricks/frost/bar_1_0.png
+assets/themed-bricks/frost/bar_2_0.png
+assets/themed-bricks/frost/blue_2_0.png
+assets/themed-bricks/frost/blue_2_1.png
+assets/themed-bricks/frost/blue_2_2.png
+assets/themed-bricks/frost/ice_2_0.png
+assets/themed-bricks/frost/ice_2_1.png
+assets/themed-bricks/frost/ice_2_2.png
+assets/themed-bricks/frost/violet_2_0.png
+assets/themed-bricks/frost/violet_2_1.png
+assets/themed-bricks/frost/violet_2_2.png
+assets/themed-bricks/gatehouse/argent_2_0.png
+assets/themed-bricks/gatehouse/argent_2_1.png
+assets/themed-bricks/gatehouse/argent_2_2.png
+assets/themed-bricks/gatehouse/atlas.json
+assets/themed-bricks/gatehouse/bar_1_0.png
+assets/themed-bricks/gatehouse/bar_2_0.png
+assets/themed-bricks/gatehouse/gules_2_0.png
+assets/themed-bricks/gatehouse/gules_2_1.png
+assets/themed-bricks/gatehouse/gules_2_2.png
+assets/themed-bricks/gatehouse/iron_2_0.png
+assets/themed-bricks/gatehouse/iron_2_1.png
+assets/themed-bricks/gatehouse/iron_2_2.png
+assets/themed-bricks/gatehouse/vert_2_0.png
+assets/themed-bricks/gatehouse/vert_2_1.png
+assets/themed-bricks/gatehouse/vert_2_2.png
+assets/themed-bricks/mooncoil/atlas.json
+assets/themed-bricks/mooncoil/bar_1_0.png
+assets/themed-bricks/mooncoil/bar_2_0.png
+assets/themed-bricks/mooncoil/moonstone_1_0.png
+assets/themed-bricks/mooncoil/moonstone_1_1.png
+assets/themed-bricks/mooncoil/moonstone_2_0.png
+assets/themed-bricks/mooncoil/moonstone_2_1.png
+assets/themed-bricks/mooncoil/rosemoon_1_0.png
+assets/themed-bricks/mooncoil/rosemoon_1_1.png
+assets/themed-bricks/mooncoil/rosemoon_2_0.png
+assets/themed-bricks/mooncoil/rosemoon_2_1.png
+assets/themed-bricks/mooncoil/silver_1_0.png
+assets/themed-bricks/mooncoil/silver_1_1.png
+assets/themed-bricks/mooncoil/silver_2_0.png
+assets/themed-bricks/mooncoil/silver_2_1.png
+assets/themed-bricks/mooncoil/starlit_1_0.png
+assets/themed-bricks/mooncoil/starlit_1_1.png
+assets/themed-bricks/mooncoil/starlit_2_0.png
+assets/themed-bricks/mooncoil/starlit_2_1.png
+assets/themed-bricks/tower/amber_2_0.png
+assets/themed-bricks/tower/amber_2_1.png
+assets/themed-bricks/tower/amber_2_2.png
+assets/themed-bricks/tower/amethyst_2_0.png
+assets/themed-bricks/tower/amethyst_2_1.png
+assets/themed-bricks/tower/amethyst_2_2.png
+assets/themed-bricks/tower/atlas.json
+assets/themed-bricks/tower/bar_1_0.png
+assets/themed-bricks/tower/bar_2_0.png
+assets/themed-bricks/tower/emerald_2_0.png
+assets/themed-bricks/tower/emerald_2_1.png
+assets/themed-bricks/tower/emerald_2_2.png
+assets/themed-bricks/tower/jade_2_0.png
+assets/themed-bricks/tower/jade_2_1.png
+assets/themed-bricks/tower/jade_2_2.png
+assets/themed-bricks/tower/rose_2_0.png
+assets/themed-bricks/tower/rose_2_1.png
+assets/themed-bricks/tower/rose_2_2.png
+assets/themed-bricks/tower/slate_2_0.png
+assets/themed-bricks/tower/slate_2_1.png
+assets/themed-bricks/tower/slate_2_2.png
+assets/themed-bricks/tower/stone_2_0.png
+assets/themed-bricks/tower/stone_2_1.png
+assets/themed-bricks/tower/stone_2_2.png
+assets/themed-bricks/vault/atlas.json
+assets/themed-bricks/vault/bar_1_0.png
+assets/themed-bricks/vault/bar_2_0.png
+assets/tidewheel-glaze/atlas.json
+assets/tidewheel-glaze/tg_coral_0.png
+assets/tidewheel-glaze/tg_coral_1.png
+assets/tidewheel-glaze/tg_coral_2.png
+assets/tidewheel-glaze/tg_pearl_0.png
+assets/tidewheel-glaze/tg_pearl_1.png
+assets/tidewheel-glaze/tg_pearl_2.png
+assets/tidewheel-glaze/tg_seaglass_0.png
+assets/tidewheel-glaze/tg_seaglass_1.png
+assets/tidewheel-glaze/tg_seaglass_2.png
+assets/tidewheel-glaze/tg_steel_0.png
+assets/tidewheel-glaze/tg_steel_1.png
+assets/tidewheel-glaze/tg_steel_2.png
 assets/vault/atlas.json
 assets/vault/plate.jpg
 config/mobile-preview.json
+design/copilot/2026-10-23/DIGEST-argon.md
+design/copilot/2026-10-23/DIGEST-m365.md
+design/copilot/2026-10-23/argon/assets/P01_powerups-round2/P01_powerups-round2_synergy-chart_1.prompt.txt
+design/copilot/2026-10-23/argon/assets/P02_difficulty-round2/P02_difficulty-round2_curve-chart_1.prompt.txt
+design/copilot/2026-10-23/argon/assets/P03_powerups-new/P03_powerups-new_icon-sheet_1.prompt.txt
+design/copilot/2026-10-23/argon/assets/P04_continue-screen/P04_continue-screen_panel-anim_2.prompt.txt
+design/copilot/2026-10-23/argon/assets/P04_continue-screen/P04_continue-screen_panel-rest_1.prompt.txt
+design/copilot/2026-10-23/argon/assets/P07_dragons-hoard/P07_dragons-hoard_level-board_1.prompt.txt
+design/copilot/2026-10-23/argon/assets/P08_ember/P08_ember_expressions_2.prompt.txt
+design/copilot/2026-10-23/argon/assets/P08_ember/P08_ember_turnaround_1.prompt.txt
+design/copilot/2026-10-23/argon/assets/P09_bricks-glaze-v2/P09_bricks-glaze-v2_brick-sheet_1.prompt.txt
+design/copilot/2026-10-23/argon/assets/P10_kit-unlockables/P10_kit-unlockables_skins-swords-sheet_1.prompt.txt
+design/copilot/2026-10-23/argon/drops/P01_breach-powerups-powerups-round2-v1.md
+design/copilot/2026-10-23/argon/drops/P02_breach-difficulty-difficulty-round2-v1.md
+design/copilot/2026-10-23/argon/drops/P03_breach-powerups-powerups-new-v1.md
+design/copilot/2026-10-23/argon/drops/P04_breach-ui-screen-continue-screen-v1.md
+design/copilot/2026-10-23/argon/drops/P05_breach-critique-apk-critique-2026-10-23-v1.md
+design/copilot/2026-10-23/argon/drops/P06_breach-research-research-powerups-difficulty-v1.md
+design/copilot/2026-10-23/argon/drops/P07_breach-level-dragons-hoard-v1.md
+design/copilot/2026-10-23/argon/drops/P08_breach-character-ember-v1.md
+design/copilot/2026-10-23/argon/drops/P09_breach-asset-sheet-bricks-glaze-v2-v1.md
+design/copilot/2026-10-23/argon/drops/P10_breach-character-kit-unlockables-v1.md
+design/copilot/2026-10-23/m365/breach-asset-sheet-bricks-glaze-v2-v1.md
+design/copilot/2026-10-23/m365/breach-character-ember-v1.md
+design/copilot/2026-10-23/m365/breach-character-kit-unlockables-v1.md
+design/copilot/2026-10-23/m365/breach-critique-apk-critique-2026-10-23-v1.md
+design/copilot/2026-10-23/m365/breach-difficulty-difficulty-round2-v2.md
+design/copilot/2026-10-23/m365/breach-level-dragons-hoard-v1.md
+design/copilot/2026-10-23/m365/breach-powerups-powerups-round2-v1.md
 design/phase1/00-quality-target.md
 design/phase1/01-kit-character.md
 design/phase1/02-menagerie-cast.md
@@ -6243,12 +6932,14 @@ design/phase1/weapon-vfx-v3/review/history/skiff-before-friendly-firepower.png
 design/phase1/weapon-vfx-v3/review/skiff-contact.png
 design/phase1/weapon-vfx-v3/review/skiff-report.json
 design/phase2/dragons-hoard.md
+design/phase2/floor-hooks.md
 design/phase2/img/kit-gatehouse-siege-v1.png
 design/phase2/img/lumi-breaks-out-v1.png
 design/phase2/kit-and-lumi-levels.md
 design/phase2/new-concepts.md
 design/phase2/premium-pass.md
 design/phase2/serpent-rivals.md
+design/phase2/stages-v2.md
 docs/ARTWORK_LIBRARY.md
 docs/BACKLOG.md
 docs/BELLFORGE_PHYSICS.md
@@ -6318,6 +7009,7 @@ docs/validation/bellforge/shared-refresh-notes.json
 docs/validation/bellforge/shared-ui-report.json
 docs/validation/bellforge/short-desktop-intermediate.png
 docs/validation/bellforge/visual-source-refresh.json
+docs/validation/ember-serpent/mooncoil-rivals.png
 docs/validation/fantasy-preview/README.md
 docs/validation/fantasy-preview/all-tests.txt
 docs/validation/fantasy-preview/art-audit.json
@@ -6357,6 +7049,8 @@ docs/validation/fantasy-refinement/vault-capture-mechanics-audit.json
 docs/validation/fantasy-refinement/vault-graphics-mechanics-audit.json
 docs/validation/frost-finish/after.png
 docs/validation/frost-finish/before.png
+docs/validation/frost-yeti/frost-yeti-ingame.png
+docs/validation/fullscreen/princess-chapters.jpg
 docs/validation/mooncoil/android-play.png
 docs/validation/mooncoil/android-powers.png
 docs/validation/mooncoil/android-rescued.png
@@ -6386,6 +7080,10 @@ docs/validation/mooncoil/model-pre-tuning-easy.json
 docs/validation/mooncoil/model-pre-tuning-mh.json
 docs/validation/mooncoil/model-quota-bound.json
 docs/validation/mooncoil/model-review.md
+docs/validation/mooncoil/recheck-2026-10-22/android-play.png
+docs/validation/mooncoil/recheck-2026-10-22/android-rescued.png
+docs/validation/mooncoil/recheck-2026-10-22/ios-powers.png
+docs/validation/mooncoil/recheck-2026-10-22/report.json
 docs/validation/mooncoil/report.json
 docs/validation/mooncoil/rivals/1-warning.png
 docs/validation/mooncoil/rivals/2-both.png
@@ -6530,6 +7228,7 @@ package-lock.json
 package.json
 prompt-library/00-style-bible.md
 prompt-library/10-characters-and-creatures.md
+prompt-library/16-brute-reskin.md
 prompt-library/20-bricks-props-and-fx.md
 prompt-library/25-environments.md
 prompt-library/26-ui-and-icons.md
@@ -6537,6 +7236,7 @@ prompt-library/30-level-concept-boards.md
 prompt-library/40-game-design-and-physics.md
 prompt-library/50-starflight.md
 prompt-library/60-sprite-sheet-delivery.md
+prompt-library/70-render-round-2.md
 prompt-library/README.md
 prompt-library/examples/INDEX.md
 prompt-library/examples/MORE-EXAMPLES.md
@@ -6671,36 +7371,61 @@ src/arena.js
 src/audio.js
 src/carrier-physics.js
 src/carrier.js
+src/castle-art.js
+src/castle-specials.js
 src/castle-window.js
 src/characters.js
 src/clearance.js
+src/coach.js
 src/debris.js
 src/difficulty.js
 src/fantasy/bellforge.js
 src/fantasy/chapter.js
+src/fantasy/creatures/ember.js
+src/fantasy/creatures/sitter.js
 src/fantasy/gatehouse.js
+src/fantasy/hoard-render.js
+src/fantasy/hoard.js
 src/fantasy/lumi-render.js
 src/fantasy/lumitower.js
+src/fantasy/purpose-render.js
+src/fantasy/purpose.js
+src/fantasy/r3.js
 src/fantasy/ram.js
+src/fantasy/reach.js
 src/fantasy/render.js
 src/fantasy/rivals-render.js
 src/fantasy/rivals.js
+src/fantasy/stage-ui.js
+src/fantasy/stages.js
+src/fantasy/tide-fx.js
+src/fantasy/tide-scene.js
 src/fantasy/tidewheel-geometry.js
 src/fantasy/tidewheel-reaction-geometry.js
+src/fantasy/tidewheel-siege.js
+src/fantasy/tidewheel-stages-render.js
+src/fantasy/tidewheel-stages.js
 src/fantasy/tidewheel-v2-geometry.js
 src/fantasy/tidewheel.js
 src/frost.js
 src/gfx.js
+src/glow.js
+src/home-art.js
+src/home.js
 src/invasion.js
 src/kit.js
 src/main.js
 src/monetize.js
 src/mooncoil-layout.js
 src/mooncoil.js
+src/near-miss.js
 src/orbital.js
 src/physics.js
+src/portraits.js
 src/prefs.js
+src/purpose.js
 src/relay.js
+src/round3-art.js
 src/serpent-capture.js
 src/serpent-retreat.js
 src/serpent.js
@@ -6710,10 +7435,17 @@ src/space-weapons.js
 src/starflight/geometry.js
 src/starflight/mission.js
 src/starflight/model.js
+src/themed-bricks.js
+src/tutorial-draw.js
+src/tutorial.js
 src/vault-art.js
 src/vault.js
+store/feature-1024x500.png
+store/icon-512.png
+store/key-art.png
 tests/arena.test.js
 tests/art-cache.test.js
+tests/art-round2.test.js
 tests/bellforge.test.js
 tests/boarding-review.test.js
 tests/boarding.test.js
@@ -6721,17 +7453,23 @@ tests/carrier-hybrid.test.js
 tests/carrier-physics.test.js
 tests/carrier.test.js
 tests/castle-chapters.test.js
+tests/castle-specials.test.js
 tests/charge-ready.test.js
 tests/circuit-review.test.js
 tests/circuit-weapons.test.js
+tests/coach.test.js
 tests/companion-ui.test.js
+tests/continue-v2.test.js
 tests/core-command.test.js
 tests/difficulty.test.js
 tests/enemy-fire.test.js
 tests/fantasy-layout.test.js
 tests/forge-review.test.js
+tests/frost-dash.test.js
 tests/frost.test.js
 tests/gatehouse.test.js
+tests/hoard.test.js
+tests/home.test.js
 tests/hybrid-review.test.js
 tests/kit.test.js
 tests/lumitower.test.js
@@ -6746,22 +7484,32 @@ tests/pause-retry-review.test.js
 tests/physics-audit-fixes.test.js
 tests/physics-recheck-carrier.test.js
 tests/physics.test.js
+tests/powers-v2.test.js
+tests/purpose-clocks.test.js
 tests/ram.test.js
+tests/reach.test.js
 tests/relay-review.test.js
 tests/relay.test.js
 tests/rivals.test.js
 tests/serpent-capture.test.js
 tests/serpent-retreat.test.js
+tests/serpent-skins.test.js
 tests/serpent.test.js
+tests/sitter.test.js
 tests/space-plasma-integration.test.js
 tests/space-powers.test.js
 tests/space-weapons.test.js
+tests/stage-ui.test.js
+tests/stages.test.js
 tests/starflight-mission.test.js
 tests/starflight.test.js
+tests/themed-bricks.test.js
 tests/tidewheel-attacks.test.js
 tests/tidewheel-powers.test.js
 tests/tidewheel-seams.test.js
+tests/tidewheel-siege.test.js
 tests/tidewheel.test.js
+tests/tutorial.test.js
 tools/archive_artwork.py
 tools/blender_mcp_host.py
 tools/build.mjs
@@ -6792,7 +7540,11 @@ tools/orbital-preview/prepare_art.py
 tools/orbital-preview/prepare_reference.py
 tools/orbital-preview/render-proof.mjs
 tools/pack_art.py
+tools/pack_home_art.py
+tools/pack_round3.py
 tools/pin-sha.mjs
+tools/playtest/aim-bot.mjs
+tools/playtest/art-round2.mjs
 tools/playtest/audit-adapters.mjs
 tools/playtest/bellforge-defeat.mjs
 tools/playtest/bellforge-policy.mjs
@@ -6801,12 +7553,17 @@ tools/playtest/boarding.mjs
 tools/playtest/capture.mjs
 tools/playtest/carrier.mjs
 tools/playtest/castle-premium.mjs
+tools/playtest/coach.mjs
 tools/playtest/combat-balance.mjs
 tools/playtest/combat.mjs
+tools/playtest/continue-v2.mjs
 tools/playtest/fantasy-motion.mjs
 tools/playtest/fantasy-responsive.mjs
 tools/playtest/fantasy-visual.mjs
+tools/playtest/floor-hooks.mjs
 tools/playtest/frost.mjs
+tools/playtest/glaze-ab.mjs
+tools/playtest/hoard-review.mjs
 tools/playtest/kit.mjs
 tools/playtest/l1.mjs
 tools/playtest/layout.mjs
@@ -6830,18 +7587,23 @@ tools/playtest/snake-visual.mjs
 tools/playtest/space-selected.mjs
 tools/playtest/starflight-mission.mjs
 tools/playtest/starflight.mjs
+tools/playtest/themed-bricks.mjs
 tools/playtest/tidewheel-centre-catch.mjs
 tools/playtest/tidewheel-geometry.mjs
+tools/playtest/tidewheel-look.mjs
 tools/playtest/tidewheel-power-routes.mjs
 tools/playtest/tidewheel-powers-ui.mjs
 tools/playtest/tidewheel-profile.mjs
 tools/playtest/tidewheel-routes.mjs
+tools/playtest/tidewheel-siege-shots.mjs
+tools/playtest/tidewheel-siege.mjs
 tools/playtest/tidewheel.mjs
 tools/playtest/vault-v2.mjs
 tools/playtest/vault-visual.mjs
 tools/playtest/vault.mjs
 tools/playtest/venom.mjs
 tools/prepare-android.mjs
+tools/recolor_serpent.py
 tools/relay-circuit/build.mjs
 tools/relay-circuit/coarse.mjs
 tools/relay-circuit/controller.mjs

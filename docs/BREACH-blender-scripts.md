@@ -8413,7 +8413,7 @@ if os.path.exists(cast_meta):
     art['kitCast'] = {'url': uri(sheet, 90), 'cell': cell, 'anims': clips, 'timing': timing}
 
 # serpent: one sheet of head sprites, a row per facing and a column per expression (art/snake.py)
-for key, directory in [('snake', 'snake'), ('snakeJade', 'snake-jade'), ('snakeEmerald', 'snake-emerald')]:
+for key, directory in [('snake', 'snake'), ('snakeJade', 'snake-jade'), ('snakeEmerald', 'snake-emerald'), ('snakeEmber', 'snake-ember')]:
     meta_path = A(directory, 'meta.json')
     if not os.path.exists(meta_path): continue
     meta = json.load(open(meta_path)); px = meta['px']; cell = int(meta.get('cell', round(meta['box'] * px)))
@@ -8421,7 +8421,7 @@ for key, directory in [('snake', 'snake'), ('snakeJade', 'snake-jade'), ('snakeE
     sheet = Image.new('RGBA', (len(exprs) * cell, len(dirs) * cell))
     for r, d in enumerate(dirs):
         for c, e in enumerate(exprs): sheet.paste(Image.open(A(directory, f'head_{e}_{d}.png')), (c * cell, r * cell))
-    art[key] = {'url': uri(sheet, 94 if key == 'snakeEmerald' else 86), 'cell': cell, 'unit': meta['box'],
+    art[key] = {'url': uri(sheet, 94 if key in ('snakeEmerald', 'snakeEmber') else 86), 'cell': cell, 'unit': meta['box'],
                 'expr': {e: i for i, e in enumerate(exprs)}, 'dir': {d: i for i, d in enumerate(dirs)}}
     if 'mouths' in meta: art[key]['mouths'] = meta['mouths']
 
@@ -8634,6 +8634,70 @@ if os.path.exists(premium_manifest):
         elif family == 'frost': premium['frost'][name] = {'url': premium_uri(key), 'uw': spec['drawSize'][0], 'uh': spec['drawSize'][1], 'anchors': spec['anchors']}
     assert all(len(v) == 3 for v in premium['shards'].values()) and set(premium['glints']) == {'warm', 'cool', 'rose'}
     art['premium'] = premium
+
+# Glaze v2 bricks (art/glaze2/build.py, from the M365 Copilot sheet): same keys and size as the Vault bricks above, which
+# they replace at runtime (src/gfx.js), plus the two-hit glass frame (_x) and the Hoard coin and chest bricks.
+glaze2_atlas = A('glaze2', 'atlas.json')
+if os.path.exists(glaze2_atlas):
+    art['glaze2'] = {}
+    for name, s in json.load(open(glaze2_atlas, encoding='utf-8'))['sprites'].items():
+        with Image.open(A('glaze2', s['file'])) as im:
+            assert im.mode == 'RGBA' and list(im.size) == s['px'], f'Invalid glaze v2 brick: {name}'
+            art['glaze2'][name] = {'url': uri(im, 92), 'uw': im.size[0] / PX, 'uh': im.size[1] / PX, 'margin': s['margin']}
+
+# Tidewheel glaze bricks (art/tidewheel-glaze/build.py, re-glazed from the glaze v2 sheet): sea-glass, coral, pearl and
+# brass-banded steel at the rafts' 34x18 footprint, intact / cracked / breaking. Small soft sprites, so lossy colour.
+tg_atlas = A('tidewheel-glaze', 'atlas.json')
+if os.path.exists(tg_atlas):
+    art['tidewheelGlaze'] = {}
+    for name, s in json.load(open(tg_atlas, encoding='utf-8'))['sprites'].items():
+        with Image.open(A('tidewheel-glaze', s['file'])) as im:
+            assert im.mode == 'RGBA' and not im.info and list(im.size) == s['px'], f'Invalid Tidewheel glaze brick: {name}'
+            art['tidewheelGlaze'][name] = {'url': uri(im, 88), 'uw': s['drawSize'][0], 'uh': s['drawSize'][1], 'margin': s['margin']}
+
+# Themed bricks (art/themed-bricks/build.py, re-glazed from the glaze v2 sheet): one set per princess chapter (frost, gatehouse,
+# bellforge, tower for Lumi and Rivals, mooncoil, vault), keyed <material>_<cells>_<state>, plus each material's FX palette.
+# Small soft sprites, so lossy colour (alpha stays lossless in WebP).
+tb_root = A('themed-bricks')
+if os.path.isdir(tb_root):
+    art['themedBricks'] = {}
+    for ch in sorted(os.listdir(tb_root)):
+        tb_atlas = os.path.join(tb_root, ch, 'atlas.json')
+        if not os.path.exists(tb_atlas): continue
+        atlas = json.load(open(tb_atlas, encoding='utf-8')); art['themedBricks'][ch] = {'palette': atlas['palette'], 'sprites': {}}
+        for name, s in atlas['sprites'].items():
+            with Image.open(os.path.join(tb_root, ch, s['file'])) as im:
+                assert im.mode == 'RGBA' and not im.info and list(im.size) == s['px'], f'Invalid themed brick: {ch}/{name}'
+                art['themedBricks'][ch]['sprites'][name] = {'url': uri(im, 84), 'uw': s['drawSize'][0], 'uh': s['drawSize'][1], 'margin': s['margin']}
+
+# Dragon's Hoard (art/hoard/build.py, from the M365 Copilot dragon kit): Ember's eight expression busts and the hoard props.
+# Each sprite is drawn at drawSize with `anchor` on its model point; `contact` is the collider rect inside it (the Crown chest).
+# Ember is scenery behind the cave ledge in this chapter: his measured circles travel with solid false for a later duel.
+hoard_manifest = A('hoard', 'manifest.json')
+if os.path.exists(hoard_manifest):
+    hm = json.load(open(hoard_manifest, encoding='utf-8')); art['hoard'] = {}
+    poses = {a for pose in hm['skins']['ember']['poses'].values() for a in pose['art'][:1]}
+    for key, spec in hm['sprites'].items():
+        # The eight M365 busts are only fallbacks behind the R01 full-body poses; ship them only if a pose render is missing.
+        if key.startswith('ember_') and all(p in hm['sprites'] for p in poses): continue
+        with Image.open(os.path.join(ROOT, spec['path'])) as im:
+            assert im.mode == ('RGB' if key == 'cave' else 'RGBA') and not im.info and list(im.size) == spec['px'], f'Invalid hoard sprite: {key}'
+            art['hoard'][key] = {k: spec[k] for k in ('anchor', 'contact', 'circles', 'solid', 'floor') if k in spec}
+            # The cave plate is an opaque backdrop (lossy, like the keep plate); Ember and the larger props (gate, chest) are soft
+            # renders (lossy colour, alpha stays lossless in WebP); small props stay lossless.
+            url = uri(im, 84) if key == 'cave' else uri(im, 90) if key.startswith('ember') or im.width * im.height > 20000 else uri(im, 100, lossless=True)
+            art['hoard'][key].update({'url': url, 'uw': spec['drawSize'][0], 'uh': spec['drawSize'][1]})
+
+# Render round 2 (art/round2/build.py, owner renders R05 and R06): the glaze power-up capsules every chapter draws on its
+# existing capsule rect, the armoured crate panels for Circuit and Forge and the Tidewheel splash frames. `body` is the solid
+# art's rect inside the sprite (units), which the game fits to the object's collider.
+round2_manifest = A('round2', 'manifest.json')
+if os.path.exists(round2_manifest):
+    art['round2'] = {}
+    for key, spec in json.load(open(round2_manifest, encoding='utf-8'))['sprites'].items():
+        with Image.open(os.path.join(ROOT, spec['path'])) as im:
+            assert im.mode == 'RGBA' and not im.info and list(im.size) == spec['px'], f'Invalid round-2 sprite: {key}'
+            art['round2'][key] = {'url': uri(im, 100, lossless=True), 'uw': spec['drawSize'][0], 'uh': spec['drawSize'][1], 'anchor': spec['anchor'], 'body': spec['body']}
 
 out = os.path.join(ROOT, 'src', 'vault-art.js')
 js = '// Rendered art for the Vault, generated by tools/pack_art.py from assets/. Do not edit by hand.\nexport const ART = ' + json.dumps(art) + ';\n'
